@@ -34,7 +34,9 @@ import {
 } from 'jspdf-autotable';
 
 import 'jquery-editable-select';
-import { SideBarService } from '../js/sidebar-service';
+import {
+    SideBarService
+} from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
@@ -4070,12 +4072,12 @@ Template.new_invoice.onRendered(() => {
     templateObject.getDepartments();
     templateObject.getTerms();
 
-    if(FlowRouter.current().queryParams.id){
+    if (FlowRouter.current().queryParams.id) {
 
-    }else{
-      setTimeout(function() {
-          $('#sltTerms').val(templateObject.defaultsaleterm.get());
-      }, 300);
+    } else {
+        setTimeout(function() {
+            $('#sltTerms').val(templateObject.defaultsaleterm.get());
+        }, 300);
     }
 
     let table;
@@ -5421,7 +5423,10 @@ Template.new_invoice.onRendered(function() {
                         destroy: true,
                         colReorder: true,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
                         "fnDrawCallback": function(oSettings) {
@@ -5892,22 +5897,20 @@ Template.new_invoice.helpers({
         return Template.instance().record.get();
     },
     productqtyrecords: () => {
-        return Template.instance().productqtyrecords.get().sort(function(a, b){
+        return Template.instance().productqtyrecords.get().sort(function(a, b) {
             if (a.department == 'NA') {
                 return 1;
-            }
-            else if (b.department == 'NA') {
+            } else if (b.department == 'NA') {
                 return -1;
             }
             return (a.department.toUpperCase() > b.department.toUpperCase()) ? 1 : -1;
         });
     },
     productExtraSell: () => {
-        return Template.instance().productExtraSell.get().sort(function(a, b){
+        return Template.instance().productExtraSell.get().sort(function(a, b) {
             if (a.clienttype == 'NA') {
                 return 1;
-            }
-            else if (b.clienttype == 'NA') {
+            } else if (b.clienttype == 'NA') {
                 return -1;
             }
             return (a.clienttype.toUpperCase() > b.clienttype.toUpperCase()) ? 1 : -1;
@@ -6255,60 +6258,183 @@ Template.new_invoice.events({
                             let grandtotal = $('#grandTotal').html();
                             let amountDueEmail = $('#totalBalanceDue').html();
                             let emailDueDate = $("#dtDueDate").val();
+                            let customerBillingAddress = $('#txabillingAddress').val();
+                            let customerTerms = $('#sltTerms').val();
+
+                            let customerSubtotal = $('#subtotal_total').html();
+                            let customerTax = $('#subtotal_tax').html();
+                            let customerNett = $('#subtotal_nett').html();
+                            let customerTotal = $('#grandTotal').html();
+
                             let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                             let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
                                 "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
                                 "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
-                            var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                                '    <tr>' +
-                                '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                                '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '    <tr>' +
-                                '        <td style="padding: 40px 30px 40px 30px;">' +
-                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                                '                        Hi <span>' + customerEmailName + '</span>.' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="' + stripeGlobalURL + '' + stringQuery + '">Make Payment</a> to pay now.' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '                <tr>' +
-                                '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                                '                        Kind regards,' +
-                                '                        <br>' +
-                                '                        ' + mailFromName + '' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '            </table>' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '    <tr>' +
-                                '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                                '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                '                <tr>' +
-                                '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                                '                        If you have any question, please do not hesitate to contact us.' +
-                                '                    </td>' +
-                                '                    <td align="right">' +
-                                '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                                '                    </td>' +
-                                '                </tr>' +
-                                '            </table>' +
-                                '        </td>' +
-                                '    </tr>' +
-                                '</table>';
+
+                            var htmlmailBody = '<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                                '        <tr>' +
+                                '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                                '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                                '                    <table class="main">' +
+                                '                        <tr>' +
+                                '                            <td class="wrapper">' +
+                                '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                                '                                    <tr>' +
+                                '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                                '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Invoice No. ' + erpInvoiceId + ' Details</span>' +
+                                '                                        </td>' +
+                                '                                    </tr>' +
+                                '                                    <tr style="height: 16px;"></tr>' +
+                                '                                    <tr>' +
+                                '                                        <td>' +
+                                '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                                '                                        </td>' +
+                                '                                    </tr>' +
+                                '                                    <tr style="height: 48px;"></tr>' +
+                                '                                    <tr style="background-color: rgba(0, 163, 211, 0.5); ">' +
+                                '                                        <td style="text-align: center;padding: 32px 0px 16px 0px;">' +
+                                '                                            <p style="font-weight: 700; font-size: 16px; color: #363a3b; margin-bottom: 6px;">DUE ' + emailDueDate + '</p>' +
+                                '                                            <p style="font-weight: 700; font-size: 36px; color: #363a3b; margin-bottom: 6px; margin-top: 6px;">' + grandtotal +'</p>' +
+                                '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                                '                                                <tbody>' +
+                                '                                                    <tr>' +
+                                '                                                        <td align="center" style="padding-bottom: 15px;">' +
+                                '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                                '                                                                <tbody>' +
+                                '                                                                    <tr>' +
+                                '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                                '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                                '                                                                    </tr>' +
+                                '                                                                </tbody>' +
+                                '                                                            </table>' +
+                                '                                                        </td>' +
+                                '                                                    </tr>' +
+                                '                                                </tbody>' +
+                                '                                            </table>' +
+                                '                                            <p style="margin-top: 0px;">Powered by VS1 Cloud</p>' +
+                                '                                        </td>' +
+                                '                                    </tr>' +
+                                '                                    <tr>' +
+                                '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                '                                            <p style="font-size: 18px;">Dear ' + customerEmailName + ',</p>' +
+                                '                                            <p style="font-size: 18px; margin: 34px 0px;">Here\'s your invoice! We appreciate your prompt payment.</p>' +
+                                '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks for your business!</p>' +
+                                '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                                '                                        </td>' +
+                                '                                    </tr>' +
+                                '                                    <tr style="background-color: #ededed;">' +
+                                '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                                '                                                <div style="width: 50%; float: left;">' +
+                                '                                                    <p style="font-size: 18px;">Invoice To</p>' +
+                                '                                                </div>' +
+                                '                                                <div style="width: 50%; float: right;">' +
+                                '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerEmailName + '</p>' +
+                                '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerBillingAddress +'</p>' +
+                                '                                                </div>' +
+                                '                                            </div>' +
+                                '                                        </td>>' +
+                                '                                    </tr>' +
+                                '                                    <tr style="background-color: #ededed;">' +
+                                '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                                '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                                '                                                <div style="width: 50%; float: left;">' +
+                                '                                                    <p style="font-size: 18px;">Terms</p>' +
+                                '                                                </div>' +
+                                '                                                <div style="width: 50%; float: right;">' +
+                                '                                                    <p style="font-size: 18px;">' + customerTerms +'</p>' +
+                                '                                                </div>' +
+                                '                                            </div>' +
+                                '                                        </td>>' +
+                                '                                    </tr>' +
+                                '                                    <tr>' +
+                                '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                                '                                            <div style="width: 50%; float: right; padding-top: 24px;">' +
+                                '                                                <div style="width: 50%; float: left;">' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">Nett</p>' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">Balance Due</p>' +
+                                '                                                </div>' +
+                                '                                                <div style="width: 50%; float: right; text-align: right;">' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerSubtotal + '</p>' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTax + '</p>' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerNett + '</p>' +
+                                '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
+                                '                                                </div>' +
+                                '                                            </div>' +
+                                '                                        </td>>' +
+                                '                                    </tr>' +
+                                '                                    <tr>' +
+                                '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
+                                '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                                '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                                '                                                <tbody>' +
+                                '                                                    <tr>' +
+                                '                                                        <td align="center">' +
+                                '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                                '                                                                <tbody>' +
+                                '                                                                    <tr>' +
+                                '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                                '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                                '                                                                    </tr>' +
+                                '                                                                </tbody>' +
+                                '                                                            </table>' +
+                                '                                                        </td>' +
+                                '                                                    </tr>' +
+                                '                                                </tbody>' +
+                                '                                            </table>' +
+                                '                                        </td>>' +
+                                '                                    </tr>' +
+                                '                                    <tr>' +
+                                '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                                '                                        </td>' +
+                                '                                    </tr>' +
+                                '                                    <tr>' +
+                                '                                        <td>' +
+                                '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                                '                                                <tbody>' +
+                                '                                                    <tr>' +
+                                '                                                        <td align="center">' +
+                                '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                                '                                                                <tbody>' +
+                                '                                                                    <tr>' +
+                                '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                                '                                                                    </tr>' +
+                                '                                                                </tbody>' +
+                                '                                                            </table>' +
+                                '                                                        </td>' +
+                                '                                                    </tr>' +
+                                '                                                </tbody>' +
+                                '                                            </table>' +
+                                '                                        </td>' +
+                                '                                    </tr>' +
+                                '                                </table>' +
+                                '                            </td>' +
+                                '                        </tr>' +
+                                '                    </table>' +
+                                '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                                '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                                '                            <tr>' +
+                                '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                                '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                                '                                    <br>' +
+                                '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                                '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                                '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                                '                                </td>' +
+                                '                            </tr>' +
+                                '                        </table>' +
+                                '                    </div>' +
+                                '                </div>' +
+                                '            </td>' +
+                                '        </tr>' +
+                                '    </table>';
+
 
                             if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
                                 Meteor.call('sendEmail', {
@@ -6829,123 +6955,31 @@ Template.new_invoice.events({
                 let lineExtaSellItems = [];
                 let lineExtaSellObj = {};
 
-                  getVS1Data('TProductVS1').then(function (dataObject) {
-                    if(dataObject.length == 0){
-                      sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
-                          $('.fullScreenSpin').css('display','none');
-                          let lineItems = [];
-                          let lineItemObj = {};
-                          let currencySymbol = Currency;
-                          let totalquantity = 0;
-                          let productname = data.tproductvs1[0].fields.ProductName||'';
-                          let  productcode = data.tproductvs1[0].fields.PRODUCTCODE||'';
-                          let  productprintName = data.tproductvs1[0].fields.ProductPrintName||'';
-                          let  assetaccount = data.tproductvs1[0].fields.AssetAccount||'';
-                          let  buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost)||0;
-                          let  cogsaccount= data.tproductvs1[0].fields.CogsAccount||'';
-                          let  taxcodepurchase = data.tproductvs1[0].fields.TaxCodePurchase||'';
-                          let  purchasedescription = data.tproductvs1[0].fields.PurchaseDescription||'';
-                          let  sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price)||0;
-                          let  incomeaccount = data.tproductvs1[0].fields.IncomeAccount||'';
-                          let  taxcodesales = data.tproductvs1[0].fields.TaxCodeSales||'';
-                          let  salesdescription = data.tproductvs1[0].fields.SalesDescription||'';
-                          let  active = data.tproductvs1[0].fields.Active;
-                          let  lockextrasell = data.tproductvs1[0].fields.LockExtraSell||'';
-                          let  customfield1 = data.tproductvs1[0].fields.CUSTFLD1||'';
-                          let  customfield2 = data.tproductvs1[0].fields.CUSTFLD2||'';
-                          let  barcode=data.tproductvs1[0].fields.BARCODE||'';
-                          $("#selectProductID").val(data.tproductvs1[0].fields.ID).trigger("change");
-                          $('#add-product-title').text('Edit Product');
-                          $('#edtproductname').val(productname);
-                          $('#edtsellqty1price').val(sellqty1price);
-                          $('#txasalesdescription').val(salesdescription);
-                          $('#sltsalesacount').val(incomeaccount);
-                          $('#slttaxcodesales').val(taxcodesales);
-                          $('#edtbarcode').val(barcode);
-                          $('#txapurchasedescription').val(purchasedescription);
-                          $('#sltcogsaccount').val(cogsaccount);
-                          $('#slttaxcodepurchase').val(taxcodepurchase);
-                          $('#edtbuyqty1cost').val(buyqty1cost);
-
-                          setTimeout(function() {
-                            $('#newProductModal').modal('show');
-                          }, 500);
-                      }).catch(function (err) {
-
-                          $('.fullScreenSpin').css('display','none');
-                      });
-                    }else{
-                      let data = JSON.parse(dataObject[0].data);
-                      let useData = data.tproductvs1;
-                      var added=false;
-
-                      for(let i=0; i<data.tproductvs1.length; i++){
-                        if(data.tproductvs1[i].fields.ProductName === productDataName){
-                          added = true;
-                          $('.fullScreenSpin').css('display','none');
-                          let lineItems = [];
-                          let lineItemObj = {};
-                          let currencySymbol = Currency;
-                          let totalquantity = 0;
-
-                          let productname = data.tproductvs1[i].fields.ProductName||'';
-                          let  productcode = data.tproductvs1[i].fields.PRODUCTCODE||'';
-                          let  productprintName = data.tproductvs1[i].fields.ProductPrintName||'';
-                          let  assetaccount = data.tproductvs1[i].fields.AssetAccount||'';
-                          let  buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1Cost)||0;
-                          let  cogsaccount= data.tproductvs1[i].fields.CogsAccount||'';
-                          let  taxcodepurchase = data.tproductvs1[i].fields.TaxCodePurchase||'';
-                          let  purchasedescription = data.tproductvs1[i].fields.PurchaseDescription||'';
-                          let  sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1Price)||0;
-                          let  incomeaccount = data.tproductvs1[i].fields.IncomeAccount||'';
-                          let  taxcodesales = data.tproductvs1[i].fields.TaxCodeSales||'';
-                          let  salesdescription = data.tproductvs1[i].fields.SalesDescription||'';
-                          let  active = data.tproductvs1[i].fields.Active;
-                          let  lockextrasell = data.tproductvs1[i].fields.LockExtraSell||'';
-                          let  customfield1 = data.tproductvs1[i].fields.CUSTFLD1||'';
-                          let  customfield2 = data.tproductvs1[i].fields.CUSTFLD2||'';
-                          let  barcode=data.tproductvs1[i].fields.BARCODE||'';
-                          $("#selectProductID").val(data.tproductvs1[i].fields.ID).trigger("change");
-                          $('#add-product-title').text('Edit Product');
-                          $('#edtproductname').val(productname);
-                          $('#edtsellqty1price').val(sellqty1price);
-                          $('#txasalesdescription').val(salesdescription);
-                          $('#sltsalesacount').val(incomeaccount);
-                          $('#slttaxcodesales').val(taxcodesales);
-                          $('#edtbarcode').val(barcode);
-                          $('#txapurchasedescription').val(purchasedescription);
-                          $('#sltcogsaccount').val(cogsaccount);
-                          $('#slttaxcodepurchase').val(taxcodepurchase);
-                          $('#edtbuyqty1cost').val(buyqty1cost);
-
-                          setTimeout(function() {
-                              $('#newProductModal').modal('show');
-                          }, 500);
-                        }
-                      }
-                      if(!added) {
-                        sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
-                            $('.fullScreenSpin').css('display','none');
+                getVS1Data('TProductVS1').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
+                            $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
                             let lineItemObj = {};
                             let currencySymbol = Currency;
                             let totalquantity = 0;
-                            let  productcode = data.tproductvs1[0].fields.PRODUCTCODE||'';
-                            let  productprintName = data.tproductvs1[0].fields.ProductPrintName||'';
-                            let  assetaccount = data.tproductvs1[0].fields.AssetAccount||'';
-                            let  buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost)||0;
-                            let  cogsaccount= data.tproductvs1[0].fields.CogsAccount||'';
-                            let  taxcodepurchase = data.tproductvs1[0].fields.TaxCodePurchase||'';
-                            let  purchasedescription = data.tproductvs1[0].fields.PurchaseDescription||'';
-                            let  sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price)||0;
-                            let  incomeaccount = data.tproductvs1[0].fields.IncomeAccount||'';
-                            let  taxcodesales = data.tproductvs1[0].fields.TaxCodeSales||'';
-                            let  salesdescription = data.tproductvs1[0].fields.SalesDescription||'';
-                            let  active = data.tproductvs1[0].fields.Active;
-                            let  lockextrasell = data.tproductvs1[0].fields.LockExtraSell||'';
-                            let  customfield1 = data.tproductvs1[0].fields.CUSTFLD1||'';
-                            let  customfield2 = data.tproductvs1[0].fields.CUSTFLD2||'';
-                            let  barcode=data.tproductvs1[0].fields.BARCODE||'';
+                            let productname = data.tproductvs1[0].fields.ProductName || '';
+                            let productcode = data.tproductvs1[0].fields.PRODUCTCODE || '';
+                            let productprintName = data.tproductvs1[0].fields.ProductPrintName || '';
+                            let assetaccount = data.tproductvs1[0].fields.AssetAccount || '';
+                            let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost) || 0;
+                            let cogsaccount = data.tproductvs1[0].fields.CogsAccount || '';
+                            let taxcodepurchase = data.tproductvs1[0].fields.TaxCodePurchase || '';
+                            let purchasedescription = data.tproductvs1[0].fields.PurchaseDescription || '';
+                            let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price) || 0;
+                            let incomeaccount = data.tproductvs1[0].fields.IncomeAccount || '';
+                            let taxcodesales = data.tproductvs1[0].fields.TaxCodeSales || '';
+                            let salesdescription = data.tproductvs1[0].fields.SalesDescription || '';
+                            let active = data.tproductvs1[0].fields.Active;
+                            let lockextrasell = data.tproductvs1[0].fields.LockExtraSell || '';
+                            let customfield1 = data.tproductvs1[0].fields.CUSTFLD1 || '';
+                            let customfield2 = data.tproductvs1[0].fields.CUSTFLD2 || '';
+                            let barcode = data.tproductvs1[0].fields.BARCODE || '';
                             $("#selectProductID").val(data.tproductvs1[0].fields.ID).trigger("change");
                             $('#add-product-title').text('Edit Product');
                             $('#edtproductname').val(productname);
@@ -6960,38 +6994,130 @@ Template.new_invoice.events({
                             $('#edtbuyqty1cost').val(buyqty1cost);
 
                             setTimeout(function() {
-                              $('#newProductModal').modal('show');
+                                $('#newProductModal').modal('show');
                             }, 500);
-                        }).catch(function (err) {
+                        }).catch(function(err) {
 
-                            $('.fullScreenSpin').css('display','none');
+                            $('.fullScreenSpin').css('display', 'none');
                         });
-                      }
-                    }
-                  }).catch(function (err) {
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tproductvs1;
+                        var added = false;
 
-                    sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
-                        $('.fullScreenSpin').css('display','none');
+                        for (let i = 0; i < data.tproductvs1.length; i++) {
+                            if (data.tproductvs1[i].fields.ProductName === productDataName) {
+                                added = true;
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                let lineItemObj = {};
+                                let currencySymbol = Currency;
+                                let totalquantity = 0;
+
+                                let productname = data.tproductvs1[i].fields.ProductName || '';
+                                let productcode = data.tproductvs1[i].fields.PRODUCTCODE || '';
+                                let productprintName = data.tproductvs1[i].fields.ProductPrintName || '';
+                                let assetaccount = data.tproductvs1[i].fields.AssetAccount || '';
+                                let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1Cost) || 0;
+                                let cogsaccount = data.tproductvs1[i].fields.CogsAccount || '';
+                                let taxcodepurchase = data.tproductvs1[i].fields.TaxCodePurchase || '';
+                                let purchasedescription = data.tproductvs1[i].fields.PurchaseDescription || '';
+                                let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1Price) || 0;
+                                let incomeaccount = data.tproductvs1[i].fields.IncomeAccount || '';
+                                let taxcodesales = data.tproductvs1[i].fields.TaxCodeSales || '';
+                                let salesdescription = data.tproductvs1[i].fields.SalesDescription || '';
+                                let active = data.tproductvs1[i].fields.Active;
+                                let lockextrasell = data.tproductvs1[i].fields.LockExtraSell || '';
+                                let customfield1 = data.tproductvs1[i].fields.CUSTFLD1 || '';
+                                let customfield2 = data.tproductvs1[i].fields.CUSTFLD2 || '';
+                                let barcode = data.tproductvs1[i].fields.BARCODE || '';
+                                $("#selectProductID").val(data.tproductvs1[i].fields.ID).trigger("change");
+                                $('#add-product-title').text('Edit Product');
+                                $('#edtproductname').val(productname);
+                                $('#edtsellqty1price').val(sellqty1price);
+                                $('#txasalesdescription').val(salesdescription);
+                                $('#sltsalesacount').val(incomeaccount);
+                                $('#slttaxcodesales').val(taxcodesales);
+                                $('#edtbarcode').val(barcode);
+                                $('#txapurchasedescription').val(purchasedescription);
+                                $('#sltcogsaccount').val(cogsaccount);
+                                $('#slttaxcodepurchase').val(taxcodepurchase);
+                                $('#edtbuyqty1cost').val(buyqty1cost);
+
+                                setTimeout(function() {
+                                    $('#newProductModal').modal('show');
+                                }, 500);
+                            }
+                        }
+                        if (!added) {
+                            sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                let lineItemObj = {};
+                                let currencySymbol = Currency;
+                                let totalquantity = 0;
+                                let productcode = data.tproductvs1[0].fields.PRODUCTCODE || '';
+                                let productprintName = data.tproductvs1[0].fields.ProductPrintName || '';
+                                let assetaccount = data.tproductvs1[0].fields.AssetAccount || '';
+                                let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost) || 0;
+                                let cogsaccount = data.tproductvs1[0].fields.CogsAccount || '';
+                                let taxcodepurchase = data.tproductvs1[0].fields.TaxCodePurchase || '';
+                                let purchasedescription = data.tproductvs1[0].fields.PurchaseDescription || '';
+                                let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price) || 0;
+                                let incomeaccount = data.tproductvs1[0].fields.IncomeAccount || '';
+                                let taxcodesales = data.tproductvs1[0].fields.TaxCodeSales || '';
+                                let salesdescription = data.tproductvs1[0].fields.SalesDescription || '';
+                                let active = data.tproductvs1[0].fields.Active;
+                                let lockextrasell = data.tproductvs1[0].fields.LockExtraSell || '';
+                                let customfield1 = data.tproductvs1[0].fields.CUSTFLD1 || '';
+                                let customfield2 = data.tproductvs1[0].fields.CUSTFLD2 || '';
+                                let barcode = data.tproductvs1[0].fields.BARCODE || '';
+                                $("#selectProductID").val(data.tproductvs1[0].fields.ID).trigger("change");
+                                $('#add-product-title').text('Edit Product');
+                                $('#edtproductname').val(productname);
+                                $('#edtsellqty1price').val(sellqty1price);
+                                $('#txasalesdescription').val(salesdescription);
+                                $('#sltsalesacount').val(incomeaccount);
+                                $('#slttaxcodesales').val(taxcodesales);
+                                $('#edtbarcode').val(barcode);
+                                $('#txapurchasedescription').val(purchasedescription);
+                                $('#sltcogsaccount').val(cogsaccount);
+                                $('#slttaxcodepurchase').val(taxcodepurchase);
+                                $('#edtbuyqty1cost').val(buyqty1cost);
+
+                                setTimeout(function() {
+                                    $('#newProductModal').modal('show');
+                                }, 500);
+                            }).catch(function(err) {
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                }).catch(function(err) {
+
+                    sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
+                        $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
                         let lineItemObj = {};
                         let currencySymbol = Currency;
                         let totalquantity = 0;
-                        let  productcode = data.tproductvs1[0].fields.PRODUCTCODE||'';
-                        let  productprintName = data.tproductvs1[0].fields.ProductPrintName||'';
-                        let  assetaccount = data.tproductvs1[0].fields.AssetAccount||'';
-                        let  buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost)||0;
-                        let  cogsaccount= data.tproductvs1[0].fields.CogsAccount||'';
-                        let  taxcodepurchase = data.tproductvs1[0].fields.TaxCodePurchase||'';
-                        let  purchasedescription = data.tproductvs1[0].fields.PurchaseDescription||'';
-                        let  sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price)||0;
-                        let  incomeaccount = data.tproductvs1[0].fields.IncomeAccount||'';
-                        let  taxcodesales = data.tproductvs1[0].fields.TaxCodeSales||'';
-                        let  salesdescription = data.tproductvs1[0].fields.SalesDescription||'';
-                        let  active = data.tproductvs1[0].fields.Active;
-                        let  lockextrasell = data.tproductvs1[0].fields.LockExtraSell||'';
-                        let  customfield1 = data.tproductvs1[0].fields.CUSTFLD1||'';
-                        let  customfield2 = data.tproductvs1[0].fields.CUSTFLD2||'';
-                        let  barcode=data.tproductvs1[0].fields.BARCODE||'';
+                        let productcode = data.tproductvs1[0].fields.PRODUCTCODE || '';
+                        let productprintName = data.tproductvs1[0].fields.ProductPrintName || '';
+                        let assetaccount = data.tproductvs1[0].fields.AssetAccount || '';
+                        let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.BuyQty1Cost) || 0;
+                        let cogsaccount = data.tproductvs1[0].fields.CogsAccount || '';
+                        let taxcodepurchase = data.tproductvs1[0].fields.TaxCodePurchase || '';
+                        let purchasedescription = data.tproductvs1[0].fields.PurchaseDescription || '';
+                        let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[0].fields.SellQty1Price) || 0;
+                        let incomeaccount = data.tproductvs1[0].fields.IncomeAccount || '';
+                        let taxcodesales = data.tproductvs1[0].fields.TaxCodeSales || '';
+                        let salesdescription = data.tproductvs1[0].fields.SalesDescription || '';
+                        let active = data.tproductvs1[0].fields.Active;
+                        let lockextrasell = data.tproductvs1[0].fields.LockExtraSell || '';
+                        let customfield1 = data.tproductvs1[0].fields.CUSTFLD1 || '';
+                        let customfield2 = data.tproductvs1[0].fields.CUSTFLD2 || '';
+                        let barcode = data.tproductvs1[0].fields.BARCODE || '';
                         $("#selectProductID").val(data.tproductvs1[0].fields.ID).trigger("change");
                         $('#add-product-title').text('Edit Product');
                         $('#edtproductname').val(productname);
@@ -7006,16 +7132,16 @@ Template.new_invoice.events({
                         $('#edtbuyqty1cost').val(buyqty1cost);
 
                         setTimeout(function() {
-                          $('#newProductModal').modal('show');
+                            $('#newProductModal').modal('show');
                         }, 500);
-                    }).catch(function (err) {
+                    }).catch(function(err) {
 
-                        $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display', 'none');
                     });
 
-                  });
+                });
 
-                  setTimeout(function () {
+                setTimeout(function() {
                     var begin_day_value = $('#event_begin_day').attr('value');
                     $("#dtDateTo").datepicker({
                         showOn: 'button',
@@ -7030,8 +7156,8 @@ Template.new_invoice.events({
                         changeYear: true,
                         yearRange: "-90:+10",
                     }).keyup(function(e) {
-                        if(e.keyCode == 8 || e.keyCode == 46) {
-                        $("#dtDateTo,#dtDateFrom").val('');
+                        if (e.keyCode == 8 || e.keyCode == 46) {
+                            $("#dtDateTo,#dtDateFrom").val('');
                         }
                     });
 
@@ -7049,29 +7175,29 @@ Template.new_invoice.events({
                         changeYear: true,
                         yearRange: "-90:+10",
                     }).keyup(function(e) {
-                        if(e.keyCode == 8 || e.keyCode == 46) {
-                        $("#dtDateTo,#dtDateFrom").val('');
+                        if (e.keyCode == 8 || e.keyCode == 46) {
+                            $("#dtDateTo,#dtDateFrom").val('');
                         }
                     });
 
                     $(".ui-datepicker .ui-state-hihglight").removeClass("ui-state-highlight");
 
-                  }, 1000);
+                }, 1000);
                 //}
 
 
-                templateObject.getProductClassQtyData = function () {
-                    productService.getOneProductClassQtyData(currentProductID).then(function (data) {
-                        $('.fullScreenSpin').css('display','none');
+                templateObject.getProductClassQtyData = function() {
+                    productService.getOneProductClassQtyData(currentProductID).then(function(data) {
+                        $('.fullScreenSpin').css('display', 'none');
                         let qtylineItems = [];
                         let qtylineItemObj = {};
                         let currencySymbol = Currency;
                         let totaldeptquantity = 0;
 
-                        for(let j in data.tproductclassquantity){
+                        for (let j in data.tproductclassquantity) {
                             qtylineItemObj = {
-                                department:data.tproductclassquantity[j].DepartmentName || '',
-                                quantity:data.tproductclassquantity[j].InStockQty || 0,
+                                department: data.tproductclassquantity[j].DepartmentName || '',
+                                quantity: data.tproductclassquantity[j].InStockQty || 0,
                             }
                             totaldeptquantity += data.tproductclassquantity[j].InStockQty;
                             qtylineItems.push(qtylineItemObj);
@@ -7080,9 +7206,9 @@ Template.new_invoice.events({
                         templateObject.productqtyrecords.set(qtylineItems);
                         templateObject.totaldeptquantity.set(totaldeptquantity);
 
-                    }).catch(function (err) {
+                    }).catch(function(err) {
 
-                        $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display', 'none');
                     });
 
                 }
@@ -7726,60 +7852,180 @@ Template.new_invoice.events({
                     let grandtotal = $('#grandTotal').html();
                     let amountDueEmail = $('#totalBalanceDue').html();
                     let emailDueDate = $("#dtDueDate").val();
+                    let customerBillingAddress = $('#txabillingAddress').val();
+                    let customerTerms = $('#sltTerms').val();
+
+                    let customerSubtotal = $('#subtotal_total').html();
+                    let customerTax = $('#subtotal_tax').html();
+                    let customerNett = $('#subtotal_nett').html();
+                    let customerTotal = $('#grandTotal').html();
                     let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                     let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
                         "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
                         "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
-                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                        '    <tr>' +
-                        '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                        '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '    <tr>' +
-                        '        <td style="padding: 40px 30px 40px 30px;">' +
-                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                        '                        Hi <span>' + customerEmailName + '</span>.' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Please find attached Invoice <span>' + erpInvoiceId + '</span>' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="' + stripeGlobalURL + '' + stringQuery + '">Make Payment</a> to pay now.' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                        '                        Kind regards,' +
-                        '                        <br>' +
-                        '                        ' + mailFromName + '' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '            </table>' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '    <tr>' +
-                        '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                        '                <tr>' +
-                        '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                        '                        If you have any question, please do not hesitate to contact us.' +
-                        '                    </td>' +
-                        '                    <td align="right">' +
-                        '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '            </table>' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '</table>';
+                    var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                        '        <tr>' +
+                        '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                        '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                        '                    <table class="main">' +
+                        '                        <tr>' +
+                        '                            <td class="wrapper">' +
+                        '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                        '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Invoice No. ' + erpInvoiceId + ' Details</span>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="height: 16px;"></tr>' +
+                        '                                    <tr>' +
+                        '                                        <td>' +
+                        '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="height: 48px;"></tr>' +
+                        '                                    <tr style="background-color: rgba(0, 163, 211, 0.5); ">' +
+                        '                                        <td style="text-align: center;padding: 32px 0px 16px 0px;">' +
+                        '                                             <p style="font-weight: 700; font-size: 16px; color: #363a3b; margin-bottom: 6px;">DUE ' + emailDueDate + '</p>' +
+                        '                                            <p style="font-weight: 700; font-size: 36px; color: #363a3b; margin-bottom: 6px; margin-top: 6px;">' + grandtotal +'</p>' +
+                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                        '                                                <tbody>' +
+                        '                                                    <tr>' +
+                        '                                                        <td align="center" style="padding-bottom: 15px;">' +
+                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                        '                                                                <tbody>' +
+                        '                                                                    <tr>' +
+                        '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                        '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                        '                                                                    </tr>' +
+                        '                                                                </tbody>' +
+                        '                                                            </table>' +
+                        '                                                        </td>' +
+                        '                                                    </tr>' +
+                        '                                                </tbody>' +
+                        '                                            </table>' +
+                        '                                            <p style="margin-top: 0px;">Powered by VS1 Cloud</p>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <p style="font-size: 18px;">Dear ' + customerEmailName + ',</p>' +
+                        '                                            <p style="font-size: 18px; margin: 34px 0px;">Here\'s your invoice! We appreciate your prompt payment.</p>' +
+                        '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks for your business!</p>' +
+                        '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="background-color: #ededed;">' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                        '                                                <div style="width: 50%; float: left;">' +
+                        '                                                    <p style="font-size: 18px;">Invoice To</p>' +
+                        '                                                </div>' +
+                        '                                                <div style="width: 50%; float: right;">' +
+                        '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerEmailName + '</p>' +
+                        '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerBillingAddress +'</p>' +
+                        '                                                </div>' +
+                        '                                            </div>' +
+                        '                                        </td>>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="background-color: #ededed;">' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                        '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                        '                                                <div style="width: 50%; float: left;">' +
+                        '                                                    <p style="font-size: 18px;">Terms</p>' +
+                        '                                                </div>' +
+                        '                                                <div style="width: 50%; float: right;">' +
+                        '                                                    <p style="font-size: 18px;">' + customerTerms +'</p>' +
+                        '                                                </div>' +
+                        '                                            </div>' +
+                        '                                        </td>>' +
+                        '                                    </tr>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                        '                                            <div style="width: 50%; float: right; padding-top: 24px;">' +
+                        '                                                <div style="width: 50%; float: left;">' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">Nett</p>' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">Balance Due</p>' +
+                        '                                                </div>' +
+                        '                                                <div style="width: 50%; float: right; text-align: right;">' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerSubtotal + '</p>' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTax + '</p>' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerNett + '</p>' +
+                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
+                        '                                                </div>' +
+                        '                                            </div>' +
+                        '                                        </td>>' +
+                        '                                    </tr>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
+                        '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                        '                                                <tbody>' +
+                        '                                                    <tr>' +
+                        '                                                        <td align="center">' +
+                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                        '                                                                <tbody>' +
+                        '                                                                    <tr>' +
+                        '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                        '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                        '                                                                    </tr>' +
+                        '                                                                </tbody>' +
+                        '                                                            </table>' +
+                        '                                                        </td>' +
+                        '                                                    </tr>' +
+                        '                                                </tbody>' +
+                        '                                            </table>' +
+                        '                                        </td>>' +
+                        '                                    </tr>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr>' +
+                        '                                        <td>' +
+                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                        '                                                <tbody>' +
+                        '                                                    <tr>' +
+                        '                                                        <td align="center">' +
+                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                        '                                                                <tbody>' +
+                        '                                                                    <tr>' +
+                        '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                        '                                                                    </tr>' +
+                        '                                                                </tbody>' +
+                        '                                                            </table>' +
+                        '                                                        </td>' +
+                        '                                                    </tr>' +
+                        '                                                </tbody>' +
+                        '                                            </table>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                </table>' +
+                        '                            </td>' +
+                        '                        </tr>' +
+                        '                    </table>' +
+                        '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                        '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                        '                            <tr>' +
+                        '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                        '                                    <br>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                        '                                </td>' +
+                        '                            </tr>' +
+                        '                        </table>' +
+                        '                    </div>' +
+                        '                </div>' +
+                        '            </td>' +
+                        '        </tr>' +
+                        '    </table>';
 
                     if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
                         Meteor.call('sendEmail', {
@@ -8561,60 +8807,180 @@ Template.new_invoice.events({
                         let grandtotal = $('#grandTotal').html();
                         let amountDueEmail = $('#totalBalanceDue').html();
                         let emailDueDate = $("#dtDueDate").val();
+                        let customerBillingAddress = $('#txabillingAddress').val();
+                        let customerTerms = $('#sltTerms').val();
+
+                        let customerSubtotal = $('#subtotal_total').html();
+                        let customerTax = $('#subtotal_tax').html();
+                        let customerNett = $('#subtotal_nett').html();
+                        let customerTotal = $('#grandTotal').html();
                         let mailSubject = 'Invoice ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                         let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
                             "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
                             "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
-                        var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                            '    <tr>' +
-                            '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                            '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td style="padding: 40px 30px 40px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                            '                        Hello there <span>' + customerEmailName + '</span>,' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        Please find invoice <span>' + erpInvoiceId + '</span> attached below.' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                            '                        The amount outstanding of <span>' + amountDueEmail + '</span> is due on <span>' + emailDueDate + '</span>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '                <tr>' +
-                            '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                            '                        Kind regards,' +
-                            '                        <br>' +
-                            '                        ' + mailFromName + '' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '    <tr>' +
-                            '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                            '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                            '                <tr>' +
-                            '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                            '                        If you have any question, please do not hesitate to contact us.' +
-                            '                    </td>' +
-                            '                    <td align="right">' +
-                            '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                            '                    </td>' +
-                            '                </tr>' +
-                            '            </table>' +
-                            '        </td>' +
-                            '    </tr>' +
-                            '</table>';
+                        var htmlmailBody = ' <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                            '        <tr>' +
+                            '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                            '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                            '                    <table class="main">' +
+                            '                        <tr>' +
+                            '                            <td class="wrapper">' +
+                            '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                            '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Invoice No. ' + erpInvoiceId + ' Details</span>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="height: 16px;"></tr>' +
+                            '                                    <tr>' +
+                            '                                        <td>' +
+                            '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="height: 48px;"></tr>' +
+                            '                                    <tr style="background-color: rgba(0, 163, 211, 0.5); ">' +
+                            '                                        <td style="text-align: center;padding: 32px 0px 16px 0px;">' +
+                            '                                             <p style="font-weight: 700; font-size: 16px; color: #363a3b; margin-bottom: 6px;">DUE ' + emailDueDate + '</p>' +
+                            '                                            <p style="font-weight: 700; font-size: 36px; color: #363a3b; margin-bottom: 6px; margin-top: 6px;">' + grandtotal +'</p>' +
+                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                            '                                                <tbody>' +
+                            '                                                    <tr>' +
+                            '                                                        <td align="center" style="padding-bottom: 15px;">' +
+                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                            '                                                                <tbody>' +
+                            '                                                                    <tr>' +
+                            '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                            '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                            '                                                                    </tr>' +
+                            '                                                                </tbody>' +
+                            '                                                            </table>' +
+                            '                                                        </td>' +
+                            '                                                    </tr>' +
+                            '                                                </tbody>' +
+                            '                                            </table>' +
+                            '                                            <p style="margin-top: 0px;">Powered by VS1 Cloud</p>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <p style="font-size: 18px;">Dear ' + customerEmailName + ',</p>' +
+                            '                                            <p style="font-size: 18px; margin: 34px 0px;">Here\'s your invoice! We appreciate your prompt payment.</p>' +
+                            '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks for your business!</p>' +
+                            '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="background-color: #ededed;">' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                            '                                                <div style="width: 50%; float: left;">' +
+                            '                                                    <p style="font-size: 18px;">Invoice To</p>' +
+                            '                                                </div>' +
+                            '                                                <div style="width: 50%; float: right;">' +
+                            '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerEmailName + '</p>' +
+                            '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerBillingAddress +'</p>' +
+                            '                                                </div>' +
+                            '                                            </div>' +
+                            '                                        </td>>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="background-color: #ededed;">' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                            '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                            '                                                <div style="width: 50%; float: left;">' +
+                            '                                                    <p style="font-size: 18px;">Terms</p>' +
+                            '                                                </div>' +
+                            '                                                <div style="width: 50%; float: right;">' +
+                            '                                                    <p style="font-size: 18px;">' + customerTerms +'</p>' +
+                            '                                                </div>' +
+                            '                                            </div>' +
+                            '                                        </td>>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                            '                                            <div style="width: 50%; float: right; padding-top: 24px;">' +
+                            '                                                <div style="width: 50%; float: left;">' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Nett</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Balance Due</p>' +
+                            '                                                </div>' +
+                            '                                                <div style="width: 50%; float: right; text-align: right;">' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerSubtotal + '</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTax + '</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerNett + '</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
+                            '                                                </div>' +
+                            '                                            </div>' +
+                            '                                        </td>>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
+                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                            '                                                <tbody>' +
+                            '                                                    <tr>' +
+                            '                                                        <td align="center">' +
+                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                            '                                                                <tbody>' +
+                            '                                                                    <tr>' +
+                            '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                            '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                            '                                                                    </tr>' +
+                            '                                                                </tbody>' +
+                            '                                                            </table>' +
+                            '                                                        </td>' +
+                            '                                                    </tr>' +
+                            '                                                </tbody>' +
+                            '                                            </table>' +
+                            '                                        </td>>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td>' +
+                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                            '                                                <tbody>' +
+                            '                                                    <tr>' +
+                            '                                                        <td align="center">' +
+                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                            '                                                                <tbody>' +
+                            '                                                                    <tr>' +
+                            '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                            '                                                                    </tr>' +
+                            '                                                                </tbody>' +
+                            '                                                            </table>' +
+                            '                                                        </td>' +
+                            '                                                    </tr>' +
+                            '                                                </tbody>' +
+                            '                                            </table>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                </table>' +
+                            '                            </td>' +
+                            '                        </tr>' +
+                            '                    </table>' +
+                            '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                            '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                            '                            <tr>' +
+                            '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                            '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                            '                                    <br>' +
+                            '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                            '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                            '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                            '                                </td>' +
+                            '                            </tr>' +
+                            '                        </table>' +
+                            '                    </div>' +
+                            '                </div>' +
+                            '            </td>' +
+                            '        </tr>' +
+                            '    </table>';
 
                         if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
                             Meteor.call('sendEmail', {
