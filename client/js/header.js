@@ -94,290 +94,648 @@ Template.header.onRendered(function() {
 
     templateObject.getAllGlobalSearch = function(searchName) {
         $('.fullScreenSpin').css('display', 'inline-block');
-        productService.getGlobalSearchReport(searchName).then(function(data) {
-            let dataSelectID = '';
-            var splashArrayList = new Array();
-            var splashArrayListDupp = new Array();
-            $('.fullScreenSpin').css('display', 'none');
-            setTimeout(function() {
-                $('#tblSearchOverview_filter .form-control-sm').val(searchName);
-            }, 200);
-            let dataTableList = [];
-            let dataTableListDupp = [];
-            for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                if (data.tglobalsearchreport[i].Type === "Purchase Order") {
-                    dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
-                } else if (data.tglobalsearchreport[i].Type === "Bill") {
-                    dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
-                } else if (data.tglobalsearchreport[i].Type === "Credit") {
-                    dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
-                } else if (data.tglobalsearchreport[i].Type === "Customer Payment") {
-                    dataSelectID = data.tglobalsearchreport[i].PaymentID;
-                } else if (data.tglobalsearchreport[i].Type === "Supplier Payment") {
-                    dataSelectID = data.tglobalsearchreport[i].PaymentID;
-                } else if (data.tglobalsearchreport[i].Type === "Invoice") {
-                    dataSelectID = data.tglobalsearchreport[i].SaleID;
-                } else if (data.tglobalsearchreport[i].Type === "PO") {
-                    dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
-                } else if (data.tglobalsearchreport[i].Type === "Cheque") {
-                    dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
-                } else if (data.tglobalsearchreport[i].Type === "Customer") {
-                    dataSelectID = data.tglobalsearchreport[i].clientId;
-                } else if (data.tglobalsearchreport[i].Type === "Sales Order") {
-                    dataSelectID = data.tglobalsearchreport[i].SaleID;
-                } else if (data.tglobalsearchreport[i].Type === "Quote") {
-                    dataSelectID = data.tglobalsearchreport[i].SaleID;
-                } else if (data.tglobalsearchreport[i].Type === "Employee") {
-                    dataSelectID = data.tglobalsearchreport[i].ID;
-                } else if (data.tglobalsearchreport[i].Type === "Product") {
-                    dataSelectID = data.tglobalsearchreport[i].PartsID;
-                } else if (data.tglobalsearchreport[i].Type === "Refund") {
-                    dataSelectID = data.tglobalsearchreport[i].SaleID;
-                } else if (data.tglobalsearchreport[i].Type === "INV-BO") {
-                    dataSelectID = data.tglobalsearchreport[i].SaleID;
-                } else if (data.tglobalsearchreport[i].Type === "Account") {
-                    dataSelectID = data.tglobalsearchreport[i].AccountsID;
+
+          if(searchName.length <= 2){
+            productService.getGlobalSearchReport(searchName).then(function(data) {
+                let dataSelectID = '';
+                var splashArrayList = new Array();
+                var splashArrayListDupp = new Array();
+                $('.fullScreenSpin').css('display', 'none');
+                setTimeout(function() {
+                    $('#tblSearchOverview_filter .form-control-sm').val(searchName);
+                }, 200);
+                let dataTableList = [];
+                let dataTableListDupp = [];
+                for (let i = 0; i < data.tglobalsearchreport.length; i++) {
+                    if (data.tglobalsearchreport[i].Type === "Purchase Order") {
+                        dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                    } else if (data.tglobalsearchreport[i].Type === "Bill") {
+                        dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                    } else if (data.tglobalsearchreport[i].Type === "Credit") {
+                        dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                    } else if (data.tglobalsearchreport[i].Type === "Customer Payment") {
+                        dataSelectID = data.tglobalsearchreport[i].PaymentID;
+                    } else if (data.tglobalsearchreport[i].Type === "Supplier Payment") {
+                        dataSelectID = data.tglobalsearchreport[i].PaymentID;
+                    } else if (data.tglobalsearchreport[i].Type === "Invoice") {
+                        dataSelectID = data.tglobalsearchreport[i].SaleID;
+                    } else if (data.tglobalsearchreport[i].Type === "PO") {
+                        dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                    } else if (data.tglobalsearchreport[i].Type === "Cheque") {
+                        dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                    } else if (data.tglobalsearchreport[i].Type === "Customer") {
+                        dataSelectID = data.tglobalsearchreport[i].clientId;
+                    } else if (data.tglobalsearchreport[i].Type === "Sales Order") {
+                        dataSelectID = data.tglobalsearchreport[i].SaleID;
+                    } else if (data.tglobalsearchreport[i].Type === "Quote") {
+                        dataSelectID = data.tglobalsearchreport[i].SaleID;
+                    } else if (data.tglobalsearchreport[i].Type === "Employee") {
+                        dataSelectID = data.tglobalsearchreport[i].ID;
+                    } else if (data.tglobalsearchreport[i].Type === "Product") {
+                        dataSelectID = data.tglobalsearchreport[i].PartsID;
+                    } else if (data.tglobalsearchreport[i].Type === "Refund") {
+                        dataSelectID = data.tglobalsearchreport[i].SaleID;
+                    } else if (data.tglobalsearchreport[i].Type === "INV-BO") {
+                        dataSelectID = data.tglobalsearchreport[i].SaleID;
+                    } else if (data.tglobalsearchreport[i].Type === "Account") {
+                        dataSelectID = data.tglobalsearchreport[i].AccountsID;
+                    }
+                    var dataList = {
+                        catg: data.tglobalsearchreport[i].Catg || '',
+                        catgdesc: data.tglobalsearchreport[i].Catgdesc || '',
+                        clientId: data.tglobalsearchreport[i].clientId || '',
+                        id: dataSelectID || '',
+                        type: data.tglobalsearchreport[i].Type || '',
+                        company: data.tglobalsearchreport[i].company || '',
+                        globalref: data.tglobalsearchreport[i].Globalref || '',
+                        transDate: data.tglobalsearchreport[i].TransDate != '' ? moment(data.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : data.tglobalsearchreport[i].TransDate,
+                        transId: data.tglobalsearchreport[i].TransId || '',
+                        saleID: data.tglobalsearchreport[i].SaleID || '',
+                        purchaseOrderID: data.tglobalsearchreport[i].PurchaseOrderID || '',
+                        paymentID: data.tglobalsearchreport[i].PaymentID || '',
+                        prepaymentID: data.tglobalsearchreport[i].PrepaymentID || '',
+                        fixedAssetID: data.tglobalsearchreport[i].FixedAssetID || '',
+                        partsID: data.tglobalsearchreport[i].PartsID || ''
+
+                    };
+
+                    var dataListNew = [
+                        dataSelectID || '',
+                        data.tglobalsearchreport[i].company || '',
+                        data.tglobalsearchreport[i].Type || '',
+                        data.tglobalsearchreport[i].Globalref || ''
+
+                    ];
+                    //if(dataSelectID != ""){
+                    dataTableList.push(dataList);
+                    splashArrayList.push(dataListNew);
+                    //}
                 }
-                var dataList = {
-                    catg: data.tglobalsearchreport[i].Catg || '',
-                    catgdesc: data.tglobalsearchreport[i].Catgdesc || '',
-                    clientId: data.tglobalsearchreport[i].clientId || '',
-                    id: dataSelectID || '',
-                    type: data.tglobalsearchreport[i].Type || '',
-                    company: data.tglobalsearchreport[i].company || '',
-                    globalref: data.tglobalsearchreport[i].Globalref || '',
-                    transDate: data.tglobalsearchreport[i].TransDate != '' ? moment(data.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : data.tglobalsearchreport[i].TransDate,
-                    transId: data.tglobalsearchreport[i].TransId || '',
-                    saleID: data.tglobalsearchreport[i].SaleID || '',
-                    purchaseOrderID: data.tglobalsearchreport[i].PurchaseOrderID || '',
-                    paymentID: data.tglobalsearchreport[i].PaymentID || '',
-                    prepaymentID: data.tglobalsearchreport[i].PrepaymentID || '',
-                    fixedAssetID: data.tglobalsearchreport[i].FixedAssetID || '',
-                    partsID: data.tglobalsearchreport[i].PartsID || ''
-
-                };
-
-                var dataListNew = [
-                    dataSelectID || '',
-                    data.tglobalsearchreport[i].company || '',
-                    data.tglobalsearchreport[i].Type || '',
-                    data.tglobalsearchreport[i].Globalref || ''
-
-                ];
-                //if(dataSelectID != ""){
-                dataTableList.push(dataList);
-                splashArrayList.push(dataListNew);
-                //}
-            }
 
 
 
-            setTimeout(function() {
-                $('#searchPOP').modal('toggle');
+                setTimeout(function() {
+                    $('#searchPOP').modal('toggle');
 
-                $('#tblSearchOverview').DataTable({
-                    data: splashArrayList,
-                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                    paging: true,
-                    "aaSorting": [],
-                    "orderMulti": true,
-                    columnDefs: [{
-                            className: "colId",
-                            "targets": [0]
+                    $('#tblSearchOverview').DataTable({
+                        data: splashArrayList,
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        paging: true,
+                        "aaSorting": [],
+                        "orderMulti": true,
+                        columnDefs: [{
+                                className: "colId",
+                                "targets": [0]
+                            },
+                            {
+                                className: "colName",
+                                "targets": [1]
+                            },
+                            {
+                                className: "colType",
+                                "targets": [2]
+                            },
+                            {
+                                className: "colTransGlobal",
+                                "targets": [3]
+                            }
+
+                        ],
+                        rowId: 0,
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsLeft: 1
                         },
-                        {
-                            className: "colName",
-                            "targets": [1]
-                        },
-                        {
-                            className: "colType",
-                            "targets": [2]
-                        },
-                        {
-                            className: "colTransGlobal",
-                            "targets": [3]
+
+                        pageLength: initialReportDatatableLoad,
+                        lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "fnDrawCallback": function (oSettings) {
+                          var searchDataValue =   $('.txtGlobalSearch').val().toLowerCase();
+                          $('#tblSearchOverview_wrapper .paginate_button.page-item').removeClass('disabled');
+                          $('#tblSearchOverview_ellipsis').addClass('disabled');
+                          if(oSettings._iDisplayLength == -1){
+                        if(oSettings.fnRecordsDisplay() > 150){
+                          $('#tblSearchOverview_wrapper .paginate_button.page-item.previous').addClass('disabled');
+                          $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
+                        }
+                      }else{
+
+                      }
+                      if(oSettings.fnRecordsDisplay() < initialReportLoad){
+                          $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
+                      }
+                      $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                       .on('click', function(){
+                         $('.fullScreenSpin').css('display','inline-block');
+                         let dataLenght = oSettings._iDisplayLength;
+
+
+                         sideBarService.getGlobalSearchReport(searchDataValue,initialReportLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                           // templateObject.resetData(objCombineData);
+                           let dataOld = splashArrayList;
+                           for (let i = 0; i < dataObjectnew.tglobalsearchreport.length; i++) {
+                               if (dataObjectnew.tglobalsearchreport[i].Type === "Purchase Order") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Bill") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Credit") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer Payment") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Supplier Payment") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Invoice") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "PO") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Cheque") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].clientId;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Sales Order") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Quote") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Employee") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].ID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Product") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].PartsID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Refund") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "INV-BO") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                               } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
+                               }
+                               var dataListDupp = {
+                                   catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
+                                   catgdesc: dataObjectnew.tglobalsearchreport[i].Catgdesc || '',
+                                   clientId: dataObjectnew.tglobalsearchreport[i].clientId || '',
+                                   id: dataSelectID || '',
+                                   type: dataObjectnew.tglobalsearchreport[i].Type || '',
+                                   company: dataObjectnew.tglobalsearchreport[i].company || '',
+                                   globalref: dataObjectnew.tglobalsearchreport[i].Globalref || '',
+                                   transDate: dataObjectnew.tglobalsearchreport[i].TransDate != '' ? moment(dataObjectnew.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : dataObjectnew.tglobalsearchreport[i].TransDate,
+                                   transId: dataObjectnew.tglobalsearchreport[i].TransId || '',
+                                   saleID: dataObjectnew.tglobalsearchreport[i].SaleID || '',
+                                   purchaseOrderID: dataObjectnew.tglobalsearchreport[i].PurchaseOrderID || '',
+                                   paymentID: dataObjectnew.tglobalsearchreport[i].PaymentID || '',
+                                   prepaymentID: dataObjectnew.tglobalsearchreport[i].PrepaymentID || '',
+                                   fixedAssetID: dataObjectnew.tglobalsearchreport[i].FixedAssetID || '',
+                                   partsID: dataObjectnew.tglobalsearchreport[i].PartsID || ''
+
+                               };
+
+                               var dataListNewDupp = [
+                                   dataSelectID || '',
+                                   dataObjectnew.tglobalsearchreport[i].company || '',
+                                   dataObjectnew.tglobalsearchreport[i].Type || '',
+                                   dataObjectnew.tglobalsearchreport[i].Globalref || ''
+
+                               ];
+                               dataTableListDupp.push(dataListDupp);
+                               splashArrayListDupp.push(dataListNewDupp);
+                           }
+                         var thirdaryData = $.merge($.merge([], splashArrayListDupp), splashArrayList);
+                         let uniqueChars = [...new Set(thirdaryData)];
+                         var datatable = $('#tblSearchOverview').DataTable();
+                         datatable.clear();
+                         datatable.rows.add(uniqueChars);
+                         datatable.draw(false);
+                           // let objCombineData = {
+                           //   tglobalsearchreport:thirdaryData
+                           // }
+                         $('.fullScreenSpin').css('display','none');
+
+                         }).catch(function(err) {
+                           $('.fullScreenSpin').css('display','none');
+                         });
+
+                       });
                         }
 
-                    ],
-                    rowId: 0,
-                    select: true,
-                    destroy: true,
-                    colReorder: true,
-                    colReorder: {
-                        fixedColumnsLeft: 1
-                    },
+                    }).on('page', function () {
 
-                    pageLength: initialReportDatatableLoad,
-                    lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
-                    info: true,
-                    responsive: true,
-                    "fnDrawCallback": function (oSettings) {
-                      var searchDataValue =   $('.txtGlobalSearch').val().toLowerCase();
-                      $('#tblSearchOverview_wrapper .paginate_button.page-item').removeClass('disabled');
-                      $('#tblSearchOverview_ellipsis').addClass('disabled');
-                      if(oSettings._iDisplayLength == -1){
-                    if(oSettings.fnRecordsDisplay() > 150){
-                      $('#tblSearchOverview_wrapper .paginate_button.page-item.previous').addClass('disabled');
-                      $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
-                    }
-                  }else{
+                    });
+                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                }, 0);
 
-                  }
-                  if(oSettings.fnRecordsDisplay() < initialReportLoad){
-                      $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
-                  }
-                  $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                   .on('click', function(){
-                     $('.fullScreenSpin').css('display','inline-block');
-                     let dataLenght = oSettings._iDisplayLength;
-                    
+                $('#tblSearchOverview tbody').on('click', 'tr', function() {
+                    var listData = $(this).closest('tr').attr('id');
+                    var transactiontype = $(event.target).closest("tr").find(".colType").text();
+                    if ((listData) && (transactiontype)) {
+                        if (transactiontype === 'Purchase Order') {
+                            window.open('/purchaseordercard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Bill') {
+                            window.open('/billcard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Credit') {
+                            window.open('/creditcard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Customer Payment') {
+                            window.open('/paymentcard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Supplier Payment') {
+                            window.open('/supplierpaymentcard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Invoice') {
+                            window.open('/invoicecard?id=' + listData, '_self');
+                        } else if (transactiontype === 'PO') {
+                            window.open('/purchaseordercard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Cheque') {
+                            window.open('/chequecard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Customer') {
+                            window.open('/customerscard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Sales Order') {
+                            window.open('/salesordercard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Quote') {
+                            window.open('/quotecard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Employee') {
+                            window.open('/employeescard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Product') {
+                            window.open('/productview?id=' + listData, '_self');
+                        } else if (transactiontype === 'Refund') {
+                            window.open('/refundcard?id=' + listData, '_self');
+                        } else if (transactiontype === 'INV-BO') {
+                            window.open('/invoicecard?id=' + listData, '_self');
+                        } else if (transactiontype === 'Account') {
+                            window.open('/accountsoverview?id=' + listData, '_self');
+                        } else {
 
-                     sideBarService.getGlobalSearchReport(searchDataValue,initialReportLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                       // templateObject.resetData(objCombineData);
-                       let dataOld = splashArrayList;
-                       for (let i = 0; i < dataObjectnew.tglobalsearchreport.length; i++) {
-                           if (dataObjectnew.tglobalsearchreport[i].Type === "Purchase Order") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Bill") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Credit") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer Payment") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Supplier Payment") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Invoice") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "PO") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Cheque") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].clientId;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Sales Order") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Quote") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Employee") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].ID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Product") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].PartsID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Refund") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "INV-BO") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
-                           } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
-                               dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
-                           }
-                           var dataListDupp = {
-                               catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
-                               catgdesc: dataObjectnew.tglobalsearchreport[i].Catgdesc || '',
-                               clientId: dataObjectnew.tglobalsearchreport[i].clientId || '',
-                               id: dataSelectID || '',
-                               type: dataObjectnew.tglobalsearchreport[i].Type || '',
-                               company: dataObjectnew.tglobalsearchreport[i].company || '',
-                               globalref: dataObjectnew.tglobalsearchreport[i].Globalref || '',
-                               transDate: dataObjectnew.tglobalsearchreport[i].TransDate != '' ? moment(dataObjectnew.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : dataObjectnew.tglobalsearchreport[i].TransDate,
-                               transId: dataObjectnew.tglobalsearchreport[i].TransId || '',
-                               saleID: dataObjectnew.tglobalsearchreport[i].SaleID || '',
-                               purchaseOrderID: dataObjectnew.tglobalsearchreport[i].PurchaseOrderID || '',
-                               paymentID: dataObjectnew.tglobalsearchreport[i].PaymentID || '',
-                               prepaymentID: dataObjectnew.tglobalsearchreport[i].PrepaymentID || '',
-                               fixedAssetID: dataObjectnew.tglobalsearchreport[i].FixedAssetID || '',
-                               partsID: dataObjectnew.tglobalsearchreport[i].PartsID || ''
+                        }
 
-                           };
-
-                           var dataListNewDupp = [
-                               dataSelectID || '',
-                               dataObjectnew.tglobalsearchreport[i].company || '',
-                               dataObjectnew.tglobalsearchreport[i].Type || '',
-                               dataObjectnew.tglobalsearchreport[i].Globalref || ''
-
-                           ];
-                           dataTableListDupp.push(dataListDupp);
-                           splashArrayListDupp.push(dataListNewDupp);
-                       }
-                     var thirdaryData = $.merge($.merge([], splashArrayListDupp), splashArrayList);
-                     let uniqueChars = [...new Set(thirdaryData)];
-                     var datatable = $('#tblSearchOverview').DataTable();
-                     datatable.clear();
-                     datatable.rows.add(uniqueChars);
-                     datatable.draw(false);
-                       // let objCombineData = {
-                       //   tglobalsearchreport:thirdaryData
-                       // }
-                     $('.fullScreenSpin').css('display','none');
-
-                     }).catch(function(err) {
-                       $('.fullScreenSpin').css('display','none');
-                     });
-
-                   });
                     }
 
-                }).on('page', function () {
-                  //alert('here');
-                  // setTimeout(function () {
-                  //   MakeNegative();
-                  // }, 100);
-                  //   let draftRecord = templateObject.datatablerecords.get();
-                  //   templateObject.datatablerecords.set(draftRecord);
+
                 });
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-            }, 0);
 
-            $('#tblSearchOverview tbody').on('click', 'tr', function() {
-                var listData = $(this).closest('tr').attr('id');
-                var transactiontype = $(event.target).closest("tr").find(".colType").text();
-                if ((listData) && (transactiontype)) {
-                    if (transactiontype === 'Purchase Order') {
-                        window.open('/purchaseordercard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Bill') {
-                        window.open('/billcard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Credit') {
-                        window.open('/creditcard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Customer Payment') {
-                        window.open('/paymentcard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Supplier Payment') {
-                        window.open('/supplierpaymentcard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Invoice') {
-                        window.open('/invoicecard?id=' + listData, '_self');
-                    } else if (transactiontype === 'PO') {
-                        window.open('/purchaseordercard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Cheque') {
-                        window.open('/chequecard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Customer') {
-                        window.open('/customerscard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Sales Order') {
-                        window.open('/salesordercard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Quote') {
-                        window.open('/quotecard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Employee') {
-                        window.open('/employeescard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Product') {
-                        window.open('/productview?id=' + listData, '_self');
-                    } else if (transactiontype === 'Refund') {
-                        window.open('/refundcard?id=' + listData, '_self');
-                    } else if (transactiontype === 'INV-BO') {
-                        window.open('/invoicecard?id=' + listData, '_self');
-                    } else if (transactiontype === 'Account') {
-                        window.open('/accountsoverview?id=' + listData, '_self');
-                    } else {
 
+
+
+            }).catch(function(err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+          }else{
+           var barcode = searchName.toUpperCase();
+           var segs = barcode.split('-');
+          if(segs[0] == Barcode_Prefix_Sale){
+            var sales_ID = segs[1];
+            var erpGet = erpDb();
+            var oReqSID = new XMLHttpRequest();
+            oReqSID.open("GET",'https://' + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/SaleGroup?SaleID='+ sales_ID, true);
+            oReqSID.setRequestHeader("database",erpGet.ERPDatabase);
+            oReqSID.setRequestHeader("username",erpGet.ERPUsername);
+            oReqSID.setRequestHeader("password",erpGet.ERPPassword);
+            oReqSID.send();
+
+        oReqSID.timeout = 30000;
+        oReqSID.onreadystatechange = function() {
+        if (oReqSID.readyState == 4 && oReqSID.status == 200) {
+          var dataListRet = JSON.parse(oReqSID.responseText)
+          for (var event in dataListRet) {
+          var dataCopy = dataListRet[event];
+          for (var data in dataCopy) {
+          var mainData = dataCopy[data];
+          var salesType = mainData.TransactionType;
+          var salesID = mainData.SaleID;
+              }
+            }
+        if(salesType == "Invoice"){
+                window.open('/shippingdocket?id='+salesID,'_self');
+        }else{
+          $('.fullScreenSpin').css('display', 'none');
+
+            swal('<strong>WARNING:</strong> No Invoice with that number "'+barcode+'"', '', 'warning');
+          DangerSound();
+                e.preventDefault();
+              }
+
+
+          }
+
+            AddUERP(oReqSID.responseText);
+        }
+
+
+          }else if(segs[0] == Barcode_Prefix_SalesLine){
+                  var salesLine_ID = segs[1];
+                  var erpGet = erpDb();
+                  var oReqSLineID = new XMLHttpRequest();
+                  oReqSLineID.open("GET",'https://' + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/SaleGroup?SaleLineID='+ salesLine_ID, true);
+                  oReqSLineID.setRequestHeader("database",erpGet.ERPDatabase);
+                  oReqSLineID.setRequestHeader("username",erpGet.ERPUsername);
+                  oReqSLineID.setRequestHeader("password",erpGet.ERPPassword);
+                  oReqSLineID.send();
+
+              oReqSLineID.timeout = 30000;
+              oReqSLineID.onreadystatechange = function() {
+              if (oReqSLineID.readyState == 4 && oReqSLineID.status == 200) {
+                var dataListRet = JSON.parse(oReqSLineID.responseText)
+                for (var event in dataListRet) {
+                var dataCopy = dataListRet[event];
+                for (var data in dataCopy) {
+                var mainData = dataCopy[data];
+                var salesType = mainData.TransactionType;
+                var salesID = mainData.SaleID;
                     }
+                  }
+             if(salesType == "Invoice"){
+                  window.open('/shippingdocket?id='+salesID,'_self');
 
+                }else{
+                  $('.fullScreenSpin').css('display', 'none');
+                  Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+                  e.preventDefault();
                 }
 
 
-            });
+            }
+
+            AddUERP(oReqSID.responseText);
+              }
+
+
+
+          }else{
+              productService.getGlobalSearchReport(searchName).then(function(data) {
+                  let dataSelectID = '';
+                  var splashArrayList = new Array();
+                  var splashArrayListDupp = new Array();
+                  $('.fullScreenSpin').css('display', 'none');
+                  setTimeout(function() {
+                      $('#tblSearchOverview_filter .form-control-sm').val(searchName);
+                  }, 200);
+                  let dataTableList = [];
+                  let dataTableListDupp = [];
+                  for (let i = 0; i < data.tglobalsearchreport.length; i++) {
+                      if (data.tglobalsearchreport[i].Type === "Purchase Order") {
+                          dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                      } else if (data.tglobalsearchreport[i].Type === "Bill") {
+                          dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                      } else if (data.tglobalsearchreport[i].Type === "Credit") {
+                          dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                      } else if (data.tglobalsearchreport[i].Type === "Customer Payment") {
+                          dataSelectID = data.tglobalsearchreport[i].PaymentID;
+                      } else if (data.tglobalsearchreport[i].Type === "Supplier Payment") {
+                          dataSelectID = data.tglobalsearchreport[i].PaymentID;
+                      } else if (data.tglobalsearchreport[i].Type === "Invoice") {
+                          dataSelectID = data.tglobalsearchreport[i].SaleID;
+                      } else if (data.tglobalsearchreport[i].Type === "PO") {
+                          dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                      } else if (data.tglobalsearchreport[i].Type === "Cheque") {
+                          dataSelectID = data.tglobalsearchreport[i].PurchaseOrderID;
+                      } else if (data.tglobalsearchreport[i].Type === "Customer") {
+                          dataSelectID = data.tglobalsearchreport[i].clientId;
+                      } else if (data.tglobalsearchreport[i].Type === "Sales Order") {
+                          dataSelectID = data.tglobalsearchreport[i].SaleID;
+                      } else if (data.tglobalsearchreport[i].Type === "Quote") {
+                          dataSelectID = data.tglobalsearchreport[i].SaleID;
+                      } else if (data.tglobalsearchreport[i].Type === "Employee") {
+                          dataSelectID = data.tglobalsearchreport[i].ID;
+                      } else if (data.tglobalsearchreport[i].Type === "Product") {
+                          dataSelectID = data.tglobalsearchreport[i].PartsID;
+                      } else if (data.tglobalsearchreport[i].Type === "Refund") {
+                          dataSelectID = data.tglobalsearchreport[i].SaleID;
+                      } else if (data.tglobalsearchreport[i].Type === "INV-BO") {
+                          dataSelectID = data.tglobalsearchreport[i].SaleID;
+                      } else if (data.tglobalsearchreport[i].Type === "Account") {
+                          dataSelectID = data.tglobalsearchreport[i].AccountsID;
+                      }
+                      var dataList = {
+                          catg: data.tglobalsearchreport[i].Catg || '',
+                          catgdesc: data.tglobalsearchreport[i].Catgdesc || '',
+                          clientId: data.tglobalsearchreport[i].clientId || '',
+                          id: dataSelectID || '',
+                          type: data.tglobalsearchreport[i].Type || '',
+                          company: data.tglobalsearchreport[i].company || '',
+                          globalref: data.tglobalsearchreport[i].Globalref || '',
+                          transDate: data.tglobalsearchreport[i].TransDate != '' ? moment(data.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : data.tglobalsearchreport[i].TransDate,
+                          transId: data.tglobalsearchreport[i].TransId || '',
+                          saleID: data.tglobalsearchreport[i].SaleID || '',
+                          purchaseOrderID: data.tglobalsearchreport[i].PurchaseOrderID || '',
+                          paymentID: data.tglobalsearchreport[i].PaymentID || '',
+                          prepaymentID: data.tglobalsearchreport[i].PrepaymentID || '',
+                          fixedAssetID: data.tglobalsearchreport[i].FixedAssetID || '',
+                          partsID: data.tglobalsearchreport[i].PartsID || ''
+
+                      };
+
+                      var dataListNew = [
+                          dataSelectID || '',
+                          data.tglobalsearchreport[i].company || '',
+                          data.tglobalsearchreport[i].Type || '',
+                          data.tglobalsearchreport[i].Globalref || ''
+
+                      ];
+                      //if(dataSelectID != ""){
+                      dataTableList.push(dataList);
+                      splashArrayList.push(dataListNew);
+                      //}
+                  }
+
+
+
+                  setTimeout(function() {
+                      $('#searchPOP').modal('toggle');
+
+                      $('#tblSearchOverview').DataTable({
+                          data: splashArrayList,
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          paging: true,
+                          "aaSorting": [],
+                          "orderMulti": true,
+                          columnDefs: [{
+                                  className: "colId",
+                                  "targets": [0]
+                              },
+                              {
+                                  className: "colName",
+                                  "targets": [1]
+                              },
+                              {
+                                  className: "colType",
+                                  "targets": [2]
+                              },
+                              {
+                                  className: "colTransGlobal",
+                                  "targets": [3]
+                              }
+
+                          ],
+                          rowId: 0,
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          colReorder: {
+                              fixedColumnsLeft: 1
+                          },
+
+                          pageLength: initialReportDatatableLoad,
+                          lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "fnDrawCallback": function (oSettings) {
+                            var searchDataValue =   $('.txtGlobalSearch').val().toLowerCase();
+                            $('#tblSearchOverview_wrapper .paginate_button.page-item').removeClass('disabled');
+                            $('#tblSearchOverview_ellipsis').addClass('disabled');
+                            if(oSettings._iDisplayLength == -1){
+                          if(oSettings.fnRecordsDisplay() > 150){
+                            $('#tblSearchOverview_wrapper .paginate_button.page-item.previous').addClass('disabled');
+                            $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
+                          }
+                        }else{
+
+                        }
+                        if(oSettings.fnRecordsDisplay() < initialReportLoad){
+                            $('#tblSearchOverview_wrapper .paginate_button.page-item.next').addClass('disabled');
+                        }
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                         .on('click', function(){
+                           $('.fullScreenSpin').css('display','inline-block');
+                           let dataLenght = oSettings._iDisplayLength;
+
+
+                           sideBarService.getGlobalSearchReport(searchDataValue,initialReportLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+
+                             let dataOld = splashArrayList;
+                             for (let i = 0; i < dataObjectnew.tglobalsearchreport.length; i++) {
+                                 if (dataObjectnew.tglobalsearchreport[i].Type === "Purchase Order") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Bill") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Credit") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer Payment") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Supplier Payment") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PaymentID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Invoice") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "PO") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Cheque") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PurchaseOrderID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Customer") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].clientId;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Sales Order") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Quote") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Employee") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].ID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Product") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].PartsID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Refund") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "INV-BO") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
+                                 } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
+                                 }
+                                 var dataListDupp = {
+                                     catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
+                                     catgdesc: dataObjectnew.tglobalsearchreport[i].Catgdesc || '',
+                                     clientId: dataObjectnew.tglobalsearchreport[i].clientId || '',
+                                     id: dataSelectID || '',
+                                     type: dataObjectnew.tglobalsearchreport[i].Type || '',
+                                     company: dataObjectnew.tglobalsearchreport[i].company || '',
+                                     globalref: dataObjectnew.tglobalsearchreport[i].Globalref || '',
+                                     transDate: dataObjectnew.tglobalsearchreport[i].TransDate != '' ? moment(dataObjectnew.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : dataObjectnew.tglobalsearchreport[i].TransDate,
+                                     transId: dataObjectnew.tglobalsearchreport[i].TransId || '',
+                                     saleID: dataObjectnew.tglobalsearchreport[i].SaleID || '',
+                                     purchaseOrderID: dataObjectnew.tglobalsearchreport[i].PurchaseOrderID || '',
+                                     paymentID: dataObjectnew.tglobalsearchreport[i].PaymentID || '',
+                                     prepaymentID: dataObjectnew.tglobalsearchreport[i].PrepaymentID || '',
+                                     fixedAssetID: dataObjectnew.tglobalsearchreport[i].FixedAssetID || '',
+                                     partsID: dataObjectnew.tglobalsearchreport[i].PartsID || ''
+
+                                 };
+
+                                 var dataListNewDupp = [
+                                     dataSelectID || '',
+                                     dataObjectnew.tglobalsearchreport[i].company || '',
+                                     dataObjectnew.tglobalsearchreport[i].Type || '',
+                                     dataObjectnew.tglobalsearchreport[i].Globalref || ''
+
+                                 ];
+                                 dataTableListDupp.push(dataListDupp);
+                                 splashArrayListDupp.push(dataListNewDupp);
+                             }
+                           var thirdaryData = $.merge($.merge([], splashArrayListDupp), splashArrayList);
+                           let uniqueChars = [...new Set(thirdaryData)];
+                           var datatable = $('#tblSearchOverview').DataTable();
+                           datatable.clear();
+                           datatable.rows.add(uniqueChars);
+                           datatable.draw(false);
+
+                           $('.fullScreenSpin').css('display','none');
+
+                           }).catch(function(err) {
+                             $('.fullScreenSpin').css('display','none');
+                           });
+
+                         });
+                          }
+
+                      }).on('page', function () {
+
+                      });
+                      $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                  }, 0);
+
+                  $('#tblSearchOverview tbody').on('click', 'tr', function() {
+                      var listData = $(this).closest('tr').attr('id');
+                      var transactiontype = $(event.target).closest("tr").find(".colType").text();
+                      if ((listData) && (transactiontype)) {
+                          if (transactiontype === 'Purchase Order') {
+                              window.open('/purchaseordercard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Bill') {
+                              window.open('/billcard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Credit') {
+                              window.open('/creditcard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Customer Payment') {
+                              window.open('/paymentcard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Supplier Payment') {
+                              window.open('/supplierpaymentcard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Invoice') {
+                              window.open('/invoicecard?id=' + listData, '_self');
+                          } else if (transactiontype === 'PO') {
+                              window.open('/purchaseordercard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Cheque') {
+                              window.open('/chequecard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Customer') {
+                              window.open('/customerscard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Sales Order') {
+                              window.open('/salesordercard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Quote') {
+                              window.open('/quotecard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Employee') {
+                              window.open('/employeescard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Product') {
+                              window.open('/productview?id=' + listData, '_self');
+                          } else if (transactiontype === 'Refund') {
+                              window.open('/refundcard?id=' + listData, '_self');
+                          } else if (transactiontype === 'INV-BO') {
+                              window.open('/invoicecard?id=' + listData, '_self');
+                          } else if (transactiontype === 'Account') {
+                              window.open('/accountsoverview?id=' + listData, '_self');
+                          } else {
+
+                          }
+
+                      }
+
+
+                  });
 
 
 
 
-        }).catch(function(err) {
-            $('.fullScreenSpin').css('display', 'none');
-        });
+              }).catch(function(err) {
+                  $('.fullScreenSpin').css('display', 'none');
+              });
+        }
+      }
     };
 
 
@@ -508,10 +866,6 @@ Template.header.onRendered(function() {
             } else {
                 localStorage.setItem('VS1OrgEmail', localStorage.getItem('mySession'));
             }
-
-            // Session.setPersistent('vs1companyComment', comment);
-
-
 
         })
     };

@@ -42,69 +42,105 @@ let printDeliveryDocket = Session.get('CloudPrintDeliveryDocket');
 let printInvoice = Session.get('CloudPrintInvoice');
 const records = [];
 const viarecords = [];
+
 templateObject.SendShippingDetails = function (printType) {
-
+  var splashLineArray = new Array();
   $('.fullScreenSpin').css('display','inline-block');
-  var allocTable = $('#tblShippingDocket tbody tr').map(function (idxRow, ele) {
-  // start building the retVal object
-  var typeName = "TInvoiceLine";
-  var retVal = {};
-  var $td = $(ele).find('td').map(function (idxCell, ele) {
-      var input = $(ele).find(':input');
 
-      if (input.length == 1) {
+  let lineItemsForm = [];
+  let lineItemObjForm = {};
 
-          var attr = $('#tblShippingDocket thead tr th').eq(idxCell).text();
-          if (attr == "Product"){
-            attr = "ProductName";
-            var itemVal =  input.val();
-            var Segs = itemVal.split(',');
-            retVal[attr] = Segs[0];
-          }
-          else if(attr == 'ID'){
-             attr = "ID";
+  $('#tblShippingDocket > tbody > tr').each(function() {
+      var lineID = this.id;
+      let tdproduct = $('#' + lineID + " .colProduct").text()||'';
+      let tddescription = $('#' + lineID + " .colDescription").text()||'';
+      let tdQty = $('#' + lineID + " .lineQty").val()||0;
+      let tdLineID = $('#' + lineID + " .ID").text() ||0;
+      let tdUOMQtyShipped = $('#' + lineID + " .UOMQtyShipped").text()||0;
 
-             retVal[attr] = parseInt(input.val());
+      let tdLinePQA = $('#' + lineID + " .pqa").text()||'';
 
-           }
-          else if(attr == 'Description'){
-            attr = "ProductDescription";
-            retVal[attr] = input.val();
-          }
-          else if(attr == 'PQA'){
-            attr = "PQA";
-            var pqaLines = input.val();
-            if (pqaLines != ""){
 
-               var pqaString = JSON.parse(pqaLines);
 
-                retVal[attr] = pqaString;
-            }
+      if (tdproduct != "") {
 
-          }
-          else if(attr == 'UOMQtyShipped'){
-            attr = "UOMQtyShipped";
-            var qtyShipped = input.val();
-            if (qtyShipped != ""){
+              lineItemObjForm = {
+                  type: "TInvoiceLine",
+                  fields: {
+                      ProductName: tdproduct || '',
+                      ProductDescription: tddescription || '',
+                      ID: parseInt(tdLineID) || 0,
+                      PQA: JSON.parse(tdLinePQA) || '',
+                      UOMQtyShipped: parseFloat(tdUOMQtyShipped) || 0
+                  }
+              };
 
-                retVal[attr] = parseFloat(qtyShipped);
-            }
 
-          }
-      }else {
-          var attr = $('#tblShippingDocket thead tr th').eq(idxCell).text();
+          //lineItemsForm.push(lineItemObjForm);
+          splashLineArray.push(lineItemObjForm);
       }
-
   });
-  var Line = {type: typeName,
-              fields:retVal };
-  return Line;
-}).get();
+
+//   var allocTable = $('#tblShippingDocket tbody tr').map(function (idxRow, ele) {
+//   // start building the retVal object
+//   var typeName = "TInvoiceLine";
+//   var retVal = {};
+//   var $td = $(ele).find('td').map(function (idxCell, ele) {
+//       var input = $(ele).find(':input');
+//
+//       if (input.length == 1) {
+//
+//           var attr = $('#tblShippingDocket thead tr th').eq(idxCell).text();
+//           if (attr == "Product"){
+//             attr = "ProductName";
+//             var itemVal =  input.val();
+//             var Segs = itemVal.split(',');
+//             retVal[attr] = Segs[0];
+//           }
+//           else if(attr == 'ID'){
+//              attr = "ID";
+//
+//              retVal[attr] = parseInt(input.val());
+//
+//            }
+//           else if(attr == 'Description'){
+//             attr = "ProductDescription";
+//             retVal[attr] = input.val();
+//           }
+//           else if(attr == 'PQA'){
+//             attr = "PQA";
+//             var pqaLines = input.val();
+//             if (pqaLines != ""){
+//
+//                var pqaString = JSON.parse(pqaLines);
+//
+//                 retVal[attr] = pqaString;
+//             }
+//
+//           }
+//           else if(attr == 'UOMQtyShipped'){
+//             attr = "UOMQtyShipped";
+//             var qtyShipped = input.val();
+//             if (qtyShipped != ""){
+//
+//                 retVal[attr] = parseFloat(qtyShipped);
+//             }
+//
+//           }
+//       }else {
+//           var attr = $('#tblShippingDocket thead tr th').eq(idxCell).text();
+//       }
+//
+//   });
+//   var Line = {type: typeName,
+//               fields:retVal };
+//   return Line;
+// }).get();
 
 //alert(JSON.stringify(allocTable));
-var custName = $("#salecustomer").val();
+var custName = $("#edtCustomerName").val();
 var empName = Session.get('mySession');
-var shipAdress = $('textarea[name="shipaddress"]').val();
+var shipAdress = $('textarea[name="txaShipingInfo"]').val();
 var connote = $('textarea[name="shipconnote"]').val();
 var shipVia = $("#shipvia").val();
 //alert(shipVia);
@@ -130,7 +166,7 @@ SaleDate: outputDate,
 Shipping : shipVia,
 ShipToDesc:shipAdress,
 ShipDate: outputDate,
-Lines:allocTable
+Lines:splashLineArray
 }
 };
 var erpGet = erpDb();
@@ -229,7 +265,6 @@ if (oPost.readyState == 4 && oPost.status == 200) {
   $('.fullScreenSpin').css('display','none');
 }
 
-AddUERP(oPost.responseText);
 }
 
 
@@ -272,7 +307,7 @@ templateObject.SendPrintDeliveryDocketOnly = function () {
              a.href = "data:application/octet-stream;base64,"+mimecodetoConvert;
              a.download = filename;
              a.click();
-             Router.go('/vs1shipping');
+             FlowRouter.go('/vs1shipping?success=true');
       }else{
       Bert.alert('<strong>Failed:</strong> sending Invoice details to ERP, please try again', 'now-error');
       }
@@ -328,7 +363,6 @@ templateObject.SendPrintDeliveryDocketOnly = function () {
       DangerSound();
     }
 
-    AddUERP(oPost.responseText);
   }
   $('.fullScreenSpin').css('display','none');
 };
@@ -370,7 +404,7 @@ templateObject.SendPrintInvoiceOnly = function () {
              a.href = "data:application/octet-stream;base64,"+mimecodetoConvert;
              a.download = filename;
              a.click();
-             Router.go('/shipping');
+             FlowRouter.go('/vs1shipping?success=true');
       }else{
       Bert.alert('<strong>Failed:</strong> sending Invoice details to ERP, please try again', 'now-error');
       }
@@ -426,7 +460,6 @@ templateObject.SendPrintInvoiceOnly = function () {
       DangerSound();
     }
 
-    AddUERP(oPost.responseText);
   }
   $('.fullScreenSpin').css('display','none');
 };
@@ -477,7 +510,7 @@ templateObject.SendPrintInvoiceANDDeliveryDocket = function () {
            a.href = "data:application/octet-stream;base64,"+mimecodetoConvert;
            a.download = filename;
            a.click();
-           Router.go('/vs1shipping');
+           FlowRouter.go('/vs1shipping?success=true');
         }
 
       }else{
@@ -535,7 +568,6 @@ templateObject.SendPrintInvoiceANDDeliveryDocket = function () {
       DangerSound();
     }
 
-    AddUERP(oPost.responseText);
   }
   $('.fullScreenSpin').css('display','none');
 };
@@ -560,6 +592,7 @@ templateObject.SendPrintInvoiceANDDeliveryDocket = function () {
   }
 
 $("#invnumber").val(salesID);
+$("#SalesId").val(salesID);
 
 $("#date-input,#dtShipDate,#dtDueDate").datepicker({
     showOn: 'button',
@@ -723,6 +756,8 @@ if (oReq.readyState == 4 && oReq.status == 200) {
   };
 
   $('#edtCustomerName').val(data.fields.CustomerName);
+  $('#txtshipconnote').val(data.fields.ConNote);
+  $('input[name="deptID"]').val(data.fields.SaleClassId);
   $('#shipvia').append('<option selected="selected" value="'+data.fields.Shipping+'">'+data.fields.Shipping+'</option>');
   templateObject.shippingrecord.set(shippingrecord);
   setTimeout(function () {
@@ -793,7 +828,7 @@ templateObject.getShpVias = function() {
 
 }
 templateObject.getShpVias();
-$(document).on('click', 'a.removebutton', function () {
+$(document).on('click', '.removebutton', function () {
   event.stopPropagation();
 if($('#tblShippingDocket tbody>tr').length > 1){
   if(confirm("Are you sure you want to delete this row?")) {
@@ -833,7 +868,7 @@ $(document).on("click", "#tblShippingDocket tbody tr", function(e) {
 
       var secondTable = $("#serailscanlistdis");
 
-    prodPQALine = $tblrow.find(".pqa").text();
+    prodPQALine = $tblrow.find(".lineID").text();
     $('input[name="prodID"]').val($tblrow.find(".ProductID").text());
     $('input[name="orderQty"]').val($tblrow.find(".colOrdered").val());
 
@@ -870,11 +905,11 @@ for (var serialNodata in serialNoproductCopy) {
 var serialNoproductData = serialNoproductCopy[serialNodata];
 if ((serialNoproductData.BinID != null) ){
 var allocRowIndex = $("#serailscanlist > tbody  > tr").length +1;
-htmlAppend3 = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id">'+allocRowIndex+'</td><td>' + ''
+htmlAppend3 = '<tr class="dnd-moved"><td class="form_id">'+allocRowIndex+'</td><td>' + ''
 + '</td><td>' + '</td>'
-+ '<td>' + '<input type="text" name="serialNo" id="serialNo" value="'+serialNoproductData.SerialNumber+'">' + '</td>'
++ '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+serialNoproductData.SerialNumber+'">' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
 + '</tr>';
-jQuery("#serailscanlist ").append(htmlAppend3);
+jQuery("#serailscanlist").append(htmlAppend3);
 }
 }
 };
@@ -884,44 +919,61 @@ jQuery("#serailscanlist ").append(htmlAppend3);
 
 ShippingRow();
 $("#btnsaveallocline").click(function() {
-  $('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=pqa]").val("");
-  var allocLinesTable = $('#serailscanlist tbody tr').map(function (idxRow, ele) {
-  var typeName = "TPQASN";
-  var retVal = {};
-  var $td = $(ele).find('td').map(function (idxCell, ele) {
-      var input = $(ele).find(':input');
-      if (input.length == 1) {
-          var attr = $('#serailscanlist thead tr th').eq(idxCell).text();
-          if (attr == "Batch"){
-            attr = "PQABatch";
-            retVal[attr] = input.val();
-          }
-          else if(attr == 'Bin'){
-            attr = "PQABins";
-            retVal[attr] = input.val();
-          }
-          else if(attr == 'Serial No'){
-              attr = "BinID";
-              attr2 = "SerialNumber";
-              retVal[attr] = 0;
-              retVal[attr2] = input.val();
-          }
+  $('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=pqa]").text("");
+//   var allocLinesTable = $('#serailscanlist tbody tr').map(function (idxRow, ele) {
+//   var typeName = "TPQASN";
+//   var retVal = {};
+//   var $td = $(ele).find('td').map(function (idxCell, ele) {
+//       var input = $(ele).find(':input');
+//       if (input.length == 1) {
+//           var attr = $('#serailscanlist thead tr th').eq(idxCell).text();
+//           if (attr == "Batch"){
+//             attr = "PQABatch";
+//             retVal[attr] = input.val();
+//           }
+//           else if(attr == 'Bin'){
+//             attr = "PQABins";
+//             retVal[attr] = input.val();
+//           }
+//           else if(attr == 'Serial No'){
+//               attr = "BinID";
+//               attr2 = "SerialNumber";
+//               retVal[attr] = 0;
+//               retVal[attr2] = input.val();
+//           }
+//
+//       }else {
+//           var attr = $('#serailscanlist thead tr th').eq(idxCell).text();
+//           if(attr == 'P1'){
+//             attr = "UOMQty";
+//             retVal[attr] =1;
+//
+//           }
+//       }
+//
+//   });
+//   var AllocLine = {type:typeName,fields:retVal };
+//   return AllocLine;
+// }).get();
 
-      }else {
-          var attr = $('#serailscanlist thead tr th').eq(idxCell).text();
-          if(attr == 'P1'){
-            attr = "UOMQty";
-            retVal[attr] =1;
+var splashLineArrayAlloc = new Array();
+let lineItemObjFormAlloc = {};
 
-          }
+$('#serailscanlist > tbody > tr').each(function() {
+  var $tblrowAlloc = $(this);
+  let tdSerialNumber = $tblrowAlloc.find("#serialNo").val() || 0;
+  lineItemObjFormAlloc = {
+      type: "TPQASN",
+      fields: {
+          UOMQty: 1,
+          BinID: 0,
+          SerialNumber: tdSerialNumber|| '',
+
       }
-
-  });
-  var AllocLine = {type:typeName,fields:retVal };
-  return AllocLine;
-}).get();
-
-var departmentID =  $('input[name="deptID"]').val();
+  };
+  splashLineArrayAlloc.push(lineItemObjFormAlloc);
+});
+var departmentID =  $('input[name="deptID"]').val()||0;
 var pqaID =  $('input[name="pqaID"]').val();
 var AllocLineObjDetails = {
 type:"TPQA",
@@ -931,85 +983,65 @@ fields:
   PQABatch:null,
   PQABins:null,
   ID:parseInt(pqaID),
-  PQASN:allocLinesTable
+  PQASN:splashLineArrayAlloc
 }
 };
-
  var rowIndex = parseInt($('input[name="salesLineRow"]').val());
  var qtyShipped = $('#serailscanlist tbody tr').length;
  var qtyOrder = parseInt($('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=Ordered]").val());
  var qtyBackOrder = qtyOrder - qtyShipped;
-$('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=pqa]").val(JSON.stringify(AllocLineObjDetails));
+$('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=pqa]").text(JSON.stringify(AllocLineObjDetails));
 $('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=lineID]").text(JSON.stringify(AllocLineObjDetails));
-$('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=UOMQtyShipped]").val(qtyShipped);
-$('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=UOMQtyBackOrder]").val(qtyBackOrder);
+$('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=UOMQtyShipped]").text(qtyShipped);
+$('#tblShippingDocket tr:eq(' + rowIndex + ')').find("[id=UOMQtyBackOrder]").text(qtyBackOrder);
 });
 
 //Send back to ERP
-$("#save_shipping").click(function() {
-    var allocTable = $('#tblShippingDocket tbody tr').map(function (idxRow, ele) {
-    // start building the retVal object
-    var typeName = "TInvoiceLine";
-    var retVal = {};
-    var $td = $(ele).find('td').map(function (idxCell, ele) {
-        var input = $(ele).find(':input');
-        //
-        // if cell contains an input or select....
-        //
-        if (input.length == 1) {
+$(".save_shipping").click(function() {
+  $('.fullScreenSpin').css('display', 'inline-block');
+var splashLineArray = new Array();
+$('#tblShippingDocket > tbody > tr').each(function() {
+    var lineID = this.id;
+    let tdproduct = $('#' + lineID + " .colProduct").text()||'';
+    let tddescription = $('#' + lineID + " .colDescription").text()||'';
+    let tdQty = $('#' + lineID + " .lineQty").val()||0;
+    let tdLineID = $('#' + lineID + " .ID").text() ||0;
+    let tdUOMQtyShipped = $('#' + lineID + " .UOMQtyShipped").text()||0;
 
-            var attr = $('#tblShippingDocket thead tr th').eq(idxCell).text();
-            if (attr == "Product"){
-              attr = "ProductName";
-              var itemVal =  input.val();
-              var Segs = itemVal.split(',');
-              retVal[attr] = Segs[0];
-            }
-            else if(attr == 'ID'){
-               attr = "ID";
+    let tdLinePQA = $('#' + lineID + " .pqa").text()||'';
 
-               retVal[attr] = parseInt(input.val());
+    if (tdproduct != "") {
+      if(tdLinePQA != ""){
+            lineItemObjForm = {
+                type: "TInvoiceLine",
+                fields: {
+                    ProductName: tdproduct || '',
+                    ProductDescription: tddescription || '',
+                    ID: parseInt(tdLineID) || 0,
+                    PQA: JSON.parse(tdLinePQA) || '',
+                    UOMQtyShipped: parseFloat(tdUOMQtyShipped) || 0
+                }
+            };
 
-             }
-            else if(attr == 'Description'){
-              attr = "ProductDescription";
-              retVal[attr] = input.val();
-            }
-            else if(attr == 'PQA'){
-              attr = "PQA";
-              var pqaLines = input.val();
-              if (pqaLines != ""){
-
-                 var pqaString = JSON.parse(pqaLines);
-
-                  retVal[attr] = pqaString;
-              }
-
-            }
-            else if(attr == 'UOMQtyShipped'){
-              attr = "UOMQtyShipped";
-              var qtyShipped = input.val();
-              if (qtyShipped != ""){
-
-                  retVal[attr] = parseFloat(qtyShipped);
-              }
-
-            }
-        }else {
-            var attr = $('#tblShippingDocket thead tr th').eq(idxCell).text();
-        }
-
-    });
-    var Line = {type: typeName,
-                fields:retVal };
-    return Line;
-}).get();
-
+   }else{
+     lineItemObjForm = {
+         type: "TInvoiceLine",
+         fields: {
+             ProductName: tdproduct || '',
+             ProductDescription: tddescription || '',
+             ID: parseInt(tdLineID) || 0,
+         }
+     };
+   }
+        //lineItemsForm.push(lineItemObjForm);
+        splashLineArray.push(lineItemObjForm);
+    }
+});
 //alert(JSON.stringify(allocTable));
-var custName = $("#salecustomer").val();
+var custName = $("#edtCustomerName").val();
 var empName = Session.get('mySession');
-var shipAdress = $('textarea[name="shipaddress"]').val();
-var connote = $('textarea[name="shipconnote"]').val();
+var shipAdress = $('textarea[name="txaShipingInfo"]').val();
+var connoteVal = $('#txtshipconnote').val();
 var shipVia = $("#shipvia").val();
 //alert(shipVia);
 var d = new Date();
@@ -1020,9 +1052,7 @@ var day = d.getDate();
 var outputDate = d.getFullYear() + '-' +
     (month<10 ? '0' : '') + month + '-' +
     (day<10 ? '0' : '') + day;
-  //alert(outputDate);
-//var myLineBreak = shipAdress.replace(/\n/g,"");
-//console.log(myLineBreak);
+
 var objDetails = {
 type:"TInvoice",
 fields:
@@ -1030,13 +1060,13 @@ fields:
 Comments:$('textarea[name="shipcomments"]').val(),
 ID:parseInt($("#SalesId").val()),
 CustomerName:custName,
-ConNote:connote,
+ConNote:connoteVal||'',
 EmployeeName:empName,
 SaleDate: outputDate,
 Shipping : shipVia,
 ShipToDesc:shipAdress,
 ShipDate: outputDate,
-Lines:allocTable
+Lines:splashLineArray
 }
 };
 var erpGet = erpDb();
@@ -1058,14 +1088,14 @@ oPost.send(myString);
 //oPost.timeout = 30000;
 oPost.onreadystatechange = function() {
 
-
+$('.fullScreenSpin').css('display', 'none');
   if (oPost.readyState == 4 && oPost.status == 200) {
     var dataReturnRes = JSON.parse(oPost.responseText);
     var shippedID = dataReturnRes.fields.ID;
     //alert(shippedID);
     if(shippedID){
       Bert.alert('<strong>SUCCESS:</strong> Sale successfully Updated!', 'success');
-      Router.go('/vs1shipping');
+      FlowRouter.go('/vs1shipping?success=true');
     }else{
     Bert.alert('<strong>Failed:</strong> sending shipping details to ERP, please try again', 'now-error');
     }
@@ -1126,7 +1156,6 @@ oPost.onreadystatechange = function() {
     DangerSound();
   }
 
-AddUERP(oPost.responseText);
 }
 
 });

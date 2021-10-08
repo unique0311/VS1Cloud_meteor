@@ -1,5 +1,5 @@
 ShippingRow = function () {
-  
+
 
   var click_count = 0;
   var batch_count = 0;
@@ -13,7 +13,7 @@ function updateRowOrder(){
 			});
 };
 
-  $(document).on('click', 'a.removesecondtablebutton', function () {
+  $(document).on('click', '.removesecondtablebutton', function () {
     event.stopPropagation();
 
     if(confirm("Are you sure you want to delete this row?")) {
@@ -53,9 +53,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              
+
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              
+
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
                 Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -85,7 +85,7 @@ function updateRowOrder(){
           if($tblrow.click()){
             var $tblrowAlloc = $("#serailscanlist > tbody  > tr");
             var newQuantity = $('input[name="orderQty"]').val();
-            
+
             //var rowCount = $tblrowAlloc.length;
              var rowCount = $('#serailscanlist  > tbody  > tr').length;
               if(rowCount == newQuantity){
@@ -106,9 +106,10 @@ function updateRowOrder(){
    return;
     }else{
 
-     htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-     + '</td><td>' + '' + '</td>'
-     + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>'+ '</tr>';
+     htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+      + '</td><td>' + '</td>'
+      + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+      + '</tr>';
        $("#serailscanlist").append(htmlAppend);
        updateRowOrder();
        $("#btnsaveallocline").trigger("click");
@@ -128,7 +129,7 @@ function updateRowOrder(){
 
             }
 
-            AddUERP(oReqSID.responseText);
+
             }
 
           }else{
@@ -143,9 +144,9 @@ function updateRowOrder(){
         oReqSID.timeout = 30000;
         oReqSID.onreadystatechange = function() {
         if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-          
+
           var valListRet = jQuery.parseJSON(oReqSID.responseText);
-          
+
           if(valListRet.ValidateSN.Result == false){
              scannedSerial = "";
             Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -156,9 +157,10 @@ function updateRowOrder(){
              var rowCount = $('#serailscanlist  > tbody  > tr').length;
                       if(rowCount == 0){
 
-                        htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-                        + '</td><td>' + '' + '</td>'
-                        + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>'+ '</tr>';
+                        htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                         + '</td><td>' + '</td>'
+                         + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                         + '</tr>';
                           $("#serailscanlist").append(htmlAppend);
                           updateRowOrder();
                           $("#btnsaveallocline").trigger("click");
@@ -186,9 +188,10 @@ function updateRowOrder(){
                            return;
                        }else{
 
-                         htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-                         + '</td><td>' + '' + '</td>'
-                         + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>' + '</tr>';
+                         htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                          + '</td><td>' + '</td>'
+                          + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                          + '</tr>';
                            $("#serailscanlist").append(htmlAppend);
                            updateRowOrder();
                            $("#btnsaveallocline").trigger("click");
@@ -197,19 +200,19 @@ function updateRowOrder(){
                        }
 
                       }
-            
+
           }
 
         }
 
-        AddUERP(oReqSID.responseText);
+
         }
         }
 
       }else{
         $("#allocBarcode").focus();
       }
-       
+
 
 
     $('input[name="allocBarcode"]').val('');
@@ -240,12 +243,12 @@ function updateRowOrder(){
                 oReqSID.timeout = 30000;
                 oReqSID.onreadystatechange = function() {
                 if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-                  
+
                   var valListRet = jQuery.parseJSON(oReqSID.responseText);
-                  
+
                   if(valListRet.ValidateSN.Result == false){
                      scannedSerial = "";
-                     
+
                     Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
                     DangerSound();
                     //var audio = new Audio('/sounds/system-fault.mp3');
@@ -298,9 +301,10 @@ function updateRowOrder(){
                  return;
              }else{
 
-               htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-               + '</td><td>' + '' + '</td>'
-               + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>' + '</tr>';
+               htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                + '</td><td>' + '</td>'
+                + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                + '</tr>';
                  $("#serailscanlist").append(htmlAppend);
                  updateRowOrder();
                  $("#btnsaveallocline").trigger("click");
@@ -318,7 +322,7 @@ function updateRowOrder(){
 
                 }
 
-                AddUERP(oReqSID.responseText);
+
                 }
 
               }else{
@@ -333,9 +337,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              
+
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              
+
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
               Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -345,9 +349,10 @@ function updateRowOrder(){
                  var rowCount = $('#serailscanlist  > tbody  > tr').length;
                  if(rowCount == 0){
 
-                   htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-                   + '</td><td>' + '' + '</td>'
-                   + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>' + '</tr>';
+                   htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                    + '</td><td>' + '</td>'
+                    + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                    + '</tr>';
                      $("#serailscanlist").append(htmlAppend);
                      updateRowOrder();
                      $("#btnsaveallocline").trigger("click");
@@ -375,9 +380,10 @@ function updateRowOrder(){
                       return;
                   }else{
 
-                    htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-                    + '</td><td>' + '' + '</td>'
-                    + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>' + '</tr>';
+                    htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                     + '</td><td>' + '</td>'
+                     + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                     + '</tr>';
                       $("#serailscanlist").append(htmlAppend);
                       updateRowOrder();
                       $("#btnsaveallocline").trigger("click");
@@ -391,14 +397,14 @@ function updateRowOrder(){
 
             }
 
-            AddUERP(oReqSID.responseText);
+
             }
             }
 
           }else{
             $("#allocBarcode").focus();
           }
-           
+
 
 
         $('input[name="allocBarcode"]').val('');
@@ -418,14 +424,7 @@ function updateRowOrder(){
           self.close();
           window.location.href = "about:blank";//In case self.close isn't allowed
       }
-      /*else{
 
-        alert('Doesnt look like you have a barcode sanner app installed. Please download and allow the app to be installed by following the on screen instructions.');
-        window.close();
-        self.close();
-        window.location.href = "/APK/com.google.zxing.client.android-4.7.3-103-minAPI15.apk";//In case self.close isn't allowed
-        $("#scanBarcode").attr("href","/APK/com.google.zxing.client.android-4.7.3-103-minAPI15.apk");
-      }*/
       var changingHash = false;
       function onbarcode(event){
           switch(event.type){
@@ -453,7 +452,7 @@ function updateRowOrder(){
                   break;
               }
               default:{
-                  
+
                   break;
               }
           }
@@ -479,7 +478,7 @@ function updateRowOrder(){
       }
 
       function processBarcode(bc){
-        
+
         $("#allocBarcode").val(bc);
         var scannedCode =  bc.toUpperCase();
         var departmentID =  $('input[name="deptID"]').val();
@@ -503,12 +502,12 @@ function updateRowOrder(){
                 oReqSID.timeout = 30000;
                 oReqSID.onreadystatechange = function() {
                 if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-                  
+
                   var valListRet = jQuery.parseJSON(oReqSID.responseText);
-                  
+
                   if(valListRet.ValidateSN.Result == false){
                      scannedSerial = "";
-                     
+
                     Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
                     DangerSound();
                     //var audio = new Audio('/sounds/system-fault.mp3');
@@ -561,9 +560,10 @@ function updateRowOrder(){
                  return;
              }else{
 
-               htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-               + '</td><td>' + '' + '</td>'
-               + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>'+ '</tr>';
+               htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                + '</td><td>' + '</td>'
+                + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                + '</tr>';
                  $("#serailscanlist").append(htmlAppend);
                  updateRowOrder();
                  $("#btnsaveallocline").trigger("click");
@@ -581,7 +581,7 @@ function updateRowOrder(){
 
                 }
 
-                AddUERP(oReqSID.responseText);
+
                 }
 
               }else{
@@ -596,9 +596,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              
+
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              
+
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
               Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -608,9 +608,10 @@ function updateRowOrder(){
                  var rowCount = $('#serailscanlist  > tbody  > tr').length;
                  if(rowCount == 0){
 
-                   htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-                   + '</td><td>' + '' + '</td>'
-                   + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>'+ '</tr>';
+                   htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                    + '</td><td>' + '</td>'
+                    + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                    + '</tr>';
                      $("#serailscanlist").append(htmlAppend);
                      updateRowOrder();
                      $("#btnsaveallocline").trigger("click");
@@ -638,9 +639,10 @@ function updateRowOrder(){
                       return;
                   }else{
 
-                    htmlAppend = '<tr><td><a href="#" class="removesecondtablebutton"><i class="fa fa-times" aria-hidden="true"></i></a></td><td class="form_id"></td><td>' + ''
-                    + '</td><td>' + '' + '</td>'
-                    + '<td><input type="text" name="serialNo" id="serialNo" readonly value="'+scannedSerial+'"></td>'+ '</tr>';
+                    htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
+                     + '</td><td>' + '</td>'
+                     + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                     + '</tr>';
                       $("#serailscanlist").append(htmlAppend);
                       updateRowOrder();
                       $("#btnsaveallocline").trigger("click");
@@ -654,14 +656,14 @@ function updateRowOrder(){
 
             }
 
-            AddUERP(oReqSID.responseText);
+
             }
             }
 
           }else{
             $("#allocBarcode").focus();
           }
-           
+
 
 
         $('input[name="allocBarcode"]').val('');

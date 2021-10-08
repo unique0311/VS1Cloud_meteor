@@ -67,12 +67,12 @@
         <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
             <div class="col-12 col-lg-3">
                 <div class="form-group"><label>Customer</label>
-                    <input class="form-control form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{shippingrecord.shipcustomer}}">
+                    <input class="form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{shippingrecord.shipcustomer}}">
                 </div>
             </div>
             <div class="col-12 col-lg-3">
                 <div class="form-group"><label>Customer Email</label>
-                    <input class="form-control form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" ">
+                    <input class="form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" ">
                 </div>
                 <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px;padding: -2px;padding-left: 24px;width: 100%;">
                     <div class="form-group" style="margin-right: 35px; Width:50%;">
@@ -120,12 +120,12 @@
                     <div class="col-6 col-lg-6">
                         <div class="form-group">
                             <label>Invoice Number</label>
-                            <input class="form-control form-control" type="text" id="invnumber" name="invnumber" value="{{shippingrecord.id}}">
+                            <input class="form-control" type="text" id="invnumber" name="invnumber" value="{{shippingrecord.id}}">
                         </div>
 
                         <div class="form-group">
                             <label>Con. Note</label>
-                            <input class="form-control form-control" type="text" id="shipconnote" name="shipconnote" value="{{shippingrecord.connote}}">
+                            <input class="form-control" type="text" id="txtshipconnote" name="txtshipconnote" value="{{shippingrecord.connote}}">
                         </div>
                     </div>
                 </div>
@@ -594,6 +594,7 @@
                 <table id="tblShippingDocket" style="width:100%" class="table table-bordered tblShippingDocket">
                     <thead>
                         <tr class="dnd-moved">
+                            <th style="display:none "></th>
                             <th class="th colProduct" style="width: 25%;">Product</th>
                             <th class="th colDescription">Description</th>
                             <th class="th colOrdered" style="width: 1%;">Ordered</th>
@@ -608,15 +609,16 @@
                     <tbody>
                       {{#each item in shippingrecord.LineItems}}
                         <tr class="dnd-moved selectable" id="{{item.lineID}}">
-                            <td contenteditable="true" class="colProduct ProdName">{{item.item}}</td>
+                            <td class="hiddenColumn lineID" id="lineID">{{item.pqa}}</td>
+                            <td contenteditable="true" class="colProduct ProdName" id="ProdName">{{item.item}}</td>
                             <td contenteditable="true" class="colDescription">{{item.description}}</td>
-                            <td><input class="lineOrdered colOrdered highlightInput" type="number" value="{{item.qtyordered}}"></td>
-                            <td class="hiddenColumn ID">{{item.id}}</td>
-                            <td class="hiddenColumn pqa">{{item.pqa}}</td>
-                            <td class="hiddenColumn UOMQtyShipped">{{item.qtyshipped}}</td>
-                            <td class="hiddenColumn UOMQtyBackOrder">{{item.qtybo}}</td>
-                            <td class="hiddenColumn ProductID">{{item.productid}}</td>
-                            <td style="width: 1%;"><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
+                            <td><input class="lineOrdered colOrdered highlightInput" id="Ordered" type="number" value="{{item.qtyordered}}"></td>
+                            <td class="hiddenColumn ID" id="ID">{{item.id}}</td>
+                            <td class="hiddenColumn pqa" id="pqa"></td>
+                            <td class="hiddenColumn UOMQtyShipped" id="UOMQtyShipped">{{item.qtyshipped}}</td>
+                            <td class="hiddenColumn UOMQtyBackOrder" id="UOMQtyBackOrder">{{item.qtybo}}</td>
+                            <td class="hiddenColumn ProductID" id="ProductID">{{item.productid}}</td>
+                            <td style="width: 1%;"><span class="table-remove removebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                         </tr>
                       {{/each}}
                     </tbody>
@@ -656,16 +658,17 @@
                             <div class="row justify-content-end">
                                 <div class="col-12 col-lg-4">
                                     <div class="input-group">
-                                        <input class="form-control" id="barcodeScanInput" name="barcodeScanInput" type="text" placeholder="Enter the barcode">
+                                        <input class="form-control" id="allocBarcode" name="allocBarcode" type="text" placeholder="Enter the barcode">
                                         <style>
                                             .btnWhite {
                                                 color: #fff !importnat;
                                             }
                                         </style>
                                         <div class="input-group-append">
-                                            <a class="btn btn-success btnWhite btnDesktopSearch" id="btnDesktopSearch" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search" style="color: #fff !important;"></i></a>
+                                            <a class="btn btn-success btnWhite save_new" id="newsnbtn" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search" style="color: #fff !important;"></i></a>
                                         </div>
                                         <a class="btn btn-success btnWhite scan_new"  id="scanResult" name="scanResult" role="button" style="margin-left: 8px;"><i class="fas fa-camera" style="color: #fff !important;"></i></a>
+                                        <a href="#" id="btnsaveallocline" class="save_new" style="display: none;">Save</a>
                                     </div>
                                 </div>
                             </div>
