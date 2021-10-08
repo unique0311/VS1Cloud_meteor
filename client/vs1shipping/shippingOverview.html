@@ -31,16 +31,17 @@
                 <div class="card shadow border-left-primary py-2 mb-4" style="height: 102px;">
                     <div class="card-body">
                         <div class="row align-items-center no-gutters" style="margin-top:4px;">
-                            <div class="input-group"><input class="form-control" id="barcodeScanInput" name="barcodeScanInput" type="text" placeholder="Enter the barcode">
+                            <div class="input-group">
+                                <input class="form-control" id="barcodeScanInput" name="barcodeScanInput" type="text" placeholder="Enter the barcode">
                                 <style>
                                     .btnDesktopSearch {
                                         color: #fff;
                                     }
                                 </style>
                                 <div class="input-group-append">
-                                    <a class="btn btn-success btnMobileScan" id="btnMobileScan" style="display:none;" role="button" href="#scanBarcode" data-toggle="modal"><i class="fas fa-camera"></i></a>
-                                    <a class="btn btn-success btnDesktopSearch" href="" id="btnDesktopSearch" role="button"><i class="fas fa-camera"></i></a>
+                                    <a class="btn btn-success btnDesktopSearch" href="" id="btnDesktopSearch" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search"></i></a>
                                 </div>
+                                <a class="btn btn-success btnDesktopSearch" href="" id="btnDesktopSearch" role="button" style="margin-left: 8px;"><i class="fas fa-camera"></i></a>
                                 <!-- IDEA: Scan will open the scanning modal UNLESS you type in a valid barcode, then it will open the corresponding Shipping Docket -->
                             </div>
                             <style>

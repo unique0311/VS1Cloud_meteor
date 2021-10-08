@@ -656,10 +656,16 @@
                             <div class="row justify-content-end">
                                 <div class="col-12 col-lg-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Enter Barcode" aria-label="Barcode" aria-describedby="basic-addon2">
+                                        <input class="form-control" id="barcodeScanInput" name="barcodeScanInput" type="text" placeholder="Enter the barcode">
+                                        <style>
+                                            .btnWhite {
+                                                color: #fff !importnat;
+                                            }
+                                        </style>
                                         <div class="input-group-append">
-                                            <button class="btn btn-success scan_new" type="button" id="scanResult" name="scanResult"><i class="fas fa-camera"></i></button>
+                                            <a class="btn btn-success btnWhite btnDesktopSearch" id="btnDesktopSearch" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search" style="color: #fff !important;"></i></a>
                                         </div>
+                                        <a class="btn btn-success btnWhite scan_new"  id="scanResult" name="scanResult" role="button" style="margin-left: 8px;"><i class="fas fa-camera" style="color: #fff !important;"></i></a>
                                     </div>
                                 </div>
                             </div>
