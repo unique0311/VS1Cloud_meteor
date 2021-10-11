@@ -740,7 +740,6 @@ Template.vs1shipping.onRendered(function() {
       if(barcode != ''){
         if(barcode.length <= 2){
           $('.fullScreenSpin').css('display', 'none');
-          // Bert.alert('<strong>WARNING:</strong> Invalid Barcode "'+barcode+'"', 'now-dangerorange');
           swal('<strong>WARNING:</strong> Invalid Barcode "'+barcode+'"', '', 'warning');
           DangerSound();
           e.preventDefault();
