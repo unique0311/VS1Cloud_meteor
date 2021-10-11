@@ -101,7 +101,6 @@ Template.statementlist.onRendered(function () {
     templateObject.getStatePrintData = async function (clientID) {
         //getOneInvoicedata
         let data = await contactService.getCustomerStatementPrintData(clientID);
-        //contactService.getCustomerStatementPrintData(clientID).then(function (data) {
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#printstatmentdesign').css('display', 'block');
         let lineItems = [];
@@ -130,11 +129,13 @@ Template.statementlist.onRendered(function () {
             let statementId = data.tstatementforcustomer[0].TranstypeNo || '';
             let email = data.tstatementforcustomer[0].Email || '';
             let invoiceId = data.tstatementforcustomer[0].SaleID || '';
-            let date = data.tstatementforcustomer[0].transdate || '';
+            let date = moment(data.tstatementforcustomer[0].transdate).format('DD-MMM-YY') || '';
+            let datedue = moment(data.tstatementforcustomer[0].Duedate).format('DD-MMM-YY') || '';
+            let paidAmt = data.tstatementforcustomer[0].Paidamt || '';
             let stringQuery = "?";
             for (let i = 0; i < data.tstatementforcustomer.length; i++) {
                 let id = data.tstatementforcustomer[i].SaleID;
-                let transdate = data.tstatementforcustomer[i].transdate ? moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') : "";
+                let transdate =  moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') ? moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') : "";
                 let type = data.tstatementforcustomer[i].Transtype;
                 let status = '';
                 // let type = data.tstatementforcustomer[i].Transtype;
@@ -152,11 +153,12 @@ Template.statementlist.onRendered(function () {
                     lineID: id,
                     id: id || '',
                     date: transdate || '',
+                    duedate: datedue,
                     type: type || '',
-                    status: status || '',
-                    notes: data.tstatementforcustomer[i].Notes,
                     total: total || 0,
+                    paidamt:paidAmt || 0,
                     totalPaid: totalPaid || 0,
+
                     balance: balance || 0
 
                 };
@@ -257,11 +259,13 @@ Template.statementlist.onRendered(function () {
                     let statementId = data.tstatementforcustomer[0].SaleID || '';
                     let email = data.tstatementforcustomer[0].Email || '';
                     let invoiceId = data.tstatementforcustomer[0].SaleID || '';
-                    let date = data.tstatementforcustomer[0].transdate || '';
+                    let date = moment(data.tstatementforcustomer[0].transdate).format('DD-MMM-YY') || '';
+                    let datedue = moment(data.tstatementforcustomer[0].Duedate).format('DD-MMM-YY') || '';
+                    let paidAmt = data.tstatementforcustomer[0].Paidamt || '';
                     let stringQuery = "?";
                     for (let i = 0; i < data.tstatementforcustomer.length; i++) {
                         id = data.tstatementforcustomer[i].SaleID;
-                        let transdate = data.tstatementforcustomer[i].transdate ? moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') : "";
+                        let transdate =  moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') ? moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') : "";
                         let type = data.tstatementforcustomer[i].Transtype;
                         let status = '';
                         // let type = data.tstatementforcustomer[i].Transtype;
@@ -279,11 +283,10 @@ Template.statementlist.onRendered(function () {
                             lineID: id,
                             id: id || '',
                             date: transdate || '',
+                            duedate: datedue,
                             type: type || '',
-                            status: status || '',
-                            notes: data.tstatementforcustomer[i].Notes,
                             total: total || 0,
-                            totalPaid: totalPaid || 0,
+                            paidamt: paidAmt || 0,
                             balance: balance || 0
 
                         };

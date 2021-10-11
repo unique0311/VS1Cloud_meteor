@@ -374,12 +374,13 @@
                 <table id="statement" style="width: 200mm; max-width: 200mm; margin: auto;">
                     <thead style="color: rgb(251,251,251);">
                         <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
-                            <th style="width: 50px; background-color: white; color: rgb(0 0 0);">ID</th>
-                            <th style="width: 100px; background-color: white; color: rgb(0 0 0);">Trans Date</th>
+                            <th style="width: 50px; background-color: white; color: rgb(0 0 0);">ID#</th>
+                            <th style="width: 60px; background-color: white; color: rgb(0 0 0);">Date</th>
                             <th style="width: 50px; background-color: white; color: rgb(0 0 0);">Type</th>
-                            <th style="width: 90px; background-color: white; color: rgb(0 0 0);">Status</th>
-                            <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);">Balance</th>
-                            <th style="width: 200px; background-color: white; color: rgb(0 0 0); text-align: center;">Notes</th>
+                             <th style="width: 60px; background-color: white; color: rgb(0 0 0);">Due Date</th>
+                            <th style="width: 50px; background-color: white; color: rgb(0 0 0);">Total</th>
+                            <th style="width: 50px; background-color: white; color: rgb(0 0 0);">Paid</th>
+                            <th style="text-align: right; width: 50px; background-color: white; color: rgb(0 0 0);">Balance</th>
                         </tr>
                     </thead>
                     <tbody style="color: rgb(0 0 0);">
@@ -388,9 +389,10 @@
                                 <td class="id">{{item.lineID}}</td>
                                 <td class="date">{{item.date}}</td>
                                 <td class="type">{{item.type}}</td>
-                                <td class="status">{{item.status}}</td>
+                                <td class="type">{{item.duedate}}</td>
+                                <td class="status">{{item.total}}</td>
+                                <td class="status">{{item.paidamt}}</td>
                                 <td class="balance" style="text-align: right;">{{item.balance}}</td>
-                                <td style="text-align: center;">{{item.notes}}</td>
                             </tr>
                         {{/each}}
                     </tbody>
