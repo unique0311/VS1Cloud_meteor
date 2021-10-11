@@ -3,9 +3,15 @@
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
-
+        <style>
+            @media screen and (max-width: 375px) {
+                .shippingHeader {
+                    margin: 0px !important;
+                }
+            }
+        </style>
         <header style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
-            <h2 style="margin: 16px;margin-bottom: 0px;">Shipping Docket
+            <h2 class="shippingHeader" style="margin: 16px;margin-bottom: 0px;">Shipping Docket
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
                 <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a>
             </h2>
@@ -84,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="background-color: #ededed; padding: 24px 32px 0px 32px;">
+        <div class="row" style="background-color: #ededed; padding: 8px 32px 0px 32px;">
             <div class="col-12 col-lg-3">
                 <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Shipping Address</label>
                     <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo">{{shippingrecord.shipto}}</textarea>
@@ -131,9 +137,9 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="background-color: #ededed; padding: 16px;">
-            <div class="col-12 mb-3">
-                <a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Comments</a>
+        <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
+            <div class="col-12 mb-2">
+                <a class="btn btn-link" style="margin-left: 16px;" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Comments</a>
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <div class="collapse" id="collapse-notes" style="margin-top: 8px;">
@@ -147,362 +153,7 @@
             </div>
         </div>
 
-        <div class="row justify-content-end">
-            <a class="btn" style="margin-right: 40px;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
-            <div class="modal fade" role="dialog" tabindex="-1" id="myModal2">
-                <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                <form class="d-xl-flex align-items-xl-center">
-                                    <div class="flex-grow-1">
-                                        <style>
-                                            .widthElement {
-                                                position: relative;
-                                                display: flex;
-                                                flex-direction: column;
-                                                width: 100%;
-                                                pointer-events: auto;
-                                                background-color: rgb(255, 255, 255);
-                                                background-clip: padding-box;
-                                                border: 1px solid rgb(133, 135, 150);
-                                                border-radius: .3rem;
-                                                border-style: solid;
-                                                border-width: 1px;
-                                                padding: 2px;
-                                                border-radius: .35rem;
-                                                color: rgb(128, 128, 128);
-                                                height: inherit !important;
-                                            }
-
-                                            .groove {
-                                                border-style: solid;
-                                                border-width: 1px;
-                                                width: 200px;
-                                                padding: 2px;
-                                                border-radius: .35rem;
-                                            }
-
-                                            .custom-control-label {
-                                                position: absolute;
-                                            }
-
-                                            .file-name span {
-                                                width: 100%;
-                                                float: left;
-                                            }
-
-                                            #file-display .fileIocns i.fa.fa-file {
-                                                color: rgb(252, 181, 38);
-                                                font-size: 24px;
-                                            }
-
-                                            #file-display {
-                                                padding: 0;
-                                                margin: 0;
-                                            }
-
-                                            .uploaded-element {
-                                                display: inherit;
-                                            }
-
-                                            .uploaded-element {
-
-                                                border: 1px solid rgb(237, 237, 237);
-                                                border-top: none;
-
-                                                float: left;
-                                                width: 100%;
-                                                display: flex;
-                                                align-items: center;
-                                                padding: 1rem;
-                                            }
-
-                                            #file-display .fileIocns {
-                                                background-image: url(img/file_icons-samall.png);
-                                                background-repeat: no-repeat;
-                                                background-position: 0 -105px;
-                                            }
-
-                                            #file-display .fileIocns {
-                                                float: left;
-                                                margin-right: 10px;
-                                            }
-
-                                            .file-name {
-                                                float: left;
-                                                width: 87%;
-                                            }
-
-                                            .uploaded-element-header {
-                                                border: 1px solid rgb(237, 237, 237);
-                                                border-top: none;
-                                                float: left;
-                                                width: 100%;
-                                                display: flex;
-                                                align-items: center;
-                                                padding: 10px;
-                                                background: #e3e6f0;
-                                            }
-
-                                            .uploaded-header {
-                                                width: 100%;
-                                                text-align: center;
-                                            }
-
-                                            .uploaded-element .confirm-action a.confirm-delete-attachment {
-                                                padding: 6px 13px 5px;
-                                                background-color: rgb(216, 68, 68) !important;
-                                                border-color: rgb(197, 112, 119) rgb(169, 29, 29) rgb(169, 29, 29) rgb(197, 112, 119);
-                                                color: rgb(255, 255, 255) !important;
-                                                text-shadow: 1px 1px 1px rgba(30, 30, 30, 0.15);
-                                                line-height: initial;
-                                                font-size: 12px;
-                                                float: left;
-                                            }
-
-                                            button.save-to-library {
-                                                padding: 6px 13px 5px;
-                                                border-radius: 4px;
-                                                background: linear-gradient(rgb(255, 255, 255), rgb(230, 234, 236));
-                                                border: 1px solid rgb(230, 230, 230);
-                                                border-color: rgb(230, 230, 230) rgb(179, 179, 179) rgb(179, 179, 179) rgb(230, 230, 230) !important;
-                                                color: rgb(204, 0, 0) !important;
-                                                font-weight: bold;
-                                                margin-left: 10px !important;
-                                                font-size: 12px;
-                                            }
-
-                                            .uploaded-element {
-                                                display: inherit;
-                                            }
-
-                                            /* HERE */
-                                            #files_view .modal-title {
-                                                white-space: nowrap;
-                                                overflow: hidden;
-                                                text-overflow: ellipsis;
-                                                width: 70%;
-                                            }
-
-                                            #files_view .modal-title {
-                                                color: #333;
-                                                font-size: 18px;
-                                                font-weight: 700;
-                                                text-rendering: optimizelegibility;
-                                                padding: 9px 0;
-                                                padding-left: 15px;
-                                                padding-top: 11px;
-                                            }
-
-                                            #files_view .modal-dialog {
-                                                /* width: 750px; */
-                                                margin: 30px auto;
-                                            }
-
-                                            #files_view .modal-header .close {
-                                                margin-top: 0;
-                                                width: 46px;
-                                                height: 46px;
-                                                padding: 6px 0 0;
-                                                border-left: 1px solid #ddd;
-                                                opacity: 1;
-                                                margin: 0;
-                                            }
-
-                                            #files_view .modal-header {
-                                                padding: 0;
-                                                display: block;
-                                            }
-
-                                            #files_view .modal-body {
-                                                background-color: rgb(250, 251, 251);
-                                            }
-
-                                            #files_view .image-previewer img {
-                                                border: 3px solid #fff;
-                                                box-shadow: 2px 2px 8px rgba(0, 0, 0, .2);
-                                                width: 100%;
-                                            }
-
-                                            .download_button {
-                                                width: 100%;
-                                                text-align: center;
-                                                margin-top: 20px;
-                                            }
-                                        </style>
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkProductName" type="checkbox" id="formCheck-01" checked="">
-                                                <label class="custom-control-label" for="formCheck-01"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}Product Name{{/if}}"
-                                                    valueupdate="th.colProductName">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}Product Name{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeProductName" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkDescription" type="checkbox" id="formCheck-02" checked="">
-                                                <label class="custom-control-label" for="formCheck-02"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Description{{/if}}"
-                                                    valueupdate="th.colDescription">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Description{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeDescription" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkQty" type="checkbox" id="formCheck-03" checked="">
-                                                <label class="custom-control-label" for="formCheck-03"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Qty{{/if}}"
-                                                    valueupdate="th.colQty">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Qty{{/if}}</div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeQty" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}"
-                                                    min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkUnitPrice" type="checkbox" id="formCheck-04" checked="">
-                                                <label class="custom-control-label" for="formCheck-04"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Unit Price{{/if}}"
-                                                    valueupdate="th.colUnitPrice">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Unit Price{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeUnitPrice" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkCostPrice" type="checkbox" id="formCheck-07">
-                                                <label class="custom-control-label" for="formCheck-07"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Cost Price{{/if}}"
-                                                    valueupdate="th.colCostPrice">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Cost Price{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeCostPrice" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkSalesLinesCustField1" type="checkbox" id="formCheck-08">
-                                                <label class="custom-control-label" for="formCheck-08"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}SalesLinesCustField1{{/if}}"
-                                                    valueupdate="th.colSalesLinesCustField1">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}SalesLinesCustField1{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeSalesLinesCustField1" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkTaxRate" type="checkbox" id="formCheck-05">
-                                                <label class="custom-control-label" for="formCheck-05"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Tax Rate{{/if}}"
-                                                    valueupdate="th.colTaxRate">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Tax Rate{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeTaxRate" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkTaxCode" type="checkbox" id="formCheck-06" checked="">
-                                                <label class="custom-control-label" for="formCheck-06"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[7].label}}{{else}}Tax Code{{/if}}"
-                                                    valueupdate="th.colTaxCode">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[7].label}}{{else}}Tax Code{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeTaxCode" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[7].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkAmount" type="checkbox" id="formCheck-07" checked="">
-                                                <label class="custom-control-label" for="formCheck-07"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[8].label}}{{else}}Amount{{/if}}"
-                                                    valueupdate="th.colAmount">
-                                                    {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[8].label}}{{else}}Amount{{/if}}
-                                                </div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeAmount" type="number" style="margin: 8px;"
-                                                    value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[8].width}}{{else}}0{{/if}}" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                        <div class="columnSettings">
-                                            <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                <input class="custom-control-input chkAmount" type="checkbox" id="formCheck-08" checked="">
-                                                <label class="custom-control-label" for="formCheck-08"></label>
-                                                <div contenteditable="true" class="groove divcolumn" type="text" value="" valueupdate="">Tax Amount</div>
-                                            </div>
-                                            <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                <input class="custom-range widthElement rngRangeAmount" type="number" style="margin: 8px;" value="" min="0" max="1000">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-success btnSaveGridSettings" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
-                            <button class="btn btn-warning btnResetGridSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
-                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="margin: 0px 32px;">
+        <div class="row" style="margin: 0px 32px; margin-top: 16px;">
             <div class="table-responsive">
                 <style>
                     th {
@@ -651,35 +302,26 @@
                 </style>
             </div>
         </div>
-        <div class="row" style="margin: 0px 32px 16px 32px;">
-                <div class="col-12 px-0">
-                    <div class="card" style="width: 100%; background-color: #ededed;">
-                        <div class="card-body">
-                            <div class="row justify-content-end">
-                                <div class="col-12 col-lg-4">
-                                    <div class="input-group">
-                                        <input class="form-control" id="allocBarcode" name="allocBarcode" type="text" placeholder="Enter the barcode">
-                                        <style>
-                                            .btnWhite {
-                                                color: #fff !importnat;
-                                            }
-                                        </style>
-                                        <div class="input-group-append">
-                                            <a class="btn btn-success btnWhite save_new" id="newsnbtn" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search" style="color: #fff !important;"></i></a>
-                                        </div>
-                                        <a class="btn btn-success btnWhite scan_new"  id="scanResult" name="scanResult" role="button" style="margin-left: 8px;"><i class="fas fa-camera" style="color: #fff !important;"></i></a>
-                                        <a href="#" id="btnsaveallocline" class="save_new" style="display: none;">Save</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         <div class="row" id="serailscanlistdis" style="margin: 0px 32px 16px 32px; visibility: hidden;">
             <div class="card" style="width: 100%;">
                 <div class="card-header">
-                    Selected Entry
+                    <div class="row justify-content-start">
+                        <div class="col-12 col-lg-4">
+                            <div class="input-group">
+                                <input class="form-control" id="allocBarcode" name="allocBarcode" type="text" placeholder="Enter the barcode">
+                                <style>
+                                    .btnWhite {
+                                        color: #fff !importnat;
+                                    }
+                                </style>
+                                <div class="input-group-append">
+                                    <a class="btn btn-success btnWhite save_new" id="newsnbtn" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search" style="color: #fff !important;"></i></a>
+                                </div>
+                                <a class="btn btn-success btnWhite scan_new"  id="scanResult" name="scanResult" role="button" style="margin-left: 8px;"><i class="fas fa-camera" style="color: #fff !important;"></i></a>
+                                <a href="#" id="btnsaveallocline" class="save_new" style="display: none;">Save</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                    <input type="text" id="prodID" name="prodID" style="display: none;" readonly>
