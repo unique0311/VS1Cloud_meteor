@@ -4141,25 +4141,28 @@ Template.chequecard.events({
 
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
-                var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var amount = $tblrow.find(".colAmountExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
 
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                            taxrateamount = taxcodeList[i].coderate || 0;
                         }
                     }
                 }
 
 
-                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
-                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+
+                    let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                    $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
+
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
                 }

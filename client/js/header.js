@@ -139,6 +139,8 @@ Template.header.onRendered(function() {
                         dataSelectID = data.tglobalsearchreport[i].SaleID;
                     } else if (data.tglobalsearchreport[i].Type === "Account") {
                         dataSelectID = data.tglobalsearchreport[i].AccountsID;
+                    }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
+                        dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
                     }
                     var dataList = {
                         catg: data.tglobalsearchreport[i].Catg || '',
@@ -146,7 +148,7 @@ Template.header.onRendered(function() {
                         clientId: data.tglobalsearchreport[i].clientId || '',
                         id: dataSelectID || '',
                         type: data.tglobalsearchreport[i].Type || '',
-                        company: data.tglobalsearchreport[i].company || '',
+                        company: data.tglobalsearchreport[i].Company || '',
                         globalref: data.tglobalsearchreport[i].Globalref || '',
                         transDate: data.tglobalsearchreport[i].TransDate != '' ? moment(data.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : data.tglobalsearchreport[i].TransDate,
                         transId: data.tglobalsearchreport[i].TransId || '',
@@ -161,7 +163,7 @@ Template.header.onRendered(function() {
 
                     var dataListNew = [
                         dataSelectID || '',
-                        data.tglobalsearchreport[i].company || '',
+                        data.tglobalsearchreport[i].Company || '',
                         data.tglobalsearchreport[i].Type || '',
                         data.tglobalsearchreport[i].Globalref || ''
 
@@ -270,6 +272,8 @@ Template.header.onRendered(function() {
                                    dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
                                } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
                                    dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
+                               }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
+                                   dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
                                }
                                var dataListDupp = {
                                    catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
@@ -277,7 +281,7 @@ Template.header.onRendered(function() {
                                    clientId: dataObjectnew.tglobalsearchreport[i].clientId || '',
                                    id: dataSelectID || '',
                                    type: dataObjectnew.tglobalsearchreport[i].Type || '',
-                                   company: dataObjectnew.tglobalsearchreport[i].company || '',
+                                   company: dataObjectnew.tglobalsearchreport[i].Company || '',
                                    globalref: dataObjectnew.tglobalsearchreport[i].Globalref || '',
                                    transDate: dataObjectnew.tglobalsearchreport[i].TransDate != '' ? moment(dataObjectnew.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : dataObjectnew.tglobalsearchreport[i].TransDate,
                                    transId: dataObjectnew.tglobalsearchreport[i].TransId || '',
@@ -292,7 +296,7 @@ Template.header.onRendered(function() {
 
                                var dataListNewDupp = [
                                    dataSelectID || '',
-                                   dataObjectnew.tglobalsearchreport[i].company || '',
+                                   dataObjectnew.tglobalsearchreport[i].Company || '',
                                    dataObjectnew.tglobalsearchreport[i].Type || '',
                                    dataObjectnew.tglobalsearchreport[i].Globalref || ''
 
@@ -360,6 +364,8 @@ Template.header.onRendered(function() {
                             window.open('/invoicecard?id=' + listData, '_self');
                         } else if (transactiontype === 'Account') {
                             window.open('/accountsoverview?id=' + listData, '_self');
+                        }else if (transactiontype === 'Stock Adjustment') {
+                            window.open('/stockadjustmentcard?id=' + listData, '_self');
                         } else {
 
                         }
@@ -500,6 +506,8 @@ Template.header.onRendered(function() {
                           dataSelectID = data.tglobalsearchreport[i].SaleID;
                       } else if (data.tglobalsearchreport[i].Type === "Account") {
                           dataSelectID = data.tglobalsearchreport[i].AccountsID;
+                      }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
+                          dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
                       }
                       var dataList = {
                           catg: data.tglobalsearchreport[i].Catg || '',
@@ -507,7 +515,7 @@ Template.header.onRendered(function() {
                           clientId: data.tglobalsearchreport[i].clientId || '',
                           id: dataSelectID || '',
                           type: data.tglobalsearchreport[i].Type || '',
-                          company: data.tglobalsearchreport[i].company || '',
+                          company: data.tglobalsearchreport[i].Company || '',
                           globalref: data.tglobalsearchreport[i].Globalref || '',
                           transDate: data.tglobalsearchreport[i].TransDate != '' ? moment(data.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : data.tglobalsearchreport[i].TransDate,
                           transId: data.tglobalsearchreport[i].TransId || '',
@@ -522,7 +530,7 @@ Template.header.onRendered(function() {
 
                       var dataListNew = [
                           dataSelectID || '',
-                          data.tglobalsearchreport[i].company || '',
+                          data.tglobalsearchreport[i].Company || '',
                           data.tglobalsearchreport[i].Type || '',
                           data.tglobalsearchreport[i].Globalref || ''
 
@@ -631,6 +639,8 @@ Template.header.onRendered(function() {
                                      dataSelectID = dataObjectnew.tglobalsearchreport[i].SaleID;
                                  } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
                                      dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
+                                 }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
+                                     dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
                                  }
                                  var dataListDupp = {
                                      catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
@@ -638,7 +648,7 @@ Template.header.onRendered(function() {
                                      clientId: dataObjectnew.tglobalsearchreport[i].clientId || '',
                                      id: dataSelectID || '',
                                      type: dataObjectnew.tglobalsearchreport[i].Type || '',
-                                     company: dataObjectnew.tglobalsearchreport[i].company || '',
+                                     company: dataObjectnew.tglobalsearchreport[i].Company || '',
                                      globalref: dataObjectnew.tglobalsearchreport[i].Globalref || '',
                                      transDate: dataObjectnew.tglobalsearchreport[i].TransDate != '' ? moment(dataObjectnew.tglobalsearchreport[i].TransDate).format("YYYY/MM/DD") : dataObjectnew.tglobalsearchreport[i].TransDate,
                                      transId: dataObjectnew.tglobalsearchreport[i].TransId || '',
@@ -653,7 +663,7 @@ Template.header.onRendered(function() {
 
                                  var dataListNewDupp = [
                                      dataSelectID || '',
-                                     dataObjectnew.tglobalsearchreport[i].company || '',
+                                     dataObjectnew.tglobalsearchreport[i].Company || '',
                                      dataObjectnew.tglobalsearchreport[i].Type || '',
                                      dataObjectnew.tglobalsearchreport[i].Globalref || ''
 
@@ -719,7 +729,9 @@ Template.header.onRendered(function() {
                               window.open('/invoicecard?id=' + listData, '_self');
                           } else if (transactiontype === 'Account') {
                               window.open('/accountsoverview?id=' + listData, '_self');
-                          } else {
+                          }else if (transactiontype === 'Stock Adjustment') {
+                              window.open('/stockadjustmentcard?id=' + listData, '_self');
+                          }else {
 
                           }
 
