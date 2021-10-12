@@ -208,7 +208,7 @@ Template.timesheet.onRendered(function () {
                         // {type: 'date', targets: 0},
                         {
                             "orderable": false,
-                            "targets": -1
+                            "targets": 0
                         }, {
                             targets: 'sorting_disabled',
                             orderable: false
@@ -247,8 +247,8 @@ Template.timesheet.onRendered(function () {
                     // bStateSave: true,
                     // rowId: 0,
                     paging: false,
-                    "scrollY": "500px",
-                    "scrollCollapse": true,
+                    // "scrollY": "500px",
+                    // "scrollCollapse": true,
                     info: true,
                     responsive: true,
                     "order": [[1, "desc"]],
@@ -605,7 +605,7 @@ Template.timesheet.onRendered(function () {
                             $('#dtSODate').prop('disabled', true);
                         }
                     }
-                } 
+                }
             } else {
                 $(".paused").hide();
                 $("#btnHoldOne").prop("disabled", false);
