@@ -2649,7 +2649,7 @@ Template.employeescard.events({
                     sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
                         addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {
                             $.ajax({
-                                url: 'https://depot.vs1cloud.com/stripe/vs1_module_purchase.php',
+                                url: stripeGlobalURL +'vs1_module_purchase.php',
                                 data: {
                                     'email': Session.get('VS1AdminUserName'),
                                     'price': newStripePrice.replace('.', ''),

@@ -298,7 +298,9 @@ Template.journalentrycard.onRendered(() => {
                                 isReconciled: data.fields.IsReconciled
                             };
 
-
+                            setTimeout(function() {
+                                $('#sltDepartment').val(department);
+                            }, 200);
                             if (data.fields.IsReconciled) {
                                 $(".btnDeleteJournal").prop("disabled", true);
                                 $(".btnDelete").prop("disabled", true);
@@ -455,7 +457,9 @@ Template.journalentrycard.onRendered(() => {
                                     LineItems: lineItems,
                                     isReconciled: useData[d].fields.IsReconciled || false
                                 };
-
+                                setTimeout(function() {
+                                    $('#sltDepartment').val(department);
+                                }, 200);
 
                                 if (useData[d].fields.IsReconciled) {
                                     $(".btnDeleteJournal").prop("disabled", true);
@@ -703,7 +707,9 @@ Template.journalentrycard.onRendered(() => {
                             LineItems: lineItems,
                             isReconciled: data.fields.IsReconciled
                         };
-
+                        setTimeout(function() {
+                            $('#sltDepartment').val(department);
+                        }, 200);
                         if (data.fields.IsReconciled) {
                             $(".btnDeleteJournal").prop("disabled", true);
                             $(".btnDelete").prop("disabled", true);
@@ -820,7 +826,9 @@ Template.journalentrycard.onRendered(() => {
             isReconciled: false
 
         };
-
+        setTimeout(function() {
+            $('#sltDepartment').val(defaultDept);
+        }, 200);
         templateObject.record.set(record);
         if (templateObject.record.get()) {
             Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblJournalEntryLine', function(error, result) {

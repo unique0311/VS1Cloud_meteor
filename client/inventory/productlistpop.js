@@ -69,7 +69,7 @@ Template.productlistpop.onRendered(function () {
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
     const lineExtaSellItems = [];
-
+    var currentLoc = FlowRouter.current().route.path;
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -104,8 +104,13 @@ Template.productlistpop.onRendered(function () {
                             JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
                         ];
 
-
+                      if (currentLoc == "/stockadjustmentcard"){
+                        if (data.tproductvs1[i].fields.ProductType == "INV") {
                         splashArrayProductList.push(dataList);
+                         }
+                      }else{
+                        splashArrayProductList.push(dataList);
+                      }
                     }
                     //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
@@ -196,7 +201,14 @@ Template.productlistpop.onRendered(function () {
                     ];
 
 
-                    splashArrayProductList.push(dataList);
+                    // splashArrayProductList.push(dataList);
+                    if (currentLoc == "/stockadjustmentcard"){
+                      if (data.tproductvs1[i].fields.ProductType == "INV") {
+                      splashArrayProductList.push(dataList);
+                       }
+                    }else{
+                      splashArrayProductList.push(dataList);
+                    }
                 }
 
                 tempObj.productextrasellrecords.set(lineExtaSellItems);
@@ -344,7 +356,13 @@ Template.productlistpop.onRendered(function () {
                     ];
 
 
-                    splashArrayProductList.push(dataList);
+                    if (currentLoc == "/stockadjustmentcard"){
+                      if (data.tproductvs1[i].fields.ProductType == "INV") {
+                      splashArrayProductList.push(dataList);
+                       }
+                    }else{
+                      splashArrayProductList.push(dataList);
+                    }
                 }
                 //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
@@ -427,6 +445,7 @@ Template.productlistpop.events({
     let templateObject = Template.instance();
     let utilityService = new UtilityService();
   let productService = new ProductService();
+  var currentLoc = FlowRouter.current().route.path;
   //let salesService = new SalesBoardService();
   let tableProductList;
   var splashArrayProductList = new Array();
@@ -465,7 +484,13 @@ Template.productlistpop.events({
 
                 }
             }
-            splashArrayProductList.push(dataList);
+            if (currentLoc == "/stockadjustmentcard"){
+              if (data.tproductvs1[i].fields.ProductType == "INV") {
+              splashArrayProductList.push(dataList);
+               }
+            }else{
+              splashArrayProductList.push(dataList);
+            }
         }
         //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
         $('.fullScreenSpin').css('display', 'none');
@@ -526,7 +551,13 @@ Template.productlistpop.events({
 
                   }
               }
-              splashArrayProductList.push(dataList);
+              if (currentLoc == "/stockadjustmentcard"){
+                if (data.tproductvs1[i].fields.ProductType == "INV") {
+                splashArrayProductList.push(dataList);
+                 }
+              }else{
+                splashArrayProductList.push(dataList);
+              }
           }
           //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
           $('.fullScreenSpin').css('display', 'none');

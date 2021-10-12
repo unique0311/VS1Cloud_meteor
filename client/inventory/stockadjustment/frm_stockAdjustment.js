@@ -712,7 +712,7 @@ Template.stockadjustmentcard.onRendered(() => {
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
 
-            $('#' + selectLineID + " .lineProductName").text(lineProductName);
+            $('#' + selectLineID + " .lineProductName").val(lineProductName);
             $('#' + selectLineID + " .lineProductName").attr('productid', lineProductID);
             $('#' + selectLineID + " .lineProductName").attr('productcost', lineProdCost);
             $('#' + selectLineID + " .lineDescription").text(lineProductDesc);
@@ -768,7 +768,7 @@ Template.stockadjustmentcard.onRendered(() => {
         $('#addRow').on('click', function () {
             var rowData = $('#tblStockAdjustmentLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
-            $(".lineProductName", rowData).text("");
+            $(".lineProductName", rowData).val("");
             $(".lineProductBarCode", rowData).text("");
             $(".lineDescription", rowData).text("");
             $(".lineInStockQty", rowData).text("");
@@ -1051,7 +1051,7 @@ Template.stockadjustmentcard.onRendered(function () {
         });
 
     };
-    tempObj.getAllProducts();
+    // tempObj.getAllProducts();
     $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
 });
@@ -1500,7 +1500,7 @@ Template.stockadjustmentcard.events({
         } else {
             this.click;
             // $(event.target).closest('tr').remove();
-            $('#' + selectLineID + " .lineProductName").text('');
+            $('#' + selectLineID + " .lineProductName").val('');
             $('#' + selectLineID + " .lineDescription").text('');
             $('#' + selectLineID + " .lineProductBarCode").text('');
             $('#' + selectLineID + " .lineInStockQty").text('');
@@ -1544,7 +1544,7 @@ Template.stockadjustmentcard.events({
             let lineItemObjForm = {};
             $('#tblStockAdjustmentLine > tbody > tr').each(function () {
                 var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
                 let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
                 let tdbarcode = $('#' + lineID + " .lineProductBarCode").text();
@@ -1856,7 +1856,7 @@ Template.stockadjustmentcard.events({
             let lineItemObjForm = {};
             $('#tblStockAdjustmentLine > tbody > tr').each(function () {
                 var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
                 let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
                 let tdbarcode = $('#' + lineID + " .lineProductBarCode").text();

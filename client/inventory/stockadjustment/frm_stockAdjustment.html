@@ -427,7 +427,7 @@
                                 <table id="tblStockAdjustmentLine" style="width:100%" class="table table-striped table-bordered tblStockAdjustmentLine">
                                     <thead>
                                         <tr class="dnd-moved">
-                                            <th class="th colProductName" style="width: 200px;">Product Name</th>
+                                            <th class="th colProductName" style="width: 300px;">Product Name</th>
                                             <th class="th colProdctBarCode" style="width: 200px;">Product Barcode</th>
                                             <th class="th colDescription">Description</th>
                                             <th class="th colInStockQty" style="width: 120px;">In-Stock Qty</th>
@@ -439,7 +439,8 @@
                                     <tbody>
                                         {{#each item in record.LineItems}}
                                         <tr class="dnd-moved" id={{item.lineID}}>
-                                            <td contenteditable="false" class="lineProductName colProductName pointer" productid="{{item.productid}}" productcost="{{item.productcost}}">{{item.productname}}</td>
+                                            <!-- <td contenteditable="false" class="lineProductName colProductName pointer" productid="{{item.productid}}" productcost="{{item.productcost}}">{{item.productname}}</td> -->
+                                            <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="{{item.productname}}" productid="{{item.productid}}" productcost="{{item.productcost}}"></td>
                                             <td contenteditable="true" class="lineProductBarCode colProductBarCode">{{item.productbarcode}}</td>
                                             <td contenteditable="true" class="lineDescription colDescription">{{item.description}}</td>
                                             <td contenteditable="false" class="lineInStockQty colInStockQty" style="background-color: #eaecf4; text-align: right;">{{item.qtyinstock}}</td>

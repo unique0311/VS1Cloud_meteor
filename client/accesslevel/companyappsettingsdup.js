@@ -685,7 +685,7 @@ Template.companyappsettingsdup.events({
                     if (getLasTDatabase) {
                         deleteStoreDatabase(getLasTDatabase).then(function (data) {
                             $.ajax({
-                                url: 'https://depot.vs1cloud.com/stripe/vs1_module_purchase.php',
+                                url: stripeGlobalURL +'vs1_module_purchase.php',
                                 data: {
                                     'email': Session.get('VS1AdminUserName'),
                                     'price': newStripePrice.replace('.', ''),
@@ -718,7 +718,7 @@ Template.companyappsettingsdup.events({
                         });
                     } else {
                         $.ajax({
-                            url: 'https://depot.vs1cloud.com/stripe/vs1_module_purchase.php',
+                            url: stripeGlobalURL +'vs1_module_purchase.php',
                             data: {
                                 'email': Session.get('VS1AdminUserName'),
                                 'price': newStripePrice.replace('.', ''),
