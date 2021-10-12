@@ -878,7 +878,8 @@
                                 <tbody>
                                     {{#each item in billrecord.LineItems}}
                                         <tr class="dnd-moved" id={{item.lineID}}>
-                                            <td contenteditable="false" class="lineAccountName colAccountName" style="cursor: pointer;">{{item.accountname}}</td>
+                                            <!-- <td contenteditable="false" class="lineAccountName colAccountName" style="cursor: pointer;">{{item.accountname}}</td> -->
+                                            <td contenteditable="false" class="colAccountName"><input class="es-input highlightSelect lineAccountName" type="search" value="{{item.accountname}}" ></td>
                                             <td contenteditable="true" class="lineMemo colMemo">{{item.memo}}</td>
 
                                             <td class="colAmountEx"><input class="lineAmount colAmount highlightInput colAmountExChange" type="text" value="{{item.unitPrice}}"></td>

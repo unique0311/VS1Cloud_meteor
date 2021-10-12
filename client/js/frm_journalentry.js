@@ -863,7 +863,7 @@ Template.journalentrycard.onRendered(() => {
         $('#addRow').on('click', function() {
             var rowData = $('#tblJournalEntryLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
-            $(".lineAccountName", rowData).text("");
+            $(".lineAccountName", rowData).val("");
             $(".lineMemo", rowData).text("");
             $(".lineCreditEx", rowData).val("");
             $(".lineDebitEx", rowData).val("");
@@ -902,7 +902,7 @@ Template.journalentrycard.onRendered(() => {
                     }
                 }
             }
-            $('#' + selectLineID + " .lineAccountName").text(lineProductName);
+            $('#' + selectLineID + " .lineAccountName").val(lineProductName);
             $('#' + selectLineID + " .lineMemo").text(lineProductDesc);
             $('#' + selectLineID + " .lineCreditEx").val(utilityService.modifynegativeCurrencyFormat(0));
             $('#' + selectLineID + " .lineCreditInc").val(utilityService.modifynegativeCurrencyFormat(0));
@@ -2099,7 +2099,9 @@ Template.journalentrycard.events({
             x.style.display = "none";
         }
     },
-    'click .lineAccountName': function(event) {
+    'click .lineAccountName, keydown .lineAccountName': function(event) {
+      var $earch = $(event.currentTarget);
+      var offset = $earch.offset();
         $('#edtAccountID').val('');
         let suppliername = $('#edtSupplierName').val();
         let accountService = new AccountService();
@@ -2108,7 +2110,22 @@ Template.journalentrycard.events({
             swal('Supplier has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-            var accountDataName = $(event.target).text() || '';
+            var accountDataName = $(event.target).val() || '';
+            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+              $('#productListModal').modal('toggle');
+              var targetID = $(event.target).closest('tr').attr('id');
+              $('#selectLineID').val(targetID);
+              setTimeout(function() {
+                  $('#tblAccount_filter .form-control-sm').focus();
+                  $('#tblAccount_filter .form-control-sm').val('');
+                  $('#tblAccount_filter .form-control-sm').trigger("input");
+
+                  var datatable = $('#tblInventory').DataTable();
+                  datatable.draw();
+                  $('#tblAccount_filter .form-control-sm').trigger("input");
+
+              }, 500);
+         } else {
             if (accountDataName.replace(/\s/g, '') != '') {
                 getVS1Data('TAccountVS1').then(function(dataObject) {
                     if (dataObject.length == 0) {
@@ -2447,6 +2464,8 @@ Template.journalentrycard.events({
 
                 }, 500);
             }
+
+          }
         }
 
     },
@@ -2701,8 +2720,8 @@ Template.journalentrycard.events({
         } else {
             this.click;
 
-            $('#' + selectLineID + " .lineAccountName").text('');
-            $('#' + selectLineID + " .lineAccountName").text('');
+            $('#' + selectLineID + " .lineAccountName").val('');
+            $('#' + selectLineID + " .lineAccountName").val('');
 
             $('#' + selectLineID + " .lineMemo").text('');
             $('#' + selectLineID + " .lineCreditEx").val('');
@@ -2751,7 +2770,7 @@ Template.journalentrycard.events({
             if (getso_id[1]) {
                 $('#tblJournalEntryLine > tbody > tr').each(function() {
                     var lineID = this.id;
-                    let tdaccount = $('#' + lineID + " .lineAccountName").text();
+                    let tdaccount = $('#' + lineID + " .lineAccountName").val();
                     let tdaccountNo = $('#' + lineID + " .lineAccountNo").text();
                     let tddmemo = $('#' + lineID + " .lineMemo").text();
                     let tdcreditex = $('#' + lineID + " .lineCreditInc").val();
@@ -2797,7 +2816,7 @@ Template.journalentrycard.events({
             } else {
                 $('#tblJournalEntryLine > tbody > tr').each(function() {
                     var lineID = this.id;
-                    let tdaccount = $('#' + lineID + " .lineAccountName").text();
+                    let tdaccount = $('#' + lineID + " .lineAccountName").val();
                     let tdaccountNo = $('#' + lineID + " .lineAccountNo").text();
                     let tddmemo = $('#' + lineID + " .lineMemo").text();
                     let tdcreditex = $('#' + lineID + " .lineCreditInc").val();

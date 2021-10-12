@@ -1546,7 +1546,7 @@ Template.creditcard.onRendered(() => {
         $('#addRow').on('click', function() {
             var rowData = $('#tblCreditLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
-            $(".lineAccountName", rowData).text("");
+            $(".lineAccountName", rowData).val("");
             $(".lineMemo", rowData).text("");
             $(".lineQty", rowData).text("");
             $(".lineAmount", rowData).val("");
@@ -1626,7 +1626,7 @@ Template.creditcard.onRendered(() => {
                     }
                 }
             }
-            $('#' + selectLineID + " .lineAccountName").text(lineProductName);
+            $('#' + selectLineID + " .lineAccountName").val(lineProductName);
             $('#' + selectLineID + " .lineMemo").text(lineProductDesc);
             $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
@@ -3249,7 +3249,9 @@ Template.creditcard.events({
             x.style.display = "none";
         }
     },
-    'click .lineAccountName': function(event) {
+    'click .lineAccountName, keydown .lineAccountName': function(event) {
+      var $earch = $(event.currentTarget);
+      var offset = $earch.offset();
         $('#edtAccountID').val('');
         let suppliername = $('#edtSupplierName').val();
         let accountService = new AccountService();
@@ -3258,7 +3260,22 @@ Template.creditcard.events({
             swal('Supplier has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-            var accountDataName = $(event.target).text() || '';
+            var accountDataName = $(event.target).val() || '';
+            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+              $('#productListModal').modal('toggle');
+              var targetID = $(event.target).closest('tr').attr('id');
+              $('#selectLineID').val(targetID);
+              setTimeout(function() {
+                  $('#tblAccount_filter .form-control-sm').focus();
+                  $('#tblAccount_filter .form-control-sm').val('');
+                  $('#tblAccount_filter .form-control-sm').trigger("input");
+
+                  var datatable = $('#tblInventory').DataTable();
+                  datatable.draw();
+                  $('#tblAccount_filter .form-control-sm').trigger("input");
+
+              }, 500);
+         } else {
             if (accountDataName.replace(/\s/g, '') != '') {
                 getVS1Data('TAccountVS1').then(function(dataObject) {
                     if (dataObject.length == 0) {
@@ -3597,6 +3614,8 @@ Template.creditcard.events({
 
                 }, 500);
             }
+
+          }
         }
     },
     'click #productListModal #refreshpagelist': function() {
@@ -3905,7 +3924,7 @@ Template.creditcard.events({
         } else {
             this.click;
 
-            $('#' + selectLineID + " .lineAccountName").text('');
+            $('#' + selectLineID + " .lineAccountName").val('');
             $('#' + selectLineID + " .lineMemo").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
             $('#' + selectLineID + " .lineQty").val('');
@@ -3954,7 +3973,7 @@ Template.creditcard.events({
             let lineItemObjForm = {};
             $('#tblCreditLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdaccount = $('#' + lineID + " .lineAccountName").text();
+                let tdaccount = $('#' + lineID + " .lineAccountName").val();
                 let tddmemo = $('#' + lineID + " .lineMemo").text();
                 let tdamount = $('#' + lineID + " .lineAmount").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
@@ -4810,7 +4829,7 @@ Template.creditcard.events({
             let lineItemObjForm = {};
             $('#tblCreditLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdaccount = $('#' + lineID + " .lineAccountName").text();
+                let tdaccount = $('#' + lineID + " .lineAccountName").val();
                 let tddmemo = $('#' + lineID + " .lineMemo").text();
                 let tdamount = $('#' + lineID + " .lineAmount").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
