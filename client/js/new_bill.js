@@ -1425,7 +1425,7 @@ Template.billcard.onRendered(() => {
         $('#addRow').on('click', function() {
             var rowData = $('#tblBillLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
-            $(".lineAccountName", rowData).text("");
+            $(".lineAccountName", rowData).val("");
             $(".lineMemo", rowData).text("");
             $(".lineQty", rowData).val("");
             $(".lineAmount", rowData).val("");
@@ -1486,7 +1486,7 @@ Template.billcard.onRendered(() => {
                     }
                 }
             }
-            $('#' + selectLineID + " .lineAccountName").text(lineProductName);
+            $('#' + selectLineID + " .lineAccountName").val(lineProductName);
             $('#' + selectLineID + " .lineMemo").text(lineProductDesc);
             $('#' + selectLineID + " .colAmountExChange").val(lineUnitPrice);
             $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
@@ -3242,7 +3242,9 @@ Template.billcard.events({
             x.style.display = "none";
         }
     },
-    'click .lineAccountName': function(event) {
+    'click .lineAccountName, keydown .lineAccountName': function(event) {
+      var $earch = $(event.currentTarget);
+      var offset = $earch.offset();
         $('#edtAccountID').val('');
         let suppliername = $('#edtSupplierName').val();
         let accountService = new AccountService();
@@ -3251,7 +3253,22 @@ Template.billcard.events({
             swal('Supplier has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-            var accountDataName = $(event.target).text() || '';
+            var accountDataName = $(event.target).val() || '';
+            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+              $('#productListModal').modal('toggle');
+              var targetID = $(event.target).closest('tr').attr('id');
+              $('#selectLineID').val(targetID);
+              setTimeout(function() {
+                  $('#tblAccount_filter .form-control-sm').focus();
+                  $('#tblAccount_filter .form-control-sm').val('');
+                  $('#tblAccount_filter .form-control-sm').trigger("input");
+
+                  var datatable = $('#tblInventory').DataTable();
+                  datatable.draw();
+                  $('#tblAccount_filter .form-control-sm').trigger("input");
+
+              }, 500);
+         } else {
             if (accountDataName.replace(/\s/g, '') != '') {
                 //$('#edtAccountID').val($(event.target).text());
 
@@ -3603,6 +3620,8 @@ Template.billcard.events({
 
                 }, 500);
             }
+
+          }
         }
     },
     'click #productListModal #refreshpagelist': function() {
@@ -3916,7 +3935,7 @@ Template.billcard.events({
         } else {
             this.click;
 
-            $('#' + selectLineID + " .lineAccountName").text('');
+            $('#' + selectLineID + " .lineAccountName").val('');
             $('#' + selectLineID + " .lineMemo").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
             $('#' + selectLineID + " .lineQty").val('');
@@ -3966,7 +3985,7 @@ Template.billcard.events({
             let lineItemObjForm = {};
             $('#tblBillLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdaccount = $('#' + lineID + " .lineAccountName").text();
+                let tdaccount = $('#' + lineID + " .lineAccountName").val();
                 let tddmemo = $('#' + lineID + " .lineMemo").text();
                 let tdamount = $('#' + lineID + " .lineAmount").val();
                 let tdCustomerJob = $('#' + lineID + " .colCustomerJob").text();
@@ -4842,7 +4861,7 @@ Template.billcard.events({
                 let lineItemObjForm = {};
                 $('#tblBillLine > tbody > tr').each(function() {
                     var lineID = this.id;
-                    let tdaccount = $('#' + lineID + " .lineAccountName").text();
+                    let tdaccount = $('#' + lineID + " .lineAccountName").val();
                     let tddmemo = $('#' + lineID + " .lineMemo").text();
                     let tdamount = $('#' + lineID + " .lineAmount").val();
                     let tdCustomerJob = $('#' + lineID + " .colCustomerJob").text();
