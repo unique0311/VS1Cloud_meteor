@@ -555,27 +555,27 @@
             <hr>
             <div style="height: 160mm;">
                 <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
-                    <table style="width: 200mm; max-width: 200mm; margin: auto;">
+                    <table id="tblStockAdjustmentLine" style="width: 200mm; max-width: 200mm; margin: auto;">
                         <thead style="color: rgb(251,251,251);">
                             <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
-                                <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
-                                <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Product Barcode</th>
-                                <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
-                                <th style="width: 250px; background-color: white; color: rgb(0 0 0);">In-Stock Qty</th>
-                                <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Final Qty</th>
-                                <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Adjust Qty</th>
+                                <th class="th colProductName" style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
+                                <th class="th colProdctBarCode" style="width: 250px; background-color: white; color: rgb(0 0 0);">Product Barcode</th>
+                                <th class="th colDescription" style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
+                                <th class="th colInStockQty" style="width: 250px; background-color: white; color: rgb(0 0 0);">In-Stock Qty</th>
+                                <th class="th th colFinalQty" style="width: 250px; background-color: white; color: rgb(0 0 0);">Final Qty</th>
+                                <th class="th colAdjustQty" style="width: 250px; background-color: white; color: rgb(0 0 0);">Adjust Qty</th>
 
                             </tr>
                         </thead>
                         <tbody style="color: rgb(0 0 0);">
                             {{#each item in record.LineItems}}
                             <tr style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
-                                <td>{{item.productname}}</td>
-                                <td>{{item.productbarcode}}</td>
-                                <td>{{item.description}}</td>
-                                <td>{{item.qtyinstock}}</td>
-                                <td>{{item.finalqty}}</td>
-                                <td>{{item.adjustqty}}</td>
+                                <td class="lineProductName colProductName">{{item.productname}}</td>
+                                <td class="lineProductBarCode colProductBarCode">{{item.productbarcode}}</td>
+                                <td class="lineDescription colDescription">{{item.description}}</td>
+                                <td class="lineInStockQty colInStockQty">{{item.qtyinstock}}</td>
+                                <td class="lineFinalQty colFinalQty">{{item.finalqty}}</td>
+                                <td class="lineAdjustQty colAdjustQty">{{item.adjustqty}}</td>
                             </tr>
                             {{/each}}
                         </tbody>
