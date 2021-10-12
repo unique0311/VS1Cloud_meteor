@@ -28,7 +28,6 @@ Template.stockadjustmentcard.onCreated(() => {
 
     templateObject.productquantityrecord = new ReactiveVar([]);
 
-
     setTimeout(function () {
 
         var x = window.matchMedia("(max-width: 1024px)")
@@ -69,7 +68,6 @@ Template.stockadjustmentcard.onCreated(() => {
         mediaQuery(x)
         x.addListener(mediaQuery)
     }, 10);
-
 
 });
 Template.stockadjustmentcard.onRendered(() => {
@@ -143,7 +141,6 @@ Template.stockadjustmentcard.onRendered(() => {
             });
         });
 
-
     }
 
     templateObject.getAccountNames = function () {
@@ -191,8 +188,6 @@ Template.stockadjustmentcard.onRendered(() => {
             });
         });
 
-
-
     }
 
     templateObject.getDepartments();
@@ -206,37 +201,16 @@ Template.stockadjustmentcard.onRendered(() => {
         let totalInStockQty = 0;
         let deptName = $('#sltDepartment').val();
         let dataValue = templateObject.productquantityrecord.get();
-        if(dataValue){
-          for (let i = 0; i < dataValue.tproductclassquantity.length; i++) {
-              let dataObj = {};
-
-              let prodQtyName = dataValue.tproductclassquantity[i].ProductName;
-              let deptQtyName = dataValue.tproductclassquantity[i].DepartmentName;
-              if (productname == prodQtyName && deptQtyName == deptName) {
-                  //if(productname == prodQtyName){
-                  let availQty = dataValue.tproductclassquantity[i].AvailableQty;
-                  let inStockQty = dataValue.tproductclassquantity[i].InStockQty;
-
-                  totalAvailQty += parseFloat(availQty);
-                  totalInStockQty += parseFloat(inStockQty);
-              }
-          }
-
-          $('#' + id + " .lineInStockQty").text(totalInStockQty);
-          // $('#'+id+" .lineDescription").text(lineProductDesc);
-          $('#' + id + " .lineFinalQty").val(totalInStockQty);
-          $('#' + id + " .lineAdjustQty").val(0);
-        }else{
-        stockTransferService.getProductClassQuantitys().then(function (data) {
-            for (let i = 0; i < data.tproductclassquantity.length; i++) {
+        if (dataValue) {
+            for (let i = 0; i < dataValue.tproductclassquantity.length; i++) {
                 let dataObj = {};
 
-                let prodQtyName = data.tproductclassquantity[i].ProductName;
-                let deptQtyName = data.tproductclassquantity[i].DepartmentName;
+                let prodQtyName = dataValue.tproductclassquantity[i].ProductName;
+                let deptQtyName = dataValue.tproductclassquantity[i].DepartmentName;
                 if (productname == prodQtyName && deptQtyName == deptName) {
                     //if(productname == prodQtyName){
-                    let availQty = data.tproductclassquantity[i].AvailableQty;
-                    let inStockQty = data.tproductclassquantity[i].InStockQty;
+                    let availQty = dataValue.tproductclassquantity[i].AvailableQty;
+                    let inStockQty = dataValue.tproductclassquantity[i].InStockQty;
 
                     totalAvailQty += parseFloat(availQty);
                     totalInStockQty += parseFloat(inStockQty);
@@ -247,9 +221,29 @@ Template.stockadjustmentcard.onRendered(() => {
             // $('#'+id+" .lineDescription").text(lineProductDesc);
             $('#' + id + " .lineFinalQty").val(totalInStockQty);
             $('#' + id + " .lineAdjustQty").val(0);
+        } else {
+            stockTransferService.getProductClassQuantitys().then(function (data) {
+                for (let i = 0; i < data.tproductclassquantity.length; i++) {
+                    let dataObj = {};
 
+                    let prodQtyName = data.tproductclassquantity[i].ProductName;
+                    let deptQtyName = data.tproductclassquantity[i].DepartmentName;
+                    if (productname == prodQtyName && deptQtyName == deptName) {
+                        //if(productname == prodQtyName){
+                        let availQty = data.tproductclassquantity[i].AvailableQty;
+                        let inStockQty = data.tproductclassquantity[i].InStockQty;
 
-        });
+                        totalAvailQty += parseFloat(availQty);
+                        totalInStockQty += parseFloat(inStockQty);
+                    }
+                }
+
+                $('#' + id + " .lineInStockQty").text(totalInStockQty);
+                // $('#'+id+" .lineDescription").text(lineProductDesc);
+                $('#' + id + " .lineFinalQty").val(totalInStockQty);
+                $('#' + id + " .lineAdjustQty").val(0);
+
+            });
         }
 
     };
@@ -302,18 +296,15 @@ Template.stockadjustmentcard.onRendered(() => {
                             balancedate: data.fields.AdjustmentDate ? moment(data.fields.AdjustmentDate).format('DD/MM/YYYY') : ""
                         };
 
-
-                        if(data.fields.IsProcessed == true){
-                          $('.colProcessed').css('display','block');
-                          $("#form :input").prop("disabled", true);
-                          $(".btnDeleteStock").prop("disabled", false);
-                          $(".btnDeleteStockAdjust").prop("disabled", false);
-                          $(".printConfirm").prop("disabled", false);
-                          $(".btnBack").prop("disabled", false);
-                          $(".btnDeleteProduct").prop("disabled", false);
+                        if (data.fields.IsProcessed == true) {
+                            $('.colProcessed').css('display', 'block');
+                            $("#form :input").prop("disabled", true);
+                            $(".btnDeleteStock").prop("disabled", false);
+                            $(".btnDeleteStockAdjust").prop("disabled", false);
+                            $(".printConfirm").prop("disabled", false);
+                            $(".btnBack").prop("disabled", false);
+                            $(".btnDeleteProduct").prop("disabled", false);
                         }
-
-
 
                         templateObject.record.set(record);
 
@@ -336,7 +327,6 @@ Template.stockadjustmentcard.onRendered(() => {
                                             let hiddenColumn = customcolumn[i].hidden;
                                             let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                             let columnWidth = customcolumn[i].width;
-
 
                                             $("" + columHeaderUpdate + "").html(columData);
                                             if (columnWidth != 0) {
@@ -364,7 +354,7 @@ Template.stockadjustmentcard.onRendered(() => {
                         }
                         setTimeout(function () {
                             $(".btnRemove").prop("disabled", true);
-                            },1000);
+                        }, 1000);
                     }).catch(function (err) {
                         swal({
                             title: 'Oooops...',
@@ -375,9 +365,7 @@ Template.stockadjustmentcard.onRendered(() => {
                         }).then((result) => {
                             if (result.value) {
                                 Meteor._reload.reload();
-                            } else if (result.dismiss === 'cancel') {
-
-                            }
+                            } else if (result.dismiss === 'cancel') {}
                         });
                         $('.fullScreenSpin').css('display', 'none');
                         // Meteor._reload.reload();
@@ -442,23 +430,22 @@ Template.stockadjustmentcard.onRendered(() => {
                                 balancedate: useData[d].fields.AdjustmentDate ? moment(useData[d].fields.AdjustmentDate).format('DD/MM/YYYY') : ""
                             };
 
-                        //
-                        // $("#form :input").prop("disabled", true);
-                        // $(".btnDeleteStock").prop("disabled", false);
-                        // $(".btnDeleteStockAdjust").prop("disabled", false);
-                        // $(".printConfirm").prop("disabled", false);
-                        // $(".btnBack").prop("disabled", false);
+                            //
+                            // $("#form :input").prop("disabled", true);
+                            // $(".btnDeleteStock").prop("disabled", false);
+                            // $(".btnDeleteStockAdjust").prop("disabled", false);
+                            // $(".printConfirm").prop("disabled", false);
+                            // $(".btnBack").prop("disabled", false);
 
-                        if(useData[d].fields.IsProcessed == true){
-                          $('.colProcessed').css('display','block');
-                          $("#form :input").prop("disabled", true);
-                          $(".btnDeleteStock").prop("disabled", false);
-                          $(".btnDeleteStockAdjust").prop("disabled", false);
-                          $(".printConfirm").prop("disabled", false);
-                          $(".btnBack").prop("disabled", false);
-                          $(".btnDeleteProduct").prop("disabled", false);
-                        }
-
+                            if (useData[d].fields.IsProcessed == true) {
+                                $('.colProcessed').css('display', 'block');
+                                $("#form :input").prop("disabled", true);
+                                $(".btnDeleteStock").prop("disabled", false);
+                                $(".btnDeleteStockAdjust").prop("disabled", false);
+                                $(".printConfirm").prop("disabled", false);
+                                $(".btnBack").prop("disabled", false);
+                                $(".btnDeleteProduct").prop("disabled", false);
+                            }
 
                             templateObject.record.set(record);
                             $(".btnDeleteLine").prop("disabled", false);
@@ -466,9 +453,8 @@ Template.stockadjustmentcard.onRendered(() => {
                             $(".close").prop("disabled", false);
                             if (templateObject.record.get()) {
                                 Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStockAdjustmentLine', function (error, result) {
-                                    if (error) {
-
-                                    } else {
+                                    if (error) {}
+                                    else {
                                         if (result) {
                                             for (let i = 0; i < result.customFields.length; i++) {
                                                 let customcolumn = result.customFields;
@@ -477,7 +463,6 @@ Template.stockadjustmentcard.onRendered(() => {
                                                 let hiddenColumn = customcolumn[i].hidden;
                                                 let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                                 let columnWidth = customcolumn[i].width;
-
 
                                                 $("" + columHeaderUpdate + "").html(columData);
                                                 if (columnWidth != 0) {
@@ -505,14 +490,12 @@ Template.stockadjustmentcard.onRendered(() => {
                             }
                             setTimeout(function () {
                                 $(".btnRemove").prop("disabled", true);
-                                },1000);
+                            }, 1000);
 
                         }
 
                     }
-                    if (!added) {
-
-                    }
+                    if (!added) {}
                     //here
                 }
             }).catch(function (err) {
@@ -555,17 +538,15 @@ Template.stockadjustmentcard.onRendered(() => {
                         balancedate: data.fields.AdjustmentDate ? moment(data.fields.AdjustmentDate).format('DD/MM/YYYY') : ""
                     };
 
-
-                    if(data.fields.IsProcessed == true){
-                      $('.colProcessed').css('display','block');
-                      $("#form :input").prop("disabled", true);
-                      $(".btnDeleteStock").prop("disabled", false);
-                      $(".btnDeleteStockAdjust").prop("disabled", false);
-                      $(".printConfirm").prop("disabled", false);
-                      $(".btnBack").prop("disabled", false);
-                      $(".btnDeleteProduct").prop("disabled", false);
+                    if (data.fields.IsProcessed == true) {
+                        $('.colProcessed').css('display', 'block');
+                        $("#form :input").prop("disabled", true);
+                        $(".btnDeleteStock").prop("disabled", false);
+                        $(".btnDeleteStockAdjust").prop("disabled", false);
+                        $(".printConfirm").prop("disabled", false);
+                        $(".btnBack").prop("disabled", false);
+                        $(".btnDeleteProduct").prop("disabled", false);
                     }
-
 
                     templateObject.record.set(record);
 
@@ -588,7 +569,6 @@ Template.stockadjustmentcard.onRendered(() => {
                                         let hiddenColumn = customcolumn[i].hidden;
                                         let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
                                         let columnWidth = customcolumn[i].width;
-
 
                                         $("" + columHeaderUpdate + "").html(columData);
                                         if (columnWidth != 0) {
@@ -624,9 +604,7 @@ Template.stockadjustmentcard.onRendered(() => {
                     }).then((result) => {
                         if (result.value) {
                             Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
+                        } else if (result.dismiss === 'cancel') {}
                     });
                     $('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
@@ -638,7 +616,7 @@ Template.stockadjustmentcard.onRendered(() => {
         templateObject.getStockAdjustData();
     } else {
         $('.fullScreenSpin').css('display', 'none');
-          $('.colProcessed').css('display','none');
+        $('.colProcessed').css('display', 'none');
         let lineItems = [];
         let lineItemsTable = [];
         let lineItemObj = {};
@@ -714,7 +692,6 @@ Template.stockadjustmentcard.onRendered(() => {
         }
     }
 
-
     /* On clik Inventory Line */
     $(document).on("click", "#tblInventory tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
@@ -750,7 +727,6 @@ Template.stockadjustmentcard.onRendered(() => {
         }
     });
 
-
     exportSalesToPdf = function () {
         let margins = {
             top: 0,
@@ -781,14 +757,11 @@ Template.stockadjustmentcard.onRendered(() => {
                 orientation: 'portrait'
             }
         };
-        html2pdf().set(opt).from(source).save().then(function (dataObject){
-             $('#html-2-pdfwrapper').css('display', 'none');
+        html2pdf().set(opt).from(source).save().then(function (dataObject) {
             $('.fullScreenSpin').css('display', 'none');
         });
 
-
     };
-
 
     let table;
     $(document).ready(function () {
@@ -806,7 +779,6 @@ Template.stockadjustmentcard.onRendered(() => {
             $("#tblStockAdjustmentLine tbody").append(rowData);
 
         });
-
 
     });
 
@@ -843,7 +815,6 @@ Template.stockadjustmentcard.onRendered(function () {
     let tableProductList;
     var splashArrayProductList = new Array();
 
-
     tempObj.getAllProducts = function () {
         getVS1Data('TProductVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -877,14 +848,28 @@ Template.stockadjustmentcard.onRendered(function () {
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
-                            columnDefs: [
-                                { className: "productID", "targets": [0] },
-                                { className: "productName", "targets": [1] },
-                                { className: "productDesc", "targets": [2] },
-                                { className: "costPrice text-right", "targets": [3] },
-                                { className: "salePrice text-right", "targets": [4] },
-                                { className: "prdqty", "targets": [5] },
-                                { className: "taxrate", "targets": [6] }
+                            columnDefs: [{
+                                    className: "productID",
+                                    "targets": [0]
+                                }, {
+                                    className: "productName",
+                                    "targets": [1]
+                                }, {
+                                    className: "productDesc",
+                                    "targets": [2]
+                                }, {
+                                    className: "costPrice text-right",
+                                    "targets": [3]
+                                }, {
+                                    className: "salePrice text-right",
+                                    "targets": [4]
+                                }, {
+                                    className: "prdqty",
+                                    "targets": [5]
+                                }, {
+                                    className: "taxrate",
+                                    "targets": [6]
+                                }
                             ],
                             colReorder: true,
                             // colReorder: {
@@ -894,7 +879,7 @@ Template.stockadjustmentcard.onRendered(function () {
                             //scrollX: 1000,
                             rowId: 0,
                             pageLength: initialDatatableLoad,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
                             info: true,
                             responsive: true
 
@@ -939,14 +924,28 @@ Template.stockadjustmentcard.onRendered(function () {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [
-                            { className: "productID", "targets": [0] },
-                            { className: "productName", "targets": [1] },
-                            { className: "productDesc", "targets": [2] },
-                            { className: "costPrice text-right", "targets": [3] },
-                            { className: "salePrice text-right", "targets": [4] },
-                            { className: "prdqty", "targets": [5] },
-                            { className: "taxrate", "targets": [6] }
+                        columnDefs: [{
+                                className: "productID",
+                                "targets": [0]
+                            }, {
+                                className: "productName",
+                                "targets": [1]
+                            }, {
+                                className: "productDesc",
+                                "targets": [2]
+                            }, {
+                                className: "costPrice text-right",
+                                "targets": [3]
+                            }, {
+                                className: "salePrice text-right",
+                                "targets": [4]
+                            }, {
+                                className: "prdqty",
+                                "targets": [5]
+                            }, {
+                                className: "taxrate",
+                                "targets": [6]
+                            }
                         ],
                         colReorder: true,
                         // colReorder: {
@@ -956,7 +955,7 @@ Template.stockadjustmentcard.onRendered(function () {
                         //scrollX: 1000,
                         rowId: 0,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
                         info: true,
                         responsive: true
 
@@ -1003,14 +1002,28 @@ Template.stockadjustmentcard.onRendered(function () {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [
-                            { className: "productID", "targets": [0] },
-                            { className: "productName", "targets": [1] },
-                            { className: "productDesc", "targets": [2] },
-                            { className: "costPrice text-right", "targets": [3] },
-                            { className: "salePrice text-right", "targets": [4] },
-                            { className: "prdqty", "targets": [5] },
-                            { className: "taxrate", "targets": [6] }
+                        columnDefs: [{
+                                className: "productID",
+                                "targets": [0]
+                            }, {
+                                className: "productName",
+                                "targets": [1]
+                            }, {
+                                className: "productDesc",
+                                "targets": [2]
+                            }, {
+                                className: "costPrice text-right",
+                                "targets": [3]
+                            }, {
+                                className: "salePrice text-right",
+                                "targets": [4]
+                            }, {
+                                className: "prdqty",
+                                "targets": [5]
+                            }, {
+                                className: "taxrate",
+                                "targets": [6]
+                            }
                         ],
                         colReorder: true,
                         // colReorder: {
@@ -1020,7 +1033,7 @@ Template.stockadjustmentcard.onRendered(function () {
                         //scrollX: 1000,
                         rowId: 0,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
                         info: true,
                         responsive: true
 
@@ -1037,7 +1050,6 @@ Template.stockadjustmentcard.onRendered(function () {
             })
         });
 
-
     };
     tempObj.getAllProducts();
     $('div.dataTables_filter input').addClass('form-control form-control-sm');
@@ -1051,8 +1063,7 @@ Template.stockadjustmentcard.helpers({
         return Template.instance().deptrecords.get().sort(function (a, b) {
             if (a.department == 'NA') {
                 return 1;
-            }
-            else if (b.department == 'NA') {
+            } else if (b.department == 'NA') {
                 return -1;
             }
             return (a.department.toUpperCase() > b.department.toUpperCase()) ? 1 : -1;
@@ -1062,18 +1073,23 @@ Template.stockadjustmentcard.helpers({
         return Template.instance().accountnamerecords.get().sort(function (a, b) {
             if (a.accountname == 'NA') {
                 return 1;
-            }
-            else if (b.accountname == 'NA') {
+            } else if (b.accountname == 'NA') {
                 return -1;
             }
             return (a.accountname.toUpperCase() > b.accountname.toUpperCase()) ? 1 : -1;
         });
     },
     salesCloudPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'stockadjustmentcard' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'stockadjustmentcard'
+        });
     },
     salesCloudGridPreferenceRec: () => {
-        return CloudPreference.findOne({ userid: Session.get('mycloudLogonID'), PrefName: 'tblStockAdjustmentLine' });
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'tblStockAdjustmentLine'
+        });
     },
     uploadedFiles: () => {
         return Template.instance().uploadedFiles.get();
@@ -1106,7 +1122,7 @@ Template.stockadjustmentcard.helpers({
         var isMobile = false; //initiate as false
         // device detection
         if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
-            || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
+             || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
             isMobile = true;
         }
 
@@ -1120,19 +1136,19 @@ Template.stockadjustmentcard.events({
         $('#edtCustomerName').editableSelect();
     },
     'change #sltDepartment': function (event) {
-      let templateObject = Template.instance();
-      let totalAvailQty = 0;
-      let totalInStockQty = 0;
-      let deptName = $('#sltDepartment').val();
-      //let dataValue = templateObject.productquantityrecord.get();
-      let $tblrows = $("#tblStockAdjustmentLine tbody tr");
-      $tblrows.each(function (index) {
-          var $tblrow = $(this);
-          let productname = $tblrow.find(".colProductName").text() || '';
-          let selectLineID = $tblrow.closest('tr').attr('id');
-          templateObject.getProductQty(selectLineID, productname);
+        let templateObject = Template.instance();
+        let totalAvailQty = 0;
+        let totalInStockQty = 0;
+        let deptName = $('#sltDepartment').val();
+        //let dataValue = templateObject.productquantityrecord.get();
+        let $tblrows = $("#tblStockAdjustmentLine tbody tr");
+        $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            let productname = $tblrow.find(".colProductName").text() || '';
+            let selectLineID = $tblrow.closest('tr').attr('id');
+            templateObject.getProductQty(selectLineID, productname);
 
-      });
+        });
     },
     'blur .lineQty': function (event) {
         let templateObject = Template.instance();
@@ -1159,25 +1175,36 @@ Template.stockadjustmentcard.events({
                 }
             }
 
-
             var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             if (!isNaN(subTotal)) {
-                $tblrow.find('.lineAmt').text(Currency + '' + subTotal.toLocaleString(undefined, { minimumFractionDigits: 2 }));
+                $tblrow.find('.lineAmt').text(Currency + '' + subTotal.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    }));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                document.getElementById("subtotal_total").innerHTML = Currency + '' + subGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                document.getElementById("subtotal_total").innerHTML = Currency + '' + subGrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
             }
 
             if (!isNaN(taxTotal)) {
                 taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                document.getElementById("subtotal_tax").innerHTML = Currency + '' + taxGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                document.getElementById("subtotal_tax").innerHTML = Currency + '' + taxGrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
             }
 
             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                document.getElementById("grandTotal").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                document.getElementById("balanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                document.getElementById("totalBalanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                document.getElementById("grandTotal").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
+                document.getElementById("balanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
+                document.getElementById("totalBalanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
 
             }
         });
@@ -1188,11 +1215,15 @@ Template.stockadjustmentcard.events({
         let utilityService = new UtilityService();
         if (!isNaN($('.lineUnitPrice').text())) {
             let inputUnitPrice = parseFloat($(event.target).text());
-            $(event.target).text(Currency + '' + inputUnitPrice.toLocaleString(undefined, { minimumFractionDigits: 2 }));
+            $(event.target).text(Currency + '' + inputUnitPrice.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                }));
         } else {
             let inputUnitPrice = Number($(event.target).text().replace(/[^0-9.-]+/g, ""));
             //parseFloat(parseFloat($.trim($(event.target).text().substring(Currency.length).replace(",", ""))) || 0);
-            $(event.target).text(Currency + '' + inputUnitPrice.toLocaleString(undefined, { minimumFractionDigits: 2 }));
+            $(event.target).text(Currency + '' + inputUnitPrice.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                }));
             //$('.lineUnitPrice').text();
 
         }
@@ -1220,25 +1251,36 @@ Template.stockadjustmentcard.events({
                 }
             }
 
-
             var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             if (!isNaN(subTotal)) {
-                $tblrow.find('.lineAmt').text(Currency + '' + subTotal.toLocaleString(undefined, { minimumFractionDigits: 2 }));
+                $tblrow.find('.lineAmt').text(Currency + '' + subTotal.toLocaleString(undefined, {
+                        minimumFractionDigits: 2
+                    }));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                document.getElementById("subtotal_total").innerHTML = Currency + '' + subGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                document.getElementById("subtotal_total").innerHTML = Currency + '' + subGrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
             }
 
             if (!isNaN(taxTotal)) {
                 taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                document.getElementById("subtotal_tax").innerHTML = Currency + '' + taxGrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                document.getElementById("subtotal_tax").innerHTML = Currency + '' + taxGrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
             }
 
             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                document.getElementById("grandTotal").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                document.getElementById("balanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                document.getElementById("totalBalanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                document.getElementById("grandTotal").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
+                document.getElementById("balanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
+                document.getElementById("totalBalanceDue").innerHTML = Currency + '' + GrandTotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
 
             }
         });
@@ -1310,8 +1352,8 @@ Template.stockadjustmentcard.events({
             (event.keyCode >= 96 && event.keyCode <= 105) ||
             event.keyCode == 8 || event.keyCode == 9 ||
             event.keyCode == 37 || event.keyCode == 39 ||
-            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) {
-        } else {
+            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) {}
+        else {
             event.preventDefault();
         }
     },
@@ -1376,9 +1418,7 @@ Template.stockadjustmentcard.events({
                 }).then((result) => {
                     if (result.value) {
                         Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    } else if (result.dismiss === 'cancel') {}
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -1428,9 +1468,7 @@ Template.stockadjustmentcard.events({
                         }).then((result) => {
                             if (result.value) {
                                 Meteor._reload.reload();
-                            } else if (result.dismiss === 'cancel') {
-
-                            }
+                            } else if (result.dismiss === 'cancel') {}
                         });
                         $('.fullScreenSpin').css('display', 'none');
                     });
@@ -1439,9 +1477,7 @@ Template.stockadjustmentcard.events({
                     $('.modal-backdrop').css('display', 'none');
                 }
                 //$('#deleteLineModal').modal('toggle');
-            } else {
-
-            }
+            } else {}
         });
 
     },
@@ -1487,7 +1523,7 @@ Template.stockadjustmentcard.events({
     },
     'click .btnProcess': function (event) {
         //let testDate = $("#dtSODate").datepicker({dateFormat: 'dd-mm-yy' });
-
+        $('#html-2-pdfwrapper').css('display', 'block');
         let templateObject = Template.instance();
         let accountname = $('#edtAccountName');
         let department = $('#sltDepartment').val();
@@ -1521,8 +1557,7 @@ Template.stockadjustmentcard.events({
 
                     lineItemObjForm = {
                         type: "TSAELinesFlat",
-                        fields:
-                        {
+                        fields: {
                             ProductName: tdproduct || '',
                             //AccountName: accountname.val() || '',
                             //ProductID: tdproductID || '',
@@ -1533,7 +1568,7 @@ Template.stockadjustmentcard.events({
                             UOMQty: parseFloat(tdadjustqty) || 0,
                             FinalQty: parseFloat(tdfinalqty) || 0,
                             FinalUOMQty: parseFloat(tdfinalqty) || 0,
-                            InStockUOMQty:parseFloat(tdinstockqty) || 0,
+                            InStockUOMQty: parseFloat(tdinstockqty) || 0,
                             DeptName: department || '',
                             ProductPrintName: tdproduct || '',
                             PartBarcode: tdbarcode || '',
@@ -1545,7 +1580,6 @@ Template.stockadjustmentcard.events({
                     splashLineArray.push(lineItemObjForm);
                 }
             });
-
 
             let selectAccount = $('#edtAccountName').val();
 
@@ -1604,9 +1638,178 @@ Template.stockadjustmentcard.events({
             }
 
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
-                FlowRouter.go('/stockadjustmentoverview?success=true');
-                $('.modal-backdrop').css('display', 'none');
+                // FlowRouter.go('/stockadjustmentoverview?success=true');
+                function generatePdfForMail(invoiceId) {
+                    let file = "Invoice-" + invoiceId + ".pdf"
+                        return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
+                        }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
 
+                    });
+                }
+
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    // var base64data = reader.result;
+                    let base64data = encodedPdf.split(',')[1];
+                    pdfObject = {
+                        filename: 'Stock Adjustment-' + invoiceId + '.pdf',
+                        content: base64data,
+                        encoding: 'base64'
+                    };
+                    attachment.push(pdfObject);
+                    let erpInvoiceId = objDetails.fields.ID;
+
+                    let mailFromName = Session.get('vs1companyName');
+                    let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                    //let customerEmailName = $('#edtCustomerName').val();
+                    let checkEmailData = $('#edtCustomerEmail').val();
+                    // let grandtotal = $('#grandTotal').html();
+                    // let amountDueEmail = $('#totalBalanceDue').html();
+                    // let emailDueDate = $("#dtDueDate").val();
+                    // let customerBillingAddress = $('#txabillingAddress').val();
+                    // let customerTerms = $('#sltTerms').val();
+
+                    // let customerSubtotal = $('#subtotal_total').html();
+                    // let customerTax = $('#subtotal_tax').html();
+                    // let customerNett = $('#subtotal_nett').html();
+                    // let customerTotal = $('#grandTotal').html();
+                    let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
+                    let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
+
+                    var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                        '        <tr>' +
+                        '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                        '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                        '                    <table class="main">' +
+                        '                        <tr>' +
+                        '                            <td class="wrapper">' +
+                        '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                        '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="height: 16px;"></tr>' +
+                        '                                    <tr>' +
+                        '                                        <td>' +
+                        '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="height: 48px;"></tr>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <p style="font-size: 18px;">Hi </p>' +
+                        '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Adjustment attached to this email.</p>' +
+                        '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks you</p>' +
+                        '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr>' +
+                        '                                        <td>' +
+                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                        '                                                <tbody>' +
+                        '                                                    <tr>' +
+                        '                                                        <td align="center">' +
+                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                        '                                                                <tbody>' +
+                        '                                                                    <tr>' +
+                        '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                        '                                                                    </tr>' +
+                        '                                                                </tbody>' +
+                        '                                                            </table>' +
+                        '                                                        </td>' +
+                        '                                                    </tr>' +
+                        '                                                </tbody>' +
+                        '                                            </table>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                </table>' +
+                        '                            </td>' +
+                        '                        </tr>' +
+                        '                    </table>' +
+                        '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                        '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                        '                            <tr>' +
+                        '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                        '                                    <br>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                        '                                </td>' +
+                        '                            </tr>' +
+                        '                        </table>' +
+                        '                    </div>' +
+                        '                </div>' +
+                        '            </td>' +
+                        '        </tr>' +
+                        '    </table>';
+
+                    if (($('.chkEmailCopy').is(':checked'))) {
+                        $('#html-2-pdfwrapper').css('display', 'none');
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: checkEmailData,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                console.log(error);
+                                // FlowRouter.go('/stockadjustmentoverview?success=true');
+
+                            } else {
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Employee: " + checkEmailData + " ",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        FlowRouter.go('/stockadjustmentoverview?success=true');
+                                    } else if (result.dismiss === 'cancel') {}
+                                });
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+                    } else {
+                        FlowRouter.go('/stockadjustmentoverview?success=true');
+                    };
+
+                }
+                addAttachment();
+                $('.modal-backdrop').css('display', 'none');
 
             }).catch(function (err) {
                 swal({
@@ -1618,9 +1821,7 @@ Template.stockadjustmentcard.events({
                 }).then((result) => {
                     if (result.value) {
                         Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    } else if (result.dismiss === 'cancel') {}
                 });
                 //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
@@ -1628,9 +1829,13 @@ Template.stockadjustmentcard.events({
         }
 
     },
+    // 'change .chkEmailCopy': function (event) {
+    //     if ($('.chkEmailCopy').is(':checked')) {
+    //         $('#employeeModal').modal('show');
+    //     }
+    // },
     'click .btnHold': function (event) {
-        //let testDate = $("#dtSODate").datepicker({dateFormat: 'dd-mm-yy' });
-
+        $('#html-2-pdfwrapper').css('display', 'block');
         let templateObject = Template.instance();
         let accountname = $('#edtAccountName');
         let department = $('#sltDepartment').val();
@@ -1664,8 +1869,7 @@ Template.stockadjustmentcard.events({
 
                     lineItemObjForm = {
                         type: "TSAELinesFlat",
-                        fields:
-                        {
+                        fields: {
                             ProductName: tdproduct || '',
                             //AccountName: accountname.val() || '',
                             //ProductID: tdproductID || '',
@@ -1676,7 +1880,7 @@ Template.stockadjustmentcard.events({
                             UOMQty: parseFloat(tdadjustqty) || 0,
                             FinalQty: parseFloat(tdfinalqty) || 0,
                             FinalUOMQty: parseFloat(tdfinalqty) || 0,
-                            InStockUOMQty:parseFloat(tdinstockqty) || 0,
+                            InStockUOMQty: parseFloat(tdinstockqty) || 0,
                             DeptName: department || '',
                             ProductPrintName: tdproduct || '',
                             PartBarcode: tdbarcode || '',
@@ -1688,7 +1892,6 @@ Template.stockadjustmentcard.events({
                     splashLineArray.push(lineItemObjForm);
                 }
             });
-
 
             let selectAccount = $('#edtAccountName').val();
 
@@ -1747,9 +1950,177 @@ Template.stockadjustmentcard.events({
             }
 
             stockTransferService.saveStockAdjustment(objDetails).then(function (objDetails) {
-                FlowRouter.go('/stockadjustmentoverview?success=true');
-                $('.modal-backdrop').css('display', 'none');
+                function generatePdfForMail(invoiceId) {
+                    let file = "Invoice-" + invoiceId + ".pdf"
+                        return new Promise((resolve, reject) => {
+                        let templateObject = Template.instance();
+                        let completeTabRecord;
+                        let doc = new jsPDF('p', 'pt', 'a4');
+                        var source = document.getElementById('html-2-pdfwrapper');
+                        var opt = {
+                            margin: 0,
+                            filename: file,
+                            image: {
+                                type: 'jpeg',
+                                quality: 0.98
+                            },
+                            html2canvas: {
+                                scale: 2
+                            },
+                            jsPDF: {
+                                unit: 'in',
+                                format: 'a4',
+                                orientation: 'portrait'
+                            }
+                        }
+                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
 
+                    });
+                }
+
+                async function addAttachment() {
+                    let attachment = [];
+                    let templateObject = Template.instance();
+
+                    let invoiceId = objDetails.fields.ID;
+                    let encodedPdf = await generatePdfForMail(invoiceId);
+                    // var base64data = reader.result;
+                    let base64data = encodedPdf.split(',')[1];
+                    pdfObject = {
+                        filename: 'Stock Adjustment-' + invoiceId + '.pdf',
+                        content: base64data,
+                        encoding: 'base64'
+                    };
+                    attachment.push(pdfObject);
+                    let erpInvoiceId = objDetails.fields.ID;
+
+                    let mailFromName = Session.get('vs1companyName');
+                    let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                    //let customerEmailName = $('#edtCustomerName').val();
+                    let checkEmailData = $('#edtCustomerEmail').val();
+                    // let grandtotal = $('#grandTotal').html();
+                    // let amountDueEmail = $('#totalBalanceDue').html();
+                    // let emailDueDate = $("#dtDueDate").val();
+                    // let customerBillingAddress = $('#txabillingAddress').val();
+                    // let customerTerms = $('#sltTerms').val();
+
+                    // let customerSubtotal = $('#subtotal_total').html();
+                    // let customerTax = $('#subtotal_tax').html();
+                    // let customerNett = $('#subtotal_nett').html();
+                    // let customerTotal = $('#grandTotal').html();
+                    let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
+                    let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
+
+                    var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                        '        <tr>' +
+                        '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                        '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                        '                    <table class="main">' +
+                        '                        <tr>' +
+                        '                            <td class="wrapper">' +
+                        '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                        '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="height: 16px;"></tr>' +
+                        '                                    <tr>' +
+                        '                                        <td>' +
+                        '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr style="height: 48px;"></tr>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <p style="font-size: 18px;">Hi </p>' +
+                        '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Adjustment attached to this email.</p>' +
+                        '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thank you</p>' +
+                        '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                        '                                    <tr>' +
+                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                        '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                    <tr>' +
+                        '                                        <td>' +
+                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                        '                                                <tbody>' +
+                        '                                                    <tr>' +
+                        '                                                        <td align="center">' +
+                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                        '                                                                <tbody>' +
+                        '                                                                    <tr>' +
+                        '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                        '                                                                    </tr>' +
+                        '                                                                </tbody>' +
+                        '                                                            </table>' +
+                        '                                                        </td>' +
+                        '                                                    </tr>' +
+                        '                                                </tbody>' +
+                        '                                            </table>' +
+                        '                                        </td>' +
+                        '                                    </tr>' +
+                        '                                </table>' +
+                        '                            </td>' +
+                        '                        </tr>' +
+                        '                    </table>' +
+                        '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                        '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                        '                            <tr>' +
+                        '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                        '                                    <br>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                        '                                </td>' +
+                        '                            </tr>' +
+                        '                        </table>' +
+                        '                    </div>' +
+                        '                </div>' +
+                        '            </td>' +
+                        '        </tr>' +
+                        '    </table>';
+
+                    if (($('.chkEmailCopy').is(':checked'))) {
+                         $('#html-2-pdfwrapper').css('display', 'none');
+                        Meteor.call('sendEmail', {
+                            from: "" + mailFromName + " <" + mailFrom + ">",
+                            to: checkEmailData,
+                            subject: mailSubject,
+                            text: '',
+                            html: htmlmailBody,
+                            attachments: attachment
+                        }, function (error, result) {
+                            if (error && error.error === "error") {
+                                console.log(error);
+                                FlowRouter.go('/stockadjustmentoverview?success=true');
+
+                            } else {
+                                swal({
+                                    title: 'SUCCESS',
+                                    text: "Email Sent To Employee: " + checkEmailData + " ",
+                                    type: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        FlowRouter.go('/stockadjustmentoverview?success=true');
+                                    } else if (result.dismiss === 'cancel') {}
+                                });
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            }
+                        });
+
+                    } else {
+                        FlowRouter.go('/stockadjustmentoverview?success=true');
+                    };
+
+                }
+                addAttachment();
+                $('.modal-backdrop').css('display', 'none');
 
             }).catch(function (err) {
                 swal({
@@ -1761,9 +2132,7 @@ Template.stockadjustmentcard.events({
                 }).then((result) => {
                     if (result.value) {
                         Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
+                    } else if (result.dismiss === 'cancel') {}
                 });
                 //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
@@ -1933,19 +2302,30 @@ Template.stockadjustmentcard.events({
 
         });
 
-
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblStockAdjustmentLine' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblStockAdjustmentLine'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({ _id: checkPrefDetails._id }, {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
                         $set: {
-                            userid: clientID, username: clientUsername, useremail: clientEmail,
-                            PrefGroup: 'salesform', PrefName: 'tblStockAdjustmentLine', published: true,
+                            userid: clientID,
+                            username: clientUsername,
+                            useremail: clientEmail,
+                            PrefGroup: 'salesform',
+                            PrefName: 'tblStockAdjustmentLine',
+                            published: true,
                             customFields: lineItems,
                             updatedAt: new Date()
                         }
@@ -1962,8 +2342,12 @@ Template.stockadjustmentcard.events({
 
                 } else {
                     CloudPreference.insert({
-                        userid: clientID, username: clientUsername, useremail: clientEmail,
-                        PrefGroup: 'salesform', PrefName: 'tblStockAdjustmentLine', published: true,
+                        userid: clientID,
+                        username: clientUsername,
+                        useremail: clientEmail,
+                        PrefGroup: 'salesform',
+                        PrefName: 'tblStockAdjustmentLine',
+                        published: true,
                         customFields: lineItems,
                         createdAt: new Date()
                     }, function (err, idTag) {
@@ -1983,18 +2367,25 @@ Template.stockadjustmentcard.events({
 
     },
     'click .btnResetGridSettings': function (event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'tblStockAdjustmentLine' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblStockAdjustmentLine'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
-                        if (err) {
-
-                        } else {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -2004,18 +2395,25 @@ Template.stockadjustmentcard.events({
         }
     },
     'click .btnResetSettings': function (event) {
-        var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
         if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({ userid: clientID, PrefName: 'stockadjustmentcard' });
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'stockadjustmentcard'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({ _id: checkPrefDetails._id }, function (err, idTag) {
-                        if (err) {
-
-                        } else {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function (err, idTag) {
+                        if (err) {}
+                        else {
                             Meteor._reload.reload();
                         }
                     });
@@ -2061,7 +2459,7 @@ Template.stockadjustmentcard.events({
             tempObj.$("#confirm-action-" + attachmentID).remove();
         } else {
             let actionElement = '<div class="confirm-action" id="confirm-action-' + attachmentID + '"><a class="confirm-delete-attachment btn btn-default" id="delete-attachment-' + attachmentID + '">'
-                + 'Delete</a><button class="save-to-library btn btn-default">Remove & save to File Library</button></div>';
+                 + 'Delete</a><button class="save-to-library btn btn-default">Remove & save to File Library</button></div>';
             tempObj.$('#attachment-name-' + attachmentID).append(actionElement);
         }
         tempObj.$("#new-attachment2-tooltip").show();
@@ -2082,20 +2480,15 @@ Template.stockadjustmentcard.events({
             previewFile.class = 'pdf-class';
         } else if (type === 'application/msword' || type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             previewFile.class = 'docx-class';
-        }
-        else if (type === 'application/vnd.ms-excel' || type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+        } else if (type === 'application/vnd.ms-excel' || type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
             previewFile.class = 'excel-class';
-        }
-        else if (type === 'application/vnd.ms-powerpoint' || type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+        } else if (type === 'application/vnd.ms-powerpoint' || type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
             previewFile.class = 'ppt-class';
-        }
-        else if (type === 'application/vnd.oasis.opendocument.formula' || type === 'text/csv' || type === 'text/plain' || type === 'text/rtf') {
+        } else if (type === 'application/vnd.oasis.opendocument.formula' || type === 'text/csv' || type === 'text/plain' || type === 'text/rtf') {
             previewFile.class = 'txt-class';
-        }
-        else if (type === 'application/zip' || type === 'application/rar' || type === 'application/x-zip-compressed' || type === 'application/x-zip,application/x-7z-compressed') {
+        } else if (type === 'application/zip' || type === 'application/rar' || type === 'application/x-zip-compressed' || type === 'application/x-zip,application/x-7z-compressed') {
             previewFile.class = 'zip-class';
-        }
-        else {
+        } else {
             previewFile.class = 'default-class';
         }
 
@@ -2188,10 +2581,32 @@ Template.stockadjustmentcard.events({
             (event.keyCode >= 96 && event.keyCode <= 105) ||
             event.keyCode == 8 || event.keyCode == 9 ||
             event.keyCode == 37 || event.keyCode == 39 ||
-            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189) {
-        } else {
+            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189) {}
+        else {
             event.preventDefault();
         }
+    },
+    'click .chkEmailCopy': function(event) {
+        $('#edtCustomerEmail').val($('#edtCustomerEmail').val().replace(/\s/g, ''));
+        if ($(event.target).is(':checked')) {
+            let checkEmailData = $('#edtCustomerEmail').val();
+
+            if (checkEmailData.replace(/\s/g, '') === '') {
+                swal('Customer Email cannot be blank!', '', 'warning');
+                event.preventDefault();
+            } else {
+
+                function isEmailValid(mailTo) {
+                    return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(mailTo);
+                };
+                if (!isEmailValid(checkEmailData)) {
+                    swal('The email field must be a valid email address !', '', 'warning');
+
+                    event.preventDefault();
+                    return false;
+                } else {}
+            }
+        } else {}
     }
 
 });
