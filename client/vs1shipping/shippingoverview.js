@@ -110,7 +110,7 @@ Template.vs1shipping.onRendered(function() {
 
           }else{
             $('.fullScreenSpin').css('display', 'none');
-            Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+            swal( 'WARNING: Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
             e.preventDefault();
           }
 
@@ -124,7 +124,7 @@ Template.vs1shipping.onRendered(function() {
 
     }else{
       $('.fullScreenSpin').css('display', 'none');
-      Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+      swal( 'WARNING: Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
       e.preventDefault();
     }
       }
@@ -916,7 +916,7 @@ Template.vs1shipping.onRendered(function() {
 
         }else{
           $('.fullScreenSpin').css('display', 'none');
-          Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+          swal( 'WARNING: Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
           e.preventDefault();
         }
 
@@ -930,7 +930,7 @@ Template.vs1shipping.onRendered(function() {
 
   }else{
     $('.fullScreenSpin').css('display', 'none');
-    Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+    swal( 'WARNING: Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
     e.preventDefault();
   }
     }
@@ -1033,7 +1033,7 @@ Template.vs1shipping.events({
 
           }else{
             $('.fullScreenSpin').css('display', 'none');
-            Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+            swal( 'WARNING: Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
             e.preventDefault();
           }
 
@@ -1047,7 +1047,7 @@ Template.vs1shipping.events({
 
     }else{
       $('.fullScreenSpin').css('display', 'none');
-      Bert.alert( '<strong>WARNING:</strong> Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
+      swal( 'WARNING: Could not find any Sales associated with this barcode "'+barcode+'"', 'warning','fixed-top', 'fa-frown-o' );
       e.preventDefault();
     }
       }
