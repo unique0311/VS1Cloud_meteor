@@ -4093,10 +4093,11 @@ Template.new_invoice.onRendered(() => {
         $('#sltTerms').editableSelect();
         $('#sltDept').editableSelect();
         $('#sltStatus').editableSelect();
+
         $('#addRow').on('click', function() {
             var rowData = $('#tblInvoiceLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
-            $(".lineProductName", rowData).text("");
+            $(".lineProductName", rowData).val("");
             $(".lineProductDesc", rowData).text("");
             $(".lineQty", rowData).val("");
             $(".lineOrdered", rowData).val("");
@@ -4106,7 +4107,7 @@ Template.new_invoice.onRendered(() => {
             $(".lineTaxCode", rowData).text("");
             $(".lineTaxAmount", rowData).text("");
             $(".lineDiscount", rowData).text("");
-            $(".lineProductName", rowData).attr("prodid", '');
+            // $(".lineProductName", rowData).attr("prodid", '');
 
             rowData.attr('id', tokenid);
             $("#tblInvoiceLine tbody").append(rowData);
@@ -4215,8 +4216,8 @@ Template.new_invoice.onRendered(() => {
                 }
             }
 
-            $('#' + selectLineID + " .lineProductName").text(lineProductName);
-            $('#' + selectLineID + " .lineProductName").attr("prodid", table.find(".colProuctPOPID").text());
+            $('#' + selectLineID + " .lineProductName").val(lineProductName);
+            // $('#' + selectLineID + " .lineProductName").attr("prodid", table.find(".colProuctPOPID").text());
             $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
             $('#' + selectLineID + " .lineOrdered").val(1);
             $('#' + selectLineID + " .lineQty").val(1);
@@ -5189,7 +5190,7 @@ Template.new_invoice.onRendered(() => {
         var erpGet = erpDb();
         $('#tblInvoiceLine > tbody > tr').each(function() {
             var lineID = this.id;
-            let tdproduct = $('#' + lineID + " .lineProductName").text();
+            let tdproduct = $('#' + lineID + " .lineProductName").val();
             let tddescription = $('#' + lineID + " .lineProductDesc").text();
             let tdQty = $('#' + lineID + " .lineQty").val();
             let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
@@ -5975,7 +5976,7 @@ Template.new_invoice.events({
                     let surname = $('#lastname').val();
                     $('#tblInvoiceLine > tbody > tr').each(function() {
                         var lineID = this.id;
-                        let tdproduct = $('#' + lineID + " .lineProductName").text();
+                        let tdproduct = $('#' + lineID + " .lineProductName").val();
                         let tddescription = $('#' + lineID + " .lineProductDesc").text();
                         let tdQty = $('#' + lineID + " .lineQty").val();
                         let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
@@ -6049,7 +6050,7 @@ Template.new_invoice.events({
                     let checkBackOrder = templateObject.includeBOnShippedQty.get();
                     $('#tblInvoiceLine > tbody > tr').each(function() {
                         var lineID = this.id;
-                        let tdproduct = $('#' + lineID + " .lineProductName").text();
+                        let tdproduct = $('#' + lineID + " .lineProductName").val();
                         let tddescription = $('#' + lineID + " .lineProductDesc").text();
                         let tdQty = $('#' + lineID + " .lineQty").val();
 
@@ -6940,7 +6941,10 @@ Template.new_invoice.events({
             x.style.display = "none";
         }
     },
-    'click .lineProductName': function(event) {
+    'click .lineProductName, keydown .lineProductName': function(event) {
+      var $earch = $(event.currentTarget);
+      var offset = $earch.offset();
+
         let customername = $('#edtCustomerName').val();
         const templateObject = Template.instance();
         $("#selectProductID").val('');
@@ -6948,13 +6952,29 @@ Template.new_invoice.events({
             swal('Customer has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-            var productDataName = $(event.target).text() || '';
-            var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+          // console.log($(event.currentTarget).offsetLeft());
+            var productDataName = $(event.target).val() || '';
+            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+              $('#productListModal').modal('toggle');
+              var targetID = $(event.target).closest('tr').attr('id');
+              $('#selectLineID').val(targetID);
+              setTimeout(function() {
+                  $('#tblInventory_filter .form-control-sm').focus();
+                  $('#tblInventory_filter .form-control-sm').val('');
+                  $('#tblInventory_filter .form-control-sm').trigger("input");
+
+                  var datatable = $('#tblInventory').DataTable();
+                  datatable.draw();
+                  $('#tblInventory_filter .form-control-sm').trigger("input");
+
+              }, 500);
+         } else {
+            // var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
             if (productDataName.replace(/\s/g, '') != '') {
                 //FlowRouter.go('/productview?prodname=' + $(event.target).text());
                 let lineExtaSellItems = [];
                 let lineExtaSellObj = {};
-
+                $('.fullScreenSpin').css('display', 'inline-block');
                 getVS1Data('TProductVS1').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
@@ -7231,6 +7251,8 @@ Template.new_invoice.events({
 
                 }, 500);
             }
+
+          }
         }
     },
     'click .lineTaxRate': function(event) {
@@ -7576,7 +7598,7 @@ Template.new_invoice.events({
             //return false;
         } else {
             this.click;
-            $('#' + selectLineID + " .lineProductName").text('');
+            $('#' + selectLineID + " .lineProductName").val('');
             $('#' + selectLineID + " .lineProductDesc").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
             $('#' + selectLineID + " .lineQty").val('');
@@ -7640,7 +7662,7 @@ Template.new_invoice.events({
             let checkBackOrder = templateObject.includeBOnShippedQty.get();
             $('#tblInvoiceLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
 
@@ -8639,7 +8661,7 @@ Template.new_invoice.events({
             let checkBackOrder = templateObject.includeBOnShippedQty.get();
             $('#tblInvoiceLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
 
@@ -9219,7 +9241,7 @@ Template.new_invoice.events({
                 let checkBackOrder = templateObject.includeBOnShippedQty.get();
                 $('#tblInvoiceLine > tbody > tr').each(function() {
                     var lineID = this.id;
-                    let tdproduct = $('#' + lineID + " .lineProductName").text();
+                    let tdproduct = $('#' + lineID + " .lineProductName").val();
                     let tddescription = $('#' + lineID + " .lineProductDesc").text();
                     let tdQty = $('#' + lineID + " .lineQty").val();
 

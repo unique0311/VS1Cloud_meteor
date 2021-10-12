@@ -2996,7 +2996,7 @@ Template.new_salesorder.onRendered(() => {
         $('#addRow').on('click', function() {
             var rowData = $('#tblSalesOrderLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
-            $(".lineProductName", rowData).text("");
+            $(".lineProductName", rowData).val("");
             $(".lineProductDesc", rowData).text("");
             $(".lineQty", rowData).val("");
             $(".lineUnitPrice", rowData).val("");
@@ -3118,7 +3118,7 @@ Template.new_salesorder.onRendered(() => {
                 }
             }
 
-            $('#' + selectLineID + " .lineProductName").text(lineProductName);
+            $('#' + selectLineID + " .lineProductName").val(lineProductName);
             $('#' + selectLineID + " .lineProductName").attr("prodid", table.find(".colProuctPOPID").text());
             $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
             $('#' + selectLineID + " .lineOrdered").val(1);
@@ -4017,7 +4017,7 @@ Template.new_salesorder.onRendered(() => {
         var erpGet = erpDb();
         $('#tblSalesOrderLine > tbody > tr').each(function() {
             var lineID = this.id;
-            let tdproduct = $('#' + lineID + " .lineProductName").text();
+            let tdproduct = $('#' + lineID + " .lineProductName").val();
             let tddescription = $('#' + lineID + " .lineProductDesc").text();
             let tdQty = $('#' + lineID + " .lineQty").val();
             let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
@@ -5094,14 +5094,31 @@ Template.new_salesorder.events({
             x.style.display = "none";
         }
     },
-    'click .lineProductName': function(event) {
+    'click .lineProductName, keydown .lineProductName': function(event) {
         let customername = $('#edtCustomerName').val();
+        var $earch = $(event.currentTarget);
+        var offset = $earch.offset();
+        $("#selectProductID").val('');
         if (customername === '') {
             swal('Customer has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-            var productDataName = $(event.target).text() || '';
-            var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+            var productDataName = $(event.target).val() || '';
+            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+              $('#productListModal').modal('toggle');
+              var targetID = $(event.target).closest('tr').attr('id');
+              $('#selectLineID').val(targetID);
+              setTimeout(function() {
+                  $('#tblInventory_filter .form-control-sm').focus();
+                  $('#tblInventory_filter .form-control-sm').val('');
+                  $('#tblInventory_filter .form-control-sm').trigger("input");
+
+                  var datatable = $('#tblInventory').DataTable();
+                  datatable.draw();
+                  $('#tblInventory_filter .form-control-sm').trigger("input");
+
+              }, 500);
+         } else {
             if (productDataName.replace(/\s/g, '') != '') {
                 //FlowRouter.go('/productview?prodname=' + $(event.target).text());
                 let lineExtaSellItems = [];
@@ -5307,6 +5324,7 @@ Template.new_salesorder.events({
 
                 }, 500);
             }
+          }
         }
     },
     'click #productListModal #refreshpagelist': function() {
@@ -5658,7 +5676,7 @@ Template.new_salesorder.events({
         } else {
             this.click;
             // $(event.target).closest('tr').remove();
-            $('#' + selectLineID + " .lineProductName").text('');
+            $('#' + selectLineID + " .lineProductName").val('');
             $('#' + selectLineID + " .lineProductDesc").text('');
             $('#' + selectLineID + " .lineOrdered").val('');
             $('#' + selectLineID + " .lineQty").val('');
@@ -5718,7 +5736,7 @@ Template.new_salesorder.events({
             let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
             $('#tblSalesOrderLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
                 let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
@@ -6601,7 +6619,7 @@ Template.new_salesorder.events({
                 let surname = $('#lastname').val();
                 $('#tblSalesOrderLine > tbody > tr').each(function() {
                     var lineID = this.id;
-                    let tdproduct = $('#' + lineID + " .lineProductName").text();
+                    let tdproduct = $('#' + lineID + " .lineProductName").val();
                     let tddescription = $('#' + lineID + " .lineProductDesc").text();
                     let tdQty = $('#' + lineID + " .lineQty").val();
                     let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
@@ -6659,7 +6677,7 @@ Template.new_salesorder.events({
                     let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
                     $('#tblSalesOrderLine > tbody > tr').each(function() {
                         var lineID = this.id;
-                        let tdproduct = $('#' + lineID + " .lineProductName").text();
+                        let tdproduct = $('#' + lineID + " .lineProductName").val();
                         let tddescription = $('#' + lineID + " .lineProductDesc").text();
                         let tdQty = $('#' + lineID + " .lineQty").val();
                         let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
@@ -7163,7 +7181,7 @@ Template.new_salesorder.events({
             let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
             $('#tblSalesOrderLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
                 let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
@@ -7419,7 +7437,7 @@ Template.new_salesorder.events({
             let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
             $('#tblSalesOrderLine > tbody > tr').each(function() {
                 var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").text();
+                let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
                 let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();

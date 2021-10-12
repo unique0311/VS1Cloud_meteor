@@ -313,7 +313,7 @@
                         <thead>
                             <tr class="dnd-moved">
                                 <th class="th colInvoiceNo">Invoice No.</th>
-                                <th class="th colSaleNo">Sale No.</th>
+                                <!-- <th class="th colSaleNo">Sale No.</th> -->
                                 <th class="th colEmployee">Employee</th>
                                 <th class="th colDept">Department</th>
                                 <th class="th colPrintName">Print Name</th>
@@ -325,7 +325,7 @@
                                 {{#each item in datatablerecords}}
                                     <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                         <td contenteditable="false" class="colInvoiceNo">{{item.id}}</td>
-                                        <td contenteditable="false" class="colSaleNo">{{item.id}}</td>
+                                        <!-- <td contenteditable="false" class="colSaleNo">{{item.id}}</td> -->
                                         <td contenteditable="false" class="colEmployee">{{item.employee}}</td>
                                         <td contenteditable="false" class="colDept">{{item.department}}</td>
                                         <td contenteditable="false" class="colPrintName">{{item.customername}}</td>

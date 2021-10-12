@@ -429,3 +429,19 @@ margin-top: 23%;
 .bert-alert.now-error > .bert-container > .bert-gem {
   display: none;
 }
+
+
+
+.highlightSelect {
+    border: 0px solid transparent !important;
+    background-color: rgba(0, 0, 0, 0) !important;
+    width: 100% !important;
+    color: #858796 !important;
+    cursor: pointer!important;
+}
+
+.highlightSelect::-webkit-outer-spin-button,
+.highlightSelect::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}

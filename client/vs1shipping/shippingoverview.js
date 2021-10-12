@@ -291,8 +291,8 @@ Template.vs1shipping.onRendered(function() {
                             info: true,
                             responsive: true,
                             "order": [
-                                [5, "desc"],
-                                [2, "desc"]
+                                [4, "desc"],
+                                [1, "desc"]
                             ],
                             action: function() {
                                 $('#tblShipping').DataTable().ajax.reload();
@@ -493,8 +493,8 @@ Template.vs1shipping.onRendered(function() {
                         info: true,
                         responsive: true,
                         "order": [
-                            [5, "desc"],
-                            [2, "desc"]
+                            [4, "desc"],
+                            [1, "desc"]
                         ],
                         action: function() {
                             $('#tblShipping').DataTable().ajax.reload();
@@ -783,8 +783,8 @@ Template.vs1shipping.onRendered(function() {
                         info: true,
                         responsive: true,
                         "order": [
-                            [5, "desc"],
-                            [2, "desc"]
+                            [4, "desc"],
+                            [1, "desc"]
                         ],
                         action: function() {
                             $('#tblShipping').DataTable().ajax.reload();

@@ -10,6 +10,10 @@ $(document).ready(function(){
     $(this).select();
   });
 
+  // $(document).on('click', '.highlightSelect', function () {
+  //   $(this).select();
+  // });
+
   $(document).on('click', "input[type='text']", function () {
     $(this).select();
   });
