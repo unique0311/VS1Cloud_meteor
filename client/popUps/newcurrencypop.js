@@ -917,7 +917,7 @@ Template.newcurrencypop.events({
     'change #sedtCountry': function() {
         let taxRateService = new TaxRateService();
         let selectCountry = $('#sedtCountry').val();
-        $('#edtCurrencyID').val('');
+        //$('#edtCurrencyID').val('');
 
         $('#currencyCode').val('');
         $('#currencySymbol').val('');
@@ -986,7 +986,7 @@ Template.newcurrencypop.events({
                 type: "TCurrency",
                 fields: {
                     Active: true,
-                    Country: country,
+                    //Country: country,
                     Code: currencyCode,
                     CurrencySymbol: currencySymbol,
                     Currency: currencyName,
@@ -1001,7 +1001,7 @@ Template.newcurrencypop.events({
                 fields: {
                     ID: parseInt(currencyid),
                     Active: true,
-                    Country: country,
+                    //Country: country,
                     Code: currencyCode,
                     CurrencySymbol: currencySymbol,
                     Currency: currencyName,
@@ -1042,6 +1042,7 @@ Template.newcurrencypop.events({
 
                 }
             });
+            $('#add-currency-title').text('Add New Currency');
             $('.fullScreenSpin').css('display', 'none');
         });
 
