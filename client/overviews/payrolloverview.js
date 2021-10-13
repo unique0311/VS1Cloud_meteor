@@ -840,6 +840,9 @@ Template.payrolloverview.events({
         $('#txtBookedHoursSpent').val("");
         $('#startTime').prop('disabled', false);
         $('#endTime').prop('disabled', false);
+        $('#btnClockOn').prop('disabled', false);
+        $('#btnHoldOne').prop('disabled', false);
+        $('#btnClockOff').prop('disabled', false);
         var curretDate = moment().format('DD/MM/YYYY');
         setTimeout(function () {
             $("#dtSODate").val(curretDate);
@@ -881,6 +884,13 @@ Template.payrolloverview.events({
                     $('#product-list').val(clockList[clockList.length - 1].product);
                     $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                     $('#startTime').prop('disabled', true);
+                    if (clockList[clockList.length - 1].isPaused == "completed") {
+                            $('#endTime').val(endTime);
+                            $('#endTime').prop('disabled', true);
+                            $('#btnClockOn').prop('disabled', true);
+                            $('#btnHoldOne').prop('disabled', true);
+                            $('#btnClockOff').prop('disabled', true);
+                        }
                 }
             } else if (clockList[clockList.length - 1].isPaused != "completed") {
                 if (clockList[clockList.length - 1].timelog.fields.EndDatetime == "") {
@@ -897,6 +907,13 @@ Template.payrolloverview.events({
                         $('#product-list').val(clockList[clockList.length - 1].product);
                         $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                         $('#startTime').prop('disabled', true);
+                        if (clockList[clockList.length - 1].isPaused == "completed") {
+                            $('#endTime').val(endTime);
+                            $('#endTime').prop('disabled', true);
+                            $('#btnClockOn').prop('disabled', true);
+                            $('#btnHoldOne').prop('disabled', true);
+                            $('#btnClockOff').prop('disabled', true);
+                        }
                     }
                 }
             }
