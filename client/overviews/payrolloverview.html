@@ -551,7 +551,7 @@
                                     <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                         <label>Start Time</label><input class="form-control" id="startTime" required name="startTime" type="time">
                                     </div>
-                                    <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i>Clock On</button>
+                                     <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i><span class="clockOn">Clock On</span></button>
                                 </div>
                                 <div class="col-6 col-md-4 col-lg-4">
                                     <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required class="form-control" id="endTime" name="endTime" type="time"></div>
@@ -566,6 +566,7 @@
                                     {{else}}
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                             <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" readonly>
+                                            <input type="hidden" id="txtBookedHoursSpent1" name="txtBookedHoursSpent1">
                                         </div>
                                     {{/if}}
                                     <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOff"><i class="fas fa-clock" style="margin-right: 5px;"></i>Clock Off</button>
