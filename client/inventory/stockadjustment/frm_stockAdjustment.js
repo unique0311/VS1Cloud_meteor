@@ -107,6 +107,8 @@ Template.stockadjustmentcard.onRendered(() => {
                             department: data.tdeptclass[i].DeptClassName || ' ',
                         };
 
+                        //$('#sltDepartment').val(data.tdeptclass[i].DeptClassName);
+
                         deptrecords.push(deptrecordObj);
                         templateObject.deptrecords.set(deptrecords);
 
@@ -121,6 +123,8 @@ Template.stockadjustmentcard.onRendered(() => {
                         department: useData[i].DeptClassName || ' ',
                     };
 
+                    //$('#sltDepartment').val(useData[i].DeptClassName);
+
                     deptrecords.push(deptrecordObj);
                     templateObject.deptrecords.set(deptrecords);
 
@@ -133,6 +137,8 @@ Template.stockadjustmentcard.onRendered(() => {
                     let deptrecordObj = {
                         department: data.tdeptclass[i].DeptClassName || ' ',
                     };
+
+                    //$('#sltDepartment').val(data.tdeptclass[i].DeptClassName);
 
                     deptrecords.push(deptrecordObj);
                     templateObject.deptrecords.set(deptrecords);
@@ -296,6 +302,12 @@ Template.stockadjustmentcard.onRendered(() => {
                             balancedate: data.fields.AdjustmentDate ? moment(data.fields.AdjustmentDate).format('DD/MM/YYYY') : ""
                         };
 
+                        let getDepartmentVal = data.fields.Lines[0].fields.DeptName || 'Default';
+
+                        setTimeout(function() {
+                            $('#sltDepartment').val(getDepartmentVal);
+                        }, 200);
+
                         if (data.fields.IsProcessed == true) {
                             $('.colProcessed').css('display', 'block');
                             $("#form :input").prop("disabled", true);
@@ -430,6 +442,12 @@ Template.stockadjustmentcard.onRendered(() => {
                                 balancedate: useData[d].fields.AdjustmentDate ? moment(useData[d].fields.AdjustmentDate).format('DD/MM/YYYY') : ""
                             };
 
+                            let getDepartmentVal = useData[d].fields.Lines[0].fields.DeptName || 'Default';
+
+                            setTimeout(function() {
+                                $('#sltDepartment').val(getDepartmentVal);
+                            }, 200);
+
                             //
                             // $("#form :input").prop("disabled", true);
                             // $(".btnDeleteStock").prop("disabled", false);
@@ -537,6 +555,12 @@ Template.stockadjustmentcard.onRendered(() => {
                         notes: data.fields.Notes,
                         balancedate: data.fields.AdjustmentDate ? moment(data.fields.AdjustmentDate).format('DD/MM/YYYY') : ""
                     };
+
+                    let getDepartmentVal = data.fields.Lines[0].fields.DeptName || 'Default';
+
+                    setTimeout(function() {
+                        $('#sltDepartment').val(getDepartmentVal);
+                    }, 200);
 
                     if (data.fields.IsProcessed == true) {
                         $('.colProcessed').css('display', 'block');
@@ -652,6 +676,10 @@ Template.stockadjustmentcard.onRendered(() => {
             LineItems: lineItems,
             notes: ''
         };
+
+        setTimeout(function() {
+            $('#sltDepartment').val(defaultDept);
+        }, 200);
 
         $('#edtCustomerName').val('');
 
@@ -1054,6 +1082,13 @@ Template.stockadjustmentcard.onRendered(function () {
     // tempObj.getAllProducts();
     $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
+    $('#sltDepartment').editableSelect();
+
+    $(document).on("click", "#departmentList tbody tr", function(e) {
+        $('#sltDepartment').val($(this).find(".colDeptName").text());
+        $('#departmentModal').modal('toggle');
+    });
+
 });
 Template.stockadjustmentcard.helpers({
     record: () => {
@@ -1131,6 +1166,9 @@ Template.stockadjustmentcard.helpers({
 });
 
 Template.stockadjustmentcard.events({
+    'click #sltDepartment': function(event) {
+        $('#departmentModal').modal('toggle');
+    },
     'click #edtCustomerName': function (event) {
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
