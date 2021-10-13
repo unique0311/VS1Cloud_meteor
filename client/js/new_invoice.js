@@ -82,7 +82,7 @@ Template.new_invoice.onCreated(() => {
     templateObject.includeBOnShippedQty = new ReactiveVar();
     templateObject.includeBOnShippedQty.set(true);
     templateObject.productextrasellrecords = new ReactiveVar([]);
-
+    templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.singleInvoiceData = new ReactiveVar([]);
 
     templateObject.defaultsaleterm = new ReactiveVar();
@@ -121,6 +121,7 @@ Template.new_invoice.onRendered(() => {
     const deptrecords = [];
     const termrecords = [];
     const statusList = [];
+    const dataTableList = [];
     let isBOnShippedQty = Session.get('CloudSalesQtyOnly');
     if (isBOnShippedQty) {
         templateObject.includeBOnShippedQty.set(false);
@@ -4068,6 +4069,120 @@ Template.new_invoice.onRendered(() => {
         });
 
     }
+
+    templateObject.getAllSalesOrderData = function () {
+        getVS1Data('TCustomerPayment').then(function (dataObject) {
+            if(dataObject.length == 0){
+                sideBarService.getTCustomerPaymentList(initialDataLoad,0).then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+
+                        addVS1Data('TCustomerPayment',JSON.stringify(data));
+
+                    for(let i=0; i<data.tcustomerpayment.length; i++){
+
+                        let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Amount)|| 0.00;
+                        let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Applied) || 0.00;
+                        // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Balance)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalPaid)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalBalance)|| 0.00;
+                        var dataList = {
+                            id: data.tcustomerpayment[i].fields.ID || '',
+                            sortdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("YYYY/MM/DD"): data.tcustomerpayment[i].fields.PaymentDate,
+                            paymentdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("DD/MM/YYYY"): data.tcustomerpayment[i].fields.PaymentDate,
+                            customername: data.tcustomerpayment[i].fields.CompanyName || '',
+                            paymentamount: amount || 0.00,
+                            applied: applied || 0.00,
+                            balance: balance || 0.00,
+                            lines: data.tcustomerpayment[i].fields.Lines,
+                            bankaccount: data.tcustomerpayment[i].fields.AccountName || '',
+                            department: data.tcustomerpayment[i].fields.DeptClassName || '',
+                            refno: data.tcustomerpayment[i].fields.ReferenceNo || '',
+                            paymentmethod: data.tcustomerpayment[i].fields.PaymentMethodName || '',
+                            notes: data.tcustomerpayment[i].fields.Notes || ''
+                        };
+                        dataTableList.push(dataList);
+                    }
+                    templateObject.datatablerecords.set(dataTableList);
+                }).catch(function (err) {
+                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    $('.fullScreenSpin').css('display','none');
+                    // Meteor._reload.reload();
+                });
+            }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tcustomerpayment;
+                let lineItems = [];
+                let lineItemObj = {};
+                for(let i=0; i<data.tcustomerpayment.length; i++){
+                    let amount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Amount)|| 0.00;
+                    let applied = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Applied) || 0.00;
+                    // Currency+''+useData[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let balance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Balance)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalPaid)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
+                    var dataList = {
+                        id: useData[i].fields.ID || '',
+                        sortdate: useData[i].fields.PaymentDate !=''? moment(useData[i].fields.PaymentDate).format("YYYY/MM/DD"): useData[i].fields.PaymentDate,
+                        paymentdate: useData[i].fields.PaymentDate !=''? moment(useData[i].fields.PaymentDate).format("DD/MM/YYYY"): useData[i].fields.PaymentDate,
+                        customername: useData[i].fields.CompanyName || '',
+                        paymentamount: amount || 0.00,
+                        applied: applied || 0.00,
+                        balance: balance || 0.00,
+                        lines: useData[i].fields.Lines,
+                        bankaccount: useData[i].fields.AccountName || '',
+                        department: useData[i].fields.DeptClassName || '',
+                        refno: useData[i].fields.ReferenceNo || '',
+                        paymentmethod: useData[i].fields.PaymentMethodName || '',
+                        notes: useData[i].fields.Notes || ''
+                    };
+                    dataTableList.push(dataList);
+                }
+                templateObject.datatablerecords.set(dataTableList);
+            }
+        }).catch(function (err) {
+          sideBarService.getTCustomerPaymentList(initialDataLoad,0).then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+
+                  addVS1Data('TCustomerPayment',JSON.stringify(data));
+
+              for(let i=0; i<data.tcustomerpayment.length; i++){
+
+                  let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Amount)|| 0.00;
+                  let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Applied) || 0.00;
+                  // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Balance)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalPaid)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalBalance)|| 0.00;
+                  var dataList = {
+                      id: data.tcustomerpayment[i].fields.ID || '',
+                      sortdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("YYYY/MM/DD"): data.tcustomerpayment[i].fields.PaymentDate,
+                      paymentdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("DD/MM/YYYY"): data.tcustomerpayment[i].fields.PaymentDate,
+                      customername: data.tcustomerpayment[i].fields.CompanyName || '',
+                      paymentamount: amount || 0.00,
+                      applied: applied || 0.00,
+                      balance: balance || 0.00,
+                      bankaccount: data.tcustomerpayment[i].fields.AccountName || '',
+                      department: data.tcustomerpayment[i].fields.DeptClassName || '',
+                      refno: data.tcustomerpayment[i].fields.ReferenceNo || '',
+                      paymentmethod: data.tcustomerpayment[i].fields.PaymentMethodName || '',
+                      notes: data.tcustomerpayment[i].fields.Notes || ''
+                  };
+                  dataTableList.push(dataList);
+              }
+              templateObject.datatablerecords.set(dataTableList);
+          }).catch(function (err) {
+              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              $('.fullScreenSpin').css('display','none');
+              // Meteor._reload.reload();
+          });
+        });
+
+    }
+
+    templateObject.getAllSalesOrderData();
 
     templateObject.getDepartments();
     templateObject.getTerms();
@@ -9198,12 +9313,27 @@ Template.new_invoice.events({
 
     },
     'click #btnViewPayment': function() {
+        let templateObject = Template.instance();
+        let paymentData = templateObject.datatablerecords.get();
+        let paymentID = "";
         var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
-
-        let customer = $('#edtCustomerName').val();
-        window.open('/paymentcard?custname=' + customer + '&from=' + currentInvoice, '_self');
+        for(let x=0; x < paymentData.length; x++){
+            if(paymentData[x].lines.length > 1){
+                for(let y = 0; y < paymentData[x].lines.length; y++) {
+                    if(paymentData[x].lines[y].fields.InvoiceId == currentInvoice) {
+                        paymentID = paymentData[x].id;
+                       window.open('/paymentcard?id=' + paymentID, '_self');
+                    }
+                }
+            } else {
+                if(paymentData[x].lines[0].fields.InvoiceId == currentInvoice) {
+                        paymentID = paymentData[x].id;
+                       window.open('/paymentcard?id=' + paymentID, '_self');
+                }
+            }
+        }
     },
     'click .btnBack': function(event) {
 
@@ -9383,7 +9513,7 @@ Template.new_invoice.events({
                 salesService.saveInvoiceEx(objDetails).then(function(objDetails) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     if (customerID !== " ") {
-                        let customerEmailData = {
+                        let customerEmaildatatablerecords = {
                             type: "TCustomer",
                             fields: {
                                 ID: customerID,
