@@ -517,7 +517,8 @@
                                     <tbody>
                                         {{#each item in record.LineItems}}
                                         <tr class="dnd-moved" id="{{item.lineID}}">
-                                            <td contenteditable="false" class="colAccount lineAccountName" lineid="{{item.id}}">{{item.accountname}}</td>
+                                            <!-- <td contenteditable="false" class="colAccount lineAccountName" lineid="{{item.id}}">{{item.accountname}}</td> -->
+                                            <td contenteditable="false" class="colAccount"><input class="es-input highlightSelect lineAccountName" type="search" value="{{item.accountname}}" ></td>
                                             <td contenteditable="false" class="colPaymentMethod">{{item.paymentmethod}}</td>
                                             <td contenteditable="true" class="colReference">{{item.memo}}</td>
                                             <td contenteditable="false" class="colCompany lineCompany">{{item.companyname}}</td>

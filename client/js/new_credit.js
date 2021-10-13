@@ -1600,6 +1600,7 @@ Template.creditcard.onRendered(() => {
     });
 
     $(document).on("click", "#tblAccount tbody tr", function(e) {
+      $(".colAccountName").removeClass('boldtablealertsborder');
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
@@ -2272,7 +2273,9 @@ Template.creditcard.onRendered(() => {
             var $tblrow = $(this);
             var amount = $tblrow.find(".colAmount").val() || 0;
             var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
-
+            if($tblrow.find(".lineAccountName").val() == ''){
+              $tblrow.find(".colAccountName").addClass('boldtablealertsborder');
+            }
             var taxrateamount = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {

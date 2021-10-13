@@ -1632,6 +1632,7 @@ Template.purchaseordercard.onRendered(() => {
     });
 
     $(document).on("click", "#tblInventory tbody tr", function(e) {
+      $(".colProductName").removeClass('boldtablealertsborder');
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
@@ -2332,7 +2333,12 @@ Template.purchaseordercard.onRendered(() => {
             var qty = $tblrow.find(".lineQty").val() || 0;
             var price = $tblrow.find(".lineUnitPrice").val() || 0;
             var taxcode = $tblrow.find(".lineTaxCode").text() || '';
-
+            if($tblrow.find(".lineAccountName").val() == ''){
+              $tblrow.find(".colAccountName").addClass('boldtablealertsborder');
+            }
+            if($tblrow.find(".lineProductName").val() == ''){
+              $tblrow.find(".colProductName").addClass('boldtablealertsborder');
+            }
             var taxrateamount = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {

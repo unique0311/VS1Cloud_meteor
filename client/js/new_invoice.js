@@ -4249,7 +4249,7 @@ Template.new_invoice.onRendered(() => {
 
     /* On clik Inventory Line */
     $(document).on("click", "#tblInventory tbody tr", function(e) {
-
+        $(".colProductName").removeClass('boldtablealertsborder');
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
@@ -4635,6 +4635,7 @@ Template.new_invoice.onRendered(() => {
         $('#edtCustomerName').attr("custid", tableCustomer.find(".colID").text());
         $('#customerListModal').modal('toggle');
 
+
         // $('#customerType').text(tableCustomer.find(".colCustomerType").text()||'Default');
         // $('#customerDiscount').text(tableCustomer.find(".colCustomerDiscount").text()+'%'|| 0+'%');
         // $('#edtCustomerUseType').val(tableCustomer.find(".colCustomerType").text()||'Default');
@@ -4711,7 +4712,9 @@ Template.new_invoice.onRendered(() => {
                         var qty = $tblrow.find(".lineQty").val() || 0;
                         var price = $tblrow.find(".lineUnitPrice").val() || 0;
                         var taxRate = $tblrow.find(".lineTaxCode").text();
-
+                        if($tblrow.find(".lineProductName").val() == ''){
+                          $tblrow.find(".colProductName").addClass('boldtablealertsborder');
+                        }
                         var taxrateamount = 0;
                         if (taxcodeList) {
                             for (var i = 0; i < taxcodeList.length; i++) {
@@ -4810,6 +4813,8 @@ Template.new_invoice.onRendered(() => {
                 }
             }
         }
+
+
         $('#tblCustomerlist_filter .form-control-sm').val('');
         setTimeout(function() {
             //$('#tblCustomerlist_filter .form-control-sm').focus();

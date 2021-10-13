@@ -949,6 +949,7 @@ Template.refundcard.onRendered(()=>{
 
     /* On clik Inventory Line */
     $(document).on("click", "#tblInventory tbody tr", function(e) {
+      $(".colProductName").removeClass('boldtablealertsborder');
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
@@ -1373,7 +1374,9 @@ Template.refundcard.onRendered(()=>{
                     var qty = $tblrow.find(".lineQty").val() || 0;
                     var price = $tblrow.find(".lineUnitPrice").val() || 0;
                     var taxRate = $tblrow.find(".lineTaxCode").text();
-
+                    if($tblrow.find(".lineProductName").val() == ''){
+                      $tblrow.find(".colProductName").addClass('boldtablealertsborder');
+                    }
                     var taxrateamount = 0;
                     if (taxcodeList) {
                         for (var i = 0; i < taxcodeList.length; i++) {

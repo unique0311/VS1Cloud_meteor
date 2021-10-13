@@ -73,9 +73,9 @@
         <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
             <div class="col-12 col-lg-3">
                 <div class="form-group"><label>Customer</label>
-                  <!-- <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                  </select> -->
-                  <input class="form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{shippingrecord.shipcustomer}}">
+                  <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                  </select>
+                  <!-- <input class="form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{shippingrecord.shipcustomer}}" readonly style="cursor: pointer;"> -->
                 </div>
             </div>
             <div class="col-12 col-lg-3">
@@ -263,8 +263,8 @@
                       {{#each item in shippingrecord.LineItems}}
                         <tr class="dnd-moved selectable" id="{{item.lineID}}">
                             <td class="hiddenColumn lineID" id="lineID">{{item.pqa}}</td>
-                            <td contenteditable="true" class="colProduct ProdName" id="ProdName">{{item.item}}</td>
-                            <td contenteditable="true" class="colDescription">{{item.description}}</td>
+                            <td contenteditable="false" class="colProduct ProdName" id="ProdName">{{item.item}}</td>
+                            <td contenteditable="false" class="colDescription">{{item.description}}</td>
                             <td><input class="lineOrdered colOrdered highlightInput" id="Ordered" type="number" value="{{item.qtyordered}}"></td>
                             <td class="hiddenColumn ID" id="ID">{{item.id}}</td>
                             <td class="hiddenColumn pqa" id="pqa"></td>

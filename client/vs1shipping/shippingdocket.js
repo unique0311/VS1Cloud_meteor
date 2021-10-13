@@ -8,6 +8,7 @@ import '../lib/global/indexdbstorage.js';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
 import 'jquery-ui-dist/jquery-ui.css';
+import 'jquery-editable-select';
 import {Random} from 'meteor/random';
 const _ = require('lodash');
 let sideBarService = new SideBarService();

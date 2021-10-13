@@ -945,6 +945,24 @@ authenticatedRoutes.route('/stockadjustmentcard', {
         });
     }
 });
+
+authenticatedRoutes.route('/stocktransferlist', {
+    name: 'stocktransferlist',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'stocktransferlist'
+        });
+    }
+});
+authenticatedRoutes.route('/stocktransfercard', {
+    name: 'stocktransfercard',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'stocktransfercard'
+        });
+    }
+});
+
 authenticatedRoutes.route('/journalentrycard', {
     name: 'journalentrycard',
     action() {
