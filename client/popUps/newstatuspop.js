@@ -20,23 +20,33 @@ import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
-Template.newstatuspop.onCreated(() => {
-});
-Template.newstatuspop.onRendered(() => {
-});
-Template.newstatuspop.helpers({
-});
+Template.newstatuspop.onCreated(() => {});
+Template.newstatuspop.onRendered(() => {});
+Template.newstatuspop.helpers({});
 Template.newstatuspop.events({
     'click .btnSaveStatus': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let clientService = new SalesBoardService()
         let status = $('#newStatus').val();
-        let leadData = {
-            type: 'TLeadStatusType',
-            fields: {
-                TypeName: status,
-                KeyValue: status
-            }
+        let statusid = $('#statusId').val();
+        let leadData = '';
+        if (statusid == "") {
+            leadData = {
+                type: 'TLeadStatusType',
+                fields: {
+                    TypeName: status,
+                    KeyValue: status
+                }
+            };
+        } else {
+            leadData = {
+                type: 'TLeadStatusType',
+                fields: {
+                    ID: parseInt(statusid),
+                    TypeName: status,
+                    KeyValue: status
+                }
+            };
         }
 
         if (status != "") {
@@ -47,12 +57,6 @@ Template.newstatuspop.events({
                     $('.fullScreenSpin').css('display', 'none');
                     addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         $('.fullScreenSpin').css('display', 'none');
-                        let id = $('.printID').attr("id");
-                        if (id != "") {
-
-                        } else {
-
-                        }
                     }).catch(function(err) {});
                 }).catch(function(err) {
                     $('#newStatusPopModal').modal('toggle');
