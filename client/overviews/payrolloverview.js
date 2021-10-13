@@ -756,6 +756,10 @@ Template.payrolloverview.onRendered(function () {
 
     }
 
+    setTimeout(function () {
+        templateObject.getAllProductData();
+    }, 500);
+
     $('#tblEmployeelist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if (listData) {
