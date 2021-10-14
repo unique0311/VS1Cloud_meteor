@@ -323,7 +323,7 @@ Template.billcard.onRendered(() => {
     };
 
 
-     templateObject.getAllSupplierPaymentData = function () {
+    templateObject.getAllSupplierPaymentData = function () {
         getVS1Data('TSupplierPayment').then(function (dataObject) {
             if(dataObject.length == 0){
                 sideBarService.getTSupplierPaymentList(initialDataLoad,0).then(function (data) {
@@ -5230,6 +5230,7 @@ Template.billcard.events({
         var currentInvoice = getso_id[getso_id.length - 1];
         for(let x=0; x < paymentData.length; x++){
             if(paymentData[x].lines.length > 1){
+
                 for(let y = 0; y < paymentData[x].lines.length; y++) {
                     if(paymentData[x].lines[y].fields.POID == currentInvoice) {
                         paymentID = paymentData[x].id;
@@ -5237,7 +5238,7 @@ Template.billcard.events({
                     }
                 }
             } else {
-                if(paymentData[x].lines[0].fields.POID == currentInvoice) {
+                if(paymentData[x].lines.fields.POID == currentInvoice) {
                         paymentID = paymentData[x].id;
                        window.open('/supplierpaymentcard?id=' + paymentID, '_self');
                 }
