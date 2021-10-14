@@ -264,6 +264,11 @@ overflow-y: auto;
     animation: flash linear 1s infinite;
 }
 
+.btnSearchAlert {
+    -webkit-animation: flash linear 1s infinite;
+    animation: flash linear 1s infinite;
+}
+
 .btnSaveAlert {
     -webkit-animation: flash linear 1s infinite;
     animation: flash linear 1s infinite;
