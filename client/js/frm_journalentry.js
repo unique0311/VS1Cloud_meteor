@@ -1685,6 +1685,15 @@ Template.journalentrycard.helpers({
     companyaddress2: () => {
         return Session.get('vs1companyaddress2');
     },
+    city: () => {
+        return Session.get('vs1companyCity');
+    },
+    state: () => {
+        return Session.get('companyState');
+    },
+     poBox: () => {
+        return Session.get('vs1companyPOBox');
+    },
     companyphone: () => {
         return Session.get('vs1companyPhone');
     },
