@@ -85,7 +85,6 @@ Template.new_quote.onCreated(() => {
     templateObject.productextrasellrecords = new ReactiveVar([]);
 });
 Template.new_quote.onRendered(() => {
-
     $(document).on("click", "#tblStatusPopList tbody tr", function(e) {
         $('#sltStatus').val($(this).find(".colStatusName").text());
         $('#statusPopModal').modal('toggle');
@@ -139,8 +138,6 @@ Template.new_quote.onRendered(() => {
         changeYear: true,
         yearRange: "-90:+10",
     });
-
-
 
 
     $(document).ready(function() {
@@ -5044,6 +5041,15 @@ Template.new_quote.helpers({
     },
     companyaddress2: () => {
         return Session.get('vs1companyaddress2');
+    },
+    city: () => {
+        return Session.get('vs1companyCity');
+    },
+    state: () => {
+        return Session.get('companyState');
+    },
+     poBox: () => {
+        return Session.get('vs1companyPOBox');
     },
     companyphone: () => {
         return Session.get('vs1companyPhone');

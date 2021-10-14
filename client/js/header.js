@@ -842,7 +842,7 @@ Template.header.onRendered(function() {
     templateObject.getCompanyInfo = function() {
 
         organizationService.getCompanyInfo().then(function(data) {
-
+            console.log(data.tcompanyinfo[0].PoCity);
             let companyName = data.tcompanyinfo[0].CompanyName;
             let companyaddress1 = data.tcompanyinfo[0].PoBox;
             let companyaddress2 = data.tcompanyinfo[0].PoBox2 + ' ' + data.tcompanyinfo[0].PoBox3;
@@ -855,6 +855,9 @@ Template.header.onRendered(function() {
             let bankName = data.tcompanyinfo[0].LastName || '';
             let accountName = data.tcompanyinfo[0].Firstname || '';
             let bsb = data.tcompanyinfo[0].Bsb || '';
+            let poBox = data.tcompanyinfo[0].PoPostcode || '';
+            let companyCity = data.tcompanyinfo[0].PoCity || '';
+            let companyState = data.tcompanyinfo[0].PoState || '';
             let routingNo = data.tcompanyinfo[0].SiteCode || '';
             let bankDetails = "Bank Name: " + bankName + "\n" + "Account Name: " + accountName + "\n Bank Account: " + accNo + "\nBSB: " + bsb + "\n Swift Code: " + swiftCode + "\n" + "Routing No: " + routingNo;
             Session.setPersistent('vs1companyName', companyName);
@@ -863,10 +866,14 @@ Template.header.onRendered(function() {
             Session.setPersistent('vs1companyABN', companyABN);
             Session.setPersistent('vs1companyPhone', companyPhone);
             Session.setPersistent('vs1companyURL', companyURL);
+            Session.setPersistent('vs1companyPOBox', poBox);
+            Session.setPersistent('vs1companyCity', companyCity);
+            Session.setPersistent('companyState', companyState);
             Session.setPersistent('vs1companyStripeID', data.tcompanyinfo[0].Apcano);
             Session.setPersistent('vs1companyStripeFeeMethod', data.tcompanyinfo[0].DvaABN);
             Session.setPersistent('vs1companyBankDetails', bankDetails);
             Session.setPersistent('vs1companyBankName1', bankDetails);
+            Session.setPersistent('vs1companyCompanyPOBox', bankDetails);
             localStorage.setItem('vs1companyBankName', bankName);
             localStorage.setItem('vs1companyBankAccountName', accountName);
             localStorage.setItem('vs1companyBankAccountNo', accNo);
