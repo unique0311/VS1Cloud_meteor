@@ -3928,6 +3928,7 @@ Template.new_invoice.onRendered(() => {
 
         setTimeout(function() {
             $('#sltDept').val(defaultDept);
+            $('#sltTerms').val(templateObject.defaultsaleterm.get());
         }, 200);
 
 
