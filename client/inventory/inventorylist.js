@@ -50,6 +50,7 @@ Template.inventorylist.onRendered(function() {
   const salesaccountrecords = [];
   let deptprodlineItems = [];
   var tableInventory = "";
+  var splashArrayProductList = new Array();
 //   $(document).ready(function() {
 //   $('#edtassetaccount').editableSelect();
 //   $('#sltcogsaccount').editableSelect();
@@ -156,7 +157,7 @@ Template.inventorylist.onRendered(function() {
 
 
   templateObject.getAllProductData = function (deptname) {
-    var dataRes = getVS1Data('TProductVS1').then(function (dataObject) {
+    getVS1Data('TProductVS1').then(function (dataObject) {
       if(dataObject.length == 0){
         sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
           addVS1Data('TProductVS1',JSON.stringify(data));
@@ -174,25 +175,21 @@ Template.inventorylist.onRendered(function() {
           //if((deptname == 'undefined') || (deptname == 'All')){
            departmentData = 'All';
             for(let i=0; i<data.tproductvs1.length; i++){
-              dataList = {
-               id: data.tproductvs1[i].fields.ID || '',
-               productname: data.tproductvs1[i].fields.ProductName || '',
-               salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
-               department: departmentData || '',
-               //deptstatus: deptStatus || '',
-               //departmentcheck: departmentDataLoad || '',
-               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
-               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
-               quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
-               //quantitycheck: JSON.stringify(favoriteProdQty) || 0,
-               purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
-               productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
-               productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
-               customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
-               customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
-               prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
-             };
-             dataTableList.push(dataList);
+              var dataList = [
+                data.tproductvs1[i].fields.ProductName || '-',
+                data.tproductvs1[i].fields.SalesDescription || '',
+                departmentData,
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                data.tproductvs1[i].fields.TotalQtyInStock,
+                data.tproductvs1[i].fields.BARCODE || '',
+                data.tproductvs1[i].fields.PurchaseDescription || '',
+                data.tproductvs1[i].fields.CUSTFLD1 || '',
+                data.tproductvs1[i].fields.CUSTFLD2 || '',
+                data.tproductvs1[i].fields.ID || ''
+                // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+            ];
+            splashArrayProductList.push(dataList);
             }
 
           templateObject.datatablerecords.set(dataTableList);
@@ -243,9 +240,46 @@ Template.inventorylist.onRendered(function() {
 
           $('.fullScreenSpin').css('display','none');
           setTimeout(function () {
-              tableInventory = $('#tblInventory').DataTable({
+               $('#tblInventory').dataTable({
+                    data: splashArrayProductList,
                     select: true,
                     destroy: true,
+                    columnDefs: [
+                        {
+                            className: "colProductName",
+                            "targets": [0]
+                        }, {
+                            className: "colSalesDescription",
+                            "targets": [1]
+                        }, {
+                            className: "colDepartment",
+                            "targets": [2]
+                        }, {
+                            className: "colCostPrice text-right",
+                            "targets": [3]
+                        }, {
+                            className: "colSalePrice text-right",
+                            "targets": [4]
+                        }, {
+                            className: "colQuantity text-right",
+                            "targets": [5]
+                        }, {
+                            className: "colBarcode",
+                            "targets": [6]
+                        }, {
+                            className: "colPurchaseDescription hiddenColumn",
+                            "targets": [7]
+                        }, {
+                            className: "colProdCustField1 hiddenColumn",
+                            "targets": [8]
+                        }, {
+                            className: "colProdCustField2 hiddenColumn",
+                            "targets": [9]
+                        }, {
+                            className: "colProductID hiddenColumn",
+                            "targets": [10]
+                        }
+                    ],
                     colReorder: true,
                     "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     buttons: [
@@ -272,10 +306,12 @@ Template.inventorylist.onRendered(function() {
                     }],
                     // bStateSave: true,
                     // rowId: 0,
-                    paging: false,
+                    // paging: false,
                     // "scrollY": "800px",
                     // "scrollCollapse": true,
-                    info: false,
+                    pageLength: initialBaseDataLoad,
+                    lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
+                    info: true,
                     responsive: true,
                     "order": [[ 0, "asc" ]],
                     action: function () {
@@ -284,23 +320,87 @@ Template.inventorylist.onRendered(function() {
                         templateObject.datatablerecords.set(draftRecord);
                     },
                     "fnDrawCallback": function (oSettings) {
-                      setTimeout(function () {
-                        MakeNegative();
-                      }, 100);
+                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblInventory_ellipsis').addClass('disabled');
+                        if (oSettings._iDisplayLength == -1) {
+                            if (oSettings.fnRecordsDisplay() > 150) {
+
+                            }
+                        } else {
+
+                        }
+                        if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+                                let customerSearch = $('#tblInventory_filter input').val();
+
+                                sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                  for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                                     var dataListDupp = [
+                                       dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                                       dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                       departmentData,
+                                       utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                       utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                       dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                                       dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                                       dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
+                                       dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
+                                       dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
+                                       dataObjectnew.tproductvs1[i].fields.ID || ''
+                                   ];
+                                   splashArrayProductList.push(dataListDupp);
+
+                                  }
+
+                                            let uniqueChars = [...new Set(splashArrayProductList)];
+                                            var datatable = $('#tblInventory').DataTable();
+                                            datatable.clear();
+                                            datatable.rows.add(uniqueChars);
+                                            datatable.draw(false);
+                                            setTimeout(function () {
+                                              $("#tblInventory").dataTable().fnPageChange('last');
+                                            }, 400);
+
+                                            $('.fullScreenSpin').css('display', 'none');
+
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
                     },
+                    "fnInitComplete": function () {
+                        $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                    }
 
-                }).on('page', function () {
-                  setTimeout(function () {
-                    MakeNegative();
-                  }, 100);
+                }).on('length.dt', function (e, settings, len) {
+                  $('.fullScreenSpin').css('display', 'inline-block');
+                  let dataLenght = settings._iDisplayLength;
+                  // splashArrayProductList = [];
+                  if (dataLenght == -1) {
+                    $('.fullScreenSpin').css('display', 'none');
+                  }else{
+                    if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    } else {
 
-                }).on('column-reorder', function () {
+                        $('.fullScreenSpin').css('display', 'none');
+                    }
 
-                }).on( 'length.dt', function ( e, settings, len ) {
-                  setTimeout(function () {
+                  }
 
-                    MakeNegative();
-                  }, 100);
                 });
 
                 $('.fullScreenSpin').css('display','none');
@@ -325,33 +425,31 @@ let prodQtyData = 0;
 let prodQtyDataLoad = 0;
 let deptStatus = '';
 //let getDepartmentData = templateObject.productdeptrecords.get();
-var dataList = {};
+// var dataList = {};
 //if((deptname == 'undefined') || (deptname == 'All')){
  departmentData = 'All';
-  for(let i=0; i<useData.length; i++){
-    dataList = {
-     id: useData[i].fields.ID || useData[i].fields.Id,
-     productname: useData[i].fields.ProductName || '',
-     salesdescription: useData[i].fields.SalesDescription || '',
-     department: departmentData || '',
-     //deptstatus: deptStatus || '',
-     //departmentcheck: departmentDataLoad || '',
-     costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100) || 0,
-     saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.SellQty1Price * 100) / 100) || 0,
-     quantity: useData[i].fields.TotalQtyInStock || 0,
-     //quantitycheck: JSON.stringify(favoriteProdQty) || 0,
-     purchasedescription: useData[i].fields.PurchaseDescription || '',
-     productgroup1: useData[i].fields.ProductGroup1 || '',
-     productgroup2: useData[i].fields.ProductGroup2 || '',
-     customfield1: useData[i].fields.CUSTFLD1 || '',
-     customfield2: useData[i].fields.CUSTFLD2 || '',
-     prodbarcode: useData[i].fields.BARCODE || '',
-   };
-   dataTableList.push(dataList);
+  for(let i=0; i<data.tproductvs1.length; i++){
+
+     var dataList = [
+       data.tproductvs1[i].fields.ProductName || '-',
+       data.tproductvs1[i].fields.SalesDescription || '',
+       departmentData,
+       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+       data.tproductvs1[i].fields.TotalQtyInStock,
+       data.tproductvs1[i].fields.BARCODE || '',
+       data.tproductvs1[i].fields.PurchaseDescription || '',
+       data.tproductvs1[i].fields.CUSTFLD1 || '',
+       data.tproductvs1[i].fields.CUSTFLD2 || '',
+       data.tproductvs1[i].fields.ID || ''
+       // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+   ];
+   splashArrayProductList.push(dataList);
+   // dataTableList.push(dataList);
   }
 
-templateObject.datatablerecords.set(dataTableList);
-templateObject.datatablebackuprecords.set(dataTableList);
+// templateObject.datatablerecords.set(dataTableList);
+// templateObject.datatablebackuprecords.set(dataTableList);
 function MakeNegative() {
   $('td').each(function(){
     if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
@@ -398,11 +496,49 @@ if(templateObject.datatablerecords.get()){
 
 $('.fullScreenSpin').css('display','none');
 setTimeout(function () {
-     $('#tblInventory').DataTable({
+     $('#tblInventory').dataTable({
+          data: splashArrayProductList,
+          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+
+          columnDefs: [
+              {
+                  className: "colProductName",
+                  "targets": [0]
+              }, {
+                  className: "colSalesDescription",
+                  "targets": [1]
+              }, {
+                  className: "colDepartment",
+                  "targets": [2]
+              }, {
+                  className: "colCostPrice text-right",
+                  "targets": [3]
+              }, {
+                  className: "colSalePrice text-right",
+                  "targets": [4]
+              }, {
+                  className: "colQuantity text-right",
+                  "targets": [5]
+              }, {
+                  className: "colBarcode",
+                  "targets": [6]
+              }, {
+                  className: "colPurchaseDescription hiddenColumn",
+                  "targets": [7]
+              }, {
+                  className: "colProdCustField1 hiddenColumn",
+                  "targets": [8]
+              }, {
+                  className: "colProdCustField2 hiddenColumn",
+                  "targets": [9]
+              }, {
+                  className: "colProductID hiddenColumn",
+                  "targets": [10]
+              }
+          ],
           select: true,
           destroy: true,
           colReorder: true,
-          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
           buttons: [
                 {
              extend: 'excelHtml5',
@@ -427,70 +563,97 @@ setTimeout(function () {
           }],
           // bStateSave: true,
           // rowId: 0,
-          paging: false,
+          // paging: false,
           // "scrollY": "800px",
           // "scrollCollapse": true,
-          info: false,
+          pageLength: initialBaseDataLoad,
+          lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
+          info: true,
           responsive: true,
           "order": [[ 0, "asc" ]],
           action: function () {
               $('#tblInventory').DataTable().ajax.reload();
-              let draftRecord = templateObject.datatablerecords.get();
-              templateObject.datatablerecords.set(draftRecord);
+
           },
           "fnDrawCallback": function (oSettings) {
-            setTimeout(function () {
-              MakeNegative();
-            }, 100);
+              $('.paginate_button.page-item').removeClass('disabled');
+              $('#tblInventory_ellipsis').addClass('disabled');
+              if (oSettings._iDisplayLength == -1) {
+                  if (oSettings.fnRecordsDisplay() > 150) {
+
+                  }
+              } else {
+
+              }
+              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                  $('.paginate_button.page-item.next').addClass('disabled');
+              }
+
+              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                  .on('click', function () {
+                      $('.fullScreenSpin').css('display', 'inline-block');
+                      let dataLenght = oSettings._iDisplayLength;
+                      let customerSearch = $('#tblInventory_filter input').val();
+                      sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                        for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                           var dataListDupp = [
+                             dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                             dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                             departmentData,
+                             utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                             utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                             dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                             dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                             dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
+                             dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
+                             dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
+                             dataObjectnew.tproductvs1[i].fields.ID || ''
+                         ];
+                         splashArrayProductList.push(dataListDupp);
+
+                        }
+                                  let uniqueChars = [...new Set(splashArrayProductList)];
+                                  var datatable = $('#tblInventory').DataTable();
+                                  datatable.clear();
+                                  datatable.rows.add(uniqueChars);
+                                  datatable.draw(false);
+                                  setTimeout(function () {
+                                    $("#tblInventory").dataTable().fnPageChange('last');
+                                  }, 400);
+
+                                  $('.fullScreenSpin').css('display', 'none');
+
+
+                      }).catch(function (err) {
+                          $('.fullScreenSpin').css('display', 'none');
+                      });
+
+                  });
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
           },
+          "fnInitComplete": function () {
+              $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+          }
 
-      }).on('page', function () {
-        setTimeout(function () {
-          MakeNegative();
-        }, 100);
-
-      }).on('column-reorder', function () {
-
-      }).on('length.dt', function ( e, settings, len ) {
-        setTimeout(function () {
-
-          MakeNegative();
-        }, 100);
-      }).on('search.dt', function () {
-        let draftRecord = templateObject.datatablerecords.get();
-
-        let newDataArray = [];
-        let searchTerm = $(event.target).val();
-        if(searchTerm != ''){
-
+      }).on('length.dt', function (e, settings, len) {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataLenght = settings._iDisplayLength;
+        // splashArrayProductList = [];
+        if (dataLenght == -1) {
+          $('.fullScreenSpin').css('display', 'none');
         }else{
-          templateObject.datatablerecords.set(draftRecord);
-          //$('.tblInventory tbody tr').show();
+          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+              $('.fullScreenSpin').css('display', 'none');
+          } else {
+
+              $('.fullScreenSpin').css('display', 'none');
+          }
+
         }
-
-        // if(searchTerm == ""){
-
-        //   templateObject.datatablerecords.set(draftRecord);
-        //   tableInventory.search(searchTerm).draw();
-        // }else{
-        //   $.grep(draftRecord, function(elem) {
-        //
-        //     //return elem.toLowerCase().indexOf(searchTerm) > -1;
-        //   });
-        // }
-
-
-        // $.each(draftRecord, function(i, v) {
-
-        // if (v.index(eventData) !== -1) {
-
-        // }
-        //   // useData[i].fields.ID
-        //   //   if (v[i].fields.name.search(new RegExp(/peter/i)) != -1) {
-        //   //       alert(v.age);
-        //   //       return;
-        //   //   }
-        // });
 
       });
 
@@ -502,7 +665,9 @@ setTimeout(function () {
     }).catch(function (err) {
 
       sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
-      addVS1Data('TProductVS1',JSON.stringify(data));
+        addVS1Data('TProductVS1',JSON.stringify(data));
+        // addVS1Data('TProductVS1',JSON.stringify(data));
+      //localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
         let lineItems = [];
         let lineItemObj = {};
         let departmentData = '';
@@ -515,25 +680,21 @@ setTimeout(function () {
         //if((deptname == 'undefined') || (deptname == 'All')){
          departmentData = 'All';
           for(let i=0; i<data.tproductvs1.length; i++){
-            dataList = {
-             id: data.tproductvs1[i].fields.ID || '',
-             productname: data.tproductvs1[i].fields.ProductName || '',
-             salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
-             department: departmentData || '',
-             //deptstatus: deptStatus || '',
-             //departmentcheck: departmentDataLoad || '',
-             costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
-             saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
-             quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
-             //quantitycheck: JSON.stringify(favoriteProdQty) || 0,
-             purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
-             productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
-             productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
-             customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
-             customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
-             prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
-           };
-           dataTableList.push(dataList);
+            var dataList = [
+              data.tproductvs1[i].fields.ProductName || '-',
+              data.tproductvs1[i].fields.SalesDescription || '',
+              departmentData,
+              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+              data.tproductvs1[i].fields.TotalQtyInStock,
+              data.tproductvs1[i].fields.BARCODE || '',
+              data.tproductvs1[i].fields.PurchaseDescription || '',
+              data.tproductvs1[i].fields.CUSTFLD1 || '',
+              data.tproductvs1[i].fields.CUSTFLD2 || '',
+              data.tproductvs1[i].fields.ID || ''
+              // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+          ];
+          splashArrayProductList.push(dataList);
           }
 
         templateObject.datatablerecords.set(dataTableList);
@@ -584,9 +745,46 @@ setTimeout(function () {
 
         $('.fullScreenSpin').css('display','none');
         setTimeout(function () {
-          tableInventory = $('#tblInventory').DataTable({
+             $('#tblInventory').dataTable({
+                  data: splashArrayProductList,
                   select: true,
                   destroy: true,
+                  columnDefs: [
+                      {
+                          className: "colProductName",
+                          "targets": [0]
+                      }, {
+                          className: "colSalesDescription",
+                          "targets": [1]
+                      }, {
+                          className: "colDepartment",
+                          "targets": [2]
+                      }, {
+                          className: "colCostPrice text-right",
+                          "targets": [3]
+                      }, {
+                          className: "colSalePrice text-right",
+                          "targets": [4]
+                      }, {
+                          className: "colQuantity text-right",
+                          "targets": [5]
+                      }, {
+                          className: "colBarcode",
+                          "targets": [6]
+                      }, {
+                          className: "colPurchaseDescription hiddenColumn",
+                          "targets": [7]
+                      }, {
+                          className: "colProdCustField1 hiddenColumn",
+                          "targets": [8]
+                      }, {
+                          className: "colProdCustField2 hiddenColumn",
+                          "targets": [9]
+                      }, {
+                          className: "colProductID hiddenColumn",
+                          "targets": [10]
+                      }
+                  ],
                   colReorder: true,
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
@@ -613,10 +811,12 @@ setTimeout(function () {
                   }],
                   // bStateSave: true,
                   // rowId: 0,
-                  paging: false,
+                  // paging: false,
                   // "scrollY": "800px",
                   // "scrollCollapse": true,
-                  info: false,
+                  pageLength: initialBaseDataLoad,
+                  lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
+                  info: true,
                   responsive: true,
                   "order": [[ 0, "asc" ]],
                   action: function () {
@@ -625,23 +825,87 @@ setTimeout(function () {
                       templateObject.datatablerecords.set(draftRecord);
                   },
                   "fnDrawCallback": function (oSettings) {
-                    setTimeout(function () {
-                      MakeNegative();
-                    }, 100);
+                      $('.paginate_button.page-item').removeClass('disabled');
+                      $('#tblInventory_ellipsis').addClass('disabled');
+                      if (oSettings._iDisplayLength == -1) {
+                          if (oSettings.fnRecordsDisplay() > 150) {
+
+                          }
+                      } else {
+
+                      }
+                      if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                      }
+
+                      $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                          .on('click', function () {
+                              $('.fullScreenSpin').css('display', 'inline-block');
+                              let dataLenght = oSettings._iDisplayLength;
+                              let customerSearch = $('#tblInventory_filter input').val();
+
+                              sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                                   var dataListDupp = [
+                                     dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                                     dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                     departmentData,
+                                     utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                     utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                     dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                                     dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                                     dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
+                                     dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
+                                     dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
+                                     dataObjectnew.tproductvs1[i].fields.ID || ''
+                                 ];
+                                 splashArrayProductList.push(dataListDupp);
+
+                                }
+
+                                          let uniqueChars = [...new Set(splashArrayProductList)];
+                                          var datatable = $('#tblInventory').DataTable();
+                                          datatable.clear();
+                                          datatable.rows.add(uniqueChars);
+                                          datatable.draw(false);
+                                          setTimeout(function () {
+                                            $("#tblInventory").dataTable().fnPageChange('last');
+                                          }, 400);
+
+                                          $('.fullScreenSpin').css('display', 'none');
+
+
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+
+                          });
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
                   },
+                  "fnInitComplete": function () {
+                      $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                  }
 
-              }).on('page', function () {
-                setTimeout(function () {
-                  MakeNegative();
-                }, 100);
+              }).on('length.dt', function (e, settings, len) {
+                $('.fullScreenSpin').css('display', 'inline-block');
+                let dataLenght = settings._iDisplayLength;
+                // splashArrayProductList = [];
+                if (dataLenght == -1) {
+                  $('.fullScreenSpin').css('display', 'none');
+                }else{
+                  if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                      $('.fullScreenSpin').css('display', 'none');
+                  } else {
 
-              }).on('column-reorder', function () {
+                      $('.fullScreenSpin').css('display', 'none');
+                  }
 
-              }).on( 'length.dt', function ( e, settings, len ) {
-                setTimeout(function () {
+                }
 
-                  MakeNegative();
-                }, 100);
               });
 
               $('.fullScreenSpin').css('display','none');
@@ -659,7 +923,7 @@ setTimeout(function () {
   }
 
   $('#tblInventory tbody').on( 'click', 'tr', function () {
-    var listData = $(this).closest('tr').attr('id');
+    var listData = $(this).closest('tr').find('.colProductID').text();
     if(listData){
       //FlowRouter.go('/productview?id=' + listData);
       FlowRouter.go('/productview?id=' + listData);
@@ -764,74 +1028,7 @@ setTimeout(function () {
     });
 
   }
-  /*
-  if ((Session.get('VS1ProductList') === '') || (!Session.get('VS1ProductList'))) {
-   templateObject.getAllProductData();
-  }else{
 
-    templateObject.datatablerecords.set(Session.get('VS1ProductList'));
-    if(templateObject.datatablerecords.get()){
-
-      Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInventory', function(error, result){
-      if(error){
-
-      }else{
-        if(result){
-          for (let i = 0; i < result.customFields.length; i++) {
-            let customcolumn = result.customFields;
-            let columData = customcolumn[i].label;
-            let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-            let hiddenColumn = customcolumn[i].hidden;
-            let columnClass = columHeaderUpdate.split('.')[1];
-            let columnWidth = customcolumn[i].width;
-            let columnindex = customcolumn[i].index + 1;
-
-            if(hiddenColumn == true){
-
-              $("."+columnClass+"").addClass('hiddenColumn');
-              $("."+columnClass+"").removeClass('showColumn');
-            }else if(hiddenColumn == false){
-              $("."+columnClass+"").removeClass('hiddenColumn');
-              $("."+columnClass+"").addClass('showColumn');
-            }
-
-          }
-        }
-
-      }
-      });
-    }
-
-    $('.fullScreenSpin').css('display','none');
-    setTimeout(function () {
-        $('#tblInventory').DataTable({
-              select: true,
-              destroy: true,
-              colReorder: true,
-              // bStateSave: true,
-              rowId: 0,
-              pageLength: initialDatatableLoad,
-              lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-              info: true,
-              responsive: true,
-              "order": [[ 0, "asc" ]] ,
-              action: function () {
-                  $('#tblInventory').DataTable().ajax.reload();
-              },
-
-          }).on('page', function () {
-
-              let draftRecord = templateObject.datatablerecords.get();
-              templateObject.datatablerecords.set(draftRecord);
-          }).on('column-reorder', function () {
-
-          });
-
-          $('.fullScreenSpin').css('display','none');
-          $('div.dataTables_filter input').addClass('form-control form-control-sm');
-      }, 0);
-  }
-*/
 
   templateObject.getAccountNames = function(){
     productService.getAccountName().then(function(data){
@@ -1307,7 +1504,125 @@ Template.inventorylist.helpers({
           });
           templateObject.tableheaderrecords.set(tableHeaderList);
         },
+        'keyup #tblInventory_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshProduct").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshProduct").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshProduct").trigger("click");
+          }
+        },
+        'blur #tblInventory_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshProduct").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshProduct").removeClass('btnSearchAlert');
+          }
 
+        },
+        'click .btnRefreshProduct':function(event){
+            let templateObject = Template.instance();
+            let utilityService = new UtilityService();
+            let tableProductList;
+            var splashArrayProductList = new Array();
+            const lineExtaSellItems = [];
+              $('.fullScreenSpin').css('display', 'inline-block');
+              let dataSearchName = $('#tblInventory_filter input').val();
+              if(dataSearchName.replace(/\s/g, '') != ''){
+              sideBarService.getNewProductListVS1ByName(dataSearchName).then(function (data) {
+                  let records = [];
+
+                  let inventoryData = [];
+                  if(data.tproductvs1.length > 0){
+                  for (let i = 0; i < data.tproductvs1.length; i++) {
+                    var dataList = [
+                      data.tproductvs1[i].fields.ProductName || '-',
+                      data.tproductvs1[i].fields.SalesDescription || '',
+                      'All',
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                      data.tproductvs1[i].fields.TotalQtyInStock,
+                      data.tproductvs1[i].fields.BARCODE || '',
+                      data.tproductvs1[i].fields.PurchaseDescription || '',
+                      data.tproductvs1[i].fields.CUSTFLD1 || '',
+                      data.tproductvs1[i].fields.CUSTFLD2 || '',
+                      data.tproductvs1[i].fields.ID || ''
+                      // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                  ];
+
+                      splashArrayProductList.push(dataList);
+                  }
+                  //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+                  $('.fullScreenSpin').css('display', 'none');
+                  if (splashArrayProductList) {
+                    var datatable = $('#tblInventory').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(splashArrayProductList);
+                    datatable.draw(false);
+
+                  }
+                  }else{
+                    $('.fullScreenSpin').css('display', 'none');
+
+                    swal({
+                    title: 'Question',
+                    text: "Product does not exist, would you like to create it?",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                    }).then((result) => {
+                    if (result.value) {
+                      FlowRouter.go('/productview');
+                    } else if (result.dismiss === 'cancel') {
+                      //$('#productListModal').modal('toggle');
+                    }
+                    });
+                  }
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+              sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+                    let records = [];
+                    let inventoryData = [];
+                    for (let i = 0; i < data.tproductvs1.length; i++) {
+                      var dataList = [
+                        data.tproductvs1[i].fields.ProductName || '-',
+                        data.tproductvs1[i].fields.SalesDescription || '',
+                        'All',
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                        data.tproductvs1[i].fields.TotalQtyInStock,
+                        data.tproductvs1[i].fields.BARCODE || '',
+                        data.tproductvs1[i].fields.PurchaseDescription || '',
+                        data.tproductvs1[i].fields.CUSTFLD1 || '',
+                        data.tproductvs1[i].fields.CUSTFLD2 || '',
+                        data.tproductvs1[i].fields.ID || ''
+                        // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                    ];
+
+                        splashArrayProductList.push(dataList);
+
+                    }
+                    //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (splashArrayProductList) {
+                      var datatable = $('#tblInventory').DataTable();
+                      datatable.clear();
+                      datatable.rows.add(splashArrayProductList);
+                      datatable.draw(false);
+
+
+                    }
+                }).catch(function (err) {
+                  $('.fullScreenSpin').css('display', 'none');
+                });
+            }
+
+        },
       'click .btnRefresh': function () {
         // localStorage.removeItem("VS1ProductList");
         // localStorage.setItem("VS1ProductList", '');
@@ -1438,6 +1753,7 @@ Template.inventorylist.helpers({
       'click .chkDepartment' : function(event){
       $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
+        var splashArrayProductListDept = new Array();
         //let dataValue = $(event.target).val();
           let productService = new ProductService();
         // var dataList = {};
@@ -1457,34 +1773,43 @@ Template.inventorylist.helpers({
           $('.fullScreenSpin').css('display','none');
         }else{
           if ($('.chkDepartment:checked').length == $('.chkDepartment').length) {
-            let getOldData = templateObject.datatablebackuprecords.get();
-             templateObject.datatablerecords.set(getOldData);
+            var datatable = $('#tblInventory').DataTable();
+            datatable.clear();
+            datatable.rows.add(splashArrayProductList);
+            datatable.draw(false);
+
              $('.fullScreenSpin').css('display','none');
           }else{
           productService.getProductListDeptQtyList(favorite.join(",")).then(function (data) {
             $('.fullScreenSpin').css('display','none');
           for(let i=0; i<data.tproductlocationqty.length; i++){
-            dataList = {
-             id: data.tproductlocationqty[i].ProductID || '',
-             productname: data.tproductlocationqty[i].ProductName || '',
-             salesdescription: data.tproductlocationqty[i].ProductName || '',
-             department: data.tproductlocationqty[i].Deptname || '',
-             //deptstatus: deptStatus || '',
-             //departmentcheck: departmentDataLoad || '',
-             costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100) || 0,
-             saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100) || 0,
-             quantity: data.tproductlocationqty[i].InStock || 0,
-             //quantitycheck: JSON.stringify(favoriteProdQty) || 0,
-             purchasedescription: data.tproductlocationqty[i].ProductName || '',
-             productgroup1: data.tproductlocationqty[i].ProductGroup1 || '',
-             productgroup2: data.tproductlocationqty[i].ProductGroup2 || '',
-             customfield1: data.tproductlocationqty[i].CUSTFLD1 || '',
-             customfield2: data.tproductlocationqty[i].CUSTFLD2 || '',
-             prodbarcode: data.tproductlocationqty[i].BARCODE || '',
-           };
+            var dataList = [
+                            data.tproductlocationqty[i].ProductName || '-',
+                            data.tproductlocationqty[i].ProductName || '',
+                            data.tproductlocationqty[i].Deptname,
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100)||0,
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100) || 0,
+                            data.tproductlocationqty[i].InStock,
+                            data.tproductlocationqty[i].BARCODE || '',
+                            data.tproductlocationqty[i].ProductName || '',
+                            data.tproductlocationqty[i].CUSTFLD1 || '',
+                            data.tproductlocationqty[i].CUSTFLD2 || '',
+                            data.tproductlocationqty[i].ProductID || ''
+                            // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                        ];
 
-             dataTableList.push(dataList);
+              splashArrayProductListDept.push(dataList);
 
+             // dataTableList.push(dataList);
+
+
+          }
+
+          if (splashArrayProductListDept) {
+                    var datatable = $('#tblInventory').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(splashArrayProductListDept);
+                    datatable.draw(false);
 
           }
 

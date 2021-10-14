@@ -148,10 +148,7 @@ Template.productlistpop.onRendered(function () {
                                 }
                             ],
                             colReorder: true,
-                            lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
-                            ],
+                            lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "fnDrawCallback": function (oSettings) {
@@ -256,7 +253,63 @@ Template.productlistpop.onRendered(function () {
                         info: true,
                         responsive: true,
                         "fnDrawCallback": function (oSettings) {
-                            // $('.dataTables_paginate').css('display', 'none');
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblInventory_ellipsis').addClass('disabled');
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+
+                                }
+                            } else {
+
+                            }
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                .on('click', function () {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    let dataLenght = oSettings._iDisplayLength;
+                                    let customerSearch = $('#tblInventory_filter input').val();
+
+                                    sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                      for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                                         var dataListDupp = [
+                                           data.tproductvs1[i].fields.ProductName || '-',
+                                           data.tproductvs1[i].fields.SalesDescription || '',
+                                           utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                           utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                           data.tproductvs1[i].fields.TotalQtyInStock,
+                                           data.tproductvs1[i].fields.TaxCodeSales || '',
+                                           data.tproductvs1[i].fields.ID || '',
+                                           JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                                       ];
+                                       splashArrayProductList.push(dataListDupp);
+
+                                      }
+
+                                                let uniqueChars = [...new Set(splashArrayProductList)];
+                                                var datatable = $('#tblInventory').DataTable();
+                                                datatable.clear();
+                                                datatable.rows.add(uniqueChars);
+                                                datatable.draw(false);
+                                                setTimeout(function () {
+                                                  $("#tblInventory").dataTable().fnPageChange('last');
+                                                }, 400);
+
+                                                $('.fullScreenSpin').css('display', 'none');
+
+
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+
+                                });
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
@@ -267,47 +320,9 @@ Template.productlistpop.onRendered(function () {
                     }).on('length.dt', function (e, settings, len) {
                       $('.fullScreenSpin').css('display', 'inline-block');
                       let dataLenght = settings._iDisplayLength;
-                      splashArrayProductList = [];
+                      // splashArrayProductList = [];
                       if (dataLenght == -1) {
-                        sideBarService.getNewProductListVS1('All', 1).then(function (data) {
-                          let records = [];
-                          let inventoryData = [];
-                          for (let i = 0; i < data.tproductvs1.length; i++) {
-                              var dataList = [
-
-                                  data.tproductvs1[i].fields.ProductName || '-',
-                                  data.tproductvs1[i].fields.SalesDescription || '',
-                                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-                                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-                                  data.tproductvs1[i].fields.TotalQtyInStock,
-                                  data.tproductvs1[i].fields.TaxCodeSales || '',
-                                  data.tproductvs1[i].fields.ID || '',
-                                  JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
-                              ];
-
-                              if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
-                                  for (let e = 0; e < data.tproductvs1[i].fields.ExtraSellPrice.length; e++) {
-                                      let lineExtaSellObj = {
-                                          clienttype: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ClientTypeName || '',
-                                          productname: data.tproductvs1[i].fields.ExtraSellPrice[e].fields.ProductName || data.tproductvs1[i].fields.ProductName,
-                                          price: utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.ExtraSellPrice[e].fields.Price1) || 0
-                                      };
-                                      lineExtaSellItems.push(lineExtaSellObj);
-
-                                  }
-                              }
-                              splashArrayProductList.push(dataList);
-                          }
-
-                          var datatable = $('#tblInventory').DataTable();
-                          datatable.clear();
-                          datatable.rows.add(splashArrayProductList);
-                          datatable.draw(false);
-
-                          $('.fullScreenSpin').css('display', 'none');
-                          $('.dataTables_info').html('Showing 1 to ' + data.tproductvs1.length + ' of ' + data.tproductvs1.length + ' entries');
-                          $('.fullScreenSpin').css('display', 'none');
-                        });
+                        $('.fullScreenSpin').css('display', 'none');
                       }else{
                         if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                             $('.fullScreenSpin').css('display', 'none');
@@ -402,12 +417,7 @@ Template.productlistpop.onRendered(function () {
                             }
                         ],
                         colReorder: true,
-
-
-                        lengthMenu: [
-                            [25,-1],
-                            [25, "All"]
-                        ],
+                        lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[0, "asc"]],

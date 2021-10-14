@@ -155,11 +155,11 @@ Template.stocktransferlist.onRendered(function() {
         });
     };
 
-    templateObject.getAllSalesOrderData = function() {
-        getVS1Data('TInvoiceBackOrder').then(function(dataObject) {
+    templateObject.getAllStockTransferEntryData = function() {
+        getVS1Data('TStockTransferEntry').then(function(dataObject) {
             if (dataObject.length == 0) {
                 sideBarService.getAllBackOrderInvoiceList(initialDataLoad, 0).then(function(data) {
-                    addVS1Data('TInvoiceBackOrder', JSON.stringify(data));
+                    addVS1Data('TStockTransferEntry', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
 
@@ -521,7 +521,7 @@ Template.stocktransferlist.onRendered(function() {
                                     let dataLenght = oSettings._iDisplayLength;
 
                                     sideBarService.getAllBackOrderInvoiceList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                                        getVS1Data('TInvoiceBackOrder').then(function(dataObjectold) {
+                                        getVS1Data('TStockTransferEntry').then(function(dataObjectold) {
                                             if (dataObjectold.length == 0) {
 
                                             } else {
@@ -533,7 +533,7 @@ Template.stocktransferlist.onRendered(function() {
                                                 }
 
 
-                                                addVS1Data('TInvoiceBackOrder', JSON.stringify(objCombineData)).then(function(datareturn) {
+                                                addVS1Data('TStockTransferEntry', JSON.stringify(objCombineData)).then(function(datareturn) {
                                                     templateObject.resetData(objCombineData);
                                                     $('.fullScreenSpin').css('display', 'none');
                                                 }).catch(function(err) {
@@ -579,7 +579,7 @@ Template.stocktransferlist.onRendered(function() {
                             } else {
                                 sideBarService.getAllBackOrderInvoiceList('All', 1).then(function(dataNonBo) {
 
-                                    addVS1Data('TInvoiceBackOrder', JSON.stringify(dataNonBo)).then(function(datareturn) {
+                                    addVS1Data('TStockTransferEntry', JSON.stringify(dataNonBo)).then(function(datareturn) {
                                         templateObject.resetData(dataNonBo);
                                         $('.fullScreenSpin').css('display', 'none');
                                     }).catch(function(err) {
@@ -595,7 +595,7 @@ Template.stocktransferlist.onRendered(function() {
                             } else {
                                 sideBarService.getAllBackOrderInvoiceList(dataLenght, 0).then(function(dataNonBo) {
 
-                                    addVS1Data('TInvoiceBackOrder', JSON.stringify(dataNonBo)).then(function(datareturn) {
+                                    addVS1Data('TStockTransferEntry', JSON.stringify(dataNonBo)).then(function(datareturn) {
                                         templateObject.resetData(dataNonBo);
                                         $('.fullScreenSpin').css('display', 'none');
                                     }).catch(function(err) {
@@ -652,7 +652,7 @@ Template.stocktransferlist.onRendered(function() {
             }
         }).catch(function(err) {
             sideBarService.getAllBackOrderInvoiceList(initialDataLoad, 0).then(function(data) {
-                addVS1Data('TInvoiceBackOrder', JSON.stringify(data));
+                addVS1Data('TStockTransferEntry', JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
 
@@ -856,7 +856,7 @@ Template.stocktransferlist.onRendered(function() {
 
     }
 
-    templateObject.getAllSalesOrderData();
+    templateObject.getAllStockTransferEntryData();
 
     $("#barcodeScanInput").keyup(function(e) {
 
@@ -1276,13 +1276,13 @@ Template.stocktransferlist.events({
 
         let templateObject = Template.instance();
         sideBarService.getAllBackOrderInvoiceList(initialDataLoad, 0).then(function(dataBO) {
-            addVS1Data('TInvoiceBackOrder', JSON.stringify(dataBO)).then(function(datareturn) {
-                window.open('/vs1shipping', '_self');
+            addVS1Data('TStockTransferEntry', JSON.stringify(dataBO)).then(function(datareturn) {
+                window.open('/stocktransferlist', '_self');
             }).catch(function(err) {
-                window.open('/vs1shipping', '_self');
+                window.open('/stocktransferlist', '_self');
             });
         }).catch(function(err) {
-            window.open('/vs1shipping', '_self');
+            window.open('/stocktransferlist', '_self');
         });
 
     },

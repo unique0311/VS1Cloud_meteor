@@ -43,7 +43,7 @@ Template.productlist.onRendered(function() {
   const coggsaccountrecords = [];
   const salesaccountrecords = [];
   let deptprodlineItems = [];
-
+var splashArrayProductList = new Array();
 
   let productTable;
   var splashArray = new Array();
@@ -131,33 +131,36 @@ Template.productlist.onRendered(function() {
       if(dataObject.length == 0){
         sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
           addVS1Data('TProductVS1',JSON.stringify(data));
+          // addVS1Data('TProductVS1',JSON.stringify(data));
+        //localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
           let lineItems = [];
           let lineItemObj = {};
           let departmentData = '';
           let departmentDataLoad = '';
-
+          let prodQtyData = 0;
+          let prodQtyDataLoad = 0;
+          let deptStatus = '';
+          //let getDepartmentData = templateObject.productdeptrecords.get();
           var dataList = {};
-            departmentData = 'All';
+          //if((deptname == 'undefined') || (deptname == 'All')){
+           departmentData = 'All';
             for(let i=0; i<data.tproductvs1.length; i++){
-              dataList = {
-               id: data.tproductvs1[i].fields.ID || '',
-               productname: data.tproductvs1[i].fields.ProductName || '',
-               salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
-               department: departmentData || '',
-               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
-               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
-               quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
-               purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
-               productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
-               productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
-               customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
-               customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
-               prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
-             };
-             dataTableList.push(dataList);
+              var dataList = [
+                data.tproductvs1[i].fields.ProductName || '-',
+                data.tproductvs1[i].fields.SalesDescription || '',
+                departmentData,
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                data.tproductvs1[i].fields.TotalQtyInStock,
+                data.tproductvs1[i].fields.BARCODE || '',
+                data.tproductvs1[i].fields.PurchaseDescription || '',
+                data.tproductvs1[i].fields.CUSTFLD1 || '',
+                data.tproductvs1[i].fields.CUSTFLD2 || '',
+                data.tproductvs1[i].fields.ID || ''
+                // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+            ];
+            splashArrayProductList.push(dataList);
             }
-
-
 
           templateObject.datatablerecords.set(dataTableList);
           templateObject.datatablebackuprecords.set(dataTableList);
@@ -207,9 +210,46 @@ Template.productlist.onRendered(function() {
 
           $('.fullScreenSpin').css('display','none');
           setTimeout(function () {
-              $('#tblInventory').DataTable({
+               $('#tblInventory').dataTable({
+                    data: splashArrayProductList,
                     select: true,
                     destroy: true,
+                    columnDefs: [
+                        {
+                            className: "colProductName",
+                            "targets": [0]
+                        }, {
+                            className: "colSalesDescription",
+                            "targets": [1]
+                        }, {
+                            className: "colDepartment",
+                            "targets": [2]
+                        }, {
+                            className: "colCostPrice text-right",
+                            "targets": [3]
+                        }, {
+                            className: "colSalePrice text-right",
+                            "targets": [4]
+                        }, {
+                            className: "colQuantity text-right",
+                            "targets": [5]
+                        }, {
+                            className: "colBarcode",
+                            "targets": [6]
+                        }, {
+                            className: "colPurchaseDescription hiddenColumn",
+                            "targets": [7]
+                        }, {
+                            className: "colProdCustField1 hiddenColumn",
+                            "targets": [8]
+                        }, {
+                            className: "colProdCustField2 hiddenColumn",
+                            "targets": [9]
+                        }, {
+                            className: "colProductID hiddenColumn",
+                            "targets": [10]
+                        }
+                    ],
                     colReorder: true,
                     "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     buttons: [
@@ -236,6 +276,9 @@ Template.productlist.onRendered(function() {
                     }],
                     // bStateSave: true,
                     // rowId: 0,
+                    // paging: false,
+                    // "scrollY": "800px",
+                    // "scrollCollapse": true,
                     pageLength: initialBaseDataLoad,
                     lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                     info: true,
@@ -247,23 +290,87 @@ Template.productlist.onRendered(function() {
                         templateObject.datatablerecords.set(draftRecord);
                     },
                     "fnDrawCallback": function (oSettings) {
-                      setTimeout(function () {
-                        MakeNegative();
-                      }, 100);
+                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblInventory_ellipsis').addClass('disabled');
+                        if (oSettings._iDisplayLength == -1) {
+                            if (oSettings.fnRecordsDisplay() > 150) {
+
+                            }
+                        } else {
+
+                        }
+                        if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+                                let customerSearch = $('#tblInventory_filter input').val();
+
+                                sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                  for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                                     var dataListDupp = [
+                                       dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                                       dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                       departmentData,
+                                       utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                       utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                       dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                                       dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                                       dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
+                                       dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
+                                       dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
+                                       dataObjectnew.tproductvs1[i].fields.ID || ''
+                                   ];
+                                   splashArrayProductList.push(dataListDupp);
+
+                                  }
+
+                                            let uniqueChars = [...new Set(splashArrayProductList)];
+                                            var datatable = $('#tblInventory').DataTable();
+                                            datatable.clear();
+                                            datatable.rows.add(uniqueChars);
+                                            datatable.draw(false);
+                                            setTimeout(function () {
+                                              $("#tblInventory").dataTable().fnPageChange('last');
+                                            }, 400);
+
+                                            $('.fullScreenSpin').css('display', 'none');
+
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
                     },
+                    "fnInitComplete": function () {
+                        $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                    }
 
-                }).on('page', function () {
-                  setTimeout(function () {
-                    MakeNegative();
-                  }, 100);
+                }).on('length.dt', function (e, settings, len) {
+                  $('.fullScreenSpin').css('display', 'inline-block');
+                  let dataLenght = settings._iDisplayLength;
+                  // splashArrayProductList = [];
+                  if (dataLenght == -1) {
+                    $('.fullScreenSpin').css('display', 'none');
+                  }else{
+                    if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    } else {
 
-                }).on('column-reorder', function () {
+                        $('.fullScreenSpin').css('display', 'none');
+                    }
 
-                }).on( 'length.dt', function ( e, settings, len ) {
-                  setTimeout(function () {
+                  }
 
-                    MakeNegative();
-                  }, 100);
                 });
 
                 $('.fullScreenSpin').css('display','none');
@@ -277,34 +384,290 @@ Template.productlist.onRendered(function() {
             // Meteor._reload.reload();
         });
       }else{
-        let data = JSON.parse(dataObject[0].data);
-        let useData = data.tproductvs1;
+
+      let data = JSON.parse(dataObject[0].data);
+      let useData = data.tproductvs1;
+      let lineItems = [];
+let lineItemObj = {};
+let departmentData = '';
+let departmentDataLoad = '';
+let prodQtyData = 0;
+let prodQtyDataLoad = 0;
+let deptStatus = '';
+//let getDepartmentData = templateObject.productdeptrecords.get();
+// var dataList = {};
+//if((deptname == 'undefined') || (deptname == 'All')){
+ departmentData = 'All';
+  for(let i=0; i<data.tproductvs1.length; i++){
+
+     var dataList = [
+       data.tproductvs1[i].fields.ProductName || '-',
+       data.tproductvs1[i].fields.SalesDescription || '',
+       departmentData,
+       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+       data.tproductvs1[i].fields.TotalQtyInStock,
+       data.tproductvs1[i].fields.BARCODE || '',
+       data.tproductvs1[i].fields.PurchaseDescription || '',
+       data.tproductvs1[i].fields.CUSTFLD1 || '',
+       data.tproductvs1[i].fields.CUSTFLD2 || '',
+       data.tproductvs1[i].fields.ID || ''
+       // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+   ];
+   splashArrayProductList.push(dataList);
+   // dataTableList.push(dataList);
+  }
+
+// templateObject.datatablerecords.set(dataTableList);
+// templateObject.datatablebackuprecords.set(dataTableList);
+function MakeNegative() {
+  $('td').each(function(){
+    if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+   });
+};
+// Session.set('VS1ProductList', splashArrayProd);
+
+if(templateObject.datatablerecords.get()){
+
+  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInventory', function(error, result){
+  if(error){
+
+  }else{
+    if(result){
+      for (let i = 0; i < result.customFields.length; i++) {
+        let customcolumn = result.customFields;
+        let columData = customcolumn[i].label;
+        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+        let hiddenColumn = customcolumn[i].hidden;
+        let columnClass = columHeaderUpdate.split('.')[1];
+        let columnWidth = customcolumn[i].width;
+        let columnindex = customcolumn[i].index + 1;
+
+        if(hiddenColumn == true){
+
+          $("."+columnClass+"").addClass('hiddenColumn');
+          $("."+columnClass+"").removeClass('showColumn');
+        }else if(hiddenColumn == false){
+          $("."+columnClass+"").removeClass('hiddenColumn');
+          $("."+columnClass+"").addClass('showColumn');
+        }
+
+      }
+    }
+
+  }
+  });
+
+
+  setTimeout(function () {
+    MakeNegative();
+  }, 100);
+}
+
+$('.fullScreenSpin').css('display','none');
+setTimeout(function () {
+     $('#tblInventory').dataTable({
+          data: splashArrayProductList,
+          select: true,
+          destroy: true,
+          columnDefs: [
+              {
+                  className: "colProductName",
+                  "targets": [0]
+              }, {
+                  className: "colSalesDescription",
+                  "targets": [1]
+              }, {
+                  className: "colDepartment",
+                  "targets": [2]
+              }, {
+                  className: "colCostPrice text-right",
+                  "targets": [3]
+              }, {
+                  className: "colSalePrice text-right",
+                  "targets": [4]
+              }, {
+                  className: "colQuantity text-right",
+                  "targets": [5]
+              }, {
+                  className: "colBarcode",
+                  "targets": [6]
+              }, {
+                  className: "colPurchaseDescription hiddenColumn",
+                  "targets": [7]
+              }, {
+                  className: "colProdCustField1 hiddenColumn",
+                  "targets": [8]
+              }, {
+                  className: "colProdCustField2 hiddenColumn",
+                  "targets": [9]
+              }, {
+                  className: "colProductID hiddenColumn",
+                  "targets": [10]
+              }
+          ],
+          colReorder: true,
+          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+          buttons: [
+                {
+             extend: 'excelHtml5',
+             text: '',
+             download: 'open',
+             className: "btntabletocsv hiddenColumn",
+             filename: "inventory_"+ moment().format(),
+             orientation:'portrait',
+              exportOptions: {
+              columns: ':visible'
+            }
+          },{
+              extend: 'print',
+              download: 'open',
+              className: "btntabletopdf hiddenColumn",
+              text: '',
+              title: 'Inventory List',
+              filename: "inventory_"+ moment().format(),
+              exportOptions: {
+              columns: ':visible'
+            }
+          }],
+          // bStateSave: true,
+          // rowId: 0,
+          // paging: false,
+          // "scrollY": "800px",
+          // "scrollCollapse": true,
+          pageLength: initialBaseDataLoad,
+          lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
+          info: true,
+          responsive: true,
+          "order": [[ 0, "asc" ]],
+          action: function () {
+              $('#tblInventory').DataTable().ajax.reload();
+              let draftRecord = templateObject.datatablerecords.get();
+              templateObject.datatablerecords.set(draftRecord);
+          },
+          "fnDrawCallback": function (oSettings) {
+              $('.paginate_button.page-item').removeClass('disabled');
+              $('#tblInventory_ellipsis').addClass('disabled');
+              if (oSettings._iDisplayLength == -1) {
+                  if (oSettings.fnRecordsDisplay() > 150) {
+
+                  }
+              } else {
+
+              }
+              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                  $('.paginate_button.page-item.next').addClass('disabled');
+              }
+
+              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                  .on('click', function () {
+                      $('.fullScreenSpin').css('display', 'inline-block');
+                      let dataLenght = oSettings._iDisplayLength;
+                      let customerSearch = $('#tblInventory_filter input').val();
+
+                      sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                        for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                           var dataListDupp = [
+                             dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                             dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                             departmentData,
+                             utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                             utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                             dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                             dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                             dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
+                             dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
+                             dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
+                             dataObjectnew.tproductvs1[i].fields.ID || ''
+                         ];
+                         splashArrayProductList.push(dataListDupp);
+
+                        }
+
+                                  let uniqueChars = [...new Set(splashArrayProductList)];
+                                  var datatable = $('#tblInventory').DataTable();
+                                  datatable.clear();
+                                  datatable.rows.add(uniqueChars);
+                                  datatable.draw(false);
+                                  setTimeout(function () {
+                                    $("#tblInventory").dataTable().fnPageChange('last');
+                                  }, 400);
+
+                                  $('.fullScreenSpin').css('display', 'none');
+
+
+                      }).catch(function (err) {
+                          $('.fullScreenSpin').css('display', 'none');
+                      });
+
+                  });
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+          },
+          "fnInitComplete": function () {
+              $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+          }
+
+      }).on('length.dt', function (e, settings, len) {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataLenght = settings._iDisplayLength;
+        // splashArrayProductList = [];
+        if (dataLenght == -1) {
+          $('.fullScreenSpin').css('display', 'none');
+        }else{
+          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+              $('.fullScreenSpin').css('display', 'none');
+          } else {
+
+              $('.fullScreenSpin').css('display', 'none');
+          }
+
+        }
+
+      });
+
+      $('.fullScreenSpin').css('display','none');
+      $('div.dataTables_filter input').addClass('form-control form-control-sm');
+  }, 0);
+
+      }
+    }).catch(function (err) {
+
+      sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+        addVS1Data('TProductVS1',JSON.stringify(data));
+        // addVS1Data('TProductVS1',JSON.stringify(data));
+      //localStorage.setItem('VS1ProductList', JSON.stringify(data)||'');
         let lineItems = [];
         let lineItemObj = {};
         let departmentData = '';
         let departmentDataLoad = '';
+        let prodQtyData = 0;
+        let prodQtyDataLoad = 0;
+        let deptStatus = '';
+        //let getDepartmentData = templateObject.productdeptrecords.get();
         var dataList = {};
-          departmentData = 'All';
-          for(let i=0; i<useData.length; i++){
-            dataList = {
-             id: useData[i].fields.ID || useData[i].fields.Id,
-             productname: useData[i].fields.ProductName || '',
-             salesdescription: useData[i].fields.SalesDescription || '',
-             department: departmentData || '',
-             costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.BuyQty1Cost * 100) / 100) || 0,
-             saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.SellQty1Price * 100) / 100) || 0,
-             quantity: useData[i].fields.TotalQtyInStock || 0,
-             purchasedescription: useData[i].fields.PurchaseDescription || '',
-             productgroup1: useData[i].fields.ProductGroup1 || '',
-             productgroup2: useData[i].fields.ProductGroup2 || '',
-             customfield1: useData[i].fields.CUSTFLD1 || '',
-             customfield2: useData[i].fields.CUSTFLD2 || '',
-             prodbarcode: useData[i].fields.BARCODE || '',
-           };
-           dataTableList.push(dataList);
+        //if((deptname == 'undefined') || (deptname == 'All')){
+         departmentData = 'All';
+          for(let i=0; i<data.tproductvs1.length; i++){
+            var dataList = [
+              data.tproductvs1[i].fields.ProductName || '-',
+              data.tproductvs1[i].fields.SalesDescription || '',
+              departmentData,
+              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+              data.tproductvs1[i].fields.TotalQtyInStock,
+              data.tproductvs1[i].fields.BARCODE || '',
+              data.tproductvs1[i].fields.PurchaseDescription || '',
+              data.tproductvs1[i].fields.CUSTFLD1 || '',
+              data.tproductvs1[i].fields.CUSTFLD2 || '',
+              data.tproductvs1[i].fields.ID || ''
+              // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+          ];
+          splashArrayProductList.push(dataList);
           }
-
-
 
         templateObject.datatablerecords.set(dataTableList);
         templateObject.datatablebackuprecords.set(dataTableList);
@@ -354,9 +717,46 @@ Template.productlist.onRendered(function() {
 
         $('.fullScreenSpin').css('display','none');
         setTimeout(function () {
-            $('#tblInventory').DataTable({
+             $('#tblInventory').dataTable({
+                  data: splashArrayProductList,
                   select: true,
                   destroy: true,
+                  columnDefs: [
+                      {
+                          className: "colProductName",
+                          "targets": [0]
+                      }, {
+                          className: "colSalesDescription",
+                          "targets": [1]
+                      }, {
+                          className: "colDepartment",
+                          "targets": [2]
+                      }, {
+                          className: "colCostPrice text-right",
+                          "targets": [3]
+                      }, {
+                          className: "colSalePrice text-right",
+                          "targets": [4]
+                      }, {
+                          className: "colQuantity text-right",
+                          "targets": [5]
+                      }, {
+                          className: "colBarcode",
+                          "targets": [6]
+                      }, {
+                          className: "colPurchaseDescription hiddenColumn",
+                          "targets": [7]
+                      }, {
+                          className: "colProdCustField1 hiddenColumn",
+                          "targets": [8]
+                      }, {
+                          className: "colProdCustField2 hiddenColumn",
+                          "targets": [9]
+                      }, {
+                          className: "colProductID hiddenColumn",
+                          "targets": [10]
+                      }
+                  ],
                   colReorder: true,
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
@@ -383,6 +783,9 @@ Template.productlist.onRendered(function() {
                   }],
                   // bStateSave: true,
                   // rowId: 0,
+                  // paging: false,
+                  // "scrollY": "800px",
+                  // "scrollCollapse": true,
                   pageLength: initialBaseDataLoad,
                   lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                   info: true,
@@ -394,299 +797,104 @@ Template.productlist.onRendered(function() {
                       templateObject.datatablerecords.set(draftRecord);
                   },
                   "fnDrawCallback": function (oSettings) {
-                    $('.paginate_button.page-item').removeClass('disabled');
-                    $('#tblInventory_ellipsis').addClass('disabled');
+                      $('.paginate_button.page-item').removeClass('disabled');
+                      $('#tblInventory_ellipsis').addClass('disabled');
+                      if (oSettings._iDisplayLength == -1) {
+                          if (oSettings.fnRecordsDisplay() > 150) {
 
-                    if(oSettings._iDisplayLength == -1){
-                      if(oSettings.fnRecordsDisplay() > 150){
-                        $('.paginate_button.page-item.previous').addClass('disabled');
-                        $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                      } else {
+
                       }
-                    }else{
+                      if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                      }
 
-                    }
-                    if(oSettings.fnRecordsDisplay() < initialBaseDataLoad){
-                        $('.paginate_button.page-item.next').addClass('disabled');
-                    }
-                    $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                     .on('click', function(){
-                       $('.fullScreenSpin').css('display','inline-block');
-                       let dataLenght = oSettings._iDisplayLength;
+                      $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                          .on('click', function () {
+                              $('.fullScreenSpin').css('display', 'inline-block');
+                              let dataLenght = oSettings._iDisplayLength;
+                              let customerSearch = $('#tblInventory_filter input').val();
 
-                       sideBarService.getNewProductListVS1(initialBaseDataLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                         getVS1Data('TProductVS1').then(function (dataObjectold) {
-                           if(dataObjectold.length == 0){
+                              sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
-                           }else{
-                             let dataOld = JSON.parse(dataObjectold[0].data);
+                                for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
-                             var thirdaryData = $.merge($.merge([], dataObjectnew.tproductvs1), dataOld.tproductvs1);
-                             let objCombineData = {
-                               tproductvs1:thirdaryData
-                             }
+                                   var dataListDupp = [
+                                     dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                                     dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                     departmentData,
+                                     utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                     utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                     dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                                     dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                                     dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
+                                     dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
+                                     dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
+                                     dataObjectnew.tproductvs1[i].fields.ID || ''
+                                 ];
+                                 splashArrayProductList.push(dataListDupp);
+
+                                }
+
+                                          let uniqueChars = [...new Set(splashArrayProductList)];
+                                          var datatable = $('#tblInventory').DataTable();
+                                          datatable.clear();
+                                          datatable.rows.add(uniqueChars);
+                                          datatable.draw(false);
+                                          setTimeout(function () {
+                                            $("#tblInventory").dataTable().fnPageChange('last');
+                                          }, 400);
+
+                                          $('.fullScreenSpin').css('display', 'none');
 
 
-                               addVS1Data('TProductVS1',JSON.stringify(objCombineData)).then(function (datareturn) {
-                                 templateObject.resetData(objCombineData);
-                               $('.fullScreenSpin').css('display','none');
-                               }).catch(function (err) {
-                               $('.fullScreenSpin').css('display','none');
-                               });
-
-                           }
-                          }).catch(function (err) {
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
 
                           });
-
-                       }).catch(function(err) {
-                         $('.fullScreenSpin').css('display','none');
-                       });
-
-                     });
-                    setTimeout(function () {
-                      MakeNegative();
-                    }, 100);
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
                   },
                   "fnInitComplete": function () {
-                    let urlParametersPage = FlowRouter.current().queryParams.page;
-                    if(urlParametersPage){
-                      this.fnPageChange('last');
-                    }
+                      $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                  }
 
-                   }
-
-              }).on('page', function () {
-                setTimeout(function () {
-                  MakeNegative();
-                }, 100);
-
-              }).on('column-reorder', function () {
-
-              }).on( 'length.dt', function ( e, settings, len ) {
-                $('.fullScreenSpin').css('display','inline-block');
+              }).on('length.dt', function (e, settings, len) {
+                $('.fullScreenSpin').css('display', 'inline-block');
                 let dataLenght = settings._iDisplayLength;
-                if(dataLenght == -1){
-                  if(settings.fnRecordsDisplay() > initialBaseDataLoad){
-                    $('.fullScreenSpin').css('display','none');
-                  }else{
-                  sideBarService.getNewProductListVS1('All',1).then(function(data) {
-                    let lineItems = [];
-                     let lineItemObj = {};
-
-                       for(let i=0; i<data.tproductvs1.length; i++){
-                         dataList = {
-                          id: data.tproductvs1[i].fields.ID || '',
-                          productname: data.tproductvs1[i].fields.ProductName || '',
-                          salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
-                          department: departmentData || '',
-                          costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
-                          saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
-                          quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
-                          purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
-                          productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
-                          productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
-                          customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
-                          customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
-                          prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
-                        };
-                        dataTableList.push(dataList);
-                       }
-
-
-
-                     templateObject.datatablerecords.set(dataTableList);
-                     templateObject.datatablebackuprecords.set(dataTableList);
-                        $('.dataTables_info').html('Showing 1 to '+data.tproductvs1.length+ ' of ' +data.tproductvs1.length+ ' entries');
-                        $('.fullScreenSpin').css('display','none');
-                    // addVS1Data('TProductVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                    //   templateObject.resetData(dataNonBo);
-                    // $('.fullScreenSpin').css('display','none');
-                    // }).catch(function (err) {
-                    // $('.fullScreenSpin').css('display','none');
-                    // });
-                  }).catch(function(err) {
-                    $('.fullScreenSpin').css('display','none');
-                  });
-                 }
+                // splashArrayProductList = [];
+                if (dataLenght == -1) {
+                  $('.fullScreenSpin').css('display', 'none');
                 }else{
                   if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                    $('.fullScreenSpin').css('display','none');
-                  }else{
-                    sideBarService.getNewProductListVS1(dataLenght,0).then(function(dataNonBo) {
+                      $('.fullScreenSpin').css('display', 'none');
+                  } else {
 
-                      addVS1Data('TProductVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                      templateObject.resetData(dataNonBo);
-                      }).catch(function (err) {
-                      $('.fullScreenSpin').css('display','none');
-                      });
-                    }).catch(function(err) {
-                      $('.fullScreenSpin').css('display','none');
-                    });
+                      $('.fullScreenSpin').css('display', 'none');
                   }
+
                 }
-                setTimeout(function () {
-                  MakeNegative();
-                }, 100);
+
               });
 
               $('.fullScreenSpin').css('display','none');
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
           }, 0);
 
-      }
+
       }).catch(function (err) {
-        sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
-          addVS1Data('TProductVS1',JSON.stringify(data));
-          let lineItems = [];
-          let lineItemObj = {};
-          let departmentData = '';
-          let departmentDataLoad = '';
-
-          var dataList = {};
-            departmentData = 'All';
-            for(let i=0; i<data.tproductvs1.length; i++){
-              dataList = {
-               id: data.tproductvs1[i].fields.ID || '',
-               productname: data.tproductvs1[i].fields.ProductName || '',
-               salesdescription: data.tproductvs1[i].fields.SalesDescription || '',
-               department: departmentData || '',
-               costprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100) || 0,
-               saleprice: utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100) || 0,
-               quantity: data.tproductvs1[i].fields.TotalQtyInStock || 0,
-               purchasedescription: data.tproductvs1[i].fields.PurchaseDescription || '',
-               productgroup1: data.tproductvs1[i].fields.ProductGroup1 || '',
-               productgroup2: data.tproductvs1[i].fields.ProductGroup2 || '',
-               customfield1: data.tproductvs1[i].fields.CUSTFLD1 || '',
-               customfield2: data.tproductvs1[i].fields.CUSTFLD2 || '',
-               prodbarcode: data.tproductvs1[i].fields.BARCODE || '',
-             };
-             dataTableList.push(dataList);
-            }
-
-
-
-          templateObject.datatablerecords.set(dataTableList);
-          templateObject.datatablebackuprecords.set(dataTableList);
-          function MakeNegative() {
-            $('td').each(function(){
-              if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
-             });
-          };
-          // Session.set('VS1ProductList', splashArrayProd);
-
-          if(templateObject.datatablerecords.get()){
-
-            Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInventory', function(error, result){
-            if(error){
-
-            }else{
-              if(result){
-                for (let i = 0; i < result.customFields.length; i++) {
-                  let customcolumn = result.customFields;
-                  let columData = customcolumn[i].label;
-                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                  let hiddenColumn = customcolumn[i].hidden;
-                  let columnClass = columHeaderUpdate.split('.')[1];
-                  let columnWidth = customcolumn[i].width;
-                  let columnindex = customcolumn[i].index + 1;
-
-                  if(hiddenColumn == true){
-
-                    $("."+columnClass+"").addClass('hiddenColumn');
-                    $("."+columnClass+"").removeClass('showColumn');
-                  }else if(hiddenColumn == false){
-                    $("."+columnClass+"").removeClass('hiddenColumn');
-                    $("."+columnClass+"").addClass('showColumn');
-                  }
-
-                }
-              }
-
-            }
-            });
-
-
-            setTimeout(function () {
-              MakeNegative();
-            }, 100);
-          }
-
+          // Bert.alert('<strong>' + err + '</strong>!', 'danger');
           $('.fullScreenSpin').css('display','none');
-          setTimeout(function () {
-              $('#tblInventory').DataTable({
-                    select: true,
-                    destroy: true,
-                    colReorder: true,
-                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                    buttons: [
-                          {
-                       extend: 'excelHtml5',
-                       text: '',
-                       download: 'open',
-                       className: "btntabletocsv hiddenColumn",
-                       filename: "inventory_"+ moment().format(),
-                       orientation:'portrait',
-                        exportOptions: {
-                        columns: ':visible'
-                      }
-                    },{
-                        extend: 'print',
-                        download: 'open',
-                        className: "btntabletopdf hiddenColumn",
-                        text: '',
-                        title: 'Inventory List',
-                        filename: "inventory_"+ moment().format(),
-                        exportOptions: {
-                        columns: ':visible'
-                      }
-                    }],
-                    // bStateSave: true,
-                    // rowId: 0,
-                    pageLength: initialBaseDataLoad,
-                    lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
-                    info: true,
-                    responsive: true,
-                    "order": [[ 0, "asc" ]],
-                    action: function () {
-                        $('#tblInventory').DataTable().ajax.reload();
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    },
-                    "fnDrawCallback": function (oSettings) {
-                      setTimeout(function () {
-                        MakeNegative();
-                      }, 100);
-                    },
-
-                }).on('page', function () {
-                  setTimeout(function () {
-                    MakeNegative();
-                  }, 100);
-
-                }).on('column-reorder', function () {
-
-                }).on( 'length.dt', function ( e, settings, len ) {
-                  setTimeout(function () {
-
-                    MakeNegative();
-                  }, 100);
-                });
-
-                $('.fullScreenSpin').css('display','none');
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-            }, 0);
-
-
-        }).catch(function (err) {
-            // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-            $('.fullScreenSpin').css('display','none');
-            // Meteor._reload.reload();
-        });
+          // Meteor._reload.reload();
       });
+    });
   }
 
   $('.tblInventory tbody').on( 'click', 'tr', function () {
-    var listData = $(this).closest('tr').attr('id');
+    var listData = $(this).closest('tr').find('.colProductID').text();
     if(listData){
       //FlowRouter.go('/productview?id=' + listData);
       FlowRouter.go('/productview?id=' + listData);
@@ -753,74 +961,7 @@ Template.productlist.onRendered(function() {
     });
 
   }
-  /*
-  if ((Session.get('VS1ProductList') === '') || (!Session.get('VS1ProductList'))) {
-   templateObject.getAllProductData();
-  }else{
 
-    templateObject.datatablerecords.set(Session.get('VS1ProductList'));
-    if(templateObject.datatablerecords.get()){
-
-      Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInventory', function(error, result){
-      if(error){
-
-      }else{
-        if(result){
-          for (let i = 0; i < result.customFields.length; i++) {
-            let customcolumn = result.customFields;
-            let columData = customcolumn[i].label;
-            let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-            let hiddenColumn = customcolumn[i].hidden;
-            let columnClass = columHeaderUpdate.split('.')[1];
-            let columnWidth = customcolumn[i].width;
-            let columnindex = customcolumn[i].index + 1;
-
-            if(hiddenColumn == true){
-
-              $("."+columnClass+"").addClass('hiddenColumn');
-              $("."+columnClass+"").removeClass('showColumn');
-            }else if(hiddenColumn == false){
-              $("."+columnClass+"").removeClass('hiddenColumn');
-              $("."+columnClass+"").addClass('showColumn');
-            }
-
-          }
-        }
-
-      }
-      });
-    }
-
-    $('.fullScreenSpin').css('display','none');
-    setTimeout(function () {
-        $('#tblInventory').DataTable({
-              select: true,
-              destroy: true,
-              colReorder: true,
-              // bStateSave: true,
-              rowId: 0,
-              pageLength: initialBaseDataLoad,
-              lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
-              info: true,
-              responsive: true,
-              "order": [[ 0, "asc" ]],
-              action: function () {
-                  $('#tblInventory').DataTable().ajax.reload();
-              },
-
-          }).on('page', function () {
-
-              let draftRecord = templateObject.datatablerecords.get();
-              templateObject.datatablerecords.set(draftRecord);
-          }).on('column-reorder', function () {
-
-          });
-
-          $('.fullScreenSpin').css('display','none');
-          $('div.dataTables_filter input').addClass('form-control form-control-sm');
-      }, 0);
-  }
-*/
 
   templateObject.getAccountNames = function(){
     productService.getAccountName().then(function(data){
@@ -1271,7 +1412,125 @@ Template.productlist.helpers({
           });
           templateObject.tableheaderrecords.set(tableHeaderList);
         },
+        'keyup #tblInventory_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshProduct").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshProduct").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshProduct").trigger("click");
+          }
+        },
+        'blur #tblInventory_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshProduct").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshProduct").removeClass('btnSearchAlert');
+          }
 
+        },
+        'click .btnRefreshProduct':function(event){
+            let templateObject = Template.instance();
+            let utilityService = new UtilityService();
+            let tableProductList;
+            var splashArrayProductList = new Array();
+            const lineExtaSellItems = [];
+              $('.fullScreenSpin').css('display', 'inline-block');
+              let dataSearchName = $('#tblInventory_filter input').val();
+              if(dataSearchName.replace(/\s/g, '') != ''){
+              sideBarService.getNewProductListVS1ByName(dataSearchName).then(function (data) {
+                  let records = [];
+
+                  let inventoryData = [];
+                  if(data.tproductvs1.length > 0){
+                  for (let i = 0; i < data.tproductvs1.length; i++) {
+                    var dataList = [
+                      data.tproductvs1[i].fields.ProductName || '-',
+                      data.tproductvs1[i].fields.SalesDescription || '',
+                      'All',
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                      data.tproductvs1[i].fields.TotalQtyInStock,
+                      data.tproductvs1[i].fields.BARCODE || '',
+                      data.tproductvs1[i].fields.PurchaseDescription || '',
+                      data.tproductvs1[i].fields.CUSTFLD1 || '',
+                      data.tproductvs1[i].fields.CUSTFLD2 || '',
+                      data.tproductvs1[i].fields.ID || ''
+                      // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                  ];
+
+                      splashArrayProductList.push(dataList);
+                  }
+                  //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+                  $('.fullScreenSpin').css('display', 'none');
+                  if (splashArrayProductList) {
+                    var datatable = $('#tblInventory').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(splashArrayProductList);
+                    datatable.draw(false);
+
+                  }
+                  }else{
+                    $('.fullScreenSpin').css('display', 'none');
+
+                    swal({
+                    title: 'Question',
+                    text: "Product does not exist, would you like to create it?",
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
+                    }).then((result) => {
+                    if (result.value) {
+                      FlowRouter.go('/productview');
+                    } else if (result.dismiss === 'cancel') {
+                      //$('#productListModal').modal('toggle');
+                    }
+                    });
+                  }
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+              });
+            }else{
+              sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+                    let records = [];
+                    let inventoryData = [];
+                    for (let i = 0; i < data.tproductvs1.length; i++) {
+                      var dataList = [
+                        data.tproductvs1[i].fields.ProductName || '-',
+                        data.tproductvs1[i].fields.SalesDescription || '',
+                        'All',
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                        data.tproductvs1[i].fields.TotalQtyInStock,
+                        data.tproductvs1[i].fields.BARCODE || '',
+                        data.tproductvs1[i].fields.PurchaseDescription || '',
+                        data.tproductvs1[i].fields.CUSTFLD1 || '',
+                        data.tproductvs1[i].fields.CUSTFLD2 || '',
+                        data.tproductvs1[i].fields.ID || ''
+                        // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                    ];
+
+                        splashArrayProductList.push(dataList);
+
+                    }
+                    //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (splashArrayProductList) {
+                      var datatable = $('#tblInventory').DataTable();
+                      datatable.clear();
+                      datatable.rows.add(splashArrayProductList);
+                      datatable.draw(false);
+
+
+                    }
+                }).catch(function (err) {
+                  $('.fullScreenSpin').css('display', 'none');
+                });
+            }
+
+        },
       'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();

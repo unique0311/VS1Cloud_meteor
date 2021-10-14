@@ -438,20 +438,20 @@ for="formCheck-{{item.id}}">{{item.department}}</label></div>
                         transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
                         } */
                         #tblInventory_filter .form-control, #tblInventory_filter label{
-                            display:none!important;
+                            /* display:none!important; */
                         }
                     </style>
                     <!-- <div class="form-group" style="margin: 16px;margin-left: 8px;">
 <label>Search:</label>
 <input type="search" class="searchInput" autocomplete="off" id="myInputSearch" name="myInputSearch">
 </div> -->
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <div class="dataTables_filter">
                                 <label style="display: flex;">Search:<input type="search" class="searchInput" placeholder="" aria-controls="tblInventory" autocomplete="off" id="myInputSearch" name="myInputSearch" style="margin-left: 0.5em;"></label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <table id="tblInventory" style="width:100%" class="dataTable table table-striped table-bordered tblInventory">
                         <thead>
@@ -467,13 +467,14 @@ for="formCheck-{{item.id}}">{{item.department}}</label></div>
                                 <th class="th colPurchaseDescription hiddenColumn">Purchase Description</th>
                                 <th class="th colProdCustField1 hiddenColumn">Custom Field 1</th>
                                 <th class="th colProdCustField2 hiddenColumn">Custom Field 2</th>
+                                <th class="th colProductID hiddenColumn">ID</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{#if datatablerecords}}
+                            <!-- {{#if datatablerecords}}
                             {{#each item in datatablerecords}}
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                <!-- <td contenteditable="false" class="colProductID">{{item.id}}</td> -->
+                                <td contenteditable="false" class="colProductID">{{item.id}}</td>
                                 <td contenteditable="false" class="colProductName">{{item.productname}}</td>
                                 <td contenteditable="false" class="colSalesDescription">{{item.salesdescription}}</td>
                                 <td contenteditable="false" class="colDepartment">{{item.department}}</td>
@@ -486,7 +487,7 @@ for="formCheck-{{item.id}}">{{item.department}}</label></div>
                                 <td contenteditable="false" class="colProdCustField2 hiddenColumn">{{item.customfield2}}</td>
                             </tr>
                             {{/each}}
-                            {{/if}}
+                            {{/if}} -->
                         </tbody>
                     </table>
                 </div>

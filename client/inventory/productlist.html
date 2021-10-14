@@ -424,13 +424,14 @@ for="formCheck-{{item.id}}">{{item.department}}</label></div>
                                 <th class="th colPurchaseDescription hiddenColumn">Purchase Description</th>
                                 <th class="th colProdCustField1 hiddenColumn">Custom Field 1</th>
                                 <th class="th colProdCustField2 hiddenColumn">Custom Field 2</th>
+                                <th class="th colProductID hiddenColumn">ID</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{#if datatablerecords}}
+                            <!-- {{#if datatablerecords}}
                             {{#each item in datatablerecords}}
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                <!-- <td contenteditable="false" class="colProductID">{{item.id}}</td> -->
+                                <td contenteditable="false" class="colProductID">{{item.id}}</td>
                                 <td contenteditable="false" class="colProductName">{{item.productname}}</td>
                                 <td contenteditable="false" class="colSalesDescription">{{item.salesdescription}}</td>
                                 <td contenteditable="false" class="colDepartment">{{item.department}}</td>
@@ -443,7 +444,7 @@ for="formCheck-{{item.id}}">{{item.department}}</label></div>
                                 <td contenteditable="false" class="colProdCustField2 hiddenColumn">{{item.customfield2}}</td>
                             </tr>
                             {{/each}}
-                            {{/if}}
+                            {{/if}} -->
                         </tbody>
                     </table>
                 </div>

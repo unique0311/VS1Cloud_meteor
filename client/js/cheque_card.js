@@ -1395,7 +1395,11 @@ Template.chequecard.onRendered(() => {
 
         $('#edtSupplierName').val('');
         setTimeout(function(){
-            $('#sltBankAccountName').val(localStorage.getItem('check_acc'));
+            if(localStorage.getItem('check_acc')){
+              $('#sltBankAccountName').val(localStorage.getItem('check_acc'));
+            }else{
+              $('#sltBankAccountName').val('Bank');
+            }
         },500);
 
         $("#form :input").prop("disabled", false);
