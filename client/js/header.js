@@ -842,7 +842,6 @@ Template.header.onRendered(function() {
     templateObject.getCompanyInfo = function() {
 
         organizationService.getCompanyInfo().then(function(data) {
-            console.log(data.tcompanyinfo[0].PoCity);
             let companyName = data.tcompanyinfo[0].CompanyName;
             let companyaddress1 = data.tcompanyinfo[0].PoBox;
             let companyaddress2 = data.tcompanyinfo[0].PoBox2 + ' ' + data.tcompanyinfo[0].PoBox3;
