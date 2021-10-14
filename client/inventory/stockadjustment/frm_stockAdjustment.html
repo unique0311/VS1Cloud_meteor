@@ -263,6 +263,23 @@
                                                                             text-align: center;
                                                                             margin-top: 20px;
                                                                         }
+                                                                        .rngRange {
+                                                                            position: relative;
+                                                                            display: flex;
+                                                                            flex-direction: column;
+                                                                            width: 100%;
+                                                                            pointer-events: auto;
+                                                                            background-color: rgb(255, 255, 255);
+                                                                            background-clip: padding-box;
+                                                                            border: 1px solid rgb(133, 135, 150);
+                                                                            border-radius: .3rem;
+                                                                            border-style: solid;
+                                                                            border-width: 1px;
+                                                                            padding: 2px;
+                                                                            border-radius: .35rem;
+                                                                            color: rgb(128, 128, 128);
+                                                                            height:inherit!important;
+                                                                        }
                                                                     </style>
                                                                     <div class="columnSettings">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; float:left;">
@@ -273,10 +290,8 @@
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}Product Name{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthProductName"
-                                                                                    value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}%{{/if}}</span></label>
-                                                                            <input class="custom-range rngRangeProductName" type="range" style="margin: 8px;"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
+                                                                            <input class="custom-range rngRange rngRangeProductName" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                         </div>
                                                                     </div>
 
@@ -289,10 +304,8 @@
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Product Barcode{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthDescription"
-                                                                                    value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].width}}%{{/if}}</span></label>
-                                                                            <input class="custom-range rngRangeDescription" type="range" style="margin: 8px;"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
+                                                                            <input class="custom-range rngRange rngRangeDescription" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                         </div>
                                                                     </div>
 
@@ -305,10 +318,8 @@
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Description{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthQty"
-                                                                                    value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}%{{/if}}</span></label>
-                                                                            <input class="custom-range rngRangeQty" type="range" style="margin: 8px;"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
+                                                                            <input class="custom-range rngRange rngRangeQty" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                         </div>
                                                                     </div>
 
@@ -321,10 +332,8 @@
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}In-Stock Qty{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthUnitPrice"
-                                                                                    value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}%{{/if}}</span></label>
-                                                                            <input class="custom-range rngRangeUnitPrice" type="range" style="margin: 8px;"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
+                                                                            <input class="custom-range rngRange rngRangeUnitPrice" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                         </div>
                                                                     </div>
 
@@ -337,10 +346,8 @@
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Final Qty{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthCostPrice"
-                                                                                    value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}%{{/if}}</span></label>
-                                                                            <input class="custom-range rngRangeCostPrice" type="range" style="margin: 8px;"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
+                                                                            <input class="custom-range rngRange rngRangeCostPrice" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                         </div>
                                                                     </div>
 
@@ -353,14 +360,24 @@
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}Adjust Qty{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthSalesLinesCustField1"
-                                                                                    value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].width}}%{{/if}}</span></label>
-                                                                            <input class="custom-range rngRangeSalesLinesCustField1" type="range" style="margin: 8px;"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
+                                                                            <input class="custom-range rngRange rngRangeSalesLinesCustField1" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                         </div>
                                                                     </div>
 
-
+                                                                    <div class="columnSettings">
+                                                                        <div class="custom-control custom-switch" style="margin: 8px; float:left;">
+                                                                            <input class="custom-control-input chkSalesLinesCustField1" type="checkbox" id="formCheck-09">
+                                                                            <label class="custom-control-label" for="formCheck-09"></label>
+                                                                            <div contenteditable="true" class="groove divcolumn" type="text"
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Adjust Qty{{/if}}" valueupdate="th.colSalesLinesCustField1">
+                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Product Cost{{/if}}</div>
+                                                                        </div>
+                                                                        <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
+                                                                            <input class="custom-range rngRange rngProductCost" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].width}}{{else}}0{{/if}}" min="0" max="1000">
+                                                                        </div>
+                                                                    </div>
 
                                                                 </div>
                                                             </form>
@@ -486,6 +503,7 @@
                                                 <th class="th colInStockQty" style="width: 120px;">In-Stock Qty</th>
                                                 <th class="th colFinalQty" style="width: 100px;">Final Qty</th>
                                                 <th class="th colAdjustQty" style="width: 120px;">Adjust Qty</th>
+                                                <th class="th colProductCost hiddenColumn" style="width: 120px;">Product Cost</th>
                                                 <th class="th" style="width: 25px;"></th>
                                             </tr>
                                         </thead>
@@ -505,6 +523,7 @@
 
                                                     <td><input class="lineFinalQty colFinalQty highlightInput" type="text" value="{{item.finalqty}}"></td>
                                                     <td><input class="lineAdjustQty colAdjustQty highlightInput" type="text" value="{{item.adjustqty}}"></td>
+                                                    <td class="hiddenColumn colProductCost"><input class="lineProductCost highlightInput" type="text" value="{{item.productCost}}"></td>
                                                     <td><span class="table-remove btnRemove"><button type="button" class="btn btnDeleteProduct btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                                 </tr>
                                             {{/each}}
