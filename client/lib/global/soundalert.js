@@ -65,6 +65,8 @@ DangerSound = function () {
 
 
       });
-
+      setTimeout(function () {
+        swal.close();
+      }, 2500);
 
 };
