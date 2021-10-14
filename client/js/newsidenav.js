@@ -301,7 +301,8 @@ Template.newsidenav.onRendered(function() {
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/inventorylist") || (currentLoc == '/productview') ||
                 (currentLoc == "/stockadjustmentcard") ||
-                (currentLoc == "/stockadjustmentoverview") || (currentLoc == "/productlist")) {
+                (currentLoc == "/stockadjustmentoverview") || (currentLoc == "/productlist")
+              ||(currentLoc == "/stocktransfercard") || (currentLoc == "/stocktransferlist")) {
                 $('#sidenavbanking').removeClass('active');
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
@@ -2654,10 +2655,6 @@ Template.newsidenav.events({
     },
     'click #sidenavbankreconciliation': function(event) {
         window.open('/bankrecon', '_self');
-
-
-
-
     },
     'click #sidenavnewreconcile': function(event) {
 
@@ -3176,6 +3173,12 @@ Template.newsidenav.events({
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
+    'click #sidenavstocktransfer': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/stocktransferlist');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
     'click #sidenaveproductlist': function(event) {
 
         event.preventDefault();
@@ -3184,10 +3187,18 @@ Template.newsidenav.events({
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavnewstockadjust': function(event) {
-        window.open('/stockadjustmentcard', '_self');
+        //window.open('/stockadjustmentcard', '_self');
+        event.preventDefault();
+        FlowRouter.go('/stockadjustmentcard');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
     },
-    'click #sidenavstocktransfer': function(event) {
-        window.open('#', '_self');
+    'click #sidenavnewstocktransfer': function(event) {
+        //window.open('/stocktransfercard', '_self');
+        event.preventDefault();
+        FlowRouter.go('/stocktransfercard');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
     },
     'click #sidenavcustomers': function(event) {
 
@@ -3415,17 +3426,9 @@ Template.newsidenav.events({
     },
     'click #sidenavaccesslevel': function(event) {
         window.open('/accesslevel', '_self');
-
-
-
-
     },
     'click #sidenavcompanyappsettings': function(event) {
         window.open('/companyappsettings', '_self');
-
-
-
-
     },
     'click #sidenavcurrenciesSettings': function(event) {
 

@@ -1074,6 +1074,9 @@ Template.stocktransferlist.events({
         }
 
     },
+    'click .btnNewStockTransfer' : function(event){
+        FlowRouter.go('/stocktransfercard');
+    },
     'click .chkDatatable': function(event) {
         var columns = $('#tblShipping th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();

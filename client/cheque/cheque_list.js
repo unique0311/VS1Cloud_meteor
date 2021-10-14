@@ -411,13 +411,14 @@ Template.chequelist.onRendered(function() {
                                  }else{
                                    let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tcheque), dataOld.tcheque);
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tchequeex), dataOld.tchequeex);
                                    let objCombineData = {
-                                     tcheque:thirdaryData
+                                     tchequeex:thirdaryData
                                    }
 
 
                                      addVS1Data('TCheque',JSON.stringify(objCombineData)).then(function (datareturn) {
+
                                        templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {

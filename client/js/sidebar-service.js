@@ -480,6 +480,25 @@ getCustomersDataByName(dataSearchName) {
       return this.getList(this.ERPObjects.TStockAdjustEntry, options);
   }
 
+  getAllStockTransferEntry(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Deleted]=false'
+        };
+    }else{
+      options = {
+         orderby:'"TransferEntryID desc"',
+         ListType: "Detail",
+         select: "[Deleted]=false",
+         LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TStockTransferEntry, options);
+  }
+
   getAllInvoiceList(limitcount, limitfrom) {
     let options = '';
  if(limitcount == 'All'){
