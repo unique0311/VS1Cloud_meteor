@@ -164,35 +164,35 @@ Template.vs1shipping.onRendered(function() {
                     let lineItemObj = {};
 
                     for (let i = 0; i < data.tinvoicebackorder.length; i++) {
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalAmountEx) || 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalTax) || 0.00;
-                        // Currency+''+data.tinvoicebackorder[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalAmountInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalBalance) || 0.00;
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalAmountEx) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalTax) || 0.00;
+                        // Currency+''+data.tinvoicebackorder[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalBalance) || 0.00;
                         var dataList = {
-                            id: data.tinvoicebackorder[i].Id || '',
-                            employee: data.tinvoicebackorder[i].EmployeeName || '',
-                            sortdate: data.tinvoicebackorder[i].SaleDate != '' ? moment(data.tinvoicebackorder[i].SaleDate).format("YYYY/MM/DD") : data.tinvoicebackorder[i].SaleDate,
-                            saledate: data.tinvoicebackorder[i].SaleDate != '' ? moment(data.tinvoicebackorder[i].SaleDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].SaleDate,
-                            duedate: data.tinvoicebackorder[i].DueDate != '' ? moment(data.tinvoicebackorder[i].DueDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].DueDate,
-                            customername: data.tinvoicebackorder[i].ClientName || '',
+                            id: data.tinvoicebackorder[i].fields.ID || '',
+                            employee: data.tinvoicebackorder[i].fields.EmployeeName || '',
+                            sortdate: data.tinvoicebackorder[i].fields.SaleDate != '' ? moment(data.tinvoicebackorder[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoicebackorder[i].fields.SaleDate,
+                            saledate: data.tinvoicebackorder[i].fields.SaleDate != '' ? moment(data.tinvoicebackorder[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].fields.SaleDate,
+                            duedate: data.tinvoicebackorder[i].fields.DueDate != '' ? moment(data.tinvoicebackorder[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].fields.DueDate,
+                            customername: data.tinvoicebackorder[i].fields.ClientName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            department: data.tinvoicebackorder[i].SaleClassName || '',
-                            custfield1: data.tinvoicebackorder[i].UOM || '',
-                            custfield2: data.tinvoicebackorder[i].SaleTerms || '',
-                            comments: data.tinvoicebackorder[i].SaleComments || '',
-                            qtybackorder: data.tinvoicebackorder[i].QtyBackOrder || '',
-                            product: data.tinvoicebackorder[i].ProductPrintName || '',
-                            // shipdate:data.tinvoicebackorder[i].ShipDate !=''? moment(data.tinvoicebackorder[i].ShipDate).format("DD/MM/YYYY"): data.tinvoicebackorder[i].ShipDate,
+                            department: data.tinvoicebackorder[i].fields.SaleClassName || '',
+                            custfield1: data.tinvoicebackorder[i].fields.UOM || '',
+                            custfield2: data.tinvoicebackorder[i].fields.SaleTerms || '',
+                            comments: data.tinvoicebackorder[i].fields.SaleComments || '',
+                            qtybackorder: data.tinvoicebackorder[i].fields.QtyBackOrder || '',
+                            product: data.tinvoicebackorder[i].fields.ProductPrintName || '',
+                            // shipdate:data.tinvoicebackorder[i].fields.ShipDate !=''? moment(data.tinvoicebackorder[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoicebackorder[i].fields.ShipDate,
 
                         };
 
-                        //if(data.tinvoicebackorder[i].IsBackOrder == true){
+                        //if(data.tinvoicebackorder[i].fields.IsBackOrder == true){
                         dataTableList.push(dataList);
                         //}
                         //}
@@ -366,35 +366,35 @@ Template.vs1shipping.onRendered(function() {
                 let lineItemObj = {};
 
                 for (let i = 0; i < data.tinvoicebackorder.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalAmountEx) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalTax) || 0.00;
-                    // Currency+''+data.tinvoicebackorder[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalBalance) || 0.00;
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalAmountEx) || 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalTax) || 0.00;
+                    // Currency+''+data.tinvoicebackorder[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalAmountInc) || 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalPaid) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalBalance) || 0.00;
                     var dataList = {
-                        id: data.tinvoicebackorder[i].Id || '',
-                        employee: data.tinvoicebackorder[i].EmployeeName || '',
-                        sortdate: data.tinvoicebackorder[i].SaleDate != '' ? moment(data.tinvoicebackorder[i].SaleDate).format("YYYY/MM/DD") : data.tinvoicebackorder[i].SaleDate,
-                        saledate: data.tinvoicebackorder[i].SaleDate != '' ? moment(data.tinvoicebackorder[i].SaleDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].SaleDate,
-                        duedate: data.tinvoicebackorder[i].DueDate != '' ? moment(data.tinvoicebackorder[i].DueDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].DueDate,
-                        customername: data.tinvoicebackorder[i].ClientName || '',
+                        id: data.tinvoicebackorder[i].fields.ID || '',
+                        employee: data.tinvoicebackorder[i].fields.EmployeeName || '',
+                        sortdate: data.tinvoicebackorder[i].fields.SaleDate != '' ? moment(data.tinvoicebackorder[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoicebackorder[i].fields.SaleDate,
+                        saledate: data.tinvoicebackorder[i].fields.SaleDate != '' ? moment(data.tinvoicebackorder[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].fields.SaleDate,
+                        duedate: data.tinvoicebackorder[i].fields.DueDate != '' ? moment(data.tinvoicebackorder[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].fields.DueDate,
+                        customername: data.tinvoicebackorder[i].fields.ClientName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        department: data.tinvoicebackorder[i].SaleClassName || '',
-                        custfield1: data.tinvoicebackorder[i].UOM || '',
-                        custfield2: data.tinvoicebackorder[i].SaleTerms || '',
-                        comments: data.tinvoicebackorder[i].SaleComments || '',
-                        qtybackorder: data.tinvoicebackorder[i].QtyBackOrder || '',
-                        product: data.tinvoicebackorder[i].ProductPrintName || '',
-                        // shipdate:data.tinvoicebackorder[i].ShipDate !=''? moment(data.tinvoicebackorder[i].ShipDate).format("DD/MM/YYYY"): data.tinvoicebackorder[i].ShipDate,
+                        department: data.tinvoicebackorder[i].fields.SaleClassName || '',
+                        custfield1: data.tinvoicebackorder[i].fields.UOM || '',
+                        custfield2: data.tinvoicebackorder[i].fields.SaleTerms || '',
+                        comments: data.tinvoicebackorder[i].fields.SaleComments || '',
+                        qtybackorder: data.tinvoicebackorder[i].fields.QtyBackOrder || '',
+                        product: data.tinvoicebackorder[i].fields.ProductPrintName || '',
+                        // shipdate:data.tinvoicebackorder[i].fields.ShipDate !=''? moment(data.tinvoicebackorder[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoicebackorder[i].fields.ShipDate,
 
                     };
 
-                    //if(data.tinvoicebackorder[i].IsBackOrder == true){
+                    //if(data.tinvoicebackorder[i].fields.IsBackOrder == true){
                     dataTableList.push(dataList);
                     //}
                     //}
@@ -657,35 +657,35 @@ Template.vs1shipping.onRendered(function() {
                 let lineItemObj = {};
 
                 for (let i = 0; i < data.tinvoicebackorder.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalAmountEx) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalTax) || 0.00;
-                    // Currency+''+data.tinvoicebackorder[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].TotalBalance) || 0.00;
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalAmountEx) || 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalTax) || 0.00;
+                    // Currency+''+data.tinvoicebackorder[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalAmountInc) || 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalPaid) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoicebackorder[i].fields.TotalBalance) || 0.00;
                     var dataList = {
-                        id: data.tinvoicebackorder[i].Id || '',
-                        employee: data.tinvoicebackorder[i].EmployeeName || '',
-                        sortdate: data.tinvoicebackorder[i].SaleDate != '' ? moment(data.tinvoicebackorder[i].SaleDate).format("YYYY/MM/DD") : data.tinvoicebackorder[i].SaleDate,
-                        saledate: data.tinvoicebackorder[i].SaleDate != '' ? moment(data.tinvoicebackorder[i].SaleDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].SaleDate,
-                        duedate: data.tinvoicebackorder[i].DueDate != '' ? moment(data.tinvoicebackorder[i].DueDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].DueDate,
-                        customername: data.tinvoicebackorder[i].ClientName || '',
+                        id: data.tinvoicebackorder[i].fields.ID || '',
+                        employee: data.tinvoicebackorder[i].fields.EmployeeName || '',
+                        sortdate: data.tinvoicebackorder[i].fields.SaleDate != '' ? moment(data.tinvoicebackorder[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoicebackorder[i].fields.SaleDate,
+                        saledate: data.tinvoicebackorder[i].fields.SaleDate != '' ? moment(data.tinvoicebackorder[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].fields.SaleDate,
+                        duedate: data.tinvoicebackorder[i].fields.DueDate != '' ? moment(data.tinvoicebackorder[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoicebackorder[i].fields.DueDate,
+                        customername: data.tinvoicebackorder[i].fields.ClientName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        department: data.tinvoicebackorder[i].SaleClassName || '',
-                        custfield1: data.tinvoicebackorder[i].UOM || '',
-                        custfield2: data.tinvoicebackorder[i].SaleTerms || '',
-                        comments: data.tinvoicebackorder[i].SaleComments || '',
-                        qtybackorder: data.tinvoicebackorder[i].QtyBackOrder || '',
-                        product: data.tinvoicebackorder[i].ProductPrintName || '',
-                        // shipdate:data.tinvoicebackorder[i].ShipDate !=''? moment(data.tinvoicebackorder[i].ShipDate).format("DD/MM/YYYY"): data.tinvoicebackorder[i].ShipDate,
+                        department: data.tinvoicebackorder[i].fields.SaleClassName || '',
+                        custfield1: data.tinvoicebackorder[i].fields.UOM || '',
+                        custfield2: data.tinvoicebackorder[i].fields.SaleTerms || '',
+                        comments: data.tinvoicebackorder[i].fields.SaleComments || '',
+                        qtybackorder: data.tinvoicebackorder[i].fields.QtyBackOrder || '',
+                        product: data.tinvoicebackorder[i].fields.ProductPrintName || '',
+                        // shipdate:data.tinvoicebackorder[i].fields.ShipDate !=''? moment(data.tinvoicebackorder[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoicebackorder[i].fields.ShipDate,
 
                     };
 
-                    //if(data.tinvoicebackorder[i].IsBackOrder == true){
+                    //if(data.tinvoicebackorder[i].fields.IsBackOrder == true){
                     dataTableList.push(dataList);
                     //}
                     //}

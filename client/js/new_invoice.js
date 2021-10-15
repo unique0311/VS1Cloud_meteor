@@ -5619,48 +5619,7 @@ Template.new_invoice.onRendered(() => {
 
 
         });
-    /*
-    .on('change.editable-select', function (e, li) {
-      var customerDataName = e.target.value.replace(/\s/g, '') ||'';
-      var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') ||'';
 
-      if(customerDataName != '' && customerDataID != ''){
-        FlowRouter.go('/customerscard?id=' + customerDataID);
-      }else{
-        $('#customerListModal').modal();
-        setTimeout(function () {
-            $('#tblCustomerlist_filter .form-control-sm').focus();
-            $('#tblCustomerlist_filter .form-control-sm').val('');
-            $('#tblCustomerlist_filter .form-control-sm').trigger("input");
-            var datatable = $('#tblCustomerlist').DataTable();
-            //datatable.clear();
-            //datatable.rows.add(splashArrayCustomerList);
-            datatable.draw();
-            $('#tblCustomerlist_filter .form-control-sm').trigger("input");
-          //  $('#tblCustomerlist').dataTable().fnFilter(' ').draw(false);
-          //  $('#tblCustomerlist').dataTable().fnFilter(' ').draw();
-        }, 500);
-      }
-
-});*/
-
-    // $("#edtCustomerName").dblclick(function () {
-    //     var customerDataName = $('#edtCustomerName').val().replace(/\s/g, '') || '';
-    //     var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') || '';
-    //
-    //     if (customerDataName != '' && customerDataID != '') {
-    //         FlowRouter.go('/customerscard?id=' + customerDataID);
-    //     }
-    // });
-
-    // $(".lineProductName").dblclick(function (event) {
-    //   var productDataName = $(event.target).text().replace(/\s/g, '') || '';
-    //   var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
-    //
-    //     if (productDataName != '' && productDataID != '') {
-    //         FlowRouter.go('/productview?id=' + productDataID);
-    //     }
-    // });
 
     exportSalesToPdf = function() {
         let margins = {

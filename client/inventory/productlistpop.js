@@ -307,9 +307,9 @@ Template.productlistpop.onRendered(function () {
                                     });
 
                                 });
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
+                            // setTimeout(function () {
+                            //     MakeNegative();
+                            // }, 100);
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
