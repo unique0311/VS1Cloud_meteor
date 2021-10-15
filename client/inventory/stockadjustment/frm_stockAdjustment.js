@@ -579,6 +579,7 @@ Template.stockadjustmentcard.onRendered(() => {
                         // $('#tblStockAdjustmentLine').colResizable({
                         //   liveDrag:true});
                         //$('#tblStockAdjustmentLine').removeClass('JColResizer');
+                        
 
                         Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStockAdjustmentLine', function (error, result) {
                             if (error) {
@@ -740,6 +741,7 @@ Template.stockadjustmentcard.onRendered(() => {
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
 
+            $('.stock_print #' + selectLineID + " .lineProductName").text(lineProductName);
             $('#' + selectLineID + " .lineProductName").val(lineProductName);
             $('#' + selectLineID + " .lineProductName").attr('productid', lineProductID);
             $('#' + selectLineID + " .lineProductName").attr('productcost', lineProdCost);
@@ -795,6 +797,7 @@ Template.stockadjustmentcard.onRendered(() => {
     $(document).ready(function () {
         $('#addRow').on('click', function () {
             var rowData = $('#tblStockAdjustmentLine tbody>tr:last').clone(true);
+            var rowData1 = $('.stock_print tbody>tr:last').clone(true);
             let tokenid = Random.id();
             $(".lineProductName", rowData).val("");
             $(".lineProductBarCode", rowData).text("");
@@ -806,7 +809,20 @@ Template.stockadjustmentcard.onRendered(() => {
             rowData.attr('id', tokenid);
             $("#tblStockAdjustmentLine tbody").append(rowData);
 
+            //Print table
+            $(".lineProductName", rowData1).text("");
+            $(".lineProductBarCode", rowData1).text("");
+            $(".lineDescription", rowData1).text("");
+            $(".lineInStockQty", rowData1).text("");
+            $(".lineFinalQty", rowData1).text("");
+            $(".lineAdjustQty", rowData1).text("");
+            // $(".lineAmt", rowData).text("");
+            rowData1.attr('id', tokenid);
+            $(".stock_print tbody").append(rowData1);
+
         });
+
+
 
     });
 
@@ -1135,11 +1151,23 @@ Template.stockadjustmentcard.helpers({
     uploadedFile: () => {
         return Template.instance().uploadedFile.get();
     },
+    productcost: () => {
+       return Session.get('CloudProductCost');
+    },
     companyaddress1: () => {
         return Session.get('vs1companyaddress1');
     },
     companyaddress2: () => {
         return Session.get('vs1companyaddress2');
+    },
+    city: () => {
+        return Session.get('vs1companyCity');
+    },
+    state: () => {
+        return Session.get('companyState');
+    },
+     poBox: () => {
+        return Session.get('vs1companyPOBox');
     },
     companyphone: () => {
         return Session.get('vs1companyPhone');
@@ -1172,6 +1200,9 @@ Template.stockadjustmentcard.events({
     'click #edtCustomerName': function (event) {
         $('#edtCustomerName').select();
         $('#edtCustomerName').editableSelect();
+    },
+    'change #edtAccountName': function (event) {
+        $('.accountname').text($('#edtAccountName').val());
     },
     'change #sltDepartment': function (event) {
         let templateObject = Template.instance();
@@ -2117,8 +2148,7 @@ Template.stockadjustmentcard.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                console.log(error);
-                                // FlowRouter.go('/stockadjustmentoverview?success=true');
+                                FlowRouter.go('/stockadjustmentoverview?success=true');
 
                             } else {
                                 swal({
@@ -2428,7 +2458,6 @@ Template.stockadjustmentcard.events({
                             attachments: attachment
                         }, function (error, result) {
                             if (error && error.error === "error") {
-                                console.log(error);
                                 FlowRouter.go('/stockadjustmentoverview?success=true');
 
                             } else {
@@ -2490,6 +2519,52 @@ Template.stockadjustmentcard.events({
             $('.colDescription').css('vertical-align', 'top');
         } else {
             $('.colDescription').css('display', 'none');
+        }
+    },
+    'click .chkProductBarCode': function (event) {
+        if ($(event.target).is(':checked')) {
+            $('.colProductBarCode').css('display', 'table-cell');
+            $('.colProductBarCode').css('padding', '.75rem');
+            $('.colProductBarCode').css('vertical-align', 'top');
+        } else {
+            $('.colProductBarCode').css('display', 'none');
+        }
+    },
+    'click .chkProductCost': function (event) {
+        if ($(event.target).is(':checked')) {
+            $('.colProductCost').css('display', 'table-cell');
+            $('.colProductCost').css('padding', '.75rem');
+            $('.colProductCost').css('vertical-align', 'top');
+        } else {
+            $('.colProductCost').css('display', 'none');
+        }
+    },
+    'click .chkInStockQty': function (event) {
+        if ($(event.target).is(':checked')) {
+            $('.colInStockQty').css('display', 'table-cell');
+            $('.colInStockQty').css('padding', '.75rem');
+            $('.colInStockQty').css('vertical-align', 'top');
+        } else {
+            $('.colInStockQty').css('display', 'none');
+        }
+    },
+
+    'click .chkFinalQty': function (event) {
+        if ($(event.target).is(':checked')) {
+            $('.colFinalQty').css('display', 'table-cell');
+            $('.colFinalQty').css('padding', '.75rem');
+            $('.colFinalQty').css('vertical-align', 'top');
+        } else {
+            $('.colFinalQty').css('display', 'none');
+        }
+    },
+    'click .chkAdjustQty': function (event) {
+        if ($(event.target).is(':checked')) {
+            $('.colAdjustQty').css('display', 'table-cell');
+            $('.colAdjustQty').css('padding', '.75rem');
+            $('.colAdjustQty').css('vertical-align', 'top');
+        } else {
+            $('.colAdjustQty').css('display', 'none');
         }
     },
     'click .chkQty': function (event) {
@@ -2883,6 +2958,8 @@ Template.stockadjustmentcard.events({
         let adjustQty = $('#' + targetID + " .lineAdjustQty").val() || 0;
         finalTotal = parseFloat(inStockQty) + parseFloat(adjustQty);
         $('#' + targetID + " .lineFinalQty").val(finalTotal);
+        $('.stock_print #' + targetID + " .lineAdjustQty").text($('#' + targetID + " .lineAdjustQty").val());
+        $('.stock_print #' + targetID + " .lineFinalQty").text(finalTotal);
         //}
     },
     'keyup .lineFinalQty': function (event) {
@@ -2895,6 +2972,8 @@ Template.stockadjustmentcard.events({
         let adjustQty = $('#' + targetID + " .lineAdjustQty").val() || 0;
         adjustTotal = parseFloat(finalQty) - parseFloat(inStockQty);
         $('#' + targetID + " .lineAdjustQty").val(adjustTotal);
+         $('.stock_print #' + targetID + " .lineAdjustQty").text(adjustTotal);
+        $('.stock_print #' + targetID + " .lineFinalQty").text($('#' + targetID + " .lineFinalQty").val());
         //}
     },
     'keydown .lineFinalQty, keydown .lineAdjustQty': function (event) {

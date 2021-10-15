@@ -297,10 +297,10 @@
 
                                                                     <div class="columnSettings">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                            <input class="custom-control-input chkDescription" type="checkbox" id="formCheck-02" checked="">
+                                                                            <input class="custom-control-input chkProductBarCode" type="checkbox" id="formCheck-02" checked="">
                                                                             <label class="custom-control-label" for="formCheck-02"></label>
                                                                             <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Product Barcode{{/if}}" valueupdate="th.colDescription">
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[12].label}}{{else}}Product Barcode{{/if}}" valueupdate="th.colProductBarCode">
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Product Barcode{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
@@ -311,25 +311,25 @@
 
                                                                     <div class="columnSettings">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                            <input class="custom-control-input chkQty" type="checkbox" id="formCheck-03" checked="">
+                                                                            <input class="custom-control-input chkDescription" type="checkbox" id="formCheck-03" checked="">
                                                                             <label class="custom-control-label" for="formCheck-03"></label>
                                                                             <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Description{{/if}}" valueupdate="th.colQty">
-                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Description{{/if}}</div>
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Description{{/if}}" valueupdate="th.colDescription">
+                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Description{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                             <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
-                                                                            <input class="custom-range rngRange rngRangeQty" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}" min="0" max="1000">
+                                                                            <input class="custom-range rngRange rngRangeDescription" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                         </div>
                                                                     </div>
 
                                                                     <div class="columnSettings">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                            <input class="custom-control-input chkUnitPrice" type="checkbox" id="formCheck-04" checked="">
+                                                                            <input class="custom-control-input chkProductCost" type="checkbox" id="formCheck-04" checked="">
                                                                             <label class="custom-control-label" for="formCheck-04"></label>
                                                                             <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}In-Stock Qty{{/if}}" valueupdate="th.colUnitPrice">
-                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}In-Stock Qty{{/if}}</div>
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Product Cost{{/if}}" valueupdate="th.th colProductCost">
+                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Product Cost{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                             <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -339,11 +339,11 @@
 
                                                                     <div class="columnSettings">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                            <input class="custom-control-input chkCostPrice" type="checkbox" id="formCheck-07">
-                                                                            <label class="custom-control-label" for="formCheck-07"></label>
+                                                                            <input class="custom-control-input chkInStockQty" type="checkbox" id="formCheck-05">
+                                                                            <label class="custom-control-label" for="formCheck-05"></label>
                                                                             <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Final Qty{{/if}}" valueupdate="th.colCostPrice">
-                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Final Qty{{/if}}</div>
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}In-Stock Qty{{/if}}" valueupdate="th.colInStockQty">
+                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}In-Stock Qty{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                             <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -353,11 +353,11 @@
 
                                                                     <div class="columnSettings">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                            <input class="custom-control-input chkSalesLinesCustField1" type="checkbox" id="formCheck-08">
-                                                                            <label class="custom-control-label" for="formCheck-08"></label>
+                                                                            <input class="custom-control-input chkFinalQty" type="checkbox" id="formCheck-06">
+                                                                            <label class="custom-control-label" for="formCheck-06"></label>
                                                                             <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}Adjust Qty{{/if}}" valueupdate="th.colSalesLinesCustField1">
-                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}Adjust Qty{{/if}}</div>
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}Final Qty{{/if}}" valueupdate="th.colFinalQty">
+                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}Final Qty{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                             <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -367,11 +367,11 @@
 
                                                                     <div class="columnSettings">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                            <input class="custom-control-input chkSalesLinesCustField1" type="checkbox" id="formCheck-09">
-                                                                            <label class="custom-control-label" for="formCheck-09"></label>
+                                                                            <input class="custom-control-input chkAdjustQty" type="checkbox" id="formCheck-07">
+                                                                            <label class="custom-control-label" for="formCheck-07"></label>
                                                                             <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Adjust Qty{{/if}}" valueupdate="th.colSalesLinesCustField1">
-                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Product Cost{{/if}}</div>
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Adjust Qty{{/if}}" valueupdate="th.colAdjustQty">
+                                                                                {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Adjust Qty{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                             <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -498,12 +498,14 @@
                                         <thead>
                                             <tr class="dnd-moved">
                                                 <th class="th colProductName" style="width: 300px;">Product Name</th>
-                                                <th class="th colProdctBarCode" style="width: 200px;">Product Barcode</th>
+                                                <th class="th colProductBarCode" style="width: 200px;">Product Barcode</th>
                                                 <th class="th colDescription">Description</th>
+                                                 {{#if equals productcost true}}
+                                                <th class="th colProductCost" style="width: 150px;">Product Cost</th>
+                                                {{/if}}
                                                 <th class="th colInStockQty" style="width: 120px;">In-Stock Qty</th>
                                                 <th class="th colFinalQty" style="width: 100px;">Final Qty</th>
                                                 <th class="th colAdjustQty" style="width: 120px;">Adjust Qty</th>
-                                                <th class="th colProductCost hiddenColumn" style="width: 120px;">Product Cost</th>
                                                 <th class="th" style="width: 25px;"></th>
                                             </tr>
                                         </thead>
@@ -515,6 +517,9 @@
                                                             productcost="{{item.productcost}}"></td>
                                                     <td contenteditable="true" class="lineProductBarCode colProductBarCode">{{item.productbarcode}}</td>
                                                     <td contenteditable="true" class="lineDescription colDescription">{{item.description}}</td>
+                                                     {{#if equals productcost true}}
+                                                    <td class="colProductCost"><input class="lineProductCost highlightInput" type="text" value="{{item.productcost}}"></td>
+                                                     {{/if}}
                                                     <td contenteditable="false" class="lineInStockQty colInStockQty" style="background-color: #eaecf4; text-align: right;">{{item.qtyinstock}}</td>
                                                     <!--
 <td contenteditable="true" class="lineFinalQty colFinalQty">{{item.finalqty}}</td>
@@ -523,7 +528,6 @@
 
                                                     <td><input class="lineFinalQty colFinalQty highlightInput" type="text" value="{{item.finalqty}}"></td>
                                                     <td><input class="lineAdjustQty colAdjustQty highlightInput" type="text" value="{{item.adjustqty}}"></td>
-                                                    <td class="hiddenColumn colProductCost"><input class="lineProductCost highlightInput" type="text" value="{{item.productCost}}"></td>
                                                     <td><span class="table-remove btnRemove"><button type="button" class="btn btnDeleteProduct btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                                 </tr>
                                             {{/each}}
@@ -602,7 +606,9 @@
                                     <a href="{{organizationurl}}">{{organizationurl}}</a>
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
-                                    <p style="margin-bottom: 8px; color: rgb(0 0 0);">{{companyaddress2}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress2}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{city}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{state}} {{poBox}} </p>
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
                                 </div>
@@ -624,7 +630,7 @@
                             <div style="width: 50%; padding-left: 16px;">
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{record.balancedate}}.</p>
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{record.id}}.</p>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{record.accountname}}.</p>
+                                <p class="accountname" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{record.accountname}}.</p>
                             </div>
                         </div>
                     </div>
@@ -632,7 +638,7 @@
                 <hr>
                 <div style="height: 160mm;">
                     <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
-                        <table id="tblStockAdjustmentLinePrint" style="width: 200mm; max-width: 200mm; margin: auto;">
+                        <table id="tblStockAdjustmentLinePrint" class="stock_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                             <thead style="color: rgb(251,251,251);">
                                 <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
                                     <th class="th colProductName" style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
@@ -646,7 +652,7 @@
                             </thead>
                             <tbody style="color: rgb(0 0 0);">
                                 {{#each item in record.LineItems}}
-                                    <tr style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
+                                    <tr style="border-bottom: 1px solid rgba(0, 0, 0, .1);" id={{item.lineID}}>
                                         <td class="lineProductName colProductName">{{item.productname}}</td>
                                         <td class="lineProductBarCode colProductBarCode">{{item.productbarcode}}</td>
                                         <td class="lineDescription colDescription">{{item.description}}</td>
