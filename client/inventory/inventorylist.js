@@ -1842,6 +1842,10 @@ jQuery('#tblInventory_wrapper .dt-buttons .btntabletopdf').click();
 $('.fullScreenSpin').css('display','none');
 },
 'click .btnStockAdjustment' : function(event){
+  FlowRouter.go('/stocktransferlist');
+},
+
+'click .btnStockTrans' : function(event){
   FlowRouter.go('/stockadjustmentoverview');
 },
 'click .templateDownload': function () {
