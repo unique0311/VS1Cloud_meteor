@@ -1852,6 +1852,213 @@ Template.billcard.onRendered(() => {
         $('#statusPopModal').modal('toggle');
     });
 
+    $('#sltTerms').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var termsDataName = e.target.value || '';
+            $('#edtTermsID').val('');
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#termsListModal').modal('toggle');
+            } else {
+                if (termsDataName.replace(/\s/g, '') != '') {
+                    $('#termModalHeader').text('Edit Terms');
+                    getVS1Data('TTermsVS1').then(function(dataObject) { //edit to test indexdb
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getTermsVS1().then(function(data) {
+                                for (let i in data.ttermsvs1) {
+                                    if (data.ttermsvs1[i].TermsName === termsDataName) {
+                                        $('#edtTermsID').val(data.ttermsvs1[i].Id);
+                                        $('#edtDays').val(data.ttermsvs1[i].Days);
+                                        $('#edtName').val(data.ttermsvs1[i].TermsName);
+                                        $('#edtDesc').val(data.ttermsvs1[i].Description);
+                                        if (data.ttermsvs1[i].IsEOM === true) {
+                                            $('#isEOM').prop('checked', true);
+                                        } else {
+                                            $('#isEOM').prop('checked', false);
+                                        }
+                                        if (data.ttermsvs1[i].IsEOMPlus === true) {
+                                            $('#isEOMPlus').prop('checked', true);
+                                        } else {
+                                            $('#isEOMPlus').prop('checked', false);
+                                        }
+                                        if (data.ttermsvs1[i].isSalesdefault === true) {
+                                            $('#chkCustomerDef').prop('checked', true);
+                                        } else {
+                                            $('#chkCustomerDef').prop('checked', false);
+                                        }
+                                        if (data.ttermsvs1[i].isPurchasedefault === true) {
+                                            $('#chkSupplierDef').prop('checked', true);
+                                        } else {
+                                            $('#chkSupplierDef').prop('checked', false);
+                                        }
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newTermsModal').modal('toggle');
+                                }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.ttermsvs1;
+                            for (let i in useData) {
+                                if (useData[i].TermsName === termsDataName) {
+                                    $('#edtTermsID').val(useData[i].Id);
+                                    $('#edtDays').val(useData[i].Days);
+                                    $('#edtName').val(useData[i].TermsName);
+                                    $('#edtDesc').val(useData[i].Description);
+                                    if (useData[i].IsEOM === true) {
+                                        $('#isEOM').prop('checked', true);
+                                    } else {
+                                        $('#isEOM').prop('checked', false);
+                                    }
+                                    if (useData[i].IsEOMPlus === true) {
+                                        $('#isEOMPlus').prop('checked', true);
+                                    } else {
+                                        $('#isEOMPlus').prop('checked', false);
+                                    }
+                                    if (useData[i].isSalesdefault === true) {
+                                        $('#chkCustomerDef').prop('checked', true);
+                                    } else {
+                                        $('#chkCustomerDef').prop('checked', false);
+                                    }
+                                    if (useData[i].isPurchasedefault === true) {
+                                        $('#chkSupplierDef').prop('checked', true);
+                                    } else {
+                                        $('#chkSupplierDef').prop('checked', false);
+                                    }
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newTermsModal').modal('toggle');
+                            }, 200);
+                        }
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getTermsVS1().then(function(data) {
+                            for (let i in data.ttermsvs1) {
+                                if (data.ttermsvs1[i].TermsName === termsDataName) {
+                                    $('#edtTermsID').val(data.ttermsvs1[i].Id);
+                                    $('#edtDays').val(data.ttermsvs1[i].Days);
+                                    $('#edtName').val(data.ttermsvs1[i].TermsName);
+                                    $('#edtDesc').val(data.ttermsvs1[i].Description);
+                                    if (data.ttermsvs1[i].IsEOM === true) {
+                                        $('#isEOM').prop('checked', true);
+                                    } else {
+                                        $('#isEOM').prop('checked', false);
+                                    }
+                                    if (data.ttermsvs1[i].IsEOMPlus === true) {
+                                        $('#isEOMPlus').prop('checked', true);
+                                    } else {
+                                        $('#isEOMPlus').prop('checked', false);
+                                    }
+                                    if (data.ttermsvs1[i].isSalesdefault === true) {
+                                        $('#chkCustomerDef').prop('checked', true);
+                                    } else {
+                                        $('#chkCustomerDef').prop('checked', false);
+                                    }
+                                    if (data.ttermsvs1[i].isPurchasedefault === true) {
+                                        $('#chkSupplierDef').prop('checked', true);
+                                    } else {
+                                        $('#chkSupplierDef').prop('checked', false);
+                                    }
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newTermsModal').modal('toggle');
+                            }, 200);
+                        });
+                    });
+                } else {
+                    $('#termsListModal').modal();
+                    setTimeout(function() {
+                        $('#termsList_filter .form-control-sm').focus();
+                        $('#termsList_filter .form-control-sm').val('');
+                        $('#termsList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#termsList').DataTable();
+                        datatable.draw();
+                        $('#termsList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
+        });
+
+        $('#sltStatus').editableSelect()
+            .on('click.editable-select', function(e, li) {
+                        var $earch = $(this);
+                        var offset = $earch.offset();
+                        $('#statusId').val('');
+                        var statusDataName = e.target.value || '';
+                        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                            $('#statusPopModal').modal('toggle');
+                        } else {
+                            if (statusDataName.replace(/\s/g, '') != '') {
+                                $('#newStatusHeader').text('Edit Status');
+                                $('#newStatus').val(statusDataName);
+
+                                getVS1Data('TLeadStatusType').then(function(dataObject) {
+                                    if (dataObject.length == 0) {
+                                        $('.fullScreenSpin').css('display', 'inline-block');
+                                        sideBarService.getAllLeadStatus().then(function(data) {
+                                            for (let i in data.tleadstatustype) {
+                                                if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                                    $('#statusId').val(data.tleadstatustype[i].Id);
+                                                }
+                                            }
+                                            setTimeout(function() {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                                $('#newStatusPopModal').modal('toggle');
+                                            }, 200);
+                                        });
+                                    } else {
+                                        let data = JSON.parse(dataObject[0].data);
+                                        let useData = data.tleadstatustype;
+                                        for (let i in useData) {
+                                            if (useData[i].TypeName === statusDataName) {
+                                                $('#statusId').val(useData[i].Id);
+
+                                            }
+                                        }
+                                        setTimeout(function() {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                            $('#newStatusPopModal').modal('toggle');
+                                        }, 200);
+                                    }
+                                }).catch(function(err) {
+                                    sideBarService.getAllLeadStatus().then(function(data) {
+                                        for (let i in data.tleadstatustype) {
+                                            if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                                $('#statusId').val(data.tleadstatustype[i].Id);
+
+                                            }
+                                        }
+                                    });
+                                });
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newStatusPopModal').modal('toggle');
+                                }, 200);
+
+                            } else {
+                                $('#statusPopModal').modal();
+                                setTimeout(function() {
+                                    $('#tblStatusPopList_filter .form-control-sm').focus();
+                                    $('#tblStatusPopList_filter .form-control-sm').val('');
+                                    $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+                                    var datatable = $('#tblStatusPopList').DataTable();
+
+                                    datatable.draw();
+                                    $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+
+                                }, 500);
+                            }
+                        }
+                    });
+
     $('#edtSupplierName').editableSelect().on('click.editable-select', function(e, li) {
         var $earch = $(this);
         var offset = $earch.offset();
@@ -3047,18 +3254,18 @@ Template.billcard.helpers({
 });
 
 Template.billcard.events({
-    'click #sltTerms': function(event) {
-        $('#termsListModal').modal('toggle');
-    },
+    // 'click #sltTerms': function(event) {
+    //     $('#termsListModal').modal('toggle');
+    // },
     'click #sltCurrency': function(event) {
         $('#currencyModal').modal('toggle');
     },
-    'click #sltDept': function(event) {
-        $('#departmentModal').modal('toggle');
-    },
-    'click #sltStatus': function(event) {
-        $('#statusPopModal').modal('toggle');
-    },
+    // 'click #sltDept': function(event) {
+    //     $('#departmentModal').modal('toggle');
+    // },
+    // 'click #sltStatus': function(event) {
+    //     $('#statusPopModal').modal('toggle');
+    // },
     'click #edtSupplierName': function(event) {
         $('#edtSupplierName').select();
         $('#edtSupplierName').editableSelect();
@@ -3081,68 +3288,6 @@ Template.billcard.events({
         let status = $('#sltStatus').find(":selected").val();
         if (status == "newstatus") {
             $('#statusModal').modal();
-        }
-    },
-    'click .btnSaveStatus': function() {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        let clientService = new SalesBoardService()
-        let status = $('#status').val();
-        let leadData = {
-            type: 'TLeadStatusType',
-            fields: {
-                TypeName: status,
-                KeyValue: status
-            }
-        }
-
-        if (status != "") {
-            clientService.saveLeadStatus(leadData).then(function(objDetails) {
-                sideBarService.getAllLeadStatus().then(function(dataUpdate) {
-                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        $('.fullScreenSpin').css('display', 'none');
-                        let id = $('.printID').attr("id");
-                        if (id != "") {
-                            window.open("/billcard?id=" + id);
-                        } else {
-                            window.open("/billcard");
-                        }
-                    }).catch(function(err) {
-
-                    });
-                }).catch(function(err) {
-                    window.open('/billcard', '_self');
-                });
-            }).catch(function(err) {
-                $('.fullScreenSpin').css('display', 'none');
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                });
-
-                $('.fullScreenSpin').css('display', 'none');
-            });
-        } else {
-            $('.fullScreenSpin').css('display', 'none');
-            swal({
-                title: 'Please Enter Status',
-                text: "Status field cannot be empty",
-                type: 'warning',
-                showCancelButton: false,
-                confirmButtonText: 'Try Again'
-            }).then((result) => {
-                if (result.value) {} else if (result.dismiss === 'cancel') {
-
-                }
-            });
         }
     },
     'blur .lineMemo': function(event) {

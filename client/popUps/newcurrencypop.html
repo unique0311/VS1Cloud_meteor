@@ -11,10 +11,12 @@
 
                         <div class="form-group flex-grow-1" style="margin: 8px;"><label data-toggle="tooltip" data-bs-tooltip="" data-placement="bottom" title="The name for the Tax Rate to appear in VS1 Cloud">Country</label>
                             <select class="form-control" id="sedtCountry" name="sedtCountry" style="cursor: pointer;">
+                                <option value=""></option>
                                 {{#each item in countryList}}
                                 {{#if equals item record.scountry }}
                                 <option value="{{record.scountry}}" selected="">{{record.scountry}}</option>
                                 {{else}}
+
                                 <option value="{{item}}">{{item}}</option>
                                 {{/if}}
                                 {{/each}}

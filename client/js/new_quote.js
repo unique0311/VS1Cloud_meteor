@@ -3766,64 +3766,77 @@ Template.new_quote.onRendered(() => {
             }
         });
 
-    $('#sltStatus').editableSelect()
-        .on('click.editable-select', function(e, li) {
-            var $earch = $(this);
-            var offset = $earch.offset();
-            $('#statusId').val('');
-            var statusDataName = e.target.value || '';
-            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
-                $('#statusPopModal').modal('toggle');
-            } else {
-                if (statusDataName.replace(/\s/g, '') != '') {
-                    $('#newStatusHeader').text('Edit Status');
-                    $('#newStatus').val(statusDataName);
-
-                    getVS1Data('TLeadStatusType').then(function(dataObject) {
-                        if (dataObject.length == 0) {
-                            clientsService.getAllLeadStatus().then(function(data) {
-                                for (let i in data.tleadstatustype) {
-                                    if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                        $('#statusId').val(data.tleadstatustype[i].Id);
-                                    }
-                                }
-                            });
+        $('#sltStatus').editableSelect()
+            .on('click.editable-select', function(e, li) {
+                        var $earch = $(this);
+                        var offset = $earch.offset();
+                        $('#statusId').val('');
+                        var statusDataName = e.target.value || '';
+                        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                            $('#statusPopModal').modal('toggle');
                         } else {
-                            let data = JSON.parse(dataObject[0].data);
-                            let useData = data.tleadstatustype;
-                            for (let i in useData) {
-                                if (useData[i].TypeName === statusDataName) {
-                                    $('#statusId').val(useData[i].Id);
+                            if (statusDataName.replace(/\s/g, '') != '') {
+                                $('#newStatusHeader').text('Edit Status');
+                                $('#newStatus').val(statusDataName);
 
-                                }
+                                getVS1Data('TLeadStatusType').then(function(dataObject) {
+                                    if (dataObject.length == 0) {
+                                        $('.fullScreenSpin').css('display', 'inline-block');
+                                        sideBarService.getAllLeadStatus().then(function(data) {
+                                            for (let i in data.tleadstatustype) {
+                                                if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                                    $('#statusId').val(data.tleadstatustype[i].Id);
+                                                }
+                                            }
+                                            setTimeout(function() {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                                $('#newStatusPopModal').modal('toggle');
+                                            }, 200);
+                                        });
+                                    } else {
+                                        let data = JSON.parse(dataObject[0].data);
+                                        let useData = data.tleadstatustype;
+                                        for (let i in useData) {
+                                            if (useData[i].TypeName === statusDataName) {
+                                                $('#statusId').val(useData[i].Id);
+
+                                            }
+                                        }
+                                        setTimeout(function() {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                            $('#newStatusPopModal').modal('toggle');
+                                        }, 200);
+                                    }
+                                }).catch(function(err) {
+                                    sideBarService.getAllLeadStatus().then(function(data) {
+                                        for (let i in data.tleadstatustype) {
+                                            if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                                $('#statusId').val(data.tleadstatustype[i].Id);
+
+                                            }
+                                        }
+                                    });
+                                });
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newStatusPopModal').modal('toggle');
+                                }, 200);
+
+                            } else {
+                                $('#statusPopModal').modal();
+                                setTimeout(function() {
+                                    $('#tblStatusPopList_filter .form-control-sm').focus();
+                                    $('#tblStatusPopList_filter .form-control-sm').val('');
+                                    $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+                                    var datatable = $('#tblStatusPopList').DataTable();
+
+                                    datatable.draw();
+                                    $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+
+                                }, 500);
                             }
                         }
-                    }).catch(function(err) {
-                        clientsService.getAllLeadStatus().then(function(data) {
-                            for (let i in data.tleadstatustype) {
-                                if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                    $('#statusId').val(data.tleadstatustype[i].Id);
-
-                                }
-                            }
-                        });
                     });
-                    $('#newStatusPopModal').modal('toggle');
-                } else {
-                    $('#statusPopModal').modal();
-                    setTimeout(function() {
-                        $('#tblStatusPopList_filter .form-control-sm').focus();
-                        $('#tblStatusPopList_filter .form-control-sm').val('');
-                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-                        var datatable = $('#tblStatusPopList').DataTable();
-
-                        datatable.draw();
-                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-
-                    }, 500);
-                }
-            }
-        });
 
     $('#edtCustomerName').editableSelect()
         .on('click.editable-select', function(e, li) {

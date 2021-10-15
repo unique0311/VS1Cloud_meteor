@@ -4836,40 +4836,114 @@ Template.new_invoice.onRendered(() => {
             } else {
                 if (termsDataName.replace(/\s/g, '') != '') {
                     $('#termModalHeader').text('Edit Terms');
-                    $('#newTermsModal').modal('toggle');
-
-                    getVS1Data('TTermsVS1').then(function(dataObject) {
+                    getVS1Data('TTermsVS1').then(function(dataObject) { //edit to test indexdb
                         if (dataObject.length == 0) {
-                            salesService.getTermVS1().then(function(data) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getTermsVS1().then(function(data) {
                                 for (let i in data.ttermsvs1) {
-                                    let termrecordObj = {
-                                        termsname: data.ttermsvs1[i].TermsName || ' ',
-                                    };
-                                    termrecords.push(termrecordObj);
+                                    if (data.ttermsvs1[i].TermsName === termsDataName) {
+                                        $('#edtTermsID').val(data.ttermsvs1[i].Id);
+                                        $('#edtDays').val(data.ttermsvs1[i].Days);
+                                        $('#edtName').val(data.ttermsvs1[i].TermsName);
+                                        $('#edtDesc').val(data.ttermsvs1[i].Description);
+                                        if (data.ttermsvs1[i].IsEOM === true) {
+                                            $('#isEOM').prop('checked', true);
+                                        } else {
+                                            $('#isEOM').prop('checked', false);
+                                        }
+                                        if (data.ttermsvs1[i].IsEOMPlus === true) {
+                                            $('#isEOMPlus').prop('checked', true);
+                                        } else {
+                                            $('#isEOMPlus').prop('checked', false);
+                                        }
+                                        if (data.ttermsvs1[i].isSalesdefault === true) {
+                                            $('#chkCustomerDef').prop('checked', true);
+                                        } else {
+                                            $('#chkCustomerDef').prop('checked', false);
+                                        }
+                                        if (data.ttermsvs1[i].isPurchasedefault === true) {
+                                            $('#chkSupplierDef').prop('checked', true);
+                                        } else {
+                                            $('#chkSupplierDef').prop('checked', false);
+                                        }
+                                    }
                                 }
-                                templateObject.termrecords.set(termrecords);
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newTermsModal').modal('toggle');
+                                }, 200);
                             });
                         } else {
                             let data = JSON.parse(dataObject[0].data);
                             let useData = data.ttermsvs1;
                             for (let i in useData) {
-                                if (useData.ttermsvs1[i].termname === termsDataName) {
-                                    $('#edtTermsID').val(useData.ttermsvs1[i].Id);
-                                    $('#edtDays').val(useData.ttermsvs1[i].Days);
-                                    $('#edtName').val(useData.ttermsvs1[i].TermsName);
-                                    $('#edtDesc').val(useData.ttermsvs1[i].Descriptions);
+                                if (useData[i].TermsName === termsDataName) {
+                                    $('#edtTermsID').val(useData[i].Id);
+                                    $('#edtDays').val(useData[i].Days);
+                                    $('#edtName').val(useData[i].TermsName);
+                                    $('#edtDesc').val(useData[i].Description);
+                                    if (useData[i].IsEOM === true) {
+                                        $('#isEOM').prop('checked', true);
+                                    } else {
+                                        $('#isEOM').prop('checked', false);
+                                    }
+                                    if (useData[i].IsEOMPlus === true) {
+                                        $('#isEOMPlus').prop('checked', true);
+                                    } else {
+                                        $('#isEOMPlus').prop('checked', false);
+                                    }
+                                    if (useData[i].isSalesdefault === true) {
+                                        $('#chkCustomerDef').prop('checked', true);
+                                    } else {
+                                        $('#chkCustomerDef').prop('checked', false);
+                                    }
+                                    if (useData[i].isPurchasedefault === true) {
+                                        $('#chkSupplierDef').prop('checked', true);
+                                    } else {
+                                        $('#chkSupplierDef').prop('checked', false);
+                                    }
                                 }
                             }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newTermsModal').modal('toggle');
+                            }, 200);
                         }
                     }).catch(function(err) {
-                        salesService.getTermVS1().then(function(data) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getTermsVS1().then(function(data) {
                             for (let i in data.ttermsvs1) {
-                                if (data.ttermsvs1[i].isSalesdefault == true) {
-                                    templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                                if (data.ttermsvs1[i].TermsName === termsDataName) {
+                                    $('#edtTermsID').val(data.ttermsvs1[i].Id);
+                                    $('#edtDays').val(data.ttermsvs1[i].Days);
+                                    $('#edtName').val(data.ttermsvs1[i].TermsName);
+                                    $('#edtDesc').val(data.ttermsvs1[i].Description);
+                                    if (data.ttermsvs1[i].IsEOM === true) {
+                                        $('#isEOM').prop('checked', true);
+                                    } else {
+                                        $('#isEOM').prop('checked', false);
+                                    }
+                                    if (data.ttermsvs1[i].IsEOMPlus === true) {
+                                        $('#isEOMPlus').prop('checked', true);
+                                    } else {
+                                        $('#isEOMPlus').prop('checked', false);
+                                    }
+                                    if (data.ttermsvs1[i].isSalesdefault === true) {
+                                        $('#chkCustomerDef').prop('checked', true);
+                                    } else {
+                                        $('#chkCustomerDef').prop('checked', false);
+                                    }
+                                    if (data.ttermsvs1[i].isPurchasedefault === true) {
+                                        $('#chkSupplierDef').prop('checked', true);
+                                    } else {
+                                        $('#chkSupplierDef').prop('checked', false);
+                                    }
                                 }
-                                termrecords.push(termrecordObj);
-                                templateObject.termrecords.set(termrecords);
                             }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newTermsModal').modal('toggle');
+                            }, 200);
                         });
                     });
                 } else {
@@ -4897,25 +4971,25 @@ Template.new_invoice.onRendered(() => {
             } else {
                 if (deptDataName.replace(/\s/g, '') != '') {
                     $('#newDeptHeader').text('Edit Department');
-                    $('#newDepartmentModal').modal('toggle');
 
                     getVS1Data('TDeptClass').then(function(dataObject) {
                         if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
                             taxRateService.getDepartment().then(function(data) {
-                                let deptList = [];
                                 for (let i = 0; i < data.tdeptclass.length; i++) {
                                     let dataObject = {
                                         departid: data.tdeptclass[i].Id || ' ',
                                         deptname: data.tdeptclass[i].DeptClassName || ' ',
                                     };
-                                    deptList.push(dataObject);
                                 }
-                                templateObject.departlist.set(deptList);
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newDepartmentModal').modal('toggle');
+                                }, 200);
                             });
                         } else {
                             let data = JSON.parse(dataObject[0].data);
                             let useData = data.tdeptclass;
-                            let deptList = [];
                             for (let i = 0; i < data.tdeptclass.length; i++) {
                                 if (data.tdeptclass[i].DeptClassName === deptDataName) {
                                     $('#edtDepartmentID').val(data.tdeptclass[i].Id);
@@ -4924,11 +4998,14 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtDeptDesc').val(data.tdeptclass[i].Description);
                                 }
                             }
-                            templateObject.departlist.set(deptList);
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newDepartmentModal').modal('toggle');
+                            }, 200);
                         }
                     }).catch(function(err) {
-                        taxRateService.getDepartment().then(function(data) {
-                            let deptList = [];
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getDepartment().then(function(data) {
                             for (let i = 0; i < data.tdeptclass.length; i++) {
                                 if (data.tdeptclass[i].DeptClassName === deptDataName) {
                                     $('#edtDepartmentID').val(data.tdeptclass[i].Id);
@@ -4937,7 +5014,10 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtDeptDesc').val(data.tdeptclass[i].Description);
                                 }
                             }
-                            templateObject.departlist.set(deptList);
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newDepartmentModal').modal('toggle');
+                            }, 200);
                         });
                     });
                 } else {
@@ -4954,6 +5034,78 @@ Template.new_invoice.onRendered(() => {
             }
         });
 
+    $('#sltStatus').editableSelect()
+        .on('click.editable-select', function(e, li) {
+                    var $earch = $(this);
+                    var offset = $earch.offset();
+                    $('#statusId').val('');
+                    var statusDataName = e.target.value || '';
+                    if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                        $('#statusPopModal').modal('toggle');
+                    } else {
+                        if (statusDataName.replace(/\s/g, '') != '') {
+                            $('#newStatusHeader').text('Edit Status');
+                            $('#newStatus').val(statusDataName);
+
+                            getVS1Data('TLeadStatusType').then(function(dataObject) {
+                                if (dataObject.length == 0) {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    sideBarService.getAllLeadStatus().then(function(data) {
+                                        for (let i in data.tleadstatustype) {
+                                            if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                                $('#statusId').val(data.tleadstatustype[i].Id);
+                                            }
+                                        }
+                                        setTimeout(function() {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                            $('#newStatusPopModal').modal('toggle');
+                                        }, 200);
+                                    });
+                                } else {
+                                    let data = JSON.parse(dataObject[0].data);
+                                    let useData = data.tleadstatustype;
+                                    for (let i in useData) {
+                                        if (useData[i].TypeName === statusDataName) {
+                                            $('#statusId').val(useData[i].Id);
+
+                                        }
+                                    }
+                                    setTimeout(function() {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        $('#newStatusPopModal').modal('toggle');
+                                    }, 200);
+                                }
+                            }).catch(function(err) {
+                                sideBarService.getAllLeadStatus().then(function(data) {
+                                    for (let i in data.tleadstatustype) {
+                                        if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                            $('#statusId').val(data.tleadstatustype[i].Id);
+
+                                        }
+                                    }
+                                });
+                            });
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newStatusPopModal').modal('toggle');
+                            }, 200);
+
+                        } else {
+                            $('#statusPopModal').modal();
+                            setTimeout(function() {
+                                $('#tblStatusPopList_filter .form-control-sm').focus();
+                                $('#tblStatusPopList_filter .form-control-sm').val('');
+                                $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+                                var datatable = $('#tblStatusPopList').DataTable();
+
+                                datatable.draw();
+                                $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+
+                            }, 500);
+                        }
+                    }
+                });
+
     $('#sltCurrency').editableSelect()
         .on('click.editable-select', function(e, li) {
             var $earch = $(this);
@@ -4965,23 +5117,25 @@ Template.new_invoice.onRendered(() => {
             } else {
                 if (currencyDataName.replace(/\s/g, '') != '') {
                     $('#add-currency-title').text('Edit Currency');
-                    $('#newCurrencyModal').modal('toggle');
-
-                    getVS1Data('TCurrency').then(function(dataObject) {
+                    $('#sedtCountry').prop('readonly', true);
+                    getVS1Data('TCurrency1').then(function(dataObject) {
                         if (dataObject.length == 0) {
-                            clientsService.getCurrencies().then(function(data) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getCurrencies().then(function(data) {
                                 for (let i in data.tleadstatustype) {
                                     let leadrecordObj = {
                                         orderstatus: data.tleadstatustype[i].TypeName || ' '
                                     };
                                     statusList.push(leadrecordObj);
                                 }
-                                templateObject.statusrecords.set(statusList);
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newCurrencyModal').modal('toggle');
+                                }, 200);
                             });
                         } else {
                             let data = JSON.parse(dataObject[0].data);
                             let useData = data.tcurrency;
-
                             for (let i = 0; i < data.tcurrency.length; i++) {
                                 if (data.tcurrency[i].Code === currencyDataName) {
                                     $('#edtCurrencyID').val(data.tcurrency[i].Id);
@@ -4994,14 +5148,22 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtSellRate').val(data.tcurrency[i].SellRate);
                                 }
                             }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                            }, 200);
                         }
 
                     }).catch(function(err) {
-                        clientsService.getCurrencies().then(function(data) {
-                            for (let i in data.tleadstatustype) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getCurrencies().then(function(data) {
+                            for (let i in data.tcurrency) {
                                 if (data.tcurrency[i].Code === currencyDataName) {
                                     $('#edtCurrencyID').val(data.tcurrency[i].Id);
-                                    $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    setTimeout(function() {
+                                        $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    }, 200);
+                                    //$('#sedtCountry').val(data.tcurrency[i].Country);
                                     $('#currencyCode').val(currencyDataName);
                                     $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
                                     $('#edtCurrencyName').val(data.tcurrency[i].Currency);
@@ -5010,6 +5172,12 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtSellRate').val(data.tcurrency[i].SellRate);
                                 }
                             }
+                            console.log(data.tcurrency);
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                                $('#sedtCountry').attr('readonly', true);
+                            }, 200);
                         });
                     });
 
@@ -5027,64 +5195,6 @@ Template.new_invoice.onRendered(() => {
             }
         });
 
-    $('#sltStatus').editableSelect()
-        .on('click.editable-select', function(e, li) {
-            var $earch = $(this);
-            var offset = $earch.offset();
-            $('#statusId').val('');
-            var statusDataName = e.target.value || '';
-            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
-                $('#statusPopModal').modal('toggle');
-            } else {
-                if (statusDataName.replace(/\s/g, '') != '') {
-                    $('#newStatusHeader').text('Edit Status');
-                    $('#newStatus').val(statusDataName);
-
-                    getVS1Data('TLeadStatusType').then(function(dataObject) {
-                        if (dataObject.length == 0) {
-                            clientsService.getAllLeadStatus().then(function(data) {
-                                for (let i in data.tleadstatustype) {
-                                    if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                        $('#statusId').val(data.tleadstatustype[i].Id);
-                                    }
-                                }
-                            });
-                        } else {
-                            let data = JSON.parse(dataObject[0].data);
-                            let useData = data.tleadstatustype;
-                            for (let i in useData) {
-                                if (useData[i].TypeName === statusDataName) {
-                                    $('#statusId').val(useData[i].Id);
-
-                                }
-                            }
-                        }
-                    }).catch(function(err) {
-                        clientsService.getAllLeadStatus().then(function(data) {
-                            for (let i in data.tleadstatustype) {
-                                if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                    $('#statusId').val(data.tleadstatustype[i].Id);
-
-                                }
-                            }
-                        });
-                    });
-                    $('#newStatusPopModal').modal('toggle');
-                } else {
-                    $('#statusPopModal').modal();
-                    setTimeout(function() {
-                        $('#tblStatusPopList_filter .form-control-sm').focus();
-                        $('#tblStatusPopList_filter .form-control-sm').val('');
-                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-                        var datatable = $('#tblStatusPopList').DataTable();
-
-                        datatable.draw();
-                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-
-                    }, 500);
-                }
-            }
-        });
 
     $('#edtCustomerName').editableSelect()
         .on('click.editable-select', function(e, li) {
