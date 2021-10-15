@@ -1814,6 +1814,167 @@ Template.chequecard.onRendered(() => {
         }
     });
 
+    $('#sltCurrency').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var currencyDataName = e.target.value || '';
+            $('#edtCurrencyID').val('');
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#currencyModal').modal('toggle');
+            } else {
+                if (currencyDataName.replace(/\s/g, '') != '') {
+                    $('#add-currency-title').text('Edit Currency');
+                    $('#sedtCountry').prop('readonly', true);
+                    getVS1Data('TCurrency').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getCurrencies().then(function(data) {
+                                for (let i in data.tleadstatustype) {
+                                    let leadrecordObj = {
+                                        orderstatus: data.tleadstatustype[i].TypeName || ' '
+                                    };
+                                    statusList.push(leadrecordObj);
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newCurrencyModal').modal('toggle');
+                                }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tcurrency;
+                            for (let i = 0; i < data.tcurrency.length; i++) {
+                                if (data.tcurrency[i].Code === currencyDataName) {
+                                    $('#edtCurrencyID').val(data.tcurrency[i].Id);
+                                    $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    $('#currencyCode').val(currencyDataName);
+                                    $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
+                                    $('#edtCurrencyName').val(data.tcurrency[i].Currency);
+                                    $('#edtCurrencyDesc').val(data.tcurrency[i].CurrencyDesc);
+                                    $('#edtBuyRate').val(data.tcurrency[i].BuyRate);
+                                    $('#edtSellRate').val(data.tcurrency[i].SellRate);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                            }, 200);
+                        }
+
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getCurrencies().then(function(data) {
+                            for (let i in data.tcurrency) {
+                                if (data.tcurrency[i].Code === currencyDataName) {
+                                    $('#edtCurrencyID').val(data.tcurrency[i].Id);
+                                    setTimeout(function() {
+                                        $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    }, 200);
+                                    //$('#sedtCountry').val(data.tcurrency[i].Country);
+                                    $('#currencyCode').val(currencyDataName);
+                                    $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
+                                    $('#edtCurrencyName').val(data.tcurrency[i].Currency);
+                                    $('#edtCurrencyDesc').val(data.tcurrency[i].CurrencyDesc);
+                                    $('#edtBuyRate').val(data.tcurrency[i].BuyRate);
+                                    $('#edtSellRate').val(data.tcurrency[i].SellRate);
+                                }
+                            }
+                            console.log(data.tcurrency);
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                                $('#sedtCountry').attr('readonly', true);
+                            }, 200);
+                        });
+                    });
+
+                } else {
+                    $('#currencyModal').modal();
+                    setTimeout(function() {
+                        $('#tblCurrencyPopList_filter .form-control-sm').focus();
+                        $('#tblCurrencyPopList_filter .form-control-sm').val('');
+                        $('#tblCurrencyPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblCurrencyPopList').DataTable();
+                        datatable.draw();
+                        $('#tblCurrencyPopList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
+        });
+
+    $('#sltStatus').editableSelect()
+        .on('click.editable-select', function(e, li) {
+                    var $earch = $(this);
+                    var offset = $earch.offset();
+                    $('#statusId').val('');
+                    var statusDataName = e.target.value || '';
+                    if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                        $('#statusPopModal').modal('toggle');
+                    } else {
+                        if (statusDataName.replace(/\s/g, '') != '') {
+                            $('#newStatusHeader').text('Edit Status');
+                            $('#newStatus').val(statusDataName);
+
+                            getVS1Data('TLeadStatusType').then(function(dataObject) {
+                                if (dataObject.length == 0) {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    sideBarService.getAllLeadStatus().then(function(data) {
+                                        for (let i in data.tleadstatustype) {
+                                            if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                                $('#statusId').val(data.tleadstatustype[i].Id);
+                                            }
+                                        }
+                                        setTimeout(function() {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                            $('#newStatusPopModal').modal('toggle');
+                                        }, 200);
+                                    });
+                                } else {
+                                    let data = JSON.parse(dataObject[0].data);
+                                    let useData = data.tleadstatustype;
+                                    for (let i in useData) {
+                                        if (useData[i].TypeName === statusDataName) {
+                                            $('#statusId').val(useData[i].Id);
+
+                                        }
+                                    }
+                                    setTimeout(function() {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        $('#newStatusPopModal').modal('toggle');
+                                    }, 200);
+                                }
+                            }).catch(function(err) {
+                                sideBarService.getAllLeadStatus().then(function(data) {
+                                    for (let i in data.tleadstatustype) {
+                                        if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                            $('#statusId').val(data.tleadstatustype[i].Id);
+
+                                        }
+                                    }
+                                });
+                            });
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newStatusPopModal').modal('toggle');
+                            }, 200);
+
+                        } else {
+                            $('#statusPopModal').modal();
+                            setTimeout(function() {
+                                $('#tblStatusPopList_filter .form-control-sm').focus();
+                                $('#tblStatusPopList_filter .form-control-sm').val('');
+                                $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+                                var datatable = $('#tblStatusPopList').DataTable();
+
+                                datatable.draw();
+                                $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+
+                            }, 500);
+                        }
+                    }
+                });
+
 
     $('#edtSupplierName').editableSelect().on('click.editable-select', function (e, li) {
       var $earch = $(this);
@@ -3268,12 +3429,12 @@ Template.chequecard.helpers({
 });
 
 Template.chequecard.events({
-    'click #sltCurrency': function(event) {
-        $('#currencyModal').modal('toggle');
-    },
-    'click #sltStatus': function(event) {
-        $('#statusPopModal').modal('toggle');
-    },
+    // 'click #sltCurrency': function(event) {
+    //     $('#currencyModal').modal('toggle');
+    // },
+    // 'click #sltStatus': function(event) {
+    //     $('#statusPopModal').modal('toggle');
+    // },
     'click #edtSupplierName': function(event) {
         $('#edtSupplierName').select();
         $('#edtSupplierName').editableSelect();
@@ -3292,77 +3453,12 @@ Template.chequecard.events({
         $('.colAmountEx').addClass('showColumn');
         $('.colAmountEx').removeClass('hiddenColumn');
     },
-    'change #sltStatus': function () {
-        let status = $('#sltStatus').find(":selected").val();
-        if (status == "newstatus") {
-            $('#statusModal').modal();
-        }
-    },
-    'click .btnSaveStatus': function () {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        let clientService = new SalesBoardService()
-        let status = $('#status').val();
-        let leadData = {
-            type: 'TLeadStatusType',
-            fields: {
-                TypeName: status,
-                KeyValue: status
-            }
-        }
-
-        if (status != "") {
-            clientService.saveLeadStatus(leadData).then(function (objDetails) {
-                sideBarService.getAllLeadStatus().then(function (dataUpdate) {
-                    addVS1Data('TLeadStatusType', JSON.stringify(dataUpdate)).then(function (datareturn) {
-                        $('.fullScreenSpin').css('display', 'none');
-                        let id = $('.printID').attr("id");
-                        if (id != "") {
-                            window.open("/chequecard?id=" + id);
-                        } else {
-                           window.open("/chequecard");
-                        }
-                     }).catch(function (err) {
-
-                    });
-                }).catch(function (err) {
-
-                   window.open('/chequecard', '_self');
-                });
-            }).catch(function (err) {
-                $('.fullScreenSpin').css('display', 'none');
-
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                });
-
-                $('.fullScreenSpin').css('display', 'none');
-            });
-        } else {
-            $('.fullScreenSpin').css('display', 'none');
-            swal({
-                title: 'Please Enter Status',
-                text: "Status field cannot be empty",
-                type: 'warning',
-                showCancelButton: false,
-                confirmButtonText: 'Try Again'
-            }).then((result) => {
-                if (result.value) {
-                } else if (result.dismiss === 'cancel') {
-
-                }
-            });
-        }
-    },
+    // 'change #sltStatus': function () {
+    //     let status = $('#sltStatus').find(":selected").val();
+    //     if (status == "newstatus") {
+    //         $('#statusModal').modal();
+    //     }
+    // },
     'blur .lineMemo': function (event) {
         var targetID = $(event.target).closest('tr').attr('id');
         $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
