@@ -209,6 +209,7 @@ Template.refundcard.onRendered(()=>{
 
 
     });
+
     $('.fullScreenSpin').css('display','inline-block');
     templateObject.getAllClients = function(){
         getVS1Data('TCustomerVS1').then(function (dataObject) {
@@ -958,6 +959,7 @@ Template.refundcard.onRendered(()=>{
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblInvoiceLine tbody tr");
+        let printrows = $(".invoice_print tbody tr");
         let taxcode1 = "";
 
         let selectedCust = $('#edtCustomerName').val();
@@ -3248,7 +3250,7 @@ Template.refundcard.events({
                 if (tdproduct != "") {
 
                     lineItemObjForm = {
-                        type:"TInvoiceLine",
+                        type:"TRefundSaleLine",
                         fields:
                         {
                             ProductName: tdproduct || '',
@@ -3300,7 +3302,7 @@ Template.refundcard.events({
             if(getso_id[1]){
                 currentInvoice = parseInt(currentInvoice);
                 objDetails = {
-                    type: "TInvoiceEx",
+                    type: "TRefundSale",
                     fields: {
                         ID: currentInvoice,
                         CustomerName: customer,
@@ -3310,7 +3312,7 @@ Template.refundcard.events({
                         SaleDate: saleDate,
 
                         CustPONumber: poNumber,
-                        ReferenceNo: reference,
+                        // ReferenceNo: reference,
                         TermsName: termname,
                         SaleClassName: departement,
                         ShipToDesc: shippingAddress,
@@ -3318,13 +3320,13 @@ Template.refundcard.events({
                         SaleCustField1:saleCustField1,
                         SaleCustField2:saleCustField2,
                         PickMemo: pickingInfrmation,
-                        Attachments: uploadedItems,
+                        // Attachments: uploadedItems,
                         SalesStatus: $('#sltStatus').val()
                     }
                 };
             }else{
                 objDetails = {
-                    type: "TInvoiceEx",
+                    type: "TRefundSale",
                     fields: {
                         CustomerName: customer,
                         ForeignExchangeCode: currencyCode,
@@ -3333,7 +3335,7 @@ Template.refundcard.events({
                         SaleDate: saleDate,
 
                         CustPONumber: poNumber,
-                        ReferenceNo: reference,
+                        // ReferenceNo: reference,
                         TermsName: termname,
                         SaleClassName: departement,
                         ShipToDesc: shippingAddress,
@@ -3341,12 +3343,12 @@ Template.refundcard.events({
                         SaleCustField1:saleCustField1,
                         SaleCustField2:saleCustField2,
                         PickMemo: pickingInfrmation,
-                        Attachments: uploadedItems,
+                        // Attachments: uploadedItems,
                         SalesStatus: $('#sltStatus').val()
                     }
                 };
             }
-            salesService.saveInvoiceEx(objDetails).then(function (objDetails) {
+            salesService.saveRefundSale(objDetails).then(function (objDetails) {
                 var customerID = $('#edtCustomerEmail').attr('customerid');
 
                 $('#html-2-pdfwrapper').css('display','block');

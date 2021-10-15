@@ -217,9 +217,20 @@ export class SalesBoardService extends BaseService {
         return this.POST(this.ERPObjects.TInvoiceEx, data);
     }
 
+    saveRefundSale(data) {
+        console.log(data);
+        return this.POST(this.ERPObjects.TRefundSale, data);
+    }
+
+    // getRefundSales() {
+    //     let options = {
+    //        ListType: "Detail",
+    //     };
+    //     return this.getList(this.ERPObjects.TRefundSale,options);
+    // }
+
 
     getOneBilldata(id) {
-
         return this.getOneById(this.ERPObjects.TBillEx, id);
     }
 
