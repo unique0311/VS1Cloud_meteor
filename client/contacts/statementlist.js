@@ -131,7 +131,10 @@ Template.statementlist.onRendered(function () {
             let invoiceId = data.tstatementforcustomer[0].SaleID || '';
             let date = moment(data.tstatementforcustomer[0].transdate).format('DD-MMM-YY') || '';
             let datedue = moment(data.tstatementforcustomer[0].Duedate).format('DD-MMM-YY') || '';
-            let paidAmt = data.tstatementforcustomer[0].Paidamt || '';
+            // let paidAmt = data.tstatementforcustomer[0].Paidamt || '';
+            let paidAmt = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[0].Paidamt).toLocaleString(undefined, {
+                    minimumFractionDigits: 2
+                });
             let stringQuery = "?";
             for (let i = 0; i < data.tstatementforcustomer.length; i++) {
                 let id = data.tstatementforcustomer[i].SaleID;
