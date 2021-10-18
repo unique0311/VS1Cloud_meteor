@@ -207,6 +207,10 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshSupplierAwaiting' type='button' id='btnRefreshSupplierAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+
+                         }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -426,6 +430,10 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                         "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshSupplierAwaiting' type='button' id='btnRefreshSupplierAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {

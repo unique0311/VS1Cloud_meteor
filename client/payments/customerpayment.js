@@ -194,6 +194,9 @@ Template.customerpayment.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshCustomerPayment' type='button' id='btnRefreshCustomerPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerPayment_filter");
+                        }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -437,6 +440,7 @@ Template.customerpayment.onRendered(function() {
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
+                             $("<button class='btn btn-primary btnRefreshCustomerPayment' type='button' id='btnRefreshCustomerPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerPayment_filter");
 
                          }
 
@@ -660,6 +664,10 @@ Template.customerpayment.onRendered(function() {
                               MakeNegative();
                           }, 100);
                       },
+                      "fnInitComplete": function () {
+                               $("<button class='btn btn-primary btnRefreshCustomerPayment' type='button' id='btnRefreshCustomerPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerPayment_filter");
+                         }
+
 
                   }).on('page', function () {
                       setTimeout(function () {
