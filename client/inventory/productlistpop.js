@@ -101,7 +101,8 @@ Template.productlistpop.onRendered(function () {
                             data.tproductvs1[i].fields.TotalQtyInStock,
                             data.tproductvs1[i].fields.TaxCodeSales || '',
                             data.tproductvs1[i].fields.ID || '',
-                            JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                            JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                            data.tproductvs1[i].fields.BARCODE || ''
                         ];
 
                       if (currentLoc == "/stockadjustmentcard"){
@@ -145,6 +146,9 @@ Template.productlistpop.onRendered(function () {
                                 }, {
                                     className: "colExtraSellPrice hiddenColumn",
                                     "targets": [7]
+                                }, {
+                                    className: "colBarcode hiddenColumn",
+                                    "targets": [8]
                                 }
                             ],
                             colReorder: true,
@@ -194,7 +198,8 @@ Template.productlistpop.onRendered(function () {
                         data.tproductvs1[i].fields.TotalQtyInStock,
                         data.tproductvs1[i].fields.TaxCodeSales || '',
                         data.tproductvs1[i].fields.ID || '',
-                        JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                        JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                        data.tproductvs1[i].fields.BARCODE || ''
                     ];
 
 
@@ -243,6 +248,9 @@ Template.productlistpop.onRendered(function () {
                             }, {
                                 className: "colExtraSellPrice hiddenColumn",
                                 "targets": [7]
+                            }, {
+                                className: "colBarcode hiddenColumn",
+                                "targets": [8]
                             }
                         ],
                         select: true,
@@ -284,7 +292,8 @@ Template.productlistpop.onRendered(function () {
                                            data.tproductvs1[i].fields.TotalQtyInStock,
                                            data.tproductvs1[i].fields.TaxCodeSales || '',
                                            data.tproductvs1[i].fields.ID || '',
-                                           JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                                           JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                                           data.tproductvs1[i].fields.BARCODE || ''
                                        ];
                                        splashArrayProductList.push(dataListDupp);
 
@@ -367,7 +376,8 @@ Template.productlistpop.onRendered(function () {
                         data.tproductvs1[i].fields.TotalQtyInStock,
                         data.tproductvs1[i].fields.TaxCodeSales || '',
                         data.tproductvs1[i].fields.ID || '',
-                        JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                        JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                        data.tproductvs1[i].fields.BARCODE || ''
                     ];
 
 
@@ -414,6 +424,9 @@ Template.productlistpop.onRendered(function () {
                             }, {
                                 className: "colExtraSellPrice hiddenColumn",
                                 "targets": [7]
+                            }, {
+                                className: "colBarcode hiddenColumn",
+                                "targets": [8]
                             }
                         ],
                         colReorder: true,
@@ -480,7 +493,8 @@ Template.productlistpop.events({
                 data.tproductvs1[i].fields.TotalQtyInStock,
                 data.tproductvs1[i].fields.TaxCodeSales || '',
                 data.tproductvs1[i].fields.ID || '',
-                JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                data.tproductvs1[i].fields.BARCODE || ''
             ];
 
             if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
@@ -547,7 +561,8 @@ Template.productlistpop.events({
                   data.tproductvs1[i].fields.TotalQtyInStock,
                   data.tproductvs1[i].fields.TaxCodeSales || '',
                   data.tproductvs1[i].fields.ID || '',
-                  JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                  JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                  data.tproductvs1[i].fields.BARCODE || ''
               ];
 
               if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
