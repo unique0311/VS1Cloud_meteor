@@ -135,8 +135,8 @@
                                 {{/if}}
                                 <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Upload</button>
                                 <button class="btn btn-success closeModal" data-dismiss="modal" type="button" style="margin-right: 5px;" autocomplete="off">
-                        <i class="fa fa-save" style="padding-right: 8px;"></i>Save
-                    </button>
+                                    <i class="fa fa-save" style="padding-right: 8px;"></i>Save
+                                </button>
                                 <!-- <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button> -->
                                 <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                             </div>
@@ -246,8 +246,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-12 col-lg-12">
-                                                <div class="form-group"><label>Department</label>
-                                                    <select class="form-control" id="sltDept" name="sltDept">
+                                                <div class="form-group">
+                                                    <label>Department</label>
+                                                    <select type="search" class="form-control" id="sltDept" name="sltDept" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                    </select>
+                                                    <!-- <select class="form-control" id="sltDept" name="sltDept">
                                                         {{#each item in deptrecords}}
                                                             {{#if equals item.department invoicerecord.department }}
                                                                 <option value="{{invoicerecord.department}}" selected="">{{invoicerecord.department}}</option>
@@ -255,7 +258,7 @@
                                                                 <option value="{{item.department}}">{{item.department}}</option>
                                                             {{/if}}
                                                         {{/each}}
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -267,8 +270,11 @@
                                     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
                                         <div class="row">
                                             <div class="col-6 col-md-12 col-lg-12">
-                                                <div class="form-group"><label>Terms</label>
-                                                    <select class="form-control" id="sltTerms" name="sltTerms">
+                                                <div class="form-group">
+                                                    <label>Terms</label>
+                                                    <select type="search" class="form-control" id="sltTerms" name="sltTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                    </select>
+                                                    <!-- <select class="form-control" id="sltTerms" name="sltTerms">
                                                         {{#if equals invoicerecord.termsName ''}}
                                                             <option value="" selected="selected"></option>
                                                         {{/if}}
@@ -279,7 +285,7 @@
                                                                 <option value="{{item.termsname}}">{{item.termsname}}</option>
                                                             {{/if}}
                                                         {{/each}}
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-12 col-lg-12">
@@ -292,7 +298,9 @@
                                             <div class="col-6 col-md-12 col-lg-12">
                                                 <div class="form-group">
                                                     <label>Status</label>
-                                                    <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255);">
+                                                    <select type="search" class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                    </select>
+                                                    <!-- <select class="form-control" id="sltStatus" name="sltStatus" style="background-color:rgb(255, 255, 255);">
                                                         <option value="{{invoicerecord.status}}" selected="">{{invoicerecord.status}}</option>
                                                         {{#each item in statusrecords}}
                                                             {{#if equals item.orderstatus invoicerecord.status }}
@@ -301,7 +309,7 @@
                                                                 <option value="{{item.orderstatus}}">{{item.orderstatus}}</option>
                                                             {{/if}}
                                                         {{/each}}
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                             <div class="col-6 col-md-12 col-lg-12">
@@ -565,7 +573,8 @@
                                                                     <label class="custom-control-label" for="formCheck-01"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}Product Name{{/if}}" valueupdate="th.colProductName">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}Product Name{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}Product Name{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -580,7 +589,8 @@
                                                                     <label class="custom-control-label" for="formCheck-02"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Description{{/if}}" valueupdate="th.colDescription">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Description{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[1].label}}{{else}}Description{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -609,7 +619,8 @@
                                                                     <label class="custom-control-label" for="formCheck-04"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Unit Price{{/if}}" valueupdate="th.colUnitPrice">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Unit Price{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Unit Price{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -624,7 +635,8 @@
                                                                     <label class="custom-control-label" for="formCheck-07"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Cost Price{{/if}}" valueupdate="th.colCostPrice">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Cost Price{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Cost Price{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -639,7 +651,8 @@
                                                                     <label class="custom-control-label" for="formCheck-08"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}SalesLinesCustField1{{/if}}" valueupdate="th.colSalesLinesCustField1">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}SalesLinesCustField1{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[5].label}}{{else}}SalesLinesCustField1{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -654,7 +667,8 @@
                                                                     <label class="custom-control-label" for="formCheck-05"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Tax Rate{{/if}}" valueupdate="th.colTaxRate">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Tax Rate{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[6].label}}{{else}}Tax Rate{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -669,7 +683,8 @@
                                                                     <label class="custom-control-label" for="formCheck-06"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[7].label}}{{else}}Tax Code{{/if}}" valueupdate="th.colTaxCode">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[7].label}}{{else}}Tax Code{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[7].label}}{{else}}Tax Code{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -684,7 +699,8 @@
                                                                     <label class="custom-control-label" for="formCheck-06"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[8].label}}{{else}}Amount{{/if}}" valueupdate="th.colAmount">
-                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[8].label}}{{else}}Amount{{/if}}</div>
+                                                                        {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[8].label}}{{else}}Amount{{/if}}
+                                                                    </div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -840,7 +856,7 @@
                                     {{#each item in invoicerecord.LineItems}}
                                         <tr class="dnd-moved" id={{item.lineID}}>
                                             <!-- <td contenteditable="false" class="lineProductName colProductName pointer" prodid=' '>{{item.item}}</td> -->
-                                            <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="{{item.item}}" ></td>
+                                            <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="{{item.item}}"></td>
                                             <td contenteditable="true" class="lineProductDesc colDescription">{{item.description}}</td>
                                             <!--                                    <td contenteditable="true" class="lineQty colQty" style="text-align: right!important;" type="number">{{item.quantity}}</td>-->
                                             <td><input class="lineQty colQty highlightInput" type="number" value="{{item.quantity}}"></td>
@@ -993,7 +1009,7 @@
                 <div class="d-xl-flex justify-content-xl-center"><button class="btn btn-success btnSave" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
                         <i class="fa fa-save" style="padding-right: 8px;"></i>Save</button>
                     <!--                <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;margin-top: 0px;width: 100px;"><i class="fa fa-print" style="padding-right: 8px;"></i>Print</button>-->
-                   <!--  <a class="btn btn-primary" role="button" style="margin: 16px;margin-top: 0px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" name="btn_Attachment">
+                    <!--  <a class="btn btn-primary" role="button" style="margin: 16px;margin-top: 0px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" name="btn_Attachment">
                         {{#if attachmentCount}}<span id="attachment-count">{{attachmentCount}}</span>{{/if}} <i class="fa fa-paperclip" style="padding-right: 8px;"></i>Add Attachments
                     </a> -->
                     <button class="btn btn-secondary btnBack" type="button" style="margin: 16px;margin-top: 0px;width: 100px;"><i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel</button>

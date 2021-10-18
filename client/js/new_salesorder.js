@@ -3895,12 +3895,14 @@ Template.new_salesorder.onRendered(() => {
                     getVS1Data('TDeptClass').then(function(dataObject) {
                         if (dataObject.length == 0) {
                             $('.fullScreenSpin').css('display', 'inline-block');
-                            taxRateService.getDepartment().then(function(data) {
+                            sideBarService.getDepartment().then(function(data) {
                                 for (let i = 0; i < data.tdeptclass.length; i++) {
-                                    let dataObject = {
-                                        departid: data.tdeptclass[i].Id || ' ',
-                                        deptname: data.tdeptclass[i].DeptClassName || ' ',
-                                    };
+                                    if (data.tdeptclass[i].DeptClassName === deptDataName) {
+                                        $('#edtDepartmentID').val(data.tdeptclass[i].Id);
+                                        $('#edtNewDeptName').val(data.tdeptclass[i].DeptClassName);
+                                        $('#edtSiteCode').val(data.tdeptclass[i].SiteCode);
+                                        $('#edtDeptDesc').val(data.tdeptclass[i].Description);
+                                    }
                                 }
                                 setTimeout(function() {
                                     $('.fullScreenSpin').css('display', 'none');

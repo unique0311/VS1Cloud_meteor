@@ -178,6 +178,8 @@ Template.refundcard.onRendered(()=>{
 
 
     $(document).ready(function(){
+
+
         $('#formCheck-one').click(function(){
 
 
@@ -918,6 +920,10 @@ Template.refundcard.onRendered(()=>{
     let table;
     $(document).ready(function() {
         $('#edtCustomerName').editableSelect();
+        $('#sltCurrency').editableSelect();
+        $('#sltTerms').editableSelect();
+        $('#sltDept').editableSelect();
+        $('#sltStatus').editableSelect();
         $('#addRow').on( 'click', function () {
             var rowData = $('#tblInvoiceLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
