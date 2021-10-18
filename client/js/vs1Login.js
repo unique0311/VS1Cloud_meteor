@@ -590,6 +590,7 @@ Template.vs1login.onRendered(function () {
         let isShipping = false;
         let isStockTransfer = false;
         let isStockTake = false;
+        let isProductCost = false;
         let isSales = false;
         let isPurchases = false;
         let isExpenseClaims = false;
@@ -683,6 +684,10 @@ Template.vs1login.onRendered(function () {
 
                     if (optionaccess.fields.Description === "Create a New Appointment") {
                         isCreateAppointment = true;
+                    }
+
+                     if (optionaccess.fields.Description === "Product Cost Adjustment") {
+                        isProductCost = true;
                     }
 
                     if (optionaccess.fields.Description === "Can Only See Own Appointments") {
@@ -824,6 +829,7 @@ Template.vs1login.onRendered(function () {
             }
             if (!isInventoryLicence) {
                 isInventory = false;
+                isProductCost = false;
             }
             if (!isManufacturingLicence) {
                 isManufacturing = false;
@@ -911,7 +917,7 @@ Template.vs1login.onRendered(function () {
             Session.setPersistent('CloudPurchasesModule', isPurchases);
             Session.setPersistent('CloudExpenseClaimsModule', isExpenseClaims);
             Session.setPersistent('CloudFixedAssetsModule', isFixedAssets);
-
+            Session.setPersistent('CloudProductCost', isProductCost);
             Session.setPersistent('CloudPaymentsModule', isPayments);
             Session.setPersistent('CloudContactsModule', isContacts);
             Session.setPersistent('CloudAccountsModule', isAccounts);
