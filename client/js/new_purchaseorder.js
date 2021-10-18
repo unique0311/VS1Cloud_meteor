@@ -2263,13 +2263,17 @@ Template.purchaseordercard.onRendered(() => {
                                     }, 200);
                                 }
                             }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'inline-block');
                                 sideBarService.getAllLeadStatus().then(function(data) {
                                     for (let i in data.tleadstatustype) {
                                         if (data.tleadstatustype[i].TypeName === statusDataName) {
                                             $('#statusId').val(data.tleadstatustype[i].Id);
-
                                         }
                                     }
+                                    setTimeout(function() {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        $('#newStatusPopModal').modal('toggle');
+                                    }, 200);
                                 });
                             });
                             setTimeout(function() {

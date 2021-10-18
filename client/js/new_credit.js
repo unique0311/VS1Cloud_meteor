@@ -1600,7 +1600,7 @@ Template.creditcard.onRendered(() => {
     });
 
     $(document).on("click", "#tblAccount tbody tr", function(e) {
-      $(".colAccountName").removeClass('boldtablealertsborder');
+        $(".colAccountName").removeClass('boldtablealertsborder');
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         var table = $(this);
@@ -2049,75 +2049,173 @@ Template.creditcard.onRendered(() => {
 
     $('#sltStatus').editableSelect()
         .on('click.editable-select', function(e, li) {
-                    var $earch = $(this);
-                    var offset = $earch.offset();
-                    $('#statusId').val('');
-                    var statusDataName = e.target.value || '';
-                    if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
-                        $('#statusPopModal').modal('toggle');
-                    } else {
-                        if (statusDataName.replace(/\s/g, '') != '') {
-                            $('#newStatusHeader').text('Edit Status');
-                            $('#newStatus').val(statusDataName);
+            var $earch = $(this);
+            var offset = $earch.offset();
+            $('#statusId').val('');
+            var statusDataName = e.target.value || '';
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#statusPopModal').modal('toggle');
+            } else {
+                if (statusDataName.replace(/\s/g, '') != '') {
+                    $('#newStatusHeader').text('Edit Status');
+                    $('#newStatus').val(statusDataName);
 
-                            getVS1Data('TLeadStatusType').then(function(dataObject) {
-                                if (dataObject.length == 0) {
-                                    $('.fullScreenSpin').css('display', 'inline-block');
-                                    sideBarService.getAllLeadStatus().then(function(data) {
-                                        for (let i in data.tleadstatustype) {
-                                            if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                                $('#statusId').val(data.tleadstatustype[i].Id);
-                                            }
-                                        }
-                                        setTimeout(function() {
-                                            $('.fullScreenSpin').css('display', 'none');
-                                            $('#newStatusPopModal').modal('toggle');
-                                        }, 200);
-                                    });
-                                } else {
-                                    let data = JSON.parse(dataObject[0].data);
-                                    let useData = data.tleadstatustype;
-                                    for (let i in useData) {
-                                        if (useData[i].TypeName === statusDataName) {
-                                            $('#statusId').val(useData[i].Id);
-
-                                        }
+                    getVS1Data('TLeadStatusType').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getAllLeadStatus().then(function(data) {
+                                for (let i in data.tleadstatustype) {
+                                    if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                        $('#statusId').val(data.tleadstatustype[i].Id);
                                     }
-                                    setTimeout(function() {
-                                        $('.fullScreenSpin').css('display', 'none');
-                                        $('#newStatusPopModal').modal('toggle');
-                                    }, 200);
                                 }
-                            }).catch(function(err) {
-                                sideBarService.getAllLeadStatus().then(function(data) {
-                                    for (let i in data.tleadstatustype) {
-                                        if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                            $('#statusId').val(data.tleadstatustype[i].Id);
-
-                                        }
-                                    }
-                                });
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newStatusPopModal').modal('toggle');
+                                }, 200);
                             });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tleadstatustype;
+                            for (let i in useData) {
+                                if (useData[i].TypeName === statusDataName) {
+                                    $('#statusId').val(useData[i].Id);
+
+                                }
+                            }
                             setTimeout(function() {
                                 $('.fullScreenSpin').css('display', 'none');
                                 $('#newStatusPopModal').modal('toggle');
                             }, 200);
-
-                        } else {
-                            $('#statusPopModal').modal();
-                            setTimeout(function() {
-                                $('#tblStatusPopList_filter .form-control-sm').focus();
-                                $('#tblStatusPopList_filter .form-control-sm').val('');
-                                $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-                                var datatable = $('#tblStatusPopList').DataTable();
-
-                                datatable.draw();
-                                $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-
-                            }, 500);
                         }
-                    }
-                });
+                    }).catch(function(err) {
+                        sideBarService.getAllLeadStatus().then(function(data) {
+                            for (let i in data.tleadstatustype) {
+                                if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                    $('#statusId').val(data.tleadstatustype[i].Id);
+
+                                }
+                            }
+                        });
+                    });
+                    setTimeout(function() {
+                        $('.fullScreenSpin').css('display', 'none');
+                        $('#newStatusPopModal').modal('toggle');
+                    }, 200);
+
+                } else {
+                    $('#statusPopModal').modal();
+                    setTimeout(function() {
+                        $('#tblStatusPopList_filter .form-control-sm').focus();
+                        $('#tblStatusPopList_filter .form-control-sm').val('');
+                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblStatusPopList').DataTable();
+
+                        datatable.draw();
+                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+
+                    }, 500);
+                }
+            }
+        });
+
+    $('#sltCurrency').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var currencyDataName = e.target.value || '';
+            $('#edtCurrencyID').val('');
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#currencyModal').modal('toggle');
+            } else {
+                if (currencyDataName.replace(/\s/g, '') != '') {
+                    $('#add-currency-title').text('Edit Currency');
+                    $('#sedtCountry').prop('readonly', true);
+                    getVS1Data('TCurrency').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getCurrencies().then(function(data) {
+                                for (let i in data.tcurrency) {
+                                    if (data.tcurrency[i].Code === currencyDataName) {
+                                        $('#edtCurrencyID').val(data.tcurrency[i].Id);
+                                        setTimeout(function() {
+                                            $('#sedtCountry').val(data.tcurrency[i].Country);
+                                        }, 200);
+                                        //$('#sedtCountry').val(data.tcurrency[i].Country);
+                                        $('#currencyCode').val(currencyDataName);
+                                        $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
+                                        $('#edtCurrencyName').val(data.tcurrency[i].Currency);
+                                        $('#edtCurrencyDesc').val(data.tcurrency[i].CurrencyDesc);
+                                        $('#edtBuyRate').val(data.tcurrency[i].BuyRate);
+                                        $('#edtSellRate').val(data.tcurrency[i].SellRate);
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newCurrencyModal').modal('toggle');
+                                    $('#sedtCountry').attr('readonly', true);
+                                }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tcurrency;
+                            for (let i = 0; i < data.tcurrency.length; i++) {
+                                if (data.tcurrency[i].Code === currencyDataName) {
+                                    $('#edtCurrencyID').val(data.tcurrency[i].Id);
+                                    $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    $('#currencyCode').val(currencyDataName);
+                                    $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
+                                    $('#edtCurrencyName').val(data.tcurrency[i].Currency);
+                                    $('#edtCurrencyDesc').val(data.tcurrency[i].CurrencyDesc);
+                                    $('#edtBuyRate').val(data.tcurrency[i].BuyRate);
+                                    $('#edtSellRate').val(data.tcurrency[i].SellRate);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                            }, 200);
+                        }
+
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getCurrencies().then(function(data) {
+                            for (let i in data.tcurrency) {
+                                if (data.tcurrency[i].Code === currencyDataName) {
+                                    $('#edtCurrencyID').val(data.tcurrency[i].Id);
+                                    setTimeout(function() {
+                                        $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    }, 200);
+                                    //$('#sedtCountry').val(data.tcurrency[i].Country);
+                                    $('#currencyCode').val(currencyDataName);
+                                    $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
+                                    $('#edtCurrencyName').val(data.tcurrency[i].Currency);
+                                    $('#edtCurrencyDesc').val(data.tcurrency[i].CurrencyDesc);
+                                    $('#edtBuyRate').val(data.tcurrency[i].BuyRate);
+                                    $('#edtSellRate').val(data.tcurrency[i].SellRate);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                                $('#sedtCountry').attr('readonly', true);
+                            }, 200);
+                        });
+                    });
+
+                } else {
+                    $('#currencyModal').modal();
+                    setTimeout(function() {
+                        $('#tblCurrencyPopList_filter .form-control-sm').focus();
+                        $('#tblCurrencyPopList_filter .form-control-sm').val('');
+                        $('#tblCurrencyPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblCurrencyPopList').DataTable();
+                        datatable.draw();
+                        $('#tblCurrencyPopList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
+        });
 
     $('#edtSupplierName').editableSelect().on('click.editable-select', function(e, li) {
         var $earch = $(this);
@@ -2555,8 +2653,8 @@ Template.creditcard.onRendered(() => {
             var $tblrow = $(this);
             var amount = $tblrow.find(".colAmount").val() || 0;
             var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
-            if($tblrow.find(".lineAccountName").val() == ''){
-              $tblrow.find(".colAccountName").addClass('boldtablealertsborder');
+            if ($tblrow.find(".lineAccountName").val() == '') {
+                $tblrow.find(".colAccountName").addClass('boldtablealertsborder');
             }
             var taxrateamount = 0;
             if (taxcodeList) {
@@ -3301,13 +3399,13 @@ Template.creditcard.helpers({
     companyaddress2: () => {
         return Session.get('vs1companyaddress2');
     },
-     city: () => {
+    city: () => {
         return Session.get('vs1companyCity');
     },
     state: () => {
         return Session.get('companyState');
     },
-     poBox: () => {
+    poBox: () => {
         return Session.get('vs1companyPOBox');
     },
     companyphone: () => {
@@ -3341,9 +3439,9 @@ Template.creditcard.events({
     // 'click #sltTerms': function(event) {
     //     $('#termsListModal').modal('toggle');
     // },
-    'click #sltCurrency': function(event) {
-        $('#currencyModal').modal('toggle');
-    },
+    // 'click #sltCurrency': function(event) {
+    //     $('#currencyModal').modal('toggle');
+    // },
     // 'click #sltDept': function(event) {
     //     $('#departmentModal').modal('toggle');
     // },
@@ -3480,8 +3578,8 @@ Template.creditcard.events({
         }
     },
     'click .lineAccountName, keydown .lineAccountName': function(event) {
-      var $earch = $(event.currentTarget);
-      var offset = $earch.offset();
+        var $earch = $(event.currentTarget);
+        var offset = $earch.offset();
         $('#edtAccountID').val('');
         let suppliername = $('#edtSupplierName').val();
         let accountService = new AccountService();
@@ -3492,188 +3590,23 @@ Template.creditcard.events({
         } else {
             var accountDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
-              $('#productListModal').modal('toggle');
-              var targetID = $(event.target).closest('tr').attr('id');
-              $('#selectLineID').val(targetID);
-              setTimeout(function() {
-                  $('#tblAccount_filter .form-control-sm').focus();
-                  $('#tblAccount_filter .form-control-sm').val('');
-                  $('#tblAccount_filter .form-control-sm').trigger("input");
+                $('#productListModal').modal('toggle');
+                var targetID = $(event.target).closest('tr').attr('id');
+                $('#selectLineID').val(targetID);
+                setTimeout(function() {
+                    $('#tblAccount_filter .form-control-sm').focus();
+                    $('#tblAccount_filter .form-control-sm').val('');
+                    $('#tblAccount_filter .form-control-sm').trigger("input");
 
-                  var datatable = $('#tblInventory').DataTable();
-                  datatable.draw();
-                  $('#tblAccount_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblInventory').DataTable();
+                    datatable.draw();
+                    $('#tblAccount_filter .form-control-sm').trigger("input");
 
-              }, 500);
-         } else {
-            if (accountDataName.replace(/\s/g, '') != '') {
-                getVS1Data('TAccountVS1').then(function(dataObject) {
-                    if (dataObject.length == 0) {
-                        accountService.getOneAccountByName(accountDataName).then(function(data) {
-                            if (accountTypeList) {
-                                for (var h = 0; h < accountTypeList.length; h++) {
-
-                                    if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
-
-                                        fullAccountTypeName = accountTypeList[h].description || '';
-
-                                    }
-                                }
-
-                            }
-
-                            var accountid = data.taccountvs1[0].fields.ID || '';
-                            var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
-                            var accountname = data.taccountvs1[0].fields.AccountName || '';
-                            var accountno = data.taccountvs1[0].fields.AccountNumber || '';
-                            var taxcode = data.taccountvs1[0].fields.TaxCode || '';
-                            var accountdesc = data.taccountvs1[0].fields.Description || '';
-                            var bankaccountname = data.taccountvs1[0].fields.BankAccountName || '';
-                            var bankbsb = data.taccountvs1[0].fields.BSB || '';
-                            var bankacountno = data.taccountvs1[0].fields.BankAccountNumber || '';
-
-                            var swiftCode = data.taccountvs1[0].fields.Extra || '';
-                            var routingNo = data.taccountvs1[0].fields.BankCode || '';
-
-                            var showTrans = data.taccountvs1[0].fields.IsHeader || false;
-
-                            var cardnumber = data.taccountvs1[0].fields.CarNumber || '';
-                            var cardcvc = data.taccountvs1[0].fields.CVC || '';
-                            var cardexpiry = data.taccountvs1[0].fields.ExpiryDate || '';
-
-                            if ((accounttype === "BANK")) {
-                                $('.isBankAccount').removeClass('isNotBankAccount');
-                                $('.isCreditAccount').addClass('isNotCreditAccount');
-                            } else if ((accounttype === "CCARD")) {
-                                $('.isCreditAccount').removeClass('isNotCreditAccount');
-                                $('.isBankAccount').addClass('isNotBankAccount');
-                            } else {
-                                $('.isBankAccount').addClass('isNotBankAccount');
-                                $('.isCreditAccount').addClass('isNotCreditAccount');
-                            }
-
-                            $('#edtAccountID').val(accountid);
-                            $('#sltAccountType').val(accounttype);
-                            $('#sltAccountType').append('<option value="' + accounttype + '" selected="selected">' + accounttype + '</option>');
-                            $('#edtAccountName').val(accountname);
-                            $('#edtAccountNo').val(accountno);
-                            $('#sltTaxCode').val(taxcode);
-                            $('#txaAccountDescription').val(accountdesc);
-                            $('#edtBankAccountName').val(bankaccountname);
-                            $('#edtBSB').val(bankbsb);
-                            $('#edtBankAccountNo').val(bankacountno);
-                            $('#swiftCode').val(swiftCode);
-                            $('#routingNo').val(routingNo);
-                            $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
-
-                            $('#edtCardNumber').val(cardnumber);
-                            $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
-                            $('#edtCvc').val(cardcvc);
-
-                            if (showTrans == 'true') {
-                                $('.showOnTransactions').prop('checked', true);
-                            } else {
-                                $('.showOnTransactions').prop('checked', false);
-                            }
-
-                            setTimeout(function() {
-                                $('#addNewAccount').modal('show');
-                            }, 500);
-
-                        }).catch(function(err) {
-                            $('.fullScreenSpin').css('display', 'none');
-                        });
-                    } else {
-                        let data = JSON.parse(dataObject[0].data);
-                        let useData = data.taccountvs1;
-                        var added = false;
-                        let lineItems = [];
-                        let lineItemObj = {};
-                        let fullAccountTypeName = '';
-                        let accBalance = '';
-                        $('#add-account-title').text('Edit Account Details');
-                        $('#edtAccountName').attr('readonly', true);
-                        $('#sltAccountType').attr('readonly', true);
-                        $('#sltAccountType').attr('disabled', 'disabled');
-                        for (let a = 0; a < data.taccountvs1.length; a++) {
-
-                            if ((data.taccountvs1[a].fields.AccountName) === accountDataName) {
-                                added = true;
-                                if (accountTypeList) {
-                                    for (var h = 0; h < accountTypeList.length; h++) {
-
-                                        if (data.taccountvs1[a].fields.AccountTypeName === accountTypeList[h].accounttypename) {
-
-                                            fullAccountTypeName = accountTypeList[h].description || '';
-
-                                        }
-                                    }
-
-                                }
-
-
-
-                                var accountid = data.taccountvs1[a].fields.ID || '';
-                                var accounttype = fullAccountTypeName || data.taccountvs1[a].fields.AccountTypeName;
-                                var accountname = data.taccountvs1[a].fields.AccountName || '';
-                                var accountno = data.taccountvs1[a].fields.AccountNumber || '';
-                                var taxcode = data.taccountvs1[a].fields.TaxCode || '';
-                                var accountdesc = data.taccountvs1[a].fields.Description || '';
-                                var bankaccountname = data.taccountvs1[a].fields.BankAccountName || '';
-                                var bankbsb = data.taccountvs1[a].fields.BSB || '';
-                                var bankacountno = data.taccountvs1[a].fields.BankAccountNumber || '';
-
-                                var swiftCode = data.taccountvs1[a].fields.Extra || '';
-                                var routingNo = data.taccountvs1[a].BankCode || '';
-
-                                var showTrans = data.taccountvs1[a].fields.IsHeader || false;
-
-                                var cardnumber = data.taccountvs1[a].fields.CarNumber || '';
-                                var cardcvc = data.taccountvs1[a].fields.CVC || '';
-                                var cardexpiry = data.taccountvs1[a].fields.ExpiryDate || '';
-
-                                if ((accounttype === "BANK")) {
-                                    $('.isBankAccount').removeClass('isNotBankAccount');
-                                    $('.isCreditAccount').addClass('isNotCreditAccount');
-                                } else if ((accounttype === "CCARD")) {
-                                    $('.isCreditAccount').removeClass('isNotCreditAccount');
-                                    $('.isBankAccount').addClass('isNotBankAccount');
-                                } else {
-                                    $('.isBankAccount').addClass('isNotBankAccount');
-                                    $('.isCreditAccount').addClass('isNotCreditAccount');
-                                }
-
-                                $('#edtAccountID').val(accountid);
-                                $('#sltAccountType').val(accounttype);
-                                $('#sltAccountType').append('<option value="' + accounttype + '" selected="selected">' + accounttype + '</option>');
-                                $('#edtAccountName').val(accountname);
-                                $('#edtAccountNo').val(accountno);
-                                $('#sltTaxCode').val(taxcode);
-                                $('#txaAccountDescription').val(accountdesc);
-                                $('#edtBankAccountName').val(bankaccountname);
-                                $('#edtBSB').val(bankbsb);
-                                $('#edtBankAccountNo').val(bankacountno);
-                                $('#swiftCode').val(swiftCode);
-                                $('#routingNo').val(routingNo);
-                                $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
-
-                                $('#edtCardNumber').val(cardnumber);
-                                $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
-                                $('#edtCvc').val(cardcvc);
-
-                                if (showTrans == 'true') {
-                                    $('.showOnTransactions').prop('checked', true);
-                                } else {
-                                    $('.showOnTransactions').prop('checked', false);
-                                }
-
-                                setTimeout(function() {
-                                    $('#addNewAccount').modal('show');
-                                }, 500);
-
-                            }
-                        }
-                        if (!added) {
+                }, 500);
+            } else {
+                if (accountDataName.replace(/\s/g, '') != '') {
+                    getVS1Data('TAccountVS1').then(function(dataObject) {
+                        if (dataObject.length == 0) {
                             accountService.getOneAccountByName(accountDataName).then(function(data) {
                                 if (accountTypeList) {
                                     for (var h = 0; h < accountTypeList.length; h++) {
@@ -3748,104 +3681,269 @@ Template.creditcard.events({
                             }).catch(function(err) {
                                 $('.fullScreenSpin').css('display', 'none');
                             });
-                        }
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.taccountvs1;
+                            var added = false;
+                            let lineItems = [];
+                            let lineItemObj = {};
+                            let fullAccountTypeName = '';
+                            let accBalance = '';
+                            $('#add-account-title').text('Edit Account Details');
+                            $('#edtAccountName').attr('readonly', true);
+                            $('#sltAccountType').attr('readonly', true);
+                            $('#sltAccountType').attr('disabled', 'disabled');
+                            for (let a = 0; a < data.taccountvs1.length; a++) {
 
-                    }
-                }).catch(function(err) {
-                    accountService.getOneAccountByName(accountDataName).then(function(data) {
-                        if (accountTypeList) {
-                            for (var h = 0; h < accountTypeList.length; h++) {
+                                if ((data.taccountvs1[a].fields.AccountName) === accountDataName) {
+                                    added = true;
+                                    if (accountTypeList) {
+                                        for (var h = 0; h < accountTypeList.length; h++) {
 
-                                if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
+                                            if (data.taccountvs1[a].fields.AccountTypeName === accountTypeList[h].accounttypename) {
 
-                                    fullAccountTypeName = accountTypeList[h].description || '';
+                                                fullAccountTypeName = accountTypeList[h].description || '';
+
+                                            }
+                                        }
+
+                                    }
+
+
+
+                                    var accountid = data.taccountvs1[a].fields.ID || '';
+                                    var accounttype = fullAccountTypeName || data.taccountvs1[a].fields.AccountTypeName;
+                                    var accountname = data.taccountvs1[a].fields.AccountName || '';
+                                    var accountno = data.taccountvs1[a].fields.AccountNumber || '';
+                                    var taxcode = data.taccountvs1[a].fields.TaxCode || '';
+                                    var accountdesc = data.taccountvs1[a].fields.Description || '';
+                                    var bankaccountname = data.taccountvs1[a].fields.BankAccountName || '';
+                                    var bankbsb = data.taccountvs1[a].fields.BSB || '';
+                                    var bankacountno = data.taccountvs1[a].fields.BankAccountNumber || '';
+
+                                    var swiftCode = data.taccountvs1[a].fields.Extra || '';
+                                    var routingNo = data.taccountvs1[a].BankCode || '';
+
+                                    var showTrans = data.taccountvs1[a].fields.IsHeader || false;
+
+                                    var cardnumber = data.taccountvs1[a].fields.CarNumber || '';
+                                    var cardcvc = data.taccountvs1[a].fields.CVC || '';
+                                    var cardexpiry = data.taccountvs1[a].fields.ExpiryDate || '';
+
+                                    if ((accounttype === "BANK")) {
+                                        $('.isBankAccount').removeClass('isNotBankAccount');
+                                        $('.isCreditAccount').addClass('isNotCreditAccount');
+                                    } else if ((accounttype === "CCARD")) {
+                                        $('.isCreditAccount').removeClass('isNotCreditAccount');
+                                        $('.isBankAccount').addClass('isNotBankAccount');
+                                    } else {
+                                        $('.isBankAccount').addClass('isNotBankAccount');
+                                        $('.isCreditAccount').addClass('isNotCreditAccount');
+                                    }
+
+                                    $('#edtAccountID').val(accountid);
+                                    $('#sltAccountType').val(accounttype);
+                                    $('#sltAccountType').append('<option value="' + accounttype + '" selected="selected">' + accounttype + '</option>');
+                                    $('#edtAccountName').val(accountname);
+                                    $('#edtAccountNo').val(accountno);
+                                    $('#sltTaxCode').val(taxcode);
+                                    $('#txaAccountDescription').val(accountdesc);
+                                    $('#edtBankAccountName').val(bankaccountname);
+                                    $('#edtBSB').val(bankbsb);
+                                    $('#edtBankAccountNo').val(bankacountno);
+                                    $('#swiftCode').val(swiftCode);
+                                    $('#routingNo').val(routingNo);
+                                    $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                                    $('#edtCardNumber').val(cardnumber);
+                                    $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                                    $('#edtCvc').val(cardcvc);
+
+                                    if (showTrans == 'true') {
+                                        $('.showOnTransactions').prop('checked', true);
+                                    } else {
+                                        $('.showOnTransactions').prop('checked', false);
+                                    }
+
+                                    setTimeout(function() {
+                                        $('#addNewAccount').modal('show');
+                                    }, 500);
 
                                 }
                             }
+                            if (!added) {
+                                accountService.getOneAccountByName(accountDataName).then(function(data) {
+                                    if (accountTypeList) {
+                                        for (var h = 0; h < accountTypeList.length; h++) {
+
+                                            if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
+
+                                                fullAccountTypeName = accountTypeList[h].description || '';
+
+                                            }
+                                        }
+
+                                    }
+
+                                    var accountid = data.taccountvs1[0].fields.ID || '';
+                                    var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
+                                    var accountname = data.taccountvs1[0].fields.AccountName || '';
+                                    var accountno = data.taccountvs1[0].fields.AccountNumber || '';
+                                    var taxcode = data.taccountvs1[0].fields.TaxCode || '';
+                                    var accountdesc = data.taccountvs1[0].fields.Description || '';
+                                    var bankaccountname = data.taccountvs1[0].fields.BankAccountName || '';
+                                    var bankbsb = data.taccountvs1[0].fields.BSB || '';
+                                    var bankacountno = data.taccountvs1[0].fields.BankAccountNumber || '';
+
+                                    var swiftCode = data.taccountvs1[0].fields.Extra || '';
+                                    var routingNo = data.taccountvs1[0].fields.BankCode || '';
+
+                                    var showTrans = data.taccountvs1[0].fields.IsHeader || false;
+
+                                    var cardnumber = data.taccountvs1[0].fields.CarNumber || '';
+                                    var cardcvc = data.taccountvs1[0].fields.CVC || '';
+                                    var cardexpiry = data.taccountvs1[0].fields.ExpiryDate || '';
+
+                                    if ((accounttype === "BANK")) {
+                                        $('.isBankAccount').removeClass('isNotBankAccount');
+                                        $('.isCreditAccount').addClass('isNotCreditAccount');
+                                    } else if ((accounttype === "CCARD")) {
+                                        $('.isCreditAccount').removeClass('isNotCreditAccount');
+                                        $('.isBankAccount').addClass('isNotBankAccount');
+                                    } else {
+                                        $('.isBankAccount').addClass('isNotBankAccount');
+                                        $('.isCreditAccount').addClass('isNotCreditAccount');
+                                    }
+
+                                    $('#edtAccountID').val(accountid);
+                                    $('#sltAccountType').val(accounttype);
+                                    $('#sltAccountType').append('<option value="' + accounttype + '" selected="selected">' + accounttype + '</option>');
+                                    $('#edtAccountName').val(accountname);
+                                    $('#edtAccountNo').val(accountno);
+                                    $('#sltTaxCode').val(taxcode);
+                                    $('#txaAccountDescription').val(accountdesc);
+                                    $('#edtBankAccountName').val(bankaccountname);
+                                    $('#edtBSB').val(bankbsb);
+                                    $('#edtBankAccountNo').val(bankacountno);
+                                    $('#swiftCode').val(swiftCode);
+                                    $('#routingNo').val(routingNo);
+                                    $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                                    $('#edtCardNumber').val(cardnumber);
+                                    $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                                    $('#edtCvc').val(cardcvc);
+
+                                    if (showTrans == 'true') {
+                                        $('.showOnTransactions').prop('checked', true);
+                                    } else {
+                                        $('.showOnTransactions').prop('checked', false);
+                                    }
+
+                                    setTimeout(function() {
+                                        $('#addNewAccount').modal('show');
+                                    }, 500);
+
+                                }).catch(function(err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
 
                         }
-
-                        var accountid = data.taccountvs1[0].fields.ID || '';
-                        var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
-                        var accountname = data.taccountvs1[0].fields.AccountName || '';
-                        var accountno = data.taccountvs1[0].fields.AccountNumber || '';
-                        var taxcode = data.taccountvs1[0].fields.TaxCode || '';
-                        var accountdesc = data.taccountvs1[0].fields.Description || '';
-                        var bankaccountname = data.taccountvs1[0].fields.BankAccountName || '';
-                        var bankbsb = data.taccountvs1[0].fields.BSB || '';
-                        var bankacountno = data.taccountvs1[0].fields.BankAccountNumber || '';
-
-                        var swiftCode = data.taccountvs1[0].fields.Extra || '';
-                        var routingNo = data.taccountvs1[0].fields.BankCode || '';
-
-                        var showTrans = data.taccountvs1[0].fields.IsHeader || false;
-
-                        var cardnumber = data.taccountvs1[0].fields.CarNumber || '';
-                        var cardcvc = data.taccountvs1[0].fields.CVC || '';
-                        var cardexpiry = data.taccountvs1[0].fields.ExpiryDate || '';
-
-                        if ((accounttype === "BANK")) {
-                            $('.isBankAccount').removeClass('isNotBankAccount');
-                            $('.isCreditAccount').addClass('isNotCreditAccount');
-                        } else if ((accounttype === "CCARD")) {
-                            $('.isCreditAccount').removeClass('isNotCreditAccount');
-                            $('.isBankAccount').addClass('isNotBankAccount');
-                        } else {
-                            $('.isBankAccount').addClass('isNotBankAccount');
-                            $('.isCreditAccount').addClass('isNotCreditAccount');
-                        }
-
-                        $('#edtAccountID').val(accountid);
-                        $('#sltAccountType').val(accounttype);
-                        $('#sltAccountType').append('<option value="' + accounttype + '" selected="selected">' + accounttype + '</option>');
-                        $('#edtAccountName').val(accountname);
-                        $('#edtAccountNo').val(accountno);
-                        $('#sltTaxCode').val(taxcode);
-                        $('#txaAccountDescription').val(accountdesc);
-                        $('#edtBankAccountName').val(bankaccountname);
-                        $('#edtBSB').val(bankbsb);
-                        $('#edtBankAccountNo').val(bankacountno);
-                        $('#swiftCode').val(swiftCode);
-                        $('#routingNo').val(routingNo);
-                        $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
-
-                        $('#edtCardNumber').val(cardnumber);
-                        $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
-                        $('#edtCvc').val(cardcvc);
-
-                        if (showTrans == 'true') {
-                            $('.showOnTransactions').prop('checked', true);
-                        } else {
-                            $('.showOnTransactions').prop('checked', false);
-                        }
-
-                        setTimeout(function() {
-                            $('#addNewAccount').modal('show');
-                        }, 500);
-
                     }).catch(function(err) {
-                        $('.fullScreenSpin').css('display', 'none');
+                        accountService.getOneAccountByName(accountDataName).then(function(data) {
+                            if (accountTypeList) {
+                                for (var h = 0; h < accountTypeList.length; h++) {
+
+                                    if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
+
+                                        fullAccountTypeName = accountTypeList[h].description || '';
+
+                                    }
+                                }
+
+                            }
+
+                            var accountid = data.taccountvs1[0].fields.ID || '';
+                            var accounttype = fullAccountTypeName || data.taccountvs1[0].fields.AccountTypeName;
+                            var accountname = data.taccountvs1[0].fields.AccountName || '';
+                            var accountno = data.taccountvs1[0].fields.AccountNumber || '';
+                            var taxcode = data.taccountvs1[0].fields.TaxCode || '';
+                            var accountdesc = data.taccountvs1[0].fields.Description || '';
+                            var bankaccountname = data.taccountvs1[0].fields.BankAccountName || '';
+                            var bankbsb = data.taccountvs1[0].fields.BSB || '';
+                            var bankacountno = data.taccountvs1[0].fields.BankAccountNumber || '';
+
+                            var swiftCode = data.taccountvs1[0].fields.Extra || '';
+                            var routingNo = data.taccountvs1[0].fields.BankCode || '';
+
+                            var showTrans = data.taccountvs1[0].fields.IsHeader || false;
+
+                            var cardnumber = data.taccountvs1[0].fields.CarNumber || '';
+                            var cardcvc = data.taccountvs1[0].fields.CVC || '';
+                            var cardexpiry = data.taccountvs1[0].fields.ExpiryDate || '';
+
+                            if ((accounttype === "BANK")) {
+                                $('.isBankAccount').removeClass('isNotBankAccount');
+                                $('.isCreditAccount').addClass('isNotCreditAccount');
+                            } else if ((accounttype === "CCARD")) {
+                                $('.isCreditAccount').removeClass('isNotCreditAccount');
+                                $('.isBankAccount').addClass('isNotBankAccount');
+                            } else {
+                                $('.isBankAccount').addClass('isNotBankAccount');
+                                $('.isCreditAccount').addClass('isNotCreditAccount');
+                            }
+
+                            $('#edtAccountID').val(accountid);
+                            $('#sltAccountType').val(accounttype);
+                            $('#sltAccountType').append('<option value="' + accounttype + '" selected="selected">' + accounttype + '</option>');
+                            $('#edtAccountName').val(accountname);
+                            $('#edtAccountNo').val(accountno);
+                            $('#sltTaxCode').val(taxcode);
+                            $('#txaAccountDescription').val(accountdesc);
+                            $('#edtBankAccountName').val(bankaccountname);
+                            $('#edtBSB').val(bankbsb);
+                            $('#edtBankAccountNo').val(bankacountno);
+                            $('#swiftCode').val(swiftCode);
+                            $('#routingNo').val(routingNo);
+                            $('#edtBankName').val(localStorage.getItem('vs1companyBankName') || '');
+
+                            $('#edtCardNumber').val(cardnumber);
+                            $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
+                            $('#edtCvc').val(cardcvc);
+
+                            if (showTrans == 'true') {
+                                $('.showOnTransactions').prop('checked', true);
+                            } else {
+                                $('.showOnTransactions').prop('checked', false);
+                            }
+
+                            setTimeout(function() {
+                                $('#addNewAccount').modal('show');
+                            }, 500);
+
+                        }).catch(function(err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+
                     });
+                    $('#addAccountModal').modal('toggle');
+                } else {
+                    $('#productListModal').modal('toggle');
+                    var targetID = $(event.target).closest('tr').attr('id');
+                    $('#selectLineID').val(targetID);
+                    setTimeout(function() {
+                        $('#tblAccount_filter .form-control-sm').focus();
+                        $('#tblAccount_filter .form-control-sm').val('');
+                        $('#tblAccount_filter .form-control-sm').trigger("input");
 
-                });
-                $('#addAccountModal').modal('toggle');
-            } else {
-                $('#productListModal').modal('toggle');
-                var targetID = $(event.target).closest('tr').attr('id');
-                $('#selectLineID').val(targetID);
-                setTimeout(function() {
-                    $('#tblAccount_filter .form-control-sm').focus();
-                    $('#tblAccount_filter .form-control-sm').val('');
-                    $('#tblAccount_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblInventory').DataTable();
+                        datatable.draw();
+                        $('#tblAccount_filter .form-control-sm').trigger("input");
 
-                    var datatable = $('#tblInventory').DataTable();
-                    datatable.draw();
-                    $('#tblAccount_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
 
-                }, 500);
             }
-
-          }
         }
     },
     'click #productListModal #refreshpagelist': function() {

@@ -309,6 +309,23 @@
                                     {{/each}}
                                 </select> -->
                             </div>
+                            {{#if isCurrencyEnable}}
+                                <div class="form-group"><label>Department</label>
+                                    <select type="search" class="form-control" id="sltDept" name="sltDept" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                    </select>
+                                    <!-- <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
+                                        {{#each itemDept in deptrecords}}
+                                            {{#if equals itemDept.department billrecord.department }}
+                                                <option value="{{billrecord.department}}" selected="">{{billrecord.department}}</option>
+                                            {{else}}
+                                                <option value="{{itemDept.department}}">{{itemDept.department}}</option>
+                                            {{/if}}
+                                        {{/each}}
+                                    </select> -->
+                                </div>
+                            {{else}}
+
+                            {{/if}}
                             <div class="form-group" style="width: 90%; display: none;"><label>Due Date</label>
                                 <div class="input-group date" style="width: 150px;">
                                     <input type="text" class="form-control" id="dtDueDate" name="dtDueDate" value="{{billrecord.duedate}}" style="cursor: pointer;">
@@ -346,22 +363,6 @@
                                     <button class="btn btn-primary" type="button" style="width: 150px;margin: 16px; margin-left: 0px; margin-right: 0px;" id="btnViewPayment" name="btnViewPayment">View Payment</button>
                                 {{/if}}
                             </div>
-                            {{#if isCurrencyEnable}}
-                                <div class="form-group float-right" style="width: 150px;"><label>Department</label>
-                                    <select class="form-control" id="sltDept" name="sltDept" style="cursor: pointer;">
-                                        {{#each itemDept in deptrecords}}
-                                            {{#if equals itemDept.department billrecord.department }}
-                                                <option value="{{billrecord.department}}" selected="">{{billrecord.department}}</option>
-                                            {{else}}
-                                                <option value="{{itemDept.department}}">{{itemDept.department}}</option>
-                                            {{/if}}
-                                        {{/each}}
-                                    </select>
-                                </div>
-                            {{else}}
-
-                            {{/if}}
-
                         </div>
                     </div>
                 </div>

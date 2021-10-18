@@ -5078,6 +5078,7 @@ Template.new_invoice.onRendered(() => {
                                     }, 200);
                                 }
                             }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'inline-block');
                                 sideBarService.getAllLeadStatus().then(function(data) {
                                     for (let i in data.tleadstatustype) {
                                         if (data.tleadstatustype[i].TypeName === statusDataName) {
@@ -5085,6 +5086,10 @@ Template.new_invoice.onRendered(() => {
 
                                         }
                                     }
+                                    setTimeout(function() {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        $('#newStatusPopModal').modal('toggle');
+                                    }, 200);
                                 });
                             });
                             setTimeout(function() {
@@ -5120,19 +5125,29 @@ Template.new_invoice.onRendered(() => {
                 if (currencyDataName.replace(/\s/g, '') != '') {
                     $('#add-currency-title').text('Edit Currency');
                     $('#sedtCountry').prop('readonly', true);
-                    getVS1Data('TCurrency1').then(function(dataObject) {
+                    getVS1Data('TCurrency').then(function(dataObject) {
                         if (dataObject.length == 0) {
                             $('.fullScreenSpin').css('display', 'inline-block');
                             sideBarService.getCurrencies().then(function(data) {
-                                for (let i in data.tleadstatustype) {
-                                    let leadrecordObj = {
-                                        orderstatus: data.tleadstatustype[i].TypeName || ' '
-                                    };
-                                    statusList.push(leadrecordObj);
+                                for (let i in data.tcurrency) {
+                                    if (data.tcurrency[i].Code === currencyDataName) {
+                                        $('#edtCurrencyID').val(data.tcurrency[i].Id);
+                                        setTimeout(function() {
+                                            $('#sedtCountry').val(data.tcurrency[i].Country);
+                                        }, 200);
+                                        //$('#sedtCountry').val(data.tcurrency[i].Country);
+                                        $('#currencyCode').val(currencyDataName);
+                                        $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
+                                        $('#edtCurrencyName').val(data.tcurrency[i].Currency);
+                                        $('#edtCurrencyDesc').val(data.tcurrency[i].CurrencyDesc);
+                                        $('#edtBuyRate').val(data.tcurrency[i].BuyRate);
+                                        $('#edtSellRate').val(data.tcurrency[i].SellRate);
+                                    }
                                 }
                                 setTimeout(function() {
                                     $('.fullScreenSpin').css('display', 'none');
                                     $('#newCurrencyModal').modal('toggle');
+                                    $('#sedtCountry').attr('readonly', true);
                                 }, 200);
                             });
                         } else {
@@ -5174,7 +5189,6 @@ Template.new_invoice.onRendered(() => {
                                     $('#edtSellRate').val(data.tcurrency[i].SellRate);
                                 }
                             }
-                            console.log(data.tcurrency);
                             setTimeout(function() {
                                 $('.fullScreenSpin').css('display', 'none');
                                 $('#newCurrencyModal').modal('toggle');

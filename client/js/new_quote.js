@@ -3152,7 +3152,7 @@ Template.new_quote.onRendered(() => {
 
 
     $(document).on("click", "#tblInventory tbody tr", function(e) {
-      $(".colProductName").removeClass('boldtablealertsborder');
+        $(".colProductName").removeClass('boldtablealertsborder');
         let selectLineID = $('#selectLineID').val();
         let taxcodeList = templateObject.taxraterecords.get();
         let customers = templateObject.clientrecords.get();
@@ -3582,8 +3582,8 @@ Template.new_quote.onRendered(() => {
                         var qty = $tblrow.find(".lineQty").val() || 0;
                         var price = $tblrow.find(".lineUnitPrice").val() || 0;
                         var taxRate = $tblrow.find(".lineTaxCode").text();
-                        if($tblrow.find(".lineProductName").val() == ''){
-                          $tblrow.find(".colProductName").addClass('boldtablealertsborder');
+                        if ($tblrow.find(".lineProductName").val() == '') {
+                            $tblrow.find(".colProductName").addClass('boldtablealertsborder');
                         }
                         var taxrateamount = 0;
                         if (taxcodeList) {
@@ -3703,24 +3703,35 @@ Template.new_quote.onRendered(() => {
             } else {
                 if (currencyDataName.replace(/\s/g, '') != '') {
                     $('#add-currency-title').text('Edit Currency');
-                    $('#newCurrencyModal').modal('toggle');
-                    //$('#currencyCode').val(currencyDataName);
-
+                    $('#sedtCountry').prop('readonly', true);
                     getVS1Data('TCurrency').then(function(dataObject) {
                         if (dataObject.length == 0) {
-                            clientsService.getCurrencies().then(function(data) {
-                                for (let i in data.tleadstatustype) {
-                                    let leadrecordObj = {
-                                        orderstatus: data.tleadstatustype[i].TypeName || ' '
-                                    };
-                                    statusList.push(leadrecordObj);
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getCurrencies().then(function(data) {
+                                for (let i in data.tcurrency) {
+                                    if (data.tcurrency[i].Code === currencyDataName) {
+                                        $('#edtCurrencyID').val(data.tcurrency[i].Id);
+                                        setTimeout(function() {
+                                            $('#sedtCountry').val(data.tcurrency[i].Country);
+                                        }, 200);
+                                        //$('#sedtCountry').val(data.tcurrency[i].Country);
+                                        $('#currencyCode').val(currencyDataName);
+                                        $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
+                                        $('#edtCurrencyName').val(data.tcurrency[i].Currency);
+                                        $('#edtCurrencyDesc').val(data.tcurrency[i].CurrencyDesc);
+                                        $('#edtBuyRate').val(data.tcurrency[i].BuyRate);
+                                        $('#edtSellRate').val(data.tcurrency[i].SellRate);
+                                    }
                                 }
-                                templateObject.statusrecords.set(statusList);
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newCurrencyModal').modal('toggle');
+                                    $('#sedtCountry').attr('readonly', true);
+                                }, 200);
                             });
                         } else {
                             let data = JSON.parse(dataObject[0].data);
                             let useData = data.tcurrency;
-
                             for (let i = 0; i < data.tcurrency.length; i++) {
                                 if (data.tcurrency[i].Code === currencyDataName) {
                                     $('#edtCurrencyID').val(data.tcurrency[i].Id);
@@ -3733,14 +3744,22 @@ Template.new_quote.onRendered(() => {
                                     $('#edtSellRate').val(data.tcurrency[i].SellRate);
                                 }
                             }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                            }, 200);
                         }
 
                     }).catch(function(err) {
-                        clientsService.getCurrencies().then(function(data) {
-                            for (let i in data.tleadstatustype) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getCurrencies().then(function(data) {
+                            for (let i in data.tcurrency) {
                                 if (data.tcurrency[i].Code === currencyDataName) {
                                     $('#edtCurrencyID').val(data.tcurrency[i].Id);
-                                    $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    setTimeout(function() {
+                                        $('#sedtCountry').val(data.tcurrency[i].Country);
+                                    }, 200);
+                                    //$('#sedtCountry').val(data.tcurrency[i].Country);
                                     $('#currencyCode').val(currencyDataName);
                                     $('#currencySymbol').val(data.tcurrency[i].CurrencySymbol);
                                     $('#edtCurrencyName').val(data.tcurrency[i].Currency);
@@ -3749,6 +3768,11 @@ Template.new_quote.onRendered(() => {
                                     $('#edtSellRate').val(data.tcurrency[i].SellRate);
                                 }
                             }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCurrencyModal').modal('toggle');
+                                $('#sedtCountry').attr('readonly', true);
+                            }, 200);
                         });
                     });
 
@@ -3766,77 +3790,81 @@ Template.new_quote.onRendered(() => {
             }
         });
 
-        $('#sltStatus').editableSelect()
-            .on('click.editable-select', function(e, li) {
-                        var $earch = $(this);
-                        var offset = $earch.offset();
-                        $('#statusId').val('');
-                        var statusDataName = e.target.value || '';
-                        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
-                            $('#statusPopModal').modal('toggle');
-                        } else {
-                            if (statusDataName.replace(/\s/g, '') != '') {
-                                $('#newStatusHeader').text('Edit Status');
-                                $('#newStatus').val(statusDataName);
+    $('#sltStatus').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            $('#statusId').val('');
+            var statusDataName = e.target.value || '';
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#statusPopModal').modal('toggle');
+            } else {
+                if (statusDataName.replace(/\s/g, '') != '') {
+                    $('#newStatusHeader').text('Edit Status');
+                    $('#newStatus').val(statusDataName);
 
-                                getVS1Data('TLeadStatusType').then(function(dataObject) {
-                                    if (dataObject.length == 0) {
-                                        $('.fullScreenSpin').css('display', 'inline-block');
-                                        sideBarService.getAllLeadStatus().then(function(data) {
-                                            for (let i in data.tleadstatustype) {
-                                                if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                                    $('#statusId').val(data.tleadstatustype[i].Id);
-                                                }
-                                            }
-                                            setTimeout(function() {
-                                                $('.fullScreenSpin').css('display', 'none');
-                                                $('#newStatusPopModal').modal('toggle');
-                                            }, 200);
-                                        });
-                                    } else {
-                                        let data = JSON.parse(dataObject[0].data);
-                                        let useData = data.tleadstatustype;
-                                        for (let i in useData) {
-                                            if (useData[i].TypeName === statusDataName) {
-                                                $('#statusId').val(useData[i].Id);
-
-                                            }
-                                        }
-                                        setTimeout(function() {
-                                            $('.fullScreenSpin').css('display', 'none');
-                                            $('#newStatusPopModal').modal('toggle');
-                                        }, 200);
+                    getVS1Data('TLeadStatusType').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getAllLeadStatus().then(function(data) {
+                                for (let i in data.tleadstatustype) {
+                                    if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                        $('#statusId').val(data.tleadstatustype[i].Id);
                                     }
-                                }).catch(function(err) {
-                                    sideBarService.getAllLeadStatus().then(function(data) {
-                                        for (let i in data.tleadstatustype) {
-                                            if (data.tleadstatustype[i].TypeName === statusDataName) {
-                                                $('#statusId').val(data.tleadstatustype[i].Id);
-
-                                            }
-                                        }
-                                    });
-                                });
+                                }
                                 setTimeout(function() {
                                     $('.fullScreenSpin').css('display', 'none');
                                     $('#newStatusPopModal').modal('toggle');
                                 }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tleadstatustype;
+                            for (let i in useData) {
+                                if (useData[i].TypeName === statusDataName) {
+                                    $('#statusId').val(useData[i].Id);
 
-                            } else {
-                                $('#statusPopModal').modal();
-                                setTimeout(function() {
-                                    $('#tblStatusPopList_filter .form-control-sm').focus();
-                                    $('#tblStatusPopList_filter .form-control-sm').val('');
-                                    $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-                                    var datatable = $('#tblStatusPopList').DataTable();
-
-                                    datatable.draw();
-                                    $('#tblStatusPopList_filter .form-control-sm').trigger("input");
-
-                                }, 500);
+                                }
                             }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newStatusPopModal').modal('toggle');
+                            }, 200);
                         }
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getAllLeadStatus().then(function(data) {
+                            for (let i in data.tleadstatustype) {
+                                if (data.tleadstatustype[i].TypeName === statusDataName) {
+                                    $('#statusId').val(data.tleadstatustype[i].Id);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newStatusPopModal').modal('toggle');
+                            }, 200);
+                        });
                     });
+                    setTimeout(function() {
+                        $('.fullScreenSpin').css('display', 'none');
+                        $('#newStatusPopModal').modal('toggle');
+                    }, 200);
+
+                } else {
+                    $('#statusPopModal').modal();
+                    setTimeout(function() {
+                        $('#tblStatusPopList_filter .form-control-sm').focus();
+                        $('#tblStatusPopList_filter .form-control-sm').val('');
+                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblStatusPopList').DataTable();
+
+                        datatable.draw();
+                        $('#tblStatusPopList_filter .form-control-sm').trigger("input");
+
+                    }, 500);
+                }
+            }
+        });
 
     $('#edtCustomerName').editableSelect()
         .on('click.editable-select', function(e, li) {
@@ -5061,7 +5089,7 @@ Template.new_quote.helpers({
     state: () => {
         return Session.get('companyState');
     },
-     poBox: () => {
+    poBox: () => {
         return Session.get('vs1companyPOBox');
     },
     companyphone: () => {
