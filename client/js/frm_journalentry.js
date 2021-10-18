@@ -1612,7 +1612,7 @@ Template.journalentrycard.onRendered(function() {
             var $earch = $(this);
             var offset = $earch.offset();
             var deptDataName = e.target.value || '';
-            $('#edtCurrencyID').val('');
+            $('#edtDepartmentID').val('');
             if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                 $('#departmentModal').modal('toggle');
             } else {
