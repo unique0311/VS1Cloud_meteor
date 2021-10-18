@@ -571,6 +571,9 @@ Template.refundcard.onRendered(() => {
                     };
 
                     $('#edtCustomerName').val(data.fields.CustomerName);
+                    $('#sltTerms').val(data.fields.TermsName);
+                    $('#sltDept').val(data.fields.SaleClassName);
+                    $('#sltStatus').val(data.fields.SalesStatus);
                     templateObject.CleintName.set(data.fields.CustomerName);
                     $('#sltCurrency').val(data.fields.ForeignExchangeCode);
                     /* START attachment */
@@ -818,6 +821,11 @@ Template.refundcard.onRendered(() => {
         };
 
         $('#edtCustomerName').val('');
+
+        setTimeout(function() {
+            $('#sltDept').val(defaultDept);
+            $('#sltTerms').val(templateObject.defaultsaleterm.get());
+        }, 200);
 
         templateObject.invoicerecord.set(invoicerecord);
         if (templateObject.invoicerecord.get()) {
