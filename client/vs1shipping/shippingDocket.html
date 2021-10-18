@@ -73,9 +73,9 @@
         <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
             <div class="col-12 col-lg-3">
                 <div class="form-group"><label>Customer</label>
-                  <!-- <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                  </select> -->
-                  <input class="form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{shippingrecord.shipcustomer}}" readonly style="cursor: pointer;">
+                  <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                  </select>
+                  <!-- <input class="form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{shippingrecord.shipcustomer}}" readonly style="cursor: pointer;"> -->
                 </div>
             </div>
             <div class="col-12 col-lg-3">
@@ -127,7 +127,7 @@
                     </div>
                     <div class="col-6 col-lg-6">
                         <div class="form-group">
-                            <label>Invoice Number</label>
+                            <label>Invoice No</label>
                             <input class="form-control" type="text" id="invnumber" name="invnumber" value="{{shippingrecord.id}}">
                         </div>
 
@@ -397,6 +397,27 @@
         {{/if}}
 
     </div>
+
+    <div class="modal fade customerListModal" role="dialog" tabindex="-1" id="customerListModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
+            <div class="modal-content customerListContent">
+                <div class="modal-header">
+                    <h4>Customer List</h4><button type="button" class="close checkclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
+                    <input type="hidden" style="width: 100%; display:none;" id="customerSelectLineID" name="customerSelectLineID" readonly>
+                    {{> customerlistpop}}
+
+                </div>
+                <div class="modal-footer"><button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
+        {{> addcustomerpop}}
+    </div>
+
     <script>
         modalDraggable();
     </script>

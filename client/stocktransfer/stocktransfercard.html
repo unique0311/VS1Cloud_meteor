@@ -127,9 +127,11 @@
                     </div>
                     <div class="col-6 col-lg-6">
                         <div class="form-group">
-                            <label>Department</label>
-                            <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                            </select>
+                          <label>Transfer No</label>
+                          <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="">
+                            <!-- <label>Department</label> -->
+                            <!-- <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            </select> -->
                         </div>
 
                         <div class="form-group">
@@ -143,26 +145,14 @@
                 <div class="row">
                     <div class="col-12 col-lg-6">
                         <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
-                            <label>Transfer Date</label>
-                            <div class="input-group date" style="cursor: pointer;">
-                                <input type="text" class="form-control" id="dtShipDate" name="dtShipDate" value="{{stocktransferrecord.transdate}}">
-                                <div class="input-group-addon" style="">
-                                    <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
-                                </div>
-                            </div>
+                            <label>Transfer From</label>
+                            <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            </select>
                         </div>
 
                         <div class="form-group">
-                            <label>Ship Via</label>
-                            <select class="form-control" id="shipvia" name="shipvia" style="cursor: pointer;">
-                              <option value="">Please Select</option>
-                              {{#each item in shipviarecords}}
-                                  {{#if equals item.shippingmethod stocktransferrecord.shipping }}
-                                      <option value="{{stocktransferrecord.shipping}}" selected="">{{stocktransferrecord.shipping}}</option>
-                                  {{else}}
-                                      <option value="{{item.shippingmethod}}">{{item.shippingmethod}}</option>
-                                  {{/if}}
-                              {{/each}}
+                            <label>To Account</label>
+                            <select type="search" class="form-control" id="sltBankAccountName" name="sltBankAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                             </select>
                         </div>
                     </div>
@@ -296,8 +286,8 @@
                             <td class="hiddenColumn lineID" id="lineID">{{item.pqa}}</td>
                             <!-- <td contenteditable="true" class="colProduct ProdName" id="ProdName">{{item.item}}</td> -->
                             <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="" ></td>
-                            <td contenteditable="true" class="colDepartment">{{item.description}}</td>
                             <td contenteditable="true" class="colDescription">{{item.description}}</td>
+                            <td contenteditable="true" class="colDepartment">{{item.department}}</td>
                             <td><input class="lineOrdered colOrdered highlightInput" id="Ordered" type="number" value="{{item.qtyordered}}"></td>
                             <td class="hiddenColumn ID" id="ID">{{item.id}}</td>
                             <td class="hiddenColumn pqa" id="pqa"></td>
@@ -457,6 +447,22 @@
 
     <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
         {{> addcustomerpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
+        {{> productlistpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
+        {{> newproductpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="accountListModal">
+        {{> accountlistpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+        {{> addaccountpop}}
     </div>
 
     <script>

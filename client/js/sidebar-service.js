@@ -802,24 +802,44 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.BackOrderSalesList, options);
   }
 
+  // getAllBackOrderInvoiceList(limitcount, limitfrom) {
+  //   let options = '';
+  //   if(limitcount == 'All'){
+  //    options = {
+  //      orderby:'"SaleID desc"',
+  //      PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
+  //   };
+  // }else{
+  //   options = {
+  //     orderby:'"SaleID desc"',
+  //     PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
+  //    //  select: "[Deleted]=false",
+  //    // //  LimitCount:'"'+limitcount+'"',
+  //    // // LimitFrom:'"'+limitfrom+'"'
+  //  };
+  // }
+  //   return this.getList(this.ERPObjects.TInvoiceBackOrder, options);
+  // }
+
   getAllBackOrderInvoiceList(limitcount, limitfrom) {
     let options = '';
-    if(limitcount == 'All'){
-     options = {
-       orderby:'"SaleID desc"',
-       PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
-    };
-  }else{
-    options = {
-      orderby:'"SaleID desc"',
-      PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
-     //  select: "[Deleted]=false",
-     // //  LimitCount:'"'+limitcount+'"',
-     // // LimitFrom:'"'+limitfrom+'"'
-   };
-  }
+     if(limitcount == 'All'){
+        options = {
+           orderby:'"SaleID desc"',
+           ListType: "Detail",
+           // select: '[Deleted]=false'
+         };
+     }else{
+       options = {
+          orderby:'"SaleID desc"',
+          ListType: "Detail",
+          // select: '[Deleted]=false',
+          LimitCount:'"'+limitcount+'"',
+          LimitFrom:'"'+limitfrom+'"'
+      };
+     }
     return this.getList(this.ERPObjects.TInvoiceBackOrder, options);
-  }
+}
 
 
   getAllPurchaseOrderListNonBo() {

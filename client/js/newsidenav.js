@@ -910,6 +910,14 @@ Template.newsidenav.onRendered(function() {
         });
     }
 
+    templateObject.getAllBackOrderInvoicetData = function() {
+        sideBarService.getAllBackOrderInvoiceList(initialDataLoad,0).then(function(data) {
+            addVS1Data('TInvoiceBackOrder',JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+     }
+
     templateObject.getAllSalesOrderExListData = function() {
         sideBarService.getAllSalesOrderList(initialDataLoad, 0).then(function(data) {
             addVS1Data('TSalesOrderEx', JSON.stringify(data));
@@ -1987,6 +1995,31 @@ Template.newsidenav.onRendered(function() {
 
             } else {
                 templateObject.getFollowedQuickDataDetailsPull();
+            }
+
+            if(isShipping){
+              getVS1Data('TInvoiceBackOrder').then(function (dataObject) {
+                  if(dataObject.length == 0){
+                      templateObject.getAllBackOrderInvoicetData();
+                  }else{
+                      let data = JSON.parse(dataObject[0].data);
+                      let useData = data.tinvoicebackorder;
+                      if(useData[0].Id){
+                          templateObject.getAllBackOrderInvoicetData();
+                      }else{
+                          let getTimeStamp = dataObject[0].timestamp.split(' ');
+                          if(getTimeStamp){
+                              if(loggedUserEventFired){
+                                  if(getTimeStamp[0] != currenctTodayDate){
+                                    templateObject.getAllBackOrderInvoicetData();
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }).catch(function (err) {
+                  templateObject.getAllBackOrderInvoicetData();
+              });
             }
 
         }, 3000);
