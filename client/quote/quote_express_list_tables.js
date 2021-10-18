@@ -197,6 +197,10 @@ Template.quoteslist.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
+                             "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
+
+                         }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -447,6 +451,7 @@ Template.quoteslist.onRendered(function() {
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
+                          $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
 
                          }
 
@@ -672,6 +677,9 @@ Template.quoteslist.onRendered(function() {
                               MakeNegative();
                           }, 100);
                       },
+                      "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
+                    }
 
                   }).on('page', function () {
                       setTimeout(function () {
