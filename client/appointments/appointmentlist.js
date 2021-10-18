@@ -428,6 +428,9 @@ Template.appointmentlist.onRendered(function () {
                                   MakeNegative();
                               }, 100);
                           },
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
+                        }
 
                       }).on('page', function () {
                           setTimeout(function () {
@@ -701,6 +704,9 @@ Template.appointmentlist.onRendered(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
