@@ -193,6 +193,10 @@ Template.creditlist.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshCreditList' type='button' id='btnRefreshCreditList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcreditlist_filter");
+
+                         }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -435,7 +439,7 @@ Template.creditlist.onRendered(function() {
                           if(urlParametersPage){
                             this.fnPageChange('last');
                           }
-
+                             $("<button class='btn btn-primary btnRefreshCreditList' type='button' id='btnRefreshCreditList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcreditlist_filter");
                          }
 
                     }).on('page', function () {
@@ -657,6 +661,10 @@ Template.creditlist.onRendered(function() {
                               MakeNegative();
                           }, 100);
                       },
+                       "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshCreditList' type='button' id='btnRefreshCreditList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcreditlist_filter");
+
+                         }
 
                   }).on('page', function () {
                       setTimeout(function () {

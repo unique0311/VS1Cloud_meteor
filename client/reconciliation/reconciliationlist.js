@@ -187,6 +187,9 @@ Template.reconciliationlist.onRendered(function() {
                                   MakeNegative();
                               }, 100);
                           },
+                          "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshBankRecon' type='button' id='btnRefreshBankRecon' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
+                          }
 
                       }).on('page', function () {
                           setTimeout(function () {
@@ -424,7 +427,10 @@ Template.reconciliationlist.onRendered(function() {
                             this.fnPageChange('last');
                           }
 
-                         }
+                         },
+                         "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshBankRecon' type='button' id='btnRefreshBankRecon' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
+                          }
 
                     }).on('page', function () {
                         setTimeout(function () {
