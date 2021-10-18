@@ -285,9 +285,10 @@
                         <tr class="dnd-moved selectable" id="{{item.lineID}}">
                             <td class="hiddenColumn lineID" id="lineID">{{item.pqa}}</td>
                             <!-- <td contenteditable="true" class="colProduct ProdName" id="ProdName">{{item.item}}</td> -->
-                            <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="" ></td>
+                            <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="{{item.item}}" ></td>
                             <td contenteditable="true" class="colDescription">{{item.description}}</td>
-                            <td contenteditable="true" class="colDepartment">{{item.department}}</td>
+                            <!-- <td contenteditable="true" class="colDepartment">{{item.department}}</td> -->
+                            <td contenteditable="false" class="colDepartment"><input class="es-input highlightSelect lineDepartment" type="search" value="{{item.department}}" ></td>
                             <td><input class="lineOrdered colOrdered highlightInput" id="Ordered" type="number" value="{{item.qtyordered}}"></td>
                             <td class="hiddenColumn ID" id="ID">{{item.id}}</td>
                             <td class="hiddenColumn pqa" id="pqa"></td>
@@ -380,7 +381,7 @@
         </div>
 
         <div class="row justify-content-center">
-            <button class="btn btn-success save_shipping" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+            <button class="btn btn-success btnSave" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
                 <i class="fa fa-save" style="padding-right: 8px;"></i>Save
             </button>
             <button class="btn btn-primary" data-toggle="modal" data-target="#printConfirmModal" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
