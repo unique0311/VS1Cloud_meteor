@@ -520,6 +520,16 @@ Template.timesheettimelog.onRendered(function () {
     templateObject.getJobs();
 
     $(document).ready(function () {
+
+    $('#tblTimeSheet tbody').on('click', 'tr td:not(:first-child)', function () {
+        var id = $(this).closest('tr').attr('id');
+        window.open('timesheet?id=' + id, '_self');
+    });
+
+     $( "#btnNewTimeSheetOne").on( "click", function() {
+        FlowRouter.go('/timesheet');
+    });
+
         var table = $('#example').DataTable({
             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
             drawCallback: function (settings) {
@@ -1330,20 +1340,6 @@ Template.timesheet.events({
         else {
             event.preventDefault();
         }
-    },
-    // 'click .btnEditTimeSheet': function (event) {
-    //     var targetID = $(event.target).closest('tr').attr('id'); // table row ID
-    //     $('#edtTimesheetID').val(targetID);
-    // }
-    // ,
-    'click #btnNewTimeSheet': function (event) {
-        $('#edtTimesheetID').val('');
-        $('#add-timesheet-title').text('New Timesheet');
-        $('.sltEmployee').val('');
-        $('.sltJob').val('');
-        $('.lineEditHourlyRate').val('');
-        $('.lineEditHour').val('');
-        $('.lineEditTechNotes').val('');
     }
 });
 

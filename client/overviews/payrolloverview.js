@@ -756,9 +756,9 @@ Template.payrolloverview.onRendered(function () {
 
     }
 
-    setTimeout(function () {
-        templateObject.getAllProductData();
-    }, 500);
+    // setTimeout(function () {
+    //     templateObject.getAllProductData();
+    // }, 500);
 
     $('#tblEmployeelist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
@@ -772,7 +772,7 @@ Template.payrolloverview.onRendered(function () {
 
 Template.payrolloverview.events({
 'click .isPaused': function (event) {
-        if ($('#btnHoldOne').prop('disabled')) {
+        if ($('#btnHold').prop('disabled')) {
             swal({
                 title: 'Continue Timesheet',
                 text: 'This Timesheet is currently "On Hold" do you want to "Continue" it',
@@ -847,6 +847,7 @@ Template.payrolloverview.events({
         setTimeout(function () {
             $("#dtSODate").val(curretDate);
         }, 100);
+        templateObject.getAllProductData();
         let clockList = templateObject.timesheetrecords.get();
         clockList = clockList.filter(clkList => {
             return clkList.employee == $('#employee_name').val();
@@ -881,7 +882,8 @@ Template.payrolloverview.events({
                     $('#updateID').val(clockList[clockList.length - 1].id);
                     $('#txtNotes').val(clockList[clockList.length - 1].notes);
                     $('#sltJob').val(clockList[clockList.length - 1].job);
-                    $('#product-list').val(clockList[clockList.length - 1].product);
+                    $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                    $("#product-list")[0].options[0].selected = true;
                     $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                     $('#startTime').prop('disabled', true);
                     if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -904,7 +906,8 @@ Template.payrolloverview.events({
                         $('#updateID').val(clockList[clockList.length - 1].id);
                         $('#txtNotes').val(clockList[clockList.length - 1].notes);
                         $('#sltJob').val(clockList[clockList.length - 1].job);
-                        $('#product-list').val(clockList[clockList.length - 1].product);
+                        $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
                         $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                         $('#startTime').prop('disabled', true);
                         if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -1669,7 +1672,7 @@ Template.payrolloverview.events({
         $('#frmOnHoldModal').modal('show');
     },
        'click .btnPauseJob': function (event) {
-
+        templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         let contactService = new ContactService();
         let checkStatus = "";
@@ -1736,8 +1739,8 @@ Template.payrolloverview.events({
         var employeeName = $('.employee_name').val();
         var startdateGet = new Date();
         let date = startdateGet.getFullYear() + "-" + ("0" + (startdateGet.getMonth() + 1)).slice(-2) + "-" + ("0" + startdateGet.getDate()).slice(-2);
-        var startTime = $('#startTime').val() || ("0" + startdateGet.getHours()).slice(-2) + ':' + ("0" + startdateGet.getMinutes()).slice(-2);
-        var endTime = $('#endTime').val() || ("0" + startdateGet.getHours()).slice(-2) + ':' + ("0" + startdateGet.getMinutes()).slice(-2);
+        var startTime = ("0" + startdateGet.getHours()).slice(-2) + ':' + ("0" + startdateGet.getMinutes()).slice(-2);
+        var endTime = ("0" + startdateGet.getHours()).slice(-2) + ':' + ("0" + startdateGet.getMinutes()).slice(-2);
         let toUpdate = {};
         let data = '';
         if (startTime != "") {
