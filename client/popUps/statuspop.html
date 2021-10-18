@@ -19,13 +19,21 @@
                                     <th class="th colActive" style="">Active</th>
                                 </tr>
                             </thead>
+                            <style>
+                                .colStatusName {
+                                    width: 20% !important;
+                                }
+                                .colActive {
+                                    width: 5% !important;
+                                }
+                            </style>
                             <tbody>
                                 {{#if datatablerecords}}
                                     {{#each item in datatablerecords}}
                                         <tr class="dnd-moved" id="{{item.id}}" style="cursor: default;">
-                                            <td contenteditable="false" class="colStatusName">{{item.typename}}</td>
+                                            <td contenteditable="false" class="colStatusName" style="width: 20% !important;">{{item.typename}}</td>
                                             <td contenteditable="false" class="colDescription">{{item.description}}</td>
-                                            <td contenteditable="false" class="colActive text-center">
+                                            <td contenteditable="false" class="colActive text-center" style="width: 5% !important;">
                                                 <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="active-{{item.id}}" checked disabled><label class="custom-control-label chkBox" for="active-{{item.id}}"></label></div>
                                             </td>
                                         </tr>
