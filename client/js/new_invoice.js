@@ -6807,11 +6807,11 @@ Template.new_invoice.events({
                                 '                                                    <p style="font-size: 18px;">Invoice To</p>' +
                                 '                                                </div>' +
                                 '                                                <div style="width: 50%; float: right;">' +
-                                '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerEmailName + '</p>' +
-                                '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerBillingAddress +'</p>' +
+                                '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerEmailName + '</p>' +
+                                '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerBillingAddress +'</p>' +
                                 '                                                </div>' +
                                 '                                            </div>' +
-                                '                                        </td>>' +
+                                '                                        </td>' +
                                 '                                    </tr>' +
                                 '                                    <tr style="background-color: #ededed;">' +
                                 '                                        <td class="content-block" style="padding: 16px 32px;">' +
@@ -6821,15 +6821,15 @@ Template.new_invoice.events({
                                 '                                                    <p style="font-size: 18px;">Terms</p>' +
                                 '                                                </div>' +
                                 '                                                <div style="width: 50%; float: right;">' +
-                                '                                                    <p style="font-size: 18px;">' + customerTerms +'</p>' +
+                                '                                                    <p style="font-size: 16px;">' + customerTerms +'</p>' +
                                 '                                                </div>' +
                                 '                                            </div>' +
-                                '                                        </td>>' +
+                                '                                        </td>' +
                                 '                                    </tr>' +
                                 '                                    <tr>' +
                                 '                                        <td class="content-block" style="padding: 16px 32px;">' +
                                 '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
-                                '                                            <div style="width: 50%; float: right; padding-top: 24px;">' +
+                                '                                            <div style="width: 100%; float: right; padding-top: 24px;">' +
                                 '                                                <div style="width: 50%; float: left;">' +
                                 '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
                                 '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
@@ -6843,7 +6843,7 @@ Template.new_invoice.events({
                                 '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
                                 '                                                </div>' +
                                 '                                            </div>' +
-                                '                                        </td>>' +
+                                '                                        </td>' +
                                 '                                    </tr>' +
                                 '                                    <tr>' +
                                 '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
@@ -6864,7 +6864,7 @@ Template.new_invoice.events({
                                 '                                                    </tr>' +
                                 '                                                </tbody>' +
                                 '                                            </table>' +
-                                '                                        </td>>' +
+                                '                                        </td>' +
                                 '                                    </tr>' +
                                 '                                    <tr>' +
                                 '                                        <td class="content-block" style="padding: 16px 32px;">' +
@@ -6898,11 +6898,10 @@ Template.new_invoice.events({
                                 '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
                                 '                            <tr>' +
                                 '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                                '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                                '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">' + mailFromName + '</span>' +
                                 '                                    <br>' +
-                                '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                                '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                                '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                                '                                    <a href="https://vs1cloud.com/downloads/VS1%20Privacy%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                                '                                    <a href="https://vs1cloud.com/downloads/VS1%20Terms%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
                                 '                                </td>' +
                                 '                            </tr>' +
                                 '                        </table>' +
@@ -8422,11 +8421,11 @@ Template.new_invoice.events({
                         '                                                    <p style="font-size: 18px;">Invoice To</p>' +
                         '                                                </div>' +
                         '                                                <div style="width: 50%; float: right;">' +
-                        '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerEmailName + '</p>' +
-                        '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerBillingAddress +'</p>' +
+                        '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerEmailName + '</p>' +
+                        '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerBillingAddress +'</p>' +
                         '                                                </div>' +
                         '                                            </div>' +
-                        '                                        </td>>' +
+                        '                                        </td>' +
                         '                                    </tr>' +
                         '                                    <tr style="background-color: #ededed;">' +
                         '                                        <td class="content-block" style="padding: 16px 32px;">' +
@@ -8439,12 +8438,12 @@ Template.new_invoice.events({
                         '                                                    <p style="font-size: 18px;">' + customerTerms +'</p>' +
                         '                                                </div>' +
                         '                                            </div>' +
-                        '                                        </td>>' +
+                        '                                        </td>' +
                         '                                    </tr>' +
                         '                                    <tr>' +
                         '                                        <td class="content-block" style="padding: 16px 32px;">' +
                         '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
-                        '                                            <div style="width: 50%; float: right; padding-top: 24px;">' +
+                        '                                            <div style="width: 100%; float: right; padding-top: 24px;">' +
                         '                                                <div style="width: 50%; float: left;">' +
                         '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
                         '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
@@ -8458,7 +8457,7 @@ Template.new_invoice.events({
                         '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
                         '                                                </div>' +
                         '                                            </div>' +
-                        '                                        </td>>' +
+                        '                                        </td>' +
                         '                                    </tr>' +
                         '                                    <tr>' +
                         '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
@@ -8479,7 +8478,7 @@ Template.new_invoice.events({
                         '                                                    </tr>' +
                         '                                                </tbody>' +
                         '                                            </table>' +
-                        '                                        </td>>' +
+                        '                                        </td>' +
                         '                                    </tr>' +
                         '                                    <tr>' +
                         '                                        <td class="content-block" style="padding: 16px 32px;">' +
@@ -8513,11 +8512,10 @@ Template.new_invoice.events({
                         '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
                         '                            <tr>' +
                         '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">' + mailFromName + '</span>' +
                         '                                    <br>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                        '                                    <a href="https://vs1cloud.com/downloads/VS1%20Privacy%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                        '                                    <a href="https://vs1cloud.com/downloads/VS1%20Terms%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
                         '                                </td>' +
                         '                            </tr>' +
                         '                        </table>' +
@@ -9377,11 +9375,11 @@ Template.new_invoice.events({
                             '                                                    <p style="font-size: 18px;">Invoice To</p>' +
                             '                                                </div>' +
                             '                                                <div style="width: 50%; float: right;">' +
-                            '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerEmailName + '</p>' +
-                            '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerBillingAddress +'</p>' +
+                            '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerEmailName + '</p>' +
+                            '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerBillingAddress +'</p>' +
                             '                                                </div>' +
                             '                                            </div>' +
-                            '                                        </td>>' +
+                            '                                        </td>' +
                             '                                    </tr>' +
                             '                                    <tr style="background-color: #ededed;">' +
                             '                                        <td class="content-block" style="padding: 16px 32px;">' +
@@ -9394,12 +9392,12 @@ Template.new_invoice.events({
                             '                                                    <p style="font-size: 18px;">' + customerTerms +'</p>' +
                             '                                                </div>' +
                             '                                            </div>' +
-                            '                                        </td>>' +
+                            '                                        </td>' +
                             '                                    </tr>' +
                             '                                    <tr>' +
                             '                                        <td class="content-block" style="padding: 16px 32px;">' +
                             '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
-                            '                                            <div style="width: 50%; float: right; padding-top: 24px;">' +
+                            '                                            <div style="width: 100%; float: right; padding-top: 24px;">' +
                             '                                                <div style="width: 50%; float: left;">' +
                             '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
                             '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
@@ -9413,7 +9411,7 @@ Template.new_invoice.events({
                             '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
                             '                                                </div>' +
                             '                                            </div>' +
-                            '                                        </td>>' +
+                            '                                        </td>' +
                             '                                    </tr>' +
                             '                                    <tr>' +
                             '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
@@ -9434,7 +9432,7 @@ Template.new_invoice.events({
                             '                                                    </tr>' +
                             '                                                </tbody>' +
                             '                                            </table>' +
-                            '                                        </td>>' +
+                            '                                        </td>' +
                             '                                    </tr>' +
                             '                                    <tr>' +
                             '                                        <td class="content-block" style="padding: 16px 32px;">' +
@@ -9468,11 +9466,10 @@ Template.new_invoice.events({
                             '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
                             '                            <tr>' +
                             '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                            '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                            '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">' + mailFromName + '</span>' +
                             '                                    <br>' +
-                            '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                            '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                            '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                            '                                    <a href="https://vs1cloud.com/downloads/VS1%20Privacy%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                            '                                    <a href="https://vs1cloud.com/downloads/VS1%20Terms%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
                             '                                </td>' +
                             '                            </tr>' +
                             '                        </table>' +
