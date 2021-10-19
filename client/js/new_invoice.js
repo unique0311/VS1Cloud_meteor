@@ -4656,7 +4656,7 @@ Template.new_invoice.onRendered(() => {
         $('#pdfCustomerAddress').html(postalAddress);
         $('.pdfCustomerAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
-        $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || '');
+        $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || templateObject.termrecords.get();
 
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();

@@ -43,6 +43,7 @@ import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
+let salesDefaultTerms = "";
 Template.new_salesorder.onCreated(() => {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -3103,6 +3104,10 @@ Template.new_salesorder.onRendered(() => {
                             termsname: data.ttermsvs1[i].TermsName || ' ',
                         };
 
+                        if(data.ttermsvs1[i].isSalesdefault == true){
+                        salesDefaultTerms = useData[i].TermsName || ' ';
+                        }
+
                         termrecords.push(termrecordObj);
                         templateObject.termrecords.set(termrecords);
 
@@ -3117,6 +3122,11 @@ Template.new_salesorder.onRendered(() => {
                         termsname: useData[i].TermsName || ' ',
                     };
 
+                    
+                    if(useData[i].isSalesdefault == true){
+                        salesDefaultTerms = useData[i].TermsName || ' ';
+                    }
+
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
 
@@ -3130,6 +3140,10 @@ Template.new_salesorder.onRendered(() => {
                     let termrecordObj = {
                         termsname: data.ttermsvs1[i].TermsName || ' ',
                     };
+
+                    if( data.ttermsvs1[i].isSalesdefault == true){
+                        salesDefaultTerms = useData[i].TermsName || ' ';
+                    }
 
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
@@ -3576,7 +3590,7 @@ Template.new_salesorder.onRendered(() => {
         $('#pdfCustomerAddress').html(postalAddress);
         $('.pdfCustomerAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
-        $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || '');
+        $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || salesDefaultTerms);
 
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();
@@ -3597,7 +3611,7 @@ Template.new_salesorder.onRendered(() => {
                     $('#pdfCustomerAddress').html(postalAddress);
                     $('.pdfCustomerAddress').text(postalAddress);
                     $('#txaShipingInfo').val(postalAddress);
-                    $('#sltTerms').val(clientList[i].termsName || '');
+                    $('#sltTerms').val(clientList[i].termsName || salesDefaultTerms);
                 }
             }
         }
