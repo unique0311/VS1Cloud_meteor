@@ -1664,7 +1664,6 @@ Template.purchaseordercard.onRendered(() => {
                     templateObject.termrecords.set(termrecords);
 
                 }
-                console.log(purchaseDefaultTerms);
 
             }
         }).catch(function(err) {
@@ -2733,7 +2732,7 @@ Template.purchaseordercard.onRendered(() => {
         $('#pdfSupplierAddress').html(postalAddress);
         $('.pdfSupplierAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
-        $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || '');
+        $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || purchaseDefaultTerms);
         $('#supplierListModal').modal('toggle');
 
         let lineAmount = 0;

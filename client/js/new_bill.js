@@ -44,6 +44,8 @@ import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
+let purchaseDefaultTerms ="";
+
 Template.billcard.onCreated(() => {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -1487,6 +1489,10 @@ Template.billcard.onRendered(() => {
                             termsname: data.ttermsvs1[i].TermsName || ' ',
                         };
 
+                         if(data.ttermsvs1[i].isPurchasedefault == true){
+                        purchaseDefaultTerms = data.ttermsvs1[i].TermsName || ' ';
+                    }
+
                         termrecords.push(termrecordObj);
                         templateObject.termrecords.set(termrecords);
 
@@ -1501,6 +1507,10 @@ Template.billcard.onRendered(() => {
                         termsname: useData[i].TermsName || ' ',
                     };
 
+                     if(useData[i].isPurchasedefault == true){
+                        purchaseDefaultTerms = useData[i].TermsName || ' ';
+                    }
+
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
 
@@ -1514,6 +1524,10 @@ Template.billcard.onRendered(() => {
                     let termrecordObj = {
                         termsname: data.ttermsvs1[i].TermsName || ' ',
                     };
+
+                     if(data.ttermsvs1[i].isPurchasedefault == true){
+                        purchaseDefaultTerms = data.ttermsvs1[i].TermsName || ' ';
+                    }
 
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
@@ -2659,7 +2673,7 @@ Template.billcard.onRendered(() => {
         $('#pdfSupplierAddress').html(postalAddress);
         $('.pdfSupplierAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
-        $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || '');
+        $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || purchaseDefaultTerms);
         $('#supplierListModal').modal('toggle');
 
         let lineAmount = 0;
