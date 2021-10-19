@@ -2564,7 +2564,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             };
                             templateObject.record.set(record);
 
-                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName;
+                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName|| defaultDept;
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
                             $('#sltDept').val(getDepartmentVal);
@@ -2682,7 +2682,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             };
                             templateObject.record.set(record);
 
-                            let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                            let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                             //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                             $('#edtSupplierName').val(data.fields.ClientName);
                             $('#sltDept').val(getDepartmentVal);
@@ -2800,7 +2800,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     };
                     templateObject.record.set(record);
 
-                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     $('#sltDept').val(getDepartmentVal);
@@ -2924,7 +2924,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
 
-                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         $('#sltDept').val(getDepartmentVal);
@@ -3045,7 +3045,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             };
                             templateObject.record.set(record);
 
-                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName;
+                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName|| defaultDept;
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
                             $('#sltDept').val(getDepartmentVal);
@@ -3164,7 +3164,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     };
                     templateObject.record.set(record);
 
-                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     $('#sltDept').val(getDepartmentVal);
@@ -3287,7 +3287,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                         };
                         templateObject.record.set(record);
-                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         $('#sltDept').val(getDepartmentVal);
@@ -3405,7 +3405,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             };
                             templateObject.record.set(record);
 
-                            let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                            let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
                             $('#sltDept').val(getDepartmentVal);
@@ -3521,7 +3521,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     templateObject.record.set(record);
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
-                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                     $('#sltDept').val(getDepartmentVal);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     $('#edtBankAccountName').val(record.bankAccount);
@@ -4280,7 +4280,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
 
-                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         $('#sltDept').val(getDepartmentVal);
@@ -4400,7 +4400,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
-                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                         $('#sltDept').val(getDepartmentVal);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
@@ -4519,7 +4519,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
-                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                         $('#sltDept').val(getDepartmentVal);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
@@ -4638,7 +4638,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     };
                     templateObject.record.set(record);
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
-                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
                     $('#sltDept').val(getDepartmentVal);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
