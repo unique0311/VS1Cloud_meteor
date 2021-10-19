@@ -219,7 +219,7 @@ Template.new_salesorder.onRendered(() => {
                         //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
 
-                    if (FlowRouter.current().queryParams.id) {
+                    if (FlowRouter.current().queryParams.id || FlowRouter.current().queryParams.copyquid) {
 
                     } else {
                         setTimeout(function() {
@@ -265,7 +265,7 @@ Template.new_salesorder.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (FlowRouter.current().queryParams.id) {
+                if (FlowRouter.current().queryParams.id || FlowRouter.current().queryParams.copyquid) {
 
                 } else {
                     setTimeout(function() {
@@ -310,7 +310,7 @@ Template.new_salesorder.onRendered(() => {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
 
-                if (FlowRouter.current().queryParams.id) {
+                if (FlowRouter.current().queryParams.id || FlowRouter.current().queryParams.copyquid) {
 
                 } else {
                     setTimeout(function() {
@@ -3122,7 +3122,7 @@ Template.new_salesorder.onRendered(() => {
                         termsname: useData[i].TermsName || ' ',
                     };
 
-                    
+
                     if(useData[i].isSalesdefault == true){
                         salesDefaultTerms = useData[i].TermsName || ' ';
                     }

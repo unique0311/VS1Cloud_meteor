@@ -134,6 +134,15 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
 
+  getAllEmployeesDataVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[EmployeeName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TEmployee, options);
+  }
+
   getAllAccountDataVS1ByName(dataSearchName) {
     let options = '';
        options = {
@@ -246,6 +255,25 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
   getAllEmployees(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+        ListType: "Detail",
+        select: '[Active]=true'
+       };
+    }else{
+      options = {
+       orderby:'"ClientID desc"',
+       ListType: "Detail",
+       select: '[Active]=true',
+       //LimitCount:'"'+limitcount+'"',
+       //LimitFrom:'"'+limitfrom+'"'
+      };
+    }
+    return this.getList(this.ERPObjects.TEmployee, options);
+  }
+
+  getAllEmployeesDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
        options = {
