@@ -302,6 +302,9 @@ Template.vs1shipping.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnRefreshShipping' type='button' id='btnRefreshStockAdjustment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipping_filter");
+                            }
 
                         }).on('page', function() {
                             setTimeout(function() {
@@ -559,7 +562,7 @@ Template.vs1shipping.onRendered(function() {
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
-
+                            $("<button class='btn btn-primary btnRefreshShipping' type='button' id='btnRefreshStockAdjustment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipping_filter");
                         }
 
                     }).on('page', function() {
@@ -794,6 +797,9 @@ Template.vs1shipping.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                        $("<button class='btn btn-primary btnRefreshShipping' type='button' id='btnRefreshStockAdjustment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipping_filter");
+                        }
 
                     }).on('page', function() {
                         setTimeout(function() {
@@ -1230,6 +1236,19 @@ Template.vs1shipping.events({
             }
         });
 
+    },
+    'keyup #tblShipping_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshShipping").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshShipping").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshShipping").trigger("click");
+          }
+        },
+    'click .btnRefreshShipping':function(event){
+        $(".btnRefresh").trigger("click");
     },
     'click .btnOpenSettings': function(event) {
         let templateObject = Template.instance();

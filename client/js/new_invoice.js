@@ -9871,14 +9871,14 @@ Template.new_invoice.events({
                 salesService.saveInvoiceEx(objDetails).then(function(objDetails) {
                     var customerID = $('#edtCustomerEmail').attr('customerid');
                     if (customerID !== " ") {
-                        let customerEmaildatatablerecords = {
+                        let customerEmailData = {
                             type: "TCustomer",
                             fields: {
                                 ID: customerID,
                                 Email: customerEmail
                             }
                         }
-                        salesService.saveCustomerEmail(customerEmailData).then(function(customerEmailData) {});
+                        // salesService.saveCustomerEmail(customerEmailData).then(function(customerEmailData) {});
                     };
                     let linesave = objDetails.fields.ID;
                     var getcurrentCloudDetails = CloudUser.findOne({

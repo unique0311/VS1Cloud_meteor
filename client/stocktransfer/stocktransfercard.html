@@ -1,5 +1,5 @@
 <template name="stocktransfercard">
-    <div style="margin-top: -24px;">
+    <div id="form" style="margin-top: -24px;">
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
@@ -91,6 +91,10 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-12 col-md-6 col-lg-2 colProcessed" id="colProcessed" style="display: none;">
+                <h3 style="margin-left: 0px; margin-top: 50px; color: #e02d1b; font-weight: 600;">Processed</h3>
+            </div>
         </div>
         <div class="row" style="background-color: #ededed; padding: 8px 32px 0px 32px;">
             <div class="col-12 col-lg-3">
@@ -128,7 +132,7 @@
                     <div class="col-6 col-lg-6">
                         <div class="form-group">
                           <label>Transfer No</label>
-                          <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="">
+                          <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
                             <!-- <label>Department</label> -->
                             <!-- <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                             </select> -->
@@ -256,7 +260,7 @@
                                 <button class="btn btn-danger float-left btnDeleteLine" type="button">
                                     <i class="fa fa-close" style="margin-right: 5px;"></i>Delete Line
                                 </button>
-                                <button class="btn btn-danger float-right btnDeleteInvoice" type="button">
+                                <button class="btn btn-danger float-right btnDeleteStock" type="button">
                                     <i class="fa fa-close" style="margin-right: 5px;"></i>Delete Transfer
                                 </button>
                             </div>
@@ -269,6 +273,7 @@
                         <tr class="dnd-moved">
                             <th style="display:none "></th>
                             <th class="th colProduct" style="width: 25%;">Product</th>
+                            <th class="th colProductBarCode" style="width: 200px;">Product Barcode</th>
                             <th class="th colDescription">Description</th>
                             <th class="th colDepartment" style="width: 200px;">Transfer To</th>
                             <th class="th colOrdered" style="width: 1%;">Available</th>
@@ -286,10 +291,11 @@
                             <td class="hiddenColumn lineID" id="lineID">{{item.pqa}}</td>
                             <!-- <td contenteditable="true" class="colProduct ProdName" id="ProdName">{{item.item}}</td> -->
                             <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="{{item.item}}" ></td>
+                            <td contenteditable="true" class="lineProductBarCode colProductBarCode">{{item.productbarcode}}</td>
                             <td contenteditable="true" class="colDescription lineDescription">{{item.description}}</td>
                             <!-- <td contenteditable="true" class="colDepartment">{{item.department}}</td> -->
                             <td contenteditable="false" class="colDepartment"><input class="es-input highlightSelect lineDepartment" type="search" value="{{item.department}}" ></td>
-                            <td><input class="lineOrdered colOrdered highlightInput" id="Ordered" type="number" value="{{item.qtyordered}}"></td>
+                            <td><input class="lineOrdered colOrdered highlightInput" id="Ordered" type="number" value="{{item.qtyordered}}" readonly></td>
                             <!-- <td class="UOMQtyShipped" id="UOMQtyShipped">{{item.qtyshipped}}</td> -->
                             <td><input class="lineUOMQtyShipped UOMQtyShipped highlightInput" id="UOMQtyShipped" type="number" value="{{item.qtyshipped}}"></td>
                             <td class="hiddenColumn ID" id="ID">{{item.id}}</td>

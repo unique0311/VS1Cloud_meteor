@@ -698,6 +698,19 @@ Template.journalentrylist.events({
     }
     });
   },
+  'keyup #tblJournalList_filter input': function (event) {
+        if($(event.target).val() != ''){
+          $(".btnRefreshJournalEntry").addClass('btnSearchAlert');
+        }else{
+          $(".btnRefreshJournalEntry").removeClass('btnSearchAlert');
+        }
+        if (event.keyCode == 13) {
+           $(".btnRefreshJournalEntry").trigger("click");
+        }
+      },
+  'click .btnRefreshJournalEntry':function(event){
+      $(".btnRefresh").trigger("click");
+  },
   'click .resetTable' : function(event){
     var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
     if(getcurrentCloudDetails){

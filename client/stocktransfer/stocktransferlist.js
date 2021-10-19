@@ -82,7 +82,7 @@ Template.stocktransferlist.onRendered(function() {
                             custfield2: '',
                             transferdept: data.tstocktransferentry[i].fields.TransferFromClassName || '',
                             notes: data.tstocktransferentry[i].fields.Notes || '',
-                            processed: data.tstocktransferentry[i].fields.IsProcessed
+                            processed: data.tstocktransferentry[i].fields.Processed
                         };
                         dataTableList.push(dataList);
                     }
@@ -277,7 +277,7 @@ Template.stocktransferlist.onRendered(function() {
                         custfield2: '',
                         transferdept: useData[i].fields.TransferFromClassName || '',
                         notes: useData[i].fields.Notes || '',
-                        processed: useData[i].fields.IsProcessed
+                        processed: useData[i].fields.Processed
                     };
                     dataTableList.push(dataList);
                 }
@@ -561,7 +561,7 @@ Template.stocktransferlist.onRendered(function() {
                         custfield2: '',
                         transferdept: data.tstocktransferentry[i].fields.TransferFromClassName || '',
                         notes: data.tstocktransferentry[i].fields.Notes || '',
-                        processed: data.tstocktransferentry[i].fields.IsProcessed,
+                        processed: data.tstocktransferentry[i].fields.Processed,
                     };
                     dataTableList.push(dataList);
                 }

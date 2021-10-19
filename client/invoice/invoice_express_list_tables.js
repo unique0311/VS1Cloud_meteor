@@ -801,6 +801,19 @@ Template.invoicelist.events({
     'click #btnNewInvoice':function(event){
         FlowRouter.go('/invoicecard');
     },
+    'keyup #tblInvoicelist_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshInvoiceList").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshInvoiceList").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshInvoiceList").trigger("click");
+          }
+        },
+      'click .btnRefreshInvoiceList':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click #btnInvoiceBOList':function(event){
         FlowRouter.go('/invoicelistBO');
     },

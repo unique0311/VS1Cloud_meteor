@@ -33,6 +33,8 @@ Template.stocktransfercard.onCreated(function(){
     templateObject.record = new ReactiveVar({});
     templateObject.stocktransferrecord = new ReactiveVar({});
     templateObject.shipviarecords = new ReactiveVar();
+
+    templateObject.productquantityrecord = new ReactiveVar([]);
 });
 
 Template.stocktransfercard.onRendered(function() {
@@ -41,6 +43,7 @@ var url = window.location.href;
 var getsale_id = url.split('?id=');
 var salesID = FlowRouter.current().queryParams.id;
 let clientsService = new PurchaseBoardService();
+let stockTransferService = new StockTransferService();
 $('.fullScreenSpin').css('display','inline-block');
 const templateObject = Template.instance();
 let printDeliveryDocket = Session.get('CloudPrintDeliveryDocket');
@@ -69,8 +72,8 @@ setTimeout(function () {
 templateObject.getAllStocktransfer = function() {
     clientsService.getAllStockTransferEntry1().then(function(data) {
         let newTransferID = 1;
-        if(data.tcheque){
-          if(data.tcheque.length > 0){
+        if(data.tstocktransferentry){
+          if(data.tstocktransferentry.length > 0){
               lastTransfer = data.tstocktransferentry[data.tstocktransferentry.length - 1]
               newTransferID = parseInt(lastTransfer.Id) + 1;
           } else{
@@ -85,12 +88,456 @@ templateObject.getAllStocktransfer = function() {
     });
 }
 
+stockTransferService.getProductClassQuantitys().then(function (dataProductQty) {
+    templateObject.productquantityrecord.set(dataProductQty);
+});
+templateObject.getProductQty = function (id, productname) {
+    let totalAvailQty = 0;
+    let totalInStockQty = 0;
+    let deptName = $('#sltDepartment').val()||defaultDept;
+    let dataValue = templateObject.productquantityrecord.get();
+    if (dataValue) {
+        for (let i = 0; i < dataValue.tproductclassquantity.length; i++) {
+            let dataObj = {};
+
+            let prodQtyName = dataValue.tproductclassquantity[i].ProductName;
+            let deptQtyName = dataValue.tproductclassquantity[i].DepartmentName;
+            if (productname == prodQtyName && deptQtyName == deptName) {
+                //if(productname == prodQtyName){
+                let availQty = dataValue.tproductclassquantity[i].AvailableQty;
+                let inStockQty = dataValue.tproductclassquantity[i].InStockQty;
+
+                totalAvailQty += parseFloat(availQty);
+                totalInStockQty += parseFloat(inStockQty);
+            }
+        }
+
+        $('#' + id + " .colOrdered").val(totalAvailQty);
+
+    } else {
+        stockTransferService.getProductClassQuantitys().then(function (data) {
+            for (let i = 0; i < data.tproductclassquantity.length; i++) {
+                let dataObj = {};
+
+                let prodQtyName = data.tproductclassquantity[i].ProductName;
+                let deptQtyName = data.tproductclassquantity[i].DepartmentName;
+                if (productname == prodQtyName && deptQtyName == deptName) {
+                    //if(productname == prodQtyName){
+                    let availQty = data.tproductclassquantity[i].AvailableQty;
+                    let inStockQty = data.tproductclassquantity[i].InStockQty;
+
+                    totalAvailQty += parseFloat(availQty);
+                    totalInStockQty += parseFloat(inStockQty);
+                }
+            }
+
+            $('#' + id + " .colOrdered").val(totalAvailQty);
+
+        });
+    }
+
+};
+
 var url = FlowRouter.current().path;
 if (url.indexOf('?id=') > 0) {
     var getso_id = url.split('?id=');
-    var currentBill = getso_id[getso_id.length - 1];
+    var currentStockTransfer = getso_id[getso_id.length - 1];
     if (getso_id[1]) {
-        currentBill = parseInt(currentBill);
+        currentStockTransfer = parseInt(currentStockTransfer);
+
+        templateObject.getStockTransferData = function () {
+            //getOneQuotedata
+
+            getVS1Data('TStockTransferEntry').then(function (dataObject) {
+                if (dataObject.length == 0) {
+                  stockTransferService.getOneStockTransferData(currentStockTransfer).then(function (data) {
+                      $('.fullScreenSpin').css('display', 'none');
+                      let lineItems = [];
+                      let lineItemObj = {};
+                      let lineItemsTable = [];
+                      let lineItemTableObj = {};
+                      // console.log(data);
+                      if (data.fields.Lines.length) {
+                          for (let i = 0; i < data.fields.Lines.length; i++) {
+                              lineItemObj = {
+                                lineID: Random.id(),
+                                id: data.fields.Lines[i].fields.ID || '',
+                                pqa:'',
+                                serialnumber:data.fields.Lines[i].fields.SerialNumber||'',
+                                productname: data.fields.Lines[i].fields.ProductName || '',
+                                item: data.fields.Lines[i].fields.ProductName || '',
+                                productid: data.fields.Lines[i].fields.ProductID || '',
+                                productbarcode: data.fields.Lines[i].fields.PartBarcode || '',
+                                description: data.fields.Lines[i].fields.ProductDesc || '',
+                                department:  data.fields.Lines[0].fields.ClassNameTo|| defaultDept,
+                                qtyordered: data.fields.Lines[i].fields.TransferQty || 0,
+                                qtyshipped: data.fields.Lines[i].fields.AvailableQty || 0,
+                                qtybo: data.fields.Lines[i].fields.BOQty || 0
+
+                              };
+
+                              lineItems.push(lineItemObj);
+                          }
+                      }
+
+                      let record = {
+                        id: data.fields.ID,
+                        lid: 'Edit Stock Transfer' + ' ' + data.fields.ID,
+                        LineItems: lineItems,
+                        accountname: data.fields.AccountName,
+                        department: data.fields.TransferFromClassName || defaultDept,
+                        notes: data.fields.Notes,
+                        transdate: data.fields.DateTransferred ? moment(data.fields.DateTransferred).format('DD/MM/YYYY') : ""
+                      };
+
+                      let getDepartmentVal = data.fields.Lines[0].fields.TransferFromClassName || defaultDept;
+
+                      setTimeout(function() {
+                            $('#sltDepartment').val(defaultDept);
+                            $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
+                            $('#sltBankAccountName').val(data.fields.AccountName);
+                            $('#shipvia').val(data.fields.Shipping);
+                        }, 200);
+
+                      if (data.fields.Processed == true) {
+                        $('.colProcessed').css('display', 'block');
+                          $("#form :input").prop("disabled", true);
+                          $(".btnDeleteStock").prop("disabled", false);
+                          $(".btnDeleteStockTransfer").prop("disabled", false);
+                          $(".printConfirm").prop("disabled", false);
+                          $(".btnBack").prop("disabled", false);
+                          $(".btnDeleteProduct").prop("disabled", false);
+                      }
+
+                      templateObject.stocktransferrecord.set(record);
+
+                      if (templateObject.stocktransferrecord.get()) {
+
+
+                          Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStocktransfer', function (error, result) {
+                              if (error) {
+
+                                  //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                              } else {
+                                  if (result) {
+                                      for (let i = 0; i < result.customFields.length; i++) {
+                                          let customcolumn = result.customFields;
+                                          let columData = customcolumn[i].label;
+                                          let columHeaderUpdate = customcolumn[i].thclass;
+                                          let hiddenColumn = customcolumn[i].hidden;
+                                          let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                          let columnWidth = customcolumn[i].width;
+
+                                          $("" + columHeaderUpdate + "").html(columData);
+                                          if (columnWidth != 0) {
+                                              $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                          }
+
+                                          if (hiddenColumn == true) {
+
+                                              //$("."+columnClass+"").css('display','none');
+                                              $("." + columnClass + "").addClass('hiddenColumn');
+                                              $("." + columnClass + "").removeClass('showColumn');
+                                          } else if (hiddenColumn == false) {
+                                              $("." + columnClass + "").removeClass('hiddenColumn');
+                                              $("." + columnClass + "").addClass('showColumn');
+                                              //$("."+columnClass+"").css('display','table-cell');
+                                              //$("."+columnClass+"").css('padding','.75rem');
+                                              //$("."+columnClass+"").css('vertical-align','top');
+                                          }
+
+                                      }
+                                  }
+
+                              }
+                          });
+                      }
+                  }).catch(function (err) {
+                    // console.log(err);
+                      swal({
+                          title: 'Oooops...',
+                          text: err,
+                          type: 'error',
+                          showCancelButton: false,
+                          confirmButtonText: 'Try Again'
+                      }).then((result) => {
+                          if (result.value) {
+                              Meteor._reload.reload();
+                          } else if (result.dismiss === 'cancel') {}
+                      });
+                      $('.fullScreenSpin').css('display', 'none');
+                      // Meteor._reload.reload();
+                  });
+                } else {
+                    let data = JSON.parse(dataObject[0].data);
+                    let useData = data.tstocktransferentry;
+
+                    var added = false;
+                    for (let d = 0; d < useData.length; d++) {
+                        if (parseInt(useData[d].fields.ID) === currentStockTransfer) {
+                            added = true;
+                            $('.fullScreenSpin').css('display', 'none');
+                            let lineItems = [];
+                            let lineItemObj = {};
+                            let lineItemsTable = [];
+                            let lineItemTableObj = {};
+
+                            if (useData[d].fields.Lines.length) {
+                                for (let i = 0; i < useData[d].fields.Lines.length; i++) {
+
+                                    lineItemObj = {
+                                        lineID: Random.id(),
+                                        id: useData[d].fields.Lines[i].fields.ID || '',
+                                        pqa:'',
+                                        serialnumber:useData[d].fields.Lines[i].fields.SerialNumber||'',
+                                        productname: useData[d].fields.Lines[i].fields.ProductName || '',
+                                        item: useData[d].fields.Lines[i].fields.ProductName || '',
+                                        productid: useData[d].fields.Lines[i].fields.ProductID || '',
+                                        productbarcode: useData[d].fields.Lines[i].fields.PartBarcode || '',
+                                        description: useData[d].fields.Lines[i].fields.ProductDesc || '',
+                                        department:  useData[d].fields.Lines[0].fields.ClassNameTo|| defaultDept,
+                                        qtyordered: useData[d].fields.Lines[i].fields.TransferQty || 0,
+                                        qtyshipped: useData[d].fields.Lines[i].fields.AvailableQty || 0,
+                                        qtybo: useData[d].fields.Lines[i].fields.BOQty || 0
+
+                                    };
+
+                                    lineItems.push(lineItemObj);
+                                }
+                            } else {
+                              lineItemObj = {
+                                  lineID: Random.id(),
+                                  id: useData[d].fields.Lines.fields.ID || '',
+                                  pqa:'',
+                                  serialnumber:useData[d].fields.Lines.fields.SerialNumber||'',
+                                  productname: useData[d].fields.Lines.fields.ProductName || '',
+                                  item: useData[d].fields.Lines.fields.ProductName || '',
+                                  productid: useData[d].fields.Lines.fields.ProductID || '',
+                                  productbarcode: useData[d].fields.Lines.fields.PartBarcode || '',
+                                  description: useData[d].fields.Lines.fields.ProductDesc || '',
+                                  department:  useData[d].fields.Lines.fields.ClassNameTo|| defaultDept,
+                                  qtyordered: useData[d].fields.Lines.fields.TransferQty || 0,
+                                  qtyshipped: useData[d].fields.Lines.fields.AvailableQty || 0,
+                                  qtybo: useData[d].fields.Lines.fields.BOQty || 0
+
+                              };
+                                lineItems.push(lineItemObj);
+                            }
+
+                            let record = {
+                                id: useData[d].fields.ID,
+                                lid: 'Edit Stock Transfer' + ' ' + useData[d].fields.ID,
+                                LineItems: lineItems,
+                                accountname: useData[d].fields.AccountName,
+                                department: useData[d].fields.TransferFromClassName || defaultDept,
+                                notes: useData[d].fields.Notes,
+                                transdate: useData[d].fields.DateTransferred ? moment(useData[d].fields.DateTransferred).format('DD/MM/YYYY') : ""
+                            };
+
+                            let getDepartmentVal = useData[d].fields.Lines[0].fields.TransferFromClassName || defaultDept;
+                            $('.shippingHeader').html('Edit Stock Transfer #' + useData[d].fields.ID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a>');
+                            setTimeout(function() {
+                                $('#sltDepartment').val(defaultDept);
+                                $('#edtCustomerName').val(useData[d].fields.Lines[0].fields.CustomerName);
+                                $('#sltBankAccountName').val(useData[d].fields.AccountName);
+                                $('#shipvia').val(useData[d].fields.Shipping);
+                            }, 200);
+
+
+
+                            //
+                            // $("#form :input").prop("disabled", true);
+                            // $(".btnDeleteStock").prop("disabled", false);
+                            // $(".btnDeleteStockAdjust").prop("disabled", false);
+                            // $(".printConfirm").prop("disabled", false);
+                            // $(".btnBack").prop("disabled", false);
+
+                            if (useData[d].fields.Processed == true) {
+                                $('.colProcessed').css('display', 'block');
+                                $("#form :input").prop("disabled", true);
+                                $(".btnDeleteStock").prop("disabled", false);
+                                $(".btnDeleteStockTransfer").prop("disabled", false);
+                                $(".printConfirm").prop("disabled", false);
+                                $(".btnBack").prop("disabled", false);
+                                $(".btnDeleteProduct").prop("disabled", false);
+                            }
+
+                            templateObject.stocktransferrecord.set(record);
+                            $(".btnDeleteLine").prop("disabled", false);
+                            $(".btnDeleteProduct").prop("disabled", false);
+                            $(".close").prop("disabled", false);
+                            if (templateObject.stocktransferrecord.get()) {
+                                Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStocktransfer', function (error, result) {
+                                    if (error) {}
+                                    else {
+                                        if (result) {
+                                            for (let i = 0; i < result.customFields.length; i++) {
+                                                let customcolumn = result.customFields;
+                                                let columData = customcolumn[i].label;
+                                                let columHeaderUpdate = customcolumn[i].thclass;
+                                                let hiddenColumn = customcolumn[i].hidden;
+                                                let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                                let columnWidth = customcolumn[i].width;
+
+                                                $("" + columHeaderUpdate + "").html(columData);
+                                                if (columnWidth != 0) {
+                                                    $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                                }
+
+                                                if (hiddenColumn == true) {
+
+                                                    //$("."+columnClass+"").css('display','none');
+                                                    $("." + columnClass + "").addClass('hiddenColumn');
+                                                    $("." + columnClass + "").removeClass('showColumn');
+                                                } else if (hiddenColumn == false) {
+                                                    $("." + columnClass + "").removeClass('hiddenColumn');
+                                                    $("." + columnClass + "").addClass('showColumn');
+                                                    //$("."+columnClass+"").css('display','table-cell');
+                                                    //$("."+columnClass+"").css('padding','.75rem');
+                                                    //$("."+columnClass+"").css('vertical-align','top');
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+                                });
+                            }
+                            setTimeout(function () {
+                                $(".btnRemove").prop("disabled", true);
+                            }, 1000);
+
+                        }
+
+                    }
+                    if (!added) {}
+                    //here
+                }
+            }).catch(function (err) {
+
+                stockTransferService.getOneStockTransferData(currentStockTransfer).then(function (data) {
+                    $('.fullScreenSpin').css('display', 'none');
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    let lineItemsTable = [];
+                    let lineItemTableObj = {};
+                    // console.log(data);
+                    if (data.fields.Lines.length) {
+                        for (let i = 0; i < data.fields.Lines.length; i++) {
+                            lineItemObj = {
+                              lineID: Random.id(),
+                              id: data.fields.Lines[i].fields.ID || '',
+                              pqa:'',
+                              serialnumber:data.fields.Lines[i].fields.SerialNumber||'',
+                              productname: data.fields.Lines[i].fields.ProductName || '',
+                              item: data.fields.Lines[i].fields.ProductName || '',
+                              productid: data.fields.Lines[i].fields.ProductID || '',
+                              productbarcode: data.fields.Lines[i].fields.PartBarcode || '',
+                              description: data.fields.Lines[i].fields.ProductDesc || '',
+                              department:  data.fields.Lines[0].fields.ClassNameTo|| defaultDept,
+                              qtyordered: data.fields.Lines[i].fields.TransferQty || 0,
+                              qtyshipped: data.fields.Lines[i].fields.AvailableQty || 0,
+                              qtybo: data.fields.Lines[i].fields.BOQty || 0
+
+                            };
+
+                            lineItems.push(lineItemObj);
+                        }
+                    }
+
+                    let record = {
+                      id: data.fields.ID,
+                      lid: 'Edit Stock Transfer' + ' ' + data.fields.ID,
+                      LineItems: lineItems,
+                      accountname: data.fields.AccountName,
+                      department: data.fields.TransferFromClassName || defaultDept,
+                      notes: data.fields.Notes,
+                      transdate: data.fields.DateTransferred ? moment(data.fields.DateTransferred).format('DD/MM/YYYY') : ""
+                    };
+
+                    let getDepartmentVal = data.fields.Lines[0].fields.TransferFromClassName || defaultDept;
+
+                    setTimeout(function() {
+                          $('#sltDepartment').val(defaultDept);
+                          $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
+                          $('#sltBankAccountName').val(data.fields.AccountName);
+                          $('#shipvia').val(data.fields.Shipping);
+                      }, 200);
+
+                    if (data.fields.Processed == true) {
+                      $('.colProcessed').css('display', 'block');
+                        $("#form :input").prop("disabled", true);
+                        $(".btnDeleteStock").prop("disabled", false);
+                        $(".btnDeleteStockTransfer").prop("disabled", false);
+                        $(".printConfirm").prop("disabled", false);
+                        $(".btnBack").prop("disabled", false);
+                        $(".btnDeleteProduct").prop("disabled", false);
+                    }
+
+                    templateObject.stocktransferrecord.set(record);
+
+                    if (templateObject.stocktransferrecord.get()) {
+
+
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStocktransfer', function (error, result) {
+                            if (error) {
+
+                                //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                            } else {
+                                if (result) {
+                                    for (let i = 0; i < result.customFields.length; i++) {
+                                        let customcolumn = result.customFields;
+                                        let columData = customcolumn[i].label;
+                                        let columHeaderUpdate = customcolumn[i].thclass;
+                                        let hiddenColumn = customcolumn[i].hidden;
+                                        let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                        let columnWidth = customcolumn[i].width;
+
+                                        $("" + columHeaderUpdate + "").html(columData);
+                                        if (columnWidth != 0) {
+                                            $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                        }
+
+                                        if (hiddenColumn == true) {
+
+                                            //$("."+columnClass+"").css('display','none');
+                                            $("." + columnClass + "").addClass('hiddenColumn');
+                                            $("." + columnClass + "").removeClass('showColumn');
+                                        } else if (hiddenColumn == false) {
+                                            $("." + columnClass + "").removeClass('hiddenColumn');
+                                            $("." + columnClass + "").addClass('showColumn');
+                                            //$("."+columnClass+"").css('display','table-cell');
+                                            //$("."+columnClass+"").css('padding','.75rem');
+                                            //$("."+columnClass+"").css('vertical-align','top');
+                                        }
+
+                                    }
+                                }
+
+                            }
+                        });
+                    }
+                }).catch(function (err) {
+                  // console.log(err);
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                    // Meteor._reload.reload();
+                });
+            });
+
+        };
+
+        templateObject.getStockTransferData();
     $('.fullScreenSpin').css('display', 'none');
     }
 
@@ -313,8 +760,17 @@ $(document).on("click", "#departmentList tbody tr", function(e) {
   let departmentData = $(this).find(".colDeptName").text() || '';
   if (selectLineID != '') {
     $('#' + selectLineID + " .lineDepartment").val(departmentData);
+
   }else{
     $('#sltDepartment').val(departmentData);
+
+    $tblrows.each(function (index) {
+        var $tblrow = $(this);
+        let productname = $tblrow.find(".lineProductName").val() || '';
+        let selectLineIDRow = $tblrow.closest('tr').attr('id');
+        templateObject.getProductQty(selectLineIDRow, productname);
+
+    });
   }
   $('#departmentModal').modal('toggle');
 
@@ -1151,7 +1607,7 @@ $('#edtCustomerName').editableSelect()
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblInvoiceLine tbody tr");
-
+        let transferDepartment = $('#sltDepartment').val() || defaultDept;
 
         if (selectLineID) {
             let lineProductName = table.find(".productName").text();
@@ -1159,13 +1615,15 @@ $('#edtCustomerName').editableSelect()
             let lineUnitPrice = table.find(".salePrice").text();
             let lineExtraSellPrice = JSON.parse(table.find(".colExtraSellPrice").text()) || null;
             let lineAvailQty = table.find(".prdqty").text()||0;
+            let lineBarcode = table.find(".colBarcode").text();
 
             $('#' + selectLineID + " .lineProductName").val(lineProductName);
             // $('#' + selectLineID + " .lineProductName").attr("prodid", table.find(".colProuctPOPID").text());
             $('#' + selectLineID + " .colDescription").text(lineProductDesc);
+            $('#' + selectLineID + " .lineProductBarCode").text(lineBarcode);
             $('#' + selectLineID + " .colOrdered").val(lineAvailQty);
             $('#' + selectLineID + " .lineUOMQtyShipped").val(0);
-
+            templateObject.getProductQty(selectLineID, lineProductName);
             $('#productListModal').modal('toggle');
 
 
@@ -1606,9 +2064,13 @@ const templateObject = Template.instance();
 'click .btnProcess': function (event) {
     $('#html-2-pdfwrapper').css('display', 'block');
     let templateObject = Template.instance();
-    let accountname = $('#edtCustomerName');
+    let customername = $('#edtCustomerName').val()||'';
+    let transferFrom = $('#sltDepartment').val()||'';
+    let shipVia = $('#shipvia').val()||'';
+    let conNote = $('#txtshipconnote').val()||'';
+    let toAccount = $('#sltBankAccountName').val()||'';
     let stockTransferService = new StockTransferService();
-    if (accountname.val() === '') {
+    if (customername === '') {
         swal('Customer has not been selected!', '', 'warning');
         e.preventDefault();
     }  else {
@@ -1623,32 +2085,35 @@ const templateObject = Template.instance();
             let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
             let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
             let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
-            let tddescription = $('#' + lineID + " .lineDescription").html();
-            let tdinstockqty = $('#' + lineID + " .lineInStockQty").text();
-            let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
-            let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
+            let tddescription = $('#' + lineID + " .lineDescription").html()||'';
+            // let tdinstockqty = $('#' + lineID + " .lineInStockQty").text();
+            // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
+            // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
             let tdDepartment = $('#' + lineID + " .lineDepartment").val();
 
+            let tdavailqty = $('#' + lineID + " .lineOrdere").val();
+            let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
             if (tdproduct != "") {
 
                 lineItemObjForm = {
-                    type: "TSAELinesFlat",
+                    type: "TSTELinesFlat",
                     fields: {
                         ProductName: tdproduct || '',
-                        //AccountName: accountname.val() || '',
+                        AccountName: 'Inventory Asset',
                         //ProductID: tdproductID || '',
-                        Cost: parseFloat(tdproductCost.replace(/[^0-9.-]+/g, "")) || 0,
-                        AdjustQty: parseFloat(tdadjustqty) || 0,
-                        AdjustUOMQty: parseFloat(tdadjustqty) || 0,
-                        Qty: parseFloat(tdadjustqty) || 0,
-                        UOMQty: parseFloat(tdadjustqty) || 0,
-                        FinalQty: parseFloat(tdfinalqty) || 0,
-                        FinalUOMQty: parseFloat(tdfinalqty) || 0,
-                        InStockUOMQty: parseFloat(tdinstockqty) || 0,
-                        DeptName: tdDepartment || defaultDept,
-                        ProductPrintName: tdproduct || '',
+                        // Cost: parseFloat(tdproductCost.replace(/[^0-9.-]+/g, "")) || 0,
+                        // AvailableQty: parseFloat(tdavailqty) || 0,
+                        TransferQty: parseFloat(tdtransferqty) || 0,
+                        // Qty: parseFloat(tdadjustqty) || 0,
+                        // UOMQty: parseFloat(tdadjustqty) || 0,
+                        // FinalQty: parseFloat(tdfinalqty) || 0,
+                        // FinalUOMQty: parseFloat(tdfinalqty) || 0,
+                        // InStockUOMQty: parseFloat(tdinstockqty) || 0,
+                        CustomerName: customername || '',
+                        ClassNameTo: tdDepartment || defaultDept,
+                        // ProductPrintName: tdproduct || '',
                         PartBarcode: tdbarcode || '',
-                        Description: tddescription || ''
+                        //Description: tddescription || ''
 
                     }
                 };
@@ -1660,232 +2125,70 @@ const templateObject = Template.instance();
 
         let selectAccount = $('#sltAccountName').val();
 
-        let notes = $('#txaNotes').val();
-        var creationdateTime = new Date($("#dtCreationDate").datepicker("getDate"));
+        let notes = $('#shipcomments').val();
+        var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
         let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
-
         var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentStock = getso_id[getso_id.length - 1];
-        let uploadedItems = templateObject.uploadedFiles.get();
+        // let uploadedItems = templateObject.uploadedFiles.get();
         var objDetails = '';
-
         if (getso_id[1]) {
             currentStock = parseInt(currentStock);
             objDetails = {
-                type: "TStockadjustentry",
+                type: "TStockTransferEntry",
                 fields: {
                     ID: currentStock,
                     AccountName: selectAccount,
-                    AdjustmentDate: creationDate,
-                    AdjustmentOnInStock: true,
-                    AdjustType: "Gen",
-                    Approved: false,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
                     CreationDate: creationDate,
-                    Deleted: false,
-                    Employee: Session.get('mySessionEmployee'),
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
                     EnforceUOM: false,
                     //ISEmpty:false,
                     //IsStockTake:false,
                     Lines: splashLineArray,
                     DoProcessonSave: true,
-                    Notes: notes
+                    Notes: notes,
+                    // SalesRef: conNote,
+                    TransferFromClassName:transferFrom,
+                    Transfertype:"Gen",
+                    Shipping:shipVia
 
                 }
             };
         } else {
             objDetails = {
-                type: "TStockadjustentry",
+                type: "TStockTransferEntry",
                 fields: {
                     AccountName: selectAccount,
-                    AdjustmentDate: creationDate,
-                    AdjustmentOnInStock: true,
-                    AdjustType: "Gen",
-                    Approved: false,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
                     CreationDate: creationDate,
-                    Deleted: false,
-                    Employee: Session.get('mySessionEmployee'),
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
                     EnforceUOM: false,
                     //ISEmpty:false,
                     //IsStockTake:false,
                     Lines: splashLineArray,
                     DoProcessonSave: true,
-                    Notes: notes
+                    Notes: notes,
+                    // SalesRef: conNote,
+                    TransferFromClassName:transferFrom,
+                    Transfertype:"Gen",
+                    Shipping:shipVia
                 }
             };
         }
 
         stockTransferService.saveStockTransfer(objDetails).then(function (objDetails) {
-            // FlowRouter.go('/stockadjustmentoverview?success=true');
-            function generatePdfForMail(invoiceId) {
-                let file = "Invoice-" + invoiceId + ".pdf"
-                    return new Promise((resolve, reject) => {
-                    let templateObject = Template.instance();
-                    let completeTabRecord;
-                    let doc = new jsPDF('p', 'pt', 'a4');
-                    var source = document.getElementById('html-2-pdfwrapper');
-                    var opt = {
-                        margin: 0,
-                        filename: file,
-                        image: {
-                            type: 'jpeg',
-                            quality: 0.98
-                        },
-                        html2canvas: {
-                            scale: 2
-                        },
-                        jsPDF: {
-                            unit: 'in',
-                            format: 'a4',
-                            orientation: 'portrait'
-                        }
-                    }
-                    resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+            FlowRouter.go('/stocktransferlist?success=true');
 
-                });
-            }
-
-            async function addAttachment() {
-                let attachment = [];
-                let templateObject = Template.instance();
-
-                let invoiceId = objDetails.fields.ID;
-                let encodedPdf = await generatePdfForMail(invoiceId);
-                // var base64data = reader.result;
-                let base64data = encodedPdf.split(',')[1];
-                pdfObject = {
-                    filename: 'Stock Adjustment-' + invoiceId + '.pdf',
-                    content: base64data,
-                    encoding: 'base64'
-                };
-                attachment.push(pdfObject);
-                let erpInvoiceId = objDetails.fields.ID;
-
-                let mailFromName = Session.get('vs1companyName');
-                let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
-                //let customerEmailName = $('#edtCustomerName').val();
-                let checkEmailData = $('#edtCustomerEmail').val();
-                // let grandtotal = $('#grandTotal').html();
-                // let amountDueEmail = $('#totalBalanceDue').html();
-                // let emailDueDate = $("#dtDueDate").val();
-                // let customerBillingAddress = $('#txabillingAddress').val();
-                // let customerTerms = $('#sltTerms').val();
-
-                // let customerSubtotal = $('#subtotal_total').html();
-                // let customerTax = $('#subtotal_tax').html();
-                // let customerNett = $('#subtotal_nett').html();
-                // let customerTotal = $('#grandTotal').html();
-                let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
-                let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
-
-                var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
-                    '        <tr>' +
-                    '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
-                    '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
-                    '                    <table class="main">' +
-                    '                        <tr>' +
-                    '                            <td class="wrapper">' +
-                    '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                    '                                    <tr>' +
-                    '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
-                    '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                    <tr style="height: 16px;"></tr>' +
-                    '                                    <tr>' +
-                    '                                        <td>' +
-                    '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                    <tr style="height: 48px;"></tr>' +
-                    '                                    <tr>' +
-                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                    '                                            <p style="font-size: 18px;">Hi </p>' +
-                    '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Adjustment attached to this email.</p>' +
-                    '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks you</p>' +
-                    '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
-                    '                                    <tr>' +
-                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                    '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                    <tr>' +
-                    '                                        <td>' +
-                    '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
-                    '                                                <tbody>' +
-                    '                                                    <tr>' +
-                    '                                                        <td align="center">' +
-                    '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
-                    '                                                                <tbody>' +
-                    '                                                                    <tr>' +
-                    '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
-                    '                                                                    </tr>' +
-                    '                                                                </tbody>' +
-                    '                                                            </table>' +
-                    '                                                        </td>' +
-                    '                                                    </tr>' +
-                    '                                                </tbody>' +
-                    '                                            </table>' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                </table>' +
-                    '                            </td>' +
-                    '                        </tr>' +
-                    '                    </table>' +
-                    '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
-                    '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                    '                            <tr>' +
-                    '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                    '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
-                    '                                    <br>' +
-                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
-                    '                                </td>' +
-                    '                            </tr>' +
-                    '                        </table>' +
-                    '                    </div>' +
-                    '                </div>' +
-                    '            </td>' +
-                    '        </tr>' +
-                    '    </table>';
-
-                if (($('.chkEmailCopy').is(':checked'))) {
-                    $('#html-2-pdfwrapper').css('display', 'none');
-                    Meteor.call('sendEmail', {
-                        from: "" + mailFromName + " <" + mailFrom + ">",
-                        to: checkEmailData,
-                        subject: mailSubject,
-                        text: '',
-                        html: htmlmailBody,
-                        attachments: attachment
-                    }, function (error, result) {
-                        if (error && error.error === "error") {
-                            FlowRouter.go('/stockadjustmentoverview?success=true');
-
-                        } else {
-                            swal({
-                                title: 'SUCCESS',
-                                text: "Email Sent To Employee: " + checkEmailData + " ",
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.value) {
-                                    FlowRouter.go('/stockadjustmentoverview?success=true');
-                                } else if (result.dismiss === 'cancel') {}
-                            });
-
-                            $('.fullScreenSpin').css('display', 'none');
-                        }
-                    });
-
-                } else {
-                    FlowRouter.go('/stockadjustmentoverview?success=true');
-                };
-
-            }
-            addAttachment();
             $('.modal-backdrop').css('display', 'none');
 
         }).catch(function (err) {
@@ -1909,10 +2212,14 @@ const templateObject = Template.instance();
 'click .btnHold': function (event) {
     $('#html-2-pdfwrapper').css('display', 'block');
     let templateObject = Template.instance();
-    let accountname = $('#edtCustomerName');
+    let customername = $('#edtCustomerName').val()||'';
+    let transferFrom = $('#sltDepartment').val()||'';
+    let shipVia = $('#shipvia').val()||'';
+    let conNote = $('#txtshipconnote').val()||'';
+    let toAccount = $('#sltBankAccountName').val()||'';
     // let department = $('#sltDepartment').val();
     let stockTransferService = new StockTransferService();
-    if (accountname.val() === '') {
+    if (customername === '') {
         swal('Customer has not been selected!', '', 'warning');
         e.preventDefault();
     }  else {
@@ -1929,30 +2236,34 @@ const templateObject = Template.instance();
             let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
             let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
             let tddescription = $('#' + lineID + " .lineDescription").html()||'';
-            let tdinstockqty = $('#' + lineID + " .lineInStockQty").text();
-            let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
-            let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
+            // let tdinstockqty = $('#' + lineID + " .lineInStockQty").text();
+            // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
+            // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
             let tdDepartment = $('#' + lineID + " .lineDepartment").val();
+
+            let tdavailqty = $('#' + lineID + " .lineOrdere").val();
+            let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
             if (tdproduct != "") {
 
                 lineItemObjForm = {
-                    type: "TSAELinesFlat",
+                    type: "TSTELinesFlat",
                     fields: {
                         ProductName: tdproduct || '',
-                        //AccountName: accountname.val() || '',
+                        AccountName: 'Inventory Asset',
                         //ProductID: tdproductID || '',
-                        Cost: parseFloat(tdproductCost.replace(/[^0-9.-]+/g, "")) || 0,
-                        AdjustQty: parseFloat(tdadjustqty) || 0,
-                        AdjustUOMQty: parseFloat(tdadjustqty) || 0,
-                        Qty: parseFloat(tdadjustqty) || 0,
-                        UOMQty: parseFloat(tdadjustqty) || 0,
-                        FinalQty: parseFloat(tdfinalqty) || 0,
-                        FinalUOMQty: parseFloat(tdfinalqty) || 0,
-                        InStockUOMQty: parseFloat(tdinstockqty) || 0,
-                        DeptName: tdDepartment || defaultDept,
-                        ProductPrintName: tdproduct || '',
+                        // Cost: parseFloat(tdproductCost.replace(/[^0-9.-]+/g, "")) || 0,
+                        // AvailableQty: parseFloat(tdavailqty) || 0,
+                        TransferQty: parseFloat(tdtransferqty) || 0,
+                        // Qty: parseFloat(tdadjustqty) || 0,
+                        // UOMQty: parseFloat(tdadjustqty) || 0,
+                        // FinalQty: parseFloat(tdfinalqty) || 0,
+                        // FinalUOMQty: parseFloat(tdfinalqty) || 0,
+                        // InStockUOMQty: parseFloat(tdinstockqty) || 0,
+                        CustomerName: customername || '',
+                        ClassNameTo: tdDepartment || defaultDept,
+                        // ProductPrintName: tdproduct || '',
                         PartBarcode: tdbarcode || '',
-                        Description: tddescription || ''
+                        //Description: tddescription || ''
 
                     }
                 };
@@ -1964,229 +2275,69 @@ const templateObject = Template.instance();
 
         let selectAccount = $('#sltAccountName').val();
 
-        let notes = $('#txaNotes').val();
-        var creationdateTime = new Date($("#dtCreationDate").datepicker("getDate"));
+        let notes = $('#shipcomments').val();
+        var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
         let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
         var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentStock = getso_id[getso_id.length - 1];
-        let uploadedItems = templateObject.uploadedFiles.get();
+        // let uploadedItems = templateObject.uploadedFiles.get();
         var objDetails = '';
         if (getso_id[1]) {
             currentStock = parseInt(currentStock);
             objDetails = {
-                type: "TStockadjustentry",
+                type: "TStockTransferEntry",
                 fields: {
                     ID: currentStock,
                     AccountName: selectAccount,
-                    AdjustmentDate: creationDate,
-                    AdjustmentOnInStock: true,
-                    AdjustType: "Gen",
-                    Approved: false,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
                     CreationDate: creationDate,
-                    Deleted: false,
-                    Employee: Session.get('mySessionEmployee'),
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
                     EnforceUOM: false,
                     //ISEmpty:false,
                     //IsStockTake:false,
                     Lines: splashLineArray,
                     DoProcessonSave: false,
-                    Notes: notes
+                    Notes: notes,
+                    // SalesRef: conNote,
+                    TransferFromClassName:transferFrom,
+                    Transfertype:"Gen",
+                    Shipping:shipVia
 
                 }
             };
         } else {
             objDetails = {
-                type: "TStockadjustentry",
+                type: "TStockTransferEntry",
                 fields: {
                     AccountName: selectAccount,
-                    AdjustmentDate: creationDate,
-                    AdjustmentOnInStock: true,
-                    AdjustType: "Gen",
-                    Approved: false,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
                     CreationDate: creationDate,
-                    Deleted: false,
-                    Employee: Session.get('mySessionEmployee'),
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
                     EnforceUOM: false,
                     //ISEmpty:false,
                     //IsStockTake:false,
                     Lines: splashLineArray,
                     DoProcessonSave: false,
-                    Notes: notes
+                    Notes: notes,
+                    // SalesRef: conNote,
+                    TransferFromClassName:transferFrom,
+                    Transfertype:"Gen",
+                    Shipping:shipVia
                 }
             };
         }
 
         stockTransferService.saveStockTransfer(objDetails).then(function (objDetails) {
-            function generatePdfForMail(invoiceId) {
-                let file = "Invoice-" + invoiceId + ".pdf"
-                    return new Promise((resolve, reject) => {
-                    let templateObject = Template.instance();
-                    let completeTabRecord;
-                    let doc = new jsPDF('p', 'pt', 'a4');
-                    var source = document.getElementById('html-2-pdfwrapper');
-                    var opt = {
-                        margin: 0,
-                        filename: file,
-                        image: {
-                            type: 'jpeg',
-                            quality: 0.98
-                        },
-                        html2canvas: {
-                            scale: 2
-                        },
-                        jsPDF: {
-                            unit: 'in',
-                            format: 'a4',
-                            orientation: 'portrait'
-                        }
-                    }
-                    resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
-
-                });
-            }
-
-            async function addAttachment() {
-                let attachment = [];
-                let templateObject = Template.instance();
-
-                let invoiceId = objDetails.fields.ID;
-                let encodedPdf = await generatePdfForMail(invoiceId);
-                // var base64data = reader.result;
-                let base64data = encodedPdf.split(',')[1];
-                pdfObject = {
-                    filename: 'Stock Adjustment-' + invoiceId + '.pdf',
-                    content: base64data,
-                    encoding: 'base64'
-                };
-                attachment.push(pdfObject);
-                let erpInvoiceId = objDetails.fields.ID;
-
-                let mailFromName = Session.get('vs1companyName');
-                let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
-                //let customerEmailName = $('#edtCustomerName').val();
-                let checkEmailData = $('#edtCustomerEmail').val();
-                // let grandtotal = $('#grandTotal').html();
-                // let amountDueEmail = $('#totalBalanceDue').html();
-                // let emailDueDate = $("#dtDueDate").val();
-                // let customerBillingAddress = $('#txabillingAddress').val();
-                // let customerTerms = $('#sltTerms').val();
-
-                // let customerSubtotal = $('#subtotal_total').html();
-                // let customerTax = $('#subtotal_tax').html();
-                // let customerNett = $('#subtotal_nett').html();
-                // let customerTotal = $('#grandTotal').html();
-                let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
-                let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
-
-                var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
-                    '        <tr>' +
-                    '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
-                    '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
-                    '                    <table class="main">' +
-                    '                        <tr>' +
-                    '                            <td class="wrapper">' +
-                    '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                    '                                    <tr>' +
-                    '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
-                    '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                    <tr style="height: 16px;"></tr>' +
-                    '                                    <tr>' +
-                    '                                        <td>' +
-                    '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                    <tr style="height: 48px;"></tr>' +
-                    '                                    <tr>' +
-                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                    '                                            <p style="font-size: 18px;">Hi </p>' +
-                    '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Adjustment attached to this email.</p>' +
-                    '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thank you</p>' +
-                    '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
-                    '                                    <tr>' +
-                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                    '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                    <tr>' +
-                    '                                        <td>' +
-                    '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
-                    '                                                <tbody>' +
-                    '                                                    <tr>' +
-                    '                                                        <td align="center">' +
-                    '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
-                    '                                                                <tbody>' +
-                    '                                                                    <tr>' +
-                    '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
-                    '                                                                    </tr>' +
-                    '                                                                </tbody>' +
-                    '                                                            </table>' +
-                    '                                                        </td>' +
-                    '                                                    </tr>' +
-                    '                                                </tbody>' +
-                    '                                            </table>' +
-                    '                                        </td>' +
-                    '                                    </tr>' +
-                    '                                </table>' +
-                    '                            </td>' +
-                    '                        </tr>' +
-                    '                    </table>' +
-                    '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
-                    '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                    '                            <tr>' +
-                    '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                    '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
-                    '                                    <br>' +
-                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
-                    '                                </td>' +
-                    '                            </tr>' +
-                    '                        </table>' +
-                    '                    </div>' +
-                    '                </div>' +
-                    '            </td>' +
-                    '        </tr>' +
-                    '    </table>';
-
-                if (($('.chkEmailCopy').is(':checked'))) {
-                     $('#html-2-pdfwrapper').css('display', 'none');
-                    Meteor.call('sendEmail', {
-                        from: "" + mailFromName + " <" + mailFrom + ">",
-                        to: checkEmailData,
-                        subject: mailSubject,
-                        text: '',
-                        html: htmlmailBody,
-                        attachments: attachment
-                    }, function (error, result) {
-                        if (error && error.error === "error") {
-                            FlowRouter.go('/stockadjustmentoverview?success=true');
-
-                        } else {
-                            swal({
-                                title: 'SUCCESS',
-                                text: "Email Sent To Employee: " + checkEmailData + " ",
-                                type: 'success',
-                                showCancelButton: false,
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.value) {
-                                    FlowRouter.go('/stockadjustmentoverview?success=true');
-                                } else if (result.dismiss === 'cancel') {}
-                            });
-
-                            $('.fullScreenSpin').css('display', 'none');
-                        }
-                    });
-
-                } else {
-                    FlowRouter.go('/stockadjustmentoverview?success=true');
-                };
-
-            }
-            addAttachment();
+            FlowRouter.go('/stocktransferlist?success=true');
             $('.modal-backdrop').css('display', 'none');
 
         }).catch(function (err) {
@@ -2206,6 +2357,137 @@ const templateObject = Template.instance();
         });
     }
 
+},
+'click .btnDeleteStock': function (event) {
+    $('.fullScreenSpin').css('display', 'inline-block');
+    let templateObject = Template.instance();
+    let stockTransferService = new StockTransferService();
+    var url = FlowRouter.current().path;
+    var getso_id = url.split('?id=');
+    var currentInvoice = getso_id[getso_id.length - 1];
+    var objDetails = '';
+    if (getso_id[1]) {
+        currentInvoice = parseInt(currentInvoice);
+        var objDetails = {
+            type: "TStockTransferEntry",
+            fields: {
+                ID: currentInvoice,
+                Deleted: true
+            }
+        };
+
+        stockTransferService.saveStockTransfer(objDetails).then(function (objDetails) {
+            FlowRouter.go('/stocktransferlist?success=true');
+            $('.modal-backdrop').css('display', 'none');
+        }).catch(function (err) {
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    } else {
+        FlowRouter.go('/stocktransferlist?success=true');
+        $('.modal-backdrop').css('display', 'none');
+    }
+    $('#deleteLineModal').modal('toggle');
+},
+'click .btnDeleteStockTransfer': function (event) {
+    let templateObject = Template.instance();
+    let stockTransferService = new StockTransferService();
+    swal({
+        title: 'Delete Stock Transfer',
+        text: "Are you sure you want to Delete Stock Transfer?",
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            $('.fullScreenSpin').css('display', 'inline-block');
+            var url = FlowRouter.current().path;
+            var getso_id = url.split('?id=');
+            var currentInvoice = getso_id[getso_id.length - 1];
+            var objDetails = '';
+            if (getso_id[1]) {
+                currentInvoice = parseInt(currentInvoice);
+                var objDetails = {
+                    type: "TStockTransferEntry",
+                    fields: {
+                        ID: currentInvoice,
+                        Deleted: true
+                    }
+                };
+
+                stockTransferService.saveStockTransfer(objDetails).then(function (objDetails) {
+                    FlowRouter.go('/stocktransferlist?success=true');
+                    $('.modal-backdrop').css('display', 'none');
+
+                }).catch(function (err) {
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+            } else {
+                FlowRouter.go('/stocktransferlist?success=true');
+                $('.modal-backdrop').css('display', 'none');
+            }
+            //$('#deleteLineModal').modal('toggle');
+        } else {}
+    });
+
+},
+'click .btnDeleteLine': function (event) {
+    let templateObject = Template.instance();
+    let utilityService = new UtilityService();
+    let selectLineID = $('#selectDeleteLineID').val();
+    if ($('#tblStocktransfer tbody>tr').length > 1) {
+        this.click;
+
+        $('#' + selectLineID).closest('tr').remove();
+        //event.preventDefault();
+        let $tblrows = $("#tblStocktransfer tbody tr");
+        //if(selectLineID){
+        let lineAmount = 0;
+        let subGrandTotal = 0;
+        let taxGrandTotal = 0;
+        //return false;
+
+    } else {
+        this.click;
+        // $(event.target).closest('tr').remove();
+        $('#' + selectLineID + " .lineProductName").val('');
+        $('#' + selectLineID + " .lineDescription").text('');
+        $('#' + selectLineID + " .lineProductBarCode").text('');
+        $('#' + selectLineID + " .lineInStockQty").text('');
+        $('#' + selectLineID + " .lineDepartment").val('');
+        $('#' + selectLineID + " .ID").text('');
+        $('#' + selectLineID + " .pqa").text('');
+        $('#' + selectLineID + " .UOMQtyBackOrder").text('');
+        $('#' + selectLineID + " .ProductID").text('');
+        $('#' + selectLineID + " .lineOrdered").val('');
+        $('#' + selectLineID + " .lineUOMQtyShipped").val('');
+
+        //event.preventDefault();
+
+    }
+
+    $('#deleteLineModal').modal('toggle');
 }
 });
 
