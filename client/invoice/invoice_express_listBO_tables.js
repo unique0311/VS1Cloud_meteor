@@ -790,6 +790,27 @@ Template.invoicelistBO.events({
             }
         });
     },
+    'keyup #tblInvoicelistBO_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshInvoiceListBO").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshInvoiceListBO").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshInvoiceListBO").trigger("click");
+          }
+        },
+        'blur #tblInventory_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshInvoiceListBO").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshInvoiceListBO").removeClass('btnSearchAlert');
+          }
+
+        },
+        'click .btnRefreshInvoiceListBO':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){

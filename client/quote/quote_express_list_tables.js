@@ -803,6 +803,27 @@ Template.quoteslist.events({
             }
         });
     },
+     'keyup #tblquotelist_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshQuoteList").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshQuoteList").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshQuoteList").trigger("click");
+          }
+        },
+        'blur #tblInventory_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshQuoteList").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshQuoteList").removeClass('btnSearchAlert');
+          }
+
+        },
+    'click .btnRefreshQuoteList':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){

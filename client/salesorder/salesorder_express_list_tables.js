@@ -799,6 +799,27 @@ Template.salesorderslist.events({
             }
         });
     },
+     'keyup #tblSalesOrderlist_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshSOList").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshSOList").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshSOList").trigger("click");
+          }
+        },
+        'blur #tblInventory_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshSOList").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshSOList").removeClass('btnSearchAlert');
+          }
+
+        },
+        'click .btnRefreshSOList':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){
