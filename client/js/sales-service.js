@@ -222,12 +222,9 @@ export class SalesBoardService extends BaseService {
         return this.POST(this.ERPObjects.TRefundSale, data);
     }
 
-    // getRefundSales() {
-    //     let options = {
-    //        ListType: "Detail",
-    //     };
-    //     return this.getList(this.ERPObjects.TRefundSale,options);
-    // }
+    getRefundSales(id) {
+        return this.getOneById(this.ERPObjects.TRefundSale,id);
+    }
 
 
     getOneBilldata(id) {

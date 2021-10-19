@@ -435,7 +435,7 @@ Template.refundcard.onRendered(() => {
             currentInvoice = parseInt(currentInvoice);
             templateObject.getInvoiceData = function() {
 
-                accountService.getOneInvoicedataEx(currentInvoice).then(function(data) {
+                accountService.getRefundSales(currentInvoice).then(function(data) {
                     $('.fullScreenSpin').css('display', 'none');
                     let lineItems = [];
                     let lineItemObj = {};
