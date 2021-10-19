@@ -248,7 +248,7 @@ export class PaymentsService extends BaseService {
 
   getAccountName() {
       let options = {
-          PropertyList: "AccountName",
+          PropertyList: "AccountName,AccountTypeName",
           select: "[Active]=true"
       };
       return this.getList(this.ERPObjects.TAccount, options);
@@ -256,7 +256,7 @@ export class PaymentsService extends BaseService {
 
   getAccountNameVS1() {
       let options = {
-          PropertyList: "AccountName",
+          PropertyList: "AccountName,AccountTypeName",
           select: "[Active]=true"
       };
       return this.getList(this.ERPObjects.TAccountVS1, options);
