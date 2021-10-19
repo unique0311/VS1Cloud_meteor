@@ -188,6 +188,10 @@ Template.purchaseorderlistBO.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
+                             "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshPOBoList' type='button' id='btnRefreshPOBoList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlistBO_filter");
+
+                            }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -430,6 +434,7 @@ Template.purchaseorderlistBO.onRendered(function() {
                             this.fnPageChange('last');
                           }
 
+                             $("<button class='btn btn-primary btnRefreshPOBoList' type='button' id='btnRefreshPOBoList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlistBO_filter");
                          }
 
                     }).on('page', function () {
@@ -648,6 +653,9 @@ Template.purchaseorderlistBO.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                             $("<button class='btn btn-primary btnRefreshPOBoList' type='button' id='btnRefreshPOBoList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlistBO_filter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -738,6 +746,19 @@ Template.purchaseorderlistBO.events({
                 }
             }
         });
+    },
+    'keyup #tblpurchaseorderlistBO_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshPOBoList").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshPOBoList").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshPOBoList").trigger("click");
+          }
+        },
+        'click .btnRefreshPOBoList':function(event){
+        $(".btnRefresh").trigger("click");
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});

@@ -753,6 +753,19 @@ Template.creditlist.events({
             }
         });
     },
+    'keyup #tblcreditlist_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshCreditList").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshCreditList").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshCreditList").trigger("click");
+          }
+        },
+        'click .btnRefreshCreditList':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){
