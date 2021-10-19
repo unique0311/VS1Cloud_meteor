@@ -679,6 +679,19 @@ Template.customerawaitingpayments.events({
             }
         });
     },
+    'keyup #tblcustomerAwaitingPayment_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshCustomerAwaiting").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshCustomerAwaiting").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshCustomerAwaiting").trigger("click");
+          }
+        },
+        'click .btnRefreshCustomerAwaiting':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .btnPaymentList': function () {
         FlowRouter.go('/customerpayment');
     },

@@ -737,6 +737,19 @@ Template.supplierpayment.events({
             }
         });
     },
+     'keyup #tblSupplierPayment_filter input': function (event) {
+        if($(event.target).val() != ''){
+            $(".btnRefreshSupplierPayment").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshSupplierPayment").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshSupplierPayment").trigger("click");
+          }
+        },
+        'click .btnRefreshSupplierPayment':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){

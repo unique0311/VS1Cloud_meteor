@@ -770,6 +770,19 @@ Template.customerpayment.events({
             }
         });
     },
+    'keyup #tblCustomerPayment_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshCustomerPayment").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshCustomerPayment").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshCustomerPayment").trigger("click");
+          }
+        },
+        'click .btnRefreshCustomerPayment':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){

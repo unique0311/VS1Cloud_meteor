@@ -762,6 +762,19 @@ Template.supplierawaitingpurchaseorder.events({
             }
         });
     },
+     'keyup #tblSupplierAwaitingPO_filter input': function (event) {
+        if($(event.target).val() != ''){
+            $(".btnRefreshSupplierAwaiting").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshSupplierAwaiting").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshSupplierAwaiting").trigger("click");
+          }
+        },
+        'click .btnRefreshSupplierAwaiting':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .btnPaymentList': function() {
         FlowRouter.go('/supplierpayment');
     },
