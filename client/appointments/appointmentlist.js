@@ -1340,6 +1340,19 @@ Template.appointmentlist.events({
             }
         });
     },
+    'keyup #tblappointmentlist_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshAppointment").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshAppointment").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshAppointment").trigger("click");
+          }
+        },
+        'click .btnRefreshAppointment':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable': function (event) {
         var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
         if (getcurrentCloudDetails) {
