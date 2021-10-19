@@ -808,6 +808,19 @@ Template.depositlist.events({
             }
         });
     },
+    'keyup #tblDepositList_filter input': function (event) {
+          if($(event.target).val() != ''){
+            $(".btnRefreshDeposits").addClass('btnSearchAlert');
+          }else{
+            $(".btnRefreshDeposits").removeClass('btnSearchAlert');
+          }
+          if (event.keyCode == 13) {
+             $(".btnRefreshDeposits").trigger("click");
+          }
+        },
+        'click .btnRefreshDeposits':function(event){
+        $(".btnRefresh").trigger("click");
+    },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
         if(getcurrentCloudDetails){
