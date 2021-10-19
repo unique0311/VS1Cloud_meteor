@@ -3105,7 +3105,7 @@ Template.new_salesorder.onRendered(() => {
                         };
 
                         if(data.ttermsvs1[i].isSalesdefault == true){
-                        salesDefaultTerms = useData[i].TermsName || ' ';
+                        salesDefaultTerms = data.ttermsvs1[i].TermsName || ' ';
                         }
 
                         termrecords.push(termrecordObj);
@@ -3142,7 +3142,7 @@ Template.new_salesorder.onRendered(() => {
                     };
 
                     if( data.ttermsvs1[i].isSalesdefault == true){
-                        salesDefaultTerms = useData[i].TermsName || ' ';
+                        salesDefaultTerms = data.ttermsvs1[i].TermsName || ' ';
                     }
 
                     termrecords.push(termrecordObj);
