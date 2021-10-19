@@ -40,6 +40,7 @@ import 'jquery-editable-select';
 let utilityService = new UtilityService();
 let sideBarService = new SideBarService();
 var times = 0;
+let purchaseDefaultTerms = "";
 Template.purchaseordercard.onCreated(() => {
 
     const templateObject = Template.instance();
@@ -1637,6 +1638,10 @@ Template.purchaseordercard.onRendered(() => {
                             termsname: data.ttermsvs1[i].TermsName || ' ',
                         };
 
+                        if(data.ttermsvs1[i].isPurchasedefault == true){
+                        purchaseDefaultTerms = data.ttermsvs1[i].TermsName || ' ';
+                    }
+
                         termrecords.push(termrecordObj);
                         templateObject.termrecords.set(termrecords);
 
@@ -1651,10 +1656,15 @@ Template.purchaseordercard.onRendered(() => {
                         termsname: useData[i].TermsName || ' ',
                     };
 
+                     if(useData[i].isPurchasedefault == true){
+                        purchaseDefaultTerms = useData[i].TermsName || ' ';
+                    }
+
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
 
                 }
+                console.log(purchaseDefaultTerms);
 
             }
         }).catch(function(err) {
@@ -1664,6 +1674,10 @@ Template.purchaseordercard.onRendered(() => {
                     let termrecordObj = {
                         termsname: data.ttermsvs1[i].TermsName || ' ',
                     };
+
+                    if(data.ttermsvs1[i].isPurchasedefault == true){
+                        purchaseDefaultTerms = data.ttermsvs1[i].TermsName || ' ';
+                    }
 
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
