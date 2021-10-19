@@ -108,6 +108,16 @@ Template.timesheet.onRendered(function () {
         return dateObject;
     }
 
+    templateObject.timeFormat = function (hours) {
+        let decimalTimeString = hours || 0;
+        let date = new Date(0,0);
+        date.setSeconds(+decimalTimeString * 60 * 60);
+        let hour = ("0" + date.getHours()).slice(-2)+"h";
+        let minutes = ("0" + date.getMinutes()).slice(-2)+"m";
+        let time = hour+":"+minutes;
+        return time;
+    }
+
     templateObject.getAllTimeSheetData = function () {
         contactService.getAllTimeSheetList().then(function (data) {
             $('.fullScreenSpin').css('display', 'none');
@@ -126,11 +136,13 @@ Template.timesheet.onRendered(function () {
                 sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
                 sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                 sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
                 var dataList = {
                     id: data.ttimesheet[t].fields.ID || '',
                     employee: data.ttimesheet[t].fields.EmployeeName || '',
                     hourlyrate: hourlyRate,
                     hours: data.ttimesheet[t].fields.Hours || '',
+                    hourFormat: hoursFormatted,
                     job: data.ttimesheet[t].fields.Job || '',
                     product: data.ttimesheet[t].fields.ServiceName || '',
                     labourcost: labourCost,

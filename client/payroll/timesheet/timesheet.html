@@ -638,7 +638,8 @@
                                     <th class="th colDate" style="width:50px;">Date</th>
                                     <th class="th colJob" style="width:200px;">Job</th>
                                     <th class="th colRate" style="width:50px;">Product</th>
-                                    <th class="th colRegHours" style="width:50px;">Hours</th>
+                                    <th class="th colRegHours hiddenColumn" style="width:50px;">Hours</th>
+                                    <th class="th colRegHoursOne" style="width:50px;">Hours</th>
                                     <th class="th colOvertime " style="width:50px;">Overtime</th>
                                     <th class="th colDouble " style="width:50px;">Double</th>
                                     <th class="th colAdditional " style="width:50px;">Additional</th>
@@ -665,7 +666,8 @@
                                             <td class="colDate" contenteditable="false"><span style="display:none;">{{item.sortdate}}</span> {{item.timesheetdate}}</td>
                                             <td class="colJob" contenteditable="false">{{item.job}}</td>
                                             <td class="colProduct" style="text-align: right!important;">{{item.product}}</td>
-                                            <td style="text-align: right!important;"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
+                                            <td style="text-align: right!important;" class="hiddenColumn"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
+                                            <td class="colRegHoursOne" style="text-align: right!important;">{{item.hourFormat}}</td>
                                             <td style="text-align: right!important;"><input class="colOvertime highlightInput" type="number" value="{{item.overtime}}"><span class="colOvertime" style="display: none;">{{item.overtime}}</span></td>
                                             <td style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDouble" style="display: none;">{{item.double}}</span></td>
                                             <td style="text-align: right!important;"><input class="colAdditional highlightInput cashamount" type="text" value="{{item.additional}}"><span class="colAdditional"
