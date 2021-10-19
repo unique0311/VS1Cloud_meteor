@@ -42,6 +42,8 @@ Template.newsidenav.onCreated(function() {
     templateObject.includeShipping.set(false);
     templateObject.includeStockTransfer = new ReactiveVar();
     templateObject.includeStockTransfer.set(false);
+    templateObject.includeStockAdjustment = new ReactiveVar();
+    templateObject.includeStockAdjustment.set(false);
     templateObject.includeStockTake = new ReactiveVar();
     templateObject.includeStockTake.set(false);
     templateObject.includeSales = new ReactiveVar();
@@ -139,6 +141,7 @@ Template.newsidenav.onRendered(function() {
     let isAccessLevels = Session.get('CloudAccessLevelsModule');
     let isShipping = Session.get('CloudShippingModule');
     let isStockTransfer = Session.get('CloudStockTransferModule');
+    let isStockAdjustment = Session.get('CloudStockAdjustmentModule');
     let isStockTake = Session.get('CloudStockTakeModule');
     let isSales = Session.get('CloudSalesModule');
     let isPurchases = Session.get('CloudPurchasesModule');
@@ -542,6 +545,10 @@ Template.newsidenav.onRendered(function() {
         }
         if (isStockTransfer) {
             templateObject.includeStockTransfer.set(true);
+        }
+
+        if (isStockAdjustment) {
+            templateObject.includeStockAdjustment.set(true);
         }
         if (isStockTake) {
             templateObject.includeStockTake.set(true);
@@ -1024,12 +1031,23 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllTStockAdjustEntryData = function() {
+        if(isStockAdjustment){
         sideBarService.getAllStockAdjustEntry(initialDataLoad, 0).then(function(data) {
-            //localStorage.setItem('VS1TStockAdjustEntryList', JSON.stringify(data) || '');
             addVS1Data('TStockAdjustEntry', JSON.stringify(data));
         }).catch(function(err) {
 
         });
+       }
+    }
+
+    templateObject.getAllTStockTransferEntryData = function() {
+      if(isStockTransfer){
+        sideBarService.getAllStockTransferEntry(initialDataLoad, 0).then(function(data) {
+            addVS1Data('TStockTransferEntry', JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+      }
     }
 
     templateObject.getAllTQuoteData = function() {
@@ -2270,6 +2288,24 @@ Template.newsidenav.onRendered(function() {
                         if (loggedUserEventFired) {
                             if (getTimeStamp[0] != currenctTodayDate) {
                                 templateObject.getAllTProductStocknSalePeriodReportData();
+                            }
+                        }
+                    }
+
+                }
+            }).catch(function(err) {
+                templateObject.getAllTProductStocknSalePeriodReportData();
+            });
+
+            getVS1Data('TStockTransferEntry').then(function(dataObject) {
+                if (dataObject.length == 0) {
+                    templateObject.getAllTStockTransferEntryData();
+                } else {
+                    let getTimeStamp = dataObject[0].timestamp.split(' ');
+                    if (getTimeStamp) {
+                        if (loggedUserEventFired) {
+                            if (getTimeStamp[0] != currenctTodayDate) {
+                                templateObject.getAllTStockTransferEntryData();
                             }
                         }
                     }
@@ -3760,6 +3796,9 @@ Template.newsidenav.helpers({
     },
     includeStockTransfer: () => {
         return Template.instance().includeStockTransfer.get();
+    },
+    includeStockAdjustment: () => {
+        return Template.instance().includeStockAdjustment.get();
     },
     includeStockTake: () => {
         return Template.instance().includeStockTake.get();

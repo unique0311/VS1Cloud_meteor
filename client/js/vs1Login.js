@@ -226,6 +226,7 @@ Template.vs1login.onRendered(function () {
         let isAccessLevels = false;
         let isShipping = false;
         let isStockTransfer = false;
+        let isStockAdjustment = false;
         let isStockTake = false;
         let isSales = false;
         let isPurchases = false;
@@ -323,6 +324,9 @@ Template.vs1login.onRendered(function () {
                             if (data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") {
                                 isStockTransfer = true;
                             }
+                            if (data.temployeeformaccessdetail[i].fields.Description === "Stock Adjustment") {
+                                isStockAdjustment = true;
+                            }
                             if (data.temployeeformaccessdetail[i].fields.Description === "Side Panel Menu") {
                                 isSidePanel = true;
                                 isSidePanelID = data.temployeeformaccessdetail[i].fields.ID;
@@ -399,6 +403,8 @@ Template.vs1login.onRendered(function () {
                     }
                     if (!isInventoryLicence) {
                         isInventory = false;
+                        isStockTransfer = false;
+                        isStockAdjustment = false;
                     }
                     if (!isManufacturingLicence) {
                         isManufacturing = false;
@@ -414,9 +420,6 @@ Template.vs1login.onRendered(function () {
                     }
                     if (!isStockTakeLicence) {
                         isStockTake = false;
-                    }
-                    if (!isStockTransferLicence) {
-                        isStockTransfer = false;
                     }
 
                     if (!isAccountsLicence) {
@@ -459,6 +462,7 @@ Template.vs1login.onRendered(function () {
                 Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
                 Session.setPersistent('CloudShippingModule', isShipping);
                 Session.setPersistent('CloudStockTransferModule', isStockTransfer);
+                Session.setPersistent('CloudStockAdjustmentModule', isStockAdjustment);
                 Session.setPersistent('CloudStockTakeModule', isStockTake);
                 Session.setPersistent('CloudSalesModule', isSales);
                 Session.setPersistent('CloudPurchasesModule', isPurchases);
@@ -589,6 +593,7 @@ Template.vs1login.onRendered(function () {
         let isAccessLevels = false;
         let isShipping = false;
         let isStockTransfer = false;
+        let isStockAdjustment = false;
         let isStockTake = false;
         let isProductCost = false;
         let isSales = false;
@@ -732,6 +737,10 @@ Template.vs1login.onRendered(function () {
                     if (optionaccess.fields.Description === "Stock Transfer") {
                         isStockTransfer = true;
                     }
+
+                    if (optionaccess.fields.Description === "Stock Adjustment") {
+                        isStockAdjustment = true;
+                    }
                     if (optionaccess.fields.Description === "Side Panel Menu") {
                         isSidePanel = true;
                         isSidePanelID = optionaccess.fields.ID;
@@ -830,6 +839,8 @@ Template.vs1login.onRendered(function () {
             if (!isInventoryLicence) {
                 isInventory = false;
                 isProductCost = false;
+                isStockTransfer = false;
+                isStockAdjustment = false;
             }
             if (!isManufacturingLicence) {
                 isManufacturing = false;
@@ -846,9 +857,7 @@ Template.vs1login.onRendered(function () {
             if (!isStockTakeLicence) {
                 isStockTake = false;
             }
-            if (!isStockTransferLicence) {
-                isStockTransfer = false;
-            }
+
             if (!isAccountsLicence) {
                 isAccounts = false;
             }
@@ -912,6 +921,7 @@ Template.vs1login.onRendered(function () {
             Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
             Session.setPersistent('CloudShippingModule', isShipping);
             Session.setPersistent('CloudStockTransferModule', isStockTransfer);
+            Session.setPersistent('CloudStockAdjustmentModule', isStockAdjustment);
             Session.setPersistent('CloudStockTakeModule', isStockTake);
             Session.setPersistent('CloudSalesModule', isSales);
             Session.setPersistent('CloudPurchasesModule', isPurchases);

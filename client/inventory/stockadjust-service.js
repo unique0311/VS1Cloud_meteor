@@ -36,6 +36,14 @@ export class StockTransferService extends BaseService {
         return this.POST(this.ERPObjects.TStockAdjustEntry, data);
   }
 
+  saveStockTransfer(data){
+        return this.POST(this.ERPObjects.TStockTransferEntry, data);
+  }
+
+  getOneStockTransferData(id){
+        return this.getOneById(this.ERPObjects.TStockTransferEntry, id);
+  }
+
   getOneStockAdjustData(id){
         return this.getOneById(this.ERPObjects.TStockAdjustEntry, id);
   }

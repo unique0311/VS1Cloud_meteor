@@ -2574,8 +2574,7 @@ Template.paymentcard.onRendered(() => {
 
                         };
 
-                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
-
+                        let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
                         templateObject.record.set(record);
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         $('#sltDept').val(getDepartmentVal);
@@ -2694,7 +2693,8 @@ Template.paymentcard.onRendered(() => {
 
                             templateObject.record.set(record);
 
-                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName;
+                            let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName || defaultDept;
+
                             $('#edtCustomerName').val(useData[d].fields.CustomerName);
                             $('#sltDept').val(getDepartmentVal);
                             $('#edtBankAccountName').val(record.bankAccount);
@@ -2807,7 +2807,7 @@ Template.paymentcard.onRendered(() => {
                     };
                     templateObject.record.set(record);
 
-                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
 
                     $('#edtCustomerName').val(data.fields.CustomerName);
                     $('#sltDept').val(getDepartmentVal);
@@ -3130,7 +3130,7 @@ Template.paymentcard.onRendered(() => {
                 };
                 templateObject.record.set(record);
 
-                let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
 
                 $('#edtCustomerName').val(data.fields.CustomerName);
                 $('#sltDept').val(getDepartmentVal);
@@ -3256,7 +3256,7 @@ Template.paymentcard.onRendered(() => {
 
                     };
                     templateObject.record.set(record);
-                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
+                    let getDepartmentVal = Session.get('department') || data.fields.DeptClassName|| defaultDept;
 
                     $('#edtCustomerName').val(data.fields.CustomerName);
                     $('#sltDept').val(getDepartmentVal);

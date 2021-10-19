@@ -2413,11 +2413,6 @@ Template.stockadjustmentcard.events({
         }
 
     },
-    // 'change .chkEmailCopy': function (event) {
-    //     if ($('.chkEmailCopy').is(':checked')) {
-    //         $('#employeeModal').modal('show');
-    //     }
-    // },
     'click .btnHold': function (event) {
         $('#html-2-pdfwrapper').css('display', 'block');
         let templateObject = Template.instance();

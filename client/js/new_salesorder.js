@@ -7865,9 +7865,9 @@ Template.new_salesorder.events({
                             Email: customerEmail
                         }
                     }
-                    salesService.saveCustomerEmail(customerEmailData).then(function(customerEmailData) {
-
-                    });
+                    // salesService.saveCustomerEmail(customerEmailData).then(function(customerEmailData) {
+                    //
+                    // });
                 };
                 let linesave = objDetails.fields.ID;
 
@@ -8122,9 +8122,9 @@ Template.new_salesorder.events({
                             Email: customerEmail
                         }
                     }
-                    salesService.saveCustomerEmail(customerEmailData).then(function(customerEmailData) {
-
-                    });
+                    // salesService.saveCustomerEmail(customerEmailData).then(function(customerEmailData) {
+                    //
+                    // });
                 };
                 let linesave = objDetails.fields.ID;
 

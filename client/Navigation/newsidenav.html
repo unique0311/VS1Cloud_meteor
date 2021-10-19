@@ -461,6 +461,7 @@
                         <li>
                             <a id="sidenaveproductlist" name="sidenaveproductlist"><i class="fa fa-product-hunt"></i> Product List</a>
                         </li>
+                        {{#if includeStockAdjustment}}
                         <li>
                             <a id="sidenavstockadjust" name="sidenavstockadjust">
                                 <div class="row">
@@ -475,6 +476,8 @@
                                 </div>
                             </a>
                         </li>
+                        {{/if}}
+                        {{#if includeStockTransfer}}
                         <li>
                             <a id="sidenavstocktransfer" name="sidenavstocktransfer">
                                 <div class="row">
@@ -489,9 +492,11 @@
                                 </div>
                             </a>
                         </li>
+                        {{/if}}
                         <li>
                             <a id="sidenavnewinventory" name="sidenavnewinventory"><i class="fas fa-plus"></i> New Product</a>
                         </li>
+                        {{#if includeStockAdjustment}}
                         <li>
                             <a id="sidenavnewstockadjust" name="sidenavnewstockadjust">
                                 <div class="row">
@@ -506,6 +511,8 @@
                                 </div>
                             </a>
                         </li>
+                        {{/if}}
+                        {{#if includeStockTransfer}}
                         <li>
                             <a id="sidenavnewstocktransfer" name="sidenavnewstocktransfer">
                                 <div class="row">
@@ -520,6 +527,7 @@
                                 </div>
                             </a>
                         </li>
+                        {{/if}}
                     </ul>
                 </li>
             {{/if}}
