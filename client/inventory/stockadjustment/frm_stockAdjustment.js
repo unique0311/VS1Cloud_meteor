@@ -810,6 +810,7 @@ Template.stockadjustmentcard.onRendered(() => {
         };
         html2pdf().set(opt).from(source).save().then(function (dataObject) {
             $('.fullScreenSpin').css('display', 'none');
+            $('#html-2-pdfwrapper').css('display', 'none');
         });
 
     };
