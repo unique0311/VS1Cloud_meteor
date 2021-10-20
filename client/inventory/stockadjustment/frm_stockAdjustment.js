@@ -223,6 +223,10 @@ Template.stockadjustmentcard.onRendered(() => {
             // $('#'+id+" .lineDescription").text(lineProductDesc);
             $('#' + id + " .lineFinalQty").val(totalInStockQty);
             $('#' + id + " .lineAdjustQty").val(0);
+            $('.stock_print #' + id + " .lineInStockQtyPrint").text(totalInStockQty);
+            $('.stock_print #' + id + " .lineFinalQtyPrint").text(totalInStockQty);
+            $('.stock_print #' + id + " .lineAdjustQtyPrint").text(0);
+
         } else {
             stockTransferService.getProductClassQuantitys().then(function (data) {
                 for (let i = 0; i < data.tproductclassquantity.length; i++) {
@@ -244,6 +248,9 @@ Template.stockadjustmentcard.onRendered(() => {
                 // $('#'+id+" .lineDescription").text(lineProductDesc);
                 $('#' + id + " .lineFinalQty").val(totalInStockQty);
                 $('#' + id + " .lineAdjustQty").val(0);
+                $('.stock_print #' + id + " .lineInStockQtyPrint").text(totalInStockQty);
+                $('.stock_print #' + id + " .lineFinalQtyPrint").text(totalInStockQty);
+                $('.stock_print #' + id + " .lineAdjustQtyPrint").text(0);
 
             });
         }
@@ -259,6 +266,7 @@ Template.stockadjustmentcard.onRendered(() => {
             //getOneQuotedata
 
             getVS1Data('TStockAdjustEntry').then(function (dataObject) {
+                let productcost = 0;
                 if (dataObject.length == 0) {
                     stockTransferService.getOneStockAdjustData(currentStockAdjust).then(function (data) {
                         $('.fullScreenSpin').css('display', 'none');
@@ -269,13 +277,15 @@ Template.stockadjustmentcard.onRendered(() => {
 
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
-
+                                productcost = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                                 lineItemObj = {
                                     lineID: Random.id(),
                                     id: data.fields.Lines[i].fields.ID || '',
                                     productname: data.fields.Lines[i].fields.ProductName || '',
                                     productid: data.fields.Lines[i].fields.ProductID || '',
-                                    productcost: data.fields.Lines[i].fields.Cost || 0,
+                                    productcost: productcost,
                                     productbarcode: data.fields.Lines[i].fields.PartBarcode || '',
                                     description: data.fields.Lines[i].fields.Description || '',
                                     department:  data.fields.Lines[i].fields.DeptName|| defaultDept,
@@ -395,13 +405,15 @@ Template.stockadjustmentcard.onRendered(() => {
 
                             if (useData[d].fields.Lines.length) {
                                 for (let i = 0; i < useData[d].fields.Lines.length; i++) {
-
+                                    productcost = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.Cost).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                    });
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: useData[d].fields.Lines[i].fields.ID || '',
                                         productname: useData[d].fields.Lines[i].fields.ProductName || '',
                                         productid: useData[d].fields.Lines[i].fields.ProductID || '',
-                                        productcost: useData[d].fields.Lines[i].fields.Cost || 0,
+                                        productcost: productcost,
                                         productbarcode: useData[d].fields.Lines[i].fields.PartBarcode || '',
                                         description: useData[d].fields.Lines[i].fields.Description || '',
                                         department:  useData[d].fields.Lines[0].fields.DeptName|| defaultDept,
@@ -528,13 +540,15 @@ Template.stockadjustmentcard.onRendered(() => {
 
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
-
+                            productcost = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
                             lineItemObj = {
                                 lineID: Random.id(),
                                 id: data.fields.Lines[i].fields.ID || '',
                                 productname: data.fields.Lines[i].fields.ProductName || '',
                                 productid: data.fields.Lines[i].fields.ProductID || '',
-                                productcost: data.fields.Lines[i].fields.Cost || 0,
+                                productcost: productcost,
                                 productbarcode: data.fields.Lines[i].fields.PartBarcode || '',
                                 description: data.fields.Lines[i].fields.Description || '',
                                 department:  data.fields.Lines[i].fields.DeptName|| defaultDept,
@@ -747,7 +761,7 @@ Template.stockadjustmentcard.onRendered(() => {
             let subGrandTotal = 0;
             let taxGrandTotal = 0;
 
-            $('.stock_print #' + selectLineID + " .lineProductName").text(lineProductName);
+            $('.stock_print #' + selectLineID + " .lineProductNamePrint").text(lineProductName);
             $('#' + selectLineID + " .lineProductName").val(lineProductName);
             $('#' + selectLineID + " .lineProductName").attr('productid', lineProductID);
             $('#' + selectLineID + " .lineProductName").attr('productcost', lineProdCost);
@@ -818,12 +832,12 @@ Template.stockadjustmentcard.onRendered(() => {
             $("#tblStockAdjustmentLine tbody").append(rowData);
 
             //Print table
-            $(".lineProductName", rowData1).text("");
-            $(".lineProductBarCode", rowData1).text("");
-            $(".lineDescription", rowData1).text("");
-            $(".lineInStockQty", rowData1).text("");
-            $(".lineFinalQty", rowData1).text("");
-            $(".lineAdjustQty", rowData1).text("");
+            $(".lineProductNamePrint", rowData1).text("");
+            $(".lineProductBarCodePrint", rowData1).text("");
+            $(".lineDescriptionPrint", rowData1).text("");
+            $(".lineInStockQtyPrint", rowData1).text("");
+            $(".lineFinalQtyPrint", rowData1).text("");
+            $(".lineAdjustQtyPrint", rowData1).text("");
             // $(".lineAmt", rowData).text("");
             rowData1.attr('id', tokenid);
             $(".stock_print tbody").append(rowData1);
@@ -1440,6 +1454,17 @@ Template.stockadjustmentcard.events({
             templateObject.getProductQty(selectLineID, productname);
 
         });
+    },
+     'change .lineProductCost': function(event) {
+        let inputProductCost = 0;
+        if (!isNaN($(event.target).val())) {
+            inputProductCost = parseFloat($(event.target).val()) || 0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputProductCost));
+        } else {
+            inputProductCost = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputProductCost));
+
+        }
     },
     'blur .lineQty': function (event) {
         let templateObject = Template.instance();
@@ -3169,8 +3194,8 @@ Template.stockadjustmentcard.events({
         let adjustQty = $('#' + targetID + " .lineAdjustQty").val() || 0;
         finalTotal = parseFloat(inStockQty) + parseFloat(adjustQty);
         $('#' + targetID + " .lineFinalQty").val(finalTotal);
-        $('.stock_print #' + targetID + " .lineAdjustQty").text($('#' + targetID + " .lineAdjustQty").val());
-        $('.stock_print #' + targetID + " .lineFinalQty").text(finalTotal);
+        $('.stock_print #' + targetID + " .lineAdjustQtyPrint").text($('#' + targetID + " .lineAdjustQtyPrint").val());
+        $('.stock_print #' + targetID + " .lineFinalQtyPrint").text(finalTotal);
         //}
     },
     'keyup .lineFinalQty': function (event) {
@@ -3183,8 +3208,8 @@ Template.stockadjustmentcard.events({
         let adjustQty = $('#' + targetID + " .lineAdjustQty").val() || 0;
         adjustTotal = parseFloat(finalQty) - parseFloat(inStockQty);
         $('#' + targetID + " .lineAdjustQty").val(adjustTotal);
-         $('.stock_print #' + targetID + " .lineAdjustQty").text(adjustTotal);
-        $('.stock_print #' + targetID + " .lineFinalQty").text($('#' + targetID + " .lineFinalQty").val());
+         $('.stock_print #' + targetID + " .lineAdjustQtyPrint").text(adjustTotal);
+        $('.stock_print #' + targetID + " .lineFinalQtyPrint").text($('#' + targetID + " .lineFinalQty").val());
         //}
     },
     'keydown .lineFinalQty, keydown .lineAdjustQty': function (event) {
@@ -3216,7 +3241,7 @@ Template.stockadjustmentcard.events({
             let checkEmailData = $('#edtCustomerEmail').val();
 
             if (checkEmailData.replace(/\s/g, '') === '') {
-                swal('Customer Email cannot be blank!', '', 'warning');
+                swal('Supplier Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
 

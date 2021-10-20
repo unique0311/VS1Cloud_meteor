@@ -129,8 +129,8 @@ Template.statementlist.onRendered(function () {
             let statementId = data.tstatementforcustomer[0].TranstypeNo || '';
             let email = data.tstatementforcustomer[0].Email || '';
             let invoiceId = data.tstatementforcustomer[0].SaleID || '';
-            let date = moment(data.tstatementforcustomer[0].transdate).format('DD-MMM-YY') || '';
-            let datedue = moment(data.tstatementforcustomer[0].Duedate).format('DD-MMM-YY') || '';
+            let date = moment(data.tstatementforcustomer[0].transdate).format('DD/MM/YYYY') || '';
+            let datedue = moment(data.tstatementforcustomer[0].Duedate).format('DD/MM/YYYY') || '';
             // let paidAmt = data.tstatementforcustomer[0].Paidamt || '';
             let paidAmt = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[0].Paidamt).toLocaleString(undefined, {
                     minimumFractionDigits: 2
@@ -138,7 +138,7 @@ Template.statementlist.onRendered(function () {
             let stringQuery = "?";
             for (let i = 0; i < data.tstatementforcustomer.length; i++) {
                 let id = data.tstatementforcustomer[i].SaleID;
-                let transdate =  moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') ? moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') : "";
+                let transdate =  moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') ? moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') : "";
                 let type = data.tstatementforcustomer[i].Transtype;
                 let status = '';
                 // let type = data.tstatementforcustomer[i].Transtype;
@@ -262,15 +262,15 @@ Template.statementlist.onRendered(function () {
                     let statementId = data.tstatementforcustomer[0].SaleID || '';
                     let email = data.tstatementforcustomer[0].Email || '';
                     let invoiceId = data.tstatementforcustomer[0].SaleID || '';
-                    let date = moment(data.tstatementforcustomer[0].transdate).format('DD-MMM-YY') || '';
-                    let datedue = moment(data.tstatementforcustomer[0].Duedate).format('DD-MMM-YY') || '';
+                    let date = moment(data.tstatementforcustomer[0].transdate).format('DD/MM/YYYY') || '';
+                    let datedue = moment(data.tstatementforcustomer[0].Duedate).format('DD/MM/YYYY') || '';
                     let paidAmt = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[0].Paidamt).toLocaleString(undefined, {
                     minimumFractionDigits: 2
                     });
                     let stringQuery = "?";
                     for (let i = 0; i < data.tstatementforcustomer.length; i++) {
                         id = data.tstatementforcustomer[i].SaleID;
-                        let transdate =  moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') ? moment(data.tstatementforcustomer[i].transdate).format('DD-MMM-YY') : "";
+                        let transdate =  moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') ? moment(data.tstatementforcustomer[i].transdate).format('DD/MM/YYYY') : "";
                         let type = data.tstatementforcustomer[i].Transtype;
                         let status = '';
                         // let type = data.tstatementforcustomer[i].Transtype;
