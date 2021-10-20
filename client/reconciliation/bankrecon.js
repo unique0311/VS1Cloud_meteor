@@ -2049,7 +2049,7 @@ Template.bankrecon.events({
     },
     'change .reconchkboxdep': function(e) {
 
-        $(".endingbalance").val('');
+        //$(".endingbalance").val('');
         //        var deptable = $('#tblVS1Dep').DataTable();
         //        var rows_selected = deptable.column(0).checkboxes.selected();
         var chkbiddep = event.target.id;
@@ -2094,7 +2094,7 @@ Template.bankrecon.events({
         $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency + "0.00");
     },
     'change .reconchkboxwith': function(e) {
-        $(".endingbalance").val('');
+        //$(".endingbalance").val('');
         var chkbidwith = event.target.id;
         var checkboxID = chkbidwith.split("_").pop();
         var selectedTransAmountwidth = 0;
