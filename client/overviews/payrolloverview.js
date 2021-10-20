@@ -1112,7 +1112,7 @@ Template.payrolloverview.events({
         } else if (checkStatus == "paused") {
             $('.fullScreenSpin').css('display', 'none');
             swal({
-                title: 'Cant End Timesheet',
+                title: "Can't End Timesheet",
                 text: 'This Timesheet is Currently "On Hold", Do you want to "Continue" it? ',
                 type: 'question',
                 showCancelButton: true,

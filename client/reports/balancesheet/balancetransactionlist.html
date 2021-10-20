@@ -149,6 +149,7 @@ style="margin: 16px;margin-top: 0px; background-color: #00A3D3; border-color: #0
 <table id="tblBalanceTransactionList" style="width:100%" class="dataTable table table-striped table-bordered tblBalanceTransactionList">
 <thead>
   <tr class="dnd-moved">
+    <th class="th colSortDate hiddenColumn">id</th>
     <th class="th colDate" style="width:80px;">Date</th>
     <th class="th colAccountName" style="width:206px;">Account Name</th>
     <th class="th colType" style="width: 130px;">Type</th>
@@ -166,7 +167,8 @@ style="margin: 16px;margin-top: 0px; background-color: #00A3D3; border-color: #0
   {{#if datatablerecords}}
   {{#each item in datatablerecords}}
   <tr class="dnd-moved" id="{{item.transactionno}}">
-    <td contenteditable="false" class="colDate">{{item.date}}</td>
+    <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
+    <td contenteditable="false" class="colDate"><span style="display:none;">{{item.sortdate}}</span>{{item.date}}</td>
     <td contenteditable="false" class="colAccountName">{{item.accountname}}</td>
     <td contenteditable="false" class="colType transactiontype" id="transactiontype">{{item.type}}</td>
     <td contenteditable="false" class="colClientName">{{item.clientname}}</td>
