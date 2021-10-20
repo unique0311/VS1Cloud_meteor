@@ -2222,7 +2222,7 @@ Template.journalentrycard.events({
               }, 500);
          } else {
             if (accountDataName.replace(/\s/g, '') != '') {
-                getVS1Data('TAccountVS15').then(function(dataObject) {
+                getVS1Data('TAccountVS1').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         accountService.getOneAccountByName(accountDataName).then(function(data) {
                           let lineItems = [];
