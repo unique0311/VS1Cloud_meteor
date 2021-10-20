@@ -218,7 +218,6 @@ export class SalesBoardService extends BaseService {
     }
 
     saveRefundSale(data) {
-        console.log(data);
         return this.POST(this.ERPObjects.TRefundSale, data);
     }
 
@@ -429,14 +428,14 @@ export class SalesBoardService extends BaseService {
     getAllSalesOrderdata() {
       let options = {
         ListType: "Detail"
-          
+
       };
       return this.getList(this.ERPObjects.TSalesOrder, options);
     }
 
     getAllSalesOrderList() {
       let options = {
-        
+
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,SaleCustField1,SaleCustField2,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments",
         select: "[Deleted]=false",
       };
@@ -445,16 +444,16 @@ export class SalesBoardService extends BaseService {
 
     getAllSalesOrderListNonBO() {
       let options = {
-        
+
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,SaleCustField1,SaleCustField2,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        
+
       };
       return this.getList(this.ERPObjects.TsalesOrderNonBackOrder, options);
     }
 
     getAllQuoteList() {
       let options = {
-        
+
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,DueDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments",
         select: "[Deleted]=false",
       };
@@ -462,7 +461,7 @@ export class SalesBoardService extends BaseService {
     }
     getAllInvoiceList() {
       let options = {
-        
+
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,DueDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,IsBackOrder",
         select: "[Deleted]=false",
       };
@@ -471,16 +470,16 @@ export class SalesBoardService extends BaseService {
 
     getAllInvoiceListNonBO() {
       let options = {
-        
+
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,DueDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
-        
+
       };
       return this.getList(this.ERPObjects.TInvoiceNonBackOrder, options);
     }
 
     getAllBOInvoiceList() {
       let options = {
-        
+
         FilterString: "SaleType='Invoice'",
         select: "[Deleted]=false",
       };
@@ -506,7 +505,7 @@ export class SalesBoardService extends BaseService {
   saveLeadStatus(data){
     return this.POST(this.ERPObjects.TLeadStatusType,data);
   }
-  
+
   getAllLeadStatus() {
     let options = {
       PropertyList: "ID,TypeName",

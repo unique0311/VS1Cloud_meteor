@@ -156,7 +156,7 @@ if (url.indexOf('?id=') > 0) {
                       let lineItemObj = {};
                       let lineItemsTable = [];
                       let lineItemTableObj = {};
-                      // console.log(data);
+
                       if (data.fields.Lines.length) {
                           for (let i = 0; i < data.fields.Lines.length; i++) {
                               lineItemObj = {
@@ -253,7 +253,7 @@ if (url.indexOf('?id=') > 0) {
                           });
                       }
                   }).catch(function (err) {
-                    // console.log(err);
+
                       swal({
                           title: 'Oooops...',
                           text: err,
@@ -421,7 +421,7 @@ if (url.indexOf('?id=') > 0) {
                     let lineItemObj = {};
                     let lineItemsTable = [];
                     let lineItemTableObj = {};
-                    // console.log(data);
+
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             lineItemObj = {
@@ -518,7 +518,7 @@ if (url.indexOf('?id=') > 0) {
                         });
                     }
                 }).catch(function (err) {
-                  // console.log(err);
+
                     swal({
                         title: 'Oooops...',
                         text: err,

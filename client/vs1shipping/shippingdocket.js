@@ -714,7 +714,6 @@ getVS1Data('TInvoiceBackOrder').then(function(dataObject) {
         }
     }
 }).catch(function(err) {
-  console.log(err);
   templateObject.getShippingDocts();
 });
 templateObject.getShippingDocts = function() {

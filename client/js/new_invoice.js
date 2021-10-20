@@ -7437,7 +7437,7 @@ Template.new_invoice.events({
             swal('Customer has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-          // console.log($(event.currentTarget).offsetLeft());
+          
             var productDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
               $('#productListModal').modal('toggle');

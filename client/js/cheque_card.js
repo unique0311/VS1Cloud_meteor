@@ -1880,7 +1880,7 @@ Template.chequecard.onRendered(() => {
                                     $('#edtSellRate').val(data.tcurrency[i].SellRate);
                                 }
                             }
-                            console.log(data.tcurrency);
+                            
                             setTimeout(function() {
                                 $('.fullScreenSpin').css('display', 'none');
                                 $('#newCurrencyModal').modal('toggle');
