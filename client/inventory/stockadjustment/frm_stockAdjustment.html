@@ -330,7 +330,8 @@
                                                                             <input class="custom-control-input chkProductCost" type="checkbox" id="formCheck-04" checked="">
                                                                             <label class="custom-control-label" for="formCheck-04"></label>
                                                                             <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Product Cost{{/if}}" valueupdate="th.th colProductCost">
+                                                                                value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Product Cost{{/if}}" valueupdate="th.th 
+                                                                                ">
                                                                                 {{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Product Cost{{/if}}</div>
                                                                         </div>
                                                                         <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
@@ -522,7 +523,7 @@
                                                     <td contenteditable="true" class="lineDescription colDescription">{{item.description}}</td>
                                                     <td contenteditable="false" class="colDepartment"><input class="es-input highlightSelect lineDepartment" type="search" value="{{item.department}}" ></td>
                                                      {{#if equals productcost true}}
-                                                    <td class="colProductCost"><input class="lineProductCost highlightInput" type="text" value="{{item.productcost}}"></td>
+                                                    <td class="lineProductCost">{{item.productcost}}</td>
                                                      {{/if}}
                                                     <td contenteditable="false" class="lineInStockQty colInStockQty" style="background-color: #eaecf4; text-align: right;">{{item.qtyinstock}}</td>
                                                     <!--
@@ -700,6 +701,21 @@
     <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
         {{> addaccountpop}}
     </div>
+
+     <div class="modal fade" role="dialog" tabindex="-1" id="employeeList">
+         <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
+            <div class="modal-content customerListContent">
+                <div class="modal-header">
+                    <h4>Employee List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body mainCustomerModalBody appointmentCustomer" style="padding: 0px; overflow-x: hidden;">
+            {{> employeelistpop}}
+             </div>
+                <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+     </div>
 
 
     <!-- End Modal Product -->
