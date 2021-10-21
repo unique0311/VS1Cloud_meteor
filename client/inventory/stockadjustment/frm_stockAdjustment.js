@@ -3242,7 +3242,7 @@ Template.stockadjustmentcard.events({
             let checkEmailData = $('#edtCustomerEmail').val();
 
             if (checkEmailData.replace(/\s/g, '') === '') {
-                swal('Supplier Email cannot be blank!', '', 'warning');
+                swal('Employee Email cannot be blank!', '', 'warning');
                 event.preventDefault();
             } else {
 
