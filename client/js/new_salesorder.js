@@ -1596,169 +1596,6 @@ Template.new_salesorder.onRendered(() => {
 
                         "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
-                    var htmlmailBody = '<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
-                        '        <tr>' +
-                        '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
-                        '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
-                        '                    <table class="main">' +
-                        '                        <tr>' +
-                        '                            <td class="wrapper">' +
-                        '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
-                        '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Invoice No. ' + erpInvoiceId + ' Details</span>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="height: 16px;"></tr>' +
-                        '                                    <tr>' +
-                        '                                        <td>' +
-                        '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="height: 48px;"></tr>' +
-                        '                                    <tr style="background-color: rgba(0, 163, 211, 0.5); ">' +
-                        '                                        <td style="text-align: center;padding: 32px 0px 16px 0px;">' +
-                        '                                            <p style="font-weight: 700; font-size: 16px; color: #363a3b; margin-bottom: 6px;">DUE ' + emailDueDate + '</p>' +
-                        '                                            <p style="font-weight: 700; font-size: 36px; color: #363a3b; margin-bottom: 6px; margin-top: 6px;">' + grandtotal + '</p>' +
-                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
-                        '                                                <tbody>' +
-                        '                                                    <tr>' +
-                        '                                                        <td align="center" style="padding-bottom: 15px;">' +
-                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
-                        '                                                                <tbody>' +
-                        '                                                                    <tr>' +
-                        '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
-                        '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
-                        '                                                                    </tr>' +
-                        '                                                                </tbody>' +
-                        '                                                            </table>' +
-                        '                                                        </td>' +
-                        '                                                    </tr>' +
-                        '                                                </tbody>' +
-                        '                                            </table>' +
-                        '                                            <p style="margin-top: 0px;">Powered by VS1 Cloud</p>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <p style="font-size: 18px;">Dear ' + customerEmailName + ',</p>' +
-                        '                                            <p style="font-size: 18px; margin: 34px 0px;">Here\'s your invoice! We appreciate your prompt payment.</p>' +
-                        '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks for your business!</p>' +
-                        '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="background-color: #ededed;">' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <div style="width: 100%; padding: 16px 0px;">' +
-                        '                                                <div style="width: 50%; float: left;">' +
-                        '                                                    <p style="font-size: 18px;">Invoice To</p>' +
-                        '                                                </div>' +
-                        '                                                <div style="width: 50%; float: right;">' +
-                        '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerEmailName + '</p>' +
-                        '                                                    <p style="margin-bottom: 0px;font-size: 18px;">' + customerBillingAddress + '</p>' +
-                        '                                                </div>' +
-                        '                                            </div>' +
-                        '                                        </td>>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="background-color: #ededed;">' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
-                        '                                            <div style="width: 100%; padding: 16px 0px;">' +
-                        '                                                <div style="width: 50%; float: left;">' +
-                        '                                                    <p style="font-size: 18px;">Terms</p>' +
-                        '                                                </div>' +
-                        '                                                <div style="width: 50%; float: right;">' +
-                        '                                                    <p style="font-size: 18px;">' + customerTerms + '</p>' +
-                        '                                                </div>' +
-                        '                                            </div>' +
-                        '                                        </td>>' +
-                        '                                    </tr>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
-                        '                                            <div style="width: 50%; float: right; padding-top: 24px;">' +
-                        '                                                <div style="width: 50%; float: left;">' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">Nett</p>' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">Balance Due</p>' +
-                        '                                                </div>' +
-                        '                                                <div style="width: 50%; float: right; text-align: right;">' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerSubtotal + '</p>' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTax + '</p>' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerNett + '</p>' +
-                        '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
-                        '                                                </div>' +
-                        '                                            </div>' +
-                        '                                        </td>>' +
-                        '                                    </tr>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
-                        '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
-                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
-                        '                                                <tbody>' +
-                        '                                                    <tr>' +
-                        '                                                        <td align="center">' +
-                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
-                        '                                                                <tbody>' +
-                        '                                                                    <tr>' +
-                        '                                                                        <td> <a href="' + stripeGlobalURL + '' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
-                        '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
-                        '                                                                    </tr>' +
-                        '                                                                </tbody>' +
-                        '                                                            </table>' +
-                        '                                                        </td>' +
-                        '                                                    </tr>' +
-                        '                                                </tbody>' +
-                        '                                            </table>' +
-                        '                                        </td>>' +
-                        '                                    </tr>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr>' +
-                        '                                        <td>' +
-                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
-                        '                                                <tbody>' +
-                        '                                                    <tr>' +
-                        '                                                        <td align="center">' +
-                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
-                        '                                                                <tbody>' +
-                        '                                                                    <tr>' +
-                        '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
-                        '                                                                    </tr>' +
-                        '                                                                </tbody>' +
-                        '                                                            </table>' +
-                        '                                                        </td>' +
-                        '                                                    </tr>' +
-                        '                                                </tbody>' +
-                        '                                            </table>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                </table>' +
-                        '                            </td>' +
-                        '                        </tr>' +
-                        '                    </table>' +
-                        '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
-                        '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                        '                            <tr>' +
-                        '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
-                        '                                    <br>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
-                        '                                </td>' +
-                        '                            </tr>' +
-                        '                        </table>' +
-                        '                    </div>' +
-                        '                </div>' +
-                        '            </td>' +
-                        '        </tr>' +
-                        '    </table>';
-
                     var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
                         '    <tr>' +
                         '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
@@ -6466,65 +6303,234 @@ Template.new_salesorder.events({
                     let grandtotal = $('#grandTotal').html();
                     let amountDueEmail = $('#totalBalanceDue').html();
                     let emailDueDate = $("#dtDueDate").val();
+                    let customerBillingAddress = $('#txabillingAddress').val();
+                    let customerTerms = $('#sltTerms').val();
+                    let customerSubtotal = $('#subtotal_total').html();
+                    let customerTax = $('#subtotal_tax').html();
+                    let customerNett = $('#subtotal_nett').html();
+                    let customerTotal = $('#grandTotal').html();
+                    console.log(emailDueDate);
                     let mailSubject = 'Sales Order ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                     let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
                         "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
                         "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
-                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                        '    <tr>' +
-                        '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                        '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '    <tr>' +
-                        '        <td style="padding: 40px 30px 40px 30px;">' +
-                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                        '                        Hello there <span>' + customerEmailName + '</span>,' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Please find sales order <span>' + erpInvoiceId + '</span> attached below.' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                 <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                        '                        The amount outstanding of <span>' + amountDueEmail + '</span> is due on <span>' + emailDueDate + '</span>' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '                <tr>' +
-                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                        '                        Kind regards,' +
-                        '                        <br>' +
-                        '                        ' + mailFromName + '' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '            </table>' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '    <tr>' +
-                        '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                        '                <tr>' +
-                        '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                        '                        If you have any question, please do not hesitate to contact us.' +
-                        '                    </td>' +
-                        '                    <td align="right">' +
-                        '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                        '                    </td>' +
-                        '                </tr>' +
-                        '            </table>' +
-                        '        </td>' +
-                        '    </tr>' +
-                        '</table>';
+                        var htmlmailBody = '<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                            '        <tr>' +
+                            '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                            '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                            '                    <table class="main">' +
+                            '                        <tr>' +
+                            '                            <td class="wrapper">' +
+                            '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                            '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Sales Order No. ' + erpInvoiceId + ' Details</span>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="height: 16px;"></tr>' +
+                            '                                    <tr>' +
+                            '                                        <td>' +
+                            '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="height: 48px;"></tr>' +
+                            '                                    <tr style="background-color: rgba(0, 163, 211, 0.5); ">' +
+                            '                                        <td style="text-align: center;padding: 32px 0px 16px 0px;">' +
+                            '                                            <p style="font-weight: 700; font-size: 36px; color: #363a3b; margin-bottom: 6px; margin-top: 6px;">' + grandtotal +'</p>' +
+                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                            '                                                <tbody>' +
+                            '                                                    <tr>' +
+                            '                                                        <td align="center" style="padding-bottom: 15px;">' +
+                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                            '                                                                <tbody>' +
+                            '                                                                    <tr>' +
+                            '                                                                        <td> <a href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                            '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                            '                                                                    </tr>' +
+                            '                                                                </tbody>' +
+                            '                                                            </table>' +
+                            '                                                        </td>' +
+                            '                                                    </tr>' +
+                            '                                                </tbody>' +
+                            '                                            </table>' +
+                            '                                            <p style="margin-top: 0px;">Powered by VS1 Cloud</p>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <p style="font-size: 18px;">Dear ' + customerEmailName + ',</p>' +
+                            '                                            <p style="font-size: 18px; margin: 34px 0px;">Here\'s your invoice! We appreciate your prompt payment.</p>' +
+                            '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks for your business!</p>' +
+                            '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="background-color: #ededed;">' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                            '                                                <div style="width: 50%; float: left;">' +
+                            '                                                    <p style="font-size: 18px;">Invoice To</p>' +
+                            '                                                </div>' +
+                            '                                                <div style="width: 50%; float: right;">' +
+                            '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerEmailName + '</p>' +
+                            '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerBillingAddress +'</p>' +
+                            '                                                </div>' +
+                            '                                            </div>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr style="background-color: #ededed;">' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                            '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                            '                                                <div style="width: 50%; float: left;">' +
+                            '                                                    <p style="font-size: 18px;">Terms</p>' +
+                            '                                                </div>' +
+                            '                                                <div style="width: 50%; float: right;">' +
+                            '                                                    <p style="font-size: 16px;">' + customerTerms +'</p>' +
+                            '                                                </div>' +
+                            '                                            </div>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                            '                                            <div style="width: 100%; float: right; padding-top: 24px;">' +
+                            '                                                <div style="width: 50%; float: left;">' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Nett</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">Balance Due</p>' +
+                            '                                                </div>' +
+                            '                                                <div style="width: 50%; float: right; text-align: right;">' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerSubtotal + '</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTax + '</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerNett + '</p>' +
+                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
+                            '                                                </div>' +
+                            '                                            </div>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
+                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                            '                                                <tbody>' +
+                            '                                                    <tr>' +
+                            '                                                        <td align="center">' +
+                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                            '                                                                <tbody>' +
+                            '                                                                    <tr>' +
+                            '                                                                        <td> <a href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                            '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                            '                                                                    </tr>' +
+                            '                                                                </tbody>' +
+                            '                                                            </table>' +
+                            '                                                        </td>' +
+                            '                                                    </tr>' +
+                            '                                                </tbody>' +
+                            '                                            </table>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                            '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                    <tr>' +
+                            '                                        <td>' +
+                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                            '                                                <tbody>' +
+                            '                                                    <tr>' +
+                            '                                                        <td align="center">' +
+                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                            '                                                                <tbody>' +
+                            '                                                                    <tr>' +
+                            '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                            '                                                                    </tr>' +
+                            '                                                                </tbody>' +
+                            '                                                            </table>' +
+                            '                                                        </td>' +
+                            '                                                    </tr>' +
+                            '                                                </tbody>' +
+                            '                                            </table>' +
+                            '                                        </td>' +
+                            '                                    </tr>' +
+                            '                                </table>' +
+                            '                            </td>' +
+                            '                        </tr>' +
+                            '                    </table>' +
+                            '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                            '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                            '                            <tr>' +
+                            '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                            '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">' + mailFromName + '</span>' +
+                            '                                    <br>' +
+                            '                                    <a href="mailto:' + mailFrom + '" style="color: #999999; font-size: 12px; text-align: center;">Contact Us</a>' +
+                            '                                    <a href="https://vs1cloud.com/downloads/VS1%20Privacy%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                            '                                    <a href="https://vs1cloud.com/downloads/VS1%20Terms%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                            '                                </td>' +
+                            '                            </tr>' +
+                            '                        </table>' +
+                            '                    </div>' +
+                            '                </div>' +
+                            '            </td>' +
+                            '        </tr>' +
+                            '    </table>';
+
+                    // var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                    //     '    <tr>' +
+                    //     '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                    //     '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                    //     '        </td>' +
+                    //     '    </tr>' +
+                    //     '    <tr>' +
+                    //     '        <td style="padding: 40px 30px 40px 30px;">' +
+                    //     '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                    //     '                <tr>' +
+                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                    //     '                        Hello there <span>' + customerEmailName + '</span>,' +
+                    //     '                    </td>' +
+                    //     '                </tr>' +
+                    //     '                <tr>' +
+                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                    //     '                        Please find sales order <span>' + erpInvoiceId + '</span> attached below.' +
+                    //     '                    </td>' +
+                    //     '                </tr>' +
+                    //     '                 <tr>' +
+                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                    //     '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                    //     '                    </td>' +
+                    //     '                </tr>' +
+                    //     '                <tr>' +
+                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                    //     '                        The amount outstanding of <span>' + amountDueEmail + '</span> is due on <span>' + emailDueDate + '</span>' +
+                    //     '                    </td>' +
+                    //     '                </tr>' +
+                    //     '                <tr>' +
+                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                    //     '                        Kind regards,' +
+                    //     '                        <br>' +
+                    //     '                        ' + mailFromName + '' +
+                    //     '                    </td>' +
+                    //     '                </tr>' +
+                    //     '            </table>' +
+                    //     '        </td>' +
+                    //     '    </tr>' +
+                    //     '    <tr>' +
+                    //     '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                    //     '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                    //     '                <tr>' +
+                    //     '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                    //     '                        If you have any question, please do not hesitate to contact us.' +
+                    //     '                    </td>' +
+                    //     '                    <td align="right">' +
+                    //     '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                    //     '                    </td>' +
+                    //     '                </tr>' +
+                    //     '            </table>' +
+                    //     '        </td>' +
+                    //     '    </tr>' +
+                    //     '</table>';
 
                     if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
                         Meteor.call('sendEmail', {
@@ -7412,65 +7418,234 @@ Template.new_salesorder.events({
                                     let grandtotal = $('#grandTotal').html();
                                     let amountDueEmail = $('#totalBalanceDue').html();
                                     let emailDueDate = $("#dtDueDate").val();
+                                    let customerBillingAddress = $('#txabillingAddress').val();
+                                    let customerTerms = $('#sltTerms').val();
+                                    let customerSubtotal = $('#subtotal_total').html();
+                                    let customerTax = $('#subtotal_tax').html();
+                                    let customerNett = $('#subtotal_nett').html();
+                                    let customerTotal = $('#grandTotal').html();
+                                    console.log(emailDueDate);
                                     let mailSubject = 'Sales Order ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                                     let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
                                         "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
                                         "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
-                                    var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
-                                        '    <tr>' +
-                                        '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
-                                        '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
-                                        '        </td>' +
-                                        '    </tr>' +
-                                        '    <tr>' +
-                                        '        <td style="padding: 40px 30px 40px 30px;">' +
-                                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                        '                <tr>' +
-                                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
-                                        '                        Hello there <span>' + customerEmailName + '</span>,' +
-                                        '                    </td>' +
-                                        '                </tr>' +
-                                        '                <tr>' +
-                                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                        '                        Please find sales order <span>' + erpInvoiceId + '</span> attached below.' +
-                                        '                    </td>' +
-                                        '                </tr>' +
-                                        '                 <tr>' +
-                                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                        '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
-                                        '                    </td>' +
-                                        '                </tr>' +
-                                        '                <tr>' +
-                                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
-                                        '                        The amount outstanding of <span>' + amountDueEmail + '</span> is due on <span>' + emailDueDate + '</span>' +
-                                        '                    </td>' +
-                                        '                </tr>' +
-                                        '                <tr>' +
-                                        '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
-                                        '                        Kind regards,' +
-                                        '                        <br>' +
-                                        '                        ' + mailFromName + '' +
-                                        '                    </td>' +
-                                        '                </tr>' +
-                                        '            </table>' +
-                                        '        </td>' +
-                                        '    </tr>' +
-                                        '    <tr>' +
-                                        '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
-                                        '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
-                                        '                <tr>' +
-                                        '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
-                                        '                        If you have any question, please do not hesitate to contact us.' +
-                                        '                    </td>' +
-                                        '                    <td align="right">' +
-                                        '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
-                                        '                    </td>' +
-                                        '                </tr>' +
-                                        '            </table>' +
-                                        '        </td>' +
-                                        '    </tr>' +
-                                        '</table>';
+                                        var htmlmailBody = '<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                                            '        <tr>' +
+                                            '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                                            '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                                            '                    <table class="main">' +
+                                            '                        <tr>' +
+                                            '                            <td class="wrapper">' +
+                                            '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                                            '                                    <tr>' +
+                                            '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                                            '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Sales Order No. ' + erpInvoiceId + ' Details</span>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr style="height: 16px;"></tr>' +
+                                            '                                    <tr>' +
+                                            '                                        <td>' +
+                                            '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr style="height: 48px;"></tr>' +
+                                            '                                    <tr style="background-color: rgba(0, 163, 211, 0.5); ">' +
+                                            '                                        <td style="text-align: center;padding: 32px 0px 16px 0px;">' +
+                                            '                                            <p style="font-weight: 700; font-size: 36px; color: #363a3b; margin-bottom: 6px; margin-top: 6px;">' + grandtotal +'</p>' +
+                                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                                            '                                                <tbody>' +
+                                            '                                                    <tr>' +
+                                            '                                                        <td align="center" style="padding-bottom: 15px;">' +
+                                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                                            '                                                                <tbody>' +
+                                            '                                                                    <tr>' +
+                                            '                                                                        <td> <a href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                                            '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                                            '                                                                    </tr>' +
+                                            '                                                                </tbody>' +
+                                            '                                                            </table>' +
+                                            '                                                        </td>' +
+                                            '                                                    </tr>' +
+                                            '                                                </tbody>' +
+                                            '                                            </table>' +
+                                            '                                            <p style="margin-top: 0px;">Powered by VS1 Cloud</p>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr>' +
+                                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                            '                                            <p style="font-size: 18px;">Dear ' + customerEmailName + ',</p>' +
+                                            '                                            <p style="font-size: 18px; margin: 34px 0px;">Here\'s your invoice! We appreciate your prompt payment.</p>' +
+                                            '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks for your business!</p>' +
+                                            '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr style="background-color: #ededed;">' +
+                                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                            '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                                            '                                                <div style="width: 50%; float: left;">' +
+                                            '                                                    <p style="font-size: 18px;">Invoice To</p>' +
+                                            '                                                </div>' +
+                                            '                                                <div style="width: 50%; float: right;">' +
+                                            '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerEmailName + '</p>' +
+                                            '                                                    <p style="margin-bottom: 0px;font-size: 16px;">' + customerBillingAddress +'</p>' +
+                                            '                                                </div>' +
+                                            '                                            </div>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr style="background-color: #ededed;">' +
+                                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                                            '                                            <div style="width: 100%; padding: 16px 0px;">' +
+                                            '                                                <div style="width: 50%; float: left;">' +
+                                            '                                                    <p style="font-size: 18px;">Terms</p>' +
+                                            '                                                </div>' +
+                                            '                                                <div style="width: 50%; float: right;">' +
+                                            '                                                    <p style="font-size: 16px;">' + customerTerms +'</p>' +
+                                            '                                                </div>' +
+                                            '                                            </div>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr>' +
+                                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                                            '                                            <div style="width: 100%; float: right; padding-top: 24px;">' +
+                                            '                                                <div style="width: 50%; float: left;">' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">Subtotal</p>' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">Tax</p>' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">Nett</p>' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">Balance Due</p>' +
+                                            '                                                </div>' +
+                                            '                                                <div style="width: 50%; float: right; text-align: right;">' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerSubtotal + '</p>' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTax + '</p>' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerNett + '</p>' +
+                                            '                                                    <p style="font-size: 18px; font-weight: 600;">' + customerTotal + '</p>' +
+                                            '                                                </div>' +
+                                            '                                            </div>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr>' +
+                                            '                                        <td class="content-block" style="padding: 16px 32px; padding-top: 0px;">' +
+                                            '                                            <hr style=" border-top: 1px dotted #363a3b;" />' +
+                                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                                            '                                                <tbody>' +
+                                            '                                                    <tr>' +
+                                            '                                                        <td align="center">' +
+                                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                                            '                                                                <tbody>' +
+                                            '                                                                    <tr>' +
+                                            '                                                                        <td> <a href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '" style="border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none;' +
+                                            '                                                                        text-transform: capitalize; background-color: #363a3b; border-color: #363a3b; color: #ffffff;" target="">Pay Now</a> </td>' +
+                                            '                                                                    </tr>' +
+                                            '                                                                </tbody>' +
+                                            '                                                            </table>' +
+                                            '                                                        </td>' +
+                                            '                                                    </tr>' +
+                                            '                                                </tbody>' +
+                                            '                                            </table>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr>' +
+                                            '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                                            '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                    <tr>' +
+                                            '                                        <td>' +
+                                            '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                                            '                                                <tbody>' +
+                                            '                                                    <tr>' +
+                                            '                                                        <td align="center">' +
+                                            '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                                            '                                                                <tbody>' +
+                                            '                                                                    <tr>' +
+                                            '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                                            '                                                                    </tr>' +
+                                            '                                                                </tbody>' +
+                                            '                                                            </table>' +
+                                            '                                                        </td>' +
+                                            '                                                    </tr>' +
+                                            '                                                </tbody>' +
+                                            '                                            </table>' +
+                                            '                                        </td>' +
+                                            '                                    </tr>' +
+                                            '                                </table>' +
+                                            '                            </td>' +
+                                            '                        </tr>' +
+                                            '                    </table>' +
+                                            '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                                            '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                                            '                            <tr>' +
+                                            '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                                            '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">' + mailFromName + '</span>' +
+                                            '                                    <br>' +
+                                            '                                    <a href="mailto:' + mailFrom + '" style="color: #999999; font-size: 12px; text-align: center;">Contact Us</a>' +
+                                            '                                    <a href="https://vs1cloud.com/downloads/VS1%20Privacy%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                                            '                                    <a href="https://vs1cloud.com/downloads/VS1%20Terms%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                                            '                                </td>' +
+                                            '                            </tr>' +
+                                            '                        </table>' +
+                                            '                    </div>' +
+                                            '                </div>' +
+                                            '            </td>' +
+                                            '        </tr>' +
+                                            '    </table>';
+
+                                    // var htmlmailBody = '<table align="center" border="0" cellpadding="0" cellspacing="0" width="600">' +
+                                    //     '    <tr>' +
+                                    //     '        <td align="center" bgcolor="#54c7e2" style="padding: 40px 0 30px 0;">' +
+                                    //     '            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" alt="VS1 Cloud" width="250px" style="display: block;" />' +
+                                    //     '        </td>' +
+                                    //     '    </tr>' +
+                                    //     '    <tr>' +
+                                    //     '        <td style="padding: 40px 30px 40px 30px;">' +
+                                    //     '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                    //     '                <tr>' +
+                                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 20px 0;">' +
+                                    //     '                        Hello there <span>' + customerEmailName + '</span>,' +
+                                    //     '                    </td>' +
+                                    //     '                </tr>' +
+                                    //     '                <tr>' +
+                                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                    //     '                        Please find sales order <span>' + erpInvoiceId + '</span> attached below.' +
+                                    //     '                    </td>' +
+                                    //     '                </tr>' +
+                                    //     '                 <tr>' +
+                                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                    //     '                        Simply click on <a style="border: none; color: white; padding: 6px 12px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #5cb85c; border-color: #4cae4c; border-radius: 10px;" href="https://www.depot.vs1cloud.com/stripe/' + stringQuery + '">Make Payment</a> to pay now.' +
+                                    //     '                    </td>' +
+                                    //     '                </tr>' +
+                                    //     '                <tr>' +
+                                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 10px 0;">' +
+                                    //     '                        The amount outstanding of <span>' + amountDueEmail + '</span> is due on <span>' + emailDueDate + '</span>' +
+                                    //     '                    </td>' +
+                                    //     '                </tr>' +
+                                    //     '                <tr>' +
+                                    //     '                    <td style="color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px; padding: 20px 0 30px 0;">' +
+                                    //     '                        Kind regards,' +
+                                    //     '                        <br>' +
+                                    //     '                        ' + mailFromName + '' +
+                                    //     '                    </td>' +
+                                    //     '                </tr>' +
+                                    //     '            </table>' +
+                                    //     '        </td>' +
+                                    //     '    </tr>' +
+                                    //     '    <tr>' +
+                                    //     '        <td bgcolor="#00a3d3" style="padding: 30px 30px 30px 30px;">' +
+                                    //     '            <table border="0" cellpadding="0" cellspacing="0" width="100%">' +
+                                    //     '                <tr>' +
+                                    //     '                    <td width="50%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">' +
+                                    //     '                        If you have any question, please do not hesitate to contact us.' +
+                                    //     '                    </td>' +
+                                    //     '                    <td align="right">' +
+                                    //     '                        <a style="border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; background-color: #4CAF50;" href="mailto:' + mailFrom + '">Contact Us</a>' +
+                                    //     '                    </td>' +
+                                    //     '                </tr>' +
+                                    //     '            </table>' +
+                                    //     '        </td>' +
+                                    //     '    </tr>' +
+                                    //     '</table>';
 
                                     if (($('.chkEmailCopy').is(':checked')) && ($('.chkEmailRep').is(':checked'))) {
                                         Meteor.call('sendEmail', {
