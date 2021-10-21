@@ -659,6 +659,7 @@ Template.stockadjustmentcard.onRendered(() => {
     } else {
         $('.fullScreenSpin').css('display', 'none');
         $('.colProcessed').css('display', 'none');
+        $('#edtCustomerEmail').val(localStorage.getItem('mySession'));
         let lineItems = [];
         let lineItemsTable = [];
         let lineItemObj = {};
