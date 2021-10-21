@@ -1,14 +1,22 @@
-import { ReactiveVar } from 'meteor/reactive-var';
-import { CoreService } from '../js/core-service';
-import { ReconService } from "./recon-service";
-import { UtilityService } from "../utility-service";
+import {
+    ReactiveVar
+} from 'meteor/reactive-var';
+import {
+    CoreService
+} from '../js/core-service';
+import {
+    ReconService
+} from "./recon-service";
+import {
+    UtilityService
+} from "../utility-service";
 import '../lib/global/erp-objects';
 import XLSX from 'xlsx';
 import 'jquery-editable-select';
 
 let utilityService = new UtilityService();
 
-Template.bankrecon.onCreated(function(){
+Template.bankrecon.onCreated(function() {
     const templateObject = Template.instance();
     // Template object for the Accounts array
     templateObject.accountnamerecords = new ReactiveVar();
@@ -20,15 +28,15 @@ Template.bankrecon.onCreated(function(){
 });
 
 Template.bankrecon.onRendered(function() {
-    $('.fullScreenSpin').css('display','inline-block');
+    $('.fullScreenSpin').css('display', 'inline-block');
 
     let templateObject = Template.instance();
     let recService = new ReconService();
     var url = FlowRouter.current().path;
     let accountnamerecords = [];
-    templateObject.getAccountNames = function(){
-        recService.getAccountNameVS1().then(function(data){
-            for(let i in data.taccountvs1){
+    templateObject.getAccountNames = function() {
+        recService.getAccountNameVS1().then(function(data) {
+            for (let i in data.taccountvs1) {
                 let accountnamerecordObj = {
                     accountid: data.taccountvs1[i].Id || ' ',
                     accountname: data.taccountvs1[i].AccountName || ' '
@@ -40,21 +48,21 @@ Template.bankrecon.onRendered(function() {
             }
             // Session - set account dropdown BEGIN
 
-            setTimeout(function () {
+            setTimeout(function() {
                 let bankaccountid = Session.get('bankaccountid') || '';
-                if(bankaccountid != ''){
+                if (bankaccountid != '') {
                     $('#bankAccountName').val(bankaccountid);
                     templateObject.getReconcileDeposit(bankaccountid);
                     templateObject.getReconcileWithdrawal(bankaccountid);
-                    let bankName = $("#bankAccountName option[value='"+bankaccountid+"']").text();
+                    let bankName = $("#bankAccountName option[value='" + bankaccountid + "']").text();
                     templateObject.getOpenBalance(bankName);
                 }
-            },10);
-      
+            }, 10);
+
             // Session - set account dropdown END
-            $('.fullScreenSpin').css('display','none');
-        }).catch(function (err) {
-            $('.fullScreenSpin').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
         });
     }
 
@@ -73,7 +81,7 @@ Template.bankrecon.onRendered(function() {
         changeMonth: true,
         changeYear: true,
         yearRange: "-90:+10",
-    }).on("change", function () {
+    }).on("change", function() {
         $('.statementDate').val($(this).val());
     });
     var currentDate = new Date();
@@ -82,16 +90,16 @@ Template.bankrecon.onRendered(function() {
     // END DATE CODE
 
     // API to pull Deposits BEGIN
-    templateObject.getReconcileDeposit = function(accountTypeId){
+    templateObject.getReconcileDeposit = function(accountTypeId) {
         let recondep = [];
-        $('.fullScreenSpin').css('display','inline-block');
-        recService.getToBeReconciledDeposit(accountTypeId).then(function(data){
-            if(data.ttobereconcileddeposit.length > 0){
-                for(let i in data.ttobereconcileddeposit){
-                    let depositamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconcileddeposit[i].Amount)|| 0.00;
+        $('.fullScreenSpin').css('display', 'inline-block');
+        recService.getToBeReconciledDeposit(accountTypeId).then(function(data) {
+            if (data.ttobereconcileddeposit.length > 0) {
+                for (let i in data.ttobereconcileddeposit) {
+                    let depositamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconcileddeposit[i].Amount) || 0.00;
                     let reconciledepositObj = {
-                        sortdate: data.ttobereconcileddeposit[i].DepositDate !=''? moment(data.ttobereconcileddeposit[i].DepositDate).format("YYYY-MM-DD"): data.ttobereconcileddeposit[i].DepositDate,
-                        recondepdate: data.ttobereconcileddeposit[i].DepositDate !=''? moment(data.ttobereconcileddeposit[i].DepositDate).format("DD/MM/YYYY"): data.ttobereconcileddeposit[i].DepositDate,
+                        sortdate: data.ttobereconcileddeposit[i].DepositDate != '' ? moment(data.ttobereconcileddeposit[i].DepositDate).format("YYYY-MM-DD") : data.ttobereconcileddeposit[i].DepositDate,
+                        recondepdate: data.ttobereconcileddeposit[i].DepositDate != '' ? moment(data.ttobereconcileddeposit[i].DepositDate).format("DD/MM/YYYY") : data.ttobereconcileddeposit[i].DepositDate,
                         recondepname: data.ttobereconcileddeposit[i].CompanyName || ' ',
                         recondeppaymenttype: data.ttobereconcileddeposit[i].Notes || ' ',
                         recondepamount: depositamount || 0.00,
@@ -101,43 +109,43 @@ Template.bankrecon.onRendered(function() {
                         recondeppaymentid: data.ttobereconcileddeposit[i].PaymentID || 0,
                         depositLineID: data.ttobereconcileddeposit[i].DepositLineID || 0,
                     };
-                    if(data.ttobereconcileddeposit[i].Seqno != 0){
+                    if (data.ttobereconcileddeposit[i].Seqno != 0) {
                         recondep.push(reconciledepositObj);
                         templateObject.reconVS1dep.set(recondep);
                     }
                 }
-                if(templateObject.reconVS1dep.get()){
-                    setTimeout(function () {
+                if (templateObject.reconVS1dep.get()) {
+                    setTimeout(function() {
                         $('#tblVS1Dep').DataTable({
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [
-                                {
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "chequelist_"+ moment().format(),
-                                    orientation:'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },{
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Cheque',
-                                    filename: "chequelist_"+ moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                }],
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "chequelist_" + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Cheque',
+                                filename: "chequelist_" + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }],
                             paging: false,
                             "scrollY": "400px",
                             "scrollCollapse": true,
-                            "columnDefs": [
-                                { "orderable": false, "targets": 0 }
-                            ],
+                            "columnDefs": [{
+                                "orderable": false,
+                                "targets": 0
+                            }],
                             colReorder: true,
                             colReorder: {
                                 fixedColumnsLeft: 1
@@ -146,59 +154,63 @@ Template.bankrecon.onRendered(function() {
                             destroy: true,
                             colReorder: true,
                             pageLength: 10,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            lengthMenu: [
+                                [initialDatatableLoad, -1],
+                                [initialDatatableLoad, "All"]
+                            ],
                             info: true,
                             responsive: true,
-                            "order": [[ 1, "desc" ]],
-                            action: function () {
+                            "order": [
+                                [1, "desc"]
+                            ],
+                            action: function() {
                                 $('#tblVS1Dep').DataTable().ajax.reload();
                             },
-                            "aoColumnDefs": [
-                                {   "aTargets": [0,6],
-                                 "mRender": function ( data, type, full ) {
-                                     if (type === 'filter') {
-                                         return data.replace(/(<([^>]+)>)/ig,"");
-                                     }
-                                     return data;
-                                 }
+                            "aoColumnDefs": [{
+                                "aTargets": [0, 6],
+                                "mRender": function(data, type, full) {
+                                    if (type === 'filter') {
+                                        return data.replace(/(<([^>]+)>)/ig, "");
+                                    }
+                                    return data;
                                 }
-                            ]
+                            }]
                         });
-                        $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display', 'none');
                     }, 0);
                 }
-            }else{
-                setTimeout(function () {
+            } else {
+                setTimeout(function() {
                     $('#tblVS1Dep').DataTable({
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "chequelist_"+ moment().format(),
-                                orientation:'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },{
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Cheque',
-                                filename: "chequelist_"+ moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }],
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "chequelist_" + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Cheque',
+                            filename: "chequelist_" + moment().format(),
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        }],
                         paging: false,
                         "scrollY": "400px",
                         "scrollCollapse": true,
-                        "columnDefs": [
-                            { "orderable": false, "targets": 0 }
-                        ],
+                        "columnDefs": [{
+                            "orderable": false,
+                            "targets": 0
+                        }],
                         colReorder: true,
                         colReorder: {
                             fixedColumnsLeft: 1
@@ -207,45 +219,49 @@ Template.bankrecon.onRendered(function() {
                         destroy: true,
                         colReorder: true,
                         pageLength: "All",
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "order": [[ 1, "desc" ]],
-                        action: function () {
+                        "order": [
+                            [1, "desc"]
+                        ],
+                        action: function() {
                             $('#tblVS1Dep').DataTable().ajax.reload();
                         },
-                            "aoColumnDefs": [
-                                {   "aTargets": [0,6],
-                                 "mRender": function ( data, type, full ) {
-                                     if (type === 'filter') {
-                                         return data.replace(/(<([^>]+)>)/ig,"");
-                                     }
-                                     return data;
-                                 }
+                        "aoColumnDefs": [{
+                            "aTargets": [0, 6],
+                            "mRender": function(data, type, full) {
+                                if (type === 'filter') {
+                                    return data.replace(/(<([^>]+)>)/ig, "");
                                 }
-                            ]
+                                return data;
+                            }
+                        }]
                     });
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
                 }, 0);
             }
-            $('.fullScreenSpin').css('display','none');
-        }).catch(function (err) {
-            $('.fullScreenSpin').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
         });
     };
     // API to pull Deposits END
 
     // API to pull Withdrawals BEGIN
-    templateObject.getReconcileWithdrawal = function(accountTypeId){
+    templateObject.getReconcileWithdrawal = function(accountTypeId) {
         let reconwith = [];
-        $('.fullScreenSpin').css('display','inline-block');
-        recService.getToBeReconciledWithdrawal(accountTypeId).then(function(data){
-            if(data.ttobereconciledwithdrawal.length > 0){
-                for(let j in data.ttobereconciledwithdrawal){
-                    let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconciledwithdrawal[j].Amount)|| 0.00;
+        $('.fullScreenSpin').css('display', 'inline-block');
+        recService.getToBeReconciledWithdrawal(accountTypeId).then(function(data) {
+            if (data.ttobereconciledwithdrawal.length > 0) {
+                for (let j in data.ttobereconciledwithdrawal) {
+                    let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconciledwithdrawal[j].Amount) || 0.00;
                     let reconcilewithdrawalObj = {
-                        sortdate: data.ttobereconciledwithdrawal[j].DepositDate !=''? moment(data.ttobereconciledwithdrawal[j].DepositDate).format("YYYY-MM-DD"): data.ttobereconciledwithdrawal[i].DepositDate,
-                        reconwithdate: data.ttobereconciledwithdrawal[j].DepositDate !=''? moment(data.ttobereconciledwithdrawal[j].DepositDate).format("DD/MM/YYYY"): data.ttobereconciledwithdrawal[j].DepositDate,
+                        sortdate: data.ttobereconciledwithdrawal[j].DepositDate != '' ? moment(data.ttobereconciledwithdrawal[j].DepositDate).format("YYYY-MM-DD") : data.ttobereconciledwithdrawal[i].DepositDate,
+                        reconwithdate: data.ttobereconciledwithdrawal[j].DepositDate != '' ? moment(data.ttobereconciledwithdrawal[j].DepositDate).format("DD/MM/YYYY") : data.ttobereconciledwithdrawal[j].DepositDate,
                         reconwithname: data.ttobereconciledwithdrawal[j].CompanyName || ' ',
                         reconwithpaymenttype: data.ttobereconciledwithdrawal[j].Notes || ' ',
                         reconwithamount: withdrawalamount || 0.00,
@@ -255,44 +271,44 @@ Template.bankrecon.onRendered(function() {
                         reconwithpaymentid: data.ttobereconciledwithdrawal[j].DepositID || 0,
                         depositLineID: data.ttobereconciledwithdrawal[j].DepositLineID || 0,
                     };
-                    if(data.ttobereconciledwithdrawal[j].Seqno != 0){
+                    if (data.ttobereconciledwithdrawal[j].Seqno != 0) {
                         reconwith.push(reconcilewithdrawalObj);
                         templateObject.reconVS1with.set(reconwith);
                     }
                 }
-                if(templateObject.reconVS1with.get()){
-                    setTimeout(function () {
+                if (templateObject.reconVS1with.get()) {
+                    setTimeout(function() {
                         $('#tblVS1With').DataTable({
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [
-                                {
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "chequelist_"+ moment().format(),
-                                    orientation:'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },{
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Cheque',
-                                    filename: "chequelist_"+ moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                }],
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "chequelist_" + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Cheque',
+                                filename: "chequelist_" + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }],
                             paging: false,
                             "scrollY": "400px",
                             "scrollCollapse": true,
                             select: true,
-                            "columnDefs": [
-                                { "orderable": false, "targets": 0 }
-                            ],
+                            "columnDefs": [{
+                                "orderable": false,
+                                "targets": 0
+                            }],
                             colReorder: true,
                             colReorder: {
                                 fixedColumnsLeft: 1
@@ -300,50 +316,55 @@ Template.bankrecon.onRendered(function() {
                             destroy: true,
                             colReorder: true,
                             pageLength: 10,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            lengthMenu: [
+                                [initialDatatableLoad, -1],
+                                [initialDatatableLoad, "All"]
+                            ],
                             info: true,
                             responsive: true,
-                            "order": [[ 1, "desc" ]],
-                            action: function () {
+                            "order": [
+                                [1, "desc"]
+                            ],
+                            action: function() {
                                 $('#tblVS1With').DataTable().ajax.reload();
                             }
                         });
-                        $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display', 'none');
                     }, 0);
                 }
-            }else{
-                setTimeout(function () {
+            } else {
+                setTimeout(function() {
                     $('#tblVS1With').DataTable({
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "chequelist_"+ moment().format(),
-                                orientation:'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },{
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Cheque',
-                                filename: "chequelist_"+ moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }],
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "chequelist_" + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Cheque',
+                            filename: "chequelist_" + moment().format(),
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        }],
                         paging: false,
                         "scrollY": "400px",
                         "scrollCollapse": true,
                         select: true,
-                        "columnDefs": [
-                            { "orderable": false, "targets": 0 }
-                        ],
+                        "columnDefs": [{
+                            "orderable": false,
+                            "targets": 0
+                        }],
                         colReorder: true,
                         colReorder: {
                             fixedColumnsLeft: 1
@@ -351,101 +372,105 @@ Template.bankrecon.onRendered(function() {
                         destroy: true,
                         colReorder: true,
                         pageLength: 10,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "order": [[ 1, "desc" ]],
-                        action: function () {
+                        "order": [
+                            [1, "desc"]
+                        ],
+                        action: function() {
                             $('#tblVS1With').DataTable().ajax.reload();
                         }
                     });
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
                 }, 0);
             }
-            $('.fullScreenSpin').css('display','none');
-        }).catch(function (err) {
-            $('.fullScreenSpin').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
         });
     };
     // API to pull Withdrawals END
 
     // API to pull Opening Balance BEGIN
-    templateObject.getOpenBalance = function(bankAccount){
-        recService.getReconciliationBalance(bankAccount).then(function (data) {
+    templateObject.getOpenBalance = function(bankAccount) {
+        recService.getReconciliationBalance(bankAccount).then(function(data) {
             var counter = 0
             var openBal = 0;
             let dataArray = [];
-            if(data.treconciliation.length){
-                for(let k in data.treconciliation){
+            if (data.treconciliation.length) {
+                for (let k in data.treconciliation) {
                     //if(data.treconciliation[k].CloseBalance > 0){
-                    if(data.treconciliation[k].AccountName === bankAccount){
+                    if (data.treconciliation[k].AccountName === bankAccount) {
                         // counter++;
-                        let objData ={
-                            Id:data.treconciliation[k].Id,
-                            AccountName:data.treconciliation[k].AccountName,
-                            CloseBalance:data.treconciliation[k].CloseBalance
+                        let objData = {
+                            Id: data.treconciliation[k].Id,
+                            AccountName: data.treconciliation[k].AccountName,
+                            CloseBalance: data.treconciliation[k].CloseBalance
                         }
 
                         dataArray.push(objData);
-                        if(FlowRouter.current().queryParams.id){
-                        }else{
-                        if(data.treconciliation[k].OnHold == true){
-                          Session.setPersistent('bankaccountid', data.treconciliation[k].AccountID);
-                          window.open('/bankrecon?id=' + data.treconciliation[k].Id,'_self');
+                        if (FlowRouter.current().queryParams.id) {} else {
+                            if (data.treconciliation[k].OnHold == true) {
+                                Session.setPersistent('bankaccountid', data.treconciliation[k].AccountID);
+                                window.open('/bankrecon?id=' + data.treconciliation[k].Id, '_self');
+                            }
                         }
-                      }
                         // openBal = data.treconciliation[data.treconciliation.length - 1].CloseBalance;
 
                     }
                     //}
                 }
-                if(dataArray.length === 0){
+                if (dataArray.length === 0) {
                     openBal = 0;
-                }else{
+                } else {
 
-                    for(let j in dataArray){
+                    for (let j in dataArray) {
                         openBal = dataArray[dataArray.length - 1].CloseBalance;
                     }
                 }
                 $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openBal) || 0);
                 $('.vs1cloudBalance').text(utilityService.modifynegativeCurrencyFormat(openBal) || 0);
-            }else{
-                $('.openingbalance').val(Currency+ '0');
-                $('.vs1cloudBalance').text(Currency+ '0');
+            } else {
+                $('.openingbalance').val(Currency + '0');
+                $('.vs1cloudBalance').text(Currency + '0');
 
             }
             // $('#openingbalance2').val(utilityService.modifynegativeCurrencyFormat(openBal));
-        }).catch(function (err) {
-            $('.openingbalance').val(Currency+ '0');
-            $('.fullScreenSpin').css('display','none');
+        }).catch(function(err) {
+            $('.openingbalance').val(Currency + '0');
+            $('.fullScreenSpin').css('display', 'none');
         });
     };
 
-    templateObject.getVS1CloudBalance = function(){
-        recService.getReconciliation().then(function (data) {
+    templateObject.getVS1CloudBalance = function() {
+        recService.getReconciliation().then(function(data) {
             var vs1openBal = 0;
             let latestReconId;
             var getrecon_id = url.split('?id=');
-            var currentRecon = getrecon_id[getrecon_id.length-1];
-            if(data.treconciliation.length){
+            var currentRecon = getrecon_id[getrecon_id.length - 1];
+            if (data.treconciliation.length) {
                 let lastElement = data.treconciliation[data.treconciliation.length - 1];
                 latestReconId = (lastElement.Id);
 
-                if(latestReconId === parseInt(currentRecon)){
+                if (latestReconId === parseInt(currentRecon)) {
                     $('.btnDeleteRecon').prop("disabled", false);
-                }else{
+                } else {
                     $('.btnDeleteRecon').prop("disabled", true);
                 }
 
 
-                for(let k in data.treconciliation){
-                    if(data.treconciliation[k].CloseBalance > 0){
+                for (let k in data.treconciliation) {
+                    if (data.treconciliation[k].CloseBalance > 0) {
                         vs1openBal = data.treconciliation[data.treconciliation.length - 1].CloseBalance;
                     }
                 }
                 $('.vs1cloudBalance').text(utilityService.modifynegativeCurrencyFormat(vs1openBal) || 0);
-            }else{
-                $('.vs1cloudBalance').text(Currency+ '0');
+            } else {
+                $('.vs1cloudBalance').text(Currency + '0');
             }
             // $('#openingbalance2').val(utilityService.modifynegativeCurrencyFormat(openBal));
         });
@@ -453,17 +478,1101 @@ Template.bankrecon.onRendered(function() {
 
 
     // API to pull Opening Balance END
-    if(url.indexOf('?id=') > 0){
+    if (url.indexOf('?id=') > 0) {
         var getrecon_id = url.split('?id=');
-        var currentRecon = getrecon_id[getrecon_id.length-1];
+        var currentRecon = getrecon_id[getrecon_id.length - 1];
         let selectedTransAmountdep = 0;
         let selectedTransAmountwidth = 0;
         templateObject.getVS1CloudBalance();
-        if(getrecon_id[1]){
+        if (getrecon_id[1]) {
             currentRecon = parseInt(currentRecon);
-            getVS1Data('TReconciliation').then(function (dataObject) {
-              if(dataObject.length == 0){
-                recService.getOneReconData(currentRecon).then(function (data) {
+            getVS1Data('TReconciliation').then(function(dataObject) {
+                if (dataObject.length == 0) {
+                    recService.getOneReconData(currentRecon).then(function(data) {
+                        let recondep = [];
+                        let reconwith = [];
+                        let openingBalance = data.fields.OpenBalance || 0;
+                        let endingBalance = data.fields.CloseBalance || 0;
+                        let statementNo = data.fields.StatementNo || '';
+                        let bankAccount = data.fields.AccountName || '';
+                        let statementDate = data.fields.ReconciliationDate ? moment(data.fields.ReconciliationDate).format('DD/MM/YYYY') : "";
+                        let endingBalanceCalc = data.fields.CloseBalance || 0;
+                        let clearedBalance = data.fields.CloseBalance || 0;
+                        // let depositAmount = data.fields.CloseBalance || 0;
+                        // let withdrawalAmount = data.fields.CloseBalance || 0;
+                        //$('.btnDeleteRecon').css('display','block');
+                        $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
+                        $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
+                        $('.statementno').val(statementNo);
+                        $('.statementDate').val(statementDate);
+                        $('#bankAccountName').append('<option value="' + bankAccount + '" selected="selected">' + bankAccount + '</option>');
+                        $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
+                        $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
+                        $('.differenceCalc').text(Currency + "0.00" || 0);
+                        // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
+                        // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
+                        if (data.fields.OnHold == false) {
+                            $('#bankAccountName').attr('disabled', 'disabled');
+                            $('#bankAccountName').attr('readonly', true);
+                            $('.openingbalance').attr('readonly', true);
+                            $('.endingbalance').attr('readonly', true);
+                            $('.statementno').attr('readonly', true);
+                            $('.statementDate').attr('disabled', 'disabled');
+                            $('.statementDate').attr('readonly', true);
+                            $('.statementDate').css('pointer-events', 'none');
+                            $('#hideSelectionToggle').attr('disabled', 'disabled');
+                            $('#hideSelectionToggle').attr('readonly', true);
+                        } else {
+                            $('.reconbtn').prop("disabled", false);
+                            $('.btnHold').prop("disabled", false);
+                        }
+                        if (data.fields.DepositLines.length > 0) {
+                            const selectedTransdep = [];
+                            for (let i in data.fields.DepositLines) {
+                                let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount) || 0.00;
+                                let reconciledepositObj = {
+                                    recondepdate: data.fields.DepositLines[i].fields.DepositDate != '' ? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY") : data.fields.DepositLines[i].fields.DepositDate,
+                                    recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
+                                    recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
+                                    recondepamount: depositamount || 0.00,
+                                    recondepid: data.fields.DepositLines[i].fields.ID || ' ',
+                                    recondepref: data.fields.DepositLines[i].fields.Reference || ' ',
+                                    seqdepnum: data.fields.DepositLines[i].fields.Recno || 0,
+                                    recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
+                                    depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
+                                };
+                                selectedTransAmountdep = selectedTransAmountdep + parseFloat(data.fields.DepositLines[i].fields.Amount);
+                                //if(data.ttobereconcileddeposit[i].Seqno != 0){
+                                recondep.push(reconciledepositObj);
+                                templateObject.reconVS1dep.set(recondep);
+                                //}
+                            }
+
+                            $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
+                            if (templateObject.reconVS1dep.get()) {
+                                setTimeout(function() {
+                                    $('#tblVS1Dep').DataTable({
+                                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                        buttons: [{
+                                            extend: 'excelHtml5',
+                                            text: '',
+                                            download: 'open',
+                                            className: "btntabletocsv hiddenColumn",
+                                            filename: "chequelist_" + moment().format(),
+                                            orientation: 'portrait',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }, {
+                                            extend: 'print',
+                                            download: 'open',
+                                            className: "btntabletopdf hiddenColumn",
+                                            text: '',
+                                            title: 'Cheque',
+                                            filename: "chequelist_" + moment().format(),
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }],
+                                        paging: false,
+                                        "scrollY": "400px",
+                                        "scrollCollapse": true,
+                                        "columnDefs": [{
+                                            "orderable": false,
+                                            "targets": 0
+                                        }],
+                                        colReorder: true,
+                                        colReorder: {
+                                            fixedColumnsLeft: 1
+                                        },
+                                        select: true,
+                                        destroy: true,
+                                        colReorder: true,
+                                        pageLength: 10,
+                                        lengthMenu: [
+                                            [initialDatatableLoad, -1],
+                                            [initialDatatableLoad, "All"]
+                                        ],
+                                        info: true,
+                                        responsive: true,
+                                        "order": [
+                                            [1, "desc"]
+                                        ],
+                                        action: function() {
+                                            $('#tblVS1Dep').DataTable().ajax.reload();
+                                        }
+                                    });
+
+                                }, 0);
+                            }
+                            if (data.fields.OnHold == false) {
+                                setTimeout(function() {
+
+                                    $('.tblVS1Dep tr').each(function() {
+                                        var $tblrow = $(this);
+                                        $tblrow.find("th input").attr('readonly', true);
+                                        $tblrow.find("th input").attr('disabled', 'disabled');
+                                        $tblrow.find("th").css('background-color', '#eaecf4');
+
+                                        $tblrow.find("td input").attr('readonly', true);
+                                        $tblrow.find("td input").attr('disabled', 'disabled');
+                                        $tblrow.find("td").css('background-color', '#eaecf4');
+                                        $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                    }, 100);
+                                });
+                            } else {
+                                setTimeout(function() {
+                                    $(".reconchkboxdep").trigger("click");
+                                }, 100);
+                            }
+                        } else {
+                            setTimeout(function() {
+                                $('#tblVS1Dep').DataTable({
+                                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                    buttons: [{
+                                        extend: 'excelHtml5',
+                                        text: '',
+                                        download: 'open',
+                                        className: "btntabletocsv hiddenColumn",
+                                        filename: "chequelist_" + moment().format(),
+                                        orientation: 'portrait',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }, {
+                                        extend: 'print',
+                                        download: 'open',
+                                        className: "btntabletopdf hiddenColumn",
+                                        text: '',
+                                        title: 'Cheque',
+                                        filename: "chequelist_" + moment().format(),
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }],
+                                    paging: false,
+                                    "scrollY": "400px",
+                                    "scrollCollapse": true,
+                                    "columnDefs": [{
+                                        "orderable": false,
+                                        "targets": 0
+                                    }],
+                                    colReorder: true,
+                                    colReorder: {
+                                        fixedColumnsLeft: 1
+                                    },
+                                    select: true,
+                                    destroy: true,
+                                    colReorder: true,
+                                    pageLength: "All",
+                                    lengthMenu: [
+                                        [initialDatatableLoad, -1],
+                                        [initialDatatableLoad, "All"]
+                                    ],
+                                    info: true,
+                                    responsive: true,
+                                    "order": [
+                                        [1, "desc"]
+                                    ],
+                                    action: function() {
+                                        $('#tblVS1Dep').DataTable().ajax.reload();
+                                    }
+                                });
+
+                            }, 0);
+                        }
+
+                        if (data.fields.WithdrawalLines.length > 0) {
+                            for (let j in data.fields.WithdrawalLines) {
+                                let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount) || 0.00;
+                                let reconcilewithdrawalObj = {
+                                    sortdate: data.fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD") : data.fields.WithdrawalLines[j].fields.DepositDate,
+                                    reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY") : data.fields.WithdrawalLines[j].fields.DepositDate,
+                                    reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
+                                    reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
+                                    reconwithamount: withdrawalamount || 0.00,
+                                    reconwithid: data.fields.WithdrawalLines[j].fields.ID || ' ',
+                                    reconwithref: data.fields.WithdrawalLines[j].fields.Reference || ' ',
+                                    seqwithnum: data.fields.WithdrawalLines[j].fields.Recno || 0,
+                                    reconwithpaymentid: data.fields.WithdrawalLines[j].fields.PaymentID || 0,
+                                    depositLineID: data.fields.WithdrawalLines[j].fields.DepositLineID || 0,
+                                };
+
+                                reconwith.push(reconcilewithdrawalObj);
+                                templateObject.reconVS1with.set(reconwith);
+                                selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
+
+                            }
+
+                            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
+                            if (templateObject.reconVS1with.get()) {
+                                setTimeout(function() {
+                                    $('#tblVS1With').DataTable({
+                                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                        buttons: [{
+                                            extend: 'excelHtml5',
+                                            text: '',
+                                            download: 'open',
+                                            className: "btntabletocsv hiddenColumn",
+                                            filename: "chequelist_" + moment().format(),
+                                            orientation: 'portrait',
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }, {
+                                            extend: 'print',
+                                            download: 'open',
+                                            className: "btntabletopdf hiddenColumn",
+                                            text: '',
+                                            title: 'Cheque',
+                                            filename: "chequelist_" + moment().format(),
+                                            exportOptions: {
+                                                columns: ':visible'
+                                            }
+                                        }],
+                                        paging: false,
+                                        "scrollY": "400px",
+                                        "scrollCollapse": true,
+                                        select: true,
+                                        "columnDefs": [{
+                                            "orderable": false,
+                                            "targets": 0
+                                        }],
+                                        colReorder: true,
+                                        colReorder: {
+                                            fixedColumnsLeft: 1
+                                        },
+                                        destroy: true,
+                                        colReorder: true,
+                                        pageLength: 10,
+                                        lengthMenu: [
+                                            [initialDatatableLoad, -1],
+                                            [initialDatatableLoad, "All"]
+                                        ],
+                                        info: true,
+                                        responsive: true,
+                                        "order": [
+                                            [1, "desc"]
+                                        ],
+                                        action: function() {
+                                            $('#tblVS1With').DataTable().ajax.reload();
+                                        }
+                                    });
+
+                                }, 0);
+                            }
+                            if (data.fields.OnHold == false) {
+                                setTimeout(function() {
+                                    $('.tblVS1With tr').each(function() {
+                                        var $tblrow = $(this);
+                                        $tblrow.find("th input").attr('readonly', true);
+                                        $tblrow.find("th input").attr('disabled', 'disabled');
+                                        $tblrow.find("th").css('background-color', '#eaecf4');
+
+                                        $tblrow.find("td input").attr('readonly', true);
+                                        $tblrow.find("td input").attr('disabled', 'disabled');
+                                        $tblrow.find("td").css('background-color', '#eaecf4');
+                                        $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                    }, 100);
+                                });
+                            } else {
+                                setTimeout(function() {
+                                    $(".reconchkboxwith").trigger("click");
+                                }, 100);
+                            }
+                        } else {
+                            setTimeout(function() {
+                                $('#tblVS1With').DataTable({
+                                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                    buttons: [{
+                                        extend: 'excelHtml5',
+                                        text: '',
+                                        download: 'open',
+                                        className: "btntabletocsv hiddenColumn",
+                                        filename: "chequelist_" + moment().format(),
+                                        orientation: 'portrait',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }, {
+                                        extend: 'print',
+                                        download: 'open',
+                                        className: "btntabletopdf hiddenColumn",
+                                        text: '',
+                                        title: 'Cheque',
+                                        filename: "chequelist_" + moment().format(),
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }],
+                                    paging: false,
+                                    "scrollY": "400px",
+                                    "scrollCollapse": true,
+                                    select: true,
+                                    "columnDefs": [{
+                                        "orderable": false,
+                                        "targets": 0
+                                    }],
+                                    colReorder: true,
+                                    colReorder: {
+                                        fixedColumnsLeft: 1
+                                    },
+                                    destroy: true,
+                                    colReorder: true,
+                                    pageLength: 10,
+                                    lengthMenu: [
+                                        [initialDatatableLoad, -1],
+                                        [initialDatatableLoad, "All"]
+                                    ],
+                                    info: true,
+                                    responsive: true,
+                                    "order": [
+                                        [1, "desc"]
+                                    ],
+                                    action: function() {
+                                        $('#tblVS1With').DataTable().ajax.reload();
+                                    }
+                                });
+                                $('.fullScreenSpin').css('display', 'none');
+                            }, 0);
+                        }
+                        //$('#hideSelectionToggle').css('pointer-events', 'none');
+
+
+
+                        $('.fullScreenSpin').css('display', 'none');
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    });
+                } else {
+                    let data = JSON.parse(dataObject[0].data);
+                    let useData = data.treconciliation;
+                    var added = false;
+                    for (let d = 0; d < useData.length; d++) {
+                        if (parseInt(useData[d].fields.ID) === currentRecon) {
+                            added = true;
+                            $('.fullScreenSpin').css('display', 'none');
+                            let recondep = [];
+                            let reconwith = [];
+                            let openingBalance = useData[d].fields.OpenBalance || 0;
+                            let endingBalance = useData[d].fields.CloseBalance || 0;
+                            let statementNo = useData[d].fields.StatementNo || '';
+                            let bankAccount = useData[d].fields.AccountName || '';
+                            let statementDate = useData[d].fields.ReconciliationDate ? moment(useData[d].fields.ReconciliationDate).format('DD/MM/YYYY') : "";
+                            let endingBalanceCalc = useData[d].fields.CloseBalance || 0;
+                            let clearedBalance = useData[d].fields.CloseBalance || 0;
+                            // let depositAmount = useData[d].fields.CloseBalance || 0;
+                            // let withdrawalAmount = useData[d].fields.CloseBalance || 0;
+                            //$('.btnDeleteRecon').css('display','block');
+                            $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
+                            $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
+                            $('.statementno').val(statementNo);
+                            $('.statementDate').val(statementDate);
+                            $('#bankAccountName').append('<option value="' + bankAccount + '" selected="selected">' + bankAccount + '</option>');
+                            $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
+                            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
+                            $('.differenceCalc').text(Currency + "0.00" || 0);
+                            // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
+                            // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
+                            if (useData[d].fields.OnHold == false) {
+                                $('#bankAccountName').attr('disabled', 'disabled');
+                                $('#bankAccountName').attr('readonly', true);
+                                $('.openingbalance').attr('readonly', true);
+                                $('.endingbalance').attr('readonly', true);
+                                $('.statementno').attr('readonly', true);
+                                $('.statementDate').attr('disabled', 'disabled');
+                                $('.statementDate').attr('readonly', true);
+                                $('.statementDate').css('pointer-events', 'none');
+                                $('#hideSelectionToggle').attr('disabled', 'disabled');
+                                $('#hideSelectionToggle').attr('readonly', true);
+
+                            } else {
+                                $('.reconbtn').prop("disabled", false);
+                                $('.btnHold').prop("disabled", false);
+                            }
+                            if (useData[d].fields.DepositLines != null) {
+                                if (useData[d].fields.DepositLines.length > 0) {
+
+                                    for (let i in useData[d].fields.DepositLines) {
+                                        let depositamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.DepositLines[i].fields.Amount) || 0.00;
+                                        let reconciledepositObj = {
+                                            recondepdate: useData[d].fields.DepositLines[i].fields.DepositDate != '' ? moment(useData[d].fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY") : useData[d].fields.DepositLines[i].fields.DepositDate,
+                                            recondepname: useData[d].fields.DepositLines[i].fields.Payee || ' ',
+                                            recondeppaymenttype: useData[d].fields.DepositLines[i].fields.Notes || ' ',
+                                            recondepamount: depositamount || 0.00,
+                                            recondepid: useData[d].fields.DepositLines[i].fields.ID || ' ',
+                                            recondepref: useData[d].fields.DepositLines[i].fields.Reference || ' ',
+                                            seqdepnum: useData[d].fields.DepositLines[i].fields.Recno || 0,
+                                            recondeppaymentid: useData[d].fields.DepositLines[i].fields.PaymentID || 0,
+                                            depositLineID: useData[d].fields.DepositLines[i].fields.DepositLineID || 0,
+                                        };
+                                        selectedTransAmountdep = selectedTransAmountdep + parseFloat(useData[d].fields.DepositLines[i].fields.Amount);
+                                        //if(useData[d].ttobereconcileddeposit[i].Seqno != 0){
+                                        recondep.push(reconciledepositObj);
+                                        templateObject.reconVS1dep.set(recondep);
+                                        //}
+                                    }
+
+                                    $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
+                                    if (templateObject.reconVS1dep.get()) {
+                                        setTimeout(function() {
+                                            $('#tblVS1Dep').DataTable({
+                                                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                                buttons: [{
+                                                    extend: 'excelHtml5',
+                                                    text: '',
+                                                    download: 'open',
+                                                    className: "btntabletocsv hiddenColumn",
+                                                    filename: "chequelist_" + moment().format(),
+                                                    orientation: 'portrait',
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }, {
+                                                    extend: 'print',
+                                                    download: 'open',
+                                                    className: "btntabletopdf hiddenColumn",
+                                                    text: '',
+                                                    title: 'Cheque',
+                                                    filename: "chequelist_" + moment().format(),
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }],
+                                                paging: false,
+                                                "scrollY": "400px",
+                                                "scrollCollapse": true,
+                                                "columnDefs": [{
+                                                    "orderable": false,
+                                                    "targets": 0
+                                                }],
+                                                colReorder: true,
+                                                colReorder: {
+                                                    fixedColumnsLeft: 1
+                                                },
+                                                select: true,
+                                                destroy: true,
+                                                colReorder: true,
+                                                pageLength: 10,
+                                                lengthMenu: [
+                                                    [initialDatatableLoad, -1],
+                                                    [initialDatatableLoad, "All"]
+                                                ],
+                                                info: true,
+                                                responsive: true,
+                                                "order": [
+                                                    [1, "desc"]
+                                                ],
+                                                action: function() {
+                                                    $('#tblVS1Dep').DataTable().ajax.reload();
+                                                }
+                                            });
+
+                                        }, 0);
+                                    }
+
+                                    if (useData[d].fields.OnHold == false) {
+                                        setTimeout(function() {
+                                            $('.tblVS1Dep tr').each(function() {
+                                                var $tblrow = $(this);
+                                                $tblrow.find("th input").attr('readonly', true);
+                                                $tblrow.find("th input").attr('disabled', 'disabled');
+                                                $tblrow.find("th").css('background-color', '#eaecf4');
+
+                                                $tblrow.find("td input").attr('readonly', true);
+                                                $tblrow.find("td input").attr('disabled', 'disabled');
+                                                $tblrow.find("td").css('background-color', '#eaecf4');
+                                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            }, 100);
+                                        });
+                                    } else {
+                                        setTimeout(function() {
+                                            $(".reconchkboxdep").trigger("click");
+                                        }, 100);
+                                    }
+                                } else {
+                                    setTimeout(function() {
+                                        $('#tblVS1Dep').DataTable({
+                                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                            buttons: [{
+                                                extend: 'excelHtml5',
+                                                text: '',
+                                                download: 'open',
+                                                className: "btntabletocsv hiddenColumn",
+                                                filename: "chequelist_" + moment().format(),
+                                                orientation: 'portrait',
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }, {
+                                                extend: 'print',
+                                                download: 'open',
+                                                className: "btntabletopdf hiddenColumn",
+                                                text: '',
+                                                title: 'Cheque',
+                                                filename: "chequelist_" + moment().format(),
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }],
+                                            paging: false,
+                                            "scrollY": "400px",
+                                            "scrollCollapse": true,
+                                            "columnDefs": [{
+                                                "orderable": false,
+                                                "targets": 0
+                                            }],
+                                            colReorder: true,
+                                            colReorder: {
+                                                fixedColumnsLeft: 1
+                                            },
+                                            select: true,
+                                            destroy: true,
+                                            colReorder: true,
+                                            pageLength: "All",
+                                            lengthMenu: [
+                                                [initialDatatableLoad, -1],
+                                                [initialDatatableLoad, "All"]
+                                            ],
+                                            info: true,
+                                            responsive: true,
+                                            "order": [
+                                                [1, "desc"]
+                                            ],
+                                            action: function() {
+                                                $('#tblVS1Dep').DataTable().ajax.reload();
+                                            }
+                                        });
+
+                                    }, 0);
+                                }
+                            }
+                            if (useData[d].fields.WithdrawalLines != null) {
+                                if (useData[d].fields.WithdrawalLines.length > 0) {
+                                    for (let j in useData[d].fields.WithdrawalLines) {
+                                        let withdrawalamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.WithdrawalLines[j].fields.Amount) || 0.00;
+                                        let reconcilewithdrawalObj = {
+                                            sortdate: useData[d].fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(useData[d].fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD") : useData[d].fields.WithdrawalLines[j].fields.DepositDate,
+                                            reconwithdate: useData[d].fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(useData[d].fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY") : useData[d].fields.WithdrawalLines[j].fields.DepositDate,
+                                            reconwithname: useData[d].fields.WithdrawalLines[j].fields.ClientName || ' ',
+                                            reconwithpaymenttype: useData[d].fields.WithdrawalLines[j].fields.Notes || ' ',
+                                            reconwithamount: withdrawalamount || 0.00,
+                                            reconwithid: useData[d].fields.WithdrawalLines[j].fields.ID || ' ',
+                                            reconwithref: useData[d].fields.WithdrawalLines[j].fields.Reference || ' ',
+                                            seqwithnum: useData[d].fields.WithdrawalLines[j].fields.Recno || 0,
+                                            reconwithpaymentid: useData[d].fields.WithdrawalLines[j].fields.PaymentID || 0,
+                                            depositLineID: useData[d].fields.WithdrawalLines[j].fields.DepositLineID || 0,
+                                        };
+
+                                        reconwith.push(reconcilewithdrawalObj);
+                                        templateObject.reconVS1with.set(reconwith);
+                                        selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(useData[d].fields.WithdrawalLines[j].fields.Amount);
+
+                                    }
+
+                                    $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
+                                    if (templateObject.reconVS1with.get()) {
+                                        setTimeout(function() {
+                                            $('#tblVS1With').DataTable({
+                                                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                                buttons: [{
+                                                    extend: 'excelHtml5',
+                                                    text: '',
+                                                    download: 'open',
+                                                    className: "btntabletocsv hiddenColumn",
+                                                    filename: "chequelist_" + moment().format(),
+                                                    orientation: 'portrait',
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }, {
+                                                    extend: 'print',
+                                                    download: 'open',
+                                                    className: "btntabletopdf hiddenColumn",
+                                                    text: '',
+                                                    title: 'Cheque',
+                                                    filename: "chequelist_" + moment().format(),
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }],
+                                                paging: false,
+                                                "scrollY": "400px",
+                                                "scrollCollapse": true,
+                                                select: true,
+                                                "columnDefs": [{
+                                                    "orderable": false,
+                                                    "targets": 0
+                                                }],
+                                                colReorder: true,
+                                                colReorder: {
+                                                    fixedColumnsLeft: 1
+                                                },
+                                                destroy: true,
+                                                colReorder: true,
+                                                pageLength: 10,
+                                                lengthMenu: [
+                                                    [initialDatatableLoad, -1],
+                                                    [initialDatatableLoad, "All"]
+                                                ],
+                                                info: true,
+                                                responsive: true,
+                                                "order": [
+                                                    [1, "desc"]
+                                                ],
+                                                action: function() {
+                                                    $('#tblVS1With').DataTable().ajax.reload();
+                                                }
+                                            });
+
+                                        }, 0);
+                                    }
+
+                                    if (useData[d].fields.OnHold == false) {
+                                        setTimeout(function() {
+                                            $('.tblVS1With tr').each(function() {
+                                                var $tblrow = $(this);
+                                                $tblrow.find("th input").attr('readonly', true);
+                                                $tblrow.find("th input").attr('disabled', 'disabled');
+                                                $tblrow.find("th").css('background-color', '#eaecf4');
+
+                                                $tblrow.find("td input").attr('readonly', true);
+                                                $tblrow.find("td input").attr('disabled', 'disabled');
+                                                $tblrow.find("td").css('background-color', '#eaecf4');
+                                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            }, 100);
+                                        });
+                                    } else {
+                                        setTimeout(function() {
+                                            $(".reconchkboxwith").trigger("click");
+                                        }, 100);
+                                    }
+                                } else {
+                                    setTimeout(function() {
+                                        $('#tblVS1With').DataTable({
+                                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                            buttons: [{
+                                                extend: 'excelHtml5',
+                                                text: '',
+                                                download: 'open',
+                                                className: "btntabletocsv hiddenColumn",
+                                                filename: "chequelist_" + moment().format(),
+                                                orientation: 'portrait',
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }, {
+                                                extend: 'print',
+                                                download: 'open',
+                                                className: "btntabletopdf hiddenColumn",
+                                                text: '',
+                                                title: 'Cheque',
+                                                filename: "chequelist_" + moment().format(),
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }],
+                                            paging: false,
+                                            "scrollY": "400px",
+                                            "scrollCollapse": true,
+                                            select: true,
+                                            "columnDefs": [{
+                                                "orderable": false,
+                                                "targets": 0
+                                            }],
+                                            colReorder: true,
+                                            colReorder: {
+                                                fixedColumnsLeft: 1
+                                            },
+                                            destroy: true,
+                                            colReorder: true,
+                                            pageLength: 10,
+                                            lengthMenu: [
+                                                [initialDatatableLoad, -1],
+                                                [initialDatatableLoad, "All"]
+                                            ],
+                                            info: true,
+                                            responsive: true,
+                                            "order": [
+                                                [1, "desc"]
+                                            ],
+                                            action: function() {
+                                                $('#tblVS1With').DataTable().ajax.reload();
+                                            }
+                                        });
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }, 0);
+                                }
+
+                            }
+                        }
+                    }
+
+                    if (!added) {
+                        recService.getOneReconData(currentRecon).then(function(data) {
+                            let recondep = [];
+                            let reconwith = [];
+                            let openingBalance = data.fields.OpenBalance || 0;
+                            let endingBalance = data.fields.CloseBalance || 0;
+                            let statementNo = data.fields.StatementNo || '';
+                            let bankAccount = data.fields.AccountName || '';
+                            let statementDate = data.fields.ReconciliationDate ? moment(data.fields.ReconciliationDate).format('DD/MM/YYYY') : "";
+                            let endingBalanceCalc = data.fields.CloseBalance || 0;
+                            let clearedBalance = data.fields.CloseBalance || 0;
+                            // let depositAmount = data.fields.CloseBalance || 0;
+                            // let withdrawalAmount = data.fields.CloseBalance || 0;
+                            //$('.btnDeleteRecon').css('display','block');
+                            $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
+                            $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
+                            $('.statementno').val(statementNo);
+                            $('.statementDate').val(statementDate);
+                            $('#bankAccountName').append('<option value="' + bankAccount + '" selected="selected">' + bankAccount + '</option>');
+                            $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
+                            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
+                            $('.differenceCalc').text(Currency + "0.00" || 0);
+                            // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
+                            // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
+                            if (data.fields.OnHold == false) {
+                                $('#bankAccountName').attr('disabled', 'disabled');
+                                $('#bankAccountName').attr('readonly', true);
+                                $('.openingbalance').attr('readonly', true);
+                                $('.endingbalance').attr('readonly', true);
+                                $('.statementno').attr('readonly', true);
+                                $('.statementDate').attr('disabled', 'disabled');
+                                $('.statementDate').attr('readonly', true);
+                                $('.statementDate').css('pointer-events', 'none');
+                                $('#hideSelectionToggle').attr('disabled', 'disabled');
+                                $('#hideSelectionToggle').attr('readonly', true);
+
+                            } else {
+                                $('.reconbtn').prop("disabled", false);
+                                $('.btnHold').prop("disabled", false);
+                            }
+                            if (data.fields.DepositLines != null) {
+                                if (data.fields.DepositLines.length > 0) {
+
+                                    for (let i in data.fields.DepositLines) {
+                                        let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount) || 0.00;
+                                        let reconciledepositObj = {
+                                            recondepdate: data.fields.DepositLines[i].fields.DepositDate != '' ? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY") : data.fields.DepositLines[i].fields.DepositDate,
+                                            recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
+                                            recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
+                                            recondepamount: depositamount || 0.00,
+                                            recondepid: data.fields.DepositLines[i].fields.ID || ' ',
+                                            recondepref: data.fields.DepositLines[i].fields.Reference || ' ',
+                                            seqdepnum: data.fields.DepositLines[i].fields.Recno || 0,
+                                            recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
+                                            depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
+                                        };
+                                        selectedTransAmountdep = selectedTransAmountdep + parseFloat(data.fields.DepositLines[i].fields.Amount);
+                                        //if(data.ttobereconcileddeposit[i].Seqno != 0){
+                                        recondep.push(reconciledepositObj);
+                                        templateObject.reconVS1dep.set(recondep);
+                                        //}
+                                    }
+
+                                    $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
+                                    if (templateObject.reconVS1dep.get()) {
+                                        setTimeout(function() {
+                                            $('#tblVS1Dep').DataTable({
+                                                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                                buttons: [{
+                                                    extend: 'excelHtml5',
+                                                    text: '',
+                                                    download: 'open',
+                                                    className: "btntabletocsv hiddenColumn",
+                                                    filename: "chequelist_" + moment().format(),
+                                                    orientation: 'portrait',
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }, {
+                                                    extend: 'print',
+                                                    download: 'open',
+                                                    className: "btntabletopdf hiddenColumn",
+                                                    text: '',
+                                                    title: 'Cheque',
+                                                    filename: "chequelist_" + moment().format(),
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }],
+                                                paging: false,
+                                                "scrollY": "400px",
+                                                "scrollCollapse": true,
+                                                "columnDefs": [{
+                                                    "orderable": false,
+                                                    "targets": 0
+                                                }],
+                                                colReorder: true,
+                                                colReorder: {
+                                                    fixedColumnsLeft: 1
+                                                },
+                                                select: true,
+                                                destroy: true,
+                                                colReorder: true,
+                                                pageLength: 10,
+                                                lengthMenu: [
+                                                    [initialDatatableLoad, -1],
+                                                    [initialDatatableLoad, "All"]
+                                                ],
+                                                info: true,
+                                                responsive: true,
+                                                "order": [
+                                                    [1, "desc"]
+                                                ],
+                                                action: function() {
+                                                    $('#tblVS1Dep').DataTable().ajax.reload();
+                                                }
+                                            });
+
+                                        }, 0);
+                                    }
+                                    if (data.fields.OnHold == false) {
+                                        setTimeout(function() {
+                                            $('.tblVS1Dep tr').each(function() {
+                                                var $tblrow = $(this);
+                                                $tblrow.find("th input").attr('readonly', true);
+                                                $tblrow.find("th input").attr('disabled', 'disabled');
+                                                $tblrow.find("th").css('background-color', '#eaecf4');
+
+                                                $tblrow.find("td input").attr('readonly', true);
+                                                $tblrow.find("td input").attr('disabled', 'disabled');
+                                                $tblrow.find("td").css('background-color', '#eaecf4');
+                                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            }, 100);
+                                        });
+                                    } else {
+                                        setTimeout(function() {
+                                            $(".reconchkboxdep").trigger("click");
+                                        }, 100);
+                                    }
+                                } else {
+                                    setTimeout(function() {
+                                        $('#tblVS1Dep').DataTable({
+                                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                            buttons: [{
+                                                extend: 'excelHtml5',
+                                                text: '',
+                                                download: 'open',
+                                                className: "btntabletocsv hiddenColumn",
+                                                filename: "chequelist_" + moment().format(),
+                                                orientation: 'portrait',
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }, {
+                                                extend: 'print',
+                                                download: 'open',
+                                                className: "btntabletopdf hiddenColumn",
+                                                text: '',
+                                                title: 'Cheque',
+                                                filename: "chequelist_" + moment().format(),
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }],
+                                            paging: false,
+                                            "scrollY": "400px",
+                                            "scrollCollapse": true,
+                                            "columnDefs": [{
+                                                "orderable": false,
+                                                "targets": 0
+                                            }],
+                                            colReorder: true,
+                                            colReorder: {
+                                                fixedColumnsLeft: 1
+                                            },
+                                            select: true,
+                                            destroy: true,
+                                            colReorder: true,
+                                            pageLength: "All",
+                                            lengthMenu: [
+                                                [initialDatatableLoad, -1],
+                                                [initialDatatableLoad, "All"]
+                                            ],
+                                            info: true,
+                                            responsive: true,
+                                            "order": [
+                                                [1, "desc"]
+                                            ],
+                                            action: function() {
+                                                $('#tblVS1Dep').DataTable().ajax.reload();
+                                            }
+                                        });
+
+                                    }, 0);
+                                }
+                            }
+                            if (data.fields.WithdrawalLines != null) {
+                                if (data.fields.WithdrawalLines.length > 0) {
+                                    for (let j in data.fields.WithdrawalLines) {
+                                        let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount) || 0.00;
+                                        let reconcilewithdrawalObj = {
+                                            sortdate: data.fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD") : data.fields.WithdrawalLines[j].fields.DepositDate,
+                                            reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY") : data.fields.WithdrawalLines[j].fields.DepositDate,
+                                            reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
+                                            reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
+                                            reconwithamount: withdrawalamount || 0.00,
+                                            reconwithid: data.fields.WithdrawalLines[j].fields.ID || ' ',
+                                            reconwithref: data.fields.WithdrawalLines[j].fields.Reference || ' ',
+                                            seqwithnum: data.fields.WithdrawalLines[j].fields.Recno || 0,
+                                            reconwithpaymentid: data.fields.WithdrawalLines[j].fields.PaymentID || 0,
+                                            depositLineID: data.fields.WithdrawalLines[j].fields.DepositLineID || 0,
+                                        };
+
+                                        reconwith.push(reconcilewithdrawalObj);
+                                        templateObject.reconVS1with.set(reconwith);
+                                        selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
+
+                                    }
+
+                                    $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
+                                    if (templateObject.reconVS1with.get()) {
+                                        setTimeout(function() {
+                                            $('#tblVS1With').DataTable({
+                                                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                                buttons: [{
+                                                    extend: 'excelHtml5',
+                                                    text: '',
+                                                    download: 'open',
+                                                    className: "btntabletocsv hiddenColumn",
+                                                    filename: "chequelist_" + moment().format(),
+                                                    orientation: 'portrait',
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }, {
+                                                    extend: 'print',
+                                                    download: 'open',
+                                                    className: "btntabletopdf hiddenColumn",
+                                                    text: '',
+                                                    title: 'Cheque',
+                                                    filename: "chequelist_" + moment().format(),
+                                                    exportOptions: {
+                                                        columns: ':visible'
+                                                    }
+                                                }],
+                                                paging: false,
+                                                "scrollY": "400px",
+                                                "scrollCollapse": true,
+                                                select: true,
+                                                "columnDefs": [{
+                                                    "orderable": false,
+                                                    "targets": 0
+                                                }],
+                                                colReorder: true,
+                                                colReorder: {
+                                                    fixedColumnsLeft: 1
+                                                },
+                                                destroy: true,
+                                                colReorder: true,
+                                                pageLength: 10,
+                                                lengthMenu: [
+                                                    [initialDatatableLoad, -1],
+                                                    [initialDatatableLoad, "All"]
+                                                ],
+                                                info: true,
+                                                responsive: true,
+                                                "order": [
+                                                    [1, "desc"]
+                                                ],
+                                                action: function() {
+                                                    $('#tblVS1With').DataTable().ajax.reload();
+                                                }
+                                            });
+
+                                        }, 0);
+                                    }
+                                    if (data.fields.OnHold == false) {
+                                        setTimeout(function() {
+                                            $('.tblVS1With tr').each(function() {
+                                                var $tblrow = $(this);
+                                                $tblrow.find("th input").attr('readonly', true);
+                                                $tblrow.find("th input").attr('disabled', 'disabled');
+                                                $tblrow.find("th").css('background-color', '#eaecf4');
+
+                                                $tblrow.find("td input").attr('readonly', true);
+                                                $tblrow.find("td input").attr('disabled', 'disabled');
+                                                $tblrow.find("td").css('background-color', '#eaecf4');
+                                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            }, 100);
+                                        });
+                                    } else {
+                                        setTimeout(function() {
+                                            $(".reconchkboxwith").trigger("click");
+                                        }, 100);
+                                    }
+                                } else {
+                                    setTimeout(function() {
+                                        $('#tblVS1With').DataTable({
+                                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                                            buttons: [{
+                                                extend: 'excelHtml5',
+                                                text: '',
+                                                download: 'open',
+                                                className: "btntabletocsv hiddenColumn",
+                                                filename: "chequelist_" + moment().format(),
+                                                orientation: 'portrait',
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }, {
+                                                extend: 'print',
+                                                download: 'open',
+                                                className: "btntabletopdf hiddenColumn",
+                                                text: '',
+                                                title: 'Cheque',
+                                                filename: "chequelist_" + moment().format(),
+                                                exportOptions: {
+                                                    columns: ':visible'
+                                                }
+                                            }],
+                                            paging: false,
+                                            "scrollY": "400px",
+                                            "scrollCollapse": true,
+                                            select: true,
+                                            "columnDefs": [{
+                                                "orderable": false,
+                                                "targets": 0
+                                            }],
+                                            colReorder: true,
+                                            colReorder: {
+                                                fixedColumnsLeft: 1
+                                            },
+                                            destroy: true,
+                                            colReorder: true,
+                                            pageLength: 10,
+                                            lengthMenu: [
+                                                [initialDatatableLoad, -1],
+                                                [initialDatatableLoad, "All"]
+                                            ],
+                                            info: true,
+                                            responsive: true,
+                                            "order": [
+                                                [1, "desc"]
+                                            ],
+                                            action: function() {
+                                                $('#tblVS1With').DataTable().ajax.reload();
+                                            }
+                                        });
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }, 0);
+                                }
+                            }
+                            //$('#hideSelectionToggle').css('pointer-events', 'none');
+
+
+
+                            $('.fullScreenSpin').css('display', 'none');
+                        }).catch(function(err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    }
+                }
+
+            }).catch(function(err) {
+                recService.getOneReconData(currentRecon).then(function(data) {
                     let recondep = [];
                     let reconwith = [];
                     let openingBalance = data.fields.OpenBalance || 0;
@@ -480,33 +1589,33 @@ Template.bankrecon.onRendered(function() {
                     $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
                     $('.statementno').val(statementNo);
                     $('.statementDate').val(statementDate);
-                    $('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
+                    $('#bankAccountName').append('<option value="' + bankAccount + '" selected="selected">' + bankAccount + '</option>');
                     $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
                     $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
-                    $('.differenceCalc').text(Currency+"0.00" || 0);
+                    $('.differenceCalc').text(Currency + "0.00" || 0);
                     // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
                     // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
-                    if(data.fields.OnHold == false){
-                    $('#bankAccountName').attr('disabled', 'disabled');
-                    $('#bankAccountName').attr('readonly', true);
-                    $('.openingbalance').attr('readonly', true);
-                    $('.endingbalance').attr('readonly', true);
-                    $('.statementno').attr('readonly', true);
-                    $('.statementDate').attr('disabled', 'disabled');
-                    $('.statementDate').attr('readonly', true);
-                    $('.statementDate').css('pointer-events', 'none');
-                    $('#hideSelectionToggle').attr('disabled', 'disabled');
-                    $('#hideSelectionToggle').attr('readonly', true);
-                  }else{
-                    $('.reconbtn').prop("disabled", false);
-                    $('.btnHold').prop("disabled", false);
-                  }
-                    if(data.fields.DepositLines.length > 0){
-                       const selectedTransdep = [];
-                        for(let i in data.fields.DepositLines){
-                            let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
+                    if (data.fields.OnHold == false) {
+                        $('#bankAccountName').attr('disabled', 'disabled');
+                        $('#bankAccountName').attr('readonly', true);
+                        $('.openingbalance').attr('readonly', true);
+                        $('.endingbalance').attr('readonly', true);
+                        $('.statementno').attr('readonly', true);
+                        $('.statementDate').attr('disabled', 'disabled');
+                        $('.statementDate').attr('readonly', true);
+                        $('.statementDate').css('pointer-events', 'none');
+                        $('#hideSelectionToggle').attr('disabled', 'disabled');
+                        $('#hideSelectionToggle').attr('readonly', true);
+                    } else {
+                        $('.reconbtn').prop("disabled", false);
+                        $('.btnHold').prop("disabled", false);
+                    }
+                    if (data.fields.DepositLines.length > 0) {
+
+                        for (let i in data.fields.DepositLines) {
+                            let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount) || 0.00;
                             let reconciledepositObj = {
-                                recondepdate: data.fields.DepositLines[i].fields.DepositDate !=''? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): data.fields.DepositLines[i].fields.DepositDate,
+                                recondepdate: data.fields.DepositLines[i].fields.DepositDate != '' ? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY") : data.fields.DepositLines[i].fields.DepositDate,
                                 recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
                                 recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
                                 recondepamount: depositamount || 0.00,
@@ -516,46 +1625,46 @@ Template.bankrecon.onRendered(function() {
                                 recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
                                 depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
                             };
-                            selectedTransAmountdep = selectedTransAmountdep+parseFloat(data.fields.DepositLines[i].fields.Amount);
+                            selectedTransAmountdep = selectedTransAmountdep + parseFloat(data.fields.DepositLines[i].fields.Amount);
                             //if(data.ttobereconcileddeposit[i].Seqno != 0){
                             recondep.push(reconciledepositObj);
                             templateObject.reconVS1dep.set(recondep);
                             //}
                         }
 
-                        $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
-                        if(templateObject.reconVS1dep.get()){
-                            setTimeout(function () {
+                        $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
+                        if (templateObject.reconVS1dep.get()) {
+                            setTimeout(function() {
                                 $('#tblVS1Dep').DataTable({
                                     "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                    buttons: [
-                                        {
-                                            extend: 'excelHtml5',
-                                            text: '',
-                                            download: 'open',
-                                            className: "btntabletocsv hiddenColumn",
-                                            filename: "chequelist_"+ moment().format(),
-                                            orientation:'portrait',
-                                            exportOptions: {
-                                                columns: ':visible'
-                                            }
-                                        },{
-                                            extend: 'print',
-                                            download: 'open',
-                                            className: "btntabletopdf hiddenColumn",
-                                            text: '',
-                                            title: 'Cheque',
-                                            filename: "chequelist_"+ moment().format(),
-                                            exportOptions: {
-                                                columns: ':visible'
-                                            }
-                                        }],
+                                    buttons: [{
+                                        extend: 'excelHtml5',
+                                        text: '',
+                                        download: 'open',
+                                        className: "btntabletocsv hiddenColumn",
+                                        filename: "chequelist_" + moment().format(),
+                                        orientation: 'portrait',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }, {
+                                        extend: 'print',
+                                        download: 'open',
+                                        className: "btntabletopdf hiddenColumn",
+                                        text: '',
+                                        title: 'Cheque',
+                                        filename: "chequelist_" + moment().format(),
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }],
                                     paging: false,
                                     "scrollY": "400px",
                                     "scrollCollapse": true,
-                                    "columnDefs": [
-                                        { "orderable": false, "targets": 0 }
-                                    ],
+                                    "columnDefs": [{
+                                        "orderable": false,
+                                        "targets": 0
+                                    }],
                                     colReorder: true,
                                     colReorder: {
                                         fixedColumnsLeft: 1
@@ -564,69 +1673,73 @@ Template.bankrecon.onRendered(function() {
                                     destroy: true,
                                     colReorder: true,
                                     pageLength: 10,
-                                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                                    lengthMenu: [
+                                        [initialDatatableLoad, -1],
+                                        [initialDatatableLoad, "All"]
+                                    ],
                                     info: true,
                                     responsive: true,
-                                    "order": [[ 1, "desc" ]],
-                                    action: function () {
+                                    "order": [
+                                        [1, "desc"]
+                                    ],
+                                    action: function() {
                                         $('#tblVS1Dep').DataTable().ajax.reload();
                                     }
                                 });
 
                             }, 0);
                         }
-                        if(data.fields.OnHold == false){
-                        setTimeout(function () {
+                        if (data.fields.OnHold == false) {
+                            setTimeout(function() {
+                                $('.tblVS1Dep tr').each(function() {
+                                    var $tblrow = $(this);
+                                    $tblrow.find("th input").attr('readonly', true);
+                                    $tblrow.find("th input").attr('disabled', 'disabled');
+                                    $tblrow.find("th").css('background-color', '#eaecf4');
 
-                            $('.tblVS1Dep tr').each(function () {
-                                var $tblrow = $(this);
-                                $tblrow.find("th input").attr('readonly', true);
-                                $tblrow.find("th input").attr('disabled', 'disabled');
-                                $tblrow.find("th").css('background-color','#eaecf4');
-
-                                $tblrow.find("td input").attr('readonly', true);
-                                $tblrow.find("td input").attr('disabled', 'disabled');
-                                $tblrow.find("td").css('background-color','#eaecf4');
-                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                    $tblrow.find("td input").attr('readonly', true);
+                                    $tblrow.find("td input").attr('disabled', 'disabled');
+                                    $tblrow.find("td").css('background-color', '#eaecf4');
+                                    $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                }, 100);
+                            });
+                        } else {
+                            setTimeout(function() {
+                                $(".reconchkboxdep").trigger("click");
                             }, 100);
-                        });
-                      }else{
-                        setTimeout(function () {
-                          $(".reconchkboxdep").trigger("click");
-                        }, 100);
-                      }
-                    }else{
-                        setTimeout(function () {
+                        }
+                    } else {
+                        setTimeout(function() {
                             $('#tblVS1Dep').DataTable({
                                 "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                buttons: [
-                                    {
-                                        extend: 'excelHtml5',
-                                        text: '',
-                                        download: 'open',
-                                        className: "btntabletocsv hiddenColumn",
-                                        filename: "chequelist_"+ moment().format(),
-                                        orientation:'portrait',
-                                        exportOptions: {
-                                            columns: ':visible'
-                                        }
-                                    },{
-                                        extend: 'print',
-                                        download: 'open',
-                                        className: "btntabletopdf hiddenColumn",
-                                        text: '',
-                                        title: 'Cheque',
-                                        filename: "chequelist_"+ moment().format(),
-                                        exportOptions: {
-                                            columns: ':visible'
-                                        }
-                                    }],
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "chequelist_" + moment().format(),
+                                    orientation: 'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }, {
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Cheque',
+                                    filename: "chequelist_" + moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }],
                                 paging: false,
                                 "scrollY": "400px",
                                 "scrollCollapse": true,
-                                "columnDefs": [
-                                    { "orderable": false, "targets": 0 }
-                                ],
+                                "columnDefs": [{
+                                    "orderable": false,
+                                    "targets": 0
+                                }],
                                 colReorder: true,
                                 colReorder: {
                                     fixedColumnsLeft: 1
@@ -635,11 +1748,16 @@ Template.bankrecon.onRendered(function() {
                                 destroy: true,
                                 colReorder: true,
                                 pageLength: "All",
-                                lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                                lengthMenu: [
+                                    [initialDatatableLoad, -1],
+                                    [initialDatatableLoad, "All"]
+                                ],
                                 info: true,
                                 responsive: true,
-                                "order": [[ 1, "desc" ]],
-                                action: function () {
+                                "order": [
+                                    [1, "desc"]
+                                ],
+                                action: function() {
                                     $('#tblVS1Dep').DataTable().ajax.reload();
                                 }
                             });
@@ -647,12 +1765,12 @@ Template.bankrecon.onRendered(function() {
                         }, 0);
                     }
 
-                    if(data.fields.WithdrawalLines.length > 0){
-                        for(let j in data.fields.WithdrawalLines){
-                            let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
+                    if (data.fields.WithdrawalLines.length > 0) {
+                        for (let j in data.fields.WithdrawalLines) {
+                            let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount) || 0.00;
                             let reconcilewithdrawalObj = {
-                                sortdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): data.fields.WithdrawalLines[j].fields.DepositDate,
-                                reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
+                                sortdate: data.fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD") : data.fields.WithdrawalLines[j].fields.DepositDate,
+                                reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate != '' ? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY") : data.fields.WithdrawalLines[j].fields.DepositDate,
                                 reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
                                 reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
                                 reconwithamount: withdrawalamount || 0.00,
@@ -665,44 +1783,44 @@ Template.bankrecon.onRendered(function() {
 
                             reconwith.push(reconcilewithdrawalObj);
                             templateObject.reconVS1with.set(reconwith);
-                            selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
+                            selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
 
                         }
 
-                        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
-                        if(templateObject.reconVS1with.get()){
-                            setTimeout(function () {
+                        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
+                        if (templateObject.reconVS1with.get()) {
+                            setTimeout(function() {
                                 $('#tblVS1With').DataTable({
                                     "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                    buttons: [
-                                        {
-                                            extend: 'excelHtml5',
-                                            text: '',
-                                            download: 'open',
-                                            className: "btntabletocsv hiddenColumn",
-                                            filename: "chequelist_"+ moment().format(),
-                                            orientation:'portrait',
-                                            exportOptions: {
-                                                columns: ':visible'
-                                            }
-                                        },{
-                                            extend: 'print',
-                                            download: 'open',
-                                            className: "btntabletopdf hiddenColumn",
-                                            text: '',
-                                            title: 'Cheque',
-                                            filename: "chequelist_"+ moment().format(),
-                                            exportOptions: {
-                                                columns: ':visible'
-                                            }
-                                        }],
+                                    buttons: [{
+                                        extend: 'excelHtml5',
+                                        text: '',
+                                        download: 'open',
+                                        className: "btntabletocsv hiddenColumn",
+                                        filename: "chequelist_" + moment().format(),
+                                        orientation: 'portrait',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }, {
+                                        extend: 'print',
+                                        download: 'open',
+                                        className: "btntabletopdf hiddenColumn",
+                                        text: '',
+                                        title: 'Cheque',
+                                        filename: "chequelist_" + moment().format(),
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        }
+                                    }],
                                     paging: false,
                                     "scrollY": "400px",
                                     "scrollCollapse": true,
                                     select: true,
-                                    "columnDefs": [
-                                        { "orderable": false, "targets": 0 }
-                                    ],
+                                    "columnDefs": [{
+                                        "orderable": false,
+                                        "targets": 0
+                                    }],
                                     colReorder: true,
                                     colReorder: {
                                         fixedColumnsLeft: 1
@@ -710,69 +1828,74 @@ Template.bankrecon.onRendered(function() {
                                     destroy: true,
                                     colReorder: true,
                                     pageLength: 10,
-                                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                                    lengthMenu: [
+                                        [initialDatatableLoad, -1],
+                                        [initialDatatableLoad, "All"]
+                                    ],
                                     info: true,
                                     responsive: true,
-                                    "order": [[ 1, "desc" ]],
-                                    action: function () {
+                                    "order": [
+                                        [1, "desc"]
+                                    ],
+                                    action: function() {
                                         $('#tblVS1With').DataTable().ajax.reload();
                                     }
                                 });
 
                             }, 0);
                         }
-                        if(data.fields.OnHold == false){
-                        setTimeout(function () {
-                            $('.tblVS1With tr').each(function () {
-                                var $tblrow = $(this);
-                                $tblrow.find("th input").attr('readonly', true);
-                                $tblrow.find("th input").attr('disabled', 'disabled');
-                                $tblrow.find("th").css('background-color','#eaecf4');
+                        if (data.fields.OnHold == false) {
+                            setTimeout(function() {
+                                $('.tblVS1With tr').each(function() {
+                                    var $tblrow = $(this);
+                                    $tblrow.find("th input").attr('readonly', true);
+                                    $tblrow.find("th input").attr('disabled', 'disabled');
+                                    $tblrow.find("th").css('background-color', '#eaecf4');
 
-                                $tblrow.find("td input").attr('readonly', true);
-                                $tblrow.find("td input").attr('disabled', 'disabled');
-                                $tblrow.find("td").css('background-color','#eaecf4');
-                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                    $tblrow.find("td input").attr('readonly', true);
+                                    $tblrow.find("td input").attr('disabled', 'disabled');
+                                    $tblrow.find("td").css('background-color', '#eaecf4');
+                                    $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                }, 100);
+                            });
+                        } else {
+                            setTimeout(function() {
+                                $(".reconchkboxwith").trigger("click");
                             }, 100);
-                        });
-                      }else{
-                        setTimeout(function () {
-                        $(".reconchkboxwith").trigger("click");
-                        }, 100);
-                      }
-                    }else{
-                        setTimeout(function () {
+                        }
+                    } else {
+                        setTimeout(function() {
                             $('#tblVS1With').DataTable({
                                 "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                buttons: [
-                                    {
-                                        extend: 'excelHtml5',
-                                        text: '',
-                                        download: 'open',
-                                        className: "btntabletocsv hiddenColumn",
-                                        filename: "chequelist_"+ moment().format(),
-                                        orientation:'portrait',
-                                        exportOptions: {
-                                            columns: ':visible'
-                                        }
-                                    },{
-                                        extend: 'print',
-                                        download: 'open',
-                                        className: "btntabletopdf hiddenColumn",
-                                        text: '',
-                                        title: 'Cheque',
-                                        filename: "chequelist_"+ moment().format(),
-                                        exportOptions: {
-                                            columns: ':visible'
-                                        }
-                                    }],
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "chequelist_" + moment().format(),
+                                    orientation: 'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }, {
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Cheque',
+                                    filename: "chequelist_" + moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }],
                                 paging: false,
                                 "scrollY": "400px",
                                 "scrollCollapse": true,
                                 select: true,
-                                "columnDefs": [
-                                    { "orderable": false, "targets": 0 }
-                                ],
+                                "columnDefs": [{
+                                    "orderable": false,
+                                    "targets": 0
+                                }],
                                 colReorder: true,
                                 colReorder: {
                                     fixedColumnsLeft: 1
@@ -780,1053 +1903,35 @@ Template.bankrecon.onRendered(function() {
                                 destroy: true,
                                 colReorder: true,
                                 pageLength: 10,
-                                lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                                lengthMenu: [
+                                    [initialDatatableLoad, -1],
+                                    [initialDatatableLoad, "All"]
+                                ],
                                 info: true,
                                 responsive: true,
-                                "order": [[ 1, "desc" ]],
-                                action: function () {
+                                "order": [
+                                    [1, "desc"]
+                                ],
+                                action: function() {
                                     $('#tblVS1With').DataTable().ajax.reload();
                                 }
                             });
-                            $('.fullScreenSpin').css('display','none');
+                            $('.fullScreenSpin').css('display', 'none');
                         }, 0);
                     }
                     //$('#hideSelectionToggle').css('pointer-events', 'none');
 
 
 
-                    $('.fullScreenSpin').css('display','none');
-                }).catch(function (err) {
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
+                }).catch(function(err) {
+                    $('.fullScreenSpin').css('display', 'none');
                 });
-              }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.treconciliation;
-                var added=false;
-                for (let d = 0; d < useData.length; d++) {
-                  if(parseInt(useData[d].fields.ID) === currentRecon){
-                    added = true;
-                    $('.fullScreenSpin').css('display','none');
-                    let recondep = [];
-let reconwith = [];
-let openingBalance = useData[d].fields.OpenBalance || 0;
-let endingBalance = useData[d].fields.CloseBalance || 0;
-let statementNo = useData[d].fields.StatementNo || '';
-let bankAccount = useData[d].fields.AccountName || '';
-let statementDate = useData[d].fields.ReconciliationDate ? moment(useData[d].fields.ReconciliationDate).format('DD/MM/YYYY') : "";
-let endingBalanceCalc = useData[d].fields.CloseBalance || 0;
-let clearedBalance = useData[d].fields.CloseBalance || 0;
-// let depositAmount = useData[d].fields.CloseBalance || 0;
-// let withdrawalAmount = useData[d].fields.CloseBalance || 0;
-//$('.btnDeleteRecon').css('display','block');
-$('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
-$('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
-$('.statementno').val(statementNo);
-$('.statementDate').val(statementDate);
-$('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
-$('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
-$('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
-$('.differenceCalc').text(Currency+"0.00" || 0);
-// $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
-// $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
-if(useData[d].fields.OnHold == false){
-$('#bankAccountName').attr('disabled', 'disabled');
-$('#bankAccountName').attr('readonly', true);
-$('.openingbalance').attr('readonly', true);
-$('.endingbalance').attr('readonly', true);
-$('.statementno').attr('readonly', true);
-$('.statementDate').attr('disabled', 'disabled');
-$('.statementDate').attr('readonly', true);
-$('.statementDate').css('pointer-events', 'none');
-$('#hideSelectionToggle').attr('disabled', 'disabled');
-$('#hideSelectionToggle').attr('readonly', true);
-
-}else{
-  $('.reconbtn').prop("disabled", false);
-  $('.btnHold').prop("disabled", false);
-}
-if(useData[d].fields.DepositLines != null){
-if(useData[d].fields.DepositLines.length > 0){
-
-    for(let i in useData[d].fields.DepositLines){
-        let depositamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.DepositLines[i].fields.Amount)|| 0.00;
-        let reconciledepositObj = {
-            recondepdate: useData[d].fields.DepositLines[i].fields.DepositDate !=''? moment(useData[d].fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): useData[d].fields.DepositLines[i].fields.DepositDate,
-            recondepname: useData[d].fields.DepositLines[i].fields.Payee || ' ',
-            recondeppaymenttype: useData[d].fields.DepositLines[i].fields.Notes || ' ',
-            recondepamount: depositamount || 0.00,
-            recondepid: useData[d].fields.DepositLines[i].fields.ID || ' ',
-            recondepref: useData[d].fields.DepositLines[i].fields.Reference || ' ',
-            seqdepnum: useData[d].fields.DepositLines[i].fields.Recno || 0,
-            recondeppaymentid: useData[d].fields.DepositLines[i].fields.PaymentID || 0,
-            depositLineID: useData[d].fields.DepositLines[i].fields.DepositLineID || 0,
-        };
-        selectedTransAmountdep = selectedTransAmountdep+parseFloat(useData[d].fields.DepositLines[i].fields.Amount);
-        //if(useData[d].ttobereconcileddeposit[i].Seqno != 0){
-        recondep.push(reconciledepositObj);
-        templateObject.reconVS1dep.set(recondep);
-        //}
-    }
-
-    $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
-    if(templateObject.reconVS1dep.get()){
-        setTimeout(function () {
-            $('#tblVS1Dep').DataTable({
-                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '',
-                        download: 'open',
-                        className: "btntabletocsv hiddenColumn",
-                        filename: "chequelist_"+ moment().format(),
-                        orientation:'portrait',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },{
-                        extend: 'print',
-                        download: 'open',
-                        className: "btntabletopdf hiddenColumn",
-                        text: '',
-                        title: 'Cheque',
-                        filename: "chequelist_"+ moment().format(),
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }],
-                paging: false,
-                "scrollY": "400px",
-                "scrollCollapse": true,
-                "columnDefs": [
-                    { "orderable": false, "targets": 0 }
-                ],
-                colReorder: true,
-                colReorder: {
-                    fixedColumnsLeft: 1
-                },
-                select: true,
-                destroy: true,
-                colReorder: true,
-                pageLength: 10,
-                lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                info: true,
-                responsive: true,
-                "order": [[ 1, "desc" ]],
-                action: function () {
-                    $('#tblVS1Dep').DataTable().ajax.reload();
-                }
-            });
-
-        }, 0);
-    }
-
-    if(useData[d].fields.OnHold == false){
-    setTimeout(function () {
-        $('.tblVS1Dep tr').each(function () {
-            var $tblrow = $(this);
-            $tblrow.find("th input").attr('readonly', true);
-            $tblrow.find("th input").attr('disabled', 'disabled');
-            $tblrow.find("th").css('background-color','#eaecf4');
-
-            $tblrow.find("td input").attr('readonly', true);
-            $tblrow.find("td input").attr('disabled', 'disabled');
-            $tblrow.find("td").css('background-color','#eaecf4');
-            $tblrow.find("td .table-remove").removeClass("btnRemove");
-        }, 100);
-    });
-  }else{
-    setTimeout(function () {
-      $(".reconchkboxdep").trigger("click");
-    }, 100);
-  }
-}else{
-    setTimeout(function () {
-        $('#tblVS1Dep').DataTable({
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: '',
-                    download: 'open',
-                    className: "btntabletocsv hiddenColumn",
-                    filename: "chequelist_"+ moment().format(),
-                    orientation:'portrait',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },{
-                    extend: 'print',
-                    download: 'open',
-                    className: "btntabletopdf hiddenColumn",
-                    text: '',
-                    title: 'Cheque',
-                    filename: "chequelist_"+ moment().format(),
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                }],
-            paging: false,
-            "scrollY": "400px",
-            "scrollCollapse": true,
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            colReorder: true,
-            colReorder: {
-                fixedColumnsLeft: 1
-            },
-            select: true,
-            destroy: true,
-            colReorder: true,
-            pageLength: "All",
-            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-            info: true,
-            responsive: true,
-            "order": [[ 1, "desc" ]],
-            action: function () {
-                $('#tblVS1Dep').DataTable().ajax.reload();
-            }
-        });
-
-    }, 0);
-}
-}
-if(useData[d].fields.WithdrawalLines != null){
-if(useData[d].fields.WithdrawalLines.length > 0){
-    for(let j in useData[d].fields.WithdrawalLines){
-        let withdrawalamount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.WithdrawalLines[j].fields.Amount)|| 0.00;
-        let reconcilewithdrawalObj = {
-            sortdate: useData[d].fields.WithdrawalLines[j].fields.DepositDate !=''? moment(useData[d].fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): useData[d].fields.WithdrawalLines[j].fields.DepositDate,
-            reconwithdate: useData[d].fields.WithdrawalLines[j].fields.DepositDate !=''? moment(useData[d].fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): useData[d].fields.WithdrawalLines[j].fields.DepositDate,
-            reconwithname: useData[d].fields.WithdrawalLines[j].fields.ClientName || ' ',
-            reconwithpaymenttype: useData[d].fields.WithdrawalLines[j].fields.Notes || ' ',
-            reconwithamount: withdrawalamount || 0.00,
-            reconwithid: useData[d].fields.WithdrawalLines[j].fields.ID || ' ',
-            reconwithref: useData[d].fields.WithdrawalLines[j].fields.Reference || ' ',
-            seqwithnum: useData[d].fields.WithdrawalLines[j].fields.Recno || 0,
-            reconwithpaymentid: useData[d].fields.WithdrawalLines[j].fields.PaymentID || 0,
-            depositLineID: useData[d].fields.WithdrawalLines[j].fields.DepositLineID || 0,
-        };
-
-        reconwith.push(reconcilewithdrawalObj);
-        templateObject.reconVS1with.set(reconwith);
-        selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(useData[d].fields.WithdrawalLines[j].fields.Amount);
-
-    }
-
-    $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
-    if(templateObject.reconVS1with.get()){
-        setTimeout(function () {
-            $('#tblVS1With').DataTable({
-                "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        text: '',
-                        download: 'open',
-                        className: "btntabletocsv hiddenColumn",
-                        filename: "chequelist_"+ moment().format(),
-                        orientation:'portrait',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },{
-                        extend: 'print',
-                        download: 'open',
-                        className: "btntabletopdf hiddenColumn",
-                        text: '',
-                        title: 'Cheque',
-                        filename: "chequelist_"+ moment().format(),
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    }],
-                paging: false,
-                "scrollY": "400px",
-                "scrollCollapse": true,
-                select: true,
-                "columnDefs": [
-                    { "orderable": false, "targets": 0 }
-                ],
-                colReorder: true,
-                colReorder: {
-                    fixedColumnsLeft: 1
-                },
-                destroy: true,
-                colReorder: true,
-                pageLength: 10,
-                lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                info: true,
-                responsive: true,
-                "order": [[ 1, "desc" ]],
-                action: function () {
-                    $('#tblVS1With').DataTable().ajax.reload();
-                }
-            });
-
-        }, 0);
-    }
-
-    if(useData[d].fields.OnHold == false){
-    setTimeout(function () {
-        $('.tblVS1With tr').each(function () {
-            var $tblrow = $(this);
-            $tblrow.find("th input").attr('readonly', true);
-            $tblrow.find("th input").attr('disabled', 'disabled');
-            $tblrow.find("th").css('background-color','#eaecf4');
-
-            $tblrow.find("td input").attr('readonly', true);
-            $tblrow.find("td input").attr('disabled', 'disabled');
-            $tblrow.find("td").css('background-color','#eaecf4');
-            $tblrow.find("td .table-remove").removeClass("btnRemove");
-        }, 100);
-    });
-  }else{
-    setTimeout(function () {
-    $(".reconchkboxwith").trigger("click");
-    }, 100);
-  }
-}else{
-    setTimeout(function () {
-        $('#tblVS1With').DataTable({
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: '',
-                    download: 'open',
-                    className: "btntabletocsv hiddenColumn",
-                    filename: "chequelist_"+ moment().format(),
-                    orientation:'portrait',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },{
-                    extend: 'print',
-                    download: 'open',
-                    className: "btntabletopdf hiddenColumn",
-                    text: '',
-                    title: 'Cheque',
-                    filename: "chequelist_"+ moment().format(),
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                }],
-            paging: false,
-            "scrollY": "400px",
-            "scrollCollapse": true,
-            select: true,
-            "columnDefs": [
-                { "orderable": false, "targets": 0 }
-            ],
-            colReorder: true,
-            colReorder: {
-                fixedColumnsLeft: 1
-            },
-            destroy: true,
-            colReorder: true,
-            pageLength: 10,
-            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-            info: true,
-            responsive: true,
-            "order": [[ 1, "desc" ]],
-            action: function () {
-                $('#tblVS1With').DataTable().ajax.reload();
-            }
-        });
-        $('.fullScreenSpin').css('display','none');
-    }, 0);
-}
-
-}
-                  }
-                }
-
-                if(!added) {
-                  recService.getOneReconData(currentRecon).then(function (data) {
-                      let recondep = [];
-                      let reconwith = [];
-                      let openingBalance = data.fields.OpenBalance || 0;
-                      let endingBalance = data.fields.CloseBalance || 0;
-                      let statementNo = data.fields.StatementNo || '';
-                      let bankAccount = data.fields.AccountName || '';
-                      let statementDate = data.fields.ReconciliationDate ? moment(data.fields.ReconciliationDate).format('DD/MM/YYYY') : "";
-                      let endingBalanceCalc = data.fields.CloseBalance || 0;
-                      let clearedBalance = data.fields.CloseBalance || 0;
-                      // let depositAmount = data.fields.CloseBalance || 0;
-                      // let withdrawalAmount = data.fields.CloseBalance || 0;
-                      //$('.btnDeleteRecon').css('display','block');
-                      $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
-                      $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
-                      $('.statementno').val(statementNo);
-                      $('.statementDate').val(statementDate);
-                      $('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
-                      $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
-                      $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
-                      $('.differenceCalc').text(Currency+"0.00" || 0);
-                      // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
-                      // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
-                      if(data.fields.OnHold == false){
-                      $('#bankAccountName').attr('disabled', 'disabled');
-                      $('#bankAccountName').attr('readonly', true);
-                      $('.openingbalance').attr('readonly', true);
-                      $('.endingbalance').attr('readonly', true);
-                      $('.statementno').attr('readonly', true);
-                      $('.statementDate').attr('disabled', 'disabled');
-                      $('.statementDate').attr('readonly', true);
-                      $('.statementDate').css('pointer-events', 'none');
-                      $('#hideSelectionToggle').attr('disabled', 'disabled');
-                      $('#hideSelectionToggle').attr('readonly', true);
-
-                    }else{
-                      $('.reconbtn').prop("disabled", false);
-                      $('.btnHold').prop("disabled", false);
-                    }
-                      if(data.fields.DepositLines != null){
-                      if(data.fields.DepositLines.length > 0){
-
-                          for(let i in data.fields.DepositLines){
-                              let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
-                              let reconciledepositObj = {
-                                  recondepdate: data.fields.DepositLines[i].fields.DepositDate !=''? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): data.fields.DepositLines[i].fields.DepositDate,
-                                  recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
-                                  recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
-                                  recondepamount: depositamount || 0.00,
-                                  recondepid: data.fields.DepositLines[i].fields.ID || ' ',
-                                  recondepref: data.fields.DepositLines[i].fields.Reference || ' ',
-                                  seqdepnum: data.fields.DepositLines[i].fields.Recno || 0,
-                                  recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
-                                  depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
-                              };
-                              selectedTransAmountdep = selectedTransAmountdep+parseFloat(data.fields.DepositLines[i].fields.Amount);
-                              //if(data.ttobereconcileddeposit[i].Seqno != 0){
-                              recondep.push(reconciledepositObj);
-                              templateObject.reconVS1dep.set(recondep);
-                              //}
-                          }
-
-                          $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
-                          if(templateObject.reconVS1dep.get()){
-                              setTimeout(function () {
-                                  $('#tblVS1Dep').DataTable({
-                                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                      buttons: [
-                                          {
-                                              extend: 'excelHtml5',
-                                              text: '',
-                                              download: 'open',
-                                              className: "btntabletocsv hiddenColumn",
-                                              filename: "chequelist_"+ moment().format(),
-                                              orientation:'portrait',
-                                              exportOptions: {
-                                                  columns: ':visible'
-                                              }
-                                          },{
-                                              extend: 'print',
-                                              download: 'open',
-                                              className: "btntabletopdf hiddenColumn",
-                                              text: '',
-                                              title: 'Cheque',
-                                              filename: "chequelist_"+ moment().format(),
-                                              exportOptions: {
-                                                  columns: ':visible'
-                                              }
-                                          }],
-                                      paging: false,
-                                      "scrollY": "400px",
-                                      "scrollCollapse": true,
-                                      "columnDefs": [
-                                          { "orderable": false, "targets": 0 }
-                                      ],
-                                      colReorder: true,
-                                      colReorder: {
-                                          fixedColumnsLeft: 1
-                                      },
-                                      select: true,
-                                      destroy: true,
-                                      colReorder: true,
-                                      pageLength: 10,
-                                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                                      info: true,
-                                      responsive: true,
-                                      "order": [[ 1, "desc" ]],
-                                      action: function () {
-                                          $('#tblVS1Dep').DataTable().ajax.reload();
-                                      }
-                                  });
-
-                              }, 0);
-                          }
-                          if(data.fields.OnHold == false){
-                          setTimeout(function () {
-                              $('.tblVS1Dep tr').each(function () {
-                                  var $tblrow = $(this);
-                                  $tblrow.find("th input").attr('readonly', true);
-                                  $tblrow.find("th input").attr('disabled', 'disabled');
-                                  $tblrow.find("th").css('background-color','#eaecf4');
-
-                                  $tblrow.find("td input").attr('readonly', true);
-                                  $tblrow.find("td input").attr('disabled', 'disabled');
-                                  $tblrow.find("td").css('background-color','#eaecf4');
-                                  $tblrow.find("td .table-remove").removeClass("btnRemove");
-                              }, 100);
-                          });
-                        }else{
-                          setTimeout(function () {
-                            $(".reconchkboxdep").trigger("click");
-                          }, 100);
-                        }
-                      }else{
-                          setTimeout(function () {
-                              $('#tblVS1Dep').DataTable({
-                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                  buttons: [
-                                      {
-                                          extend: 'excelHtml5',
-                                          text: '',
-                                          download: 'open',
-                                          className: "btntabletocsv hiddenColumn",
-                                          filename: "chequelist_"+ moment().format(),
-                                          orientation:'portrait',
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      },{
-                                          extend: 'print',
-                                          download: 'open',
-                                          className: "btntabletopdf hiddenColumn",
-                                          text: '',
-                                          title: 'Cheque',
-                                          filename: "chequelist_"+ moment().format(),
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      }],
-                                  paging: false,
-                                  "scrollY": "400px",
-                                  "scrollCollapse": true,
-                                  "columnDefs": [
-                                      { "orderable": false, "targets": 0 }
-                                  ],
-                                  colReorder: true,
-                                  colReorder: {
-                                      fixedColumnsLeft: 1
-                                  },
-                                  select: true,
-                                  destroy: true,
-                                  colReorder: true,
-                                  pageLength: "All",
-                                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                                  info: true,
-                                  responsive: true,
-                                  "order": [[ 1, "desc" ]],
-                                  action: function () {
-                                      $('#tblVS1Dep').DataTable().ajax.reload();
-                                  }
-                              });
-
-                          }, 0);
-                      }
-                      }
-                      if(data.fields.WithdrawalLines != null){
-                      if(data.fields.WithdrawalLines.length > 0){
-                          for(let j in data.fields.WithdrawalLines){
-                              let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
-                              let reconcilewithdrawalObj = {
-                                  sortdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): data.fields.WithdrawalLines[j].fields.DepositDate,
-                                  reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
-                                  reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
-                                  reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
-                                  reconwithamount: withdrawalamount || 0.00,
-                                  reconwithid: data.fields.WithdrawalLines[j].fields.ID || ' ',
-                                  reconwithref: data.fields.WithdrawalLines[j].fields.Reference || ' ',
-                                  seqwithnum: data.fields.WithdrawalLines[j].fields.Recno || 0,
-                                  reconwithpaymentid: data.fields.WithdrawalLines[j].fields.PaymentID || 0,
-                                  depositLineID: data.fields.WithdrawalLines[j].fields.DepositLineID || 0,
-                              };
-
-                              reconwith.push(reconcilewithdrawalObj);
-                              templateObject.reconVS1with.set(reconwith);
-                              selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
-
-                          }
-
-                          $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
-                          if(templateObject.reconVS1with.get()){
-                              setTimeout(function () {
-                                  $('#tblVS1With').DataTable({
-                                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                      buttons: [
-                                          {
-                                              extend: 'excelHtml5',
-                                              text: '',
-                                              download: 'open',
-                                              className: "btntabletocsv hiddenColumn",
-                                              filename: "chequelist_"+ moment().format(),
-                                              orientation:'portrait',
-                                              exportOptions: {
-                                                  columns: ':visible'
-                                              }
-                                          },{
-                                              extend: 'print',
-                                              download: 'open',
-                                              className: "btntabletopdf hiddenColumn",
-                                              text: '',
-                                              title: 'Cheque',
-                                              filename: "chequelist_"+ moment().format(),
-                                              exportOptions: {
-                                                  columns: ':visible'
-                                              }
-                                          }],
-                                      paging: false,
-                                      "scrollY": "400px",
-                                      "scrollCollapse": true,
-                                      select: true,
-                                      "columnDefs": [
-                                          { "orderable": false, "targets": 0 }
-                                      ],
-                                      colReorder: true,
-                                      colReorder: {
-                                          fixedColumnsLeft: 1
-                                      },
-                                      destroy: true,
-                                      colReorder: true,
-                                      pageLength: 10,
-                                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                                      info: true,
-                                      responsive: true,
-                                      "order": [[ 1, "desc" ]],
-                                      action: function () {
-                                          $('#tblVS1With').DataTable().ajax.reload();
-                                      }
-                                  });
-
-                              }, 0);
-                          }
-                          if(data.fields.OnHold == false){
-                          setTimeout(function () {
-                              $('.tblVS1With tr').each(function () {
-                                  var $tblrow = $(this);
-                                  $tblrow.find("th input").attr('readonly', true);
-                                  $tblrow.find("th input").attr('disabled', 'disabled');
-                                  $tblrow.find("th").css('background-color','#eaecf4');
-
-                                  $tblrow.find("td input").attr('readonly', true);
-                                  $tblrow.find("td input").attr('disabled', 'disabled');
-                                  $tblrow.find("td").css('background-color','#eaecf4');
-                                  $tblrow.find("td .table-remove").removeClass("btnRemove");
-                              }, 100);
-                          });
-                        }else{
-                          setTimeout(function () {
-                          $(".reconchkboxwith").trigger("click");
-                          }, 100);
-                        }
-                      }else{
-                          setTimeout(function () {
-                              $('#tblVS1With').DataTable({
-                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                  buttons: [
-                                      {
-                                          extend: 'excelHtml5',
-                                          text: '',
-                                          download: 'open',
-                                          className: "btntabletocsv hiddenColumn",
-                                          filename: "chequelist_"+ moment().format(),
-                                          orientation:'portrait',
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      },{
-                                          extend: 'print',
-                                          download: 'open',
-                                          className: "btntabletopdf hiddenColumn",
-                                          text: '',
-                                          title: 'Cheque',
-                                          filename: "chequelist_"+ moment().format(),
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      }],
-                                  paging: false,
-                                  "scrollY": "400px",
-                                  "scrollCollapse": true,
-                                  select: true,
-                                  "columnDefs": [
-                                      { "orderable": false, "targets": 0 }
-                                  ],
-                                  colReorder: true,
-                                  colReorder: {
-                                      fixedColumnsLeft: 1
-                                  },
-                                  destroy: true,
-                                  colReorder: true,
-                                  pageLength: 10,
-                                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                                  info: true,
-                                  responsive: true,
-                                  "order": [[ 1, "desc" ]],
-                                  action: function () {
-                                      $('#tblVS1With').DataTable().ajax.reload();
-                                  }
-                              });
-                              $('.fullScreenSpin').css('display','none');
-                          }, 0);
-                      }
-                      }
-                      //$('#hideSelectionToggle').css('pointer-events', 'none');
-
-
-
-                      $('.fullScreenSpin').css('display','none');
-                  }).catch(function (err) {
-                      $('.fullScreenSpin').css('display','none');
-                  });
-                }
-              }
-
-            }).catch(function (err) {
-              recService.getOneReconData(currentRecon).then(function (data) {
-                  let recondep = [];
-                  let reconwith = [];
-                  let openingBalance = data.fields.OpenBalance || 0;
-                  let endingBalance = data.fields.CloseBalance || 0;
-                  let statementNo = data.fields.StatementNo || '';
-                  let bankAccount = data.fields.AccountName || '';
-                  let statementDate = data.fields.ReconciliationDate ? moment(data.fields.ReconciliationDate).format('DD/MM/YYYY') : "";
-                  let endingBalanceCalc = data.fields.CloseBalance || 0;
-                  let clearedBalance = data.fields.CloseBalance || 0;
-                  // let depositAmount = data.fields.CloseBalance || 0;
-                  // let withdrawalAmount = data.fields.CloseBalance || 0;
-                  //$('.btnDeleteRecon').css('display','block');
-                  $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openingBalance) || 0);
-                  $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(endingBalance) || 0);
-                  $('.statementno').val(statementNo);
-                  $('.statementDate').val(statementDate);
-                  $('#bankAccountName').append('<option value="'+bankAccount+'" selected="selected">'+bankAccount+'</option>');
-                  $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(endingBalanceCalc) || 0);
-                  $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBalance) || 0);
-                  $('.differenceCalc').text(Currency+"0.00" || 0);
-                  // $('.depositAmount').val(utilityService.modifynegativeCurrencyFormat(depositAmount) || 0);
-                  // $('.withdrawalAmount').val(utilityService.modifynegativeCurrencyFormat(withdrawalAmount) || 0);
-                  if(data.fields.OnHold == false){
-                  $('#bankAccountName').attr('disabled', 'disabled');
-                  $('#bankAccountName').attr('readonly', true);
-                  $('.openingbalance').attr('readonly', true);
-                  $('.endingbalance').attr('readonly', true);
-                  $('.statementno').attr('readonly', true);
-                  $('.statementDate').attr('disabled', 'disabled');
-                  $('.statementDate').attr('readonly', true);
-                  $('.statementDate').css('pointer-events', 'none');
-                  $('#hideSelectionToggle').attr('disabled', 'disabled');
-                  $('#hideSelectionToggle').attr('readonly', true);
-                }else{
-                  $('.reconbtn').prop("disabled", false);
-                  $('.btnHold').prop("disabled", false);
-                }
-                  if(data.fields.DepositLines.length > 0){
-
-                      for(let i in data.fields.DepositLines){
-                          let depositamount = utilityService.modifynegativeCurrencyFormat(data.fields.DepositLines[i].fields.Amount)|| 0.00;
-                          let reconciledepositObj = {
-                              recondepdate: data.fields.DepositLines[i].fields.DepositDate !=''? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY"): data.fields.DepositLines[i].fields.DepositDate,
-                              recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
-                              recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
-                              recondepamount: depositamount || 0.00,
-                              recondepid: data.fields.DepositLines[i].fields.ID || ' ',
-                              recondepref: data.fields.DepositLines[i].fields.Reference || ' ',
-                              seqdepnum: data.fields.DepositLines[i].fields.Recno || 0,
-                              recondeppaymentid: data.fields.DepositLines[i].fields.PaymentID || 0,
-                              depositLineID: data.fields.DepositLines[i].fields.DepositLineID || 0,
-                          };
-                          selectedTransAmountdep = selectedTransAmountdep+parseFloat(data.fields.DepositLines[i].fields.Amount);
-                          //if(data.ttobereconcileddeposit[i].Seqno != 0){
-                          recondep.push(reconciledepositObj);
-                          templateObject.reconVS1dep.set(recondep);
-                          //}
-                      }
-
-                      $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
-                      if(templateObject.reconVS1dep.get()){
-                          setTimeout(function () {
-                              $('#tblVS1Dep').DataTable({
-                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                  buttons: [
-                                      {
-                                          extend: 'excelHtml5',
-                                          text: '',
-                                          download: 'open',
-                                          className: "btntabletocsv hiddenColumn",
-                                          filename: "chequelist_"+ moment().format(),
-                                          orientation:'portrait',
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      },{
-                                          extend: 'print',
-                                          download: 'open',
-                                          className: "btntabletopdf hiddenColumn",
-                                          text: '',
-                                          title: 'Cheque',
-                                          filename: "chequelist_"+ moment().format(),
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      }],
-                                  paging: false,
-                                  "scrollY": "400px",
-                                  "scrollCollapse": true,
-                                  "columnDefs": [
-                                      { "orderable": false, "targets": 0 }
-                                  ],
-                                  colReorder: true,
-                                  colReorder: {
-                                      fixedColumnsLeft: 1
-                                  },
-                                  select: true,
-                                  destroy: true,
-                                  colReorder: true,
-                                  pageLength: 10,
-                                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                                  info: true,
-                                  responsive: true,
-                                  "order": [[ 1, "desc" ]],
-                                  action: function () {
-                                      $('#tblVS1Dep').DataTable().ajax.reload();
-                                  }
-                              });
-
-                          }, 0);
-                      }
-                      if(data.fields.OnHold == false){
-                      setTimeout(function () {
-                          $('.tblVS1Dep tr').each(function () {
-                              var $tblrow = $(this);
-                              $tblrow.find("th input").attr('readonly', true);
-                              $tblrow.find("th input").attr('disabled', 'disabled');
-                              $tblrow.find("th").css('background-color','#eaecf4');
-
-                              $tblrow.find("td input").attr('readonly', true);
-                              $tblrow.find("td input").attr('disabled', 'disabled');
-                              $tblrow.find("td").css('background-color','#eaecf4');
-                              $tblrow.find("td .table-remove").removeClass("btnRemove");
-                          }, 100);
-                      });
-                    }else{
-                      setTimeout(function () {
-                        $(".reconchkboxdep").trigger("click");
-                      }, 100);
-                    }
-                  }else{
-                      setTimeout(function () {
-                          $('#tblVS1Dep').DataTable({
-                              "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                              buttons: [
-                                  {
-                                      extend: 'excelHtml5',
-                                      text: '',
-                                      download: 'open',
-                                      className: "btntabletocsv hiddenColumn",
-                                      filename: "chequelist_"+ moment().format(),
-                                      orientation:'portrait',
-                                      exportOptions: {
-                                          columns: ':visible'
-                                      }
-                                  },{
-                                      extend: 'print',
-                                      download: 'open',
-                                      className: "btntabletopdf hiddenColumn",
-                                      text: '',
-                                      title: 'Cheque',
-                                      filename: "chequelist_"+ moment().format(),
-                                      exportOptions: {
-                                          columns: ':visible'
-                                      }
-                                  }],
-                              paging: false,
-                              "scrollY": "400px",
-                              "scrollCollapse": true,
-                              "columnDefs": [
-                                  { "orderable": false, "targets": 0 }
-                              ],
-                              colReorder: true,
-                              colReorder: {
-                                  fixedColumnsLeft: 1
-                              },
-                              select: true,
-                              destroy: true,
-                              colReorder: true,
-                              pageLength: "All",
-                              lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                              info: true,
-                              responsive: true,
-                              "order": [[ 1, "desc" ]],
-                              action: function () {
-                                  $('#tblVS1Dep').DataTable().ajax.reload();
-                              }
-                          });
-
-                      }, 0);
-                  }
-
-                  if(data.fields.WithdrawalLines.length > 0){
-                      for(let j in data.fields.WithdrawalLines){
-                          let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.fields.WithdrawalLines[j].fields.Amount)|| 0.00;
-                          let reconcilewithdrawalObj = {
-                              sortdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("YYYY-MM-DD"): data.fields.WithdrawalLines[j].fields.DepositDate,
-                              reconwithdate: data.fields.WithdrawalLines[j].fields.DepositDate !=''? moment(data.fields.WithdrawalLines[j].fields.DepositDate).format("DD/MM/YYYY"): data.fields.WithdrawalLines[j].fields.DepositDate,
-                              reconwithname: data.fields.WithdrawalLines[j].fields.ClientName || ' ',
-                              reconwithpaymenttype: data.fields.WithdrawalLines[j].fields.Notes || ' ',
-                              reconwithamount: withdrawalamount || 0.00,
-                              reconwithid: data.fields.WithdrawalLines[j].fields.ID || ' ',
-                              reconwithref: data.fields.WithdrawalLines[j].fields.Reference || ' ',
-                              seqwithnum: data.fields.WithdrawalLines[j].fields.Recno || 0,
-                              reconwithpaymentid: data.fields.WithdrawalLines[j].fields.PaymentID || 0,
-                              depositLineID: data.fields.WithdrawalLines[j].fields.DepositLineID || 0,
-                          };
-
-                          reconwith.push(reconcilewithdrawalObj);
-                          templateObject.reconVS1with.set(reconwith);
-                          selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(data.fields.WithdrawalLines[j].fields.Amount);
-
-                      }
-
-                      $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
-                      if(templateObject.reconVS1with.get()){
-                          setTimeout(function () {
-                              $('#tblVS1With').DataTable({
-                                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                                  buttons: [
-                                      {
-                                          extend: 'excelHtml5',
-                                          text: '',
-                                          download: 'open',
-                                          className: "btntabletocsv hiddenColumn",
-                                          filename: "chequelist_"+ moment().format(),
-                                          orientation:'portrait',
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      },{
-                                          extend: 'print',
-                                          download: 'open',
-                                          className: "btntabletopdf hiddenColumn",
-                                          text: '',
-                                          title: 'Cheque',
-                                          filename: "chequelist_"+ moment().format(),
-                                          exportOptions: {
-                                              columns: ':visible'
-                                          }
-                                      }],
-                                  paging: false,
-                                  "scrollY": "400px",
-                                  "scrollCollapse": true,
-                                  select: true,
-                                  "columnDefs": [
-                                      { "orderable": false, "targets": 0 }
-                                  ],
-                                  colReorder: true,
-                                  colReorder: {
-                                      fixedColumnsLeft: 1
-                                  },
-                                  destroy: true,
-                                  colReorder: true,
-                                  pageLength: 10,
-                                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                                  info: true,
-                                  responsive: true,
-                                  "order": [[ 1, "desc" ]],
-                                  action: function () {
-                                      $('#tblVS1With').DataTable().ajax.reload();
-                                  }
-                              });
-
-                          }, 0);
-                      }
-                      if(data.fields.OnHold == false){
-                      setTimeout(function () {
-                          $('.tblVS1With tr').each(function () {
-                              var $tblrow = $(this);
-                              $tblrow.find("th input").attr('readonly', true);
-                              $tblrow.find("th input").attr('disabled', 'disabled');
-                              $tblrow.find("th").css('background-color','#eaecf4');
-
-                              $tblrow.find("td input").attr('readonly', true);
-                              $tblrow.find("td input").attr('disabled', 'disabled');
-                              $tblrow.find("td").css('background-color','#eaecf4');
-                              $tblrow.find("td .table-remove").removeClass("btnRemove");
-                          }, 100);
-                      });
-                    }else{
-                      setTimeout(function () {
-                      $(".reconchkboxwith").trigger("click");
-                      }, 100);
-                    }
-                  }else{
-                      setTimeout(function () {
-                          $('#tblVS1With').DataTable({
-                              "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                              buttons: [
-                                  {
-                                      extend: 'excelHtml5',
-                                      text: '',
-                                      download: 'open',
-                                      className: "btntabletocsv hiddenColumn",
-                                      filename: "chequelist_"+ moment().format(),
-                                      orientation:'portrait',
-                                      exportOptions: {
-                                          columns: ':visible'
-                                      }
-                                  },{
-                                      extend: 'print',
-                                      download: 'open',
-                                      className: "btntabletopdf hiddenColumn",
-                                      text: '',
-                                      title: 'Cheque',
-                                      filename: "chequelist_"+ moment().format(),
-                                      exportOptions: {
-                                          columns: ':visible'
-                                      }
-                                  }],
-                              paging: false,
-                              "scrollY": "400px",
-                              "scrollCollapse": true,
-                              select: true,
-                              "columnDefs": [
-                                  { "orderable": false, "targets": 0 }
-                              ],
-                              colReorder: true,
-                              colReorder: {
-                                  fixedColumnsLeft: 1
-                              },
-                              destroy: true,
-                              colReorder: true,
-                              pageLength: 10,
-                              lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                              info: true,
-                              responsive: true,
-                              "order": [[ 1, "desc" ]],
-                              action: function () {
-                                  $('#tblVS1With').DataTable().ajax.reload();
-                              }
-                          });
-                          $('.fullScreenSpin').css('display','none');
-                      }, 0);
-                  }
-                  //$('#hideSelectionToggle').css('pointer-events', 'none');
-
-
-
-                  $('.fullScreenSpin').css('display','none');
-              }).catch(function (err) {
-                  $('.fullScreenSpin').css('display','none');
-              });
             });
 
         }
         templateObject.getAccountNames();
-    }else{
+    } else {
         templateObject.getAccountNames();
         //templateObject.getOpenBalance();
     }
@@ -1855,7 +1960,9 @@ if(useData[d].fields.WithdrawalLines.length > 0){
         var input_val = input.val();
 
         // don't validate empty input
-        if (input_val === "") { return; }
+        if (input_val === "") {
+            return;
+        }
 
         // original length
         var original_len = input_val.length;
@@ -1894,7 +2001,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
 
 
         } else {
-            if(input_val.indexOf("-") >= 0){
+            if (input_val.indexOf("-") >= 0) {
 
             }
             // no decimal entered
@@ -1921,7 +2028,7 @@ if(useData[d].fields.WithdrawalLines.length > 0){
 })
 
 Template.bankrecon.events({
-    'change #bankAccountName': function (e) {
+    'change #bankAccountName': function(e) {
         let templateObject = Template.instance();
         templateObject.reconVS1dep.set(null);
         templateObject.reconVS1with.set(null);
@@ -1930,18 +2037,19 @@ Template.bankrecon.events({
         var accountTypeId = $('#bankAccountName').val();
         // Sessions - setting the accountTypeID END
 
-        if(accountTypeId != ""){
+        if (accountTypeId != "") {
             Session.setPersistent('bankaccountid', accountTypeId);
             templateObject.getReconcileDeposit(accountTypeId);
             templateObject.getReconcileWithdrawal(accountTypeId);
-            setTimeout(function () {
-                window.open('/bankrecon','_self');
-            },1000);
-        }else{
-        }
+            setTimeout(function() {
+                window.open('/bankrecon', '_self');
+            }, 1000);
+        } else {}
         e.preventDefault();
     },
-    'change .reconchkboxdep': function (e) {
+    'change .reconchkboxdep': function(e) {
+
+        //$(".endingbalance").val('');
         //        var deptable = $('#tblVS1Dep').DataTable();
         //        var rows_selected = deptable.column(0).checkboxes.selected();
         var chkbiddep = event.target.id;
@@ -1951,41 +2059,42 @@ Template.bankrecon.events({
         const selectedTransdep = [];
         const selectedtransactionsdep = [];
 
-        $('.reconchkboxdep:checkbox:checked').each(function(){
+        $('.reconchkboxdep:checkbox:checked').each(function() {
             var chkbiddepLine = $(this).attr('id');
             var checkboxIDdepLine = chkbiddepLine.split("_").pop();
             var depositLineIDDep = $(this).closest('tr').attr('depositLineID');
             let transactionObj = {
-                reconid : checkboxIDdepLine,
-                recondate : $('#vs1recondate_'+checkboxIDdepLine).attr('recondate'),
-                reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
-                recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
-                reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
-                reconref : $('#vs1reconref_'+checkboxIDdepLine).text(),
-                reconpayid : $('#vs1reconpayid_'+checkboxIDdepLine).text(),
-                depositLineID: depositLineIDDep||0
+                reconid: checkboxIDdepLine,
+                recondate: $('#vs1recondate_' + checkboxIDdepLine).attr('recondate'),
+                reconname: $('#vs1reconname_' + checkboxIDdepLine).text(),
+                recondesc: $('#vs1recondesc_' + checkboxIDdepLine).text(),
+                reconamount: $('#vs1reconamount_' + checkboxIDdepLine).text(),
+                reconref: $('#vs1reconref_' + checkboxIDdepLine).text(),
+                reconpayid: $('#vs1reconpayid_' + checkboxIDdepLine).text(),
+                depositLineID: depositLineIDDep || 0
             }
-            var reconamounttrimdep = (($('#vs1reconamount_'+checkboxIDdepLine).text()).substring(1)).replace(',','');
-            selectedTransAmountdep = selectedTransAmountdep+parseFloat(reconamounttrimdep);
+            var reconamounttrimdep = (($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
+            selectedTransAmountdep = selectedTransAmountdep + parseFloat(reconamounttrimdep);
             selectedtransactionsdep.push(transactionObj);
         });
         templateObject.selectedTransdep.set(selectedtransactionsdep);
-        setTimeout(function () {
+        setTimeout(function() {
             $("#divtblSelectedDeposits").height(300);
-              $('.btnHold').prop("disabled", false);
-        },0);
-        $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+            $('.btnHold').prop("disabled", false);
+        }, 0);
+        $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
 
         // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
         // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
         // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
-        var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
-        var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
-        var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
-        var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
-        $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+        var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g, ""));
+        var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g, ""));
+        var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g, ""));
+        var clearedBal = parseFloat(openbalamount) + parseFloat(totaldepamount) - parseFloat(totalwithamount);
+        $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency + "0.00");
     },
-    'change .reconchkboxwith': function (e) {
+    'change .reconchkboxwith': function(e) {
+        //$(".endingbalance").val('');
         var chkbidwith = event.target.id;
         var checkboxID = chkbidwith.split("_").pop();
         var selectedTransAmountwidth = 0;
@@ -1993,257 +2102,257 @@ Template.bankrecon.events({
         const selectedTranswith = [];
         const selectedtransactionswith = [];
 
-        $('.reconchkboxwith:checkbox:checked').each(function(){
+        $('.reconchkboxwith:checkbox:checked').each(function() {
             var chkbidwithLine = $(this).attr('id');
             var checkboxIDwithLine = chkbidwithLine.split("_").pop();
             let depositLineIDWith = $(this).closest('tr').attr('depositLineID');
             let transactionObj = {
-                reconid : checkboxIDwithLine,
-                recondate : $('#vs1recondatewith_'+checkboxIDwithLine).attr('recondate'),
-                reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
-                recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
-                reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
-                reconref : $('#vs1reconrefwith_'+checkboxIDwithLine).text(),
-                reconpayid : $('#vs1reconpayidwith_'+checkboxIDwithLine).text(),
-                depositLineID: depositLineIDWith||0
+                reconid: checkboxIDwithLine,
+                recondate: $('#vs1recondatewith_' + checkboxIDwithLine).attr('recondate'),
+                reconname: $('#vs1reconnamewith_' + checkboxIDwithLine).text(),
+                recondesc: $('#vs1recondescwith_' + checkboxIDwithLine).text(),
+                reconamount: $('#vs1reconamountwith_' + checkboxIDwithLine).text(),
+                reconref: $('#vs1reconrefwith_' + checkboxIDwithLine).text(),
+                reconpayid: $('#vs1reconpayidwith_' + checkboxIDwithLine).text(),
+                depositLineID: depositLineIDWith || 0
             }
-            var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
-            selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(reconamounttrim);
+            var reconamounttrim = (($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
+            selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(reconamounttrim);
             selectedtransactionswith.push(transactionObj);
         });
         templateObject.selectedTranswith.set(selectedtransactionswith);
-        setTimeout(function () {
+        setTimeout(function() {
             $("#divtblSelectedWithdrawals").height(300);
             $('.btnHold').prop("disabled", false);
-        },0);
-        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
+        }, 0);
+        $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
         // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
         // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
         // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
-        var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
-        var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
-        var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
-        var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
-        $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+        var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g, ""));
+        var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g, ""));
+        var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g, ""));
+        var clearedBal = parseFloat(openbalamount) + parseFloat(totaldepamount) - parseFloat(totalwithamount);
+        $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency + "0.00");
     },
-    'change #checkallrecondep': function (e) {
-        if($(event.target).is(':checked')){
-            $(".reconchkboxdep"). prop("checked", true);
+    'change #checkallrecondep': function(e) {
+        if ($(event.target).is(':checked')) {
+            $(".reconchkboxdep").prop("checked", true);
             var selectedTransAmountdep = 0;
             const templateObject = Template.instance();
             const selectedTransdep = [];
             const selectedtransactionsdep = [];
 
-            $('.reconchkboxdep:checkbox:checked').each(function(){
+            $('.reconchkboxdep:checkbox:checked').each(function() {
                 var chkbiddepLine = $(this).attr('id');
                 var checkboxIDdepLine = chkbiddepLine.split("_").pop();
                 let depositLineIDDepAll = $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
-                    reconid : checkboxIDdepLine,
-                    recondate : $('#vs1recondate_'+checkboxIDdepLine).attr('recondate'),
-                    reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
-                    recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
-                    reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
-                    reconref : $('#vs1reconref_'+checkboxIDdepLine).text(),
-                    reconpayid : $('#vs1reconpayid_'+checkboxIDdepLine).text(),
-                    depositLineID: depositLineIDDepAll||0
+                    reconid: checkboxIDdepLine,
+                    recondate: $('#vs1recondate_' + checkboxIDdepLine).attr('recondate'),
+                    reconname: $('#vs1reconname_' + checkboxIDdepLine).text(),
+                    recondesc: $('#vs1recondesc_' + checkboxIDdepLine).text(),
+                    reconamount: $('#vs1reconamount_' + checkboxIDdepLine).text(),
+                    reconref: $('#vs1reconref_' + checkboxIDdepLine).text(),
+                    reconpayid: $('#vs1reconpayid_' + checkboxIDdepLine).text(),
+                    depositLineID: depositLineIDDepAll || 0
                 }
-                var reconamounttrimdep = (($('#vs1reconamount_'+checkboxIDdepLine).text()).substring(1)).replace(',','');
-                selectedTransAmountdep = selectedTransAmountdep+parseFloat(reconamounttrimdep);
+                var reconamounttrimdep = (($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
+                selectedTransAmountdep = selectedTransAmountdep + parseFloat(reconamounttrimdep);
                 selectedtransactionsdep.push(transactionObj);
             });
             templateObject.selectedTransdep.set(selectedtransactionsdep);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#divtblSelectedDeposits").height(300);
-            },0);
+            }, 0);
 
-            $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+            $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
             // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
             // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
             // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
-            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
-            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
-            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
-            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
-            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g, ""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g, ""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g, ""));
+            var clearedBal = parseFloat(openbalamount) + parseFloat(totaldepamount) - parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency + "0.00");
             $('.btnHold').prop("disabled", false);
-        }else{
-            $(".reconchkboxdep"). prop("checked", false);
+        } else {
+            $(".reconchkboxdep").prop("checked", false);
             var selectedTransAmountdep = 0;
             const templateObject = Template.instance();
             const selectedTransdep = [];
             const selectedtransactionsdep = [];
 
-            $('.reconchkboxdep:checkbox:checked').each(function(){
+            $('.reconchkboxdep:checkbox:checked').each(function() {
                 var chkbiddepLine = $(this).attr('id');
                 var checkboxIDdepLine = chkbiddepLine.split("_").pop();
                 let depositLineIDDepAll = $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
-                    reconid : checkboxIDdepLine,
-                    recondate : $('#vs1recondate_'+checkboxIDdepLine).attr('recondate'),
-                    reconname : $('#vs1reconname_'+checkboxIDdepLine).text(),
-                    recondesc : $('#vs1recondesc_'+checkboxIDdepLine).text(),
-                    reconamount : $('#vs1reconamount_'+checkboxIDdepLine).text(),
-                    reconref : $('#vs1reconref_'+checkboxIDdepLine).text(),
-                    reconpayid : $('#vs1reconpayid_'+checkboxIDdepLine).text(),
-                    depositLineID: depositLineIDDepAll||0
+                    reconid: checkboxIDdepLine,
+                    recondate: $('#vs1recondate_' + checkboxIDdepLine).attr('recondate'),
+                    reconname: $('#vs1reconname_' + checkboxIDdepLine).text(),
+                    recondesc: $('#vs1recondesc_' + checkboxIDdepLine).text(),
+                    reconamount: $('#vs1reconamount_' + checkboxIDdepLine).text(),
+                    reconref: $('#vs1reconref_' + checkboxIDdepLine).text(),
+                    reconpayid: $('#vs1reconpayid_' + checkboxIDdepLine).text(),
+                    depositLineID: depositLineIDDepAll || 0
                 }
-                var reconamounttrimdep = (($('#vs1reconamount_'+checkboxIDdepLine).text()).substring(1)).replace(',','');
-                selectedTransAmountdep = selectedTransAmountdep+parseFloat(reconamounttrimdep);
+                var reconamounttrimdep = (($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
+                selectedTransAmountdep = selectedTransAmountdep + parseFloat(reconamounttrimdep);
                 selectedtransactionsdep.push(transactionObj);
             });
             templateObject.selectedTransdep.set(selectedtransactionsdep);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#divtblSelectedDeposits").height(120);
-            },0);
+            }, 0);
 
-            $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency+"0.00");
+            $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
             // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
             // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
             // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
-            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
-            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
-            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
-            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
-            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g, ""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g, ""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g, ""));
+            var clearedBal = parseFloat(openbalamount) + parseFloat(totaldepamount) - parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency + "0.00");
         }
     },
-    'change #checkallreconwith': function (e) {
-        if($(event.target).is(':checked')){
+    'change #checkallreconwith': function(e) {
+        if ($(event.target).is(':checked')) {
             $(".reconchkboxwith").prop("checked", true);
             var selectedTransAmountwidth = 0;
             const templateObject = Template.instance();
             const selectedTranswith = [];
             const selectedtransactionswith = [];
 
-            $('.reconchkboxwith:checkbox:checked').each(function(){
+            $('.reconchkboxwith:checkbox:checked').each(function() {
                 var chkbidwithLine = $(this).attr('id');
                 var checkboxIDwithLine = chkbidwithLine.split("_").pop();
                 let depositLineIDAll = $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
-                    reconid : checkboxIDwithLine,
-                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).attr('recondate'),
-                    reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
-                    recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
-                    reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
-                    reconref : $('#vs1reconrefwith_'+checkboxIDwithLine).text(),
-                    reconpayid : $('#vs1reconpayidwith_'+checkboxIDwithLine).text(),
-                    depositLineID: depositLineIDAll||0
+                    reconid: checkboxIDwithLine,
+                    recondate: $('#vs1recondatewith_' + checkboxIDwithLine).attr('recondate'),
+                    reconname: $('#vs1reconnamewith_' + checkboxIDwithLine).text(),
+                    recondesc: $('#vs1recondescwith_' + checkboxIDwithLine).text(),
+                    reconamount: $('#vs1reconamountwith_' + checkboxIDwithLine).text(),
+                    reconref: $('#vs1reconrefwith_' + checkboxIDwithLine).text(),
+                    reconpayid: $('#vs1reconpayidwith_' + checkboxIDwithLine).text(),
+                    depositLineID: depositLineIDAll || 0
                 }
-                var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
-                selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(reconamounttrim);
+                var reconamounttrim = (($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
+                selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(reconamounttrim);
                 selectedtransactionswith.push(transactionObj);
 
 
             });
             templateObject.selectedTranswith.set(selectedtransactionswith);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#divtblSelectedWithdrawals").height(300);
-            },0);
+            }, 0);
 
             //$("#tblSelectedWithdrawals").height(300);
 
-            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
+            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
             // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
             // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
             // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
-            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
-            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
-            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
-            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
-            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g, ""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g, ""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g, ""));
+            var clearedBal = parseFloat(openbalamount) + parseFloat(totaldepamount) - parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency + "0.00");
             $('.btnHold').prop("disabled", false);
         } else {
-            $(".reconchkboxwith"). prop("checked", false);
+            $(".reconchkboxwith").prop("checked", false);
             var selectedTransAmountwidth = 0;
             const templateObject = Template.instance();
             const selectedTranswith = [];
             const selectedtransactionswith = [];
 
-            $('.reconchkboxwith:checkbox:checked').each(function(){
+            $('.reconchkboxwith:checkbox:checked').each(function() {
                 var chkbidwithLine = $(this).attr('id');
                 var checkboxIDwithLine = chkbidwithLine.split("_").pop();
-                let depositLineIDwith= $(this).closest('tr').attr('depositLineID');
+                let depositLineIDwith = $(this).closest('tr').attr('depositLineID');
                 let transactionObj = {
-                    reconid : checkboxIDwithLine,
-                    recondate : $('#vs1recondatewith_'+checkboxIDwithLine).attr('recondate'),
-                    reconname : $('#vs1reconnamewith_'+checkboxIDwithLine).text(),
-                    recondesc : $('#vs1recondescwith_'+checkboxIDwithLine).text(),
-                    reconamount : $('#vs1reconamountwith_'+checkboxIDwithLine).text(),
-                    reconref : $('#vs1reconrefwith_'+checkboxIDwithLine).text(),
-                    reconpayid : $('#vs1reconpayidwith_'+checkboxIDwithLine).text(),
-                    depositLineID: depositLineIDwith||0
+                    reconid: checkboxIDwithLine,
+                    recondate: $('#vs1recondatewith_' + checkboxIDwithLine).attr('recondate'),
+                    reconname: $('#vs1reconnamewith_' + checkboxIDwithLine).text(),
+                    recondesc: $('#vs1recondescwith_' + checkboxIDwithLine).text(),
+                    reconamount: $('#vs1reconamountwith_' + checkboxIDwithLine).text(),
+                    reconref: $('#vs1reconrefwith_' + checkboxIDwithLine).text(),
+                    reconpayid: $('#vs1reconpayidwith_' + checkboxIDwithLine).text(),
+                    depositLineID: depositLineIDwith || 0
                 }
-                var reconamounttrim = (($('#vs1reconamountwith_'+checkboxIDwithLine).text()).substring(1)).replace(',','');
-                selectedTransAmountwidth = selectedTransAmountwidth+parseFloat(reconamounttrim);
+                var reconamounttrim = (($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
+                selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(reconamounttrim);
                 selectedtransactionswith.push(transactionObj);
             });
             templateObject.selectedTranswith.set(selectedtransactionswith);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 $("#divtblSelectedWithdrawals").height(120);
-            },0);
+            }, 0);
 
-            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency+"0.00");
+            $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
             // var totaldepamount = (($('.depositAmount').html()).substring(1)).replace(',','');
             // var totalwithamount = (($('.withdrawalAmount').html()).substring(1)).replace(',','');
             // var openbalamount = (($('#openingbalance').val()).substring(1)).replace(',','');
-            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g,""));
-            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g,""));
-            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g,""));
-            var clearedBal = parseFloat(openbalamount)+parseFloat(totaldepamount)-parseFloat(totalwithamount);
-            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency+"0.00");
+            var totaldepamount = Number($('.depositAmount').html().replace(/[^0-9.-]+/g, ""));
+            var totalwithamount = Number($('.withdrawalAmount').html().replace(/[^0-9.-]+/g, ""));
+            var openbalamount = Number($('#openingbalance').val().replace(/[^0-9.-]+/g, ""));
+            var clearedBal = parseFloat(openbalamount) + parseFloat(totaldepamount) - parseFloat(totalwithamount);
+            $('.clearedBalance').text(utilityService.modifynegativeCurrencyFormat(clearedBal) || Currency + "0.00");
         }
     },
-    'blur .endingbalance': function (e) {
-        let dataValue =  Number(event.target.value.replace(/[^0-9.-]+/g,""));
+    'blur .endingbalance': function(e) {
+        let dataValue = Number(event.target.value.replace(/[^0-9.-]+/g, ""));
 
-        if (!isNaN(dataValue)){
+        if (!isNaN(dataValue)) {
             $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(dataValue));
-        }else{
-            let inputDebitEx = Number(dataValue.replace(/[^0-9.-]+/g,""));
+        } else {
+            let inputDebitEx = Number(dataValue.replace(/[^0-9.-]+/g, ""));
 
-            $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(inputDebitEx) ||0);
+            $('.endingbalance').val(utilityService.modifynegativeCurrencyFormat(inputDebitEx) || 0);
         }
     },
-    'keyup .endingbalance, change .endingbalance': function (e) {
+    'keyup .endingbalance, change .endingbalance': function(e) {
 
-        var displayEndBal2 = event.target.value.replace(/[^0-9.-]+/g,"") ||0;
-        $('.endingbalance2').val(event.target.value ||0);
+        var displayEndBal2 = event.target.value.replace(/[^0-9.-]+/g, "") || 0;
+        $('.endingbalance2').val(event.target.value || 0);
 
-        $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(displayEndBal2) || Currency+"0.00");
+        $('.endingBalanceCalc').text(utilityService.modifynegativeCurrencyFormat(displayEndBal2) || Currency + "0.00");
 
         // Calc Difference
-        var clearedBalCalc2 = $('.clearedBalance').html().replace(/[^0-9.-]+/g,"") ||0;
+        var clearedBalCalc2 = $('.clearedBalance').html().replace(/[^0-9.-]+/g, "") || 0;
         var differenceAmount = parseFloat(clearedBalCalc2) - parseFloat(displayEndBal2);
-        $('.differenceCalc').text(utilityService.modifynegativeCurrencyFormat(differenceAmount) || Currency+"0.00");
+        $('.differenceCalc').text(utilityService.modifynegativeCurrencyFormat(differenceAmount) || Currency + "0.00");
     },
-    'blur .statementDate, keyup .statementDate, change .statementDate': function (e) {
-        var statementDate = event.target.value.replace(/[^0-9.-]+/g,"") ||0;
-        $('.statementDate').val(event.target.value ||0);
+    'blur .statementDate, keyup .statementDate, change .statementDate': function(e) {
+        var statementDate = event.target.value.replace(/[^0-9.-]+/g, "") || 0;
+        $('.statementDate').val(event.target.value || 0);
     },
-    'click .reconbtn': function (e) {
-        $('.fullScreenSpin').css('display','inline-block');
+    'click .reconbtn': function(e) {
+        $('.fullScreenSpin').css('display', 'inline-block');
 
         let recService = new ReconService();
 
         let lineItemsDep = [];
         let lineItemsDepObj = {};
-        $('#tblSelectedDeposits > tbody > tr').each(function(){
+        $('#tblSelectedDeposits > tbody > tr').each(function() {
             var depID = this.id;
-            if(depID){
-                let depositLineID = $(this).attr('depositLineID') ||0;
-                let depclientname = $("#"+depID+"_name").text()||'';
-                let depdepositdate = $("#"+depID+"_date").text()||'';
-                let depnotes = $("#"+depID+"_desc").text()||'';
-                let depamount = $("#"+depID+"_amount").text()||0;
-                let depref = $("#"+depID+"_ref").text()||'';
-                let deppaymentid = $("#"+depID+"_payid").text()||'';
-                let depaccountname = $('#bankAccountName').find(":selected").text()||'';
-                if($("#"+depID+"_desc").text() == "Customer Payment"){
+            if (depID) {
+                let depositLineID = $(this).attr('depositLineID') || 0;
+                let depclientname = $("#" + depID + "_name").text() || '';
+                let depdepositdate = $("#" + depID + "_date").text() || '';
+                let depnotes = $("#" + depID + "_desc").text() || '';
+                let depamount = $("#" + depID + "_amount").text() || 0;
+                let depref = $("#" + depID + "_ref").text() || '';
+                let deppaymentid = $("#" + depID + "_payid").text() || '';
+                let depaccountname = $('#bankAccountName').find(":selected").text() || '';
+                if ($("#" + depID + "_desc").text() == "Customer Payment") {
                     deppaymentid = depID;
                 }
                 // else if($("#"+depID+"_desc").text() == "Journal Entry"){
@@ -2258,19 +2367,18 @@ Template.bankrecon.events({
                 let formateDepDate = depositYear + "-" + depositMonth + "-" + depositDay;
 
                 lineItemsDepObj = {
-                    type:"TReconciliationDepositLines",
-                    fields:
-                    {
+                    type: "TReconciliationDepositLines",
+                    fields: {
                         AccountName: depaccountname || '',
-                        Amount: Number(depamount.replace(/[^0-9.-]+/g,"")) || 0,
+                        Amount: Number(depamount.replace(/[^0-9.-]+/g, "")) || 0,
                         BankStatementLineID: 0, //Hardcoded for now
                         ClientName: depclientname || '',
-                        DepositDate: formateDepDate+" 00:00:00" || '',
+                        DepositDate: formateDepDate + " 00:00:00" || '',
                         Deposited: true,
-                        DepositLineID: parseInt(depositLineID)||0,
+                        DepositLineID: parseInt(depositLineID) || 0,
                         Notes: depnotes || '',
                         Payee: depclientname || '',
-                        PaymentID: parseInt(deppaymentid)||0,
+                        PaymentID: parseInt(deppaymentid) || 0,
                         Reconciled: true,
                         Reference: depref || ''
                     }
@@ -2282,17 +2390,17 @@ Template.bankrecon.events({
 
         let lineItemsWith = [];
         let lineItemsWithObj = {};
-        $('#tblSelectedWithdrawals > tbody > tr').each(function(){
+        $('#tblSelectedWithdrawals > tbody > tr').each(function() {
             var withID = this.id;
-            if(withID){
-                let depositLineIDWith = $(this).attr('depositLineID')||0;
-                let withclientname = $("#"+withID+"_name").text()||'';
-                let withdepositdate = $("#"+withID+"_date").text()||'';
-                let withnotes = $("#"+withID+"_desc").text()||'';
-                let withamount = $("#"+withID+"_amount").text()||0;
-                let withref = $("#"+withID+"_ref").text()||'';
-                let withpaymentid = $("#"+withID+"_payid").text()||'';
-                let withaccountname = $('#bankAccountName').find(":selected").text()||'';
+            if (withID) {
+                let depositLineIDWith = $(this).attr('depositLineID') || 0;
+                let withclientname = $("#" + withID + "_name").text() || '';
+                let withdepositdate = $("#" + withID + "_date").text() || '';
+                let withnotes = $("#" + withID + "_desc").text() || '';
+                let withamount = $("#" + withID + "_amount").text() || 0;
+                let withref = $("#" + withID + "_ref").text() || '';
+                let withpaymentid = $("#" + withID + "_payid").text() || '';
+                let withaccountname = $('#bankAccountName').find(":selected").text() || '';
 
                 let splitwithdepositdate = withdepositdate.split("/");
                 let withYear = splitwithdepositdate[2];
@@ -2302,19 +2410,18 @@ Template.bankrecon.events({
                 let formatWithDate = withYear + "-" + withMonth + "-" + withDay;
 
                 lineItemsWithObj = {
-                    type:"TReconciliationWithdrawalLines",
-                    fields:
-                    {
+                    type: "TReconciliationWithdrawalLines",
+                    fields: {
                         AccountName: withaccountname || '',
-                        Amount: Number(withamount.replace(/[^0-9.-]+/g,"")) || 0,
+                        Amount: Number(withamount.replace(/[^0-9.-]+/g, "")) || 0,
                         BankStatementLineID: 0, //Hardcoded for now
                         ClientName: withclientname || '',
-                        DepositDate: formatWithDate+" 00:00:00" || '',
+                        DepositDate: formatWithDate + " 00:00:00" || '',
                         Deposited: true,
-                        DepositLineID: parseInt(depositLineIDWith)||0,
+                        DepositLineID: parseInt(depositLineIDWith) || 0,
                         Notes: withnotes || '',
                         Payee: withclientname || '',
-                        PaymentID: parseInt(withpaymentid)||0,
+                        PaymentID: parseInt(withpaymentid) || 0,
                         Reconciled: true,
                         Reference: withref || ''
                     }
@@ -2331,59 +2438,59 @@ Template.bankrecon.events({
         var finished = true;
         var notes = $('#statementno').val(); //pending addition of notes field
         var onhold = false;
-        var openbalance = $('.openingbalance').html().replace(/[^0-9.-]+/g,"") ||0;
+        var openbalance = $('.openingbalance').html().replace(/[^0-9.-]+/g, "") || 0;
         var statementno = $('#statementno').val();
         var recondateTime = new Date($("#dtSODate2").datepicker("getDate"));
-        let recondate = recondateTime.getFullYear() + "-" + (recondateTime.getMonth()+1) + "-" + recondateTime.getDate();
-        let closebalance = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
+        let recondate = recondateTime.getFullYear() + "-" + (recondateTime.getMonth() + 1) + "-" + recondateTime.getDate();
+        let closebalance = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g, "") || 0;
         // Pulling initial variables END
         let objDetails = '';
-        if(FlowRouter.current().queryParams.id){
-         objDetails = {
-            type: "TReconciliation",
-            fields: {
-                ID: parseInt(FlowRouter.current().queryParams.id) || 0,
-                AccountName: accountname || '',
-                CloseBalance: parseFloat(closebalance) || 0,
-                Deleted: deleted,
-                DepositLines: lineItemsDep || '',
-                DeptName: deptname || '',
-                EmployeeName: employeename || '',
-                Finished: true,
-                Notes: notes || '',
-                OnHold: false,
-                OpenBalance: parseFloat(openbalance) || 0,
-                ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
-                StatementNo: statementno || '0',
-                WithdrawalLines: lineItemsWith || ''
+        if (FlowRouter.current().queryParams.id) {
+            objDetails = {
+                type: "TReconciliation",
+                fields: {
+                    ID: parseInt(FlowRouter.current().queryParams.id) || 0,
+                    AccountName: accountname || '',
+                    CloseBalance: parseFloat(closebalance) || 0,
+                    Deleted: deleted,
+                    DepositLines: lineItemsDep || '',
+                    DeptName: deptname || '',
+                    EmployeeName: employeename || '',
+                    Finished: true,
+                    Notes: notes || '',
+                    OnHold: false,
+                    OpenBalance: parseFloat(openbalance) || 0,
+                    ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
+                    StatementNo: statementno || '0',
+                    WithdrawalLines: lineItemsWith || ''
 
-            }
-        };
+                }
+            };
 
-         }else{
-           objDetails = {
-              type: "TReconciliation",
-              fields: {
-                  AccountName: accountname || '',
-                  CloseBalance: parseFloat(closebalance) || 0,
-                  Deleted: deleted,
-                  DepositLines: lineItemsDep || '',
-                  DeptName: deptname || '',
-                  EmployeeName: employeename || '',
-                  Finished: true,
-                  Notes: notes || '',
-                  OnHold: false,
-                  OpenBalance: parseFloat(openbalance) || 0,
-                  ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
-                  StatementNo: statementno || '0',
-                  WithdrawalLines: lineItemsWith || ''
+        } else {
+            objDetails = {
+                type: "TReconciliation",
+                fields: {
+                    AccountName: accountname || '',
+                    CloseBalance: parseFloat(closebalance) || 0,
+                    Deleted: deleted,
+                    DepositLines: lineItemsDep || '',
+                    DeptName: deptname || '',
+                    EmployeeName: employeename || '',
+                    Finished: true,
+                    Notes: notes || '',
+                    OnHold: false,
+                    OpenBalance: parseFloat(openbalance) || 0,
+                    ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
+                    StatementNo: statementno || '0',
+                    WithdrawalLines: lineItemsWith || ''
 
-              }
-          };
-         }
-        recService.saveReconciliation(objDetails).then(function (data) {
+                }
+            };
+        }
+        recService.saveReconciliation(objDetails).then(function(data) {
             FlowRouter.go('/reconciliationlist?success=true');
-        }).catch(function (err) {
+        }).catch(function(err) {
             swal({
                 title: 'Oooops...',
                 text: err,
@@ -2391,32 +2498,30 @@ Template.bankrecon.events({
                 showCancelButton: false,
                 confirmButtonText: 'Try Again'
             }).then((result) => {
-                if (result.value) {
-                } else if (result.dismiss === 'cancel') {
-                }
+                if (result.value) {} else if (result.dismiss === 'cancel') {}
             });
-            $('.fullScreenSpin').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
         });
     },
-    'click .btnHold': function (e) {
-        $('.fullScreenSpin').css('display','inline-block');
+    'click .btnHold': function(e) {
+        $('.fullScreenSpin').css('display', 'inline-block');
 
         let recService = new ReconService();
 
         let lineItemsDep = [];
         let lineItemsDepObj = {};
-        $('#tblSelectedDeposits > tbody > tr').each(function(){
+        $('#tblSelectedDeposits > tbody > tr').each(function() {
             var depID = this.id;
-            if(depID){
-                let depositLineID = $(this).attr('depositLineID') ||0;
-                let depclientname = $("#"+depID+"_name").text()||'';
-                let depdepositdate = $("#"+depID+"_date").text()||'';
-                let depnotes = $("#"+depID+"_desc").text()||'';
-                let depamount = $("#"+depID+"_amount").text()||0;
-                let depref = $("#"+depID+"_ref").text()||'';
-                let deppaymentid = $("#"+depID+"_payid").text()||'';
-                let depaccountname = $('#bankAccountName').find(":selected").text()||'';
-                if($("#"+depID+"_desc").text() == "Customer Payment"){
+            if (depID) {
+                let depositLineID = $(this).attr('depositLineID') || 0;
+                let depclientname = $("#" + depID + "_name").text() || '';
+                let depdepositdate = $("#" + depID + "_date").text() || '';
+                let depnotes = $("#" + depID + "_desc").text() || '';
+                let depamount = $("#" + depID + "_amount").text() || 0;
+                let depref = $("#" + depID + "_ref").text() || '';
+                let deppaymentid = $("#" + depID + "_payid").text() || '';
+                let depaccountname = $('#bankAccountName').find(":selected").text() || '';
+                if ($("#" + depID + "_desc").text() == "Customer Payment") {
                     deppaymentid = depID;
                 }
                 // else if($("#"+depID+"_desc").text() == "Journal Entry"){
@@ -2431,19 +2536,18 @@ Template.bankrecon.events({
                 let formateDepDate = depositYear + "-" + depositMonth + "-" + depositDay;
 
                 lineItemsDepObj = {
-                    type:"TReconciliationDepositLines",
-                    fields:
-                    {
+                    type: "TReconciliationDepositLines",
+                    fields: {
                         AccountName: depaccountname || '',
-                        Amount: Number(depamount.replace(/[^0-9.-]+/g,"")) || 0,
+                        Amount: Number(depamount.replace(/[^0-9.-]+/g, "")) || 0,
                         BankStatementLineID: 0, //Hardcoded for now
                         ClientName: depclientname || '',
-                        DepositDate: formateDepDate+" 00:00:00" || '',
+                        DepositDate: formateDepDate + " 00:00:00" || '',
                         Deposited: true,
-                        DepositLineID: parseInt(depositLineID)||0,
+                        DepositLineID: parseInt(depositLineID) || 0,
                         Notes: depnotes || '',
                         Payee: depclientname || '',
-                        PaymentID: parseInt(deppaymentid)||0,
+                        PaymentID: parseInt(deppaymentid) || 0,
                         Reconciled: true,
                         Reference: depref || ''
                     }
@@ -2455,17 +2559,17 @@ Template.bankrecon.events({
 
         let lineItemsWith = [];
         let lineItemsWithObj = {};
-        $('#tblSelectedWithdrawals > tbody > tr').each(function(){
+        $('#tblSelectedWithdrawals > tbody > tr').each(function() {
             var withID = this.id;
-            if(withID){
-                let depositLineIDWith = $(this).attr('depositLineID')||0;
-                let withclientname = $("#"+withID+"_name").text()||'';
-                let withdepositdate = $("#"+withID+"_date").text()||'';
-                let withnotes = $("#"+withID+"_desc").text()||'';
-                let withamount = $("#"+withID+"_amount").text()||0;
-                let withref = $("#"+withID+"_ref").text()||'';
-                let withpaymentid = $("#"+withID+"_payid").text()||'';
-                let withaccountname = $('#bankAccountName').find(":selected").text()||'';
+            if (withID) {
+                let depositLineIDWith = $(this).attr('depositLineID') || 0;
+                let withclientname = $("#" + withID + "_name").text() || '';
+                let withdepositdate = $("#" + withID + "_date").text() || '';
+                let withnotes = $("#" + withID + "_desc").text() || '';
+                let withamount = $("#" + withID + "_amount").text() || 0;
+                let withref = $("#" + withID + "_ref").text() || '';
+                let withpaymentid = $("#" + withID + "_payid").text() || '';
+                let withaccountname = $('#bankAccountName').find(":selected").text() || '';
 
                 let splitwithdepositdate = withdepositdate.split("/");
                 let withYear = splitwithdepositdate[2];
@@ -2475,19 +2579,18 @@ Template.bankrecon.events({
                 let formatWithDate = withYear + "-" + withMonth + "-" + withDay;
 
                 lineItemsWithObj = {
-                    type:"TReconciliationWithdrawalLines",
-                    fields:
-                    {
+                    type: "TReconciliationWithdrawalLines",
+                    fields: {
                         AccountName: withaccountname || '',
-                        Amount: Number(withamount.replace(/[^0-9.-]+/g,"")) || 0,
+                        Amount: Number(withamount.replace(/[^0-9.-]+/g, "")) || 0,
                         BankStatementLineID: 0, //Hardcoded for now
                         ClientName: withclientname || '',
-                        DepositDate: formatWithDate+" 00:00:00" || '',
+                        DepositDate: formatWithDate + " 00:00:00" || '',
                         Deposited: true,
-                        DepositLineID: parseInt(depositLineIDWith)||0,
+                        DepositLineID: parseInt(depositLineIDWith) || 0,
                         Notes: withnotes || '',
                         Payee: withclientname || '',
-                        PaymentID: parseInt(withpaymentid)||0,
+                        PaymentID: parseInt(withpaymentid) || 0,
                         Reconciled: true,
                         Reference: withref || ''
                     }
@@ -2504,62 +2607,62 @@ Template.bankrecon.events({
         var finished = true;
         var notes = $('#statementno').val(); //pending addition of notes field
         var onhold = false;
-        var openbalance = $('.openingbalance').html().replace(/[^0-9.-]+/g,"") ||0;
+        var openbalance = $('.openingbalance').html().replace(/[^0-9.-]+/g, "") || 0;
         var statementno = $('#statementno').val();
         var recondateTime = new Date($("#dtSODate2").datepicker("getDate"));
-        let recondate = recondateTime.getFullYear() + "-" + (recondateTime.getMonth()+1) + "-" + recondateTime.getDate();
-        let closebalance = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
+        let recondate = recondateTime.getFullYear() + "-" + (recondateTime.getMonth() + 1) + "-" + recondateTime.getDate();
+        let closebalance = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g, "") || 0;
         // Pulling initial variables END
 
         let objDetails = '';
-        if(FlowRouter.current().queryParams.id){
-         objDetails = {
-            type: "TReconciliation",
-            fields: {
-                ID: parseInt(FlowRouter.current().queryParams.id) || 0,
-                AccountName: accountname || '',
-                CloseBalance: parseFloat(closebalance) || 0,
-                Deleted: deleted,
-                DepositLines: lineItemsDep || '',
-                DeptName: deptname || '',
-                EmployeeName: employeename || '',
-                Finished: true,
-                Notes: notes || '',
-                OnHold: true,
-                OpenBalance: parseFloat(openbalance) || 0,
-                ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
-                StatementNo: statementno || '0',
-                WithdrawalLines: lineItemsWith || ''
+        if (FlowRouter.current().queryParams.id) {
+            objDetails = {
+                type: "TReconciliation",
+                fields: {
+                    ID: parseInt(FlowRouter.current().queryParams.id) || 0,
+                    AccountName: accountname || '',
+                    CloseBalance: parseFloat(closebalance) || 0,
+                    Deleted: deleted,
+                    DepositLines: lineItemsDep || '',
+                    DeptName: deptname || '',
+                    EmployeeName: employeename || '',
+                    Finished: true,
+                    Notes: notes || '',
+                    OnHold: true,
+                    OpenBalance: parseFloat(openbalance) || 0,
+                    ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
+                    StatementNo: statementno || '0',
+                    WithdrawalLines: lineItemsWith || ''
 
-            }
-        };
+                }
+            };
 
-         }else{
-           objDetails = {
-              type: "TReconciliation",
-              fields: {
-                  AccountName: accountname || '',
-                  CloseBalance: parseFloat(closebalance) || 0,
-                  Deleted: deleted,
-                  DepositLines: lineItemsDep || '',
-                  DeptName: deptname || '',
-                  EmployeeName: employeename || '',
-                  Finished: true,
-                  Notes: notes || '',
-                  OnHold: true,
-                  OpenBalance: parseFloat(openbalance) || 0,
-                  ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
-                  StatementNo: statementno || '0',
-                  WithdrawalLines: lineItemsWith || ''
+        } else {
+            objDetails = {
+                type: "TReconciliation",
+                fields: {
+                    AccountName: accountname || '',
+                    CloseBalance: parseFloat(closebalance) || 0,
+                    Deleted: deleted,
+                    DepositLines: lineItemsDep || '',
+                    DeptName: deptname || '',
+                    EmployeeName: employeename || '',
+                    Finished: true,
+                    Notes: notes || '',
+                    OnHold: true,
+                    OpenBalance: parseFloat(openbalance) || 0,
+                    ReconciliationDate: moment(recondate).format('YYYY-MM-DD'),
+                    StatementNo: statementno || '0',
+                    WithdrawalLines: lineItemsWith || ''
 
-              }
-          };
-         }
+                }
+            };
+        }
 
 
-        recService.saveReconciliation(objDetails).then(function (data) {
+        recService.saveReconciliation(objDetails).then(function(data) {
             FlowRouter.go('/reconciliationlist?success=true');
-        }).catch(function (err) {
+        }).catch(function(err) {
             swal({
                 title: 'Oooops...',
                 text: err,
@@ -2567,15 +2670,13 @@ Template.bankrecon.events({
                 showCancelButton: false,
                 confirmButtonText: 'Try Again'
             }).then((result) => {
-                if (result.value) {
-                } else if (result.dismiss === 'cancel') {
-                }
+                if (result.value) {} else if (result.dismiss === 'cancel') {}
             });
-            $('.fullScreenSpin').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
         });
     },
-    'click .btnDeleteRecon span' : function (e) {
-        if ($(".btnDeleteRecon").is(":disabled")){
+    'click .btnDeleteRecon span': function(e) {
+        if ($(".btnDeleteRecon").is(":disabled")) {
             swal({
                 title: 'Cannot delete this reconciliation. Please delete the most recent reconciliations first.',
                 text: "This will enable the deletion of this Reconciliation",
@@ -2593,7 +2694,7 @@ Template.bankrecon.events({
         }
 
     },
-    'click .btnDeleteRecon' : function (e) {
+    'click .btnDeleteRecon': function(e) {
         let recService = new ReconService();
         swal({
             title: 'Delete Bank Reconciliation',
@@ -2603,12 +2704,12 @@ Template.bankrecon.events({
             confirmButtonText: 'Yes'
         }).then((result) => {
             if (result.value) {
-                $('.fullScreenSpin').css('display','inline-block');
+                $('.fullScreenSpin').css('display', 'inline-block');
                 var url = FlowRouter.current().path;
                 var getrecon_id = url.split('?id=');
-                var currentRecon = getrecon_id[getrecon_id.length-1];
+                var currentRecon = getrecon_id[getrecon_id.length - 1];
                 var objDetails = '';
-                if(getrecon_id[1]){
+                if (getrecon_id[1]) {
                     currentRecon = parseInt(currentRecon);
                     var objDetails = {
                         type: "TReconciliation",
@@ -2618,9 +2719,9 @@ Template.bankrecon.events({
                         }
                     };
 
-                    recService.saveReconciliation(objDetails).then(function (objDetails) {
+                    recService.saveReconciliation(objDetails).then(function(objDetails) {
                         FlowRouter.go('/reconciliationlist?success=true');
-                    }).catch(function (err) {
+                    }).catch(function(err) {
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -2634,9 +2735,9 @@ Template.bankrecon.events({
 
                             }
                         });
-                        $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display', 'none');
                     });
-                }else{
+                } else {
                     FlowRouter.go('/reconciliationlist?success=true');
                 }
             } else {
@@ -2645,18 +2746,18 @@ Template.bankrecon.events({
         });
 
     },
-    'change .endingbalance' : function (e) {
-        var difference = $('.differenceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
-        var endingbal = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
-        var clearedbal = $('.clearedBalance').html().replace(/[^0-9.-]+/g,"") ||0;
+    'change .endingbalance': function(e) {
+        var difference = $('.differenceCalc').html().replace(/[^0-9.-]+/g, "") || 0;
+        var endingbal = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g, "") || 0;
+        var clearedbal = $('.clearedBalance').html().replace(/[^0-9.-]+/g, "") || 0;
         var zero = 0.00;
 
         var rowCountDep = $('#tblSelectedDeposits tbody tr').length;
         var rowCountWith = $('#tblSelectedWithdrawals tbody tr').length; // a response of 2 = 1 element in table
 
-        if (difference == zero && endingbal == clearedbal ){
+        if (difference == zero && endingbal == clearedbal) {
             if (rowCountDep >= 1 || rowCountWith >= 1) {
-                if ($('#statementno').val().replace(/\s/g, '') != ''){
+                if ($('#statementno').val().replace(/\s/g, '') != '') {
                     $('.reconbtn').prop("disabled", false);
                     $('.btnHold').prop("disabled", false);
                 } else {
@@ -2673,8 +2774,8 @@ Template.bankrecon.events({
             $('.reconbtn').prop("disabled", true);
             $('.btnHold').prop("disabled", true);
             if (rowCountDep >= 1 || rowCountWith >= 1) {
-                if ($('#statementno').val().replace(/\s/g, '') != ''){
-                    $('.reconbtn').prop("disabled", true);//enables button
+                if ($('#statementno').val().replace(/\s/g, '') != '') {
+                    $('.reconbtn').prop("disabled", true); //enables button
                     $('.btnHold').prop("disabled", false);
 
                 } else {
@@ -2687,19 +2788,19 @@ Template.bankrecon.events({
         }
 
     },
-    'change .statementno' : function (e) {
-        var difference = $('.differenceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
-        var endingbal = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g,"") ||0;
-        var clearedbal = $('.clearedBalance').html().replace(/[^0-9.-]+/g,"") ||0;
+    'change .statementno': function(e) {
+        var difference = $('.differenceCalc').html().replace(/[^0-9.-]+/g, "") || 0;
+        var endingbal = $('.endingBalanceCalc').html().replace(/[^0-9.-]+/g, "") || 0;
+        var clearedbal = $('.clearedBalance').html().replace(/[^0-9.-]+/g, "") || 0;
         var zero = 0.00;
 
         var rowCountDep = $('#tblSelectedDeposits tbody tr').length;
         var rowCountWith = $('#tblSelectedWithdrawals tbody tr').length; // a response of 2 = 1 element in table
 
-        if (difference == zero && endingbal == clearedbal ){
+        if (difference == zero && endingbal == clearedbal) {
             if (rowCountDep >= 1 || rowCountWith >= 1) {
-                if ($('#statementno').val().replace(/\s/g, '') != ''){
-                    $('.reconbtn').prop("disabled", false);//enables button
+                if ($('#statementno').val().replace(/\s/g, '') != '') {
+                    $('.reconbtn').prop("disabled", false); //enables button
                     $('.btnHold').prop("disabled", false);
 
                 } else {
@@ -2716,8 +2817,8 @@ Template.bankrecon.events({
             $('.reconbtn').prop("disabled", true);
             $('.btnHold').prop("disabled", true);
             if (rowCountDep >= 1 || rowCountWith >= 1) {
-                if ($('#statementno').val().replace(/\s/g, '') != ''){
-                    $('.reconbtn').prop("disabled", true);//enables button
+                if ($('#statementno').val().replace(/\s/g, '') != '') {
+                    $('.reconbtn').prop("disabled", true); //enables button
                     $('.btnHold').prop("disabled", false);
 
                 } else {
@@ -2729,10 +2830,10 @@ Template.bankrecon.events({
         }
 
     },
-    'blur .statementno, keypress .statementno, keyup .statementno': function (event) {
+    'blur .statementno, keypress .statementno, keyup .statementno': function(event) {
         $('.statementno').val(event.target.value);
     },
-    'keydown .endingbalance, keydown .lineUnitPrice, keydown .lineAmount' : function(event){
+    'keydown .endingbalance, keydown .lineUnitPrice, keydown .lineAmount': function(event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
@@ -2750,12 +2851,11 @@ Template.bankrecon.events({
             (event.keyCode >= 96 && event.keyCode <= 105) ||
             event.keyCode == 8 || event.keyCode == 9 ||
             event.keyCode == 37 || event.keyCode == 39 ||
-            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) {
-        } else {
+            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) {} else {
             event.preventDefault();
         }
     },
-    'click .btnBack':function(event){
+    'click .btnBack': function(event) {
         event.preventDefault();
         history.back(1);
     },
@@ -2765,16 +2865,15 @@ Template.bankrecon.events({
 
         var endingbal = $('.endingbalance').val();
 
-        if ($("#reconbtn").is(":disabled")){
+        if ($("#reconbtn").is(":disabled")) {
             if (rowCountDep <= 1 && rowCountWith <= 1) {
-                swal("No transactions flagged to be reconciled.","","warning");
+                swal("No transactions flagged to be reconciled.", "", "warning");
             } else {
-                if (endingbal == ''){
-                    swal("No Ending Balance Entered.","","warning");
+                if (endingbal == '') {
+                    swal("No Ending Balance Entered.", "", "warning");
                 }
             }
-        } else {
-        }
+        } else {}
     },
     'click .btnHold span': function(e) {
         var rowCountDep = $('#tblSelectedDeposits tr').length;
@@ -2782,120 +2881,102 @@ Template.bankrecon.events({
 
         var endingbal = $('.endingbalance').val();
 
-        if ($("#btnHold").is(":disabled")){
+        if ($("#btnHold").is(":disabled")) {
             if (rowCountDep <= 1 && rowCountWith <= 1) {
-                swal("No transactions flagged to be reconciled.","","warning");
+                swal("No transactions flagged to be reconciled.", "", "warning");
             } else {
-                if (endingbal == ''){
+                if (endingbal == '') {
                     //swal("No Ending Balance Entered.","","warning");
                 }
             }
+        } else {}
+    },
+    'keyup #myInputSearchDep, change #myInputSearchDep, search #myInputSearchDep': function(event) {
+        $('.tblVS1Dep tbody tr').show();
+        let searchItem = $(event.target).val();
+        if (searchItem != '') {
+            var value = searchItem.toLowerCase();
+            $('.tblVS1Dep tbody tr').each(function() {
+                var found = 'false';
+                $(this).each(function() {
+                    if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                        found = 'true';
+                    }
+
+                    if ($(this).text().replace(/[^0-9.-]+/g, "").indexOf(value.toLowerCase()) >= 0) {
+                        found = 'true';
+                    }
+
+
+                });
+                if (found == 'true') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         } else {
+            $('.tblVS1Dep tbody tr').show();
+            $('.tblVS1Dep tbody tr').each(function() {
+                var found = 'false';
+                $(this).each(function() {
+                    found = 'true';
+                });
+                if (found == 'true') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         }
     },
-    'keyup #myInputSearchDep, change #myInputSearchDep, search #myInputSearchDep':function(event){
-      $('.tblVS1Dep tbody tr').show();
-      let searchItem = $(event.target).val();
-      if(searchItem != ''){
-        var value = searchItem.toLowerCase();
-        $('.tblVS1Dep tbody tr').each(function(){
-         var found = 'false';
-         $(this).each(function(){
-              if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
-              {
-                   found = 'true';
-              }
-
-              if($(this).text().replace(/[^0-9.-]+/g, "").indexOf(value.toLowerCase()) >= 0)
-              {
-                   found = 'true';
-              }
-
-
-         });
-         if(found == 'true')
-         {
-              $(this).show();
-         }
-         else
-         {
-              $(this).hide();
-         }
-       });
-      }else{
-        $('.tblVS1Dep tbody tr').show();
-        $('.tblVS1Dep tbody tr').each(function(){
-         var found = 'false';
-         $(this).each(function(){
-              found = 'true';
-         });
-         if(found == 'true')
-         {
-              $(this).show();
-         }
-         else
-         {
-              $(this).hide();
-         }
-       });
-      }
-    },
-    'keyup #myInputSearchWith, change #myInputSearchWith, search #myInputSearchWith':function(event){
-      $('.tblVS1With tbody tr').show();
-      let searchItem = $(event.target).val();
-      if(searchItem != ''){
-        var value = searchItem.toLowerCase();
-        $('.tblVS1With tbody tr').each(function(){
-         var found = 'false';
-         $(this).each(function(){
-              if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
-              {
-                   found = 'true';
-              }
-
-              if($(this).text().replace(/[^0-9.-]+/g, "").indexOf(value.toLowerCase()) >= 0)
-              {
-                   found = 'true';
-              }
-
-
-         });
-         if(found == 'true')
-         {
-              $(this).show();
-         }
-         else
-         {
-              $(this).hide();
-         }
-       });
-      }else{
+    'keyup #myInputSearchWith, change #myInputSearchWith, search #myInputSearchWith': function(event) {
         $('.tblVS1With tbody tr').show();
-        $('.tblVS1With tbody tr').each(function(){
-         var found = 'false';
-         $(this).each(function(){
-              found = 'true';
-         });
-         if(found == 'true')
-         {
-              $(this).show();
-         }
-         else
-         {
-              $(this).hide();
-         }
-       });
-      }
+        let searchItem = $(event.target).val();
+        if (searchItem != '') {
+            var value = searchItem.toLowerCase();
+            $('.tblVS1With tbody tr').each(function() {
+                var found = 'false';
+                $(this).each(function() {
+                    if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+                        found = 'true';
+                    }
+
+                    if ($(this).text().replace(/[^0-9.-]+/g, "").indexOf(value.toLowerCase()) >= 0) {
+                        found = 'true';
+                    }
+
+
+                });
+                if (found == 'true') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        } else {
+            $('.tblVS1With tbody tr').show();
+            $('.tblVS1With tbody tr').each(function() {
+                var found = 'false';
+                $(this).each(function() {
+                    found = 'true';
+                });
+                if (found == 'true') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
     }
 });
 
 Template.bankrecon.helpers({
     accountnamerecords: () => {
-        return Template.instance().accountnamerecords.get().sort(function(a, b){
+        return Template.instance().accountnamerecords.get().sort(function(a, b) {
             if (a.accountname == 'NA') {
                 return 1;
-            }
-            else if (b.accountname == 'NA') {
+            } else if (b.accountname == 'NA') {
                 return -1;
             }
             return (a.accountname.toUpperCase() > b.accountname.toUpperCase()) ? 1 : -1;

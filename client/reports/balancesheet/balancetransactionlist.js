@@ -73,6 +73,7 @@ Template.balancetransactionlist.onRendered(function() {
 
           var dataList = {
           date: childArray.Date !=''? moment(childArray.Date).format("DD/MM/YYYY"): data.taccountrunningbalancereport[i].Date,
+          sortdate: childArray.Date !=''? moment(childArray.Date).format("YYYY/MM/DD"): childArray.Date,
           accountname: childArray.AccountName || '',
           type: childArray.Type || '',
           clientname:childArray.clientname || '',
@@ -144,31 +145,43 @@ Template.balancetransactionlist.onRendered(function() {
                   ],
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
-                        {
-                     extend: 'excelHtml5',
-                     text: '',
-                     download: 'open',
-                     className: "btntabletocsv hiddenColumn",
-                     filename: "balancetransactionlist_"+ moment().format(),
-                     orientation:'portrait',
-                      exportOptions: {
-                      columns: ':visible'
-                    }
-                  },{
-                      extend: 'print',
-                      download: 'open',
-                      className: "btntabletopdf hiddenColumn",
-                      text: '',
-                      title: 'Balance Transaction List',
-                      filename: "balancetransactionlist_"+ moment().format(),
-             				  exportOptions: {
-             				  columns: ':visible'
-             				}
-                  }],
+                      {
+                          extend: 'excelHtml5',
+                          text: '',
+                          download: 'open',
+                          className: "btntabletocsv hiddenColumn",
+                          filename: "Balance Transaction List - "+ moment().format(),
+                          orientation:'portrait',
+                          exportOptions: {
+                              columns: ':visible',
+                              format: {
+                                  body: function ( data, row, column ) {
+                                      if(data.includes("</span>")){
+                                          var res = data.split("</span>");
+                                          data = res[1];
+                                      }
+
+                                      return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                  }
+                              }
+                          }
+                      },{
+                          extend: 'print',
+                          download: 'open',
+                          className: "btntabletopdf hiddenColumn",
+                          text: '',
+                          title: 'Balance Transaction',
+                          filename: "Balance Transaction List - "+ moment().format(),
+                          exportOptions: {
+                              columns: ':visible',
+                              stripHtml: false
+                          }
+                      }],
                   select: true,
                   destroy: true,
                   colReorder: true,
-                  bStateSave: true,
+                  // bStateSave: true,
                   // rowId: 0,
                   pageLength: initialDatatableLoad,
                   lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
@@ -274,6 +287,7 @@ Template.balancetransactionlist.onRendered(function() {
 
         var dataList = {
         date: childArray.Date !=''? moment(childArray.Date).format("DD/MM/YYYY"): data.taccountrunningbalancereport[i].Date,
+        sortdate: childArray.Date !=''? moment(childArray.Date).format("YYYY/MM/DD"): childArray.Date,
         accountname: childArray.AccountName || '',
         type: childArray.Type || '',
         clientname:childArray.clientname || '',
@@ -345,31 +359,43 @@ Template.balancetransactionlist.onRendered(function() {
                 ],
                 "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                 buttons: [
-                      {
-                   extend: 'excelHtml5',
-                   text: '',
-                   download: 'open',
-                   className: "btntabletocsv hiddenColumn",
-                   filename: "balancetransactionlist_"+ moment().format(),
-                   orientation:'portrait',
-                    exportOptions: {
-                    columns: ':visible'
-                  }
-                },{
-                    extend: 'print',
-                    download: 'open',
-                    className: "btntabletopdf hiddenColumn",
-                    text: '',
-                    title: 'Balance Transaction List',
-                    filename: "balancetransactionlist_"+ moment().format(),
-                    exportOptions: {
-                    columns: ':visible'
-                  }
-                }],
+                    {
+                        extend: 'excelHtml5',
+                        text: '',
+                        download: 'open',
+                        className: "btntabletocsv hiddenColumn",
+                        filename: "Balance Transaction List - "+ moment().format(),
+                        orientation:'portrait',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function ( data, row, column ) {
+                                    if(data.includes("</span>")){
+                                        var res = data.split("</span>");
+                                        data = res[1];
+                                    }
+
+                                    return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                }
+                            }
+                        }
+                    },{
+                        extend: 'print',
+                        download: 'open',
+                        className: "btntabletopdf hiddenColumn",
+                        text: '',
+                        title: 'Balance Transaction',
+                        filename: "Balance Transaction List - "+ moment().format(),
+                        exportOptions: {
+                            columns: ':visible',
+                            stripHtml: false
+                        }
+                    }],
                 select: true,
                 destroy: true,
                 colReorder: true,
-                bStateSave: true,
+                // bStateSave: true,
                 // rowId: 0,
                 pageLength: initialDatatableLoad,
                 lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
@@ -475,6 +501,7 @@ Template.balancetransactionlist.onRendered(function() {
 
           var dataList = {
           date: childArray.Date !=''? moment(childArray.Date).format("DD/MM/YYYY"): data.taccountrunningbalancereport[i].Date,
+          sortdate: childArray.Date !=''? moment(childArray.Date).format("YYYY/MM/DD"): childArray.Date,
           accountname: childArray.AccountName || '',
           type: childArray.Type || '',
           debit: debitAmount || 0.00,
@@ -545,31 +572,43 @@ Template.balancetransactionlist.onRendered(function() {
                   ],
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
-                        {
-                     extend: 'excelHtml5',
-                     text: '',
-                     download: 'open',
-                     className: "btntabletocsv hiddenColumn",
-                     filename: "balancetransactionlist_"+ moment().format(),
-                     orientation:'portrait',
-                      exportOptions: {
-                      columns: ':visible'
-                    }
-                  },{
-                      extend: 'print',
-                      download: 'open',
-                      className: "btntabletopdf hiddenColumn",
-                      text: '',
-                      title: 'Balance Transaction List',
-                      filename: "balancetransactionlist_"+ moment().format(),
-             				  exportOptions: {
-             				  columns: ':visible'
-             				}
-                  }],
+                      {
+                          extend: 'excelHtml5',
+                          text: '',
+                          download: 'open',
+                          className: "btntabletocsv hiddenColumn",
+                          filename: "Balance Transaction List - "+ moment().format(),
+                          orientation:'portrait',
+                          exportOptions: {
+                              columns: ':visible',
+                              format: {
+                                  body: function ( data, row, column ) {
+                                      if(data.includes("</span>")){
+                                          var res = data.split("</span>");
+                                          data = res[1];
+                                      }
+
+                                      return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                  }
+                              }
+                          }
+                      },{
+                          extend: 'print',
+                          download: 'open',
+                          className: "btntabletopdf hiddenColumn",
+                          text: '',
+                          title: 'Balance Transaction',
+                          filename: "Balance Transaction List - "+ moment().format(),
+                          exportOptions: {
+                              columns: ':visible',
+                              stripHtml: false
+                          }
+                      }],
                   select: true,
                   destroy: true,
                   colReorder: true,
-                  bStateSave: true,
+                  // bStateSave: true,
                   // rowId: 0,
                   pageLength: initialDatatableLoad,
                   lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],

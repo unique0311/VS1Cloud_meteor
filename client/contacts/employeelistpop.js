@@ -561,7 +561,7 @@ Template.employeelistpop.onRendered(function () {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.temployee;
-                console.log(useData);
+
                 let lineItems = [];
                 let lineItemObj = {};
                 for (let i = 0; i < data.temployee.length; i++) {
@@ -630,7 +630,7 @@ Template.employeelistpop.onRendered(function () {
                         MakeNegative();
                     }, 100);
                 }
-                console.log(splashArrayEmployeeList);
+
                 //$('.fullScreenSpin').css('display','none');
                 setTimeout(function () {
                     $('#tblEmployeelist').DataTable({
@@ -989,7 +989,7 @@ Template.employeelistpop.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }
         }).catch(function (err) {
-          console.log(err);
+
             sideBarService.getAllEmployeesDataVS1(initialBaseDataLoad, 0).then(function (data) {
                 addVS1Data('TEmployee', JSON.stringify(data));
                 let lineItems = [];

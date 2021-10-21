@@ -1399,7 +1399,7 @@ Template.appointmenttimelist.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         if (id == '0' || id == null) {
           swal({
-            title: 'Cant delete appointment, it does not exist',
+            title: "Can't delete appointment, it does not exist",
             text: err,
             type: 'error',
             showCancelButton: false,

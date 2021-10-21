@@ -209,7 +209,10 @@ Template.new_invoice.onRendered(() => {
                         //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
 
-                    if (FlowRouter.current().queryParams.id) {} else {
+                    if (FlowRouter.current().queryParams.id  || FlowRouter.current().queryParams.copyquid
+                    || FlowRouter.current().queryParams.copyinvid || FlowRouter.current().queryParams.copysoid) {
+
+                    } else {
                         setTimeout(function() {
                             $('#edtCustomerName').trigger("click");
                         }, 200);
@@ -251,7 +254,10 @@ Template.new_invoice.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (FlowRouter.current().queryParams.id) {} else {
+                if (FlowRouter.current().queryParams.id  || FlowRouter.current().queryParams.copyquid
+                || FlowRouter.current().queryParams.copyinvid || FlowRouter.current().queryParams.copysoid) {
+
+                } else {
                     setTimeout(function() {
                         $('#edtCustomerName').trigger("click");
                     }, 100);
@@ -293,7 +299,10 @@ Template.new_invoice.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
-                if (FlowRouter.current().queryParams.id) {} else {
+                if (FlowRouter.current().queryParams.id  || FlowRouter.current().queryParams.copyquid
+                || FlowRouter.current().queryParams.copyinvid || FlowRouter.current().queryParams.copysoid) {
+
+                } else {
                     setTimeout(function() {
                         $('#edtCustomerName').trigger("click");
                     }, 200);
@@ -4188,7 +4197,8 @@ Template.new_invoice.onRendered(() => {
     templateObject.getDepartments();
     templateObject.getTerms();
 
-    if (FlowRouter.current().queryParams.id) {
+    if (FlowRouter.current().queryParams.id  || FlowRouter.current().queryParams.copyquid
+    || FlowRouter.current().queryParams.copyinvid || FlowRouter.current().queryParams.copysoid) {
 
     } else {
         setTimeout(function() {
@@ -7427,7 +7437,7 @@ Template.new_invoice.events({
             swal('Customer has not been selected!', '', 'warning');
             event.preventDefault();
         } else {
-          // console.log($(event.currentTarget).offsetLeft());
+          
             var productDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
               $('#productListModal').modal('toggle');

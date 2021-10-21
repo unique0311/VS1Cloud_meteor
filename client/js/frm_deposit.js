@@ -1447,6 +1447,14 @@ Template.depositcard.onRendered(()=>{
            getVS1Data('TAccountVS1').then(function (dataObject) {
                if (dataObject.length == 0) {
                  accountService.getOneAccountByName(accountDataName).then(function (data) {
+                   let lineItems = [];
+                   let lineItemObj = {};
+                   let fullAccountTypeName = '';
+                   let accBalance = '';
+                   $('#add-account-title').text('Edit Account Details');
+                   $('#edtAccountName').attr('readonly', true);
+                   $('#sltAccountType').attr('readonly', true);
+                   $('#sltAccountType').attr('disabled', 'disabled');
                    if (accountTypeList) {
                        for (var h = 0; h < accountTypeList.length; h++) {
 
@@ -1612,6 +1620,14 @@ Template.depositcard.onRendered(()=>{
                    }
                    if(!added) {
                      accountService.getOneAccountByName(accountDataName).then(function (data) {
+                       let lineItems = [];
+                       let lineItemObj = {};
+                       let fullAccountTypeName = '';
+                       let accBalance = '';
+                       $('#add-account-title').text('Edit Account Details');
+                       $('#edtAccountName').attr('readonly', true);
+                       $('#sltAccountType').attr('readonly', true);
+                       $('#sltAccountType').attr('disabled', 'disabled');
                        if (accountTypeList) {
                            for (var h = 0; h < accountTypeList.length; h++) {
 
@@ -1690,6 +1706,14 @@ Template.depositcard.onRendered(()=>{
                }
            }).catch(function (err) {
              accountService.getOneAccountByName(accountDataName).then(function (data) {
+               let lineItems = [];
+               let lineItemObj = {};
+               let fullAccountTypeName = '';
+               let accBalance = '';
+               $('#add-account-title').text('Edit Account Details');
+               $('#edtAccountName').attr('readonly', true);
+               $('#sltAccountType').attr('readonly', true);
+               $('#sltAccountType').attr('disabled', 'disabled');
                if (accountTypeList) {
                    for (var h = 0; h < accountTypeList.length; h++) {
 
@@ -2230,6 +2254,7 @@ Template.depositcard.events({
       var $earch = $(event.currentTarget);
       var offset = $earch.offset();
         $('#edtAccountID').val('');
+        $('#add-account-title').text('Add New Account');
         let suppliername = $('#edtSupplierName').val();
         let accountService = new AccountService();
         const accountTypeList = [];
@@ -2259,6 +2284,14 @@ Template.depositcard.events({
                 getVS1Data('TAccountVS1').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         accountService.getOneAccountByName(accountDataName).then(function(data) {
+                          let lineItems = [];
+                          let lineItemObj = {};
+                          let fullAccountTypeName = '';
+                          let accBalance = '';
+                          $('#add-account-title').text('Edit Account Details');
+                          $('#edtAccountName').attr('readonly', true);
+                          $('#sltAccountType').attr('readonly', true);
+                          $('#sltAccountType').attr('disabled', 'disabled');
                             if (accountTypeList) {
                                 for (var h = 0; h < accountTypeList.length; h++) {
 
@@ -2429,6 +2462,14 @@ Template.depositcard.events({
                         }
                         if (!added) {
                             accountService.getOneAccountByName(accountDataName).then(function(data) {
+                              let lineItems = [];
+                              let lineItemObj = {};
+                              let fullAccountTypeName = '';
+                              let accBalance = '';
+                              $('#add-account-title').text('Edit Account Details');
+                              $('#edtAccountName').attr('readonly', true);
+                              $('#sltAccountType').attr('readonly', true);
+                              $('#sltAccountType').attr('disabled', 'disabled');
                                 if (accountTypeList) {
                                     for (var h = 0; h < accountTypeList.length; h++) {
 
@@ -2507,6 +2548,14 @@ Template.depositcard.events({
                     }
                 }).catch(function(err) {
                     accountService.getOneAccountByName(accountDataName).then(function(data) {
+                      let lineItems = [];
+                      let lineItemObj = {};
+                      let fullAccountTypeName = '';
+                      let accBalance = '';
+                      $('#add-account-title').text('Edit Account Details');
+                      $('#edtAccountName').attr('readonly', true);
+                      $('#sltAccountType').attr('readonly', true);
+                      $('#sltAccountType').attr('disabled', 'disabled');
                         if (accountTypeList) {
                             for (var h = 0; h < accountTypeList.length; h++) {
 
