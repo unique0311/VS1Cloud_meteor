@@ -30,6 +30,16 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
 
+
+  getNewInvoiceByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ClientName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TInvoiceEx, options);
+  }
+
   getAllJobssDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){

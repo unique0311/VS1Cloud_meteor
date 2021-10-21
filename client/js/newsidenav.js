@@ -3549,9 +3549,8 @@ Template.newsidenav.events({
         templateObject.getSetSideNavFocus();
     },
     'click #sidenavtimeclock': function(event) {
-
         if (FlowRouter.current().path == "/payrolloverview") {
-            $('#settingsModal').modal('show');
+            $("#btnClockOnOff").trigger("click");
         } else {
             window.open('/payrolloverview#clockOnOff', '_self');
         }
