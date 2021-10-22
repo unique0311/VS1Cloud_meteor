@@ -63,7 +63,10 @@ Template.appointmentlist.onRendered(function () {
     };
 
     templateObject.resetData = function (dataVal) {
-      window.open('/appointmentlist?page=last','_self');
+      setTimeout(function () {
+          window.open('/appointmentlist?page=last','_self');
+      }, 100);
+
     }
 
     templateObject.getAllProductData = function () {
@@ -280,7 +283,7 @@ Template.appointmentlist.onRendered(function () {
     };
 
     templateObject.getAllClients();
-    templateObject.getAllReconData = function () {
+    templateObject.getAllAppointmentListData = function () {
         ///if(!localStorage.getItem('VS1TReconcilationList')){
         getVS1Data('TAppointment').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -421,16 +424,67 @@ Template.appointmentlist.onRendered(function () {
                           responsive: true,
                           "order": [[1, "desc"]],
                           action: function () {
-                              $('#tblappointmentlist').DataTable().ajax.reload();
+                              //$('#tblappointmentlist').DataTable().ajax.reload();
                           },
-                          "fnDrawCallback": function (oSettings) {
-                              setTimeout(function () {
+                          "fnDrawCallback": function(oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblappointmenttimelist_ellipsis').addClass('disabled');
+
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+                                      $('.paginate_button.page-item.previous').addClass('disabled');
+                                      $('.paginate_button.page-item.next').addClass('disabled');
+                                  }
+                              } else {
+
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function() {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      let dataLenght = oSettings._iDisplayLength;
+
+                                      sideBarService.getAllAppointmentList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                          getVS1Data('TAppointment').then(function(dataObjectold) {
+                                              if (dataObjectold.length == 0) {
+
+                                              } else {
+                                                  let dataOld = JSON.parse(dataObjectold[0].data);
+                                                  var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentex), dataOld.tappointmentex);
+                                                  let objCombineData = {
+                                                      tappointmentex: thirdaryData
+                                                  }
+
+                                                  addVS1Data('TAppointment', JSON.stringify(objCombineData)).then(function(datareturn) {
+                                                      templateObject.resetData(objCombineData);
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  }).catch(function(err) {
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  });
+
+                                              }
+                                          }).catch(function(err) {
+
+                                          });
+
+                                      }).catch(function(err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+
+                                  });
+                              setTimeout(function() {
                                   MakeNegative();
                               }, 100);
                           },
-                        "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
-                        }
+                          "fnInitComplete": function () {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                              $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
+                          }
 
                       }).on('page', function () {
                           setTimeout(function () {
@@ -697,14 +751,65 @@ Template.appointmentlist.onRendered(function () {
                         responsive: true,
                         "order": [[1, "desc"]],
                         action: function () {
-                            $('#tblappointmentlist').DataTable().ajax.reload();
+                            //$('#tblappointmentlist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblappointmenttimelist_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {
+
+                            }
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                .on('click', function() {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    let dataLenght = oSettings._iDisplayLength;
+
+                                    sideBarService.getAllAppointmentList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                        getVS1Data('TAppointment').then(function(dataObjectold) {
+                                            if (dataObjectold.length == 0) {
+
+                                            } else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentex), dataOld.tappointmentex);
+                                                let objCombineData = {
+                                                    tappointmentex: thirdaryData
+                                                }
+
+                                                addVS1Data('TAppointment', JSON.stringify(objCombineData)).then(function(datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function(err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function(err) {
+
+                                        });
+
+                                    }).catch(function(err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+
+                                });
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage) {
+                              this.fnPageChange('last');
+                          }
                             $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
                         }
 
@@ -968,13 +1073,67 @@ Template.appointmentlist.onRendered(function () {
                         responsive: true,
                         "order": [[1, "desc"]],
                         action: function () {
-                            $('#tblappointmentlist').DataTable().ajax.reload();
+                            //$('#tblappointmentlist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblappointmenttimelist_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {
+
+                            }
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                .on('click', function() {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    let dataLenght = oSettings._iDisplayLength;
+
+                                    sideBarService.getAllAppointmentList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                        getVS1Data('TAppointment').then(function(dataObjectold) {
+                                            if (dataObjectold.length == 0) {
+
+                                            } else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentex), dataOld.tappointmentex);
+                                                let objCombineData = {
+                                                    tappointmentex: thirdaryData
+                                                }
+
+                                                addVS1Data('TAppointment', JSON.stringify(objCombineData)).then(function(datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function(err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function(err) {
+
+                                        });
+
+                                    }).catch(function(err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+
+                                });
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage) {
+                              this.fnPageChange('last');
+                          }
+                            $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -1109,7 +1268,7 @@ Template.appointmentlist.onRendered(function () {
 
     }
 
-    templateObject.getAllReconData();
+    templateObject.getAllAppointmentListData();
 
     // $(document).on('click', '#hideMe', function() {
     //   var table = $('#tblappointmentlist').DataTable();
