@@ -1456,7 +1456,7 @@ Template.timesheet.events({
                 confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.value) {
-
+                    $('.fullScreenSpin').css('display', 'inline-block');
                     let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
                     let endTime = ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
                     let startTime = ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
