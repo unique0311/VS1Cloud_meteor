@@ -453,15 +453,15 @@
                                             <label class="custom-control-label" for="check-all"></label>
                                         </div>
                                     </th>
-                                    <th class="th colSortID hiddenColumn" style="width:100px;">Sort ID</th>
-                                    <th class="th colTimesheetID" style="width:100px;">Timesheet ID</th>
-                                    <th class="th colName" style="width:100px;">Employee</th>
+                                    <th class="th colSortID hiddenColumn" style="width:10px;">Sort ID</th>
+                                    <th class="th colTimesheetID" style="width:20px !important;">ID</th>
+                                    <th class="th colName" style="width:80px;">Employee</th>
                                     <th class="th colDate" style="width:50px;">Date</th>
-                                    <th class="th colJob" style="width:200px;">Job</th>
-                                    <th class="th colFromTime " style="width:50px;">From Time</th>
-                                    <th class="th colToTime " style="width:50px;">To Time</th>
-                                    <th class="th colHours " style="width:50px;">Hours</th>
-                                    <th class="th colBreak " style="width:50px;">Break</th>
+                                    <th class="th colJob" style="width:120px;">Job</th>
+                                    <th class="th colFromTime " style="width:30px;">From Time</th>
+                                    <th class="th colToTime " style="width:30px;">To Time</th>
+                                    <th class="th colHours " style="width:30px;">Hours</th>
+                                    <th class="th colBreak " style="width:100px;">Break</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -481,10 +481,10 @@
                                             <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
                                             <td class="colDate" contenteditable="false">{{item.timesheetdate}}</td>
                                             <td class="colJob" contenteditable="false">{{item.job}}</td>
-                                            <td class="colFromTime" style="text-align: right!important;">{{item.startTime}}
+                                            <td class="colFromTime" style="">{{item.startTime}}
                                             </td>
-                                            <td class="tdOvertime" style="text-align: right!important;">{{item.endTime}}</td>
-                                           <td class="tdHours" style="text-align: right!important;">{{item.hours}}
+                                            <td class="tdOvertime" style="">{{item.endTime}}</td>
+                                           <td class="tdHours" style="">{{item.hours}}
                                             </td>
 
                                             <td class="colNotes">{{item.notes}}</td>

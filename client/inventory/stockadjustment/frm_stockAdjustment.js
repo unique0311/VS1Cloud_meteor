@@ -663,10 +663,14 @@ Template.stockadjustmentcard.onRendered(() => {
         let lineItems = [];
         let lineItemsTable = [];
         let lineItemObj = {};
+        let productcost = utilityService.modifynegativeCurrencyFormat(0).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2
+                                });
         lineItemObj = {
             lineID: Random.id(),
             productname: '',
             productbarcode: '',
+            productcost:productcost,
             description: '',
             department: defaultDept || '',
             qtyinstock: 0,
