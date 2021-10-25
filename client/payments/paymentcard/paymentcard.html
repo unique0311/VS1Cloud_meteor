@@ -70,12 +70,14 @@
                             </div>
                             <div class="col-12 col-lg-4">
                                 <div class="form-group"><label>Bank Account</label>
-                                    <select class="form-control" id="edtBankAccountName" name="edtBankAccountName" style="cursor: pointer;">
+                                    <select type="search" class="form-control" id="edtBankAccountName" name="edtBankAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                    </select>
+                                    <!-- <select class="form-control" id="edtBankAccountName" name="edtBankAccountName" style="cursor: pointer;">
                                         <option value="{{item.paymentmethod}}" selected="">{{record.bankAccount}}</option>
                                         {{#each item in accountnamerecords}}
                                             <option value="{{item.accountname}}">{{item.accountname}}</option>
                                         {{/each}}
-                                    </select>
+                                    </select> -->
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
@@ -1039,6 +1041,14 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="accountListModal">
+        {{> accountlistpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+        {{> addaccountpop}}
     </div>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
