@@ -93,68 +93,174 @@ Template.payrolloverview.onRendered(function () {
         return dateObject;
     }
 
-    templateObject.getAllTimeSheetData = function () {
-        contactService.getAllTimeSheetListEmp().then(function (data) {
-            let lineItems = [];
-            let lineItemObj = {};
-            let sumTotalCharge = 0;
-            let sumSumHour = 0;
-            let sumSumHourlyRate = 0;
-            for (let t = 0; t < data.ttimesheet.length; t++) {
-                if (data.ttimesheet[t].fields.Logs != null) {
-                    let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
-                    let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
-                    let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || 0.00;
-                    let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || 0.00;
+  templateObject.getAllTimeSheetDataClock = function () {
+        getVS1Data('TTimeSheet').then(function (dataObject) {
+            if (dataObject == 0) {
+                sideBarService.getAllTimeSheetList().then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    let sumTotalCharge = 0;
+                    let sumSumHour = 0;
+                    let sumSumHourlyRate = 0;
+                    for (let t = 0; t < data.ttimesheet.length; t++) {
+                        if (data.ttimesheet[t].fields.Logs != null) {
+                            let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
+                            let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
+                            let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
+                            let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || 0.00;
+                            let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || 0.00;
 
-                    sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
-                    sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
-                    sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
-                    var dataList = {
-                        id: data.ttimesheet[t].fields.ID || '',
-                        employee: data.ttimesheet[t].fields.EmployeeName || '',
-                        hourlyrate: hourlyRate,
-                        hours: data.ttimesheet[t].fields.Hours || '',
-                        job: data.ttimesheet[t].fields.Job || '',
-                        labourcost: labourCost,
-                        overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
-                        sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
-                        timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
-                        product: data.ttimesheet[t].fields.ServiceName || '',
-                        timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
-                        timelog: data.ttimesheet[t].fields.Logs || '',
-                        isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
-                        totalamountex: totalAmount || 0.00,
-                        totaladjusted: totalAdjusted || 0.00,
-                        totalamountinc: totalAmountInc || 0.00,
-                        overtime: 0,
-                        double: 0,
-                        additional: Currency + '0.00',
-                        paychecktips: Currency + '0.00',
-                        cashtips: Currency + '0.00',
-                        notes: data.ttimesheet[t].fields.Notes || '',
-                        finished: 'Not Processed',
-                        color: '#f6c23e'
-                    };
-                    timeSheetList.push(dataList);
-                }
+                            var dataList = {
+                                id: data.ttimesheet[t].fields.ID || '',
+                                employee: data.ttimesheet[t].fields.EmployeeName || '',
+                                hourlyrate: hourlyRate,
+                                hours: data.ttimesheet[t].fields.Hours || '',
+                                job: data.ttimesheet[t].fields.Job || '',
+                                labourcost: labourCost,
+                                overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
+                                sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
+                                timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
+                                product: data.ttimesheet[t].fields.ServiceName || '',
+                                timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
+                                timelog: data.ttimesheet[t].fields.Logs || '',
+                                isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
+                                totalamountex: totalAmount || 0.00,
+                                totaladjusted: totalAdjusted || 0.00,
+                                totalamountinc: totalAmountInc || 0.00,
+                                overtime: 0,
+                                double: 0,
+                                additional: Currency + '0.00',
+                                paychecktips: Currency + '0.00',
+                                cashtips: Currency + '0.00',
+                                notes: data.ttimesheet[t].fields.Notes || '',
+                                finished: 'Not Processed',
+                                color: '#f6c23e'
+                            };
+                            timeSheetList.push(dataList);
+                        }
 
+                    }
+
+                    templateObject.timesheetrecords.set(timeSheetList);
+                    $('.fullScreenSpin').css('display', 'none');
+
+                }).catch(function (err) {
+                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    $('.fullScreenSpin').css('display', 'none');
+                    // Meteor._reload.reload();
+                });
+            } else {
+                  let data = JSON.parse(dataObject[0].data);
+                  let lineItems = [];
+                    let lineItemObj = {};
+                    let sumTotalCharge = 0;
+                    let sumSumHour = 0;
+                    let sumSumHourlyRate = 0;
+                    for (let t = 0; t < data.ttimesheet.length; t++) {
+                        if (data.ttimesheet[t].fields.Logs != null) {
+                            let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
+                            let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
+                            let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
+                            let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || 0.00;
+                            let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || 0.00;
+                            sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                            sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                            sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                            var dataList = {
+                                id: data.ttimesheet[t].fields.ID || '',
+                                employee: data.ttimesheet[t].fields.EmployeeName || '',
+                                hourlyrate: hourlyRate,
+                                hours: data.ttimesheet[t].fields.Hours || '',
+                                job: data.ttimesheet[t].fields.Job || '',
+                                labourcost: labourCost,
+                                overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
+                                sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
+                                timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
+                                product: data.ttimesheet[t].fields.ServiceName || '',
+                                timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
+                                timelog: data.ttimesheet[t].fields.Logs || '',
+                                isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
+                                totalamountex: totalAmount || 0.00,
+                                totaladjusted: totalAdjusted || 0.00,
+                                totalamountinc: totalAmountInc || 0.00,
+                                overtime: 0,
+                                double: 0,
+                                additional: Currency + '0.00',
+                                paychecktips: Currency + '0.00',
+                                cashtips: Currency + '0.00',
+                                notes: data.ttimesheet[t].fields.Notes || '',
+                                finished: 'Not Processed',
+                                color: '#f6c23e'
+                            };
+                            timeSheetList.push(dataList);
+                        }
+
+                    }
+
+                
+                    templateObject.timesheetrecords.set(timeSheetList);
+                    let url = window.location.href;
+                    $('.fullScreenSpin').css('display', 'none');
             }
-            $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
-            $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate));
-            $('.lblSumHour').text(sumSumHour);
-            templateObject.timesheetrecords.set(timeSheetList);
-            $('.fullScreenSpin').css('display', 'none');
-
         }).catch(function (err) {
-            // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-            $('.fullScreenSpin').css('display', 'none');
-            // Meteor._reload.reload();
+             sideBarService.getAllTimeSheetList().then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    let sumTotalCharge = 0;
+                    let sumSumHour = 0;
+                    let sumSumHourlyRate = 0;
+                    for (let t = 0; t < data.ttimesheet.length; t++) {
+                        if (data.ttimesheet[t].fields.Logs != null) {
+                            let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
+                            let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
+                            let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
+                            let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || 0.00;
+                            let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || 0.00;
+
+                            var dataList = {
+                                id: data.ttimesheet[t].fields.ID || '',
+                                employee: data.ttimesheet[t].fields.EmployeeName || '',
+                                hourlyrate: hourlyRate,
+                                hours: data.ttimesheet[t].fields.Hours || '',
+                                job: data.ttimesheet[t].fields.Job || '',
+                                labourcost: labourCost,
+                                overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
+                                sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
+                                timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
+                                product: data.ttimesheet[t].fields.ServiceName || '',
+                                timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
+                                timelog: data.ttimesheet[t].fields.Logs || '',
+                                isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
+                                totalamountex: totalAmount || 0.00,
+                                totaladjusted: totalAdjusted || 0.00,
+                                totalamountinc: totalAmountInc || 0.00,
+                                overtime: 0,
+                                double: 0,
+                                additional: Currency + '0.00',
+                                paychecktips: Currency + '0.00',
+                                cashtips: Currency + '0.00',
+                                notes: data.ttimesheet[t].fields.Notes || '',
+                                finished: 'Not Processed',
+                                color: '#f6c23e'
+                            };
+                            timeSheetList.push(dataList);
+                        }
+
+                    }
+
+                    templateObject.timesheetrecords.set(timeSheetList);
+                    $('.fullScreenSpin').css('display', 'none');
+
+                }).catch(function (err) {
+                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    $('.fullScreenSpin').css('display', 'none');
+                    // Meteor._reload.reload();
+                });
         });
+    
     }
 
-    templateObject.getAllTimeSheetData();
+    templateObject.getAllTimeSheetDataClock();
     templateObject.getEmployees = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
 
@@ -1054,7 +1160,12 @@ Template.payrolloverview.events({
                 contactService.saveTimeSheetLog(newEntry).then(function (savedData) {
                     contactService.saveTimeSheetLog(toUpdate).then(function (savedData1) {
                         contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {
-                            window.open("/timesheet", '_self');
+                               sideBarService.getAllTimeSheetList().then(function (data) {
+                                 addVS1Data('TTimeSheet', JSON.stringify(data));
+                                 setTimeout(function(){ 
+                                 window.open('/timesheet', '_self');
+                         }, 500);
+                             })
                         }).catch(function (err) {
                             swal({
                                 title: 'Oooops...',
@@ -1479,7 +1590,12 @@ Template.payrolloverview.events({
                 }
             };
             contactService.saveTimeSheet(data).then(function (data) {
-                window.open('/timesheet', '_self');
+                  sideBarService.getAllTimeSheetList().then(function (data) {
+                                 addVS1Data('TTimeSheet', JSON.stringify(data));
+                                 setTimeout(function(){ 
+                                 window.open('/timesheet', '_self');
+                         }, 500);
+                             })
             }).catch(function (err) {
                 swal({
                     title: 'Oooops...',
@@ -1537,16 +1653,31 @@ Template.payrolloverview.events({
                         }
                         contactService.saveTimeSheetLog(obj).then(function (data) {
                             contactService.saveTimeSheetLog(updateData).then(function (data) {
-                                window.open('/timesheet', '_self');
+                                                             sideBarService.getAllTimeSheetList().then(function (data) {
+                                 addVS1Data('TTimeSheet', JSON.stringify(data));
+                                 setTimeout(function(){ 
+                                 window.open('/timesheet', '_self');
+                         }, 500);
+                             })
                             }).catch(function (err) {})
                         }).catch(function (err) {})
                     } else if (obj.fields.Description == "Timesheet Started") {
                         contactService.saveTimeSheetLog(obj).then(function (data) {
-                            window.open('/timesheet', '_self');
+                              sideBarService.getAllTimeSheetList().then(function (data) {
+                                 addVS1Data('TTimeSheet', JSON.stringify(data));
+                                 setTimeout(function(){ 
+                                 window.open('/timesheet', '_self');
+                         }, 500);
+                             })
                         }).catch(function (err) {})
                     }
                 } else {
-                    window.open('/timesheet', '_self');
+                        sideBarService.getAllTimeSheetList().then(function (data) {
+                                 addVS1Data('TTimeSheet', JSON.stringify(data));
+                                 setTimeout(function(){ 
+                                 window.open('/timesheet', '_self');
+                         }, 500);
+                             })
                 }
 
             }).catch(function (err) {
@@ -1932,7 +2063,12 @@ Template.payrolloverview.events({
             contactService.saveClockTimeSheet(updateTimeSheet).then(function (savedTimesheetData) {
 
                 contactService.saveTimeSheetLog(toUpdate).then(function (data) {
-                    window.open('/timesheet', '_self');
+                       sideBarService.getAllTimeSheetList().then(function (data) {
+                                 addVS1Data('TTimeSheet', JSON.stringify(data));
+                                 setTimeout(function(){ 
+                                 window.open('/timesheet', '_self');
+                         }, 500);
+                             })
                 }).catch(function (err) {
                     swal({
                         title: 'Oooops...',
