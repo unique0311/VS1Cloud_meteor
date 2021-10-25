@@ -1044,7 +1044,7 @@ getCustomersDataByName(dataSearchName) {
     let options = {
            ListType: "Detail",
            select: "[Active]=true",
-           LimitCount:'"'+initialDataLoad+'"',
+           //LimitCount:'"'+initialDataLoad+'"',
      }
         return this.getList(this.ERPObjects.TTimeSheet, options);
     }
