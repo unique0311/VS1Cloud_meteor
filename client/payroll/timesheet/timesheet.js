@@ -1043,6 +1043,7 @@ Template.timesheet.onRendered(function () {
             $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
             $('#txtNotesOne').val($(event.target).closest("tr").find('.colNotes').text());
             $('#updateID').val($(event.target).closest("tr").find('.colID').text());
+            $('#timesheetID').text($(event.target).closest("tr").find('.colID').text());
             $('#txtBookedHoursSpent').val($(event.target).closest("tr").find('.colRegHoursOne').val())
             $('#txtBookedHoursSpent1').val($(event.target).closest("tr").find('.colRegHours ').text());
             $('#endTime').val(""); ;
@@ -1683,6 +1684,7 @@ Template.timesheet.events({
                     $('#txtBookedHoursSpent').val(clockList[clockList.length - 1].hours);
                     $('#txtBookedHoursSpent1').val(clockList[clockList.length - 1].hours);
                     $('#updateID').val(clockList[clockList.length - 1].id);
+                    $('#timesheetID').text(clockList[clockList.length - 1].id);
                     $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                     $('#sltJobOne').val(clockList[clockList.length - 1].job);
                     $('#product-listone').val(clockList[clockList.length - 1].product);
@@ -1706,6 +1708,7 @@ Template.timesheet.events({
                         $('#txtBookedHoursSpent').val(clockList[clockList.length - 1].hours);
                         $('#txtBookedHoursSpent1').val(clockList[clockList.length - 1].hours);
                         $('#updateID').val(clockList[clockList.length - 1].id);
+                         $('#timesheetID').text(clockList[clockList.length - 1].id);
                         $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                         $('#sltJobOne').val(clockList[clockList.length - 1].job);
                         $('#product-listone').val(clockList[clockList.length - 1].product);
