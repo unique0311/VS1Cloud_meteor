@@ -74,10 +74,10 @@ function updateRowOrder(){
                   }
                   // Loop End's here.
 
-        var $tblrow2 = $("#shipscanlist > tbody  > tr");
+        var $tblrow2 = $("#tblShippingDocket > tbody  > tr");
         $tblrow2.each(function (index) {
         var $tblrow = $(this);
-        var ProductID = $tblrow.find("[id=ProductID]").val();
+        var ProductID = $tblrow.find("[id=ProductID]").text();
         //var  lineOrderQty = $tblrow.find("[id=Ordered]").val();
         if (ProductID == segs[1]){
           $tblrow.click();
@@ -265,7 +265,7 @@ function updateRowOrder(){
                          scannedSerial +=  segsSerial[i] ;
                       }
                     // $('input[name="serialNo"]').val(scannedSerial);
-                    var $tblrow2 = $("#shipscanlist > tbody  > tr");
+                    var $tblrow2 = $("#tblShippingDocket > tbody  > tr");
                     var rowCount = $('#serailscanlist  > tbody  > tr').length;
                      if(rowCount == lineQuantity){
                        Bert.alert('<strong>WARNING:</strong> You cannot ship more serial numbers than Ordered quantity!', 'now-danger');
@@ -273,7 +273,7 @@ function updateRowOrder(){
                      }else{
                   $tblrow2.each(function (index) {
                     var $tblrow = $(this);
-                      var ProductID = $tblrow.find("[id=ProductID]").val();
+                      var ProductID = $tblrow.find("[id=ProductID]").text();
                       if (ProductID == segs[1]){
                         $tblrow.click();
                         if($tblrow.click()){
@@ -524,7 +524,7 @@ function updateRowOrder(){
                          scannedSerial +=  segsSerial[i] ;
                       }
                     // $('input[name="serialNo"]').val(scannedSerial);
-                    var $tblrow2 = $("#shipscanlist > tbody  > tr");
+                    var $tblrow2 = $("#tblShippingDocket > tbody  > tr");
                     var rowCount = $('#serailscanlist  > tbody  > tr').length;
                      if(rowCount == lineQuantity){
                        Bert.alert('<strong>WARNING:</strong> You cannot ship more serial numbers than Ordered quantity!', 'now-danger');
@@ -532,7 +532,7 @@ function updateRowOrder(){
                      }else{
                   $tblrow2.each(function (index) {
                     var $tblrow = $(this);
-                      var ProductID = $tblrow.find("[id=ProductID]").val();
+                      var ProductID = $tblrow.find("[id=ProductID]").text();
                       if (ProductID == segs[1]){
                         $tblrow.click();
                         if($tblrow.click()){

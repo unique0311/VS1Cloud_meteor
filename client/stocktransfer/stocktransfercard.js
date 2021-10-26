@@ -35,6 +35,10 @@ Template.stocktransfercard.onCreated(function(){
     templateObject.shipviarecords = new ReactiveVar();
 
     templateObject.productquantityrecord = new ReactiveVar([]);
+    templateObject.availserialrecord = new ReactiveVar([]);
+
+    templateObject.availableserialnumberlist = new ReactiveVar([]);
+    templateObject.availableserialnumberqty = new ReactiveVar();
 });
 
 Template.stocktransfercard.onRendered(function() {
@@ -88,6 +92,12 @@ templateObject.getAllStocktransfer = function() {
     });
 }
 
+templateObject.getAllAvailableSerialNumber = function() {
+  stockTransferService.getSerialNumberList().then(function (dataSerialNumber) {
+      templateObject.availserialrecord.set(dataSerialNumber);
+  });
+}
+templateObject.getAllAvailableSerialNumber();
 stockTransferService.getProductClassQuantitys().then(function (dataProductQty) {
     templateObject.productquantityrecord.set(dataProductQty);
 });
@@ -96,6 +106,12 @@ templateObject.getProductQty = function (id, productname) {
     let totalInStockQty = 0;
     let deptName = $('#sltDepartment').val()||defaultDept;
     let dataValue = templateObject.productquantityrecord.get();
+    let serialList = [];
+    var splashLineArrayserialList = new Array();
+      // templateObject.availableserialnumberlist.set([]);
+    $('table tr').css('background','transparent');
+    $('#serailscanlist').find('tbody').remove();
+    $('input[name="salesLineRow"]').val(id);
     if (dataValue) {
         for (let i = 0; i < dataValue.tproductclassquantity.length; i++) {
             let dataObj = {};
@@ -113,6 +129,58 @@ templateObject.getProductQty = function (id, productname) {
         }
 
         $('#' + id + " .colOrdered").val(totalAvailQty);
+
+        //Serial Number functionality
+        $('#'+id).css('background','rgba(0,163,211,0.1)');
+
+        var $tblrow = $("#tblStocktransfer tbody tr");
+        var prodPQALine = "";
+        var dataListRet = "";
+
+        var productName = $('#' + id + " .lineProductName").val() ||'';
+        prodPQALine = $('#' + id + " .lineID").text();
+        $('input[name="prodID"]').val($('#' + id + " .ProductID").text());
+        $('input[name="orderQty"]').val($('#' + id + " .colOrdered").val());
+        // $('input[name="deptID"]').val($tblrow.find(".linedeptid").text());
+        let countSerial = 0;
+        setTimeout(function () {
+        let dataAvailableValue = templateObject.availserialrecord.get();
+        if(dataAvailableValue){
+          serialList = [];
+        for (let s = 0; s < dataAvailableValue.tserialnumberlistcurrentreport.length; s++) {
+
+            if(dataAvailableValue.tserialnumberlistcurrentreport[s].SerialNumber.replace(/\s/g, '') != ''){
+              if((productName == dataAvailableValue.tserialnumberlistcurrentreport[s].ProductName)
+                && (deptName == dataAvailableValue.tserialnumberlistcurrentreport[s].DepartmentName)
+              && (dataAvailableValue.tserialnumberlistcurrentreport[s].AllocType == "In-Stock")){
+                  let addshowclass = "";
+                  countSerial++;
+                  if(countSerial > 4){
+                    addshowclass = "hiddenColumn";
+                  }
+                  templateObject.availableserialnumberqty.set(countSerial);
+                  let dataObject = {
+                      rowid: countSerial,
+                      partid: dataAvailableValue.tserialnumberlistcurrentreport[s].PartsID || ' ',
+                      serialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].SerialNumber || ' ',
+                      domserialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].BOMSerialNumber || ' ',
+                      checkclass: addshowclass
+                  };
+                serialList.push(dataObject);
+              }
+
+            }
+        }
+        templateObject.availableserialnumberlist.set(serialList);
+      }else{
+          templateObject.availableserialnumberlist.set([]);
+        }
+        },400);
+        setTimeout(function () {
+        $("#allocBarcode").focus();
+
+       },200);
+
 
     } else {
         stockTransferService.getProductClassQuantitys().then(function (data) {
@@ -133,8 +201,61 @@ templateObject.getProductQty = function (id, productname) {
 
             $('#' + id + " .colOrdered").val(totalAvailQty);
 
+            //Serial Number functionality
+            $('#'+id).css('background','rgba(0,163,211,0.1)');
+            var $tblrow = $("#tblStocktransfer tbody tr");
+            var prodPQALine = "";
+            var dataListRet = "";
+
+            var productName = $('#' + id + " .lineProductName").val() ||'';
+
+            prodPQALine = $('#' + id + " .lineID").text();
+            $('input[name="prodID"]').val($('#' + id + " .ProductID").text());
+            $('input[name="orderQty"]').val($('#' + id + " .colOrdered").val());
+            // $('input[name="deptID"]').val($tblrow.find(".linedeptid").text());
+
+            let countSerial = 0;
+            setTimeout(function () {
+            let dataAvailableValue = templateObject.availserialrecord.get();
+            if(dataAvailableValue){
+              serialList = [];
+            for (let s = 0; s < dataAvailableValue.tserialnumberlistcurrentreport.length; s++) {
+
+                if(dataAvailableValue.tserialnumberlistcurrentreport[s].SerialNumber.replace(/\s/g, '') != ''){
+                  if((productName == dataAvailableValue.tserialnumberlistcurrentreport[s].ProductName)
+                    && (deptName == dataAvailableValue.tserialnumberlistcurrentreport[s].DepartmentName)
+                  && (dataAvailableValue.tserialnumberlistcurrentreport[s].AllocType == "In-Stock")){
+                      let addshowclass = "";
+                      countSerial++;
+                      if(countSerial > 4){
+                        addshowclass = "hiddenColumn";
+                      }
+                      templateObject.availableserialnumberqty.set(countSerial);
+                      let dataObject = {
+                          rowid: countSerial,
+                          partid: dataAvailableValue.tserialnumberlistcurrentreport[s].PartsID || ' ',
+                          serialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].SerialNumber || ' ',
+                          domserialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].BOMSerialNumber || ' ',
+                          checkclass: addshowclass
+                      };
+                    serialList.push(dataObject);
+                  }
+
+                }
+            }
+            templateObject.availableserialnumberlist.set(serialList);
+          }else{
+              templateObject.availableserialnumberlist.set([]);
+            }
+            },400);
+
+            setTimeout(function () {
+            $("#allocBarcode").focus();
+           },200);
+
         });
     }
+
 
 };
 
@@ -548,10 +669,10 @@ if (url.indexOf('?id=') > 0) {
     let lineItems = [];
     let lineItemsTable = [];
     let lineItemObj = {};
-
+    let randomID = Random.id();
     //for (let i = 0; i < 2; i++) {
         lineItemObj = {
-            lineID: Random.id(),
+            lineID: randomID,
             item: '',
             accountname: '',
             accountno: '',
@@ -580,6 +701,45 @@ if (url.indexOf('?id=') > 0) {
     setTimeout(function() {
         $('#sltDepartment').val(defaultDept);
         $('#sltBankAccountName').val('Stock Adjustment');
+        setTimeout(function() {
+        getVS1Data('TDeptClass').then(function(dataObject) {
+            if (dataObject.length == 0) {
+
+              sideBarService.getDepartment().then(function(data) {
+                  for (let i = 0; i < data.tdeptclass.length; i++) {
+                      if (data.tdeptclass[i].DeptClassName === defaultDept) {
+                          $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                      }
+                  }
+
+              }).catch(function(err) {
+
+              });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tdeptclass;
+                for (let i = 0; i < data.tdeptclass.length; i++) {
+                    if (data.tdeptclass[i].DeptClassName === defaultDept) {
+                    //$('#' +randomID+' .colDepartment').attr('linedeptid',data.tdeptclass[i].Id);
+                    $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                    }
+                }
+
+            }
+        }).catch(function(err) {
+
+            sideBarService.getDepartment().then(function(data) {
+                for (let i = 0; i < data.tdeptclass.length; i++) {
+                    if (data.tdeptclass[i].DeptClassName === defaultDept) {
+                        $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                    }
+                }
+
+            }).catch(function(err) {
+
+            });
+        });
+      }, 400);
     }, 200);
     templateObject.stocktransferrecord.set(record);
 
@@ -646,7 +806,58 @@ templateObject.getShpVias = function() {
 }
 templateObject.getShpVias();
 
+StockTransferRow();
+$("#btnsaveallocline").click(function() {
+  $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=pqa]").text("");
+var splashLineArrayAlloc = new Array();
+let lineItemObjFormAlloc = {};
 
+$('#serailscanlist > tbody > tr').each(function() {
+  var $tblrowAlloc = $(this);
+  let tdSerialNumber = $tblrowAlloc.find("#serialNo").val() || 0;
+  console.log(tdSerialNumber);
+  lineItemObjFormAlloc = {
+      type: "TPQASN",
+      fields: {
+          UOMQty: 1,
+          BinID: 0,
+          SerialNumber: tdSerialNumber|| '',
+
+      }
+  };
+  splashLineArrayAlloc.push(lineItemObjFormAlloc);
+});
+var departmentID =  $('input[name="deptID"]').val()||0;
+var pqaID =  $('input[name="pqaID"]').val();
+var AllocLineObjDetails = {
+type:"TPQA",
+fields:
+{
+  DepartmentID:parseInt(departmentID),
+  PQABatch:null,
+  PQABins:null,
+  ID:parseInt(pqaID),
+  PQASN:splashLineArrayAlloc
+}
+};
+ var rowIndex = $('input[name="salesLineRow"]').val();
+ var qtyShipped = $('#serailscanlist tbody tr').length;
+ var qtyOrder = parseInt($('#' + rowIndex + " #Ordered").val());
+ console.log(rowIndex);
+ console.log(qtyShipped);
+ console.log(qtyOrder);
+ // parseInt($('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=Ordered]").val());
+ var qtyBackOrder = qtyOrder - qtyShipped;
+ console.log(qtyBackOrder);
+ $('#' + rowIndex + " #pqa").text(JSON.stringify(AllocLineObjDetails));
+ $('#' + rowIndex + " #lineID").text(JSON.stringify(AllocLineObjDetails));
+ $('#' + rowIndex + " #UOMQtyShipped").val(qtyShipped);
+ $('#' + rowIndex + " #UOMQtyBackOrder").text(qtyBackOrder);
+// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=pqa]").text(JSON.stringify(AllocLineObjDetails));
+// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=lineID]").text(JSON.stringify(AllocLineObjDetails));
+// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=UOMQtyShipped]").text(qtyShipped);
+// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=UOMQtyBackOrder]").text(qtyBackOrder);
+});
 $(document).ready(function() {
     $('#sltDepartment').editableSelect();
     $('#edtCustomerName').editableSelect();
@@ -666,7 +877,7 @@ $(document).ready(function() {
         $(".ProductID", rowData).text("");
         rowData.attr('id', tokenid);
         $("#tblStocktransfer tbody").append(rowData);
-
+        $('#'+tokenid).css('background','transparent');
         setTimeout(function() {
             $('#' + tokenid + " .lineProductName").trigger('click');
         }, 200);
@@ -758,9 +969,10 @@ $(document).on("click", "#departmentList tbody tr", function(e) {
   let $tblrows = $("#tblStocktransfer tbody tr");
   let selectLineID = $('#selectLineID').val();
   let departmentData = $(this).find(".colDeptName").text() || '';
+  let departmentDataID = $(this).attr("id") || '';
   if (selectLineID != '') {
     $('#' + selectLineID + " .lineDepartment").val(departmentData);
-
+    $('#' + selectLineID + " .linedeptid").text(departmentDataID);
   }else{
     $('#sltDepartment').val(departmentData);
 
@@ -769,6 +981,7 @@ $(document).on("click", "#departmentList tbody tr", function(e) {
         let productname = $tblrow.find(".lineProductName").val() || '';
         let selectLineIDRow = $tblrow.closest('tr').attr('id');
         templateObject.getProductQty(selectLineIDRow, productname);
+        $('input[name="deptID"]').val(departmentDataID);
 
     });
   }
@@ -1630,7 +1843,7 @@ $('#edtCustomerName').editableSelect()
         let selectLineID = $('#selectLineID').val();
         var table = $(this);
         let utilityService = new UtilityService();
-        let $tblrows = $("#tblInvoiceLine tbody tr");
+        let $tblrows = $("#tblStocktransfer tbody tr");
         let transferDepartment = $('#sltDepartment').val() || defaultDept;
 
         if (selectLineID) {
@@ -1640,6 +1853,7 @@ $('#edtCustomerName').editableSelect()
             let lineExtraSellPrice = JSON.parse(table.find(".colExtraSellPrice").text()) || null;
             let lineAvailQty = table.find(".prdqty").text()||0;
             let lineBarcode = table.find(".colBarcode").text();
+            let lineProductID = table.find(".colProuctPOPID").text();
 
             $('#' + selectLineID + " .lineProductName").val(lineProductName);
             // $('#' + selectLineID + " .lineProductName").attr("prodid", table.find(".colProuctPOPID").text());
@@ -1647,6 +1861,7 @@ $('#edtCustomerName').editableSelect()
             $('#' + selectLineID + " .lineProductBarCode").text(lineBarcode);
             $('#' + selectLineID + " .colOrdered").val(lineAvailQty);
             $('#' + selectLineID + " .lineUOMQtyShipped").val(0);
+            $('#' + selectLineID + " .ProductID").text(lineProductID);
             templateObject.getProductQty(selectLineID, lineProductName);
             $('#productListModal').modal('toggle');
 
@@ -2079,11 +2294,21 @@ templateObject.SendShippingDetails(printType);
 'click #printDockets':function(e){
 const templateObject = Template.instance();
 },
+'click .viewMoreSerialNo':function(e){
+  $('#tblAvailableSerialNo .hiddenColumn').addClass('showHiddenColumn');
+  $('#tblAvailableSerialNo .hiddenColumn').removeClass('hiddenColumn');
+  $('.viewMoreSerialNo').css('display', 'none');
+  $('.viewLessSerialNo').css('display', 'inline-block');
+},
+'click .viewLessSerialNo':function(e){
+  $('#tblAvailableSerialNo .showHiddenColumn').addClass('hiddenColumn');
+  $('#tblAvailableSerialNo .showHiddenColumn').removeClass('showHiddenColumn');
+  $('.viewMoreSerialNo').css('display', 'inline-block');
+  $('.viewLessSerialNo').css('display', 'none');
+},
 'click .btnBack': function(event) {
     event.preventDefault();
     history.back(1);
-
-
 },
 'click .btnProcess': function (event) {
     $('#html-2-pdfwrapper').css('display', 'block');
@@ -2540,5 +2765,15 @@ Template.stocktransfercard.helpers({
           }
           return (a.shippingmethod.toUpperCase() > b.shippingmethod.toUpperCase()) ? 1 : -1;
       });
+  },
+  availableserialnumberlist: () => {
+      return Template.instance().availableserialnumberlist.get();
+  },
+  availableserialnumberqty: () => {
+    let availaLegnt = false;
+    if(parseInt(Template.instance().availableserialnumberqty.get()) > 5){
+      availaLegnt = true;
+    }
+    return availaLegnt;
   }
 });

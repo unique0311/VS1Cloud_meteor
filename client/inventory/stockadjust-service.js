@@ -64,4 +64,8 @@ export class StockTransferService extends BaseService {
       return this.getList(this.ERPObjects.TProductClassQuantity, options);
   }
 
+  getSerialNumberList() {
+      return this.getList(this.ERPObjects.TSerialNumberListCurrentReport);
+  }
+
   }

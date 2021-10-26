@@ -276,6 +276,7 @@
                                 <th class="th colProductBarCode" style="width: 200px;">Product Barcode</th>
                                 <th class="th colDescription">Description</th>
                                 <th class="th colDepartment" style="width: 200px;">Transfer To</th>
+                                <th class="th linedeptid hiddenColumn">DepartmentD</th>
                                 <th class="th colOrdered" style="width: 1%;">Available</th>
                                 <th class="th colUOMQtyShipped" style="width: 1%;">Transfer</th>
                                 <th class="th colID hiddenColumn" style="display:none">ID</th>
@@ -295,6 +296,7 @@
                                     <td contenteditable="true" class="colDescription lineDescription">{{item.description}}</td>
                                     <!-- <td contenteditable="true" class="colDepartment">{{item.department}}</td> -->
                                     <td contenteditable="false" class="colDepartment"><input class="es-input highlightSelect lineDepartment" type="search" value="{{item.department}}"></td>
+                                    <td contenteditable="true" class="hiddenColumn linedeptid"></td>
                                     <td><input class="lineOrdered colOrdered highlightInput" id="Ordered" type="number" value="{{item.qtyordered}}" readonly></td>
                                     <!-- <td class="UOMQtyShipped" id="UOMQtyShipped">{{item.qtyshipped}}</td> -->
                                     <td><input class="lineUOMQtyShipped UOMQtyShipped highlightInput" id="UOMQtyShipped" type="number" value="{{item.qtyshipped}}"></td>
@@ -325,6 +327,21 @@
 
                         .highlightInput::-webkit-outer-spin-button,
                         .highlightInput::-webkit-inner-spin-button {
+                            -webkit-appearance: none !important;
+                            margin: 0 !important;
+                        }
+
+
+                        .highlightSerial {
+                            border: 0px solid transparent !important;
+                            background-color: rgba(0, 0, 0, 0) !important;
+                            padding: 0px !important;
+                            width: 100% !important;
+                            color: #858796 !important;
+                        }
+
+                        .highlightSerial::-webkit-outer-spin-button,
+                        .highlightSerial::-webkit-inner-spin-button {
                             -webkit-appearance: none !important;
                             margin: 0 !important;
                         }
@@ -408,32 +425,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="dnd-moved" id="">
-                                            <td contenteditable="true" class=""></td>
-                                            <td contenteditable="true" class=""></td>
+                                      {{#each itemavail in availableserialnumberlist}}
+                                        <tr class="dnd-moved {{itemavail.checkclass}}" id="{{itemavail.rowid}}">
+                                            <td contenteditable="true" class="">{{itemavail.rowid}}</td>
+                                            <td contenteditable="true" class=""><input class="lineSerialNumber highlightSerial" id="lineSerialNumber" type="text" value="{{itemavail.domserialnumber}}"></td>
                                         </tr>
-                                        <tr class="dnd-moved" id="">
-                                            <td contenteditable="true" class=""></td>
-                                            <td contenteditable="true" class=""></td>
-                                        </tr>
-                                        <tr class="dnd-moved" id="">
-                                            <td contenteditable="true" class=""></td>
-                                            <td contenteditable="true" class=""></td>
-                                        </tr>
-                                        <tr class="dnd-moved" id="">
-                                            <td contenteditable="true" class=""></td>
-                                            <td contenteditable="true" class=""></td>
-                                        </tr>
-                                        <tr class="dnd-moved" id="">
-                                            <td contenteditable="true" class=""></td>
-                                            <td contenteditable="true" class=""></td>
-                                        </tr>
+                                      {{/each}}
                                     </tbody>
+                                    {{#if availableserialnumberqty 'true'}}
                                     <tfoot>
                                         <tr>
-                                            <td colspan="2"><a class="btn btn-link float-left" type="button" id="viewMoreSerialNo" style="color: #00a3d3;">View More</a></td>
+                                            <td colspan="2">
+                                              <a class="btn btn-link float-left viewMoreSerialNo" type="button" id="viewMoreSerialNo" style="color: #00a3d3;">View More</a>
+                                              <a class="btn btn-link float-left viewLessSerialNo" type="button" id="viewLessSerialNo" style="color: #00a3d3; display:none;">View Less</a>
+                                            </td>
                                         </tr>
                                     </tfoot>
+                                  {{/if}}
                                 </table>
                             </div>
                         </div>
