@@ -7,6 +7,7 @@
             <h1 style="margin: 16px; margin-bottom: 0px;">Timesheets
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+                <span style="font-size: 25px; margin-left: 60px;">{{loggedInEmployee}}</span>
 
                 <!-- Start Help View Modal -->
                 <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
@@ -524,7 +525,7 @@
                                     <div class="col-6 col-md-4 col-lg-4">
                                         {{#if equals edithours true}}
                                             <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
+                                                <label>Hours</label><input type="time" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
                                                 <input type="hidden" id="txtBookedHoursSpent1" name="txtBookedHoursSpent1">
                                             </div>
                                         {{else}}

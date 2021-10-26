@@ -590,11 +590,13 @@ Template.timesheet.onRendered(function () {
                             sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
                             sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                             sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                            let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
                             var dataList = {
                                 id: data.ttimesheet[t].fields.ID || '',
                                 employee: data.ttimesheet[t].fields.EmployeeName || '',
                                 hourlyrate: hourlyRate,
                                 hours: data.ttimesheet[t].fields.Hours || '',
+                                hourFormat: hoursFormatted,
                                 job: data.ttimesheet[t].fields.Job || '',
                                 labourcost: labourCost,
                                 overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
@@ -739,11 +741,13 @@ Template.timesheet.onRendered(function () {
                             sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
                             sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                             sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                            let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
                             var dataList = {
                                 id: data.ttimesheet[t].fields.ID || '',
                                 employee: data.ttimesheet[t].fields.EmployeeName || '',
                                 hourlyrate: hourlyRate,
                                 hours: data.ttimesheet[t].fields.Hours || '',
+                                hourFormat: hoursFormatted,
                                 job: data.ttimesheet[t].fields.Job || '',
                                 labourcost: labourCost,
                                 overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
@@ -1024,7 +1028,7 @@ Template.timesheet.onRendered(function () {
                 $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
                 $('#txtNotesOne').val($(event.target).closest("tr").find('.colNotes').text());
                 $('#updateID').val($(event.target).closest("tr").find('.colID').text());
-                $('#txtBookedHoursSpent').val($(event.target).closest("tr").find('.colRegHours ').text())
+                $('#txtBookedHoursSpent').val($(event.target).closest("tr").find('.colRegHoursOne').val())
                 $('#txtBookedHoursSpent1').val($(event.target).closest("tr").find('.colRegHours ').text());
                 $('#endTime').val(""); ;
                 $('#startTime').prop('disabled', false);
@@ -2157,6 +2161,7 @@ Template.timesheet.onRendered(function () {
                 var startTime = $('#startTime').val() || '';
                 var endTime = $('#endTime').val() || '';
                 var edthour = $('#txtBookedHoursSpent').val() || 0.01;
+                let hours = templateObject.timeToDecimal(edthour);
                 var techNotes = $('#txtNotesOne').val() || '';
                 var product = $('#product-listone').children("option:selected").text() || '';
                 var jobName = $('#sltJobOne').val() || '';
@@ -2295,12 +2300,13 @@ Template.timesheet.onRendered(function () {
                                         LabourCost: 1,
                                         Allowedit: true,
                                         Logs: obj,
-                                        Hours: parseFloat(edthour) || 0.01,
+                                        Hours: hours || 0.01,
                                         // OverheadRate: 90,
                                         Job: jobName || '',
                                         // ServiceName: "Test"|| '',
                                         TimeSheetClassName: "Default" || '',
                                         Notes: techNotes || '',
+                                        Status: "Unprocessed",
                                         InvoiceNotes: ""
                                         // EntryDate: accountdesc|| ''
                                     }
@@ -2341,7 +2347,7 @@ Template.timesheet.onRendered(function () {
                             ServiceName: product || '',
                             LabourCost: 1,
                             Allowedit: true,
-                            Hours: parseFloat(edthour) || 0.01,
+                            Hours: hours || 0.01,
                             // OverheadRate: 90,
                             Job: jobName || '',
                             // ServiceName: "Test"|| '',
@@ -3110,5 +3116,9 @@ Template.timesheet.onRendered(function () {
             },
             loggedCompany: () => {
                 return localStorage.getItem('mySession') || '';
+            },
+             loggedInEmployee: () => {
+                return Session.get('mySessionEmployee') || '';
             }
+            
         });
