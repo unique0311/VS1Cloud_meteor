@@ -2929,8 +2929,6 @@ Template.supplierpaymentcard.onRendered(() => {
                         $('#sltDepartment').val(data.fields.DeptClassName);
                         $('#sltPaymentMethod').val(getPaymentMethodVal);
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
-                        let bankAccountData = Session.get('bankaccount')||'Bank';
-                        $('#edtSelectBankAccountName').val(bankAccountData);
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.SupplierName) {
