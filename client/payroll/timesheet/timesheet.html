@@ -4,10 +4,46 @@
             <div class="spinner"></div>
         </div>
         <header style="padding: 16px; background-color: #ededed;">
-            <h1 style="margin: 16px; margin-bottom: 0px;">Timesheets
+            <h1 style="margin: 16px; margin-bottom: 8px;" class="timesheetHeader">Timesheets
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
-                <span style="font-size: 25px; margin-left: 60px;">{{loggedInEmployee}}</span>
+
+                <style>
+                    .loggedEmployeeStatus {
+                        float: right;
+                        font-size: 25px;
+                        margin: 8px;
+                    }
+
+                    .employeeStatus {
+                        font-size: 20px;
+                    }
+
+                    .statusClockedOn {
+                        color: #17a673;
+                    }
+
+                    .statusOnHold {
+                        color: #f6c23e;
+                    }
+
+                    .statusClockedOff {
+                        color: #e74a3b;
+                    }
+
+                    @media screen and (max-width: 450px) {
+                        .loggedEmployeeStatus {
+                            float: inherit;
+                        }
+                        .timesheetHeader {
+                            margin-bottom: 0px;
+                        }
+                    }
+                </style>
+                <div class="loggedEmployeeStatus">
+                    <div>{{loggedInEmployee}}</div>
+                    <div class="employeeStatus">Status: <span class="statusClockedOn" id="employeeStatusField">Clocked On</span></div>
+                </div>
 
                 <!-- Start Help View Modal -->
                 <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
@@ -35,12 +71,14 @@
             <div class="col">
                 <label style="width:100%!important; visibility:hidden!important;height:0px!important;">Search:</label>
                 <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px; margin-top: 0px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
-                <button id="btnNewTimeSheet" name="btnNewTimeSheet" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin: 16px;  margin-top: 0px;"><i class="icon ion-plus" style="padding-right: 5px;"></i>New Timesheet</button>
+                <button id="btnNewTimeSheet" name="btnNewTimeSheet" class="btn btn-primary" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin: 16px;  margin-top: 0px;"><i class="icon ion-plus"
+                        style="padding-right: 5px;"></i>New Timesheet</button>
                 <button id="btnClockOnOff" name="btnClockOnOff" class="btn btnNav btn-primary" type="button" role="button" style="margin: 16px;  margin-top: 0px;"><i class="fas fa-user-clock" style="padding-right: 5px;"></i>Clock On/Off</button>
-                  <button id="processTimesheet" name="processTimesheet" class="btn btnNav btn-primary" type="button" role="button" style="margin: 16px;  margin-top: 0px;"><i class="fas fa-user-clock" style="padding-right: 5px;"></i>Load To Payroll</button>
+                <button id="processTimesheet" name="processTimesheet" class="btn btnNav btn-primary" type="button" role="button" style="margin: 16px;  margin-top: 0px;"><i class="fas fa-user-clock" style="padding-right: 5px;"></i>Load To
+                    Payroll</button>
             </div>
             <div class="col">
-                <div class="form-group d-xl-flex flex-column justify-content-xl-start float-right" style="margin: 16px; margin-top: -8px;">
+                <!-- <div class="form-group d-xl-flex flex-column justify-content-xl-start float-right" style="margin: 16px; margin-top: -8px;">
                     <label>To</label>
                     <div class="input-group date" style="width: 160px;">
                         <input type="text" class="form-control" id="dateTo" name="dateTo">
@@ -57,7 +95,7 @@
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <a class="btn btnOpenSettings  float-right" style="margin: 16px; margin-top: 22px;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
                 <button class="btn btn-primary float-right printConfirm" type="button" style="margin: 16px; margin-top: 22px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
                 <button class="btn btn-primary float-right export exportbtn" type="button" style="margin: 16px; margin-top: 22px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
@@ -319,43 +357,43 @@
                                                     {{else}}
                                                         {{#if equals item.sTitle ""}}
                                                         {{else}}
-                                                        {{#if equals item.sTitle "id"}}
+                                                            {{#if equals item.sTitle "id"}}
 
-                                                          {{else}}
-                                                            <div id="{{item.sIndex}}" class="columnSettings">
-                                                                <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                    <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}"
-                                                                        checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
-                                                                    <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
-                                                                    <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
-                                                                </div>
-                                                                <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                    <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:
-                                                                        <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>-->
-                                                                    </label>
-                                                                    <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
-                                                                    <!-- <div contenteditable="true" class="groove rngRange" type="text" value="{{item.sWidth}}" min="0" max="1000">{{item.sWidth}}px</div> -->
-                                                                </div>
-                                                            </div>
-
-                                                            {{#if equals item.sVisible true}}
-                                                                <script>
-                                                                    $("#" + {
-                                                                        {
-                                                                            item.sIndex
-                                                                        }
-                                                                    } + ".chkDatatable").attr("checked", "checked");
-                                                                </script>
                                                             {{else}}
-                                                                <script>
-                                                                    $("#" + {
-                                                                        {
-                                                                            item.sIndex
-                                                                        }
-                                                                    } + ".chkDatatable").removeAttr("checked");
-                                                                </script>
+                                                                <div id="{{item.sIndex}}" class="columnSettings">
+                                                                    <div class="custom-control custom-switch" style="margin: 8px; float:left;">
+                                                                        <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}"
+                                                                            checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
+                                                                        <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
+                                                                        <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
+                                                                    </div>
+                                                                    <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
+                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:
+                                                                            <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>-->
+                                                                        </label>
+                                                                        <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{item.sWidth}}" min="0" max="1000">
+                                                                        <!-- <div contenteditable="true" class="groove rngRange" type="text" value="{{item.sWidth}}" min="0" max="1000">{{item.sWidth}}px</div> -->
+                                                                    </div>
+                                                                </div>
+
+                                                                {{#if equals item.sVisible true}}
+                                                                    <script>
+                                                                        $("#" + {
+                                                                            {
+                                                                                item.sIndex
+                                                                            }
+                                                                        } + ".chkDatatable").attr("checked", "checked");
+                                                                    </script>
+                                                                {{else}}
+                                                                    <script>
+                                                                        $("#" + {
+                                                                            {
+                                                                                item.sIndex
+                                                                            }
+                                                                        } + ".chkDatatable").removeAttr("checked");
+                                                                    </script>
+                                                                {{/if}}
                                                             {{/if}}
-                                                        {{/if}}
                                                         {{/if}}
                                                     {{/if}}
                                                 {{/each}}
@@ -379,7 +417,7 @@
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 style="margin-bottom: 0px;">Clock On/Off</h4>
+                        <h4 style="margin-bottom: 0px;">Clock On/Off <span id="timesheetID"></span></h4>
                         <a role="button" data-toggle="modal" href="#helpViewModal2" style="font-size: 20px; margin-left: 6px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
                         <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal2">
                             <div class="modal-dialog modal-sm" role="document">
@@ -495,11 +533,11 @@
                                 </div>
                             </div>
                         </div>
-                         <style>
-                        .mt-32 {
-                            margin-top: -32px !important;
-                        }
-                    </style>
+                        <style>
+                            .mt-32 {
+                                margin-top: -32px !important;
+                            }
+                        </style>
                         <div class="row">
                             <div class="col-12 col-lg-4 col-xl-5">
                                 <div class="form-group" style="margin: 8px 0px;">
@@ -513,12 +551,13 @@
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                             <label>Start Time</label><input class="form-control" id="startTime" required name="startTime" type="time">
                                         </div>
-                                        <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i><span class="clockOn">Clock On</span></button>
+                                        <button class="btn btn-success btnClockOn" type="submit" style="width: 100%;" id="btnClockOn" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i><span class="clockOn">Clock
+                                                On</span></button>
                                     </div>
                                     <div class="col-6 col-md-4 col-lg-4">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required class="form-control" id="endTime" name="endTime" type="time"></div>
                                         <span class="btn btn-warning paused" style="margin: 8px 0px; width: 100%; margin-top: -72px; background-color: rgba(246, 194, 62, 0.4); cursor: default;">Paused</span>
-                            <button class="btn btn-warning btnHoldOne" type="button" style="width: 100%;" id="btnHoldOne"><span class="isPaused" style="width: 100% !important; padding:9px;">On Hold</span></button>
+                                        <button class="btn btn-warning btnHoldOne" type="button" style="width: 100%;" id="btnHoldOne"><span class="isPaused" style="width: 100% !important; padding:9px;">On Hold</span></button>
 
 
                                     </div>
@@ -534,7 +573,8 @@
                                                 <input type="hidden" id="txtBookedHoursSpent1" name="txtBookedHoursSpent1">
                                             </div>
                                         {{/if}}
-                                        <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i><span class="clockOff">Clock Off</span></button>
+                                        <button class="btn btn-danger btnClockOff" type="submit" style="width: 100%;" id="btnClockOff" name="btnClockOn"><i class="far fa-clock" style="margin-right: 5px;"></i><span class="clockOff">Clock
+                                                Off</span></button>
                                     </div>
                                     <div class="col-6 btnLogMobile" style="display: none;">
                                         <button class="btn btn-success btnTimesheetListOne" type="button" style="margin-top: 85px; width: 45px;" id="btnTimesheetListOne"><i class="far fa-clock"></i></button>
@@ -627,6 +667,46 @@
                         }
                     </style>
                     <div class="table-responsive">
+                        <div class="row no-gutters d-xl-flex align-items-xl-end">
+                            <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
+
+                            </div>
+                            <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end">
+                                <div class="dropdown" style="margin: 8px; margin-top: 0px;">
+                                    <style>
+                                        .btn-daterange::after {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <button class="btn dropdown-toggle btn-daterange" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                        <a class="dropdown-item lastMonth" id="lastMonth" role="presentation" href="#">Last Month</a>
+                                        <a class="dropdown-item lastQuarter" id="lastQuarter" role="presentation" href="#">Last Quarter</a>
+                                        <a class="dropdown-item last12Months" id="last12Months" role="presentation" href="#">Last 12 Months</a>
+                                        <a class="dropdown-item ignoreDate" id="ignoreDate" role="presentation" href="#">Ignore Date</a>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin: 8px; margin-top: 0px; display: inline-flex;">
+                                    <label style="margin-top: 8px; margin-right: 16px;">From</label>
+                                    <div class="input-group date" style="width: 160px;">
+                                        <input type="text" class="form-control" id="dateFrom" name="dateFrom">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin: 8px; margin-right: 0px; margin-top: 0px; display: inline-flex;">
+                                    <label style="margin-top: 8px; margin-right: 16px;">To</label>
+                                    <div class="input-group date" style="width: 160px;">
+                                        <input type="text" class="form-control" id="dateTo" name="dateTo">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
                             <thead>
                                 <tr class="dnd-moved">
@@ -670,7 +750,8 @@
                                             <td class="colDate" contenteditable="false"><span style="display:none;">{{item.sortdate}}</span> {{item.timesheetdate}}</td>
                                             <td class="colJob" contenteditable="false">{{item.job}}</td>
                                             <td class="colProduct" style="text-align: right!important;">{{item.product}}</td>
-                                            <td style="text-align: right!important;" class="hiddenColumn"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours" style="display: none;">{{item.hours}}</span></td>
+                                            <td style="text-align: right!important;" class="hiddenColumn"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours"
+                                                    style="display: none;">{{item.hours}}</span></td>
                                             <td class="" style="text-align: right!important;">
                                                 <input class="colRegHoursOne highlightInput" type="time" value="{{item.hourFormat}}" autocomplete="off">
                                             </td>
@@ -684,20 +765,20 @@
                                             <!-- <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td> -->
                                             <td class="colNotes">{{item.notes}}</td>
                                             {{#if equals item.status "Unprocessed"}}
-                                            <td class="colStatus" style="background-color: #f6c23e !important; color:#fff">
-                                                Unprocessed
-                                            </td>
+                                                <td class="colStatus" style="background-color: #f6c23e !important; color:#fff">
+                                                    Unprocessed
+                                                </td>
                                             {{else}}
-                                             {{#if equals item.status "Processed"}}
-                                            <td class="colStatus" style="background-color: #1cc88a !important; color:#fff">
-                                                Processed
-                                            </td>
-                                            {{/if}}
+                                                {{#if equals item.status "Processed"}}
+                                                    <td class="colStatus" style="background-color: #1cc88a !important; color:#fff">
+                                                        Processed
+                                                    </td>
+                                                {{/if}}
                                             {{/if}}
 
-                                            <td class="viewTimeLog"><a  href="/timesheettimelog?id={{item.id}}" class="btn btn-success btnTimesheetListOne" style="width: 45px;" id="" autocomplete="off"><i class="far fa-clock"></i></a></td>
+                                            <td class="viewTimeLog"><a href="/timesheettimelog?id={{item.id}}" class="btn btn-success btnTimesheetListOne" style="width: 45px;" id="" autocomplete="off"><i class="far fa-clock"></i></a></td>
                                             <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
-                                           <!--  <td><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h"
+                                            <!--  <td><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h"
                                                         style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
                                         </tr>
                                     {{/each}}
