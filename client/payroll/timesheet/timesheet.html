@@ -683,9 +683,17 @@
                                             <!--  <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td> -->
                                             <!-- <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td> -->
                                             <td class="colNotes">{{item.notes}}</td>
-                                            <td class="colStatus" style="background-color: {{item.color}} !important; color:#fff">
+                                            {{#if equals item.status "Unprocessed"}}
+                                            <td class="colStatus" style="background-color: #f6c23e !important; color:#fff">
                                                 Unprocessed
                                             </td>
+                                            {{else}}
+                                             {{#if equals item.status "Processed"}}
+                                            <td class="colStatus" style="background-color: #1cc88a !important; color:#fff">
+                                                Processed
+                                            </td>
+                                            {{/if}}
+                                            {{/if}}
 
                                             <td class="viewTimeLog"><a  href="/timesheettimelog?id={{item.id}}" class="btn btn-success btnTimesheetListOne" style="width: 45px;" id="" autocomplete="off"><i class="far fa-clock"></i></a></td>
                                             <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
