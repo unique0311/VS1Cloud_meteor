@@ -92,6 +92,13 @@ Template.accountlistpop.onRendered(function() {
                           ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
                             splashArrayProductList.push(dataList);
                           }
+                        }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
+                          if((data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD")
+                          ||(data.taccountvs1[i].AccountTypeName == "OCLIAB")
+                          ){
+                            splashArrayProductList.push(dataList);
+                          }
+
                         }else{
                           splashArrayProductList.push(dataList);
                         }
@@ -171,6 +178,12 @@ Template.accountlistpop.onRendered(function() {
                       ||(useData[i].fields.AccountTypeName == "EXINC")){
                         splashArrayProductList.push(dataList);
                       }
+                    }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
+                      if((useData[i].fields.AccountTypeName == "BANK")||(useData[i].fields.AccountTypeName == "CCARD")
+                      ||(useData[i].fields.AccountTypeName == "OCLIAB")
+                      ){
+                        splashArrayProductList.push(dataList);
+                      }
                     }else{
                       splashArrayProductList.push(dataList);
                     }
@@ -246,13 +259,20 @@ Template.accountlistpop.onRendered(function() {
                         splashArrayProductList.push(dataList);
                       }
                     }else if(currentLoc == "/chequecard"){
-                      
+
                       if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
                       ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
                       ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")
                       ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
                         splashArrayProductList.push(dataList);
                       }
+                    }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
+                      if((data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD")
+                      ||(data.taccountvs1[i].AccountTypeName == "OCLIAB")
+                      ){
+                        splashArrayProductList.push(dataList);
+                      }
+
                     }else{
                       splashArrayProductList.push(dataList);
                     }

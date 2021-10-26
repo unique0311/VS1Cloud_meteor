@@ -178,7 +178,8 @@ ERPObjects = function () {
         VS1_RepeatAppointment: "VS1_RepeatAppointment",
         TRoster: "TRoster",
         TTimeLog: "TTimeLog",
-        TRefundSale: "TRefundSale"
+        TRefundSale: "TRefundSale",
+        TSerialNumberListCurrentReport: "TSerialNumberListCurrentReport"
     }
     return objects;
 }

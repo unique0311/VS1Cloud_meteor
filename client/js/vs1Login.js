@@ -1828,8 +1828,8 @@ Template.vs1login.onRendered(function () {
                                                     $('.myVS1VideoLogin').css('display', 'none');
                                                     $('#emEmail').html(userLoginEmail);
                                                     $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
-                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
                                                     swal({
                                                         title: 'Awaiting Email Validation',
                                                         html: true,
@@ -2921,8 +2921,8 @@ Template.vs1login.onRendered(function () {
                                                 $('.myVS1VideoLogin').css('display', 'none');
                                                 $('#emEmail').html(userLoginEmail);
                                                 $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
-                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
                                                 swal({
                                                     title: 'Awaiting Email Validation',
                                                     html: true,
@@ -3599,8 +3599,8 @@ Template.vs1login.onRendered(function () {
                                             $('.myVS1VideoLogin').css('display', 'none');
                                             $('#emEmail').html(userLoginEmail);
                                             $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
-                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
                                             swal({
                                                 title: 'Awaiting Email Validation',
                                                 html: true,
@@ -4239,8 +4239,8 @@ Template.vs1login.onRendered(function () {
                                         $('.myVS1VideoLogin').css('display', 'none');
                                         $('#emEmail').html(userLoginEmail);
                                         $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
-                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
                                         swal({
                                             title: 'Awaiting Email Validation',
                                             html: true,
