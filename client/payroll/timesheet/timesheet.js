@@ -232,12 +232,15 @@ Template.timesheet.onRendered(function () {
                                 {
                                     "orderable": false,
                                     "targets": 0
+                                },{
+                                    "orderable": false,
+                                    "targets": 13
                                 }, {
                                     targets: 'sorting_disabled',
                                     orderable: false
                                 }
                             ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
                                     extend: 'excelHtml5',
                                     text: '',
@@ -283,6 +286,15 @@ Template.timesheet.onRendered(function () {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function () {
+                                let urlParametersPage = FlowRouter.current().queryParams.page;
+                                if (urlParametersPage) {
+                                    this.fnPageChange('last');
+                                }
+                                $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
+
+                                $('.myvarFilterForm').appendTo(".colDateFilter");
+                            }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -455,6 +467,9 @@ Template.timesheet.onRendered(function () {
                                 "orderable": false,
                                 "targets": 0
                             }, {
+                                "orderable": false,
+                                "targets": 13
+                            },{
                                 targets: 'sorting_disabled',
                                 orderable: false
                             }
