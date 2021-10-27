@@ -450,3 +450,7 @@ margin-top: 23%;
     -webkit-appearance: none !important;
     margin: 0 !important;
 }
+
+.dataTables_filter .form-control-sm {
+    font-size: 1rem !important;
+}

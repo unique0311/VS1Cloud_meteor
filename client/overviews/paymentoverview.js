@@ -450,7 +450,7 @@ Template.paymentoverview.onRendered(function() {
                             // dom: 'lBfrtip',
 
                             "columnDefs" : [{"targets":0, "type":"date"}],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
                                 {
                                     extend: 'excelHtml5',
@@ -492,7 +492,7 @@ Template.paymentoverview.onRendered(function() {
                             // rowId: 0,
                             pageLength: initialReportDatatableLoad,
                             "bLengthChange": false,
-                            searching: false,
+                            searching: true,
                             lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
@@ -506,6 +506,15 @@ Template.paymentoverview.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function () {
+                                let urlParametersPage = FlowRouter.current().queryParams.page;
+                                if (urlParametersPage) {
+                                    this.fnPageChange('last');
+                                }
+                                $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
+
+                                $('.myvarFilterForm').appendTo(".colDateFilter");
+                            }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -657,7 +666,7 @@ Template.paymentoverview.onRendered(function() {
                     $('#tblPaymentOverview').DataTable({
                         // dom: 'lBfrtip',
                         "columnDefs" : [{"targets":0, "type":"date"}],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -699,7 +708,7 @@ Template.paymentoverview.onRendered(function() {
                         // rowId: 0,
                         pageLength: initialReportDatatableLoad,
                         "bLengthChange": false,
-                        searching: false,
+                        searching: true,
                         lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
@@ -714,6 +723,15 @@ Template.paymentoverview.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
+
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -858,7 +876,7 @@ Template.paymentoverview.onRendered(function() {
                     $('#tblPaymentOverview').DataTable({
                         // dom: 'lBfrtip',
                         "columnDefs" : [{"targets":0, "type":"date"}],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -900,7 +918,7 @@ Template.paymentoverview.onRendered(function() {
                         // rowId: 0,
                         pageLength: initialReportDatatableLoad,
                         "bLengthChange": false,
-                        searching: false,
+                        searching: true,
                         lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
@@ -914,6 +932,15 @@ Template.paymentoverview.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
+
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
