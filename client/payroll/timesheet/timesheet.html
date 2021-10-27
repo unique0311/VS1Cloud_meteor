@@ -24,7 +24,7 @@
                     }
 
                     .statusOnHold {
-                        color: #f6c23e;
+                        color: #edaa00;
                     }
 
                     .statusClockedOff {
@@ -42,7 +42,7 @@
                 </style>
                 <div class="loggedEmployeeStatus">
                     <div>{{loggedInEmployee}}</div>
-                    <div class="employeeStatus">Status: <span class="statusClockedOn" id="employeeStatusField">Clocked On</span></div>
+                    <div class="employeeStatus">Status: <span class="statusOnHold" id="employeeStatusField">On Hold</span></div>
                 </div>
 
                 <!-- Start Help View Modal -->
@@ -708,7 +708,7 @@
                             </div>
                         </div>
                         <style>
-                            .form-control-sm {
+                            .dataTables_filter .form-control-sm {
                                 font-size: 1rem !important;
                             }
                         </style>
