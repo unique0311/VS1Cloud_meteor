@@ -305,7 +305,7 @@
 
                                     <td class="hiddenColumn UOMQtyBackOrder" id="UOMQtyBackOrder">{{item.qtybo}}</td>
                                     <td class="hiddenColumn ProductID" id="ProductID">{{item.productid}}</td>
-                                    <td style="width: 1%;"><span class="table-remove removebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
+                                    <td style="width: 1%;"><span class="removebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                 </tr>
                             {{/each}}
                         </tbody>
@@ -410,7 +410,7 @@
                                             <td contenteditable="true" class=""></td>
                                             <td contenteditable="true" class=""></td>
                                             <td contenteditable="true" class=""></td>
-                                            <td style="width: 1%;"><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
+                                            <td style="width: 1%;"><span class="btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -426,8 +426,8 @@
                                     </thead>
                                     <tbody>
                                       {{#each itemavail in availableserialnumberlist}}
-                                        <tr class="dnd-moved {{itemavail.checkclass}}" id="{{itemavail.rowid}}">
-                                            <td contenteditable="true" class="">{{itemavail.rowid}}</td>
+                                        <tr class="dnd-moved {{itemavail.checkclass}} {{itemavail.domserialnumberFormat}}" id="{{itemavail.rowid}}">
+                                            <td contenteditable="true" class="availrow_id">{{itemavail.rowid}}</td>
                                             <td contenteditable="true" class=""><input class="lineSerialNumber highlightSerial" id="lineSerialNumber" type="text" value="{{itemavail.domserialnumber}}"></td>
                                         </tr>
                                       {{/each}}

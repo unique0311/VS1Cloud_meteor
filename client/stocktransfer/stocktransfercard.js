@@ -16,7 +16,7 @@ import 'jquery-editable-select';
 const _ = require('lodash');
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
-
+var times = 0;
 Template.stocktransfercard.onCreated(function(){
   const templateObject = Template.instance();
     templateObject.includeInvoiceAttachment = new ReactiveVar();
@@ -159,11 +159,13 @@ templateObject.getProductQty = function (id, productname) {
                     addshowclass = "hiddenColumn";
                   }
                   templateObject.availableserialnumberqty.set(countSerial);
+                  let serialFormat = dataAvailableValue.tserialnumberlistcurrentreport[s].BOMSerialNumber.toLowerCase();
                   let dataObject = {
                       rowid: countSerial,
                       partid: dataAvailableValue.tserialnumberlistcurrentreport[s].PartsID || ' ',
                       serialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].SerialNumber || ' ',
                       domserialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].BOMSerialNumber || ' ',
+                      domserialnumberFormat: serialFormat.replace(/\s/g, '') || '',
                       checkclass: addshowclass
                   };
                 serialList.push(dataObject);
@@ -231,11 +233,13 @@ templateObject.getProductQty = function (id, productname) {
                         addshowclass = "hiddenColumn";
                       }
                       templateObject.availableserialnumberqty.set(countSerial);
+                      let serialFormat = dataAvailableValue.tserialnumberlistcurrentreport[s].BOMSerialNumber.toLowerCase();
                       let dataObject = {
                           rowid: countSerial,
                           partid: dataAvailableValue.tserialnumberlistcurrentreport[s].PartsID || ' ',
                           serialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].SerialNumber || ' ',
                           domserialnumber: dataAvailableValue.tserialnumberlistcurrentreport[s].BOMSerialNumber || ' ',
+                          domserialnumberFormat: serialFormat.replace(/\s/g, '') || '',
                           checkclass: addshowclass
                       };
                     serialList.push(dataObject);
@@ -291,8 +295,8 @@ if (url.indexOf('?id=') > 0) {
                                 productbarcode: data.fields.Lines[i].fields.PartBarcode || '',
                                 description: data.fields.Lines[i].fields.ProductDesc || '',
                                 department:  data.fields.Lines[0].fields.ClassNameTo|| defaultDept,
-                                qtyordered: data.fields.Lines[i].fields.TransferQty || 0,
-                                qtyshipped: data.fields.Lines[i].fields.AvailableQty || 0,
+                                qtyordered: data.fields.Lines[i].fields.AvailableQty || 0,
+                                qtyshipped: data.fields.Lines[i].fields.TransferQty || 0,
                                 qtybo: data.fields.Lines[i].fields.BOQty || 0
 
                               };
@@ -392,7 +396,6 @@ if (url.indexOf('?id=') > 0) {
                 } else {
                     let data = JSON.parse(dataObject[0].data);
                     let useData = data.tstocktransferentry;
-
                     var added = false;
                     for (let d = 0; d < useData.length; d++) {
                         if (parseInt(useData[d].fields.ID) === currentStockTransfer) {
@@ -531,7 +534,126 @@ if (url.indexOf('?id=') > 0) {
                         }
 
                     }
-                    if (!added) {}
+                    if (!added) {
+                      stockTransferService.getOneStockTransferData(currentStockTransfer).then(function (data) {
+                          $('.fullScreenSpin').css('display', 'none');
+                          let lineItems = [];
+                          let lineItemObj = {};
+                          let lineItemsTable = [];
+                          let lineItemTableObj = {};
+
+                          if (data.fields.Lines.length) {
+                              for (let i = 0; i < data.fields.Lines.length; i++) {
+                                  lineItemObj = {
+                                    lineID: Random.id(),
+                                    id: data.fields.Lines[i].fields.ID || '',
+                                    pqa:'',
+                                    serialnumber:data.fields.Lines[i].fields.SerialNumber||'',
+                                    productname: data.fields.Lines[i].fields.ProductName || '',
+                                    item: data.fields.Lines[i].fields.ProductName || '',
+                                    productid: data.fields.Lines[i].fields.ProductID || '',
+                                    productbarcode: data.fields.Lines[i].fields.PartBarcode || '',
+                                    description: data.fields.Lines[i].fields.ProductDesc || '',
+                                    department:  data.fields.Lines[0].fields.ClassNameTo|| defaultDept,
+                                    qtyordered: data.fields.Lines[i].fields.AvailableQty || 0,
+                                    qtyshipped: data.fields.Lines[i].fields.TransferQty || 0,
+                                    qtybo: data.fields.Lines[i].fields.BOQty || 0
+
+                                  };
+
+                                  lineItems.push(lineItemObj);
+                              }
+                          }
+
+                          let record = {
+                            id: data.fields.ID,
+                            lid: 'Edit Stock Transfer' + ' ' + data.fields.ID,
+                            LineItems: lineItems,
+                            accountname: data.fields.AccountName,
+                            department: data.fields.TransferFromClassName || defaultDept,
+                            notes: data.fields.Notes,
+                            transdate: data.fields.DateTransferred ? moment(data.fields.DateTransferred).format('DD/MM/YYYY') : ""
+                          };
+
+                          let getDepartmentVal = data.fields.Lines[0].fields.TransferFromClassName || defaultDept;
+
+                          setTimeout(function() {
+                                $('#sltDepartment').val(defaultDept);
+                                $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
+                                $('#sltBankAccountName').val(data.fields.AccountName);
+                                $('#shipvia').val(data.fields.Shipping);
+                            }, 200);
+
+                          if (data.fields.Processed == true) {
+                            $('.colProcessed').css('display', 'block');
+                              $("#form :input").prop("disabled", true);
+                              $(".btnDeleteStock").prop("disabled", false);
+                              $(".btnDeleteStockTransfer").prop("disabled", false);
+                              $(".printConfirm").prop("disabled", false);
+                              $(".btnBack").prop("disabled", false);
+                              $(".btnDeleteProduct").prop("disabled", false);
+                          }
+
+                          templateObject.stocktransferrecord.set(record);
+
+                          if (templateObject.stocktransferrecord.get()) {
+
+
+                              Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblStocktransfer', function (error, result) {
+                                  if (error) {
+
+                                      //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                                  } else {
+                                      if (result) {
+                                          for (let i = 0; i < result.customFields.length; i++) {
+                                              let customcolumn = result.customFields;
+                                              let columData = customcolumn[i].label;
+                                              let columHeaderUpdate = customcolumn[i].thclass;
+                                              let hiddenColumn = customcolumn[i].hidden;
+                                              let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                              let columnWidth = customcolumn[i].width;
+
+                                              $("" + columHeaderUpdate + "").html(columData);
+                                              if (columnWidth != 0) {
+                                                  $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                              }
+
+                                              if (hiddenColumn == true) {
+
+                                                  //$("."+columnClass+"").css('display','none');
+                                                  $("." + columnClass + "").addClass('hiddenColumn');
+                                                  $("." + columnClass + "").removeClass('showColumn');
+                                              } else if (hiddenColumn == false) {
+                                                  $("." + columnClass + "").removeClass('hiddenColumn');
+                                                  $("." + columnClass + "").addClass('showColumn');
+                                                  //$("."+columnClass+"").css('display','table-cell');
+                                                  //$("."+columnClass+"").css('padding','.75rem');
+                                                  //$("."+columnClass+"").css('vertical-align','top');
+                                              }
+
+                                          }
+                                      }
+
+                                  }
+                              });
+                          }
+                      }).catch(function (err) {
+
+                          swal({
+                              title: 'Oooops...',
+                              text: err,
+                              type: 'error',
+                              showCancelButton: false,
+                              confirmButtonText: 'Try Again'
+                          }).then((result) => {
+                              if (result.value) {
+                                  Meteor._reload.reload();
+                              } else if (result.dismiss === 'cancel') {}
+                          });
+                          $('.fullScreenSpin').css('display', 'none');
+                          // Meteor._reload.reload();
+                      });
+                    }
                     //here
                 }
             }).catch(function (err) {
@@ -556,8 +678,8 @@ if (url.indexOf('?id=') > 0) {
                               productbarcode: data.fields.Lines[i].fields.PartBarcode || '',
                               description: data.fields.Lines[i].fields.ProductDesc || '',
                               department:  data.fields.Lines[0].fields.ClassNameTo|| defaultDept,
-                              qtyordered: data.fields.Lines[i].fields.TransferQty || 0,
-                              qtyshipped: data.fields.Lines[i].fields.AvailableQty || 0,
+                              qtyordered: data.fields.Lines[i].fields.AvailableQty || 0,
+                              qtyshipped: data.fields.Lines[i].fields.TransferQty || 0,
                               qtybo: data.fields.Lines[i].fields.BOQty || 0
 
                             };
@@ -815,7 +937,6 @@ let lineItemObjFormAlloc = {};
 $('#serailscanlist > tbody > tr').each(function() {
   var $tblrowAlloc = $(this);
   let tdSerialNumber = $tblrowAlloc.find("#serialNo").val() || 0;
-  console.log(tdSerialNumber);
   lineItemObjFormAlloc = {
       type: "TPQASN",
       fields: {
@@ -843,20 +964,12 @@ fields:
  var rowIndex = $('input[name="salesLineRow"]').val();
  var qtyShipped = $('#serailscanlist tbody tr').length;
  var qtyOrder = parseInt($('#' + rowIndex + " #Ordered").val());
- console.log(rowIndex);
- console.log(qtyShipped);
- console.log(qtyOrder);
  // parseInt($('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=Ordered]").val());
  var qtyBackOrder = qtyOrder - qtyShipped;
- console.log(qtyBackOrder);
  $('#' + rowIndex + " #pqa").text(JSON.stringify(AllocLineObjDetails));
  $('#' + rowIndex + " #lineID").text(JSON.stringify(AllocLineObjDetails));
  $('#' + rowIndex + " #UOMQtyShipped").val(qtyShipped);
  $('#' + rowIndex + " #UOMQtyBackOrder").text(qtyBackOrder);
-// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=pqa]").text(JSON.stringify(AllocLineObjDetails));
-// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=lineID]").text(JSON.stringify(AllocLineObjDetails));
-// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=UOMQtyShipped]").text(qtyShipped);
-// $('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=UOMQtyBackOrder]").text(qtyBackOrder);
 });
 $(document).ready(function() {
     $('#sltDepartment').editableSelect();
@@ -2389,23 +2502,16 @@ const templateObject = Template.instance();
                 fields: {
                     ID: currentStock,
                     AccountName: selectAccount,
-                    DateTransferred: creationDate,
-                    // AdjustmentOnInStock: true,
-                    // AdjustType: "Gen",
-                    // Approved: false,
-                    CreationDate: creationDate,
-                    //Deleted: false,
-                    EmployeeName: Session.get('mySessionEmployee'),
-                    EnforceUOM: false,
-                    //ISEmpty:false,
-                    //IsStockTake:false,
-                    Lines: splashLineArray,
-                    DoProcessonSave: true,
-                    Notes: notes,
-                    // SalesRef: conNote,
                     TransferFromClassName:transferFrom,
+                    DateTransferred: creationDate,
+                    DoProcessonSave: true,
                     Transfertype:"Gen",
-                    Shipping:shipVia
+                    EnforceUOM: false,
+                    Lines: splashLineArray,
+                    EmployeeName: Session.get('mySessionEmployee'),
+                    Shipping:shipVia,
+                    Notes: notes,
+
 
                 }
             };
@@ -2413,24 +2519,16 @@ const templateObject = Template.instance();
             objDetails = {
                 type: "TStockTransferEntry",
                 fields: {
-                    AccountName: selectAccount,
-                    DateTransferred: creationDate,
-                    // AdjustmentOnInStock: true,
-                    // AdjustType: "Gen",
-                    // Approved: false,
-                    CreationDate: creationDate,
-                    //Deleted: false,
-                    EmployeeName: Session.get('mySessionEmployee'),
-                    EnforceUOM: false,
-                    //ISEmpty:false,
-                    //IsStockTake:false,
-                    Lines: splashLineArray,
-                    DoProcessonSave: true,
-                    Notes: notes,
-                    // SalesRef: conNote,
-                    TransferFromClassName:transferFrom,
-                    Transfertype:"Gen",
-                    Shipping:shipVia
+                  AccountName: selectAccount,
+                  TransferFromClassName:transferFrom,
+                  DateTransferred: creationDate,
+                  DoProcessonSave: true,
+                  Transfertype:"Gen",
+                  EnforceUOM: false,
+                  Lines: splashLineArray,
+                  EmployeeName: Session.get('mySessionEmployee'),
+                  Shipping:shipVia,
+                  Notes: notes,
                 }
             };
         }
@@ -2737,6 +2835,28 @@ const templateObject = Template.instance();
     }
 
     $('#deleteLineModal').modal('toggle');
+},
+'click .removebutton': function(event) {
+    let templateObject = Template.instance();
+    var clicktimes = 0;
+    var targetID = $(event.target).closest('tr').attr('id');
+    $('#selectDeleteLineID').val(targetID);
+
+    times++;
+    if (times == 1) {
+        $('#deleteLineModal').modal('toggle');
+    } else {
+        if ($('#tblStocktransfer tbody>tr').length > 1) {
+            this.click;
+            $(event.target).closest('tr').remove();
+            event.preventDefault();
+            return false;
+
+        } else {
+            $('#deleteLineModal').modal('toggle');
+        }
+
+    }
 }
 });
 
