@@ -140,9 +140,7 @@ Template.balancetransactionlist.onRendered(function() {
         }
         setTimeout(function () {
             $('#tblBalanceTransactionList').DataTable({
-                  columnDefs: [
-                    {type: 'date', targets: 0}
-                  ],
+                  "columnDefs": [{ "targets": 0, "type": "date" }],
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
                       {
@@ -183,11 +181,11 @@ Template.balancetransactionlist.onRendered(function() {
                   colReorder: true,
                   // bStateSave: true,
                   // rowId: 0,
-                  pageLength: initialDatatableLoad,
-                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                  pageLength: initialReportDatatableLoad,
+                  lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                   info: true,
                   responsive: true,
-                  "order": [[ 0, "asc" ]],
+                  "order": [[ 0, "desc" ]],
                   action: function () {
                       $('#tblBalanceTransactionList').DataTable().ajax.reload();
                   },
@@ -397,11 +395,11 @@ Template.balancetransactionlist.onRendered(function() {
                 colReorder: true,
                 // bStateSave: true,
                 // rowId: 0,
-                pageLength: initialDatatableLoad,
-                lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                pageLength: initialReportDatatableLoad,
+                lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                 info: true,
                 responsive: true,
-                "order": [[ 0, "asc" ]],
+                "order": [[ 0, "desc" ]],
                 action: function () {
                     $('#tblBalanceTransactionList').DataTable().ajax.reload();
                 },
@@ -610,11 +608,11 @@ Template.balancetransactionlist.onRendered(function() {
                   colReorder: true,
                   // bStateSave: true,
                   // rowId: 0,
-                  pageLength: initialDatatableLoad,
-                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                  pageLength: initialReportDatatableLoad,
+                  lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                   info: true,
                   responsive: true,
-                  "order": [[ 0, "asc" ]],
+                  "order": [[ 0, "desc" ]],
                   action: function () {
                       $('#tblBalanceTransactionList').DataTable().ajax.reload();
                   },
@@ -885,13 +883,13 @@ Template.balancetransactionlist.events({
 Template.balancetransactionlist.helpers({
   datatablerecords : () => {
      return Template.instance().datatablerecords.get().sort(function(a, b){
-       if (a.date == 'NA') {
+       if (a.sortdate == 'NA') {
      return 1;
          }
-     else if (b.date == 'NA') {
+     else if (b.sortdate == 'NA') {
        return -1;
      }
-   return (a.date.toUpperCase() > b.date.toUpperCase()) ? 1 : -1;
+   return (a.sortdate.toUpperCase() > b.sortdate.toUpperCase()) ? 1 : -1;
    });
   },
   tableheaderrecords: () => {

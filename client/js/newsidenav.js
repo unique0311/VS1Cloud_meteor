@@ -1219,6 +1219,14 @@ Template.newsidenav.onRendered(function() {
 
     }
 
+    templateObject.getAllTimeSheetData = function() {
+        sideBarService.getAllTimeSheetList(initialDataLoad, 0).then(function(data) {
+            addVS1Data('TTimeSheet', JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
     var job = new CronJob('00 00 00 * * *', function() {
 
     });
@@ -1268,7 +1276,25 @@ Template.newsidenav.onRendered(function() {
                 });
 
             }
+            if (isPayroll) {
+                getVS1Data('TTimeSheet').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllTimeSheetData();
+                    } else {
+                        let getTimeStamp = dataObject[0].timestamp.split(' ');
+                        if (getTimeStamp) {
+                            if (loggedUserEventFired) {
+                                if (getTimeStamp[0] != currenctTodayDate) {
+                                    templateObject.getAllTimeSheetData();
+                                }
+                            }
+                        }
+                    }
+                }).catch(function(err) {
+                    templateObject.getAllTimeSheetData();
+                });
 
+            }
             if (isAccounts) {
                 getVS1Data('TJournalEntryLines').then(function(dataObject) {
 
