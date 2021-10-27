@@ -450,7 +450,7 @@ Template.paymentoverview.onRendered(function() {
                             // dom: 'lBfrtip',
 
                             "columnDefs" : [{"targets":0, "type":"date"}],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
                                 {
                                     extend: 'excelHtml5',

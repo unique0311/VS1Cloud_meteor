@@ -1,16 +1,32 @@
-import {PurchaseBoardService} from '../js/purchase-service';
-import { ReactiveVar } from 'meteor/reactive-var';
-import { CoreService } from '../js/core-service';
-import {EmployeeProfileService} from "../js/profile-service";
-import {AccountService} from "../accounts/account-service";
-import {UtilityService} from "../utility-service";
-import {PaymentsService} from '../payments/payments-service';
-import { SideBarService } from '../js/sidebar-service';
+import {
+    PurchaseBoardService
+} from '../js/purchase-service';
+import {
+    ReactiveVar
+} from 'meteor/reactive-var';
+import {
+    CoreService
+} from '../js/core-service';
+import {
+    EmployeeProfileService
+} from "../js/profile-service";
+import {
+    AccountService
+} from "../accounts/account-service";
+import {
+    UtilityService
+} from "../utility-service";
+import {
+    PaymentsService
+} from '../payments/payments-service';
+import {
+    SideBarService
+} from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 let _ = require('lodash');
-Template.purchasesoverview.onCreated(function(){
+Template.purchasesoverview.onCreated(function() {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
@@ -24,7 +40,7 @@ Template.purchasesoverview.onCreated(function(){
 });
 
 Template.purchasesoverview.onRendered(function() {
-    $('.fullScreenSpin').css('display','inline-block');
+    $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let accountService = new AccountService();
     let purchaseService = new PurchaseBoardService();
@@ -47,8 +63,8 @@ Template.purchasesoverview.onRendered(function() {
     var begunDate = moment(currentDate).format("DD/MM/YYYY");
     let fromDateMonth = (currentDate.getMonth() + 1);
     let fromDateDay = currentDate.getDate();
-    if ((currentDate.getMonth()+1) < 10) {
-        fromDateMonth = "0" + (currentDate.getMonth()+1);
+    if ((currentDate.getMonth() + 1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth() + 1);
     }
 
     if (currentDate.getDate() < 10) {
@@ -88,17 +104,17 @@ Template.purchasesoverview.onRendered(function() {
     }
 
     function MakeNegative() {
-        $('td').each(function(){
-            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+        $('td').each(function() {
+            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
 
 
-    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPurchaseOverview', function(error, result){
-        if(error){
+    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOverview', function(error, result) {
+        if (error) {
 
-        }else{
-            if(result){
+        } else {
+            if (result) {
 
                 for (let i = 0; i < result.customFields.length; i++) {
                     let customcolumn = result.customFields;
@@ -108,8 +124,8 @@ Template.purchasesoverview.onRendered(function() {
                     let columnClass = columHeaderUpdate.split('.')[1];
                     let columnWidth = customcolumn[i].width;
 
-                    $("th."+columnClass+"").html(columData);
-                    $("th."+columnClass+"").css('width',""+columnWidth+"px");
+                    $("th." + columnClass + "").html(columData);
+                    $("th." + columnClass + "").css('width', "" + columnWidth + "px");
 
                 }
             }
@@ -118,64 +134,64 @@ Template.purchasesoverview.onRendered(function() {
     });
 
 
-    templateObject.getAllPurchaseOrderAll = function () {
-      var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = (currentBeginDate.getMonth() + 1);
-      let fromDateDay = currentBeginDate.getDate();
-      if((currentBeginDate.getMonth()+1) < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
+    templateObject.getAllPurchaseOrderAll = function() {
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if ((currentBeginDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+        } else {
+            fromDateMonth = (currentBeginDate.getMonth() + 1);
+        }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        if (currentBeginDate.getDate() < 10) {
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        getVS1Data('TbillReport').then(function (dataObject) {
-            if(dataObject.length == 0){
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (data) {
+        getVS1Data('TbillReport').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
-                    addVS1Data('TbillReport',JSON.stringify(data));
+                    addVS1Data('TbillReport', JSON.stringify(data));
                     let totalExpense = 0;
                     let totalBill = 0;
                     let totalCredit = 0;
                     let totalPO = 0;
 
-                    for(let i=0; i<data.tbillreport.length; i++){
+                    for (let i = 0; i < data.tbillreport.length; i++) {
                         let orderType = data.tbillreport[i].Type;
                         totalExpense += Number(data.tbillreport[i]['Total Amount (Inc)']);
-                        if(data.tbillreport[i].Type == "Credit"){
-                            totCreditCount ++;
+                        if (data.tbillreport[i].Type == "Credit") {
+                            totCreditCount++;
                             totalCredit += Number(data.tbillreport[i]['Total Amount (Inc)']);
 
                         }
 
-                        if(data.tbillreport[i].Type == "Bill"){
-                            totBillCount ++;
+                        if (data.tbillreport[i].Type == "Bill") {
+                            totBillCount++;
                             totalBill += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         }
 
-                        if(data.tbillreport[i].Type == "Purchase Order"){
-                            totPOCount ++;
+                        if (data.tbillreport[i].Type == "Purchase Order") {
+                            totPOCount++;
                             orderType = "PO";
                             totalPO += Number(data.tbillreport[i]['Total Amount (Inc)']);
                         }
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)'])|| 0.00;
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)']) || 0.00;
                         let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Tax']) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)'])|| 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
                         let amountPaidCalc = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
                         var dataList = {
                             id: data.tbillreport[i].PurchaseOrderID || '',
-                            employee:data.tbillreport[i].Contact || '',
-                            sortdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD"): data.tbillreport[i].OrderDate,
-                            orderdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY"): data.tbillreport[i].OrderDate,
+                            employee: data.tbillreport[i].Contact || '',
+                            sortdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD") : data.tbillreport[i].OrderDate,
+                            orderdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY") : data.tbillreport[i].OrderDate,
                             suppliername: data.tbillreport[i].Company || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
@@ -188,16 +204,16 @@ Template.purchasesoverview.onRendered(function() {
                             custfield2: data.tbillreport[i].InvoiceNumber || '',
                             comments: data.tbillreport[i].Comments || '',
                         };
-                        if(data.tbillreport[i].Deleted === false){
+                        if (data.tbillreport[i].Deleted === false) {
                             dataTableList.push(dataList);
-                            if(data.tbillreport[i].Balance != 0){
-                                if(data.tbillreport[i].Type == 'Purchase Order'){
+                            if (data.tbillreport[i].Balance != 0) {
+                                if (data.tbillreport[i].Type == 'Purchase Order') {
                                     totAmount += Number(data.tbillreport[i].Balance);
                                 }
-                                if(data.tbillreport[i].Type == 'Bill'){
+                                if (data.tbillreport[i].Type == 'Bill') {
                                     totAmountBill += Number(data.tbillreport[i].Balance);
                                 }
-                                if(data.tbillreport[i].Type == 'Credit'){
+                                if (data.tbillreport[i].Type == 'Credit') {
                                     totAmountCredit += Number(data.tbillreport[i].Balance);
                                 }
                             }
@@ -209,11 +225,11 @@ Template.purchasesoverview.onRendered(function() {
                         //}
                     }
 
-                    var totalPerc = Math.abs(totalCredit)+Math.abs(totalBill)+Math.abs(totalPO);
+                    var totalPerc = Math.abs(totalCredit) + Math.abs(totalBill) + Math.abs(totalPO);
 
-                    var xwidth = (Math.abs(totalCredit)/totalPerc)*100;
-                    var ywidth = (Math.abs(totalBill)/totalPerc)*100;
-                    var zwidth = (Math.abs(totalPO)/totalPerc)*100;
+                    var xwidth = (Math.abs(totalCredit) / totalPerc) * 100;
+                    var ywidth = (Math.abs(totalBill) / totalPerc) * 100;
+                    var zwidth = (Math.abs(totalPO) / totalPerc) * 100;
 
 
                     templateObject.creditpercTotal.set(Math.round(xwidth));
@@ -225,13 +241,13 @@ Template.purchasesoverview.onRendered(function() {
                     templateObject.datatablerecords.set(dataTableList);
                     $('.spExpenseTotal').text(utilityService.modifynegativeCurrencyFormat(totalExpense));
 
-                    if(templateObject.datatablerecords.get()){
+                    if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPurchaseOverview', function(error, result){
-                            if(error){
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOverview', function(error, result) {
+                            if (error) {
 
-                            }else{
-                                if(result){
+                            } else {
+                                if (result) {
                                     for (let i = 0; i < result.customFields.length; i++) {
                                         let customcolumn = result.customFields;
                                         let columData = customcolumn[i].label;
@@ -241,13 +257,13 @@ Template.purchasesoverview.onRendered(function() {
                                         let columnWidth = customcolumn[i].width;
                                         let columnindex = customcolumn[i].index + 1;
 
-                                        if(hiddenColumn == true){
+                                        if (hiddenColumn == true) {
 
-                                            $("."+columnClass+"").addClass('hiddenColumn');
-                                            $("."+columnClass+"").removeClass('showColumn');
-                                        }else if(hiddenColumn == false){
-                                            $("."+columnClass+"").removeClass('hiddenColumn');
-                                            $("."+columnClass+"").addClass('showColumn');
+                                            $("." + columnClass + "").addClass('hiddenColumn');
+                                            $("." + columnClass + "").removeClass('showColumn');
+                                        } else if (hiddenColumn == false) {
+                                            $("." + columnClass + "").removeClass('hiddenColumn');
+                                            $("." + columnClass + "").addClass('showColumn');
                                         }
 
                                     }
@@ -257,8 +273,8 @@ Template.purchasesoverview.onRendered(function() {
                         });
 
                         function MakeNegative() {
-                            $('td').each(function(){
-                                if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+                            $('td').each(function() {
+                                if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
                             });
                         };
 
@@ -270,119 +286,132 @@ Template.purchasesoverview.onRendered(function() {
                                     "Bill",
                                     "Purchase Order"
                                 ],
-                                datasets: [
-                                    {
-                                        "label":"Credit",
-                                        "backgroundColor":[
-                                            "#e74a3b",
-                                            "#f6c23e",
-                                            "#1cc88a",
-                                            "#36b9cc"
-                                        ],
-                                        "borderColor":[
-                                            "#ffffff",
-                                            "#ffffff",
-                                            "#ffffff",
-                                            "#ffffff"
-                                        ],
-                                        "data":[
-                                            totCreditCount,
-                                            totBillCount,
-                                            totPOCount
-                                        ]
-                                    }
-                                ]
+                                datasets: [{
+                                    "label": "Credit",
+                                    "backgroundColor": [
+                                        "#e74a3b",
+                                        "#f6c23e",
+                                        "#1cc88a",
+                                        "#36b9cc"
+                                    ],
+                                    "borderColor": [
+                                        "#ffffff",
+                                        "#ffffff",
+                                        "#ffffff",
+                                        "#ffffff"
+                                    ],
+                                    "data": [
+                                        totCreditCount,
+                                        totBillCount,
+                                        totPOCount
+                                    ]
+                                }]
                             },
                             options: {
-                                "maintainAspectRatio":true,
-                                "legend":{
-                                    "display":true,
-                                    "position":"right",
-                                    "reverse":false
+                                "maintainAspectRatio": true,
+                                "legend": {
+                                    "display": true,
+                                    "position": "right",
+                                    "reverse": false
                                 },
-                                "title":{
-                                    "display":false
+                                "title": {
+                                    "display": false
                                 }
                             }
                         });
-                        setTimeout(function () {
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
                     }
                     // $('#tblPurchaseOverview').DataTable().destroy();
                     // $('#tblPurchaseOverview tbody').empty();
-                    setTimeout(function () {
-                        $('.fullScreenSpin').css('display','none');
+                    setTimeout(function() {
+                        $('.fullScreenSpin').css('display', 'none');
 
                         //$.fn.dataTable.moment('DD/MM/YY');
                         $('#tblPurchaseOverview').DataTable({
-                            columnDefs: [
-                                {type: 'date', targets: 0}
-                            ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [
-                                {
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "Purchase Overview List - "+ moment().format(),
-                                    orientation:'portrait',
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        format: {
-                                            body: function ( data, row, column ) {
-                                                if(data.includes("</span>")){
-                                                    var res = data.split("</span>");
-                                                    data = res[1];
-                                                }
-
-                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
-
+                            columnDefs: [{
+                                type: 'date',
+                                targets: 0
+                            }],
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [{
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Purchase Overview List - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible',
+                                    format: {
+                                        body: function(data, row, column) {
+                                            if (data.includes("</span>")) {
+                                                var res = data.split("</span>");
+                                                data = res[1];
                                             }
+
+                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                         }
                                     }
-                                },{
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Purchase Overview',
-                                    filename: "Purchase Overview List - "+ moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        stripHtml: false
-                                    }
-                                }],
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Purchase Overview',
+                                filename: "Purchase Overview List - " + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible',
+                                    stripHtml: false
+                                }
+                            }],
                             select: true,
                             destroy: true,
                             colReorder: true,
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: initialReportDatatableLoad,
-                          "bLengthChange": false,
-                            lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                            "bLengthChange": false,
+                            lengthMenu: [
+                                [initialReportDatatableLoad, -1],
+                                [initialReportDatatableLoad, "All"]
+                            ],
                             info: true,
                             responsive: true,
-                            "order": [[ 0, "desc" ],[ 2, "desc" ]],
-                            action: function () {
+                            "order": [
+                                [0, "desc"],
+                                [2, "desc"]
+                            ],
+                            action: function() {
                                 $('#tblPurchaseOverview').DataTable().ajax.reload();
                             },
-                            "fnDrawCallback": function (oSettings) {
-                                setTimeout(function () {
+                            "fnDrawCallback": function(oSettings) {
+                                setTimeout(function() {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function() {
+                                let urlParametersPage = FlowRouter.current().queryParams.page;
+                                if (urlParametersPage) {
+                                    this.fnPageChange('last');
+                                }
+                                $("<button class='btn btn-primary btnRefreshPurchaseOverview' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
-                        }).on('page', function () {
+                                $('.myvarFilterForm').appendTo(".colDateFilter");
+                            }
 
-                            setTimeout(function () {
+                        }).on('page', function() {
+
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
-                        }).on('column-reorder', function () {
+                        }).on('column-reorder', function() {
 
                         });
-                        $('.fullScreenSpin').css('display','none');
+                        $('.fullScreenSpin').css('display', 'none');
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     }, 0);
 
@@ -393,11 +422,11 @@ Template.purchasesoverview.onRendered(function() {
                     let sVisible = "";
                     let columVisible = false;
                     let sClass = "";
-                    $.each(columns, function(i,v) {
-                        if(v.hidden == false){
-                            columVisible =  true;
+                    $.each(columns, function(i, v) {
+                        if (v.hidden == false) {
+                            columVisible = true;
                         }
-                        if((v.className.includes("hiddenColumn"))){
+                        if ((v.className.includes("hiddenColumn"))) {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
@@ -413,19 +442,19 @@ Template.purchasesoverview.onRendered(function() {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblPurchaseOverview tbody').on( 'click', 'tr', function () {
+                    $('#tblPurchaseOverview tbody').on('click', 'tr', function() {
                         var listData = $(this).closest('tr').attr('id');
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
-                        if((listData) && (transactiontype)){
-                            if(transactiontype === 'Purchase Order' ){
+                        if ((listData) && (transactiontype)) {
+                            if (transactiontype === 'Purchase Order') {
                                 FlowRouter.go('/purchaseordercard?id=' + listData);
-                            }else if(transactiontype === 'Bill'){
+                            } else if (transactiontype === 'Bill') {
                                 FlowRouter.go('/billcard?id=' + listData);
-                            }else if(transactiontype === 'Credit'){
+                            } else if (transactiontype === 'Credit') {
                                 FlowRouter.go('/creditcard?id=' + listData);
-                            }else if(transactiontype === 'PO'){
+                            } else if (transactiontype === 'PO') {
                                 FlowRouter.go('/purchaseordercard?id=' + listData);
-                            }else{
+                            } else {
                                 //FlowRouter.go('/purchaseordercard?id=' + listData);
                             }
 
@@ -436,7 +465,7 @@ Template.purchasesoverview.onRendered(function() {
                         // }
                     });
 
-                    let filterData = _.filter(data.tbillreport, function (data) {
+                    let filterData = _.filter(data.tbillreport, function(data) {
                         return data.Company
                     });
 
@@ -450,101 +479,99 @@ Template.purchasesoverview.onRendered(function() {
                     let groupData = _.omit(_.groupBy(initialData, 'OrderDate'), ['']);
 
 
-                }).catch(function (err) {
-                  var myChart = new Chart(ctx, {
-                      type: 'pie',
-                      data: {
-                          labels: [
-                              "Credit",
-                              "Bill",
-                              "Purchase Order"
-                          ],
-                          datasets: [
-                              {
-                                  "label":"Credit",
-                                  "backgroundColor":[
-                                      "#e74a3b",
-                                      "#f6c23e",
-                                      "#1cc88a",
-                                      "#36b9cc"
-                                  ],
-                                  "borderColor":[
-                                      "#ffffff",
-                                      "#ffffff",
-                                      "#ffffff",
-                                      "#ffffff"
-                                  ],
-                                  "data":[
-                                      "7",
-                                      "20",
-                                      "73"
-                                  ]
-                              }
-                          ]
-                      },
-                      options: {
-                          "maintainAspectRatio":true,
-                          "legend":{
-                              "display":true,
-                              "position":"right",
-                              "reverse":false
-                          },
-                          "title":{
-                              "display":false
-                          }
-                      }
-                  });
-                    $('.fullScreenSpin').css('display','none');
+                }).catch(function(err) {
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: [
+                                "Credit",
+                                "Bill",
+                                "Purchase Order"
+                            ],
+                            datasets: [{
+                                "label": "Credit",
+                                "backgroundColor": [
+                                    "#e74a3b",
+                                    "#f6c23e",
+                                    "#1cc88a",
+                                    "#36b9cc"
+                                ],
+                                "borderColor": [
+                                    "#ffffff",
+                                    "#ffffff",
+                                    "#ffffff",
+                                    "#ffffff"
+                                ],
+                                "data": [
+                                    "7",
+                                    "20",
+                                    "73"
+                                ]
+                            }]
+                        },
+                        options: {
+                            "maintainAspectRatio": true,
+                            "legend": {
+                                "display": true,
+                                "position": "right",
+                                "reverse": false
+                            },
+                            "title": {
+                                "display": false
+                            }
+                        }
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
                 });
-            }else{
+            } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tbillreport;
                 let lineItems = [];
                 let lineItemObj = {};
-                if(data.Params.IgnoreDates == true){
-                  $('#dateFrom').attr('readonly', true);
-                  $('#dateTo').attr('readonly', true);
-                }else{
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                } else {
 
-                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
-                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
                 }
                 let totalExpense = 0;
                 let totalBill = 0;
                 let totalCredit = 0;
                 let totalPO = 0;
-                $('.fullScreenSpin').css('display','none');
-                for(let i=0; i<useData.length; i++){
+                $('.fullScreenSpin').css('display', 'none');
+                for (let i = 0; i < useData.length; i++) {
                     totalExpense += Number(useData[i]['Total Amount (Inc)']);
                     let orderType = useData[i].Type;
-                    if(useData[i].Type == "Credit"){
-                        totCreditCount ++;
+                    if (useData[i].Type == "Credit") {
+                        totCreditCount++;
                         totalCredit += Number(useData[i]['Total Amount (Inc)']);
 
                     }
 
-                    if(useData[i].Type == "Bill"){
-                        totBillCount ++;
+                    if (useData[i].Type == "Bill") {
+                        totBillCount++;
                         totalBill += Number(useData[i]['Total Amount (Inc)']);
                     }
 
-                    if(useData[i].Type == "Purchase Order"){
-                        totPOCount ++;
+                    if (useData[i].Type == "Purchase Order") {
+                        totPOCount++;
                         orderType = "PO";
                         totalPO += Number(useData[i]['Total Amount (Inc)']);
                     }
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Ex)'])|| 0.00;
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Ex)']) || 0.00;
                     let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Tax']) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)'])|| 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)']) || 0.00;
                     let amountPaidCalc = useData[i]['Total Amount (Inc)'] - useData[i].Balance;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].Balance)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].Balance) || 0.00;
                     var dataList = {
                         id: useData[i].PurchaseOrderID || '',
-                        employee:useData[i].Contact || '',
-                        sortdate: useData[i].OrderDate !=''? moment(useData[i].OrderDate).format("YYYY/MM/DD"): useData[i].OrderDate,
-                        orderdate: useData[i].OrderDate !=''? moment(useData[i].OrderDate).format("DD/MM/YYYY"): useData[i].OrderDate,
+                        employee: useData[i].Contact || '',
+                        sortdate: useData[i].OrderDate != '' ? moment(useData[i].OrderDate).format("YYYY/MM/DD") : useData[i].OrderDate,
+                        orderdate: useData[i].OrderDate != '' ? moment(useData[i].OrderDate).format("DD/MM/YYYY") : useData[i].OrderDate,
                         suppliername: useData[i].Company || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
@@ -557,18 +584,18 @@ Template.purchasesoverview.onRendered(function() {
                         custfield2: useData[i].InvoiceNumber || '',
                         comments: useData[i].Comments || '',
                     };
-                    if(useData[i].Deleted === false){
+                    if (useData[i].Deleted === false) {
                         dataTableList.push(dataList);
-                        if(useData[i].Balance != 0){
-                            if(useData[i].Type == 'Purchase Order'){
+                        if (useData[i].Balance != 0) {
+                            if (useData[i].Type == 'Purchase Order') {
                                 totAmount += Number(useData[i].Balance);
                             }
 
-                            if(useData[i].Type == 'Bill'){
+                            if (useData[i].Type == 'Bill') {
                                 totAmountBill += Number(useData[i].Balance);
                             }
 
-                            if(useData[i].Type == 'Credit'){
+                            if (useData[i].Type == 'Credit') {
                                 totAmountCredit += Number(useData[i].Balance);
                             }
                         }
@@ -580,11 +607,11 @@ Template.purchasesoverview.onRendered(function() {
                     //}
                 }
 
-                var totalPerc = Math.abs(totalCredit)+Math.abs(totalBill)+Math.abs(totalPO);
+                var totalPerc = Math.abs(totalCredit) + Math.abs(totalBill) + Math.abs(totalPO);
 
-                var xwidth = (Math.abs(totalCredit)/totalPerc)*100;
-                var ywidth = (Math.abs(totalBill)/totalPerc)*100;
-                var zwidth = (Math.abs(totalPO)/totalPerc)*100;
+                var xwidth = (Math.abs(totalCredit) / totalPerc) * 100;
+                var ywidth = (Math.abs(totalBill) / totalPerc) * 100;
+                var zwidth = (Math.abs(totalPO) / totalPerc) * 100;
 
 
                 templateObject.creditpercTotal.set(Math.round(xwidth));
@@ -596,13 +623,13 @@ Template.purchasesoverview.onRendered(function() {
                 templateObject.datatablerecords.set(dataTableList);
                 $('.spExpenseTotal').text(utilityService.modifynegativeCurrencyFormat(totalExpense));
 
-                if(templateObject.datatablerecords.get()){
+                if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPurchaseOverview', function(error, result){
-                        if(error){
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOverview', function(error, result) {
+                        if (error) {
 
-                        }else{
-                            if(result){
+                        } else {
+                            if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
                                     let columData = customcolumn[i].label;
@@ -612,13 +639,13 @@ Template.purchasesoverview.onRendered(function() {
                                     let columnWidth = customcolumn[i].width;
                                     let columnindex = customcolumn[i].index + 1;
 
-                                    if(hiddenColumn == true){
+                                    if (hiddenColumn == true) {
 
-                                        $("."+columnClass+"").addClass('hiddenColumn');
-                                        $("."+columnClass+"").removeClass('showColumn');
-                                    }else if(hiddenColumn == false){
-                                        $("."+columnClass+"").removeClass('hiddenColumn');
-                                        $("."+columnClass+"").addClass('showColumn');
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
                                     }
 
                                 }
@@ -628,8 +655,8 @@ Template.purchasesoverview.onRendered(function() {
                     });
 
                     function MakeNegative() {
-                        $('td').each(function(){
-                            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+                        $('td').each(function() {
+                            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
                         });
                     };
 
@@ -642,121 +669,134 @@ Template.purchasesoverview.onRendered(function() {
                                 "Bill",
                                 "Purchase Order"
                             ],
-                            datasets: [
-                                {
-                                    "label":"Credit",
-                                    "backgroundColor":[
-                                        "#e74a3b",
-                                        "#f6c23e",
-                                        "#1cc88a",
-                                        "#36b9cc"
-                                    ],
-                                    "borderColor":[
-                                        "#ffffff",
-                                        "#ffffff",
-                                        "#ffffff",
-                                        "#ffffff"
-                                    ],
-                                    "data":[
-                                        totCreditCount,
-                                        totBillCount,
-                                        totPOCount
-                                    ]
-                                }
-                            ]
+                            datasets: [{
+                                "label": "Credit",
+                                "backgroundColor": [
+                                    "#e74a3b",
+                                    "#f6c23e",
+                                    "#1cc88a",
+                                    "#36b9cc"
+                                ],
+                                "borderColor": [
+                                    "#ffffff",
+                                    "#ffffff",
+                                    "#ffffff",
+                                    "#ffffff"
+                                ],
+                                "data": [
+                                    totCreditCount,
+                                    totBillCount,
+                                    totPOCount
+                                ]
+                            }]
                         },
                         options: {
-                            "maintainAspectRatio":true,
-                            "legend":{
-                                "display":true,
-                                "position":"right",
-                                "reverse":false
+                            "maintainAspectRatio": true,
+                            "legend": {
+                                "display": true,
+                                "position": "right",
+                                "reverse": false
                             },
-                            "title":{
-                                "display":false
+                            "title": {
+                                "display": false
                             }
                         }
                     });
 
-                    setTimeout(function () {
+                    setTimeout(function() {
                         MakeNegative();
 
                     }, 100);
                 }
                 // $('#tblPurchaseOverview').DataTable().destroy();
                 // $('#tblPurchaseOverview tbody').empty();
-                setTimeout(function () {
-                    $('.fullScreenSpin').css('display','none');
+                setTimeout(function() {
+                    $('.fullScreenSpin').css('display', 'none');
 
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblPurchaseOverview').DataTable({
-                        columnDefs: [
-                            {type: 'date', targets: 0}
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Purchase Overview List - "+ moment().format(),
-                                orientation:'portrait',
-                                exportOptions: {
-                                    columns: ':visible',
-                                    format: {
-                                        body: function ( data, row, column ) {
-                                            if(data.includes("</span>")){
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
-
+                        columnDefs: [{
+                            type: 'date',
+                            targets: 0
+                        }],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Purchase Overview List - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible',
+                                format: {
+                                    body: function(data, row, column) {
+                                        if (data.includes("</span>")) {
+                                            var res = data.split("</span>");
+                                            data = res[1];
                                         }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                     }
                                 }
-                            },{
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Purchase Overview',
-                                filename: "Purchase Overview List - "+ moment().format(),
-                                exportOptions: {
-                                    columns: ':visible',
-                                    stripHtml: false
-                                }
-                            }],
+                            }
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Purchase Overview',
+                            filename: "Purchase Overview List - " + moment().format(),
+                            exportOptions: {
+                                columns: ':visible',
+                                stripHtml: false
+                            }
+                        }],
                         select: true,
                         destroy: true,
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: initialDatatableLoad,
-                      "bLengthChange": false,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        "bLengthChange": false,
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
-                        action: function () {
+                        "order": [
+                            [0, "desc"],
+                            [2, "desc"]
+                        ],
+                        action: function() {
                             $('#tblPurchaseOverview').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function() {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshPurchaseOverview' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
-                    }).on('page', function () {
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
-                        setTimeout(function () {
+                    }).on('page', function() {
+
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
-                    }).on('column-reorder', function () {
+                    }).on('column-reorder', function() {
 
                     });
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 }, 0);
 
@@ -767,11 +807,11 @@ Template.purchasesoverview.onRendered(function() {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function(i,v) {
-                    if(v.hidden == false){
-                        columVisible =  true;
+                $.each(columns, function(i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
                     }
-                    if((v.className.includes("hiddenColumn"))){
+                    if ((v.className.includes("hiddenColumn"))) {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
@@ -787,19 +827,19 @@ Template.purchasesoverview.onRendered(function() {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblPurchaseOverview tbody').on( 'click', 'tr', function () {
+                $('#tblPurchaseOverview tbody').on('click', 'tr', function() {
                     var listData = $(this).closest('tr').attr('id');
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
-                    if((listData) && (transactiontype)){
-                        if(transactiontype === 'Purchase Order' ){
+                    if ((listData) && (transactiontype)) {
+                        if (transactiontype === 'Purchase Order') {
                             FlowRouter.go('/purchaseordercard?id=' + listData);
-                        }else if(transactiontype === 'Bill'){
+                        } else if (transactiontype === 'Bill') {
                             FlowRouter.go('/billcard?id=' + listData);
-                        }else if(transactiontype === 'Credit'){
+                        } else if (transactiontype === 'Credit') {
                             FlowRouter.go('/creditcard?id=' + listData);
-                        }else if(transactiontype === 'PO'){
+                        } else if (transactiontype === 'PO') {
                             FlowRouter.go('/purchaseordercard?id=' + listData);
-                        }else{
+                        } else {
                             //FlowRouter.go('/purchaseordercard?id=' + listData);
                         }
 
@@ -810,7 +850,7 @@ Template.purchasesoverview.onRendered(function() {
                     // }
                 });
 
-                let filterData = _.filter(useData, function (data) {
+                let filterData = _.filter(useData, function(data) {
                     return data.Company
                 });
 
@@ -824,9 +864,9 @@ Template.purchasesoverview.onRendered(function() {
                 let groupData = _.omit(_.groupBy(initialData, 'OrderDate'), ['']);
 
             }
-        }).catch(function (err) {
-            sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (data) {
-              addVS1Data('TbillReport',JSON.stringify(data));
+        }).catch(function(err) {
+            sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
+                addVS1Data('TbillReport', JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
 
@@ -835,36 +875,36 @@ Template.purchasesoverview.onRendered(function() {
                 let totalCredit = 0;
                 let totalPO = 0;
 
-                for(let i=0; i<data.tbillreport.length; i++){
+                for (let i = 0; i < data.tbillreport.length; i++) {
                     let orderType = data.tbillreport[i].Type;
                     totalExpense += Number(data.tbillreport[i]['Total Amount (Inc)']);
-                    if(data.tbillreport[i].Type == "Credit"){
-                        totCreditCount ++;
+                    if (data.tbillreport[i].Type == "Credit") {
+                        totCreditCount++;
                         totalCredit += Number(data.tbillreport[i]['Total Amount (Inc)']);
 
                     }
 
-                    if(data.tbillreport[i].Type == "Bill"){
-                        totBillCount ++;
+                    if (data.tbillreport[i].Type == "Bill") {
+                        totBillCount++;
                         totalBill += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     }
 
-                    if(data.tbillreport[i].Type == "Purchase Order"){
-                        totPOCount ++;
+                    if (data.tbillreport[i].Type == "Purchase Order") {
+                        totPOCount++;
                         orderType = "PO";
                         totalPO += Number(data.tbillreport[i]['Total Amount (Inc)']);
                     }
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)'])|| 0.00;
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Ex)']) || 0.00;
                     let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Tax']) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)'])|| 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
                     let amountPaidCalc = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(amountPaidCalc) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
                     var dataList = {
                         id: data.tbillreport[i].PurchaseOrderID || '',
-                        employee:data.tbillreport[i].Contact || '',
-                        sortdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD"): data.tbillreport[i].OrderDate,
-                        orderdate: data.tbillreport[i].OrderDate !=''? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY"): data.tbillreport[i].OrderDate,
+                        employee: data.tbillreport[i].Contact || '',
+                        sortdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD") : data.tbillreport[i].OrderDate,
+                        orderdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY") : data.tbillreport[i].OrderDate,
                         suppliername: data.tbillreport[i].Company || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
@@ -877,16 +917,16 @@ Template.purchasesoverview.onRendered(function() {
                         custfield2: data.tbillreport[i].InvoiceNumber || '',
                         comments: data.tbillreport[i].Comments || '',
                     };
-                    if(data.tbillreport[i].Deleted === false){
+                    if (data.tbillreport[i].Deleted === false) {
                         dataTableList.push(dataList);
-                        if(data.tbillreport[i].Balance != 0){
-                            if(data.tbillreport[i].Type == 'Purchase Order'){
+                        if (data.tbillreport[i].Balance != 0) {
+                            if (data.tbillreport[i].Type == 'Purchase Order') {
                                 totAmount += Number(data.tbillreport[i].Balance);
                             }
-                            if(data.tbillreport[i].Type == 'Bill'){
+                            if (data.tbillreport[i].Type == 'Bill') {
                                 totAmountBill += Number(data.tbillreport[i].Balance);
                             }
-                            if(data.tbillreport[i].Type == 'Credit'){
+                            if (data.tbillreport[i].Type == 'Credit') {
                                 totAmountCredit += Number(data.tbillreport[i].Balance);
                             }
                         }
@@ -898,11 +938,11 @@ Template.purchasesoverview.onRendered(function() {
                     //}
                 }
 
-                var totalPerc = Math.abs(totalCredit)+Math.abs(totalBill)+Math.abs(totalPO);
+                var totalPerc = Math.abs(totalCredit) + Math.abs(totalBill) + Math.abs(totalPO);
 
-                var xwidth = (Math.abs(totalCredit)/totalPerc)*100;
-                var ywidth = (Math.abs(totalBill)/totalPerc)*100;
-                var zwidth = (Math.abs(totalPO)/totalPerc)*100;
+                var xwidth = (Math.abs(totalCredit) / totalPerc) * 100;
+                var ywidth = (Math.abs(totalBill) / totalPerc) * 100;
+                var zwidth = (Math.abs(totalPO) / totalPerc) * 100;
 
 
                 templateObject.creditpercTotal.set(Math.round(xwidth));
@@ -914,13 +954,13 @@ Template.purchasesoverview.onRendered(function() {
                 templateObject.datatablerecords.set(dataTableList);
                 $('.spExpenseTotal').text(utilityService.modifynegativeCurrencyFormat(totalExpense));
 
-                if(templateObject.datatablerecords.get()){
+                if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblPurchaseOverview', function(error, result){
-                        if(error){
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPurchaseOverview', function(error, result) {
+                        if (error) {
 
-                        }else{
-                            if(result){
+                        } else {
+                            if (result) {
                                 for (let i = 0; i < result.customFields.length; i++) {
                                     let customcolumn = result.customFields;
                                     let columData = customcolumn[i].label;
@@ -930,13 +970,13 @@ Template.purchasesoverview.onRendered(function() {
                                     let columnWidth = customcolumn[i].width;
                                     let columnindex = customcolumn[i].index + 1;
 
-                                    if(hiddenColumn == true){
+                                    if (hiddenColumn == true) {
 
-                                        $("."+columnClass+"").addClass('hiddenColumn');
-                                        $("."+columnClass+"").removeClass('showColumn');
-                                    }else if(hiddenColumn == false){
-                                        $("."+columnClass+"").removeClass('hiddenColumn');
-                                        $("."+columnClass+"").addClass('showColumn');
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
                                     }
 
                                 }
@@ -946,8 +986,8 @@ Template.purchasesoverview.onRendered(function() {
                     });
 
                     function MakeNegative() {
-                        $('td').each(function(){
-                            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+                        $('td').each(function() {
+                            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
                         });
                     };
 
@@ -959,119 +999,132 @@ Template.purchasesoverview.onRendered(function() {
                                 "Bill",
                                 "Purchase Order"
                             ],
-                            datasets: [
-                                {
-                                    "label":"Credit",
-                                    "backgroundColor":[
-                                        "#e74a3b",
-                                        "#f6c23e",
-                                        "#1cc88a",
-                                        "#36b9cc"
-                                    ],
-                                    "borderColor":[
-                                        "#ffffff",
-                                        "#ffffff",
-                                        "#ffffff",
-                                        "#ffffff"
-                                    ],
-                                    "data":[
-                                        totCreditCount,
-                                        totBillCount,
-                                        totPOCount
-                                    ]
-                                }
-                            ]
+                            datasets: [{
+                                "label": "Credit",
+                                "backgroundColor": [
+                                    "#e74a3b",
+                                    "#f6c23e",
+                                    "#1cc88a",
+                                    "#36b9cc"
+                                ],
+                                "borderColor": [
+                                    "#ffffff",
+                                    "#ffffff",
+                                    "#ffffff",
+                                    "#ffffff"
+                                ],
+                                "data": [
+                                    totCreditCount,
+                                    totBillCount,
+                                    totPOCount
+                                ]
+                            }]
                         },
                         options: {
-                            "maintainAspectRatio":true,
-                            "legend":{
-                                "display":true,
-                                "position":"right",
-                                "reverse":false
+                            "maintainAspectRatio": true,
+                            "legend": {
+                                "display": true,
+                                "position": "right",
+                                "reverse": false
                             },
-                            "title":{
-                                "display":false
+                            "title": {
+                                "display": false
                             }
                         }
                     });
-                    setTimeout(function () {
+                    setTimeout(function() {
                         MakeNegative();
                     }, 100);
                 }
                 // $('#tblPurchaseOverview').DataTable().destroy();
                 // $('#tblPurchaseOverview tbody').empty();
-                setTimeout(function () {
-                    $('.fullScreenSpin').css('display','none');
+                setTimeout(function() {
+                    $('.fullScreenSpin').css('display', 'none');
 
                     //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblPurchaseOverview').DataTable({
-                        columnDefs: [
-                            {type: 'date', targets: 0}
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [
-                            {
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Purchase Overview List - "+ moment().format(),
-                                orientation:'portrait',
-                                exportOptions: {
-                                    columns: ':visible',
-                                    format: {
-                                        body: function ( data, row, column ) {
-                                            if(data.includes("</span>")){
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, ""): data;
-
+                        columnDefs: [{
+                            type: 'date',
+                            targets: 0
+                        }],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [{
+                            extend: 'excelHtml5',
+                            text: '',
+                            download: 'open',
+                            className: "btntabletocsv hiddenColumn",
+                            filename: "Purchase Overview List - " + moment().format(),
+                            orientation: 'portrait',
+                            exportOptions: {
+                                columns: ':visible',
+                                format: {
+                                    body: function(data, row, column) {
+                                        if (data.includes("</span>")) {
+                                            var res = data.split("</span>");
+                                            data = res[1];
                                         }
+
+                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
                                     }
                                 }
-                            },{
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Purchase Overview',
-                                filename: "Purchase Overview List - "+ moment().format(),
-                                exportOptions: {
-                                    columns: ':visible',
-                                    stripHtml: false
-                                }
-                            }],
+                            }
+                        }, {
+                            extend: 'print',
+                            download: 'open',
+                            className: "btntabletopdf hiddenColumn",
+                            text: '',
+                            title: 'Purchase Overview',
+                            filename: "Purchase Overview List - " + moment().format(),
+                            exportOptions: {
+                                columns: ':visible',
+                                stripHtml: false
+                            }
+                        }],
                         select: true,
                         destroy: true,
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: initialDatatableLoad,
-                      "bLengthChange": false,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        "bLengthChange": false,
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
-                        action: function () {
+                        "order": [
+                            [0, "desc"],
+                            [2, "desc"]
+                        ],
+                        action: function() {
                             $('#tblPurchaseOverview').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function (oSettings) {
-                            setTimeout(function () {
+                        "fnDrawCallback": function(oSettings) {
+                            setTimeout(function() {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function() {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshPurchaseOverview' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
-                    }).on('page', function () {
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
-                        setTimeout(function () {
+                    }).on('page', function() {
+
+                        setTimeout(function() {
                             MakeNegative();
                         }, 100);
-                    }).on('column-reorder', function () {
+                    }).on('column-reorder', function() {
 
                     });
-                    $('.fullScreenSpin').css('display','none');
+                    $('.fullScreenSpin').css('display', 'none');
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 }, 0);
 
@@ -1082,11 +1135,11 @@ Template.purchasesoverview.onRendered(function() {
                 let sVisible = "";
                 let columVisible = false;
                 let sClass = "";
-                $.each(columns, function(i,v) {
-                    if(v.hidden == false){
-                        columVisible =  true;
+                $.each(columns, function(i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
                     }
-                    if((v.className.includes("hiddenColumn"))){
+                    if ((v.className.includes("hiddenColumn"))) {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
@@ -1102,19 +1155,19 @@ Template.purchasesoverview.onRendered(function() {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblPurchaseOverview tbody').on( 'click', 'tr', function () {
+                $('#tblPurchaseOverview tbody').on('click', 'tr', function() {
                     var listData = $(this).closest('tr').attr('id');
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
-                    if((listData) && (transactiontype)){
-                        if(transactiontype === 'Purchase Order' ){
+                    if ((listData) && (transactiontype)) {
+                        if (transactiontype === 'Purchase Order') {
                             FlowRouter.go('/purchaseordercard?id=' + listData);
-                        }else if(transactiontype === 'Bill'){
+                        } else if (transactiontype === 'Bill') {
                             FlowRouter.go('/billcard?id=' + listData);
-                        }else if(transactiontype === 'Credit'){
+                        } else if (transactiontype === 'Credit') {
                             FlowRouter.go('/creditcard?id=' + listData);
-                        }else if(transactiontype === 'PO'){
+                        } else if (transactiontype === 'PO') {
                             FlowRouter.go('/purchaseordercard?id=' + listData);
-                        }else{
+                        } else {
                             //FlowRouter.go('/purchaseordercard?id=' + listData);
                         }
 
@@ -1125,7 +1178,7 @@ Template.purchasesoverview.onRendered(function() {
                     // }
                 });
 
-                let filterData = _.filter(data.tbillreport, function (data) {
+                let filterData = _.filter(data.tbillreport, function(data) {
                     return data.Company
                 });
 
@@ -1139,9 +1192,9 @@ Template.purchasesoverview.onRendered(function() {
                 let groupData = _.omit(_.groupBy(initialData, 'OrderDate'), ['']);
 
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display','none');
+                $('.fullScreenSpin').css('display', 'none');
                 // Meteor._reload.reload();
             });
         });
@@ -1149,108 +1202,106 @@ Template.purchasesoverview.onRendered(function() {
     }
 
     templateObject.getAllPurchaseOrderAll();
-    templateObject.getAllFilterPurchasesData = function (fromDate,toDate, ignoreDate) {
-      sideBarService.getAllPurchaseOrderListAll(fromDate,toDate, ignoreDate).then(function (data) {
-        addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
-            window.open('/purchasesoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
-        }).catch(function (err) {
-          location.reload();
-        });
-      }).catch(function (err) {
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: [
-                    "Credit",
-                    "Bill",
-                    "Purchase Order"
-                ],
-                datasets: [
-                    {
-                        "label":"Credit",
-                        "backgroundColor":[
+    templateObject.getAllFilterPurchasesData = function(fromDate, toDate, ignoreDate) {
+        sideBarService.getAllPurchaseOrderListAll(fromDate, toDate, ignoreDate).then(function(data) {
+            addVS1Data('TbillReport', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/purchasesoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+            }).catch(function(err) {
+                location.reload();
+            });
+        }).catch(function(err) {
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: [
+                        "Credit",
+                        "Bill",
+                        "Purchase Order"
+                    ],
+                    datasets: [{
+                        "label": "Credit",
+                        "backgroundColor": [
                             "#e74a3b",
                             "#f6c23e",
                             "#1cc88a",
                             "#36b9cc"
                         ],
-                        "borderColor":[
+                        "borderColor": [
                             "#ffffff",
                             "#ffffff",
                             "#ffffff",
                             "#ffffff"
                         ],
-                        "data":[
+                        "data": [
                             "7",
                             "20",
                             "73"
                         ]
-                    }
-                ]
-            },
-            options: {
-                "maintainAspectRatio":true,
-                "legend":{
-                    "display":true,
-                    "position":"right",
-                    "reverse":false
+                    }]
                 },
-                "title":{
-                    "display":false
+                options: {
+                    "maintainAspectRatio": true,
+                    "legend": {
+                        "display": true,
+                        "position": "right",
+                        "reverse": false
+                    },
+                    "title": {
+                        "display": false
+                    }
                 }
-            }
+            });
+            $('.fullScreenSpin').css('display', 'none');
+            // Meteor._reload.reload();
         });
-          $('.fullScreenSpin').css('display','none');
-          // Meteor._reload.reload();
-      });
     }
 
     let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
     let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
     let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-    if(urlParametersDateFrom){
-      if(urlParametersIgnoreDate == true){
-        $('#dateFrom').attr('readonly', true);
-        $('#dateTo').attr('readonly', true);
-      }else{
+    if (urlParametersDateFrom) {
+        if (urlParametersIgnoreDate == true) {
+            $('#dateFrom').attr('readonly', true);
+            $('#dateTo').attr('readonly', true);
+        } else {
 
-        $("#dateFrom").val(urlParametersDateFrom !=''? moment(urlParametersDateFrom).format("DD/MM/YYYY"): urlParametersDateFrom);
-        $("#dateTo").val(urlParametersDateTo !=''? moment(urlParametersDateTo).format("DD/MM/YYYY"): urlParametersDateTo);
-      }
+            $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+            $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
+        }
     }
 });
 
 Template.purchasesoverview.events({
-    'click .btnRefresh': function () {
-        $('.fullScreenSpin').css('display','inline-block');
+    'click .btnRefresh': function() {
+        $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
-      var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = (currentBeginDate.getMonth() + 1);
-      let fromDateDay = currentBeginDate.getDate();
-      if((currentBeginDate.getMonth()+1) < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if ((currentBeginDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+        } else {
+            fromDateMonth = (currentBeginDate.getMonth() + 1);
+        }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        if (currentBeginDate.getDate() < 10) {
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
-            addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
-                window.open('/purchasesoverview','_self');
-            }).catch(function (err) {
-                window.open('/purchasesoverview','_self');
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
+            addVS1Data('TbillReport', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/purchasesoverview', '_self');
+            }).catch(function(err) {
+                window.open('/purchasesoverview', '_self');
             });
         }).catch(function(err) {
-            window.open('/purchasesoverview','_self');
+            window.open('/purchasesoverview', '_self');
         });
     },
-    'change #dateTo': function () {
+    'change #dateTo': function() {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', false);
@@ -1267,11 +1318,11 @@ Template.purchasesoverview.events({
         if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
 
         } else {
-          templateObject.getAllFilterPurchasesData(formatDateFrom,formatDateTo, false);
+            templateObject.getAllFilterPurchasesData(formatDateFrom, formatDateTo, false);
         }
 
     },
-    'change #dateFrom': function () {
+    'change #dateFrom': function() {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', false);
@@ -1288,11 +1339,11 @@ Template.purchasesoverview.events({
         if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
 
         } else {
-            templateObject.getAllFilterPurchasesData(formatDateFrom,formatDateTo, false);
+            templateObject.getAllFilterPurchasesData(formatDateFrom, formatDateTo, false);
         }
 
     },
-    'click #lastMonth': function () {
+    'click #lastMonth': function() {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', false);
@@ -1302,8 +1353,8 @@ Template.purchasesoverview.events({
 
         let fromDateMonth = (currentDate.getMonth() + 1);
         let fromDateDay = currentDate.getDate();
-        if ((currentDate.getMonth()+1) < 10) {
-            fromDateMonth = "0" + (currentDate.getMonth()+1);
+        if ((currentDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth() + 1);
         }
         if (currentDate.getDate() < 10) {
             fromDateDay = "0" + currentDate.getDate();
@@ -1317,9 +1368,9 @@ Template.purchasesoverview.events({
         var currentDate2 = new Date();
         var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
         let getDateFrom = currentDate2.getFullYear() + "-" + (fromDateMonth) + "-" + fromDateDay;
-        templateObject.getAllFilterPurchasesData(getDateFrom,getLoadDate, false);
+        templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
     },
-    'click #lastQuarter': function () {
+    'click #lastQuarter': function() {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', false);
@@ -1328,6 +1379,7 @@ Template.purchasesoverview.events({
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
         function getQuarter(d) {
             d = d || new Date();
             var m = Math.floor(d.getMonth() / 3) + 2;
@@ -1355,9 +1407,9 @@ Template.purchasesoverview.events({
 
         var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
         let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
-        templateObject.getAllFilterPurchasesData(getDateFrom,getLoadDate, false);
+        templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
     },
-    'click #last12Months': function () {
+    'click #last12Months': function() {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', false);
@@ -1367,8 +1419,8 @@ Template.purchasesoverview.events({
 
         let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
         let fromDateDay = currentDate.getDate();
-        if ((currentDate.getMonth()+1) < 10) {
-            fromDateMonth = "0" + (currentDate.getMonth()+1);
+        if ((currentDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth() + 1);
         }
         if (currentDate.getDate() < 10) {
             fromDateDay = "0" + currentDate.getDate();
@@ -1379,7 +1431,7 @@ Template.purchasesoverview.events({
         $("#dateTo").val(begunDate);
 
         var currentDate2 = new Date();
-        if ((currentDate2.getMonth()+1) < 10) {
+        if ((currentDate2.getMonth() + 1) < 10) {
             fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
         }
         if (currentDate2.getDate() < 10) {
@@ -1387,90 +1439,98 @@ Template.purchasesoverview.events({
         }
         var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
         let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
-        templateObject.getAllFilterPurchasesData(getDateFrom,getLoadDate, false);
+        templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
 
     },
-    'click #ignoreDate': function () {
+    'click #ignoreDate': function() {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $('#dateFrom').attr('readonly', true);
         $('#dateTo').attr('readonly', true);
         templateObject.getAllFilterPurchasesData('', '', true);
     },
-    'click #newPurchaseorder' : function(event){
+    'click #newPurchaseorder': function(event) {
         FlowRouter.go('/purchaseordercard');
     },
-    'click .purchaseorderList' : function(event){
+    'click .purchaseorderList': function(event) {
         FlowRouter.go('/purchaseorderlist');
     },
-    'click .purchaseorderListBO' : function(event){
+    'click .purchaseorderListBO': function(event) {
         FlowRouter.go('/purchaseorderlistBO');
     },
-    'click #newBill' : function(event){
+    'click #newBill': function(event) {
         FlowRouter.go('/billcard');
     },
-    'click .billList' : function(event){
+    'click .billList': function(event) {
         FlowRouter.go('/billlist');
     },
-    'click #newCredit' : function(event){
+    'click #newCredit': function(event) {
         FlowRouter.go('/creditcard');
     },
-    'click .creditList' : function(event){
+    'click .creditList': function(event) {
         FlowRouter.go('/creditlist');
     },
-    'click .newpo' : function(event){
+    'click .newpo': function(event) {
         FlowRouter.go('/purchaseordercard');
     },
-    'click .cardBills' : function(event){
+    'click .cardBills': function(event) {
         FlowRouter.go('/billlist');
     },
-    'click .cardCredit' : function(event){
+    'click .cardCredit': function(event) {
         FlowRouter.go('/creditlist');
     },
-    'click .cardOutPO' : function(event){
+    'click .cardOutPO': function(event) {
         FlowRouter.go('/agedpayables');
     },
-    'click .newBill' : function(event){
+    'click .newBill': function(event) {
         //FlowRouter.go('/creditcard');
     },
-    'click .newCredit' : function(event){
+    'click .newCredit': function(event) {
         //FlowRouter.go('/creditcard');
     },
-    'click .allList' : function(event){
+    'click .allList': function(event) {
         FlowRouter.go('/purchasesoverview?id=all');
     },
-    'click .chkDatatable' : function(event){
+    'click .chkDatatable': function(event) {
         var columns = $('#tblPurchaseOverview th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
-        $.each(columns, function(i,v) {
+        $.each(columns, function(i, v) {
             let className = v.classList;
             let replaceClass = className[1];
 
-            if(v.innerText == columnDataValue){
-                if($(event.target).is(':checked')){
-                    $("."+replaceClass+"").css('display','table-cell');
-                    $("."+replaceClass+"").css('padding','.75rem');
-                    $("."+replaceClass+"").css('vertical-align','top');
-                }else{
-                    $("."+replaceClass+"").css('display','none');
+            if (v.innerText == columnDataValue) {
+                if ($(event.target).is(':checked')) {
+                    $("." + replaceClass + "").css('display', 'table-cell');
+                    $("." + replaceClass + "").css('padding', '.75rem');
+                    $("." + replaceClass + "").css('vertical-align', 'top');
+                } else {
+                    $("." + replaceClass + "").css('display', 'none');
                 }
             }
         });
     },
-    'click .resetTable' : function(event){
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
+    'click .resetTable': function(event) {
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
+        if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblPurchaseOverview'});
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblPurchaseOverview'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.remove({_id:checkPrefDetails._id}, function(err, idTag) {
+                    CloudPreference.remove({
+                        _id: checkPrefDetails._id
+                    }, function(err, idTag) {
                         if (err) {
 
-                        }else{
+                        } else {
                             Meteor._reload.reload();
                         }
                     });
@@ -1479,18 +1539,18 @@ Template.purchasesoverview.events({
             }
         }
     },
-    'click .saveTable' : function(event){
+    'click .saveTable': function(event) {
         let lineItems = [];
         //let datatable =$('#tblPurchaseOverview').DataTable();
-        $('.columnSettings').each(function (index) {
+        $('.columnSettings').each(function(index) {
             var $tblrow = $(this);
-            var colTitle = $tblrow.find(".divcolumn").text()||'';
-            var colWidth = $tblrow.find(".custom-range").val()||0;
-            var colthClass = $tblrow.find(".divcolumn").attr("valueupdate")||'';
+            var colTitle = $tblrow.find(".divcolumn").text() || '';
+            var colWidth = $tblrow.find(".custom-range").val() || 0;
+            var colthClass = $tblrow.find(".divcolumn").attr("valueupdate") || '';
             var colHidden = false;
-            if($tblrow.find(".custom-control-input").is(':checked')){
+            if ($tblrow.find(".custom-control-input").is(':checked')) {
                 colHidden = false;
-            }else{
+            } else {
                 colHidden = true;
             }
             let lineItemObj = {
@@ -1505,18 +1565,34 @@ Template.purchasesoverview.events({
         });
         //datatable.state.save();
 
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
+        var getcurrentCloudDetails = CloudUser.findOne({
+            _id: Session.get('mycloudLogonID'),
+            clouddatabaseID: Session.get('mycloudLogonDBID')
+        });
+        if (getcurrentCloudDetails) {
             if (getcurrentCloudDetails._id.length > 0) {
                 var clientID = getcurrentCloudDetails._id;
                 var clientUsername = getcurrentCloudDetails.cloudUsername;
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblPurchaseOverview'});
+                var checkPrefDetails = CloudPreference.findOne({
+                    userid: clientID,
+                    PrefName: 'tblPurchaseOverview'
+                });
                 if (checkPrefDetails) {
-                    CloudPreference.update({_id: checkPrefDetails._id},{$set: { userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                                               PrefGroup:'salesform',PrefName:'tblPurchaseOverview',published:true,
-                                                                               customFields:lineItems,
-                                                                               updatedAt: new Date() }}, function(err, idTag) {
+                    CloudPreference.update({
+                        _id: checkPrefDetails._id
+                    }, {
+                        $set: {
+                            userid: clientID,
+                            username: clientUsername,
+                            useremail: clientEmail,
+                            PrefGroup: 'salesform',
+                            PrefName: 'tblPurchaseOverview',
+                            published: true,
+                            customFields: lineItems,
+                            updatedAt: new Date()
+                        }
+                    }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -1524,11 +1600,17 @@ Template.purchasesoverview.events({
                         }
                     });
 
-                }else{
-                    CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                            PrefGroup:'salesform',PrefName:'tblPurchaseOverview',published:true,
-                                            customFields:lineItems,
-                                            createdAt: new Date() }, function(err, idTag) {
+                } else {
+                    CloudPreference.insert({
+                        userid: clientID,
+                        username: clientUsername,
+                        useremail: clientEmail,
+                        PrefGroup: 'salesform',
+                        PrefName: 'tblPurchaseOverview',
+                        published: true,
+                        customFields: lineItems,
+                        createdAt: new Date()
+                    }, function(err, idTag) {
                         if (err) {
                             $('#myModal2').modal('toggle');
                         } else {
@@ -1543,35 +1625,35 @@ Template.purchasesoverview.events({
 
         //Meteor._reload.reload();
     },
-    'blur .divcolumn' : function(event){
+    'blur .divcolumn': function(event) {
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
 
         var datable = $('#tblPurchaseOverview').DataTable();
-        var title = datable.column( columnDatanIndex ).header();
+        var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
 
     },
-    'change .rngRange' : function(event){
+    'change .rngRange': function(event) {
         let range = $(event.target).val();
         // $(event.target).closest("div.divColWidth").find(".spWidth").html(range+'px');
 
         // let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
         var datable = $('#tblPurchaseOverview th');
-        $.each(datable, function(i,v) {
+        $.each(datable, function(i, v) {
 
-            if(v.innerText == columnDataValue){
+            if (v.innerText == columnDataValue) {
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
-                $("."+replaceClass+"").css('width',range+'px');
+                $("." + replaceClass + "").css('width', range + 'px');
 
             }
         });
 
     },
-    'click .btnOpenSettings' : function(event){
+    'click .btnOpenSettings': function(event) {
         let templateObject = Template.instance();
         var columns = $('#tblPurchaseOverview th');
 
@@ -1582,11 +1664,11 @@ Template.purchasesoverview.events({
         let sVisible = "";
         let columVisible = false;
         let sClass = "";
-        $.each(columns, function(i,v) {
-            if(v.hidden == false){
-                columVisible =  true;
+        $.each(columns, function(i, v) {
+            if (v.hidden == false) {
+                columVisible = true;
             }
-            if((v.className.includes("hiddenColumn"))){
+            if ((v.className.includes("hiddenColumn"))) {
                 columVisible = false;
             }
             sWidth = v.style.width.replace('px', "");
@@ -1603,29 +1685,28 @@ Template.purchasesoverview.events({
 
         templateObject.tableheaderrecords.set(tableHeaderList);
     },
-    'click #exportbtn': function () {
-        $('.fullScreenSpin').css('display','inline-block');
+    'click #exportbtn': function() {
+        $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblPurchaseOverview_wrapper .dt-buttons .btntabletocsv').click();
-        $('.fullScreenSpin').css('display','none');
+        $('.fullScreenSpin').css('display', 'none');
 
     },
-    'click .printConfirm' : function(event){
+    'click .printConfirm': function(event) {
 
-        $('.fullScreenSpin').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblPurchaseOverview_wrapper .dt-buttons .btntabletopdf').click();
-        $('.fullScreenSpin').css('display','none');
+        $('.fullScreenSpin').css('display', 'none');
     }
 
 
 });
 Template.purchasesoverview.helpers({
-    datatablerecords : () => {
+    datatablerecords: () => {
 
-        return Template.instance().datatablerecords.get().sort(function(a, b){
+        return Template.instance().datatablerecords.get().sort(function(a, b) {
             if (a.orderdate == 'NA') {
                 return 1;
-            }
-            else if (b.orderdate == 'NA') {
+            } else if (b.orderdate == 'NA') {
                 return -1;
             }
             return (a.orderdate.toUpperCase() > b.orderdate.toUpperCase()) ? 1 : -1;
@@ -1635,17 +1716,18 @@ Template.purchasesoverview.helpers({
         return Template.instance().tableheaderrecords.get();
     },
     purchasesCloudPreferenceRec: () => {
-        return CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblPurchaseOverview'});
+        return CloudPreference.findOne({
+            userid: Session.get('mycloudLogonID'),
+            PrefName: 'tblPurchaseOverview'
+        });
     },
-    creditpercTotal: () =>{
+    creditpercTotal: () => {
         return Template.instance().creditpercTotal.get() || 0;
-    }
-    ,
-    billpercTotal: () =>{
+    },
+    billpercTotal: () => {
         return Template.instance().billpercTotal.get() || 0;
-    }
-    ,
-    popercTotal: () =>{
+    },
+    popercTotal: () => {
         return Template.instance().popercTotal.get() || 0;
     },
     loggedCompany: () => {
