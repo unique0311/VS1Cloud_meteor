@@ -409,7 +409,7 @@
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 style="margin-bottom: 0px;">Clock On/Off</h4>
+                    <h4 style="margin-bottom: 0px;">Clock On/Off <span id="timesheetID"></span></h4>
                     <a role="button" data-toggle="modal" href="#helpViewModal2" style="font-size: 20px; margin-left: 6px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                     <!-- Start Help View Modal -->
@@ -561,11 +561,11 @@
                                 <div class="col-6 col-md-4 col-lg-4">
                                     {{#if equals edithours true}}
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                            <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
+                                            <label>Hours</label><input type="time" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control">
                                         </div>
                                     {{else}}
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                            <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" readonly>
+                                            <label>Hours</label><input type="time" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" readonly>
                                             <input type="hidden" id="txtBookedHoursSpent1" name="txtBookedHoursSpent1">
                                         </div>
                                     {{/if}}
@@ -671,6 +671,8 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-success btnSaveTimeSheet" type="submit" style="margin: 8px;" id="btnSaveTimeSheet" name="btnSaveTimeSheet"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                    <button class="btn btn-success processTimesheet" type="submit" style="margin: 8px;" id="btnSaveTime" name="btnSaveTimeSheet"><i class="fa fa-check" style="margin-right: 5px;"></i>Process</button>
+                     <button class="btn btn-danger btnDeleteTimeSheet" type="button" style="margin: 16px; width: 95px;" autocomplete="off"><i class="fa fa-trash" style="padding-right: 8px;"></i>Delete</button>
                     <button class="btn btn-secondary" id="btnDeleteAppointment" name="btnDeleteAppointment" data-dismiss="modal" type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                 </div>
             </div>
