@@ -413,6 +413,10 @@ Template.timesheet.onRendered(function () {
                     dataTableList.push(dataList);
 
                 }
+
+
+
+
                 $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
                 $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
                 $('.lblSumHour').text(sumSumHour.toFixed(2));
@@ -643,6 +647,28 @@ Template.timesheet.onRendered(function () {
 
                     }
 
+                    if(clockList.length > 0){
+                   if(clockList[clockList.length - 1].isPaused == "completed") {
+                     $('#employeeStatusField').removeClass('statusClockedOn');
+                     $('#employeeStatusField').removeClass('statusOnHold');
+                     $('#employeeStatusField').addClass('statusClockedOff').text('Clocked Off');
+                   } else if(clockList[clockList.length - 1].isPaused == "paused") {
+                     $('#employeeStatusField').removeClass('statusClockedOn');
+                     $('#employeeStatusField').removeClass('statusClockedOff');
+                     $('#employeeStatusField').addClass('statusOnHold').text('On Hold');
+                   } else if(clockList[clockList.length - 1].isPaused == "") {
+                     $('#employeeStatusField').removeClass('statusOnHold');
+                     $('#employeeStatusField').removeClass('statusClockedOff');
+                     $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
+                   }
+
+                } else{
+                     $('#employeeStatusField').removeClass('statusClockedOn');
+                     $('#employeeStatusField').removeClass('statusOnHold');
+                     $('#employeeStatusField').addClass('statusClockedOn').text('Clocked Off');
+
+                }
+
                     $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
                     $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate));
                     $('.lblSumHour').text(sumSumHour.toFixed(2));
@@ -800,7 +826,32 @@ Template.timesheet.onRendered(function () {
                     }
 
                 }
+                 clockList = timeSheetList.filter(clkList => {
+                    return clkList.employee == Session.get('mySessionEmployee');
+                });
 
+                if(clockList.length > 0){
+                   if(clockList[clockList.length - 1].isPaused == "completed") {
+                     $('#employeeStatusField').removeClass('statusClockedOn');
+                     $('#employeeStatusField').removeClass('statusOnHold');
+                     $('#employeeStatusField').addClass('statusClockedOff').text('Clocked Off');
+                   } else if(clockList[clockList.length - 1].isPaused == "paused") {
+                     $('#employeeStatusField').removeClass('statusClockedOn');
+                     $('#employeeStatusField').removeClass('statusClockedOff');
+                     $('#employeeStatusField').addClass('statusOnHold').text('On Hold');
+                   } else if(clockList[clockList.length - 1].isPaused == "") {
+                      $('#employeeStatusField').removeClass('statusOnHold');
+                     $('#employeeStatusField').removeClass('statusClockedOff');
+                     $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
+                   }
+
+                } else{
+                     $('#employeeStatusField').removeClass('statusClockedOn');
+                     $('#employeeStatusField').removeClass('statusClockedOff');
+                     $('#employeeStatusField').addClass('statusClockedOn').text('Clocked Off');
+
+                }
+                
                 $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
                 $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate));
                 $('.lblSumHour').text(sumSumHour.toFixed(2));
@@ -1995,8 +2046,19 @@ Template.timesheet.events({
                                 let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
                                 var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
                                 var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
-                                document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+                               if (endTime > startTime) {
+                                let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+                                document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
                                 $("#btnSaveTimeSheetOne").trigger("click");
+                                } else {
+                                swal({
+                                    title: 'Oooops...',
+                                    text: "Start Time can't be greater than End Time",
+                                    type: 'error',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Ok'
+                                })
+                                }
                             }).catch(function (err) {
                                 swal({
                                     title: 'Oooops...',
