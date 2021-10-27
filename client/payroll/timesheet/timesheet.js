@@ -232,9 +232,6 @@ Template.timesheet.onRendered(function () {
                                 {
                                     "orderable": false,
                                     "targets": 0
-                                },{
-                                    "orderable": false,
-                                    "targets": 13
                                 }, {
                                     targets: 'sorting_disabled',
                                     orderable: false
@@ -291,7 +288,7 @@ Template.timesheet.onRendered(function () {
                                 if (urlParametersPage) {
                                     this.fnPageChange('last');
                                 }
-                                $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
+                                $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
 
                                 $('.myvarFilterForm').appendTo(".colDateFilter");
                             }
@@ -336,7 +333,7 @@ Template.timesheet.onRendered(function () {
                         tableHeaderList.push(datatablerecordObj);
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
-                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                    $('div.dataTables_filter input').addClass('form-control');
                     $('#tblTimeSheet tbody').on('click', 'tr .btnEditTimeSheet', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
@@ -467,9 +464,6 @@ Template.timesheet.onRendered(function () {
                                 "orderable": false,
                                 "targets": 0
                             }, {
-                                "orderable": false,
-                                "targets": 13
-                            },{
                                 targets: 'sorting_disabled',
                                 orderable: false
                             }
@@ -525,7 +519,7 @@ Template.timesheet.onRendered(function () {
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
-                            $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
+                            $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
                         }
@@ -570,7 +564,7 @@ Template.timesheet.onRendered(function () {
                     tableHeaderList.push(datatablerecordObj);
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('div.dataTables_filter input').addClass('form-control');
                 $('#tblTimeSheet tbody').on('click', 'tr .btnEditTimeSheet', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
