@@ -1013,6 +1013,11 @@ Template.paymentcard.onRendered(() => {
         $('#departmentModal').modal('toggle');
     });
 
+    $(document).on("click", "#paymentmethodList tbody tr", function(e) {
+        $('#sltPaymentMethod').val($(this).find(".colName").text());
+        $('#paymentMethodModal').modal('toggle');
+    });
+
     $(document).on("click", "#tblCustomerlist tbody tr", function(e) {
         let customers = templateObject.clientrecords.get();
         var tableCustomer = $(this);
@@ -1063,6 +1068,93 @@ Template.paymentcard.onRendered(() => {
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
     });
+
+    $('#sltPaymentMethod').editableSelect();
+    $('#sltPaymentMethod').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var paymentDataName = e.target.value || '';
+            $('#edtPaymentMethodID').val('');
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#paymentMethodModal').modal('toggle');
+            } else {
+                if (paymentDataName.replace(/\s/g, '') != '') {
+                    $('#paymentMethodHeader').text('Edit Payment Method');
+
+                    getVS1Data('TPaymentMethod').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getPaymentMethodDataVS1().then(function(data) {
+                                for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                                    if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                        $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                        $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                        if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                            $('#isformcreditcard').prop('checked', true);
+                                        } else {
+                                            $('#isformcreditcard').prop('checked', false);
+                                        }
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newPaymentMethodModal').modal('toggle');
+                                }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tpaymentmethodvs1;
+
+                            for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                                if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                    $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                    $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                    if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                        $('#isformcreditcard').prop('checked', true);
+                                    } else {
+                                        $('#isformcreditcard').prop('checked', false);
+                                    }
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newPaymentMethodModal').modal('toggle');
+                            }, 200);
+                        }
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getPaymentMethodDataVS1().then(function(data) {
+                            for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                                if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                    $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                    $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                    if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                        $('#isformcreditcard').prop('checked', true);
+                                    } else {
+                                        $('#isformcreditcard').prop('checked', false);
+                                    }
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newPaymentMethodModal').modal('toggle');
+                            }, 200);
+                        });
+                    });
+                } else {
+                    $('#paymentMethodModal').modal();
+                    setTimeout(function() {
+                        $('#paymentmethodList_filter .form-control-sm').focus();
+                        $('#paymentmethodList_filter .form-control-sm').val('');
+                        $('#paymentmethodList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#paymentmethodList').DataTable();
+                        datatable.draw();
+                        $('#paymentmethodList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
+        });
 
     $('#sltDept').editableSelect();
     $('#sltDept').editableSelect()
@@ -2025,6 +2117,7 @@ Template.paymentcard.onRendered(() => {
                         templateObject.record.set(record);
                         $('#edtCustomerName').val(data.fields.CompanyName);
                         $('#edtSelectBankAccountName').val(data.fields.AccountName);
+                        $('#sltPaymentMethod').val(data.fields.PaymentMethodName);
 
 
                         $('#edtCustomerName').attr('readonly', true);
@@ -2209,6 +2302,7 @@ Template.paymentcard.onRendered(() => {
                             $('#edtCustomerName').val(useData[d].fields.CompanyName);
                             $('#sltDept').val(useData[d].fields.DeptClassName);
                             $('#edtSelectBankAccountName').val(useData[d].fields.AccountName);
+                            $('#sltPaymentMethod').val(useData[d].fields.PaymentMethodName);
 
 
                             $('#edtCustomerName').attr('readonly', true);
@@ -2384,6 +2478,7 @@ Template.paymentcard.onRendered(() => {
                             templateObject.record.set(record);
                             $('#edtCustomerName').val(data.fields.CompanyName);
                             $('#edtSelectBankAccountName').val(data.fields.AccountName);
+                            $('#sltPaymentMethod').val(data.fields.PaymentMethodName);
 
 
                             $('#edtCustomerName').attr('readonly', true);
@@ -2559,6 +2654,7 @@ Template.paymentcard.onRendered(() => {
                     templateObject.record.set(record);
                     $('#edtCustomerName').val(data.fields.CompanyName);
                     $('#edtSelectBankAccountName').val(data.fields.AccountName);
+                    $('#sltPaymentMethod').val(data.fields.PaymentMethodName);
 
 
                     $('#edtCustomerName').attr('readonly', true);
@@ -2715,6 +2811,7 @@ Template.paymentcard.onRendered(() => {
                 templateObject.record.set(record);
 
                 $('#edtCustomerName').val(data.fields.CustomerName);
+                $('#sltPaymentMethod').val(data.fields.PayMethod);
                 $('#sltDept').val(data.fields.DeptClassName);
                 $('#edtSelectBankAccountName').val(data.fields.GLAccountName);
                 if (clientList) {
@@ -2833,6 +2930,7 @@ Template.paymentcard.onRendered(() => {
                 };
                 templateObject.record.set(record);
                 $('#edtCustomerName').val(data.fields.CustomerName);
+                $('#sltPaymentMethod').val(data.fields.PayMethod);
                 $('#sltDept').val(data.fields.DeptClassName);
                 $('#edtSelectBankAccountName').val(data.fields.GLAccountName);
                 if (clientList) {
@@ -2953,6 +3051,9 @@ Template.paymentcard.onRendered(() => {
                             })
 
                         };
+
+                        let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod || 'Cash';
+                        $('#sltPaymentMethod').val(getPaymentMethodVal);
 
                         let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
                         templateObject.record.set(record);
@@ -3077,6 +3178,8 @@ Template.paymentcard.onRendered(() => {
                             let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName || defaultDept;
 
                             $('#edtCustomerName').val(useData[d].fields.CustomerName);
+                            let getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
+                            $('#sltPaymentMethod').val(getPaymentMethodVal);
                             $('#sltDept').val(getDepartmentVal);
                             let bankAccountData = Session.get('bankaccount')|| useData[d].fields.GLAccountName||'Bank';
                             $('#edtSelectBankAccountName').val(bankAccountData);
@@ -3194,6 +3297,8 @@ Template.paymentcard.onRendered(() => {
                     let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
 
                     $('#edtCustomerName').val(data.fields.CustomerName);
+                    let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod || 'Cash';
+                    $('#sltPaymentMethod').val(getPaymentMethodVal);
                     $('#sltDept').val(getDepartmentVal);
                     let bankAccountData = Session.get('bankaccount')|| data.fields.GLAccountName||'Bank';
                     $('#edtSelectBankAccountName').val(bankAccountData);
@@ -3345,6 +3450,8 @@ Template.paymentcard.onRendered(() => {
 
                 };
 
+                let getPaymentMethodVal = Session.get('paymentmethod') || checkpayment || 'Cash';
+                $('#sltPaymentMethod').val(getPaymentMethodVal);
                 $('#edtCustomerName').val(companyName);
                 let bankAccountData = Session.get('bankaccount')|| accountName||'Bank';
                 $('#edtSelectBankAccountName').val(bankAccountData);
@@ -3519,6 +3626,10 @@ Template.paymentcard.onRendered(() => {
                 let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
 
                 $('#edtCustomerName').val(data.fields.CustomerName);
+
+                let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod || 'Cash';
+                $('#sltPaymentMethod').val(getPaymentMethodVal);
+
                 $('#sltDept').val(getDepartmentVal);
                 let bankAccountData = Session.get('bankaccount')|| data.fields.GLAccountName||'Bank';
                 $('#edtSelectBankAccountName').val(bankAccountData);
@@ -3644,6 +3755,9 @@ Template.paymentcard.onRendered(() => {
                     };
                     templateObject.record.set(record);
                     let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
+
+                    let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod || 'Cash';
+                    $('#sltPaymentMethod').val(getPaymentMethodVal);
 
                     $('#edtCustomerName').val(data.fields.CustomerName);
                     $('#sltDept').val(getDepartmentVal);
