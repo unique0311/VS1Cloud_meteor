@@ -1,9 +1,21 @@
-import {ReactiveVar} from 'meteor/reactive-var';
-import {CoreService} from '../js/core-service';
-import {EmployeeProfileService} from "../js/profile-service";
-import {AccountService} from "../accounts/account-service";
-import {UtilityService} from "../utility-service";
-import {SideBarService} from '../js/sidebar-service';
+import {
+    ReactiveVar
+} from 'meteor/reactive-var';
+import {
+    CoreService
+} from '../js/core-service';
+import {
+    EmployeeProfileService
+} from "../js/profile-service";
+import {
+    AccountService
+} from "../accounts/account-service";
+import {
+    UtilityService
+} from "../utility-service";
+import {
+    SideBarService
+} from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
@@ -132,12 +144,28 @@ Template.vs1shipping.onRendered(function() {
     }
 
 
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", {
-            fps: 10,
-            qrbox: 250
-        });
-    html5QrcodeScanner.render(onScanSuccess);
+    const html5QrCode = new Html5Qrcode( /* element id */ "reader");
+
+    // File based scanning
+    const fileinput = document.getElementById('qr-input-file');
+    fileinput.addEventListener('change', e => {
+        if (e.target.files.length == 0) {
+            // No file selected, ignore
+            return;
+        }
+
+        // Use the first item in the list
+        const imageFile = e.target.files[0];
+        html5QrCode.scanFile(imageFile, /* showImage= */ true)
+            .then(qrCodeMessage => {
+                // success, use qrCodeMessage
+                console.log(qrCodeMessage);
+            })
+            .catch(err => {
+                // failure, handle it.
+                console.log(`Error scanning file. Reason: ${err}`)
+            });
+    });
 
     var isMobile = false;
     if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
@@ -302,8 +330,8 @@ Template.vs1shipping.onRendered(function() {
                                     MakeNegative();
                                 }, 100);
                             },
-                            "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnRefreshShipping' type='button' id='btnRefreshStockAdjustment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipping_filter");
+                            "fnInitComplete": function() {
+                                $("<button class='btn btn-primary btnRefreshShipping' type='button' id='btnRefreshStockAdjustment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipping_filter");
                             }
 
                         }).on('page', function() {
@@ -797,8 +825,8 @@ Template.vs1shipping.onRendered(function() {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
-                        $("<button class='btn btn-primary btnRefreshShipping' type='button' id='btnRefreshStockAdjustment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipping_filter");
+                        "fnInitComplete": function() {
+                            $("<button class='btn btn-primary btnRefreshShipping' type='button' id='btnRefreshStockAdjustment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipping_filter");
                         }
 
                     }).on('page', function() {
@@ -1237,17 +1265,17 @@ Template.vs1shipping.events({
         });
 
     },
-    'keyup #tblShipping_filter input': function (event) {
-          if($(event.target).val() != ''){
+    'keyup #tblShipping_filter input': function(event) {
+        if ($(event.target).val() != '') {
             $(".btnRefreshShipping").addClass('btnSearchAlert');
-          }else{
+        } else {
             $(".btnRefreshShipping").removeClass('btnSearchAlert');
-          }
-          if (event.keyCode == 13) {
-             $(".btnRefreshShipping").trigger("click");
-          }
-        },
-    'click .btnRefreshShipping':function(event){
+        }
+        if (event.keyCode == 13) {
+            $(".btnRefreshShipping").trigger("click");
+        }
+    },
+    'click .btnRefreshShipping': function(event) {
         $(".btnRefresh").trigger("click");
     },
     'click .btnOpenSettings': function(event) {
