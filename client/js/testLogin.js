@@ -1528,7 +1528,7 @@ $("#erplogin-button").click(function(e){
                 localStorage.setItem('mySession', employeeUserLogon);
                 var sessionDataToLog = localStorage.getItem('mySession');
                 Session.setPersistent('mySessionEmployee', employeename);
-                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
                 if(userAccessOptions != ""){
 
                     getAccessLevelData(userAccessOptions,isSameUserLogin);

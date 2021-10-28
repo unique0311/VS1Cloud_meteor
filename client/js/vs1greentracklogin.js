@@ -1353,14 +1353,14 @@ $("#erplogin-button").click(function(e){
                   Session.setPersistent('CloudWMSLicence', isWMSLicence);
                     /* End Remove licence */
 
-                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined){
                       swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                       $('.fullScreenSpin').css('display','none');
                       $('.loginSpinner').css('display','none');
                       return false;
 
                     };
-                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                    if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401){
                       swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                       $('.fullScreenSpin').css('display','none');
                       $('.loginSpinner').css('display','none');
@@ -1473,7 +1473,7 @@ $("#erplogin-button").click(function(e){
                 localStorage.setItem('mySession', employeeUserLogon);
                 var sessionDataToLog = localStorage.getItem('mySession');
                 Session.setPersistent('mySessionEmployee', employeename);
-                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
                 if(userAccessOptions != ""){
                   addLoginData(dataReturnRes).then(function (datareturn) {
                     getAccessLevelData(userAccessOptions,isSameUserLogin);
@@ -1892,7 +1892,7 @@ $("#erplogin-button").click(function(e){
        Session.setPersistent('CloudWMSLicence', isWMSLicence);
          /* End Remove licence */
 
-         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined){
            swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
            $('.fullScreenSpin').css('display','none');
            $('.loginSpinner').css('display','none');
@@ -1900,7 +1900,7 @@ $("#erplogin-button").click(function(e){
 
          };
 
-         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+         if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401){
            swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
            $('.fullScreenSpin').css('display','none');
            $('.loginSpinner').css('display','none');
@@ -2009,7 +2009,7 @@ $("#erplogin-button").click(function(e){
      localStorage.setItem('mySession', employeeUserLogon);
      var sessionDataToLog = localStorage.getItem('mySession');
      Session.setPersistent('mySessionEmployee', employeename);
-     let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+     let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
      if(userAccessOptions != ""){
        addLoginData(dataReturnRes).then(function (datareturn) {
          getAccessLevelData(userAccessOptions,isSameUserLogin);
@@ -2343,7 +2343,7 @@ $("#erplogin-button").click(function(e){
                 Session.setPersistent('CloudWMSLicence', isWMSLicence);
                   /* End Remove licence */
 
-                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined){
                     swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                     $('.fullScreenSpin').css('display','none');
                     $('.loginSpinner').css('display','none');
@@ -2351,7 +2351,7 @@ $("#erplogin-button").click(function(e){
 
                   };
 
-                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401){
                     swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                     $('.fullScreenSpin').css('display','none');
                     $('.loginSpinner').css('display','none');
@@ -2459,7 +2459,7 @@ $("#erplogin-button").click(function(e){
               localStorage.setItem('mySession', employeeUserLogon);
               var sessionDataToLog = localStorage.getItem('mySession');
               Session.setPersistent('mySessionEmployee', employeename);
-              let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+              let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
               if(userAccessOptions != ""){
                 addLoginData(dataReturnRes).then(function (datareturn) {
                   getAccessLevelData(userAccessOptions,isSameUserLogin);
@@ -2887,7 +2887,7 @@ $("#erplogin-button").click(function(e){
             Session.setPersistent('CloudWMSLicence', isWMSLicence);
               /* End Remove licence */
 
-              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined){
                 swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                 $('.fullScreenSpin').css('display','none');
                 $('.loginSpinner').css('display','none');
@@ -2895,7 +2895,7 @@ $("#erplogin-button").click(function(e){
 
               };
 
-              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+              if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401){
                 swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                 $('.fullScreenSpin').css('display','none');
                 $('.loginSpinner').css('display','none');
@@ -3005,7 +3005,7 @@ $("#erplogin-button").click(function(e){
           localStorage.setItem('mySession', employeeUserLogon);
           var sessionDataToLog = localStorage.getItem('mySession');
           Session.setPersistent('mySessionEmployee', employeename);
-          let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+          let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
           if(userAccessOptions != ""){
             addLoginData(dataReturnRes).then(function (datareturn) {
               getAccessLevelData(userAccessOptions,isSameUserLogin);
@@ -3445,7 +3445,7 @@ $("#erplogin-button").click(function(e){
                 Session.setPersistent('CloudWMSLicence', isWMSLicence);
                   /* End Remove licence */
 
-                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined){
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined){
                     swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                     $('.fullScreenSpin').css('display','none');
                     $('.loginSpinner').css('display','none');
@@ -3453,7 +3453,7 @@ $("#erplogin-button").click(function(e){
 
                   };
 
-                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401){
+                  if(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401){
                     swal('Sorry, You do not have access to any Greentrack Modules!', '', 'error');
                     $('.fullScreenSpin').css('display','none');
                     $('.loginSpinner').css('display','none');
@@ -3563,7 +3563,7 @@ $("#erplogin-button").click(function(e){
               var sessionDataToLog = localStorage.getItem('mySession');
               Session.setPersistent('mySessionEmployee', employeename);
 
-              let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+              let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
               if(userAccessOptions != ""){
                 addLoginData(dataReturnRes).then(function (datareturn) {
                   getAccessLevelData(userAccessOptions,isSameUserLogin);

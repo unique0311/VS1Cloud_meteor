@@ -1,5 +1,5 @@
 const HTMLToCache = '/';
-const version = 'MSW V0.55';
+const version = 'MSW V0.58';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(version).then((cache) => {
@@ -16,7 +16,7 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  const requestToFetch = event.request.clone();
+  const requestToFetch = event.request.clone();``
   event.respondWith(
   caches.match(event.request.clone()).then((cached) => {
     // We don't return cached HTML (except if fetch failed)

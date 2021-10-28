@@ -1691,7 +1691,7 @@ Template.vs1login.onRendered(function () {
                                                     Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                                                     /* End Remove licence */
 
-                                                    if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined) {
+                                                    if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined) {
                                                         swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                                         myVS1Video.pause();
                                                         $('.myVS1Video').css('display', 'none');
@@ -1702,7 +1702,7 @@ Template.vs1login.onRendered(function () {
 
                                                     };
 
-                                                    if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401) {
+                                                    if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401) {
                                                         swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                                         myVS1Video.pause();
                                                         $('.myVS1Video').css('display', 'none');
@@ -1810,7 +1810,7 @@ Template.vs1login.onRendered(function () {
                                                     localStorage.setItem('mySession', employeeUserLogon);
                                                     var sessionDataToLog = localStorage.getItem('mySession');
                                                     Session.setPersistent('mySessionEmployee', employeename);
-                                                    let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                                                    let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
 
                                                     if (userAccessOptions != "") {
                                                         addLoginData(dataReturnRes).then(function (datareturn) {
@@ -1828,8 +1828,8 @@ Template.vs1login.onRendered(function () {
                                                     $('.myVS1VideoLogin').css('display', 'none');
                                                     $('#emEmail').html(userLoginEmail);
                                                     $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                     swal({
                                                         title: 'Awaiting Email Validation',
                                                         html: true,
@@ -2305,7 +2305,7 @@ Template.vs1login.onRendered(function () {
                                 Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                                 /* End Remove licence */
 
-                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined) {
+                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined) {
                                     swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                     myVS1Video.pause();
                                     $('.myVS1Video').css('display', 'none');
@@ -2316,7 +2316,7 @@ Template.vs1login.onRendered(function () {
 
                                 };
 
-                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401) {
+                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401) {
                                     swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                     myVS1Video.pause();
                                     $('.myVS1Video').css('display', 'none');
@@ -2422,7 +2422,7 @@ Template.vs1login.onRendered(function () {
                                 localStorage.setItem('mySession', employeeUserLogon);
                                 var sessionDataToLog = localStorage.getItem('mySession');
                                 Session.setPersistent('mySessionEmployee', employeename);
-                                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
                                 if (userAccessOptions != "") {
 
                                     addLoginData(dataReturnRes).then(function (datareturn) {
@@ -2784,7 +2784,7 @@ Template.vs1login.onRendered(function () {
                                                 Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                                                 /* End Remove licence */
 
-                                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined) {
+                                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined) {
                                                     swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                                     myVS1Video.pause();
                                                     $('.myVS1Video').css('display', 'none');
@@ -2795,7 +2795,7 @@ Template.vs1login.onRendered(function () {
 
                                                 };
 
-                                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401) {
+                                                if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401) {
                                                     swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                                     myVS1Video.pause();
                                                     $('.myVS1Video').css('display', 'none');
@@ -2903,7 +2903,7 @@ Template.vs1login.onRendered(function () {
                                                 localStorage.setItem('mySession', employeeUserLogon);
                                                 var sessionDataToLog = localStorage.getItem('mySession');
                                                 Session.setPersistent('mySessionEmployee', employeename);
-                                                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                                                let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
 
                                                 if (userAccessOptions != "") {
                                                     addLoginData(dataReturnRes).then(function (datareturn) {
@@ -2921,8 +2921,8 @@ Template.vs1login.onRendered(function () {
                                                 $('.myVS1VideoLogin').css('display', 'none');
                                                 $('#emEmail').html(userLoginEmail);
                                                 $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                 swal({
                                                     title: 'Awaiting Email Validation',
                                                     html: true,
@@ -3462,7 +3462,7 @@ Template.vs1login.onRendered(function () {
                                                 return false;
 
                                             };
-                                            if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined) {
+                                            if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined) {
                                                 myVS1Video.pause();
                                                 $('.myVS1Video').css('display', 'none');
                                                 $('.myVS1VideoLogin').css('display', 'none');
@@ -3473,7 +3473,7 @@ Template.vs1login.onRendered(function () {
 
                                             };
 
-                                            if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401) {
+                                            if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401) {
                                                 swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                                 myVS1Video.pause();
                                                 $('.myVS1Video').css('display', 'none');
@@ -3581,7 +3581,7 @@ Template.vs1login.onRendered(function () {
                                             localStorage.setItem('mySession', employeeUserLogon);
                                             var sessionDataToLog = localStorage.getItem('mySession');
                                             Session.setPersistent('mySessionEmployee', employeename);
-                                            let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                                            let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
 
                                             if (userAccessOptions != "") {
                                                 addLoginData(dataReturnRes).then(function (datareturn) {
@@ -3599,8 +3599,8 @@ Template.vs1login.onRendered(function () {
                                             $('.myVS1VideoLogin').css('display', 'none');
                                             $('#emEmail').html(userLoginEmail);
                                             $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                             swal({
                                                 title: 'Awaiting Email Validation',
                                                 html: true,
@@ -4102,7 +4102,7 @@ Template.vs1login.onRendered(function () {
                                         Session.setPersistent('CloudAppointmentSchedulingLicence', isAppointmentSchedulingLicence);
                                         /* End Remove licence */
 
-                                        if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels == undefined) {
+                                        if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail == undefined) {
                                             swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                             myVS1Video.pause();
                                             $('.myVS1Video').css('display', 'none');
@@ -4113,7 +4113,7 @@ Template.vs1login.onRendered(function () {
 
                                         };
 
-                                        if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels.ResponseNo == 401) {
+                                        if (dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.ResponseNo == 401) {
                                             swal('Sorry, You do not have access to any VS1 Modules!', '', 'error');
                                             myVS1Video.pause();
                                             $('.myVS1Video').css('display', 'none');
@@ -4221,7 +4221,7 @@ Template.vs1login.onRendered(function () {
                                         localStorage.setItem('mySession', employeeUserLogon);
                                         var sessionDataToLog = localStorage.getItem('mySession');
                                         Session.setPersistent('mySessionEmployee', employeename);
-                                        let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.AccessLevels || '';
+                                        let userAccessOptions = dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail || '';
 
                                         if (userAccessOptions != "") {
                                             addLoginData(dataReturnRes).then(function (datareturn) {
@@ -4239,8 +4239,8 @@ Template.vs1login.onRendered(function () {
                                         $('.myVS1VideoLogin').css('display', 'none');
                                         $('#emEmail').html(userLoginEmail);
                                         $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                         swal({
                                             title: 'Awaiting Email Validation',
                                             html: true,
