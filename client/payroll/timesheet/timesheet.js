@@ -1649,12 +1649,7 @@ Template.timesheet.events({
             // selectedAppointmentCheck.push(JsonIn1);
             // }
         });
-        JsonIn = {
-            Params: {
-                AppointIDs: selectedTimesheetList
-            }
-        };
-        templateObject.selectedTimesheet.set(JsonIn);
+        templateObject.selectedTimesheet.set(selectedTimesheetList);
     },
     'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
@@ -2564,12 +2559,46 @@ Template.timesheet.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         const templateObject = Template.instance();
         let selectClient = templateObject.selectedTimesheet.get();
-        let selectAppointmentID = templateObject.selectedTimesheetID.get();
+        let contactService = new ContactService();
         if (selectClient.length === 0) {
-            swal('Please select Timesheet to load', '', 'info');
+            swal('Please select Timesheet to Process', '', 'info');
             $('.fullScreenSpin').css('display', 'none');
         } else {
-            swal('Functionality awaiting API', '', 'info');
+            for(let x = 0; x < selectClient.length; x++) {
+
+                 let data = {
+                type: "TTimeSheet",
+                fields: {
+                    ID: selectClient[x].AppointID,
+                    Status: "Processed"
+                }
+
+            };
+              contactService.saveClockTimeSheet(data).then(function (data) {
+                if((x+1) == selectClient.length) {
+                     sideBarService.getAllTimeSheetList().then(function (data) {
+                    addVS1Data('TTimeSheet', JSON.stringify(data));
+                    setTimeout(function () {
+                       window.open('/timesheet', '_self');
+                    }, 200);
+                })
+                }
+            }).catch(function (err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+            }
+           
             $('.fullScreenSpin').css('display', 'none');
         }
     },

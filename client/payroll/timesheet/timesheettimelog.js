@@ -1123,41 +1123,41 @@ Template.timesheettimelog.onRendered(function () {
             });
 
         },
-        'click #check-all': function (event) {
-            if ($(event.target).is(':checked')) {
-                $(".chkBox").prop("checked", true);
-            } else {
-                $(".chkBox").prop("checked", false);
-            }
-        },
-        'click .chkBox': function () {
-            var listData = $(this).closest('tr').attr('id');
-            const templateObject = Template.instance();
-            const selectedTimesheetList = [];
-            const selectedTimesheetCheck = [];
-            let ids = [];
-            let JsonIn = {};
-            let JsonIn1 = {};
-            let myStringJSON = '';
-            $('.chkBox:checkbox:checked').each(function () {
-                var chkIdLine = $(this).closest('tr').attr('id');
-                let obj = {
-                    AppointID: parseInt(chkIdLine)
-                }
+        // 'click #check-all': function (event) {
+        //     if ($(event.target).is(':checked')) {
+        //         $(".chkBox").prop("checked", true);
+        //     } else {
+        //         $(".chkBox").prop("checked", false);
+        //     }
+        // },
+        // 'click .chkBox': function () {
+        //     var listData = $(this).closest('tr').attr('id');
+        //     const templateObject = Template.instance();
+        //     const selectedTimesheetList = [];
+        //     const selectedTimesheetCheck = [];
+        //     let ids = [];
+        //     let JsonIn = {};
+        //     let JsonIn1 = {};
+        //     let myStringJSON = '';
+        //     $('.chkBox:checkbox:checked').each(function () {
+        //         var chkIdLine = $(this).closest('tr').attr('id');
+        //         let obj = {
+        //             AppointID: parseInt(chkIdLine)
+        //         }
 
-                selectedTimesheetList.push(obj);
+        //         selectedTimesheetList.push(obj);
 
-                templateObject.selectedTimesheetID.set(chkIdLine);
-                // selectedAppointmentCheck.push(JsonIn1);
-                // }
-            });
-            JsonIn = {
-                Params: {
-                    AppointIDs: selectedTimesheetList
-                }
-            };
-            templateObject.selectedTimesheet.set(JsonIn);
-        },
+        //         templateObject.selectedTimesheetID.set(chkIdLine);
+        //         // selectedAppointmentCheck.push(JsonIn1);
+        //         // }
+        //     });
+        //     JsonIn = {
+        //         Params: {
+        //             AppointIDs: selectedTimesheetList
+        //         }
+        //     };
+        //     templateObject.selectedTimesheet.set(JsonIn);
+        // },
         'click .btnOpenSettings': function (event) {
             let templateObject = Template.instance();
             var columns = $('#tblTimeSheet th');
@@ -1306,19 +1306,6 @@ Template.timesheettimelog.onRendered(function () {
 
             }
 
-        },
-        'click #processTimesheet': function () {
-            $('.fullScreenSpin').css('display', 'inline-block');
-            const templateObject = Template.instance();
-            let selectClient = templateObject.selectedTimesheet.get();
-            let selectAppointmentID = templateObject.selectedTimesheetID.get();
-            if (selectClient.length === 0) {
-                swal('Please select Timesheet to process', '', 'info');
-                $('.fullScreenSpin').css('display', 'none');
-            } else {
-                swal('Functionality awaiting API', '', 'info');
-                $('.fullScreenSpin').css('display', 'none');
-            }
         },
         'change #dateTo': function () {
             let templateObject = Template.instance();

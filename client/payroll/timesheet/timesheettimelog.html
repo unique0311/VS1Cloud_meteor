@@ -447,12 +447,12 @@
                         <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th class="colFlag sorting_disabled" style="width: 1% !important;">
+                                   <!--  <th class="colFlag sorting_disabled" style="width: 1% !important;">
                                         <div class="custom-control custom-checkbox" style="width:15px;">
                                             <input class="custom-control-input n" type="checkbox" id="check-all">
                                             <label class="custom-control-label" for="check-all"></label>
                                         </div>
-                                    </th>
+                                    </th> -->
                                     <th class="th colSortID hiddenColumn" style="width:10px;">Sort ID</th>
                                     <th class="th colTimesheetID" style="width:20px !important;">ID</th>
                                     <th class="th colName" style="width:80px;">Employee</th>
@@ -468,12 +468,12 @@
                                 {{#if datatablerecords}}
                                     {{#each item in datatablerecords}}
                                         <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
-                                            <td class="colFlag" style="width: 1% !important;">
+                                           <!--  <td class="colFlag" style="width: 1% !important;">
                                                 <div class="custom-control custom-checkbox pointer">
                                                     <input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-{{item.id}}" name="{{item.id}}">
                                                     <label class="custom-control-label" for="f-{{item.id}}"></label>
                                                 </div>
-                                            </td>
+                                            </td> -->
                                             <td class="colSortID hiddenColumn" style="width: 1% !important;">
                                                {{item.sortid}}
                                             </td>
