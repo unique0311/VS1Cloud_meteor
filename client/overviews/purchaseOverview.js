@@ -398,7 +398,7 @@ Template.purchasesoverview.onRendered(function() {
                                 if (urlParametersPage) {
                                     this.fnPageChange('last');
                                 }
-                                $("<button class='btn btn-primary btnRefreshPurchaseOverview' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
+                                $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
                                 $('.myvarFilterForm').appendTo(".colDateFilter");
                             }
@@ -783,7 +783,7 @@ Template.purchasesoverview.onRendered(function() {
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
-                            $("<button class='btn btn-primary btnRefreshPurchaseOverview' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
+                            $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
                         }
@@ -1111,7 +1111,7 @@ Template.purchasesoverview.onRendered(function() {
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
-                            $("<button class='btn btn-primary btnRefreshPurchaseOverview' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
+                            $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
                         }

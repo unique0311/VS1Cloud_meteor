@@ -420,8 +420,8 @@ if (url.indexOf('?id=') > 0) {
                                         productbarcode: useData[d].fields.Lines[i].fields.PartBarcode || '',
                                         description: useData[d].fields.Lines[i].fields.ProductDesc || '',
                                         department:  useData[d].fields.Lines[0].fields.ClassNameTo|| defaultDept,
-                                        qtyordered: useData[d].fields.Lines[i].fields.TransferQty || 0,
-                                        qtyshipped: useData[d].fields.Lines[i].fields.AvailableQty || 0,
+                                        qtyordered: useData[d].fields.Lines[i].fields.AvailableQty || 0,
+                                        qtyshipped: useData[d].fields.Lines[i].fields.TransferQty || 0,
                                         qtybo: useData[d].fields.Lines[i].fields.BOQty || 0
 
                                     };
@@ -440,8 +440,8 @@ if (url.indexOf('?id=') > 0) {
                                   productbarcode: useData[d].fields.Lines.fields.PartBarcode || '',
                                   description: useData[d].fields.Lines.fields.ProductDesc || '',
                                   department:  useData[d].fields.Lines.fields.ClassNameTo|| defaultDept,
-                                  qtyordered: useData[d].fields.Lines.fields.TransferQty || 0,
-                                  qtyshipped: useData[d].fields.Lines.fields.AvailableQty || 0,
+                                  qtyordered: useData[d].fields.Lines.fields.AvailableQty || 0,
+                                  qtyshipped: useData[d].fields.Lines.fields.TransferQty || 0,
                                   qtybo: useData[d].fields.Lines.fields.BOQty || 0
 
                               };
@@ -2427,6 +2427,7 @@ const templateObject = Template.instance();
     $('#html-2-pdfwrapper').css('display', 'block');
     let templateObject = Template.instance();
     let customername = $('#edtCustomerName').val()||'';
+    let shippingaddress = $('#txaShipingInfo').val()||'';
     let transferFrom = $('#sltDepartment').val()||'';
     let shipVia = $('#shipvia').val()||'';
     let conNote = $('#txtshipconnote').val()||'';
@@ -2472,6 +2473,7 @@ const templateObject = Template.instance();
                         // FinalUOMQty: parseFloat(tdfinalqty) || 0,
                         // InStockUOMQty: parseFloat(tdinstockqty) || 0,
                         CustomerName: customername || '',
+                        BinLocationFrom: shippingaddress || '',
                         ClassNameTo: tdDepartment || defaultDept,
                         // ProductPrintName: tdproduct || '',
                         PartBarcode: tdbarcode || '',
@@ -2560,6 +2562,7 @@ const templateObject = Template.instance();
     $('#html-2-pdfwrapper').css('display', 'block');
     let templateObject = Template.instance();
     let customername = $('#edtCustomerName').val()||'';
+    let shippingaddress = $('#txaShipingInfo').val()||'';
     let transferFrom = $('#sltDepartment').val()||'';
     let shipVia = $('#shipvia').val()||'';
     let conNote = $('#txtshipconnote').val()||'';
@@ -2607,6 +2610,7 @@ const templateObject = Template.instance();
                         // FinalUOMQty: parseFloat(tdfinalqty) || 0,
                         // InStockUOMQty: parseFloat(tdinstockqty) || 0,
                         CustomerName: customername || '',
+                        BinLocationFrom: shippingaddress || '',
                         ClassNameTo: tdDepartment || defaultDept,
                         // ProductPrintName: tdproduct || '',
                         PartBarcode: tdbarcode || '',

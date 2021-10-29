@@ -306,6 +306,7 @@ Template.newsidenav.onRendered(function() {
                 (currentLoc == "/stockadjustmentcard") ||
                 (currentLoc == "/stockadjustmentoverview") || (currentLoc == "/productlist")
               ||(currentLoc == "/stocktransfercard") || (currentLoc == "/stocktransferlist")) {
+                $('#sidenavaccounts').removeClass('active');
                 $('#sidenavbanking').removeClass('active');
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
