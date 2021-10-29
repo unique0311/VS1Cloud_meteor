@@ -16,13 +16,33 @@ function updateRowOrder(){
   $(document).on('click', '.removesecondtablebutton', function () {
     event.stopPropagation();
 
-    if(confirm("Are you sure you want to delete this row?")) {
-        this.click;
+    // if(confirm("Are you sure you want to delete this row?")) {
+    //     this.click;
+    //
+    //         $(this).closest('tr').remove();
+    //         $("#btnsaveallocline").trigger("click");
+    //         updateRowOrder();
+    //   } else { }
 
-            $(this).closest('tr').remove();
-            $("#btnsaveallocline").trigger("click");
-            updateRowOrder();
-      } else { }
+      swal({
+          title: 'Delete Serial Number',
+          text: "Are you sure you want to Delete Serial Number?",
+          type: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Yes'
+      }).then((result) => {
+          if (result.value) {
+            this.click;
+
+                $(this).closest('tr').remove();
+                $("#btnsaveallocline").trigger("click");
+                updateRowOrder();
+          } else {
+              $('.modal-backdrop').css('display', 'none');
+          }
+          // } else {}
+      });
+
       event.preventDefault();
       return false;
 
@@ -108,7 +128,7 @@ function updateRowOrder(){
 
      htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
       + '</td><td>' + '</td>'
-      + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+      + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
       + '</tr>';
        $("#serailscanlist").append(htmlAppend);
        updateRowOrder();
@@ -159,7 +179,7 @@ function updateRowOrder(){
 
                         htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                          + '</td><td>' + '</td>'
-                         + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                         + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                          + '</tr>';
                           $("#serailscanlist").append(htmlAppend);
                           updateRowOrder();
@@ -190,7 +210,7 @@ function updateRowOrder(){
 
                          htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                           + '</td><td>' + '</td>'
-                          + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                          + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                           + '</tr>';
                            $("#serailscanlist").append(htmlAppend);
                            updateRowOrder();
@@ -303,7 +323,7 @@ function updateRowOrder(){
 
                htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                 + '</td><td>' + '</td>'
-                + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                 + '</tr>';
                  $("#serailscanlist").append(htmlAppend);
                  updateRowOrder();
@@ -351,7 +371,7 @@ function updateRowOrder(){
 
                    htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                     + '</td><td>' + '</td>'
-                    + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                    + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                     + '</tr>';
                      $("#serailscanlist").append(htmlAppend);
                      updateRowOrder();
@@ -382,7 +402,7 @@ function updateRowOrder(){
 
                     htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                      + '</td><td>' + '</td>'
-                     + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                     + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                      + '</tr>';
                       $("#serailscanlist").append(htmlAppend);
                       updateRowOrder();
@@ -562,7 +582,7 @@ function updateRowOrder(){
 
                htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                 + '</td><td>' + '</td>'
-                + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                 + '</tr>';
                  $("#serailscanlist").append(htmlAppend);
                  updateRowOrder();
@@ -610,7 +630,7 @@ function updateRowOrder(){
 
                    htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                     + '</td><td>' + '</td>'
-                    + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                    + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                     + '</tr>';
                      $("#serailscanlist").append(htmlAppend);
                      updateRowOrder();
@@ -641,7 +661,7 @@ function updateRowOrder(){
 
                     htmlAppend = '<tr class="dnd-moved"><td class="form_id"></td><td>' + ''
                      + '</td><td>' + '</td>'
-                     + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+                     + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+scannedSerial+'" readonly>' + '</td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
                      + '</tr>';
                       $("#serailscanlist").append(htmlAppend);
                       updateRowOrder();

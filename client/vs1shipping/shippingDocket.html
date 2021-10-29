@@ -232,12 +232,12 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Please select "Delete Line" to remove row or "Delete Invoice" to delete the entire invoice</p>
+                                <p>Please select "Delete Line" to remove row or "Delete Shipping Docket" to delete the entire shipping docket</p>
                                 <button class="btn btn-danger float-left btnDeleteLine" type="button">
                                     <i class="fa fa-close" style="margin-right: 5px;"></i>Delete Line
                                 </button>
                                 <button class="btn btn-danger float-right btnDeleteInvoice" type="button">
-                                    <i class="fa fa-close" style="margin-right: 5px;"></i>Delete Invoice
+                                    <i class="fa fa-close" style="margin-right: 5px;"></i>Delete Shipping Docket
                                 </button>
                             </div>
                         </div>
@@ -271,7 +271,7 @@
                             <td class="hiddenColumn UOMQtyShipped" id="UOMQtyShipped">{{item.qtyshipped}}</td>
                             <td class="hiddenColumn UOMQtyBackOrder" id="UOMQtyBackOrder">{{item.qtybo}}</td>
                             <td class="hiddenColumn ProductID" id="ProductID" name="ProductID">{{item.productid}}</td>
-                            <td style="width: 1%;"><span class="table-remove removebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
+                            <td style="width: 1%;"><span class="removebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                         </tr>
                       {{/each}}
                     </tbody>

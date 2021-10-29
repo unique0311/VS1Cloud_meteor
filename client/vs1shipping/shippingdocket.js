@@ -13,7 +13,7 @@ import {Random} from 'meteor/random';
 const _ = require('lodash');
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
-
+var times = 0;
 Template.shippingdocket.onCreated(function(){
   const templateObject = Template.instance();
     templateObject.includeInvoiceAttachment = new ReactiveVar();
@@ -936,21 +936,21 @@ templateObject.getShpVias = function() {
 
 }
 templateObject.getShpVias();
-$(document).on('click', '.removebutton', function () {
-  event.stopPropagation();
-if($('#tblShippingDocket tbody>tr').length > 1){
-  if(confirm("Are you sure you want to delete this row?")) {
-      this.click;
-
-          $(this).closest('tr').remove();
-          //$("#btnsaveallocline").trigger("click");
-
-    } else { }
-    event.preventDefault();
-    return false;
-}
-
-});
+// $(document).on('click', '.removebutton', function () {
+//   event.stopPropagation();
+// if($('#tblShippingDocket tbody>tr').length > 1){
+//   if(confirm("Are you sure you want to delete this row?")) {
+//       this.click;
+//
+//           $(this).closest('tr').remove();
+//           //$("#btnsaveallocline").trigger("click");
+//
+//     } else { }
+//     event.preventDefault();
+//     return false;
+// }
+//
+// });
 
 $(document).on("click", "#tblShippingDocket tbody tr", function(e) {
 
@@ -1015,7 +1015,7 @@ if ((serialNoproductData.BinID != null) ){
 var allocRowIndex = $("#serailscanlist > tbody  > tr").length +1;
 htmlAppend3 = '<tr class="dnd-moved"><td class="form_id">'+allocRowIndex+'</td><td>' + ''
 + '</td><td>' + '</td>'
-+ '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+serialNoproductData.SerialNumber+'">' + '</td><td style="width: 1%;"><span class="table-remove removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
++ '<td>' + '<input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+serialNoproductData.SerialNumber+'">' + '</td><td style="width: 1%;"><span class="removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
 + '</tr>';
 jQuery("#serailscanlist").append(htmlAppend3);
 }
@@ -1874,6 +1874,112 @@ const templateObject = Template.instance();
     event.preventDefault();
     history.back(1);
 
+
+},
+'click .removebutton': function(event) {
+    let templateObject = Template.instance();
+    var clicktimes = 0;
+    var targetID = $(event.target).closest('tr').attr('id');
+    $('#selectDeleteLineID').val(targetID);
+
+    times++;
+    if (times == 1) {
+        $('#deleteLineModal').modal('toggle');
+    } else {
+        if ($('#tblShippingDocket tbody>tr').length > 1) {
+            this.click;
+            $(event.target).closest('tr').remove();
+            event.preventDefault();
+            return false;
+
+        } else {
+            $('#deleteLineModal').modal('toggle');
+        }
+
+    }
+},
+'click .btnDeleteLine': function (event) {
+    let templateObject = Template.instance();
+    let utilityService = new UtilityService();
+    let selectLineID = $('#selectDeleteLineID').val();
+    if ($('#tblShippingDocket tbody>tr').length > 1) {
+        this.click;
+
+        $('#' + selectLineID).closest('tr').remove();
+        //event.preventDefault();
+        let $tblrows = $("#tblShippingDocket tbody tr");
+        //if(selectLineID){
+        let lineAmount = 0;
+        let subGrandTotal = 0;
+        let taxGrandTotal = 0;
+        //return false;
+
+    } else {
+        // this.click;
+        // $('#' + selectLineID + " .lineID").text('');
+        // $('#' + selectLineID + " .ProdName").text('');
+        // $('#' + selectLineID + " .colDescription").text('');
+        // $('#' + selectLineID + " .lineOrdered").val('');
+        // $('#' + selectLineID + " .ID").text('');
+        // $('#' + selectLineID + " .pqa").text('');
+        // $('#' + selectLineID + " .UOMQtyShipped").text('');
+        // $('#' + selectLineID + " .ProductID").text('');
+        // $('#' + selectLineID + " .UOMQtyBackOrder").text('');
+
+    }
+
+    $('#deleteLineModal').modal('toggle');
+},
+'click .btnDeleteInvoice': function (event) {
+    let templateObject = Template.instance();
+    let stockTransferService = new StockTransferService();
+    swal({
+        title: 'Delete Shipping Docket',
+        text: "Are you sure you want to Delete Shipping Docket?",
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.value) {
+            $('.fullScreenSpin').css('display', 'inline-block');
+            var url = FlowRouter.current().path;
+            var getso_id = url.split('?id=');
+            var currentInvoice = getso_id[getso_id.length - 1];
+            var objDetails = '';
+            if (getso_id[1]) {
+                currentInvoice = parseInt(currentInvoice);
+                var objDetails = {
+                    type: "TInvoice",
+                    fields: {
+                        ID: currentInvoice,
+                        Deleted: true
+                    }
+                };
+
+                stockTransferService.saveShippingDocket(objDetails).then(function (objDetails) {
+                    FlowRouter.go('/vs1shipping?success=true');
+                    $('.modal-backdrop').css('display', 'none');
+
+                }).catch(function (err) {
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+            } else {
+                FlowRouter.go('/vs1shipping?success=true');
+                $('.modal-backdrop').css('display', 'none');
+            }
+        } else {}
+    });
 
 }
 });

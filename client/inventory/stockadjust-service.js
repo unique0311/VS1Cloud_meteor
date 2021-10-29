@@ -40,6 +40,10 @@ export class StockTransferService extends BaseService {
         return this.POST(this.ERPObjects.TStockTransferEntry, data);
   }
 
+  saveShippingDocket(data){
+        return this.POST(this.ERPObjects.TInvoice, data);
+  }
+
   getOneStockTransferData(id){
         return this.getOneById(this.ERPObjects.TStockTransferEntry, id);
   }
