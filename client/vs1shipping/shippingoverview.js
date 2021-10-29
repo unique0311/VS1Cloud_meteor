@@ -143,29 +143,35 @@ Template.vs1shipping.onRendered(function() {
         }
     }
 
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader", {
+            fps: 10,
+            qrbox: 250
+        });
+    html5QrcodeScanner.render(onScanSuccess);
 
-    const html5QrCode = new Html5Qrcode( /* element id */ "reader");
-
-    // File based scanning
-    const fileinput = document.getElementById('qr-input-file');
-    fileinput.addEventListener('change', e => {
-        if (e.target.files.length == 0) {
-            // No file selected, ignore
-            return;
-        }
-
-        // Use the first item in the list
-        const imageFile = e.target.files[0];
-        html5QrCode.scanFile(imageFile, /* showImage= */ true)
-            .then(qrCodeMessage => {
-                // success, use qrCodeMessage
-                console.log(qrCodeMessage);
-            })
-            .catch(err => {
-                // failure, handle it.
-                console.log(`Error scanning file. Reason: ${err}`)
-            });
-    });
+    // const html5QrCode = new Html5Qrcode( /* element id */ "reader");
+    //
+    // // File based scanning
+    // const fileinput = document.getElementById('qr-input-file');
+    // fileinput.addEventListener('change', e => {
+    //     if (e.target.files.length == 0) {
+    //         // No file selected, ignore
+    //         return;
+    //     }
+    //
+    //     // Use the first item in the list
+    //     const imageFile = e.target.files[0];
+    //     html5QrCode.scanFile(imageFile, /* showImage= */ true)
+    //         .then(qrCodeMessage => {
+    //             // success, use qrCodeMessage
+    //             console.log(qrCodeMessage);
+    //         })
+    //         .catch(err => {
+    //             // failure, handle it.
+    //             console.log(`Error scanning file. Reason: ${err}`)
+    //         });
+    // });
 
     var isMobile = false;
     if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
