@@ -420,28 +420,30 @@
                                 <table id="tblAvailableSerialNo" style="width:100%" class="table table-bordered tblAvailableSerialNo">
                                     <thead>
                                         <tr class="dnd-moved">
+                                            <th class="th" style="width: 1%;"></th>
                                             <th class="th colSltNo" style="width: 1%;">No.</th>
                                             <th class="th colSltSerialNo">Available Serial No.</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      {{#each itemavail in availableserialnumberlist}}
-                                        <tr class="dnd-moved {{itemavail.checkclass}} {{itemavail.domserialnumberFormat}}" id="{{itemavail.rowid}}">
-                                            <td contenteditable="true" class="availrow_id">{{itemavail.rowid}}</td>
-                                            <td contenteditable="true" class=""><input class="lineSerialNumber highlightSerial" id="lineSerialNumber" type="text" value="{{itemavail.domserialnumber}}"></td>
-                                        </tr>
-                                      {{/each}}
+                                        {{#each itemavail in availableserialnumberlist}}
+                                            <tr class="dnd-moved {{itemavail.checkclass}} {{itemavail.domserialnumberFormat}}" id="{{itemavail.rowid}}">
+                                                <td style="width: 1%;"><span class="btnMove"><button type="button" class="btn btnMove btn-success btn-rounded btn-sm my-0 "><i class="fas fa-caret-left mx-1"></i></button></span></td>
+                                                <td contenteditable="true" class="availrow_id">{{itemavail.rowid}}</td>
+                                                <td contenteditable="true" class=""><input class="lineSerialNumber highlightSerial" id="lineSerialNumber" type="text" value="{{itemavail.domserialnumber}}"></td>
+                                            </tr>
+                                        {{/each}}
                                     </tbody>
                                     {{#if availableserialnumberqty 'true'}}
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2">
-                                              <a class="btn btn-link float-left viewMoreSerialNo" type="button" id="viewMoreSerialNo" style="color: #00a3d3;">View More</a>
-                                              <a class="btn btn-link float-left viewLessSerialNo" type="button" id="viewLessSerialNo" style="color: #00a3d3; display:none;">View Less</a>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                  {{/if}}
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <a class="btn btn-link float-left viewMoreSerialNo" type="button" id="viewMoreSerialNo" style="color: #00a3d3;">View More</a>
+                                                    <a class="btn btn-link float-left viewLessSerialNo" type="button" id="viewLessSerialNo" style="color: #00a3d3; display:none;">View Less</a>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    {{/if}}
                                 </table>
                             </div>
                         </div>
