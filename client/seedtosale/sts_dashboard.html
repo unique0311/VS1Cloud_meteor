@@ -35,15 +35,15 @@
                             <div class="col" style="padding: 0 !important;">
 
                                 <style>
-                                    #reader>div:first-of-type {
+                                    #qr-reader>div:first-of-type {
                                         display: none !important;
                                     }
 
-                                    #reader__dashboard_section_swaplink {
+                                    #qr-reader__dashboard_section_swaplink {
                                         display: none !important;
                                     }
 
-                                    #reader__dashboard_section_csr>div>button:first-of-type {
+                                    #qr-reader__dashboard_section_csr>div>button:first-of-type {
                                         color: #fff !important;
                                         background-color: #00a3d3 !important;
                                         border-color: #00a3d3 !important;
@@ -59,9 +59,44 @@
                                         transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
                                     }
                                 </style>
-                                <div id="reader" style="width: 100%"></div>
+                                <!-- <div id="reader" style="width: 100%"></div> -->
+
+                                <!-- New Scanner BEGIN -->
+                                    <div id="qr-reader" style="width:500px"></div>
+                                    <div id="qr-reader-results"></div>
+                                <!-- New Scanner END -->
 
                                 <script>
+                                    function docReady(fn) {
+                                        // see if DOM is already available
+                                        if (document.readyState === "complete" || document.readyState === "interactive") {
+                                            // call on next available tick
+                                            setTimeout(fn, 1);
+                                        } else {
+                                            document.addEventListener("DOMContentLoaded", fn);
+                                        }
+                                    }
+
+                                    docReady(function () {
+                                        var resultContainer = document.getElementById('qr-reader-results');
+                                        var lastResult, countResults = 0;
+                                        function onScanSuccess(decodedText, decodedResult) {
+                                            if (decodedText !== lastResult) {
+                                                ++countResults;
+                                                lastResult = decodedText;
+                                                // Handle on success condition with the decoded message.
+                                                // console.log(`Scan result ${decodedText}`, decodedResult);
+                                                document.getElementById("barcodeScanInput").value = decodedText;
+                                            }
+                                        }
+
+                                        var html5QrcodeScanner = new Html5QrcodeScanner(
+                                            "qr-reader", { fps: 10, qrbox: 250 });
+                                        html5QrcodeScanner.render(onScanSuccess);
+                                    });
+                                </script>
+
+                                <!-- <script>
                                     function onScanSuccess(decodedText, decodedResult) {
                                         document.getElementById("barcodeScanInput").value = decodedText;
                                     }
@@ -76,7 +111,7 @@
                                             qrbox: 250
                                         }, /* verbose= */ false);
                                     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-                                </script>
+                                </script> -->
 
                                 <div class="form-group flex-grow-1" style="margin: 4px;"><label>Quick Scan<br></label>
                                     <div class="input-group"><input class="form-control" id="barcodeScanInput" type="text">
