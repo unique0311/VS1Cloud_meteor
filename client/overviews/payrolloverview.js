@@ -887,6 +887,15 @@ Template.payrolloverview.onRendered(function () {
     //     templateObject.getAllProductData();
     // }, 500);
 
+     $("#scanBarcode").click(function() {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+        } else {
+            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'danger', 'fixed-top', 'fa-frown-o');
+        }
+    });
+     
+
     $('#tblEmployeelist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if (listData) {
@@ -2101,6 +2110,19 @@ Template.payrolloverview.events({
                 FlowRouter.go('/employeescard?addvs1user=true');
             }
         })
+    },
+    'click .btnDesktopSearch': function(e) {
+        let barcodeData = $('#barcodeScanInput').val();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        if (barcodeData === '') {
+            swal('Please enter the barcode', '', 'warning');
+            $('.fullScreenSpin').css('display', 'none');
+            e.preventDefault();
+            return false;
+        } else {
+            $('.fullScreenSpin').css('display', 'none');
+            swal('Functionality awaiting API', '', 'info');
+        }
     },
     'click .chkDatatable': function (event) {
         var columns = $('#tblEmployeelist th');

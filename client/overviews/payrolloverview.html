@@ -411,7 +411,20 @@
                 <div class="modal-header">
                     <h4 style="margin-bottom: 0px;">Clock On/Off <span id="timesheetID"></span></h4>
                     <a role="button" data-toggle="modal" href="#helpViewModal2" style="font-size: 20px; margin-left: 6px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
-
+                                            <div class="input-group" style="width:30%; margin-left: 25px;">
+                                <input class="form-control" id="barcodeScanInput" name="barcodeScanInput" type="text" placeholder="Enter the barcode" autocomplete="off">
+                                <style>
+                                    .btnDesktopSearch {
+                                        color: #fff;
+                                    }
+                                </style>
+                                <div class="input-group-append">
+                                    <a class="btn btn-success btnDesktopSearch" href="" id="btnDesktopSearch" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search"></i></a>
+                                </div>
+                                <a class="btn btn-success scanBarcode" href="" id="scanBarcode" role="button" style="margin-left: 8px;"><i class="fas fa-camera"></i></a>
+                                <button type="button" class="btn btn-success" id="mobileBarcodeScan" data-toggle="modal" data-target="#scanBarcodeModal" style="margin-left: 8px; display: none;"><i class="fas fa-camera"></i></button>
+                                <!-- IDEA: Scan will open the scanning modal UNLESS you type in a valid barcode, then it will open the corresponding Shipping Docket -->
+                            </div>
                     <!-- Start Help View Modal -->
                     <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal2">
                         <div class="modal-dialog modal-sm" role="document">
