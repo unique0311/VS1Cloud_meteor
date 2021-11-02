@@ -1290,6 +1290,12 @@ Template.timesheet.onRendered(function () {
     function initDataTableCtrl(container) {
         $('select', container).select2();
     }
+
+    document.querySelector('#barcodeScanInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      $("#btnDesktopSearch").trigger("click");
+    }
+});
 });
 
 Template.timesheet.events({
@@ -1471,17 +1477,41 @@ Template.timesheet.events({
         }
     },
      'click .btnDesktopSearch': function(e) {
+        let contactService = new ContactService();
         let barcodeData = $('#barcodeScanInput').val();
+        let empNo = barcodeData.replace( /^\D+/g, '');
         $('.fullScreenSpin').css('display', 'inline-block');
         if (barcodeData === '') {
-            swal('Please enter the barcode', '', 'warning');
+            swal('Please enter the employee number', '', 'warning');
             $('.fullScreenSpin').css('display', 'none');
             e.preventDefault();
             return false;
         } else {
-            $('.fullScreenSpin').css('display', 'none');
-            swal('Functionality awaiting API', '', 'info');
-        }
+
+              contactService.getOneEmployeeDataEx(empNo).then(function (data) {
+                    $('.fullScreenSpin').css('display', 'none');
+                    if(Object.keys(data).length > 0){
+                       $('#employee_name').val(data.fields.EmployeeName || '');
+                    } else {
+                        swal('Employee Not Found', '', 'warning');
+                    }
+                    
+                       
+                }).catch(function (err) {
+                        swal({
+                            title: 'Oooops...',
+                            text: "Employee Not Found",
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+                                // Meteor._reload.reload();
+                            } else if (result.dismiss === 'cancel') {}
+                        });
+                    })
+                $('.fullScreenSpin').css('display', 'none');
+            }
     },
     'click .chkDatatable': function (event) {
         var columns = $('#tblTimeSheet th');
