@@ -828,7 +828,6 @@ Template.stockadjustmentcard.onRendered(() => {
             $('#edtCustomerEmail').val($('#edtCustomerEmail').val().replace(/\s/g, ''));
             if ($('.chkEmailCopy').is(':checked')) {
                 let checkEmailData = $('#edtCustomerEmail').val();
-                console.log("Email data "+ checkEmailData);
                 if (checkEmailData.replace(/\s/g, '') === '') {
                     $('.chkEmailCopy').prop('checked', false); 
                     swal('Employee Email cannot be blank!', '', 'warning');
