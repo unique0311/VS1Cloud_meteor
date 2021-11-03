@@ -85,29 +85,18 @@
                                             if (decodedText !== lastResult) {
                                                 ++countResults;
                                                 lastResult = decodedText;
-                                                // Handle on success condition with the decoded message.
-                                                // console.log(`Scan result ${decodedText}`, decodedResult);
                                                 document.getElementById("barcodeScanInput").value = decodedText;
                                             }
                                         }
-
-                                        // const html5QrCode = new Html5Qrcode("#qr-reader");
-                                        // const qrCodeSuccessCallback = message => { /* handle success */ }
-                                        // const config = {
-                                        //     fps: 10,
-                                        //     qrbox: 250
-                                        // };
-                                        //
-                                        // html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
 
 
                                         var html5QrcodeScanner = new Html5QrcodeScanner(
                                             "qr-reader", {
                                                 fps: 10,
                                                 qrbox: 250,
+                                                rememberLastUsedCamera: true
                                             });
-                                        // html5QrcodeScanner.start({ facingMode: "environment" });
-                                        html5QrcodeScanner.render({ facingMode: "environment" },onScanSuccess);
+                                        html5QrcodeScanner.render(onScanSuccess);
                                     });
                                 </script>
 
