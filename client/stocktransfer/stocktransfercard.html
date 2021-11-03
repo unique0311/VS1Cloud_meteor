@@ -93,10 +93,15 @@
                     <h3 style="margin-left: 0px; margin-top: 35px; color: #e02d1b; font-weight: 600;">Processed</h3>
                 </div>
             </div>
-            <div class="row" style="background-color: #ededed; padding: 8px 32px 0px 32px;">
-                <div class="col-12 col-lg-3">
+            <div class="row" style="background-color: #ededed; padding: 8px 32px 32px 32px;">
+                <div class="col-12 col-lg-3" style="display: none;">
                     <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Shipping Address</label>
                         <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo">{{stocktransferrecord.shipto}}</textarea>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="form-group"><label style="color:#858796;">Comments</label>
+                        <textarea class="form-control" rows="5" id="shipcomments" name="shipcomments">{{stocktransferrecord.comments}}</textarea>
                     </div>
                 </div>
                 <div class="col-12 col-lg-3">
@@ -114,7 +119,9 @@
 
                             <div class="form-group">
                                 <label>Ship Via</label>
-                                <select class="form-control" id="shipvia" name="shipvia" style="cursor: pointer;">
+                                <select type="search" class="form-control" id="shipvia" name="shipvia" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                </select>
+                                <!-- <select class="form-control" id="shipvia" name="shipvia" style="cursor: pointer;">
                                     <option value="">Please Select</option>
                                     {{#each item in shipviarecords}}
                                         {{#if equals item.shippingmethod stocktransferrecord.shipping }}
@@ -123,7 +130,7 @@
                                             <option value="{{item.shippingmethod}}">{{item.shippingmethod}}</option>
                                         {{/if}}
                                     {{/each}}
-                                </select>
+                                </select> -->
                             </div>
                         </div>
                         <div class="col-6 col-lg-6">
@@ -160,7 +167,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
+            <!-- <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
                 <div class="col-12 mb-2">
                     <a class="btn btn-link" style="margin-left: 16px;" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Comments</a>
                     <div class="row">
@@ -174,7 +181,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> -->
 
             <div class="row" style="margin: 0px 32px; margin-top: 16px;">
                 <div class="table-responsive">
@@ -492,7 +499,7 @@
                 </button>
             </div>
 
-             <!-- Start PDF -->
+            <!-- Start PDF -->
             <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; display: none; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
                 <div style="display: flex; height: 70mm;">
                     <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
@@ -623,20 +630,28 @@
         {{> addaccountpop}}
     </div>
 
-     <div class="modal fade" role="dialog" tabindex="-1" id="employeeList">
-         <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
+    <div class="modal fade" role="dialog" tabindex="-1" id="shipViaModal">
+        {{> shipviapop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newShipViaModal">
+        {{> newshipvia}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="employeeList">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
             <div class="modal-content customerListContent">
                 <div class="modal-header">
                     <h4>Employee List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body mainCustomerModalBody appointmentCustomer" style="padding: 0px; overflow-x: hidden;">
-            {{> employeelistpop}}
-             </div>
+                    {{> employeelistpop}}
+                </div>
                 <div class="modal-footer"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
                 </div>
             </div>
         </div>
-     </div>
+    </div>
 
     <script>
         modalDraggable();
