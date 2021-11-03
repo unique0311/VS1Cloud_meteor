@@ -1848,6 +1848,7 @@ Template.timesheet.events({
     'click #btnClockOn': function () {
         const templateObject = Template.instance();
         let clockList = templateObject.timesheetrecords.get();
+        var product = $('#product-listone').children("option:selected").text() || '';
         clockList = clockList.filter(clkList => {
             return clkList.employee == $('#employee_name').val() && clkList.id == $('#updateID').val();
         });
@@ -1910,6 +1911,7 @@ Template.timesheet.events({
                     fields: {
                         TimeSheetID: updateID,
                         StartDatetime: date1 + ' ' + startTime,
+                        Product:product,
                         Description: "Job Continued"
                     }
                 }
@@ -2013,6 +2015,7 @@ Template.timesheet.events({
         let checkStartTime = "";
         let checkEndTime = "";
         let latestTimeLogId = "";
+        var product = $('#product-listone').children("option:selected").text() || '';
         let toUpdate = {};
         let date = new Date();
         if (clockList.length > 0) {
@@ -2069,6 +2072,7 @@ Template.timesheet.events({
                         fields: {
                             TimeSheetID: updateID,
                             StartDatetime: date1 + ' ' + startTime,
+                            Product: product,
                             Description: "Job Continued"
                         }
                     }
@@ -2410,6 +2414,7 @@ Template.timesheet.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: startTime,
                             EndDatetime: endTime,
+                            Product: product,
                             Description: 'Timesheet Started',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -2423,6 +2428,7 @@ Template.timesheet.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: checkStartTime,
                             EndDatetime: endTime,
+                            Product: product,
                             Description: 'Timesheet Completed',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -2439,6 +2445,7 @@ Template.timesheet.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                        Product: product,
                         Description: 'Timesheet Started',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -2453,6 +2460,7 @@ Template.timesheet.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                        Product: product,
                         Description: 'Timesheet Started',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -2464,6 +2472,7 @@ Template.timesheet.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                        Product: product,
                         Description: 'Timesheet Started & Completed',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -2758,6 +2767,7 @@ Template.timesheet.events({
                                 EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                                 StartDatetime: startTime,
                                 EndDatetime: endTime,
+                                Product: product,
                                 Description: 'Timesheet Processed',
                                 EnteredBy: Session.get('mySessionEmployeeLoggedID')
                             }
@@ -2772,6 +2782,7 @@ Template.timesheet.events({
                                 EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                                 StartDatetime: checkStartTime,
                                 EndDatetime: endTime,
+                                Product: product,
                                 Description: 'Timesheet Processed',
                                 EnteredBy: Session.get('mySessionEmployeeLoggedID')
                             }
@@ -2788,6 +2799,7 @@ Template.timesheet.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: startTime,
                             EndDatetime: endTime,
+                            Product: product,
                             Description: 'Timesheet Processed',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -2803,6 +2815,7 @@ Template.timesheet.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: startTime,
                             EndDatetime: endTime,
+                            Product: product,
                             Description: 'Timesheet Processed',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -2815,6 +2828,7 @@ Template.timesheet.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: startTime,
                             EndDatetime: endTime,
+                            Product: product,
                             Description: 'Timesheet Processed',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -3043,6 +3057,7 @@ Template.timesheet.events({
         let updateID = $("#updateID").val() || "";
         let notes = $("#txtpause-notes").val() || "";
         let latestTimeLogId = '';
+        var product = $('#product-listone').children("option:selected").text() || '';
         let type = "Break";
         if ($('#break').is(":checked")) {
             type = $('#break').val();
@@ -3139,6 +3154,7 @@ Template.timesheet.events({
                 Description: type + ": " + notes || '',
                 EmployeeName: employeeName,
                 StartDatetime: startTime,
+                Product: product
             }
         }
 

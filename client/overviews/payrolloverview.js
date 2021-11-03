@@ -1145,6 +1145,7 @@ Template.payrolloverview.events({
     'click #btnClockOn': function () {
         const templateObject = Template.instance();
         let clockList = templateObject.timesheetrecords.get();
+        var product = $('#product-listone').children("option:selected").text() || '';
         clockList = clockList.filter(clkList => {
             return clkList.employee == $('#employee_name').val() && clkList.id == $('#updateID').val();
         });
@@ -1206,6 +1207,7 @@ Template.payrolloverview.events({
                     fields: {
                         TimeSheetID: updateID,
                         StartDatetime: date1 + ' ' + startTime,
+                        Product: product,
                         Description: "Job Continued"
                     }
                 }
@@ -1296,6 +1298,7 @@ Template.payrolloverview.events({
         let templateObject = Template.instance();
         let clockList = templateObject.timesheetrecords.get();
         let clockListStandBy = templateObject.timesheetrecords.get();
+        var product = $('#product-listone').children("option:selected").text() || '';
         let index = clockList.map(function (e) {
             return e.id;
         }).indexOf(parseInt($("#updateID").val()));
@@ -1365,6 +1368,7 @@ Template.payrolloverview.events({
                         fields: {
                             TimeSheetID: updateID,
                             StartDatetime: date1 + ' ' + startTime,
+                            Product:product,
                             Description: "Job Continued"
                         }
                     }
@@ -1591,6 +1595,7 @@ Template.payrolloverview.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: startTime,
                             EndDatetime: endTime,
+                            Product:product,
                             Description: 'Timesheet Started',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -1604,6 +1609,7 @@ Template.payrolloverview.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: checkStartTime,
                             EndDatetime: endTime,
+                            Product:product,
                             Description: 'Timesheet Completed',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -1620,6 +1626,7 @@ Template.payrolloverview.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                         Product:product,
                         Description: 'Timesheet Started',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -1634,6 +1641,7 @@ Template.payrolloverview.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                        Product:product,
                         Description: 'Timesheet Started',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -1645,6 +1653,7 @@ Template.payrolloverview.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                         Product:product,
                         Description: 'Timesheet Started & Completed Same Time',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -1798,6 +1807,7 @@ Template.payrolloverview.events({
         let contactService = new ContactService();
         var startTime = $('#startTime').val() || '';
         var endTime = $('#endTime').val() || '';
+        var product = $('#product-list').children("option:selected").text() || '';
         if (startTime == "" || endTime == "") {
             $('.fullScreenSpin').css('display', 'none');
             swal({
@@ -1887,6 +1897,7 @@ Template.payrolloverview.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: startTime,
                             EndDatetime: endTime,
+                             Product:product,
                             Description: 'Timesheet Processed',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -1901,6 +1912,7 @@ Template.payrolloverview.events({
                             EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                             StartDatetime: checkStartTime,
                             EndDatetime: endTime,
+                             Product:product,
                             Description: 'Timesheet Processed',
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
@@ -1917,6 +1929,7 @@ Template.payrolloverview.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                         Product:product,
                         Description: 'Timesheet Processed',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -1932,6 +1945,7 @@ Template.payrolloverview.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                         Product:product,
                         Description: 'Timesheet Processed',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
@@ -1944,6 +1958,7 @@ Template.payrolloverview.events({
                         EmployeeID: Session.get('mySessionEmployeeLoggedID'),
                         StartDatetime: startTime,
                         EndDatetime: endTime,
+                         Product:product,
                         Description: 'Timesheet Processed',
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
