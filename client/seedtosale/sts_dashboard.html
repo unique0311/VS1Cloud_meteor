@@ -62,8 +62,8 @@
                                 <!-- <div id="reader" style="width: 100%"></div> -->
 
                                 <!-- New Scanner BEGIN -->
-                                    <div id="qr-reader" style="width:100%"></div>
-                                    <div id="qr-reader-results"></div>
+                                <div id="qr-reader" style="width:100%"></div>
+                                <div id="qr-reader-results"></div>
                                 <!-- New Scanner END -->
 
                                 <script>
@@ -77,9 +77,10 @@
                                         }
                                     }
 
-                                    docReady(function () {
+                                    docReady(function() {
                                         var resultContainer = document.getElementById('qr-reader-results');
                                         var lastResult, countResults = 0;
+
                                         function onScanSuccess(decodedText, decodedResult) {
                                             if (decodedText !== lastResult) {
                                                 ++countResults;
@@ -90,10 +91,23 @@
                                             }
                                         }
 
+                                        // const html5QrCode = new Html5Qrcode("#qr-reader");
+                                        // const qrCodeSuccessCallback = message => { /* handle success */ }
+                                        // const config = {
+                                        //     fps: 10,
+                                        //     qrbox: 250
+                                        // };
+                                        //
+                                        // html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+
                                         var html5QrcodeScanner = new Html5QrcodeScanner(
-                                            "qr-reader", { fps: 10, qrbox: 250, facingMode: "environment" });
+                                            "qr-reader", {
+                                                fps: 10,
+                                                qrbox: 250,
+                                            });
                                         // html5QrcodeScanner.start({ facingMode: "environment" });
-                                        html5QrcodeScanner.render(onScanSuccess);
+                                        html5QrcodeScanner.render({ facingMode: "environment" },onScanSuccess);
                                     });
                                 </script>
 
