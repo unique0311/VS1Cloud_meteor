@@ -119,9 +119,9 @@
 
                             <div class="form-group">
                                 <label>Ship Via</label>
-                                <select type="search" class="form-control" id="shipvia" name="shipvia" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                                </select>
-                                <!-- <select class="form-control" id="shipvia" name="shipvia" style="cursor: pointer;">
+                                <!-- <select type="search" class="form-control" id="shipvia" name="shipvia" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                </select> -->
+                                <select class="form-control" id="shipvia" name="shipvia" style="cursor: pointer;">
                                     <option value="">Please Select</option>
                                     {{#each item in shipviarecords}}
                                         {{#if equals item.shippingmethod stocktransferrecord.shipping }}
@@ -130,7 +130,7 @@
                                             <option value="{{item.shippingmethod}}">{{item.shippingmethod}}</option>
                                         {{/if}}
                                     {{/each}}
-                                </select> -->
+                                </select>
                             </div>
                         </div>
                         <div class="col-6 col-lg-6">
