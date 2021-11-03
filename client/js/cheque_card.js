@@ -1880,7 +1880,7 @@ Template.chequecard.onRendered(() => {
                                     $('#edtSellRate').val(data.tcurrency[i].SellRate);
                                 }
                             }
-                            
+
                             setTimeout(function() {
                                 $('.fullScreenSpin').css('display', 'none');
                                 $('#newCurrencyModal').modal('toggle');
@@ -3711,6 +3711,7 @@ Template.chequecard.events({
       let suppliername = $('#edtSupplierName').val();
       let accountService = new AccountService();
       const accountTypeList = [];
+      $('#selectLineID').val('');
       if (suppliername === '') {
           swal('Supplier has not been selected!', '', 'warning');
           event.preventDefault();
