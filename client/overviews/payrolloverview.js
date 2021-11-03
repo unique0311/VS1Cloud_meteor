@@ -2146,7 +2146,6 @@ Template.payrolloverview.events({
 
               contactService.getOneEmployeeDataEx(empNo).then(function (data) {
                     $('.fullScreenSpin').css('display', 'none');
-                    console.log(data);
                     if(Object.keys(data).length > 0){
                        $('#employee_name').val(data.fields.EmployeeName || '');
                     } else {
