@@ -306,11 +306,11 @@ Template.newproductpop.onRendered(function() {
     }
 
     var getprod_id = $('#selectProductID').val();
-    var currentProductID = getprod_id[getprod_id.length-1];
+    // var currentProductID = getprod_id[getprod_id.length-1];
     let lineExtaSellItems = [];
     let lineExtaSellObj = {};
     if(getprod_id != ''){
-        currentProductID = parseInt(currentProductID);
+        currentProductID = parseInt(getprod_id);
 
         templateObject.getProductData = function () {
 
