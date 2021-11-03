@@ -85,6 +85,10 @@ Template.accountlistpop.onRendered(function() {
                           if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
                             splashArrayProductList.push(dataList);
                           }
+                        }else if (currentLoc == "/journalentrycard"){
+                          if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")){
+                            splashArrayProductList.push(dataList);
+                          }
                         }else if(currentLoc == "/chequecard"){
                           if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
                           ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
@@ -169,6 +173,10 @@ Template.accountlistpop.onRendered(function() {
                     ];
                     if (currentLoc == "/billcard"){
                       if((useData[i].fields.AccountTypeName != "AP") && (useData[i].fields.AccountTypeName != "AR")&&(useData[i].fields.AccountTypeName != "CCARD") &&(useData[i].fields.AccountTypeName != "BANK")){
+                        splashArrayProductList.push(dataList);
+                      }
+                    }else if (currentLoc == "/journalentrycard"){
+                      if((useData[i].fields.AccountTypeName != "AP")&&(useData[i].fields.AccountTypeName != "AR")){
                         splashArrayProductList.push(dataList);
                       }
                     }else if(currentLoc == "/chequecard"){
@@ -256,6 +264,10 @@ Template.accountlistpop.onRendered(function() {
 
                     if (currentLoc == "/billcard"){
                       if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
+                        splashArrayProductList.push(dataList);
+                      }
+                    }else if (currentLoc == "/journalentrycard"){
+                      if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")){
                         splashArrayProductList.push(dataList);
                       }
                     }else if(currentLoc == "/chequecard"){

@@ -88,6 +88,10 @@ Template.addaccountpop.onRendered(function () {
                       if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
                         accountTypeList.push(accounttyperecordObj);
                       }
+                    }else if (currentLoc == "/journalentrycard"){
+                      if((data.taccounttype[i].AccountTypeName != "AP")&&(data.taccounttype[i].AccountTypeName != "AR")){
+                        accountTypeList.push(accounttyperecordObj);
+                      }
                     }else if(currentLoc == "/chequecard"){
                       if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
                       ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
@@ -116,6 +120,10 @@ Template.addaccountpop.onRendered(function () {
                   if((useData[i].AccountTypeName != "AP") && (useData[i].AccountTypeName != "AR")&&(useData[i].AccountTypeName != "CCARD") &&(useData[i].AccountTypeName != "BANK")){
                     accountTypeList.push(accounttyperecordObj);
                   }
+                }else if (currentLoc == "/journalentrycard"){
+                  if((useData[i].AccountTypeName != "AP")&&(useData[i].AccountTypeName != "AR")){
+                    accountTypeList.push(accounttyperecordObj);
+                  }
                 }else if(currentLoc == "/chequecard"){
                   if((useData[i].AccountTypeName == "EQUITY")||(useData[i].AccountTypeName == "BANK")||(useData[i].AccountTypeName == "CCARD") ||(useData[i].AccountTypeName == "COGS")
                   ||(useData[i].AccountTypeName == "EXP")||(useData[i].AccountTypeName == "FIXASSET")||(useData[i].AccountTypeName == "INC")||(useData[i].AccountTypeName == "LTLIAB")
@@ -132,7 +140,7 @@ Template.addaccountpop.onRendered(function () {
 
         }
     }).catch(function (err) {
-      
+
         accountService.getAccountTypeCheck().then(function (data) {
             for (let i = 0; i < data.taccounttype.length; i++) {
                 let accounttyperecordObj = {
@@ -141,6 +149,10 @@ Template.addaccountpop.onRendered(function () {
                 };
                 if (currentLoc == "/billcard"){
                   if((data.taccounttype[i].AccountTypeName != "AP") && (data.taccounttype[i].AccountTypeName != "AR")&&(data.taccounttype[i].AccountTypeName != "CCARD")&&(data.taccounttype[i].AccountTypeName != "BANK") ){
+                    accountTypeList.push(accounttyperecordObj);
+                  }
+                }else if (currentLoc == "/journalentrycard"){
+                  if((data.taccounttype[i].AccountTypeName != "AP")&&(data.taccounttype[i].AccountTypeName != "AR")){
                     accountTypeList.push(accounttyperecordObj);
                   }
                 }else if(currentLoc == "/chequecard"){

@@ -2908,12 +2908,13 @@ Template.journalentrycard.events({
                                 AccountName: tdaccount || '',
 
                                 Memo: tddmemo || headMemo,
+                                TaxCode: tdtaxCode || '',
                                 CreditAmountInc: parseFloat(tdcreditex.replace(/[^0-9.-]+/g, "")) || 0,
 
                                 DebitAmountInc: parseFloat(tddebitex.replace(/[^0-9.-]+/g, "")) || 0,
 
                                 DeptName: department || defaultDept,
-                                TaxCode: tdtaxCode || '',
+
                                 EmployeeName: Session.get('mySessionEmployee')
                             }
                         };
@@ -2954,12 +2955,13 @@ Template.journalentrycard.events({
                                 AccountName: tdaccount || '',
 
                                 Memo: tddmemo || headMemo,
+                                TaxCode: tdtaxCode || '',
                                 CreditAmountInc: parseFloat(tdcreditex.replace(/[^0-9.-]+/g, "")) || 0,
 
                                 DebitAmountInc: parseFloat(tddebitex.replace(/[^0-9.-]+/g, "")) || 0,
 
                                 DeptName: department || defaultDept,
-                                TaxCode: tdtaxCode || '',
+
                                 ClientName: '',
                                 EmployeeName: Session.get('mySessionEmployee')
                             }
