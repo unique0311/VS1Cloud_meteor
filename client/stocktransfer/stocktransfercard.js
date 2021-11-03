@@ -2125,7 +2125,9 @@ Template.stocktransfercard.onRendered(function() {
             $('#' + selectLineID + " .colOrdered").val(lineAvailQty);
             $('#' + selectLineID + " .lineUOMQtyShipped").val(0);
             $('#' + selectLineID + " .ProductID").text(lineProductID);
+            if(lineProductName != ''){
             templateObject.getProductQty(selectLineID, lineProductName);
+            }
 
             $('.stock_print #' + selectLineID + " .lineProductNamePrint").text(lineProductName);
             $('#' + selectLineID + " .lineDescriptionPrint").text(lineProductDesc);
