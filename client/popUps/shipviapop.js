@@ -26,7 +26,7 @@ Template.shipviapop.onCreated(function() {
     templateObject.includeEOM.set(false);
     templateObject.includeEOMPlus = new ReactiveVar();
     templateObject.includeEOMPlus.set(false);
-
+    templateObject.shipviarecords = new ReactiveVar();
     templateObject.includeSalesDefault = new ReactiveVar();
     templateObject.includeSalesDefault.set(false);
     templateObject.includePurchaseDefault = new ReactiveVar();
@@ -42,6 +42,7 @@ Template.shipviapop.onRendered(function() {
     const tableHeaderList = [];
     const deptrecords = [];
     let deptprodlineItems = [];
+    const viarecords = [];
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblShipViaPopList', function(error, result) {
         if (error) {
 
@@ -69,6 +70,62 @@ Template.shipviapop.onRendered(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+    templateObject.getShpVias = function() {
+        getVS1Data('TShippingMethod').then(function(dataObject) {
+            if (dataObject.length == 0) {
+                sideBarService.getShippingMethodData().then(function(data) {
+                  addVS1Data('TShippingMethod',JSON.stringify(data));
+                    for (let i in data.tshippingmethod) {
+
+                        let viarecordObj = {
+                            shippingmethod: data.tshippingmethod[i].ShippingMethod || ' ',
+                            id: data.tshippingmethod[i].Id || ' '
+                        };
+
+                        viarecords.push(viarecordObj);
+                        templateObject.shipviarecords.set(viarecords);
+
+                    }
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tshippingmethod;
+                for (let i in useData) {
+
+                    let viarecordObj = {
+                        shippingmethod: useData[i].ShippingMethod || ' ',
+                        id: useData[i].ID || ' '
+                    };
+
+                    viarecords.push(viarecordObj);
+
+                    templateObject.shipviarecords.set(viarecords);
+
+                }
+
+            }
+        }).catch(function(err) {
+
+            sideBarService.getShippingMethodData().then(function(data) {
+              addVS1Data('TShippingMethod',JSON.stringify(data));
+
+                for (let i in data.tshippingmethod) {
+
+                    let viarecordObj = {
+                        shippingmethod: data.tshippingmethod[i].ShippingMethod || ' ',
+                        id: data.tshippingmethod[i].Id || ' '
+                    };
+
+                    viarecords.push(viarecordObj);
+                    templateObject.shipviarecords.set(viarecords);
+
+                }
+            });
+        });
+
+    }
+    templateObject.getShpVias();
 
     templateObject.getTaxRates = function() {
         getVS1Data('TLeadStatusType').then(function(dataObject) {
@@ -1255,6 +1312,16 @@ Template.shipviapop.helpers({
         return CloudPreference.findOne({
             userid: Session.get('mycloudLogonID'),
             PrefName: 'tblShipViaPopList'
+        });
+    },
+    shipviarecords: () => {
+        return Template.instance().shipviarecords.get().sort(function(a, b) {
+            if (a.shippingmethod == 'NA') {
+                return 1;
+            } else if (b.shippingmethod == 'NA') {
+                return -1;
+            }
+            return (a.shippingmethod.toUpperCase() > b.shippingmethod.toUpperCase()) ? 1 : -1;
         });
     },
     deptrecords: () => {
