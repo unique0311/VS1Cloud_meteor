@@ -447,7 +447,8 @@
                                             <th class="th colSltNo" style="width: 1%;">No.</th>
                                             <th class="th colSltBAtch">Batch</th>
                                             <th class="th colSltBin">Bin</th>
-                                            <th class="th colSltSerialNo">Serial No.</th>
+                                            <th class="th colSltSerialNoBOM">Serial No.</th>
+                                            <th class="th colSltSerialNo hiddenColumn">Serial No.</th>
                                             <th class="th" style="width: 1%;"></th>
                                         </tr>
                                     </thead>
@@ -457,6 +458,7 @@
                                             <td contenteditable="true" class=""></td>
                                             <td contenteditable="true" class=""></td>
                                             <td contenteditable="true" class=""></td>
+                                            <td contenteditable="true" class="hiddenColumn"></td>
                                             <td style="width: 1%;"><span class="btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                         </tr>
                                     </tbody>
@@ -616,7 +618,7 @@
                 </div>
                 <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
                     <input type="hidden" style="width: 100%; display:none;" id="customerSelectLineID" name="customerSelectLineID" readonly>
-                    {{> customerlistpop}}
+                    <!-- {{> customerlistpop}} -->
 
                 </div>
                 <div class="modal-footer"><button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
@@ -625,9 +627,9 @@
         </div>
     </div>
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
+    <!-- <div class="modal fade" role="dialog" tabindex="-1" id="addCustomerModal">
         {{> addcustomerpop}}
-    </div>
+    </div> -->
 
     <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
         {{> productlistpop}}

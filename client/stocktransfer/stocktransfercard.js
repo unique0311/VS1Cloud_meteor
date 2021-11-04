@@ -803,7 +803,9 @@ Template.stocktransfercard.onRendered(function() {
             templateObject.getStockTransferData();
             $('.fullScreenSpin').css('display', 'none');
         }
-
+        setTimeout(function() {
+        $('#edtCustomerEmail').val(localStorage.getItem('mySession'));
+        }, 200);
     } else {
         $('.fullScreenSpin').css('display', 'none');
 
@@ -843,6 +845,7 @@ Template.stocktransfercard.onRendered(function() {
         setTimeout(function() {
             $('#sltDepartment').val(defaultDept);
             $('#sltBankAccountName').val('Stock Adjustment');
+            $('#edtCustomerEmail').val(localStorage.getItem('mySession'));
             setTimeout(function() {
                 getVS1Data('TDeptClass').then(function(dataObject) {
                     if (dataObject.length == 0) {
@@ -891,7 +894,7 @@ Template.stocktransfercard.onRendered(function() {
 
     } else {
         setTimeout(function() {
-            $('#edtCustomerName').trigger("click");
+            $('#tblStocktransfer .lineProductName').trigger("click");
         }, 200);
     }
 
@@ -957,36 +960,45 @@ Template.stocktransfercard.onRendered(function() {
         $('#serailscanlist > tbody > tr').each(function() {
             var $tblrowAlloc = $(this);
             let tdSerialNumber = $tblrowAlloc.find("#serialNo").val() || 0;
-            lineItemObjFormAlloc = {
-                type: "TPQASN",
-                fields: {
-                    UOMQty: 1,
-                    BinID: 0,
-                    SerialNumber: tdSerialNumber || '',
 
-                }
-            };
-            splashLineArrayAlloc.push(lineItemObjFormAlloc);
+            // let serialDataValStore = "";
+            // var str =+ "Div #" + [i] + ", ";
+            //let serialDataValStore =+ "Div #" + [i] + ", "; tdSerialNumber.join(',');
+            //  console.log(serialDataValStore);
+            // lineItemObjFormAlloc = {
+            //     type: "TPQASN",
+            //     fields: {
+            //         UOMQty: 1,
+            //         BinID: 0,
+            //         SerialNumber: tdSerialNumber || '',
+            //
+            //     }
+            // };
+            //lineItemObjFormAlloc.push(tdSerialNumber);
+            splashLineArrayAlloc.push(tdSerialNumber);
         });
+        console.log(splashLineArrayAlloc.join(','));
+        // console.log(lineItemObjFormAlloc.join(','));
         var departmentID = $('input[name="deptID"]').val() || 0;
         var pqaID = $('input[name="pqaID"]').val();
-        var AllocLineObjDetails = {
-            type: "TPQA",
-            fields: {
-                DepartmentID: parseInt(departmentID),
-                PQABatch: null,
-                PQABins: null,
-                ID: parseInt(pqaID),
-                PQASN: splashLineArrayAlloc
-            }
-        };
+        var AllocLineObjDetails = splashLineArrayAlloc.join(',');
+        // {
+        //     type: "TPQA",
+        //     fields: {
+        //         DepartmentID: parseInt(departmentID),
+        //         PQABatch: null,
+        //         PQABins: null,
+        //         ID: parseInt(pqaID),
+        //         PQASN: splashLineArrayAlloc
+        //     }
+        // };
         var rowIndex = $('input[name="salesLineRow"]').val();
         var qtyShipped = $('#serailscanlist tbody tr').length;
         var qtyOrder = parseInt($('#' + rowIndex + " #Ordered").val());
         // parseInt($('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=Ordered]").val());
         var qtyBackOrder = qtyOrder - qtyShipped;
-        $('#' + rowIndex + " #pqa").text(JSON.stringify(AllocLineObjDetails));
-        $('#' + rowIndex + " #lineID").text(JSON.stringify(AllocLineObjDetails));
+        $('#' + rowIndex + " #pqa").text(AllocLineObjDetails);
+        $('#' + rowIndex + " #lineID").text(AllocLineObjDetails);
         $('#' + rowIndex + " #UOMQtyShipped").val(qtyShipped);
         $('#' + rowIndex + " #UOMQtyBackOrder").text(qtyBackOrder);
     });
@@ -1712,34 +1724,7 @@ Template.stocktransfercard.onRendered(function() {
         });
 
     /* On click Customer List */
-    $(document).on("click", "#tblCustomerlist tbody tr", function(e) {
 
-        var tableCustomer = $(this);
-        $('#edtCustomerName').val(tableCustomer.find(".colCompany").text());
-        $('#edtCustomerName').attr("custid", tableCustomer.find(".colID").text());
-        $('#customerListModal').modal('toggle');
-
-        $('#edtCustomerEmail').val(tableCustomer.find(".colEmail").text());
-        $('#edtCustomerEmail').attr('customerid', tableCustomer.find(".colID").text());
-        $('#edtCustomerName').attr('custid', tableCustomer.find(".colID").text());
-        $('#edtCustomerEmail').attr('customerfirstname', tableCustomer.find(".colCustomerFirstName").text());
-        $('#edtCustomerEmail').attr('customerlastname', tableCustomer.find(".colCustomerLastName").text());
-
-        let postalAddress = tableCustomer.find(".colCompany").text() + '\n' + tableCustomer.find(".colStreetAddress").text() + '\n' + tableCustomer.find(".colCity").text() + ' ' + tableCustomer.find(".colState").text() + ' ' + tableCustomer.find(".colZipCode").text() + '\n' + tableCustomer.find(".colCountry").text();
-        $('#txaShipingInfo').val(postalAddress);
-        let $tblrows = $("#tblStocktransfer tbody tr");
-        if ($tblrows.find(".lineProductName").val() == '') {
-            $tblrows.find(".colProductName").addClass('boldtablealertsborder');
-        }
-
-        $('#tblCustomerlist_filter .form-control-sm').val('');
-        setTimeout(function() {
-            //$('#tblCustomerlist_filter .form-control-sm').focus();
-            $('.btnRefreshCustomer').trigger('click');
-            $('.fullScreenSpin').css('display', 'none');
-        }, 1000);
-        // }
-    });
 
     $('#sltBankAccountName').editableSelect().on('click.editable-select', function(e, li) {
         var $earch = $(this);
@@ -2192,11 +2177,7 @@ Template.stocktransfercard.events({
     'click .lineProductName, keydown .lineProductName': function(event) {
         var $earch = $(event.currentTarget);
         var offset = $earch.offset();
-        let customername = $('#edtCustomerName').val();
-        if (customername === '') {
-            swal('Customer has not been selected!', '', 'warning');
-            event.preventDefault();
-        } else {
+
             var productDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
                 $('#productListModal').modal('toggle');
@@ -2422,16 +2403,11 @@ Template.stocktransfercard.events({
                 }
 
             }
-        }
+
     },
     'click .lineDepartment, keydown .lineDepartment': function(event) {
         var $earch = $(event.currentTarget);
         var offset = $earch.offset();
-        let customername = $('#edtCustomerName').val();
-        if (customername === '') {
-            swal('Customer has not been selected!', '', 'warning');
-            event.preventDefault();
-        } else {
             var departmentDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
                 $('#departmentModal').modal('toggle');
@@ -2525,7 +2501,7 @@ Template.stocktransfercard.events({
                 }
 
             }
-        }
+
     },
     'click #includeInvoiceAttachment': function(e) {
         let templateObject = Template.instance();
@@ -2631,17 +2607,13 @@ Template.stocktransfercard.events({
     'click .btnProcess': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
         let templateObject = Template.instance();
-        let customername = $('#edtCustomerName').val() || '';
-        let shippingaddress = $('#txaShipingInfo').val() || '';
+        //let customername = $('#edtCustomerName').val() || '';
+        // let shippingaddress = $('#txaShipingInfo').val() || '';
         let transferFrom = $('#sltDepartment').val() || '';
         let shipVia = $('#shipvia').val() || '';
-        let conNote = $('#txtshipconnote').val() || '';
+        let conNote = $('#shipcomments').val() || '';
         let toAccount = $('#sltBankAccountName').val() || '';
         let stockTransferService = new StockTransferService();
-        if (customername === '') {
-            swal('Customer has not been selected!', '', 'warning');
-            e.preventDefault();
-        } else {
             //$('.loginSpinner').css('display','inline-block');
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
@@ -2654,7 +2626,7 @@ Template.stocktransfercard.events({
                 let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
                 let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
                 let tddescription = $('#' + lineID + " .lineDescription").html() || '';
-                // let tdinstockqty = $('#' + lineID + " .lineInStockQty").text();
+                let tdserialNumber = $('#' + lineID + " .pqa").text()||'';
                 // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
                 // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
                 let tdDepartment = $('#' + lineID + " .lineDepartment").val();
@@ -2662,30 +2634,31 @@ Template.stocktransfercard.events({
                 let tdavailqty = $('#' + lineID + " .lineOrdere").val();
                 let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
                 if (tdproduct != "") {
+                    if(tdserialNumber != ''){
+                      lineItemObjForm = {
+                          type: "TSTELinesFlat",
+                          fields: {
+                              ProductName: tdproduct || '',
+                              AccountName: 'Inventory Asset',
+                              TransferQty: parseFloat(tdtransferqty) || 0,
+                              ClassNameTo: tdDepartment || defaultDept,
+                              TransferSerialnos: tdserialNumber || '',
+                              PartBarcode: tdbarcode || '',
+                          }
+                      };
+                    }else{
+                      lineItemObjForm = {
+                          type: "TSTELinesFlat",
+                          fields: {
+                              ProductName: tdproduct || '',
+                              AccountName: 'Inventory Asset',
+                              TransferQty: parseFloat(tdtransferqty) || 0,
+                              ClassNameTo: tdDepartment || defaultDept,
+                              PartBarcode: tdbarcode || '',
+                          }
+                      };
+                    }
 
-                    lineItemObjForm = {
-                        type: "TSTELinesFlat",
-                        fields: {
-                            ProductName: tdproduct || '',
-                            AccountName: 'Inventory Asset',
-                            //ProductID: tdproductID || '',
-                            // Cost: parseFloat(tdproductCost.replace(/[^0-9.-]+/g, "")) || 0,
-                            // AvailableQty: parseFloat(tdavailqty) || 0,
-                            TransferQty: parseFloat(tdtransferqty) || 0,
-                            // Qty: parseFloat(tdadjustqty) || 0,
-                            // UOMQty: parseFloat(tdadjustqty) || 0,
-                            // FinalQty: parseFloat(tdfinalqty) || 0,
-                            // FinalUOMQty: parseFloat(tdfinalqty) || 0,
-                            // InStockUOMQty: parseFloat(tdinstockqty) || 0,
-                            CustomerName: customername || '',
-                            BinLocationFrom: shippingaddress || '',
-                            ClassNameTo: tdDepartment || defaultDept,
-                            // ProductPrintName: tdproduct || '',
-                            PartBarcode: tdbarcode || '',
-                            //Description: tddescription || ''
-
-                        }
-                    };
 
                     //lineItemsForm.push(lineItemObjForm);
                     splashLineArray.push(lineItemObjForm);
@@ -2929,24 +2902,20 @@ Template.stocktransfercard.events({
                 //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
             });
-        }
+
 
     },
     'click .btnHold': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
         let templateObject = Template.instance();
-        let customername = $('#edtCustomerName').val() || '';
-        let shippingaddress = $('#txaShipingInfo').val() || '';
+        //let customername = $('#edtCustomerName').val() || '';
+        //let shippingaddress = $('#txaShipingInfo').val() || '';
         let transferFrom = $('#sltDepartment').val() || '';
         let shipVia = $('#shipvia').val() || '';
-        let conNote = $('#txtshipconnote').val() || '';
+        let conNote = $('#shipcomments').val() || '';
         let toAccount = $('#sltBankAccountName').val() || '';
         // let department = $('#sltDepartment').val();
         let stockTransferService = new StockTransferService();
-        if (customername === '') {
-            swal('Customer has not been selected!', '', 'warning');
-            e.preventDefault();
-        } else {
             //$('.loginSpinner').css('display','inline-block');
             $('.fullScreenSpin').css('display', 'inline-block');
             var splashLineArray = new Array();
@@ -2960,7 +2929,7 @@ Template.stocktransfercard.events({
                 let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
                 let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
                 let tddescription = $('#' + lineID + " .lineDescription").html() || '';
-                // let tdinstockqty = $('#' + lineID + " .lineInStockQty").text();
+                let tdserialNumber = $('#' + lineID + " .pqa").text();
                 // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
                 // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
                 let tdDepartment = $('#' + lineID + " .lineDepartment").val();
@@ -2969,29 +2938,30 @@ Template.stocktransfercard.events({
                 let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
                 if (tdproduct != "") {
 
+                  if(tdserialNumber != ''){
                     lineItemObjForm = {
                         type: "TSTELinesFlat",
                         fields: {
                             ProductName: tdproduct || '',
                             AccountName: 'Inventory Asset',
-                            //ProductID: tdproductID || '',
-                            // Cost: parseFloat(tdproductCost.replace(/[^0-9.-]+/g, "")) || 0,
-                            // AvailableQty: parseFloat(tdavailqty) || 0,
                             TransferQty: parseFloat(tdtransferqty) || 0,
-                            // Qty: parseFloat(tdadjustqty) || 0,
-                            // UOMQty: parseFloat(tdadjustqty) || 0,
-                            // FinalQty: parseFloat(tdfinalqty) || 0,
-                            // FinalUOMQty: parseFloat(tdfinalqty) || 0,
-                            // InStockUOMQty: parseFloat(tdinstockqty) || 0,
-                            CustomerName: customername || '',
-                            BinLocationFrom: shippingaddress || '',
                             ClassNameTo: tdDepartment || defaultDept,
-                            // ProductPrintName: tdproduct || '',
+                            TransferSerialnos: tdserialNumber || '',
                             PartBarcode: tdbarcode || '',
-                            //Description: tddescription || ''
-
                         }
                     };
+                  }else{
+                    lineItemObjForm = {
+                        type: "TSTELinesFlat",
+                        fields: {
+                            ProductName: tdproduct || '',
+                            AccountName: 'Inventory Asset',
+                            TransferQty: parseFloat(tdtransferqty) || 0,
+                            ClassNameTo: tdDepartment || defaultDept,
+                            PartBarcode: tdbarcode || '',
+                        }
+                    };
+                  }
 
                     //lineItemsForm.push(lineItemObjForm);
                     splashLineArray.push(lineItemObjForm);
@@ -3250,7 +3220,7 @@ Template.stocktransfercard.events({
                 //$('.loginSpinner').css('display','none');
                 $('.fullScreenSpin').css('display', 'none');
             });
-        }
+
 
     },
     'click .btnDeleteStock': function(event) {
