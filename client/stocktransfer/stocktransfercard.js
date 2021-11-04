@@ -1031,6 +1031,7 @@ Template.stocktransfercard.onRendered(function() {
         $('#sltDepartment').editableSelect();
         $('#edtCustomerName').editableSelect();
         $('#sltBankAccountName').editableSelect();
+        $('#edtCustomerEmail').editableSelect();
         $('#shipvia').editableSelect();
 
         $('#tblEmployeelist tbody').on('click', 'tr', function(event) {
