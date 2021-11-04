@@ -70,14 +70,81 @@
             </div>
         </div>
         {{#if stocktransferrecord}}
-            <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
-                <div class="col-12 col-lg-3">
-                    <div class="form-group"><label>Customer</label>
-                        <select type="search" class="form-control" id="edtCustomerName" name="edtCustomerName" custid=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                        </select>
-                        <!-- <input class="form-control" type="text" id="edtCustomerName" name="edtCustomerName" value="{{stocktransferrecord.shipcustomer}}"> -->
+
+            <style>
+                #transferreason {
+                    padding: 2px !important;
+                }
+            </style>
+
+            <div class="row" style="background-color: #ededed; padding: 32px;">
+                <div class="col-12 col-lg-6">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments">{{stocktransferrecord.comments}}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="form-group"><label>Employee Email</label>
+                                <input class="form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" ">
+                            </div>
+                            <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px; margin-bottom: 24px; padding:-2px; padding-left: 24px; width: 100%;">
+                                <div class="form-group" style="margin-right: 35px; Width:50%;">
+                                    <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px;"><label class="custom-control-label" for="formCheck-1">Email Employee</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 col-lg-4">
+                            <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
+                                <label>Transfer Date</label>
+                                <div class="input-group date" style="cursor: pointer;">
+                                    <input type="text" class="form-control" id="dtShipDate" name="dtShipDate" value="{{stocktransferrecord.transdate}}">
+                                    <div class="input-group-addon" style="">
+                                        <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Ship Via</label>
+                                <select type="search" class="form-control" id="shipvia" name="shipvia" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-4">
+                            <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
+                                <label>Transfer From</label>
+                                <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>To Account</label>
+                                <select type="search" class="form-control" id="sltBankAccountName" name="sltBankAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="form-group">
+                                <label>Transfer No</label>
+                                <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Con. Note</label>
+                                <input class="form-control" type="text" id="txtNotes" name="txtNotes" value="{{stocktransferrecord.note}}">
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="col-12 col-lg-2 colProcessed" id="colProcessed" style="display: none;">
+                    <h3 style="margin-left: 0px; margin-top: 35px; color: #e02d1b; font-weight: 600;">Processed</h3>
+                </div>
+            </div>
+
+
+            <!-- <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
                 <div class="col-12 col-lg-3">
                     <div class="form-group"><label>Employee Email</label>
                         <input class="form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" ">
@@ -93,15 +160,10 @@
                     <h3 style="margin-left: 0px; margin-top: 35px; color: #e02d1b; font-weight: 600;">Processed</h3>
                 </div>
             </div>
-            <div class="row" style="background-color: #ededed; padding: 8px 32px 32px 32px;">
+            <div class="row" style="background-color: #ededed; padding: 8px 32px 0px 32px;">
                 <div class="col-12 col-lg-3" style="display: none;">
                     <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Shipping Address</label>
                         <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo">{{stocktransferrecord.shipto}}</textarea>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <div class="form-group"><label style="color:#858796;">Comments</label>
-                        <textarea class="form-control" rows="5" id="shipcomments" name="shipcomments">{{stocktransferrecord.comments}}</textarea>
                     </div>
                 </div>
                 <div class="col-12 col-lg-3">
@@ -116,42 +178,13 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label>Ship Via</label>
                                 <select type="search" class="form-control" id="shipvia" name="shipvia" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                 </select>
-                                <!-- <select class="form-control" id="shipvia" name="shipvia" style="cursor: pointer;">
-                                    <option value="">Please Select</option>
-                                    {{#each item in shipviarecords}}
-                                        {{#if equals item.shippingmethod stocktransferrecord.shipping }}
-                                            <option value="{{stocktransferrecord.shipping}}" selected="">{{stocktransferrecord.shipping}}</option>
-                                        {{else}}
-                                            <option value="{{item.shippingmethod}}">{{item.shippingmethod}}</option>
-                                        {{/if}}
-                                    {{/each}}
-                                </select> -->
                             </div>
                         </div>
                         <div class="col-6 col-lg-6">
-                            <div class="form-group">
-                                <label>Transfer No</label>
-                                <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
-                                <!-- <label>Department</label> -->
-                                <!-- <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                            </select> -->
-                            </div>
-
-                            <div class="form-group">
-                                <label>Con. Note</label>
-                                <input class="form-control" type="text" id="txtshipconnote" name="txtshipconnote" value="{{stocktransferrecord.connote}}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <div class="row">
-                        <div class="col-12 col-lg-6">
                             <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
                                 <label>Transfer From</label>
                                 <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
@@ -166,8 +199,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-lg-3">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Transfer No</label>
+                                <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
+            <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
                 <div class="col-12 mb-2">
                     <a class="btn btn-link" style="margin-left: 16px;" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Comments</a>
                     <div class="row">
@@ -465,7 +508,7 @@
                 <button class="btn btn-primary btnHold" type="button" style="margin: 16px;"><i class="fa fa-clock" style="margin-right: 5px;"></i>Hold</button>
                 <button class="btn btn-danger btnDeleteStockTransfer" type="button" style="margin: 16px;" autocomplete="off"><i class="fa fa-trash" style="padding-right: 8px;"></i>Delete</button>
 
-              <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
+                <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
                 <button class="btn btn-secondary btnBack" type="button" style="margin: 16px;">
                     <i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel
                 </button>
