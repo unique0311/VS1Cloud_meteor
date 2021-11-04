@@ -301,6 +301,15 @@ authenticatedRoutes.route('/quoteslist', {
     }
 });
 
+authenticatedRoutes.route('/refundlist', {
+    name: 'refundlist',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'refundlist'
+        });
+    }
+});
+
 authenticatedRoutes.route('/accountsoverview', {
     name: 'accountsoverview',
     action() {

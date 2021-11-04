@@ -289,6 +289,8 @@ export class SalesBoardService extends BaseService {
         return this.getList(this.ERPObjects.TSalesOrderEx, options);
     }
 
+
+
     getSalesOrderAcceptedList() {
         let options = {
             PropertyList: "PropertyList==ID,GlobalRef,CustomerName,ClientName,ClientPrintName,DocNumber,SaleClassName,EmployeeName,SaleDate,TotalAmountInc,CustPONumber,SalesStatus",
@@ -466,6 +468,15 @@ export class SalesBoardService extends BaseService {
         select: "[Deleted]=false",
       };
       return this.getList(this.ERPObjects.TInvoice, options);
+    }
+
+    getAllRefundList() {
+      let options = {
+
+        PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,DueDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,IsBackOrder",
+        select: "[Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TRefundSale, options);
     }
 
     getAllInvoiceListNonBO() {

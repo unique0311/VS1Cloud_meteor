@@ -402,7 +402,7 @@ Template.newsidenav.onRendered(function() {
                 (currentLoc == "/quotecard") || (currentLoc == "/quoteslist") ||
                 (currentLoc == "/salesordercard") || (currentLoc == "/salesorderslist") ||
                 (currentLoc == "/invoicecard") || (currentLoc == "/refundcard") ||
-                (currentLoc == "/invoicelist") || (currentLoc == "/invoicelistBO")) {
+                (currentLoc == "/invoicelist") || (currentLoc == "/refundlist") || (currentLoc == "/invoicelistBO")) {
                 $('#sidenavaccounts').removeClass('active');
                 $('#sidenavbanking').removeClass('active');
                 $('#sidenavdashbaord').removeClass('active');
@@ -3461,6 +3461,12 @@ Template.newsidenav.events({
 
         event.preventDefault();
         FlowRouter.go('/invoicelist');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
+    'click #sidenavRefund': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/refundlist');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },

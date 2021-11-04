@@ -374,7 +374,7 @@ Template.sidenav.onRendered(function() {
                        (currentLoc == "/quotecard") || (currentLoc == "/quoteslist") ||
                        (currentLoc == "/salesordercard") || (currentLoc == "/salesorderslist") ||
                        (currentLoc == "/invoicecard") || (currentLoc == "/refundcard") ||
-                       (currentLoc == "/invoicelist") || (currentLoc == "/invoicelistBO")) {
+                       (currentLoc == "/invoicelist") || (currentLoc == "/invoicelistBO") || (currentLoc == "/refundlist")) {
                 $('#sidenavaccounts').removeClass('active');
                 $('#sidenavbanking').removeClass('active');
                 $('#sidenavdashbaord .nav-link').removeClass('active');
@@ -3307,8 +3307,14 @@ Template.sidenav.events({
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
+     'click #sidenavRefund': function(event) {
+        alert(10);
+        event.preventDefault();
+        FlowRouter.go('/refundlist');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
     'click #sidenavInvoiceEmail': function(event) {
-
         event.preventDefault();
         FlowRouter.go('/invoiceemail');
         let templateObject = Template.instance();
