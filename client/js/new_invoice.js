@@ -140,7 +140,8 @@ Template.new_invoice.onRendered(() => {
                   } else {
                       lastPageVisitUrl = window.location.pathname;
                   }
-                 FlowRouter.go(lastPageVisitUrl);
+                 //FlowRouter.go(lastPageVisitUrl);
+                 window.open(lastPageVisitUrl, '_self');
               } else {}
           });
     });
