@@ -990,6 +990,43 @@ Template.stocktransfercard.onRendered(function() {
         $('#' + rowIndex + " #UOMQtyShipped").val(qtyShipped);
         $('#' + rowIndex + " #UOMQtyBackOrder").text(qtyBackOrder);
     });
+
+       exportSalesToPdf = function () {
+        let margins = {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            width: 100
+        };
+        let id = $('.printID').attr("id");
+        var source = document.getElementById('html-2-pdfwrapper');
+        let file = "Stock Transer.pdf";
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            file = 'Stock Transfer-' + id + '.pdf';
+        }
+
+        var opt = {
+            margin: 0,
+            filename: file,
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+            html2canvas: {
+                scale: 2
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+            }
+        };
+        html2pdf().set(opt).from(source).save().then(function (dataObject) {
+            $('.fullScreenSpin').css('display', 'none');
+            $('#html-2-pdfwrapper').css('display', 'none');
+        });
+
+    };
     $(document).ready(function() {
         $('#sltDepartment').editableSelect();
         $('#edtCustomerName').editableSelect();
@@ -1250,7 +1287,6 @@ Template.stocktransfercard.onRendered(function() {
 
     $(document).on("blur", ".lineUOMQtyShipped", function(event) {
         var targetID = $(event.target).closest('tr').attr('id');
-        console.log($('#' + targetID + " .lineUOMQtyShipped").val());
         $('#' + targetID + " .lineAdjustQtyPrint").text($('#' + targetID + " .lineUOMQtyShipped").val());
     });
 
@@ -2583,6 +2619,13 @@ Template.stocktransfercard.events({
     'click .btnBack': function(event) {
         event.preventDefault();
         history.back(1);
+    },
+    'click .printConfirm': function (event) {
+        $('#html-2-pdfwrapper').css('display', 'block');
+        $('.pdfCustomerName').html($('#sltAccountName').val());
+        $('.pdfCustomerAddress').html($('#txabillingAddress').val());
+        $('#printcomment').html($('#txaNotes').val().replace(/[\r\n]/g, "<br />"));
+        exportSalesToPdf();
     },
     'click .btnProcess': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
