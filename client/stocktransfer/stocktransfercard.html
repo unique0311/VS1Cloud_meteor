@@ -465,35 +465,7 @@
                 <button class="btn btn-primary btnHold" type="button" style="margin: 16px;"><i class="fa fa-clock" style="margin-right: 5px;"></i>Hold</button>
                 <button class="btn btn-danger btnDeleteStockTransfer" type="button" style="margin: 16px;" autocomplete="off"><i class="fa fa-trash" style="padding-right: 8px;"></i>Delete</button>
 
-                <button class="btn btn-primary" data-toggle="modal" data-target="#printConfirmModal" type="button" style="margin: 16px;">
-                    <i class="fa fa-print" style="padding-right: 8px;"></i>Print
-                </button>
-                <div class="modal fade" id="printConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Print Confirm</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="custom-control custom-checkbox mb-2">
-                                    <input class="custom-control-input" type="checkbox" id="includeInvoiceAttachment" name="includeInvoiceAttachment">
-                                    <label class="custom-control-label" for="includeInvoiceAttachment">Print Invoice</label>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" type="checkbox" id="includeDocketAttachment" name="includeDocketAttachment">
-                                    <label class="custom-control-label" for="includeDocketAttachment">Print Delivery Docket</label>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id='printConfirm' class="btn btn-primary btnprintDockets">Confirm Print</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
                 <button class="btn btn-secondary btnBack" type="button" style="margin: 16px;">
                     <i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel
                 </button>

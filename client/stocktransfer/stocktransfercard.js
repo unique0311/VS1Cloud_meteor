@@ -420,6 +420,7 @@ Template.stocktransfercard.onRendered(function() {
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentStockTransfer) {
                                 added = true;
+                                console.log(useData[d]);
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
                                 let lineItemObj = {};
