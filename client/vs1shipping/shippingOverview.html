@@ -65,15 +65,15 @@
                                         </div>
                                         <div class="modal-body">
                                             <style>
-                                                #reader>div:first-of-type {
+                                                #qr-reader>div:first-of-type {
                                                     display: none !important;
                                                 }
 
-                                                #reader__dashboard_section_swaplink {
+                                                #qr-reader__dashboard_section_swaplink {
                                                     display: none !important;
                                                 }
 
-                                                #reader__dashboard_section_csr>div>button:first-of-type {
+                                                #qr-reader__dashboard_section_csr>div>button:first-of-type {
                                                     color: #fff !important;
                                                     background-color: #00a3d3 !important;
                                                     border-color: #00a3d3 !important;
@@ -89,11 +89,8 @@
                                                     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
                                                 }
                                             </style>
-                                            <!-- <div id="reader" style="width: 100%">
-                                                <input type="file" id="qr-input-file" accept="image/*" capture>
-                                            </div> -->
-                                            <div id="reader" style="width: 100%"></div>
-
+                                            <!-- <div id="reader" style="width: 100%"></div> -->
+                                            <div id="qr-reader" style="width:100%"></div>
                                         </div>
                                         <div class="modal-footer"><button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button></div>
                                     </div>

@@ -144,11 +144,19 @@ Template.vs1shipping.onRendered(function() {
     }
 
     var html5QrcodeScanner = new Html5QrcodeScanner(
-        "reader", {
+        "qr-reader", {
             fps: 10,
-            qrbox: 250
+            qrbox: 250,
+            rememberLastUsedCamera: true
         });
     html5QrcodeScanner.render(onScanSuccess);
+
+    // var html5QrcodeScanner = new Html5QrcodeScanner(
+    //     "reader", {
+    //         fps: 10,
+    //         qrbox: 250
+    //     });
+    // html5QrcodeScanner.render(onScanSuccess);
 
     // const html5QrCode = new Html5Qrcode( /* element id */ "reader");
     //
