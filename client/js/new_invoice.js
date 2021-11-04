@@ -12,7 +12,7 @@ import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
 import { autoTable } from 'jspdf-autotable';
-import 'jquery-editable-select'; 
+import 'jquery-editable-select';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
@@ -117,33 +117,38 @@ Template.new_invoice.onRendered(() => {
         yearRange: "-90:+10",
     });
 
+    jQuery(document).ready(function($) {
+
+        if (window.history && window.history.pushState) {
+
+    window.history.pushState('forward', null, FlowRouter.current().path);
+
+    $(window).on('popstate', function() {
+      swal({
+              title: 'Leave Invoice Screen',
+              text: "Do you want to leave this screen?",
+              type: 'info',
+              showCancelButton: true,
+              confirmButtonText: 'Save'
+          }).then((result) => {
+              if (result.value) {
+                  $(".btnSave").trigger("click");
+              } else if (result.dismiss === 'cancel') {
+                  let lastPageVisitUrl = window.location.pathname;
+                  if (FlowRouter.current().oldRoute) {
+                      lastPageVisitUrl = FlowRouter.current().oldRoute.path;
+                  } else {
+                      lastPageVisitUrl = window.location.pathname;
+                  }
+                 FlowRouter.go(lastPageVisitUrl);
+              } else {}
+          });
+    });
+
+  }
+    });
 
     $(document).ready(function () {
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function (event) {
-            swal({
-                title: 'Leave Invoice Screen',
-                text: "Do you want to leave this screen?",
-                type: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Save'
-            }).then((result) => {
-                if (result.value) {
-                    $(".btnSave").trigger("click");
-                } else if (result.dismiss === 'cancel') {
-                    let lastPageVisitUrl = window.location.pathname;
-                    if (FlowRouter.current().oldRoute) {
-                        lastPageVisitUrl = FlowRouter.current().oldRoute.path;
-                    } else {
-                        lastPageVisitUrl = window.location.pathname;
-                    }
-                   // FlowRouter.go(lastPageVisitUrl);
-                   window.open(lastPageVisitUrl, "_self");
-                } else {}
-            });
-        });
-
-            // });
             $('#formCheck-one').click(function () {
                 if ($(event.target).is(':checked')) {
                     $('.checkbox1div').css('display', 'block');
