@@ -125,9 +125,6 @@ publicRoutes.route('/resetpassword', {
 
 
 const authenticatedRedirect = () => {
-
-
-
     $(window).on('resize', function() {
         var win = $(this); //this = window
         if (win.height() <= 450 && win.width() <= 950) {
@@ -169,6 +166,16 @@ const authenticatedRedirect = () => {
         let lastUrl = Session.get('lastUrl');
     }
     Session.setPersistent('lastUrl', window.location.pathname);
+
+    let lastPageVisitUrl = window.location.pathname;
+    if(FlowRouter.current().oldRoute){
+      lastPageVisitUrl= FlowRouter.current().oldRoute.path;
+    }else{
+      lastPageVisitUrl = window.location.pathname;
+    }
+
+    localStorage.setItem('lastvisiturl', lastPageVisitUrl);
+
 };
 
 const authenticatedRoutes = FlowRouter.group({
