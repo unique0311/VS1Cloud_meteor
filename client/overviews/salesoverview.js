@@ -1035,6 +1035,9 @@ Template.salesoverview.events({
     'click .invoiceList': function(event) {
         FlowRouter.go('/invoicelist');
     },
+    'click .refundList': function(event) {
+        FlowRouter.go('/refundlist');
+    },
     'click .invoiceListBO': function(event) {
         FlowRouter.go('/invoicelistBO');
     },
