@@ -721,6 +721,46 @@
                         .tdEmpty {
                             width: 3% !important;
                         }
+                        @media screen and (max-width: 450px) {
+
+                            #tblTimeSheet_filter {
+                                width: 70%;
+                            }
+
+                            .form-control-sm {
+                                width: 70% !important;
+                            }
+
+                            .input-group.date {
+                                width: 130px !important;
+                            }
+
+                            .dateFromGroup {
+                                float: right !important;
+                                width: 183px !important;
+                            }
+
+                            .dateToGroup {
+                                float: right !important;
+                                width: 172px !important;
+                            }
+
+                            .myvarFilterForm {
+                                /* display: inline-flex !important; */
+                                padding: 0px !important;
+                            }
+
+                            .colDateFilter {
+                                padding-left: 0px !important;
+                            }
+                            .dropdownDateRange {
+                                float: right !important;
+                                width: 100% !important;
+                            }
+                            .btn-daterange {
+                                float: right !important;
+                            }
+                        }
                     </style>
                     <div class="table-responsive">
                         <div class="row no-gutters d-xl-flex align-items-xl-end">
@@ -728,7 +768,7 @@
 
                             </div>
                             <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end myvarFilterForm">
-                                <div class="dropdown" style="margin: 8px; margin-top: 0px;">
+                                <div class="dropdown dropdownDateRange" style="margin: 8px; margin-top: 0px;">
                                     <style>
                                         .btn-daterange::after {
                                             display: none;
@@ -743,7 +783,7 @@
                                         <a class="dropdown-item ignoreDate" id="ignoreDate" role="presentation" href="#">Ignore Date</a>
                                     </div>
                                 </div>
-                                <div class="form-group" style="margin: 8px; margin-top: 0px; display: inline-flex;">
+                                <div class="form-group dateFromGroup" style="margin: 8px; margin-top: 0px; display: inline-flex;">
                                     <label style="margin-top: 8px; margin-right: 16px;">From</label>
                                     <div class="input-group date" style="width: 160px;">
                                         <input type="text" class="form-control" id="dateFrom" name="dateFrom">
@@ -752,7 +792,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group" style="margin: 8px; margin-right: 0px; margin-top: 0px; display: inline-flex;">
+                                <div class="form-group dateToGroup" style="margin: 8px; margin-right: 0px; margin-top: 0px; display: inline-flex;">
                                     <label style="margin-top: 8px; margin-right: 16px;">To</label>
                                     <div class="input-group date" style="width: 160px;">
                                         <input type="text" class="form-control" id="dateTo" name="dateTo">
@@ -771,6 +811,7 @@
                             input[type=time]::-webkit-datetime-edit-ampm-field {
                                 display: none;
                             }
+
                             input[type="time"]::-webkit-calendar-picker-indicator {
                                 background: none;
                             }
