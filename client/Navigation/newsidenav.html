@@ -670,9 +670,11 @@
                             </a>
                         </li> -->
                         {{#if includeTimesheetEntry}}
+                            {{#if equals showTimesheet true}}
                             <li>
                                 <a id="sidenavtimesheet" name="sidenavtimesheet"><i class="fas fa-user-clock"></i> Timesheet</a>
                             </li>
+                            {{/if}}
                         {{/if}}
                         {{#if includeClockOnOff}}
                             <li>

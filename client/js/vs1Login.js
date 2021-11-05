@@ -626,9 +626,16 @@ Template.vs1login.onRendered(function () {
         let isAppointmentNotes = false;
         let isAddAttachment = false;
         let isCanOnlySeeOwnAppointment = false;
+        let isCanOnlySeeOwnTimesheets = false;
         let isCanOnlySeeOwnAllocations = false;
         let isCreateAppointment = false;
+
         let isEditTimesheetHours = false;
+        let isTimesheetClockOnClockOff = false;
+        let isClockOnOffLaunch = false;
+        let isTimesheetStartStop = false;
+        let isTimesheetCreate = false;
+        let isShowTimesheet = false;
 
         /* Lincence Check for Menu Options */
         let isFixedAssetsLicence = Session.get('CloudFixedAssetsLicence');
@@ -698,6 +705,28 @@ Template.vs1login.onRendered(function () {
                     if (optionaccess.fields.Description === "Can Only See Own Appointments") {
                         isCanOnlySeeOwnAppointment = true;
                     }
+
+                    if (optionaccess.fields.Description === "Can Only See Own TimeSheet") {
+                        isCanOnlySeeOwnTimesheets = true;
+                    }
+
+                    if (optionaccess.fields.Description === "Show TimeSheet") {
+                        isShowTimesheet = true;
+                    }
+
+
+                     if (optionaccess.fields.Description === "Launch Clock On / Off") {
+                        isClockOnOffLaunch = true;
+                    }
+
+                    if (optionaccess.fields.Description === "TimeSheet - Start and Stop Only") {
+                        isTimesheetStartStop = true;
+                    }
+
+                     if (optionaccess.fields.Description === "Create a New TimeSheet") {
+                        isTimesheetCreate = true;
+                    }
+
 
                     if (optionaccess.fields.Description === "Appointment - Add Notes") {
                         isAppointmentNotes = true;
@@ -954,6 +983,13 @@ Template.vs1login.onRendered(function () {
             Session.setPersistent('CloudAppointmentCreateAppointment', isCreateAppointment);
             Session.setPersistent('CloudAppointmentNotes', isAppointmentNotes);
             Session.setPersistent('CloudEditTimesheetHours', isEditTimesheetHours);
+
+
+             Session.setPersistent('CloudTimesheetSeeOwnTimesheets', isCanOnlySeeOwnTimesheets);
+             Session.setPersistent('CloudTimesheetLaunch', isClockOnOffLaunch);
+             Session.setPersistent('CloudTimesheetStartStop', isTimesheetStartStop);
+             Session.setPersistent('CloudCreateTimesheet', isTimesheetCreate);
+             Session.setPersistent('CloudShowTimesheet', isShowTimesheet);
             let userSerssion = {
                 'loggedEmpID': userAccessOptions.items[0].fields.EmployeeId,
                 'loggedUserName': Session.get('EUserName'),

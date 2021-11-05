@@ -60,6 +60,18 @@ Template.payrolloverview.onRendered(function () {
         }, 500);
 
     }
+
+
+    let launchClockOnOff = Session.get('CloudTimesheetLaunch') || false;
+    let canClockOnClockOff = Session.get('CloudClockOnOff') || false;
+    let timesheetStartStop = Session.get('CloudTimesheetStartStop') || false;
+    let showTimesheet = Session.get('CloudShowTimesheet') || false;
+    if (launchClockOnOff == true && canClockOnClockOff == true) {
+        setTimeout(function () {
+            $("#btnClockOnOff").trigger("click");
+        }, 500);
+    }
+
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
         if (error) {}
         else {
@@ -1549,6 +1561,23 @@ Template.payrolloverview.events({
         }
 
 
+         if(hours != 0.01) {
+             obj = {
+                type: "TTimeLog",
+                fields: {
+                    TimeSheetID: updateID,
+                    EmployeeID: Session.get('mySessionEmployeeLoggedID'),
+                    StartDatetime: checkStartTime,
+                    EndDatetime: endTime,
+                    Product: product,
+                    Description: 'Timesheet Completed',
+                    EnteredBy: Session.get('mySessionEmployeeLoggedID')
+                }
+            };
+            isPaused = "completed";
+        }
+
+
         if (checkStartTime == "" && endTime != "") {
             $('.fullScreenSpin').css('display', 'none');
             swal({
@@ -2827,6 +2856,18 @@ Template.payrolloverview.helpers({
     },
     edithours: () => {
         return Session.get('CloudEditTimesheetHours') || false;
+    },
+    clockOnOff: () => {
+        return Session.get('CloudClockOnOff') || false;
+    },
+    launchClockOnOff: () => {
+        return Session.get('launchClockOnOff') || false;
+    },
+     timesheetStartStop: () => {
+        return Session.get('timesheetStartStop ') || false;
+    },
+    showTimesheet : () => {
+        return Session.get('CloudShowTimesheet') || false;
     },
     tableheaderrecords: () => {
         return Template.instance().tableheaderrecords.get();

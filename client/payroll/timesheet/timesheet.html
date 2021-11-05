@@ -94,10 +94,15 @@
         <div class="row" style="background-color: #ededed; padding-top: 0px; padding: 24px;">
             <div class="col-6 col-md-9">
                 <button class="btn btn-primary btnRefresh btnNav" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                {{#if equals showTimesheetEntry true}}
                 <button id="btnNewTimeSheet" name="btnNewTimeSheet" class="btn btn-primary btnNav" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin: 16px;"><i class="icon ion-plus"
                         style="padding-right: 5px;"></i>New
                     Timesheet</button>
+                {{/if}}
+
+                 {{#if equals clockOnOff true}}
                 <button id="btnClockOnOff" name="btnClockOnOff" class="btn btnNav btn-primary btnNav" type="button" role="button" style="margin: 16px;"><i class="fas fa-user-clock" style="padding-right: 5px;"></i>Clock On/Off</button>
+                 {{/if}}
                 <button id="processTimesheet" name="processTimesheet" class="btn btnNav btn-primary btnNav" type="button" role="button" style="margin: 16px;"><i class="fas fa-user-clock" style="padding-right: 5px;"></i>Load To Payroll</button>
                 <button id="processTimesheet" name="processTimesheet" class="btn btnNav btn-primary btnNav" type="button" role="button" style="margin: 16px;"><i class="fas fa-check" style="padding-right: 5px;"></i>Process</button>
             </div>
@@ -613,8 +618,11 @@
                                     <div class="col-6 col-md-4 col-lg-4">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>End Time</label><input required class="form-control" id="endTime" name="endTime" type="time"></div>
                                         <span class="btn btn-warning paused" style="margin: 8px 0px; width: 100%; margin-top: -72px; background-color: rgba(246, 194, 62, 0.4); cursor: default;">Paused</span>
+                                        {{#if equals timesheetStartStop false}}
                                         <button class="btn btn-warning btnHoldOne" type="button" style="width: 100%;" id="btnHoldOne"><span class="isPaused" style="width: 100% !important; padding:9px;">On Hold</span></button>
-
+                                        {{else}}
+                                           <button class="btn btn-warning btnHoldOne" type="button" style="width: 100%;" id="btnHoldOne"><span class="isDisabled" style="width: 100% !important; padding:9px;">On Hold</span></button>
+                                        {{/if}}
 
                                     </div>
                                     <div class="col-6 col-md-4 col-lg-4">
