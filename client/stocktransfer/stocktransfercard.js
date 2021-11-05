@@ -59,6 +59,9 @@ Template.stocktransfercard.onCreated(function() {
 
     templateObject.availableserialnumberlist = new ReactiveVar([]);
     templateObject.availableserialnumberqty = new ReactiveVar();
+
+    templateObject.isProccessed = new ReactiveVar();
+    templateObject.isProccessed.set(false);
 });
 
 Template.stocktransfercard.onRendered(function() {
@@ -307,8 +310,8 @@ Template.stocktransfercard.onRendered(function() {
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: data.fields.Lines[i].fields.ID || '',
-                                        pqa: '',
-                                        serialnumber: data.fields.Lines[i].fields.SerialNumber || '',
+                                        pqa: data.fields.Lines[i].fields.TransferSerialnos || '',
+                                        serialnumber: data.fields.Lines[i].fields.TransferSerialnos || '',
                                         productname: data.fields.Lines[i].fields.ProductName || '',
                                         item: data.fields.Lines[i].fields.ProductName || '',
                                         productid: data.fields.Lines[i].fields.ProductID || '',
@@ -345,6 +348,7 @@ Template.stocktransfercard.onRendered(function() {
                             }, 200);
 
                             if (data.fields.Processed == true) {
+                              templateObject.isProccessed.set(true);
                                 $('.colProcessed').css('display', 'block');
                                 $("#form :input").prop("disabled", true);
                                 $(".btnDeleteStock").prop("disabled", false);
@@ -433,8 +437,8 @@ Template.stocktransfercard.onRendered(function() {
                                         lineItemObj = {
                                             lineID: Random.id(),
                                             id: useData[d].fields.Lines[i].fields.ID || '',
-                                            pqa: '',
-                                            serialnumber: useData[d].fields.Lines[i].fields.SerialNumber || '',
+                                            pqa: useData[d].fields.Lines[i].fields.TransferSerialnos|| '',
+                                            serialnumber: useData[d].fields.Lines[i].fields.TransferSerialnos || '',
                                             productname: useData[d].fields.Lines[i].fields.ProductName || '',
                                             item: useData[d].fields.Lines[i].fields.ProductName || '',
                                             productid: useData[d].fields.Lines[i].fields.ProductID || '',
@@ -453,8 +457,8 @@ Template.stocktransfercard.onRendered(function() {
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: useData[d].fields.Lines.fields.ID || '',
-                                        pqa: '',
-                                        serialnumber: useData[d].fields.Lines.fields.SerialNumber || '',
+                                        pqa: useData[d].fields.Lines.fields.TransferSerialnos ||'',
+                                        serialnumber: useData[d].fields.Lines.fields.TransferSerialnos || '',
                                         productname: useData[d].fields.Lines.fields.ProductName || '',
                                         item: useData[d].fields.Lines.fields.ProductName || '',
                                         productid: useData[d].fields.Lines.fields.ProductID || '',
@@ -498,6 +502,7 @@ Template.stocktransfercard.onRendered(function() {
                                 // $(".btnBack").prop("disabled", false);
 
                                 if (useData[d].fields.Processed == true) {
+                                  templateObject.isProccessed.set(true);
                                     $('.colProcessed').css('display', 'block');
                                     $("#form :input").prop("disabled", true);
                                     $(".btnDeleteStock").prop("disabled", false);
@@ -567,8 +572,8 @@ Template.stocktransfercard.onRendered(function() {
                                         lineItemObj = {
                                             lineID: Random.id(),
                                             id: data.fields.Lines[i].fields.ID || '',
-                                            pqa: '',
-                                            serialnumber: data.fields.Lines[i].fields.SerialNumber || '',
+                                            pqa: data.fields.Lines[i].fields.TransferSerialnos ||'',
+                                            serialnumber: data.fields.Lines[i].fields.TransferSerialnos || '',
                                             productname: data.fields.Lines[i].fields.ProductName || '',
                                             item: data.fields.Lines[i].fields.ProductName || '',
                                             productid: data.fields.Lines[i].fields.ProductID || '',
@@ -605,6 +610,7 @@ Template.stocktransfercard.onRendered(function() {
                                 }, 200);
 
                                 if (data.fields.Processed == true) {
+                                  templateObject.isProccessed.set(true);
                                     $('.colProcessed').css('display', 'block');
                                     $("#form :input").prop("disabled", true);
                                     $(".btnDeleteStock").prop("disabled", false);
@@ -690,8 +696,8 @@ Template.stocktransfercard.onRendered(function() {
                                 lineItemObj = {
                                     lineID: Random.id(),
                                     id: data.fields.Lines[i].fields.ID || '',
-                                    pqa: '',
-                                    serialnumber: data.fields.Lines[i].fields.SerialNumber || '',
+                                    pqa: data.fields.Lines[i].fields.TransferSerialnos || '',
+                                    serialnumber: data.fields.Lines[i].fields.TransferSerialnos || '',
                                     productname: data.fields.Lines[i].fields.ProductName || '',
                                     item: data.fields.Lines[i].fields.ProductName || '',
                                     productid: data.fields.Lines[i].fields.ProductID || '',
@@ -728,6 +734,7 @@ Template.stocktransfercard.onRendered(function() {
                         }, 200);
 
                         if (data.fields.Processed == true) {
+                          templateObject.isProccessed.set(true);
                             $('.colProcessed').css('display', 'block');
                             $("#form :input").prop("disabled", true);
                             $(".btnDeleteStock").prop("disabled", false);
@@ -2405,6 +2412,9 @@ Template.stocktransfercard.events({
             }
 
     },
+    'click .lineProductBarCode': function(event) {
+
+    },
     'click .lineDepartment, keydown .lineDepartment': function(event) {
         var $earch = $(event.currentTarget);
         var offset = $earch.offset();
@@ -2870,7 +2880,7 @@ Template.stocktransfercard.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        FlowRouter.go('/stockadjustmentoverview?success=true');
+                                        FlowRouter.go('/stocktransferlist?success=true');
                                     } else if (result.dismiss === 'cancel') {}
                                 });
 
@@ -2879,7 +2889,7 @@ Template.stocktransfercard.events({
                         });
 
                     } else {
-                        //FlowRouter.go('/stocktransferlist?success=true');
+                        FlowRouter.go('/stocktransferlist?success=true');
                     };
 
                 }
@@ -3189,7 +3199,7 @@ Template.stocktransfercard.events({
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
                                     if (result.value) {
-                                        FlowRouter.go('/stockadjustmentoverview?success=true');
+                                        FlowRouter.go('/stocktransferlist?success=true');
                                     } else if (result.dismiss === 'cancel') {}
                                 });
 
@@ -3198,7 +3208,7 @@ Template.stocktransfercard.events({
                         });
 
                     } else {
-                        //FlowRouter.go('/stocktransferlist?success=true');
+                        FlowRouter.go('/stocktransferlist?success=true');
                     };
 
                 }

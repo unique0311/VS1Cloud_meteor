@@ -2207,13 +2207,11 @@ Template.employeescard.events({
                         if ($.trim(checkifupdate).length != 0) {
 
                             if (cloudpassword.length < 8) {
-                                if (cloudpassword.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
-                                    $('#cloudEmpUserPassword').css('border-color', '#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
-                                } else {
-                                    swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
+
+                                    swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter and one number!', 'error');
                                     $('#cloudEmpUserPassword').css('border-color', 'red');
                                     $('#cloudEmpUserPassword').focus();
-                                }
+
                                 $('.fullScreenSpin').css('display', 'none');
                                 return false;
                             } else {
@@ -2521,7 +2519,7 @@ Template.employeescard.events({
         let cloudpassword = $("#cloudEmpUserPassword").val();
         let employeeSaveID = $('#selectEmployeeID').val();
         // if(cloudpassword.length < 8) {
-        //   swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
+        //   swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letterand one number!', 'error');
         //   $('#cloudEmpUserPassword').css('border-color','red');
         //   $('#cloudEmpUserPassword').focus();
         //   $('.fullScreenSpin').css('display','none');
@@ -2795,7 +2793,7 @@ Template.employeescard.events({
             }
         }
         //   }else {
-        //     swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
+        //     swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letterand one number!', 'error');
         //     $('#cloudEmpUserPassword').css('border-color','red');
         //     $('#cloudEmpUserPassword').focus();
         //     $('.fullScreenSpin').css('display','none');
@@ -3289,7 +3287,7 @@ Template.employeescard.events({
         let cloudpassword = $(event.target).val().replace(/;/g, ",");
         if (cloudpassword != '') {
             if (cloudpassword.length < 8) {
-                swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'error');
+                swal('Invalid VS1 Password', 'Password must be at least eight characters including one capital letterand one number!', 'error');
                 // $('#cloudEmpUserPassword').focus();
                 event.preventDefault();
                 return false;

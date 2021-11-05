@@ -190,6 +190,7 @@ Template.accessleveldup.onRendered(function(){
         let isSettingsLicence = Session.get('CloudSettingsLicence');
 
         let isAppointmentSchedulingLicence = Session.get('CloudAppointmentSchedulingLicence');
+        let isPayrollLicence = Session.get('CloudPayrollLicence');
         /*End Licence Check Menu to add */
         /* End Licence Check for menu option */
 
@@ -297,6 +298,10 @@ Template.accessleveldup.onRendered(function(){
                         formClass = 'inactiveLicence';
                     }else if((n.description === "Stock Transfer") && (isStockTransferLicence)){
                         formClass = '';
+                    }else if((n.description === "Payroll") && (!isPayrollLicence)){
+                        formClass = 'inactiveLicence';
+                    }else if((n.description === "Payroll") && (isPayrollLicence)){
+                        formClass = '';
                     }else{
                         formClass = '';
                     }
@@ -318,6 +323,10 @@ Template.accessleveldup.onRendered(function(){
                     }else if((n.skingroup === "Purchases") && (n.description === "Purchases")){
                         formClassHidden = 'hiddenRow';
                     }else if((n.skingroup === "Sales") && (n.description === "Sales")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Payroll") && (n.description === "Payroll")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Shipping") && (n.description === "Shipping")){
                         formClassHidden = 'hiddenRow';
                     }else{
                       formClassHidden = '';
@@ -385,8 +394,8 @@ Template.accessleveldup.onRendered(function(){
                 let isPayrollClockOnOff = false;
                 let isPayrollTimeSheet = false;
                 if(splashArray.length > 0){
-                  //alert('here 3');
                     $.grep(splashArray, function(n) {
+
                       if((n.skingroup === "Accounts") && (n.description === "Accounts")){
                           formClassHidden = 'hiddenRow';
                       }else if((n.skingroup === "Appointments") && (n.description === "Appointments")){
@@ -404,6 +413,10 @@ Template.accessleveldup.onRendered(function(){
                       }else if((n.skingroup === "Purchases") && (n.description === "Purchases")){
                           formClassHidden = 'hiddenRow';
                       }else if((n.skingroup === "Sales") && (n.description === "Sales")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Payroll") && (n.description === "Payroll")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Shipping") && (n.description === "Shipping")){
                           formClassHidden = 'hiddenRow';
                       }else{
                         formClassHidden = '';
@@ -520,6 +533,10 @@ Template.accessleveldup.onRendered(function(){
                                             formClass = 'inactiveLicence';
                                         }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
                                             formClass = '';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                            formClass = '';
                                         }else{
                                             formClass = '';
                                         }
@@ -589,11 +606,19 @@ Template.accessleveldup.onRendered(function(){
                                               $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
                                               },500);
                                             }
-                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Timesheet Entry") && (data.temployeeformaccessdetail[i].fields.AccessLevel == 6)){
-                                          if((data.temployeeformaccessdetail[i].fields.Description === "Clock On/Off") &&(data.temployeeformaccessdetail[i].fields.AccessLevel == 6)){
-                                              setTimeout(function () {
-                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
-                                              },500);
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
                                           }
                                         }else{
                                           formClassHidden = '';
@@ -733,6 +758,10 @@ Template.accessleveldup.onRendered(function(){
                                     formClass = 'inactiveLicence';
                                 }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
                                     formClass = '';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                    formClass = '';
                                 }else{
                                     formClass = '';
                                 }
@@ -802,13 +831,20 @@ Template.accessleveldup.onRendered(function(){
                                       $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
                                       },500);
                                     }
-                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Timesheet Entry")&& (data.temployeeformaccessdetail[i].fields.Description === "Clock On/Off")){
-
-                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
-                                      setTimeout(function () {
-                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
-                                      },500);
-                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
                                 }else{
                                   formClassHidden = '';
                                 }
@@ -885,7 +921,6 @@ Template.accessleveldup.onRendered(function(){
                 let isPayrollClockOnOff = false;
                 let isPayrollTimeSheet = false;
                 if(splashArray.length > 0){
-                  //alert('here 3');
                     $.grep(splashArray, function(n) {
                       if((n.skingroup === "Accounts") && (n.description === "Accounts")){
                           formClassHidden = 'hiddenRow';
@@ -904,6 +939,10 @@ Template.accessleveldup.onRendered(function(){
                       }else if((n.skingroup === "Purchases") && (n.description === "Purchases")){
                           formClassHidden = 'hiddenRow';
                       }else if((n.skingroup === "Sales") && (n.description === "Sales")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Payroll") && (n.description === "Payroll")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Shipping") && (n.description === "Shipping")){
                           formClassHidden = 'hiddenRow';
                       }else{
                         formClassHidden = '';
@@ -1020,6 +1059,10 @@ Template.accessleveldup.onRendered(function(){
                                             formClass = 'inactiveLicence';
                                         }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
                                             formClass = '';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                            formClass = '';
                                         }else{
                                             formClass = '';
                                         }
@@ -1089,11 +1132,19 @@ Template.accessleveldup.onRendered(function(){
                                               $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
                                               },500);
                                             }
-                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Timesheet Entry") && (data.temployeeformaccessdetail[i].fields.AccessLevel == 6)){
-                                          if((data.temployeeformaccessdetail[i].fields.Description === "Clock On/Off") &&(data.temployeeformaccessdetail[i].fields.AccessLevel == 6)){
-                                              setTimeout(function () {
-                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
-                                              },500);
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
                                           }
                                         }else{
                                           formClassHidden = '';
@@ -1233,6 +1284,10 @@ Template.accessleveldup.onRendered(function(){
                                     formClass = 'inactiveLicence';
                                 }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
                                     formClass = '';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                    formClass = '';
                                 }else{
                                     formClass = '';
                                 }
@@ -1302,13 +1357,20 @@ Template.accessleveldup.onRendered(function(){
                                       $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
                                       },500);
                                     }
-                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Timesheet Entry")&& (data.temployeeformaccessdetail[i].fields.Description === "Clock On/Off")){
-
-                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
-                                      setTimeout(function () {
-                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
-                                      },500);
-                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
                                 }else{
                                   formClassHidden = '';
                                 }
