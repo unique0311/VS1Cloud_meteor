@@ -219,7 +219,7 @@
     {{/if}}
 
     <div class="modal fade" role="dialog" tabindex="-1" id="searchPOP">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document" style="max-width: 90vw;">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document" style="max-width: 75vw;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 style="">
@@ -273,15 +273,31 @@
                             table tr td {
                                 cursor: pointer;
                             }
+
+                            .searchIDth {
+                                width: 10% !important;
+                            }
+                            .colStatusth {
+                                width: 5% !important;s
+                            }
+                            .globalRefTh {
+                                width: 20% !important;
+                            }
+                            /* .nameTh {
+                                width: 15% !important;
+                            } */
+                            .typeTh {
+                                width: 15% !important;
+                            }
                         </style>
                         <table id="tblSearchOverview" style="width:100%" class="table table-striped table-bordered tblSearchOverview">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Type</th>
-                                    <th>Global Ref</th>
-                                    <th class="th colStatus" style="width:70px;">Status</th>
+                                    <th class="searchIDth" style="width: 10%;">ID</th>
+                                    <th class="nameTh" style="width:;">Name</th>
+                                    <th class="typeTh" style="width: 15%;">Type</th>
+                                    <th class="globalRefTh" style="width: 20%;">Global Ref</th>
+                                    <th class="th colStatus colStatusth" style="width: 5%;">Status</th>
                                     <!-- <th>Trans Date</th> -->
                                 </tr>
                             </thead>
