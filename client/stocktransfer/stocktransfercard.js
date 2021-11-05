@@ -345,6 +345,7 @@ Template.stocktransfercard.onRendered(function() {
                                 $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                                 $('#sltBankAccountName').val(data.fields.AccountName);
                                 $('#shipvia').val(data.fields.Shipping);
+                                $('#tblStocktransfer .lineOrdered').trigger("click");
                             }, 200);
 
                             if (data.fields.Processed == true) {
@@ -424,7 +425,6 @@ Template.stocktransfercard.onRendered(function() {
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentStockTransfer) {
                                 added = true;
-                                console.log(useData[d]);
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
                                 let lineItemObj = {};
@@ -490,6 +490,7 @@ Template.stocktransfercard.onRendered(function() {
                                     $('#edtCustomerName').val(useData[d].fields.Lines[0].fields.CustomerName);
                                     $('#sltBankAccountName').val(useData[d].fields.AccountName);
                                     $('#shipvia').val(useData[d].fields.Shipping);
+                                    $('#tblStocktransfer .lineOrdered').trigger("click");
                                 }, 200);
 
 
@@ -607,6 +608,7 @@ Template.stocktransfercard.onRendered(function() {
                                     $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                                     $('#sltBankAccountName').val(data.fields.AccountName);
                                     $('#shipvia').val(data.fields.Shipping);
+                                    $('#tblStocktransfer .lineOrdered').trigger("click");
                                 }, 200);
 
                                 if (data.fields.Processed == true) {
@@ -899,6 +901,9 @@ Template.stocktransfercard.onRendered(function() {
 
     if (FlowRouter.current().queryParams.id) {
 
+       setTimeout(function() {
+           $('#tblStocktransfer .lineOrdered').trigger("click");
+       }, 400);
     } else {
         setTimeout(function() {
             $('#tblStocktransfer .lineProductName').trigger("click");
@@ -2412,8 +2417,41 @@ Template.stocktransfercard.events({
             }
 
     },
-    'click .lineProductBarCode': function(event) {
+    'click .lineProductBarCode, click .lineDescription, click .lineOrdered': function(event) {
+      let templateObject = Template.instance();
+      if(FlowRouter.current().queryParams.id){
 
+        var $tblrow = $("#tblStocktransfer tbody tr");
+        var targetID = $(event.target).closest('tr').attr('id');
+        var prodPQALine = "";
+        var dataListRet = "";
+
+        var productName = $('#' + targetID + " .lineProductName").val() || '';
+        var productID = $('#' + targetID + " .ProductID").text() || '';
+        prodPQALine = $('#' + targetID + " .lineID").text();
+        $('input[name="prodID"]').val($('#' + targetID + " .ProductID").text());
+        $('input[name="orderQty"]').val($('#' + targetID + " .colOrdered").val());
+        let countSerial = 0;
+        //$('table tr').css('background','#ffffff');
+        $('table tr').css('background', 'transparent');
+        $('#serailscanlist').find('tbody').remove();
+        //alert(rowIndex);
+        $('input[name="salesLineRow"]').val(targetID);
+         prodPQALine = $('#' + targetID + " .lineID").text();
+        var segsSerial = prodPQALine.split(',');
+        $('#' + targetID).css('background', 'rgba(0,163,211,0.1)');
+        for (let s = 0; s < segsSerial.length; s++) {
+          countSerial++;
+          let scannedCode = "PSN-"+productID+"-"+segsSerial[s];
+          let  htmlAppend = '<tr class="dnd-moved"><td class="form_id">'+countSerial+'</td><td>' + ''
+             + '</td><td>' + '</td>'
+             + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNoBOM" id="serialNoBOM" class="highlightInput " value="'+scannedCode+'" readonly>' + '</td><td class="hiddenColumn"><input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+segsSerial[s]+'" readonly></td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
+             + '</tr>';
+             $("#serailscanlist").append(htmlAppend);
+        }
+        //templateObject.getProductQty(targetID, productName);
+
+      }
     },
     'click .lineDepartment, keydown .lineDepartment': function(event) {
         var $earch = $(event.currentTarget);

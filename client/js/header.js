@@ -98,6 +98,7 @@ Template.header.onRendered(function() {
           if(searchName.length <= 2){
             productService.getGlobalSearchReport(searchName).then(function(data) {
                 let dataSelectID = '';
+                let isProcessed = '';
                 var splashArrayList = new Array();
                 var splashArrayListDupp = new Array();
                 $('.fullScreenSpin').css('display', 'none');
@@ -141,6 +142,20 @@ Template.header.onRendered(function() {
                         dataSelectID = data.tglobalsearchreport[i].AccountsID;
                     }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
                         dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
+                        if(data.tglobalsearchreport[i].IsProcessed){
+                          isProcessed = "Processed";
+                        }else{
+                          isProcessed = "On Hold";
+                        }
+                    }else if (data.tglobalsearchreport[i].Type === "Stock Transfer") {
+                        dataSelectID = data.tglobalsearchreport[i].TransId;
+                        if(data.tglobalsearchreport[i].IsProcessed){
+                          isProcessed = "Processed";
+                        }else{
+                          isProcessed = "On Hold";
+                        }
+                    }else{
+                      dataSelectID = data.tglobalsearchreport[i].ID;
                     }
                     var dataList = {
                         catg: data.tglobalsearchreport[i].Catg || '',
@@ -165,7 +180,8 @@ Template.header.onRendered(function() {
                         dataSelectID || '',
                         data.tglobalsearchreport[i].Company || '',
                         data.tglobalsearchreport[i].Type || '',
-                        data.tglobalsearchreport[i].Globalref || ''
+                        data.tglobalsearchreport[i].Globalref || '',
+                        isProcessed
 
                     ];
                     //if(dataSelectID != ""){
@@ -273,7 +289,21 @@ Template.header.onRendered(function() {
                                } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
                                    dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
                                }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
-                                   dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].StockAdjustID;
+                                   if(data.tglobalsearchreport[i].IsProcessed){
+                                     isProcessed = "Processed";
+                                   }else{
+                                     isProcessed = "On Hold";
+                                   }
+                               }else if (data.tglobalsearchreport[i].Type === "Stock Transfer") {
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].TransId;
+                                   if(data.tglobalsearchreport[i].IsProcessed){
+                                     isProcessed = "Processed";
+                                   }else{
+                                     isProcessed = "On Hold";
+                                   }
+                               }else{
+                                 dataSelectID = dataObjectnew.tglobalsearchreport[i].ID;
                                }
                                var dataListDupp = {
                                    catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
@@ -298,7 +328,8 @@ Template.header.onRendered(function() {
                                    dataSelectID || '',
                                    dataObjectnew.tglobalsearchreport[i].Company || '',
                                    dataObjectnew.tglobalsearchreport[i].Type || '',
-                                   dataObjectnew.tglobalsearchreport[i].Globalref || ''
+                                   dataObjectnew.tglobalsearchreport[i].Globalref || '',
+                                   isProcessed
 
                                ];
                                dataTableListDupp.push(dataListDupp);
@@ -366,6 +397,8 @@ Template.header.onRendered(function() {
                             window.open('/accountsoverview?id=' + listData, '_self');
                         }else if (transactiontype === 'Stock Adjustment') {
                             window.open('/stockadjustmentcard?id=' + listData, '_self');
+                        }else if (transactiontype === 'Stock Transfer') {
+                            window.open('/stocktransfercard?id=' + listData, '_self');
                         } else {
 
                         }
@@ -465,6 +498,7 @@ Template.header.onRendered(function() {
           }else{
               productService.getGlobalSearchReport(searchName).then(function(data) {
                   let dataSelectID = '';
+                  let isProcessed = '';
                   var splashArrayList = new Array();
                   var splashArrayListDupp = new Array();
                   $('.fullScreenSpin').css('display', 'none');
@@ -508,6 +542,20 @@ Template.header.onRendered(function() {
                           dataSelectID = data.tglobalsearchreport[i].AccountsID;
                       }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
                           dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
+                          if(data.tglobalsearchreport[i].IsProcessed){
+                            isProcessed = "Processed";
+                          }else{
+                            isProcessed = "On Hold";
+                          }
+                      }else if (data.tglobalsearchreport[i].Type === "Stock Transfer") {
+                          dataSelectID = data.tglobalsearchreport[i].TransId;
+                          if(data.tglobalsearchreport[i].IsProcessed){
+                            isProcessed = "Processed";
+                          }else{
+                            isProcessed = "On Hold";
+                          }
+                      }else{
+                        dataSelectID = data.tglobalsearchreport[i].ID;
                       }
                       var dataList = {
                           catg: data.tglobalsearchreport[i].Catg || '',
@@ -532,7 +580,8 @@ Template.header.onRendered(function() {
                           dataSelectID || '',
                           data.tglobalsearchreport[i].Company || '',
                           data.tglobalsearchreport[i].Type || '',
-                          data.tglobalsearchreport[i].Globalref || ''
+                          data.tglobalsearchreport[i].Globalref || '',
+                          isProcessed
 
                       ];
                       //if(dataSelectID != ""){
@@ -640,7 +689,21 @@ Template.header.onRendered(function() {
                                  } else if (dataObjectnew.tglobalsearchreport[i].Type === "Account") {
                                      dataSelectID = dataObjectnew.tglobalsearchreport[i].AccountsID;
                                  }else if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
-                                     dataSelectID = data.tglobalsearchreport[i].StockAdjustID;
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].StockAdjustID;
+                                     if(data.tglobalsearchreport[i].IsProcessed){
+                                       isProcessed = "Processed";
+                                     }else{
+                                       isProcessed = "On Hold";
+                                     }
+                                 }else if (data.tglobalsearchreport[i].Type === "Stock Transfer") {
+                                     dataSelectID = dataObjectnew.tglobalsearchreport[i].TransId;
+                                     if(data.tglobalsearchreport[i].IsProcessed){
+                                       isProcessed = "Processed";
+                                     }else{
+                                       isProcessed = "On Hold";
+                                     }
+                                 }else{
+                                   dataSelectID = dataObjectnew.tglobalsearchreport[i].ID;
                                  }
                                  var dataListDupp = {
                                      catg: dataObjectnew.tglobalsearchreport[i].Catg || '',
@@ -665,7 +728,8 @@ Template.header.onRendered(function() {
                                      dataSelectID || '',
                                      dataObjectnew.tglobalsearchreport[i].Company || '',
                                      dataObjectnew.tglobalsearchreport[i].Type || '',
-                                     dataObjectnew.tglobalsearchreport[i].Globalref || ''
+                                     dataObjectnew.tglobalsearchreport[i].Globalref || '',
+                                     isProcessed
 
                                  ];
                                  dataTableListDupp.push(dataListDupp);
@@ -731,6 +795,8 @@ Template.header.onRendered(function() {
                               window.open('/accountsoverview?id=' + listData, '_self');
                           }else if (transactiontype === 'Stock Adjustment') {
                               window.open('/stockadjustmentcard?id=' + listData, '_self');
+                          }else if (transactiontype === 'Stock Transfer') {
+                              window.open('/stocktransfercard?id=' + listData, '_self');
                           }else {
 
                           }

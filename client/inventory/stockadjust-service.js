@@ -69,7 +69,10 @@ export class StockTransferService extends BaseService {
   }
 
   getSerialNumberList() {
-      return this.getList(this.ERPObjects.TSerialNumberListCurrentReport);
+      let options = {
+          AllocType: "In-Stock"
+      };
+      return this.getList(this.ERPObjects.TSerialNumberListCurrentReport, options);
   }
 
   }
