@@ -140,6 +140,38 @@ Template.new_quote.onRendered(() => {
     });
 
 
+        jQuery(document).ready(function($) {
+
+        if (window.history && window.history.pushState) {
+
+    window.history.pushState('forward', null, FlowRouter.current().path);
+
+    $(window).on('popstate', function() {
+      swal({
+              title: 'Leave Invoice Screen',
+              text: "Do you want to leave this screen?",
+              type: 'info',
+              showCancelButton: true,
+              confirmButtonText: 'Save'
+          }).then((result) => {
+              if (result.value) {
+                  $(".btnSave").trigger("click");
+              } else if (result.dismiss === 'cancel') {
+                  let lastPageVisitUrl = window.location.pathname;
+                  if (FlowRouter.current().oldRoute) {
+                      lastPageVisitUrl = FlowRouter.current().oldRoute.path;
+                  } else {
+                      lastPageVisitUrl = window.location.pathname;
+                  }
+                 // FlowRouter.go(lastPageVisitUrl);
+                  window.open(lastPageVisitUrl, '_self');
+              } else {}
+          });
+    });
+
+  }
+    });
+
     $(document).ready(function() {
         $('#formCheck-one').click(function() {
 
