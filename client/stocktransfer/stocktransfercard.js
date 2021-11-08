@@ -3441,7 +3441,7 @@ Template.stocktransfercard.helpers({
         return Template.instance().availableserialnumberlist.get();
     },
      showSerial: () => {
-        return Session.get('CloudSShowSerial') || false;
+        return Session.get('CloudShowSerial') || false;
     },
     availableserialnumberqty: () => {
         let availaLegnt = false;

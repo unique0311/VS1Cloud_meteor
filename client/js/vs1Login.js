@@ -589,6 +589,7 @@ Template.vs1login.onRendered(function () {
         let isDashboard = false;
         let isMain = false;
         let isInventory = false;
+        let isShowSerial = false;
         let isManufacturing = false;
         let isAccessLevels = false;
         let isShipping = false;
@@ -770,6 +771,11 @@ Template.vs1login.onRendered(function () {
                     if (optionaccess.fields.Description === "Stock Adjustment") {
                         isStockAdjustment = true;
                     }
+
+                     if (optionaccess.fields.Description === "Show Available Serial Numbers") {
+                            isShowSerial = true;
+                     }
+                     
                     if (optionaccess.fields.Description === "Side Panel Menu") {
                         isSidePanel = true;
                         isSidePanelID = optionaccess.fields.ID;
@@ -950,6 +956,7 @@ Template.vs1login.onRendered(function () {
             Session.setPersistent('CloudAccessLevelsModule', isAccessLevels);
             Session.setPersistent('CloudShippingModule', isShipping);
             Session.setPersistent('CloudStockTransferModule', isStockTransfer);
+            Session.setPersistent('CloudShowSerial', isShowSerial);
             Session.setPersistent('CloudStockAdjustmentModule', isStockAdjustment);
             Session.setPersistent('CloudStockTakeModule', isStockTake);
             Session.setPersistent('CloudSalesModule', isSales);
