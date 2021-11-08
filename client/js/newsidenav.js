@@ -2966,7 +2966,7 @@ Template.newsidenav.events({
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
-    'click .sidenavnewinventory': function(event) {
+    'click #sidenavnewinventory': function(event) {
 
         event.preventDefault();
         FlowRouter.go('/productview');

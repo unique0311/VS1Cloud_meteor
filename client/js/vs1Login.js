@@ -218,7 +218,7 @@ Template.vs1login.onRendered(function () {
 
         let isSalesQtyOnly = false;
         let isPurchaseQtyOnly = false;
-        let isShowSerial = false;
+
         let isDashboard = false;
         let isMain = false;
         let isInventory = false;
@@ -326,9 +326,6 @@ Template.vs1login.onRendered(function () {
                             }
                             if (data.temployeeformaccessdetail[i].fields.Description === "Stock Adjustment") {
                                 isStockAdjustment = true;
-                            }
-                            if (data.temployeeformaccessdetail[i].fields.Description === "Show Available Serial Numbers") {
-                                isShowSerial = true;
                             }
                             if (data.temployeeformaccessdetail[i].fields.Description === "Side Panel Menu") {
                                 isSidePanel = true;
@@ -466,7 +463,6 @@ Template.vs1login.onRendered(function () {
                 Session.setPersistent('CloudShippingModule', isShipping);
                 Session.setPersistent('CloudStockTransferModule', isStockTransfer);
                 Session.setPersistent('CloudStockAdjustmentModule', isStockAdjustment);
-                Session.setPersistent('CloudSShowSerial', isStockAdjustment);
                 Session.setPersistent('CloudStockTakeModule', isStockTake);
                 Session.setPersistent('CloudSalesModule', isSales);
                 Session.setPersistent('CloudPurchasesModule', isPurchases);
@@ -1612,7 +1608,7 @@ Template.vs1login.onRendered(function () {
                                                     } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                         ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                                     }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                                        ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
+                                                        ERPIPAdderess = "replica.vs1cloud.com";
                                                     } else {
                                                         ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                     }
@@ -2234,7 +2230,7 @@ Template.vs1login.onRendered(function () {
                                 } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                 }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                    ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
+                                    ERPIPAdderess = "replica.vs1cloud.com";
                                 } else {
                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                 }
@@ -2718,7 +2714,7 @@ Template.vs1login.onRendered(function () {
                                                 } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                                 }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                                    ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
+                                                    ERPIPAdderess = "replica.vs1cloud.com";
                                                 } else {
                                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                 }
@@ -3365,7 +3361,7 @@ Template.vs1login.onRendered(function () {
                                             } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                 ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                             }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                                ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
+                                                ERPIPAdderess = "replica.vs1cloud.com";
                                             } else {
                                                 ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                             }
@@ -4052,7 +4048,7 @@ Template.vs1login.onRendered(function () {
                                         } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                             ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                         }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                            ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
+                                            ERPIPAdderess = "replica.vs1cloud.com";
                                         } else {
                                             ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                         }
