@@ -487,7 +487,8 @@ Template.addaccountpop.events({
                               let taxGrandTotalPrint = 0;
                               $('#' + selectLineID + " .lineTaxRate").text(0);
 
-                              $('#' + selectLineID + " .lineAccountName").text(lineProductName);
+                              $('#' + selectLineID + " .lineAccountName").val(lineProductName);
+                              $('#' + selectLineID + " .colAccountName").removeClass('boldtablealertsborder');
                               $('#' + selectLineID + " .lineMemo").text(lineProductDesc);
                               $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
                               $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
@@ -512,7 +513,8 @@ Template.addaccountpop.events({
                               let taxGrandTotalPrint = 0;
                               $('#' + selectLineID + " .lineTaxRate").text(0);
 
-                              $('#' + selectLineID + " .lineAccountName").text(lineProductName);
+                              $('#' + selectLineID + " .lineAccountName").val(lineProductName);
+                              $('#' + selectLineID + " .colAccountName").removeClass('boldtablealertsborder');
                               // $('#' + selectLineID + " .lineMemo").text(lineProductDesc);
                               $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
                               // $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);

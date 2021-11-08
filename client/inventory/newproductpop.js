@@ -1690,7 +1690,8 @@ Template.newproductpop.events({
                       $('#' + selectLineID + " .lineDiscount").text(discountAmount);
 
                       $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodesales").val());
-                      $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                      $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                      $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                       $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                       $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                       $('#' + selectLineID + " .lineOrdered").val(1);
@@ -1753,7 +1754,8 @@ Template.newproductpop.events({
                       }
 
                       $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodepurchase").val());
-                      $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                      $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                      $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                       // $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                       $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                       $('#' + selectLineID + " .lineOrdered").val(1);
@@ -1889,7 +1891,8 @@ Template.newproductpop.events({
                               var lineTaxRate = $("#slttaxcodesales").val() || "";
                               var taxRate = "";
                               $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodesales").val());
-                              $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                              $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                              $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                               $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                               $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                               $('#' + selectLineID + " .lineOrdered").val(1);
@@ -1933,7 +1936,8 @@ Template.newproductpop.events({
                               var lineTaxRate = $("#slttaxcodepurchase").val() || "";
                               var taxRate = "";
                               $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodepurchase").val());
-                              $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                              $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                              $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                               // $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                               $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                               $('#' + selectLineID + " .lineOrdered").val(1);
@@ -2064,7 +2068,8 @@ Template.newproductpop.events({
                               var lineTaxRate = $("#slttaxcodesales").val() || "";
                               var taxRate = "";
                               $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodesales").val());
-                              $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                              $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                              $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                               $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                               $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                               $('#' + selectLineID + " .lineOrdered").val(1);
@@ -2108,7 +2113,8 @@ Template.newproductpop.events({
                               var lineTaxRate = $("#slttaxcodepurchase").val() || "";
                               var taxRate = "";
                               $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodepurchase").val());
-                              $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                              $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                              $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                               // $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                               $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                               $('#' + selectLineID + " .lineOrdered").val(1);
@@ -2242,7 +2248,8 @@ Template.newproductpop.events({
                           var lineTaxRate = $("#slttaxcodesales").val() || "";
                           var taxRate = "";
                           $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodesales").val());
-                          $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                          $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                          $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                           $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                           $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                           $('#' + selectLineID + " .lineOrdered").val(1);
@@ -2286,7 +2293,8 @@ Template.newproductpop.events({
                           var lineTaxRate = $("#slttaxcodepurchase").val() || "";
                           var taxRate = "";
                           $('#' + selectLineID + " .lineTaxCode").text($("#slttaxcodepurchase").val());
-                          $('#' + selectLineID + " .lineProductName").text(lineProductName);
+                          $('#' + selectLineID + " .lineProductName").val(lineProductName);
+                          $('#' + selectLineID + " .colProductName").removeClass('boldtablealertsborder');
                           // $('#' + selectLineID + " .lineProductName").attr("prodid", productSaveID);
                           $('#' + selectLineID + " .lineProductDesc").text(lineProductDesc);
                           $('#' + selectLineID + " .lineOrdered").val(1);
