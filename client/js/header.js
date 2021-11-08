@@ -95,6 +95,19 @@ Template.header.onRendered(function() {
     templateObject.getAllGlobalSearch = function(searchName) {
         $('.fullScreenSpin').css('display', 'inline-block');
 
+        function checkStockColor() {
+            $('td.colTransStatus').each(function() {
+                if ($(this).text() == "Processed"){
+                  $(this).addClass('isProcessedColumn');
+                }else if ($(this).text() == "On Hold"){
+                  $(this).addClass('isOnHoldColumn');
+                }
+
+            });
+        };
+
+
+
           if(searchName.length <= 2){
             productService.getGlobalSearchReport(searchName).then(function(data) {
                 let dataSelectID = '';
@@ -216,6 +229,10 @@ Template.header.onRendered(function() {
                             {
                                 className: "colTransGlobal",
                                 "targets": [3]
+                            },
+                            {
+                                className: "colTransStatus",
+                                "targets": [4]
                             }
 
                         ],
@@ -351,6 +368,9 @@ Template.header.onRendered(function() {
                          });
 
                        });
+                       setTimeout(function() {
+                           checkStockColor();
+                       }, 100);
                         }
 
                     }).on('page', function () {
@@ -616,6 +636,10 @@ Template.header.onRendered(function() {
                               {
                                   className: "colTransGlobal",
                                   "targets": [3]
+                              },
+                              {
+                                  className: "colTransStatus",
+                                  "targets": [4]
                               }
 
                           ],
@@ -749,6 +773,9 @@ Template.header.onRendered(function() {
                            });
 
                          });
+                         setTimeout(function() {
+                             checkStockColor();
+                         }, 100);
                           }
 
                       }).on('page', function () {
