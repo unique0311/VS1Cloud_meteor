@@ -843,8 +843,8 @@ Template.refundlist.onRendered(function () {
 });
 
 Template.refundlist.events({
-    'click #btnNewInvoice': function (event) {
-        FlowRouter.go('/invoicecard');
+    'click #newRefund': function (event) {
+        FlowRouter.go('/refundcard');
     },
     'keyup #tblInvoicelist_filter input': function (event) {
         if ($(event.target).val() != '') {
