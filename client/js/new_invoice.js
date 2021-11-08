@@ -125,9 +125,9 @@ Template.new_invoice.onRendered(() => {
 
     $(window).on('popstate', function() {
       swal({
-              title: 'Leave Invoice Screen',
-              text: "Do you want to leave this screen?",
-              type: 'info',
+              title: 'Save Or Cancel To Continue',
+              text: "Do you want to Save or Cancel this transaction?",
+              type: 'question',
               showCancelButton: true,
               confirmButtonText: 'Save'
           }).then((result) => {
