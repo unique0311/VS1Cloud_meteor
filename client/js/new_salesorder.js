@@ -6341,7 +6341,6 @@ Template.new_salesorder.events({
                     let customerTax = $('#subtotal_tax').html();
                     let customerNett = $('#subtotal_nett').html();
                     let customerTotal = $('#grandTotal').html();
-                    console.log(emailDueDate);
                     let mailSubject = 'Sales Order ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                     let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
                         "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +
@@ -7456,7 +7455,6 @@ Template.new_salesorder.events({
                                     let customerTax = $('#subtotal_tax').html();
                                     let customerNett = $('#subtotal_nett').html();
                                     let customerTotal = $('#grandTotal').html();
-                                    console.log(emailDueDate);
                                     let mailSubject = 'Sales Order ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
                                     let mailBody = "Hi " + customerEmailName + ",\n\n Here's invoice " + erpInvoiceId + " for  " + grandtotal + "." +
                                         "\n\nThe amount outstanding of " + amountDueEmail + " is due on " + emailDueDate + "." +

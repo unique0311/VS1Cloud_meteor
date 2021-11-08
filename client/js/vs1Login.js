@@ -176,9 +176,9 @@ Template.vs1login.onRendered(function () {
     }
     if (FlowRouter.current().queryParams.passkey) {
         if (FlowRouter.current().context.hash.length > 1) {
-            $('#erppassword').val(FlowRouter.current().queryParams.passkey + '#' + FlowRouter.current().context.hash);
+            $('#erppassword').val(unescape(encodeURIComponent((FlowRouter.current().queryParams.passkey + '#' + FlowRouter.current().context.hash))));
         } else {
-            $('#erppassword').val(escape(FlowRouter.current().queryParams.passkey));
+            $('#erppassword').val(unescape(encodeURIComponent((FlowRouter.current().queryParams.passkey))));
         }
         //$('#erppassword').val(escape(FlowRouter.current().queryParams.passkey));
     }
@@ -1607,6 +1607,8 @@ Template.vs1login.onRendered(function () {
                                                         ERPIPAdderess = ERPDatabaseIPAdderess;
                                                     } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                         ERPIPAdderess = "gardenscapes.vs1cloud.com";
+                                                    }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
+                                                        ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
                                                     } else {
                                                         ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                     }
@@ -1618,7 +1620,10 @@ Template.vs1login.onRendered(function () {
 
                                                     var ERPuserName = userLoginEmail;
                                                     var ERPLoggeduserName = userLoginEmail;
-                                                    var ERPpassword = userLoginPassword;
+                                                    var ERPpassword = userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                                .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                                .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                                .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/") || '';
 
                                                     let erpdbname = ERPIPAdderess + ',' + ERPdbName + ',' + ERPuserName + ',' + ERPpassword + ',' + ERPport;
                                                     let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
@@ -1863,9 +1868,12 @@ Template.vs1login.onRendered(function () {
                                                     $('.myVS1Video').css('display', 'none');
                                                     $('.myVS1VideoLogin').css('display', 'none');
                                                     $('#emEmail').html(userLoginEmail);
-                                                    $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $('#emPassword').html(userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                                    .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                                    .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                                    .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
+                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                     swal({
                                                         title: 'Awaiting Email Validation',
                                                         html: true,
@@ -2221,6 +2229,8 @@ Template.vs1login.onRendered(function () {
                                     ERPIPAdderess = ERPDatabaseIPAdderess;
                                 } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
+                                }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
+                                    ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
                                 } else {
                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                 }
@@ -2232,7 +2242,10 @@ Template.vs1login.onRendered(function () {
 
                                 var ERPuserName = userLoginEmail;
                                 var ERPLoggeduserName = userLoginEmail;
-                                var ERPpassword = userLoginPassword;
+                                var ERPpassword = userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                            .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                            .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                            .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/") || '';
 
                                 let erpdbname = ERPIPAdderess + ',' + ERPdbName + ',' + ERPuserName + ',' + ERPpassword + ',' + ERPport;
                                 let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
@@ -2700,6 +2713,8 @@ Template.vs1login.onRendered(function () {
                                                     ERPIPAdderess = ERPDatabaseIPAdderess;
                                                 } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
+                                                }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
+                                                    ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
                                                 } else {
                                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                 }
@@ -2711,7 +2726,10 @@ Template.vs1login.onRendered(function () {
 
                                                 var ERPuserName = userLoginEmail;
                                                 var ERPLoggeduserName = userLoginEmail;
-                                                var ERPpassword = userLoginPassword;
+                                                var ERPpassword = userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                            .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                            .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                            .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/") || '';
 
                                                 let erpdbname = ERPIPAdderess + ',' + ERPdbName + ',' + ERPuserName + ',' + ERPpassword + ',' + ERPport;
                                                 let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
@@ -2956,9 +2974,12 @@ Template.vs1login.onRendered(function () {
                                                 $('.myVS1Video').css('display', 'none');
                                                 $('.myVS1VideoLogin').css('display', 'none');
                                                 $('#emEmail').html(userLoginEmail);
-                                                $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                $('#emPassword').html(userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                                .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                                .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                                .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
+                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                 swal({
                                                     title: 'Awaiting Email Validation',
                                                     html: true,
@@ -3339,6 +3360,8 @@ Template.vs1login.onRendered(function () {
                                                 ERPIPAdderess = ERPDatabaseIPAdderess;
                                             } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                 ERPIPAdderess = "gardenscapes.vs1cloud.com";
+                                            }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
+                                                ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
                                             } else {
                                                 ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                             }
@@ -3350,7 +3373,10 @@ Template.vs1login.onRendered(function () {
 
                                             var ERPuserName = userLoginEmail;
                                             var ERPLoggeduserName = userLoginEmail;
-                                            var ERPpassword = userLoginPassword;
+                                            var ERPpassword = userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                        .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                        .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                        .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/") || '';
 
                                             let erpdbname = ERPIPAdderess + ',' + ERPdbName + ',' + ERPuserName + ',' + ERPpassword + ',' + ERPport;
                                             let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
@@ -3634,9 +3660,12 @@ Template.vs1login.onRendered(function () {
                                             $('.myVS1Video').css('display', 'none');
                                             $('.myVS1VideoLogin').css('display', 'none');
                                             $('#emEmail').html(userLoginEmail);
-                                            $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                            $('#emPassword').html(userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                            .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                            .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                            .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
+                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                             swal({
                                                 title: 'Awaiting Email Validation',
                                                 html: true,
@@ -4018,6 +4047,8 @@ Template.vs1login.onRendered(function () {
                                             ERPIPAdderess = ERPDatabaseIPAdderess;
                                         } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                             ERPIPAdderess = "gardenscapes.vs1cloud.com";
+                                        }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
+                                            ERPIPAdderess = "www.gardenscapes.vs1cloud.com";
                                         } else {
                                             ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                         }
@@ -4029,7 +4060,10 @@ Template.vs1login.onRendered(function () {
 
                                         var ERPuserName = userLoginEmail;
                                         var ERPLoggeduserName = userLoginEmail;
-                                        var ERPpassword = userLoginPassword;
+                                        var ERPpassword = userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                    .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                    .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                    .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/") || '';
 
                                         let erpdbname = ERPIPAdderess + ',' + ERPdbName + ',' + ERPuserName + ',' + ERPpassword + ',' + ERPport;
                                         let licenceOptions = dataReturnRes.ProcessLog.Modules.Modules;
@@ -4274,9 +4308,12 @@ Template.vs1login.onRendered(function () {
                                         $('.myVS1Video').css('display', 'none');
                                         $('.myVS1VideoLogin').css('display', 'none');
                                         $('#emEmail').html(userLoginEmail);
-                                        $('#emPassword').html(userLoginPassword.replace('%23', "#"));
-                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                        $('#emPassword').html(userLoginPassword.replace('%20', " ").replace('%21', '!').replace('%22', '"')
+                                        .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
+                                        .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
+                                        .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
+                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                         swal({
                                             title: 'Awaiting Email Validation',
                                             html: true,

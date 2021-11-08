@@ -1,10 +1,10 @@
 var IPAddress = localStorage.getItem('EIPAddress');
 var UserName =localStorage.getItem('EUserName');
-var Password = localStorage.getItem('EPassword');
+var Password = localStorage.getItem('EPassword')||'';
+
 var Database = localStorage.getItem('EDatabase');
 var Port = localStorage.getItem('EPort');
 var d = new Date();
-
 var month = d.getMonth()+1;
 var day = d.getDate();
 

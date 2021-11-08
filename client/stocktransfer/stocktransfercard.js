@@ -973,24 +973,9 @@ Template.stocktransfercard.onRendered(function() {
             var $tblrowAlloc = $(this);
             let tdSerialNumber = $tblrowAlloc.find("#serialNo").val() || 0;
 
-            // let serialDataValStore = "";
-            // var str =+ "Div #" + [i] + ", ";
-            //let serialDataValStore =+ "Div #" + [i] + ", "; tdSerialNumber.join(',');
-            //  console.log(serialDataValStore);
-            // lineItemObjFormAlloc = {
-            //     type: "TPQASN",
-            //     fields: {
-            //         UOMQty: 1,
-            //         BinID: 0,
-            //         SerialNumber: tdSerialNumber || '',
-            //
-            //     }
-            // };
-            //lineItemObjFormAlloc.push(tdSerialNumber);
             splashLineArrayAlloc.push(tdSerialNumber);
         });
-        console.log(splashLineArrayAlloc.join(','));
-        // console.log(lineItemObjFormAlloc.join(','));
+
         var departmentID = $('input[name="deptID"]').val() || 0;
         var pqaID = $('input[name="pqaID"]').val();
         var AllocLineObjDetails = splashLineArrayAlloc.join(',');
