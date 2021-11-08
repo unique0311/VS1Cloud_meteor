@@ -3977,5 +3977,8 @@ Template.newsidenav.helpers({
     },
     checkFXCurrency: () => {
         return Session.get('CloudUseForeignLicence');
-    }
+    },
+    showTimesheet : () => {
+        return Session.get('CloudShowTimesheet') || false;
+    },
 });
