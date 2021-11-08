@@ -271,7 +271,7 @@ Template.productlistpop.onRendered(function () {
 
                             }
                             if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                $('.paginate_button.page-item.next').addClass('disabled');
+                                //$('.paginate_button.page-item.next').addClass('disabled');
                             }
 
                             $('.paginate_button.next:not(.disabled)', this.api().table().container())

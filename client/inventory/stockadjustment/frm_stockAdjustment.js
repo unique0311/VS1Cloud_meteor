@@ -203,7 +203,7 @@ Template.stockadjustmentcard.onRendered(() => {
         let totalInStockQty = 0;
         let deptName = departmentData;
         let dataValue = templateObject.productquantityrecord.get();
-        if (dataValue) {
+        if (dataValue.tproductclassquantity) {
             for (let i = 0; i < dataValue.tproductclassquantity.length; i++) {
                 let dataObj = {};
 
@@ -745,6 +745,13 @@ Template.stockadjustmentcard.onRendered(() => {
         }
     }
 
+    if (FlowRouter.current().queryParams.id) {
+    } else {
+        setTimeout(function() {
+            $('#tblStockAdjustmentLine .lineProductName').trigger("click");
+        }, 200);
+    }
+
     /* On clik Inventory Line */
     $(document).on("click", "#tblInventory tbody tr", function (e) {
         let selectLineID = $('#selectLineID').val();
@@ -829,7 +836,7 @@ Template.stockadjustmentcard.onRendered(() => {
             if ($('.chkEmailCopy').is(':checked')) {
                 let checkEmailData = $('#edtCustomerEmail').val();
                 if (checkEmailData.replace(/\s/g, '') === '') {
-                    $('.chkEmailCopy').prop('checked', false); 
+                    $('.chkEmailCopy').prop('checked', false);
                     swal('Employee Email cannot be blank!', '', 'warning');
                     event.preventDefault();
                 } else {
