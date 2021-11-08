@@ -135,7 +135,7 @@ Template.stocktransfercard.onRendered(function() {
         $('table tr').css('background', 'transparent');
         $('#serailscanlist').find('tbody').remove();
         $('input[name="salesLineRow"]').val(id);
-        if (dataValue) {
+        if (dataValue.tproductclassquantity) {
             for (let i = 0; i < dataValue.tproductclassquantity.length; i++) {
                 let dataObj = {};
 
