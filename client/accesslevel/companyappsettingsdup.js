@@ -638,14 +638,14 @@ Template.companyappsettingsdup.events({
             for (let i = 0; i < lineItemsForm.length; i++) {
             lineItemObjForm = {
                     ModuleName: lineItemsForm[i].ModuleName || '',
-                    Price: lineItemsForm[i].Price,
-                    DiscountedPrice: lineItemsForm[i].DiscountedPrice,
-                    RenewPrice: lineItemsForm[i].RenewPrice,
+                    Price: lineItemsForm[i].Price.toFixed(2),
+                    DiscountedPrice: lineItemsForm[i].DiscountedPrice.toFixed(2),
+                    RenewPrice: lineItemsForm[i].RenewPrice.toFixed(2),
                     RenewDiscountedPrice: lineItemsForm[i].RenewDiscountedPrice,
                     RenewDiscountDesc: lineItemsForm[i].RenewDiscountDesc
 
                 };
-                lineItemsForm1.push(lineItemObjForm)
+                lineItemsForm1[i]=lineItemObjForm;
         }
     }
 
@@ -653,7 +653,7 @@ Template.companyappsettingsdup.events({
             stringQuery = stringQuery + "product" + l + "=" + lineItemsForm1[l].ModuleName + "&price" + l + "=" + Currency + lineItemsForm1[l].Price + "&qty" + l + "=" + lineItemsForm1[l].RenewDiscountDesc + "&";
         }
         stringQuery = stringQuery + "tax=0" + "&total=" + Currency + grandTotal + "&customer=" + Session.get('vs1companyName') + "&name=" + name + "&surname=" + surname + "&company=" + Session.get('vs1companyName') + "&customeremail=" + localStorage.getItem('mySession') + "&type=VS1 Modules Purchase&url=" + window.location.href + "&server=" + erpGet.ERPIPAddress + "&username=" + erpGet.ERPUsername + "&token=" + erpGet.ERPPassword + "&session=" + erpGet.ERPDatabase + "&port=" + erpGet.ERPPort + "&currency=" + currencyname;
-
+        newStripePrice = grandTotal.toFixed(2);
         var oPost = new XMLHttpRequest();
         oPost.open("POST", URLRequest + loggedserverIP + ':' + loggedserverPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_AddModules"', true);
         oPost.setRequestHeader("database", vs1loggedDatatbase);
@@ -693,6 +693,7 @@ Template.companyappsettingsdup.events({
                                 },
                                 method: 'post',
                                 success: function (response) {
+                                    $('.fullScreenSpin').css('display', 'none');
                                     let response2 = JSON.parse(response);
                                     if (response2 != null) {
                                         swal({
@@ -726,6 +727,7 @@ Template.companyappsettingsdup.events({
                             },
                             method: 'post',
                             success: function (response) {
+                                $('.fullScreenSpin').css('display', 'none');
                                 let response1 = JSON.parse(response);
                                 if (response1 != null) {
                                     swal({

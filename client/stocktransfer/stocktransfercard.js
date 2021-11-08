@@ -3440,6 +3440,9 @@ Template.stocktransfercard.helpers({
     availableserialnumberlist: () => {
         return Template.instance().availableserialnumberlist.get();
     },
+     showSerial: () => {
+        return Session.get('CloudSShowSerial') || false;
+    },
     availableserialnumberqty: () => {
         let availaLegnt = false;
         if (parseInt(Template.instance().availableserialnumberqty.get()) > 5) {
