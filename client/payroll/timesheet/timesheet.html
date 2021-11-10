@@ -93,8 +93,8 @@
 
         <div class="row" style="background-color: #ededed; padding-top: 0px; padding: 24px;">
             <div class="col-6 col-md-9">
-                <button class="btn btn-primary btnRefresh btnNav" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
-                {{#if equals showTimesheetEntry true}}
+                <button class="btn btn-primary btnRefresh btnNav" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh </button>
+                {{#if equals showTimesheetEntries true}}
                 <button id="btnNewTimeSheet" name="btnNewTimeSheet" class="btn btn-primary btnNav" type="button" role="button" data-toggle="modal" href="#addNewTimeSheet" style="margin: 16px;"><i class="icon ion-plus"
                         style="padding-right: 5px;"></i>New
                     Timesheet</button>
@@ -573,7 +573,7 @@
                                                 <option value=""></option>
                                                 {{#if productsdatatablerecords}}
                                                     {{#each item in productsdatatablerecords}}
-                                                        <option value="{{item.productname}}">{{item.productname}}</option>
+                                                        <option value="{{item.productname}}" id="{{item.productcost}}">{{item.productname}}</option>
                                                     {{/each}}
                                                 {{/if}}
                                             </select>
@@ -628,7 +628,7 @@
                                     <div class="col-6 col-md-4 col-lg-4">
                                         {{#if equals edithours true}}
                                             <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                                <label>Hours</label><input type="time" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" value="00:00">
+                                                <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" value="00:00">
                                                 <input type="hidden" id="txtBookedHoursSpent1" name="txtBookedHoursSpent1">
                                             </div>
                                         {{else}}
@@ -870,7 +870,7 @@
                                             <td style="text-align: right!important;" class="hiddenColumn"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours"
                                                     style="display: none;">{{item.hours}}</span></td>
                                             <td class="" style="text-align: right!important;">
-                                                <input class="colRegHoursOne highlightInput" type="time" value="{{item.hourFormat}}" autocomplete="off">
+                                                <input class="colRegHoursOne highlightInput" type="text" value="{{item.hourFormat}}" autocomplete="off">
                                             </td>
                                             <td style="text-align: right!important;"><input class="colOvertime highlightInput" type="number" value="{{item.overtime}}"><span class="colOvertime" style="display: none;">{{item.overtime}}</span></td>
                                             <td style="text-align: right!important;"><input class="colDouble highlightInput" type="number" value="{{item.double}}"><span class="colDouble" style="display: none;">{{item.double}}</span></td>
