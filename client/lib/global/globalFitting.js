@@ -1,5 +1,5 @@
 FittingRow = function () {
-  
+
 
   var click_count = 0;
   var batch_count = 0;
@@ -53,9 +53,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              
+
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              
+
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
                 Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -85,7 +85,7 @@ function updateRowOrder(){
           if($tblrow.click()){
             var $tblrowAlloc = $("#serailscanlist > tbody  > tr");
             var newQuantity = $('input[name="orderQty"]').val();
-            
+
             //var rowCount = $tblrowAlloc.length;
              var rowCount = $('#serailscanlist  > tbody  > tr').length;
               if(rowCount == newQuantity){
@@ -143,9 +143,9 @@ function updateRowOrder(){
         oReqSID.timeout = 30000;
         oReqSID.onreadystatechange = function() {
         if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-          
+
           var valListRet = jQuery.parseJSON(oReqSID.responseText);
-          
+
           if(valListRet.ValidateSN.Result == false){
              scannedSerial = "";
             Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -197,7 +197,7 @@ function updateRowOrder(){
                        }
 
                       }
-            
+
           }
 
         }
@@ -209,7 +209,7 @@ function updateRowOrder(){
       }else{
         $("#allocBarcode").focus();
       }
-       
+
 
 
     $('input[name="allocBarcode"]').val('');
@@ -240,12 +240,12 @@ function updateRowOrder(){
                 oReqSID.timeout = 30000;
                 oReqSID.onreadystatechange = function() {
                 if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-                  
+
                   var valListRet = jQuery.parseJSON(oReqSID.responseText);
-                  
+
                   if(valListRet.ValidateSN.Result == false){
                      scannedSerial = "";
-                     
+
                     Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
                     DangerSound();
                     //var audio = new Audio('/sounds/system-fault.mp3');
@@ -333,9 +333,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              
+
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              
+
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
               Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -398,7 +398,7 @@ function updateRowOrder(){
           }else{
             $("#allocBarcode").focus();
           }
-           
+
 
 
         $('input[name="allocBarcode"]').val('');
@@ -453,7 +453,7 @@ function updateRowOrder(){
                   break;
               }
               default:{
-                  
+
                   break;
               }
           }
@@ -479,7 +479,7 @@ function updateRowOrder(){
       }
 
       function processBarcode(bc){
-        
+
         $("#allocBarcode").val(bc);
         var scannedCode =  bc.toUpperCase();
         var departmentID =  $('input[name="deptID"]').val();
@@ -503,12 +503,12 @@ function updateRowOrder(){
                 oReqSID.timeout = 30000;
                 oReqSID.onreadystatechange = function() {
                 if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-                  
+
                   var valListRet = jQuery.parseJSON(oReqSID.responseText);
-                  
+
                   if(valListRet.ValidateSN.Result == false){
                      scannedSerial = "";
-                     
+
                     Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
                     DangerSound();
                     //var audio = new Audio('/sounds/system-fault.mp3');
@@ -596,9 +596,9 @@ function updateRowOrder(){
             oReqSID.timeout = 30000;
             oReqSID.onreadystatechange = function() {
             if (oReqSID.readyState == 4 && oReqSID.status == 200) {
-              
+
               var valListRet = jQuery.parseJSON(oReqSID.responseText);
-              
+
               if(valListRet.ValidateSN.Result == false){
                  scannedSerial = "";
               Bert.alert('<strong>WARNING:</strong> '+valListRet.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -661,7 +661,7 @@ function updateRowOrder(){
           }else{
             $("#allocBarcode").focus();
           }
-           
+
 
 
         $('input[name="allocBarcode"]').val('');
@@ -673,7 +673,7 @@ function updateRowOrder(){
    }
     else
     {
-      Bert.alert( '<strong>Please Note:</strong> This function is only available on mobile devices!', 'danger','fixed-top', 'fa-frown-o' );
+      Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
     }
 
   });

@@ -695,7 +695,7 @@ function updateRowOrder(){
    }
     else
     {
-      Bert.alert( '<strong>Please Note:</strong> This function is only available on mobile devices!', 'danger','fixed-top', 'fa-frown-o' );
+     Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
     }
 
   });

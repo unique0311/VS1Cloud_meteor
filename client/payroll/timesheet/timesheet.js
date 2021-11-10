@@ -1348,7 +1348,7 @@ Template.timesheet.onRendered(function () {
     $("#scanBarcode").click(function () {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {}
         else {
-            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'danger', 'fixed-top', 'fa-frown-o');
+            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
         }
     });
 
