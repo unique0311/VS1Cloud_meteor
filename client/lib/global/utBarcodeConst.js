@@ -20,7 +20,7 @@
   checkSSLPorts = '4433'; //Non SSL Port
   vs1loggedDatatbase = 'vs1_sandbox_license'; //SandBox databaseName
 
-  ERPDatabaseIPAdderess = "www.login.vs1cloud.com"; //www.login.vs1cloud.com
+  ERPDatabaseIPAdderess = "sandboxdb.vs1cloud.com"; //www.login.vs1cloud.com
   ReplicaERPDatabaseIPAdderess = "replica.vs1cloud.com"+ ':' + '4434' + '/' + 'erpapi' + '/'; //www.login.vs1cloud.com
 
   //stripeGlobalURL= "https://www.depot.vs1cloud.com/stripe/";
