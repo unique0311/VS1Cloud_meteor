@@ -866,6 +866,14 @@ Template.journalentrycard.onRendered(() => {
         }
     }
 
+    if (FlowRouter.current().queryParams.id) {
+
+    } else {
+        setTimeout(function() {
+            $('#tblJournalEntryLine .lineAccountName:first').trigger("click");
+        }, 200);
+    }
+
     let table;
     $(document).ready(function() {
         $('#addRow').on('click', function() {
@@ -931,7 +939,7 @@ Template.journalentrycard.onRendered(() => {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                            taxrateamount = taxcodeList[i].coderate;
                         }
                     }
                 }
@@ -1013,7 +1021,7 @@ Template.journalentrycard.onRendered(() => {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxcode) {
-                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                            taxrateamount = taxcodeList[i].coderate;
                         }
                     }
                 }
@@ -1862,12 +1870,18 @@ Template.journalentrycard.events({
         }
 
         let $tblrows = $("#tblJournalEntryLine tbody tr");
+
+
         var targetID = $(event.target).closest('tr').attr('id');
         if ($(event.target).val().replace(/[^0-9.-]+/g, "") != 0) {
             $('#' + targetID + " .lineDebitEx").val(Currency + '0.00');
             $('#' + targetID + " .lineDebitInc").val(Currency + '0.00');
-        }
 
+
+        }
+        let nextRowID = $(event.target).closest('tr').next('tr').attr("id");
+        let inputCreditData = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) ||0;
+        $('#' + nextRowID + " .lineDebitExChange").val(utilityService.modifynegativeCurrencyFormat(inputCreditData)).trigger('change');
         let lineAmount = 0;
         let subGrandCreditTotal = 0;
         let subGrandDebitTotal = 0;
@@ -1953,8 +1967,13 @@ Template.journalentrycard.events({
         var targetID = $(event.target).closest('tr').attr('id');
         if ($(event.target).val().replace(/[^0-9.-]+/g, "") != 0) {
             $('#' + targetID + " .lineCreditEx").val(Currency + '0.00');
+            $('#' + targetID + " .lineCreditInc").val(Currency + '0.00');
         }
 
+
+        let nextRowID = $(event.target).closest('tr').next('tr').attr("id");
+        let inputDebitData = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) ||0;
+        $('#' + nextRowID + " .lineCreditExChange").val(utilityService.modifynegativeCurrencyFormat(inputDebitData)).trigger('change');
 
         let lineAmount = 0;
         let subGrandCreditTotal = 0;
@@ -2040,6 +2059,10 @@ Template.journalentrycard.events({
             $('#' + targetID + " .lineDebitInc").val(Currency + '0.00');
         }
 
+        let nextRowID = $(event.target).closest('tr').next('tr').attr("id");
+        let inputCreditData = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) ||0;
+        $('#' + nextRowID + " .lineDebitIncChange").val(utilityService.modifynegativeCurrencyFormat(inputCreditData)).trigger('change');
+
         let lineAmount = 0;
         let subGrandCreditTotal = 0;
         let subGrandDebitTotal = 0;
@@ -2053,7 +2076,7 @@ Template.journalentrycard.events({
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        taxrateamount = taxcodeList[i].coderate;
                     }
                 }
             }
@@ -2062,16 +2085,12 @@ Template.journalentrycard.events({
 
             var credit = $tblrow.find(".lineCreditInc").val() || Currency + '0';
             var debit = $tblrow.find(".lineDebitInc").val() || Currency + '0';
-
             let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
-
             var subTotalCredit = (Number(credit.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || Currency + '0';
             var subTotalDebit = (Number(debit.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || Currency + '0';
-
             var taxTotalCredit = parseFloat(credit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalCredit) || 0;
             var taxTotalDebit = parseFloat(debit.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalDebit) || 0;
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalCredit));
-
             if (!isNaN(subTotalCredit)) {
                 $tblrow.find('.lineCreditExChange').val(utilityService.modifynegativeCurrencyFormat(subTotalCredit.toFixed(2)));
                 let totalCreditInc = (parseFloat(subTotalCredit)) + (parseFloat(taxTotalCredit)) || 0;
@@ -2133,6 +2152,10 @@ Template.journalentrycard.events({
             $('#' + targetID + " .lineCreditInc").val(Currency + '0.00');
         }
 
+        let nextRowID = $(event.target).closest('tr').next('tr').attr("id");
+        let inputDebitData = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) ||0;
+        $('#' + nextRowID + " .lineCreditExChange").val(utilityService.modifynegativeCurrencyFormat(inputDebitData)).trigger('change');
+
 
         let lineAmount = 0;
         let subGrandCreditTotal = 0;
@@ -2146,7 +2169,7 @@ Template.journalentrycard.events({
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        taxrateamount = taxcodeList[i].coderate;
                     }
                 }
             }
@@ -2198,13 +2221,10 @@ Template.journalentrycard.events({
       var offset = $earch.offset();
         $('#edtAccountID').val('');
         $('#add-account-title').text('Add New Account');
-        let suppliername = $('#edtSupplierName').val();
+        // let suppliername = $('#edtSupplierName').val();
         let accountService = new AccountService();
         const accountTypeList = [];
-        if (suppliername === '') {
-            swal('Supplier has not been selected!', '', 'warning');
-            event.preventDefault();
-        } else {
+
             var accountDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
               $('#productListModal').modal('toggle');
@@ -2585,7 +2605,7 @@ Template.journalentrycard.events({
             }
 
           }
-        }
+
 
     },
     'click #productListModal #refreshpagelist': function() {

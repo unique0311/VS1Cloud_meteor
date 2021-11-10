@@ -6,15 +6,14 @@ import { AccountService } from "./account-service";
 import '../lib/global/erp-objects';
 import 'jquery-ui-dist/external/jquery/jquery';
 import 'jquery-ui-dist/jquery-ui';
-
-import { SideBarService } from '../js/sidebar-service';
 import { Random } from 'meteor/random';
 import { jsPDF } from 'jspdf';
 import 'jQuery.print/jQuery.print.js';
 import { autoTable } from 'jspdf-autotable';
-
-
 import 'jquery-editable-select';
+import { SideBarService } from '../js/sidebar-service';
+import '../lib/global/indexdbstorage.js';
+let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
 Template.accountlistpop.onCreated(() => {
@@ -56,68 +55,73 @@ Template.accountlistpop.onCreated(() => {
 });
 Template.accountlistpop.onRendered(function() {
     let tempObj = Template.instance();
+    let sideBarService = new SideBarService();
     let utilityService = new UtilityService();
     let accountService = new AccountService();
     let tableProductList;
-    var splashArrayProductList = new Array();
+    var splashArrayAccountList = new Array();
     var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
     var currentLoc = FlowRouter.current().route.path;
-
-    tempObj.getAllProducts = function() {
+    let accBalance = 0;
+    tempObj.getAllAccountss = function() {
         getVS1Data('TAccountVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
-                accountService.getAccountListVS1().then(function(data) {
-
+                sideBarService.getAccountListVS1().then(function(data) {
                     let records = [];
                     let inventoryData = [];
+                    addVS1Data('TAccountVS1',JSON.stringify(data));
                     for (let i = 0; i < data.taccountvs1.length; i++) {
-                        var dataList = [
-                            data.taccountvs1[i].AccountName || '-',
-                            data.taccountvs1[i].Description || '',
-                            data.taccountvs1[i].AccountNumber || '',
-                            data.taccountvs1[i].AccountTypeName || '',
-                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                            data.taccountvs1[i].TaxCode || ''
-                        ];
-
-                        if (currentLoc == "/billcard"){
-                          if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
-                            splashArrayProductList.push(dataList);
-                          }
-                        }else if (currentLoc == "/journalentrycard"){
-                          if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")){
-                            splashArrayProductList.push(dataList);
-                          }
-                        }else if(currentLoc == "/chequecard"){
-                          if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
-                          ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
-                          ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")
-                          ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
-                            splashArrayProductList.push(dataList);
-                          }
-                        }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
-                          if((data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD")
-                          ||(data.taccountvs1[i].AccountTypeName == "OCLIAB")
-                          ){
-                            splashArrayProductList.push(dataList);
-                          }
-
-                        }else{
-                          splashArrayProductList.push(dataList);
+                       if (!isNaN(data.taccountvs1[i].fields.Balance)) {
+                      	accBalance = utilityService.modifynegativeCurrencyFormat(data.taccountvs1[i].fields.Balance) || 0.00;
+                      } else {
+                      	accBalance = Currency + "0.00";
+                      }
+                      var dataList = [
+                      	data.taccountvs1[i].fields.AccountName || '-',
+                      	data.taccountvs1[i].fields.Description || '',
+                      	data.taccountvs1[i].fields.AccountNumber || '',
+                      	data.taccountvs1[i].fields.AccountTypeName || '',
+                      	accBalance,
+                      	data.taccountvs1[i].fields.TaxCode || ''
+                      ];
+                      if (currentLoc == "/billcard"){
+                        if((data.taccountvs1[i].fields.AccountTypeName != "AP") && (data.taccountvs1[i].fields.AccountTypeName != "AR")&&(data.taccountvs1[i].fields.AccountTypeName != "CCARD") &&(data.taccountvs1[i].fields.AccountTypeName != "BANK")){
+                      	splashArrayAccountList.push(dataList);
                         }
-                    }
-                    //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
+                      }else if (currentLoc == "/journalentrycard"){
+                        if((data.taccountvs1[i].fields.AccountTypeName != "AP")&&(data.taccountvs1[i].fields.AccountTypeName != "AR")){
+                      	splashArrayAccountList.push(dataList);
+                        }
+                      }else if(currentLoc == "/chequecard"){
+                        if((data.taccountvs1[i].fields.AccountTypeName == "EQUITY")||(data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD") ||(data.taccountvs1[i].fields.AccountTypeName == "COGS")
+                        ||(data.taccountvs1[i].fields.AccountTypeName == "EXP")||(data.taccountvs1[i].fields.AccountTypeName == "FIXASSET")||(data.taccountvs1[i].fields.AccountTypeName == "INC")||(data.taccountvs1[i].fields.AccountTypeName == "LTLIAB")
+                        ||(data.taccountvs1[i].fields.AccountTypeName == "OASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")||(data.taccountvs1[i].fields.AccountTypeName == "EXEXP")
+                        ||(data.taccountvs1[i].fields.AccountTypeName == "EXINC")){
+                      	splashArrayAccountList.push(dataList);
+                        }
+                      }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
+                        if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")
+                        ||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")
+                        ){
+                      	splashArrayAccountList.push(dataList);
+                        }
+                      }else{
+                        splashArrayAccountList.push(dataList);
+                      }
 
-                    if (splashArrayProductList) {
+                  }
+                    //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayAccountList));
+
+                    if (splashArrayAccountList) {
 
                         $('#tblAccount').dataTable({
-                            data: splashArrayProductList.sort(),
+                            data: splashArrayAccountList,
 
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            paging: true,
-                            "aaSorting": [],
-                            "orderMulti": true,
+                            // paging: true,
+                            // "aaSorting": [],
+                            // "orderMulti": true,
                             columnDefs: [
 
                                 { className: "productName", "targets": [0] },
@@ -127,15 +131,9 @@ Template.accountlistpop.onRendered(function() {
                                 { className: "prdqty text-right", "targets": [4] },
                                 { className: "taxrate", "targets": [5] }
                             ],
+                            select: true,
+                            destroy: true,
                             colReorder: true,
-
-
-
-                            "order": [
-                                [0, "asc"]
-                            ],
-
-
                             pageLength: initialDatatableLoad,
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
@@ -154,7 +152,6 @@ Template.accountlistpop.onRendered(function() {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.taccountvs1;
-
                 let records = [];
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {
@@ -173,36 +170,36 @@ Template.accountlistpop.onRendered(function() {
                     ];
                     if (currentLoc == "/billcard"){
                       if((useData[i].fields.AccountTypeName != "AP") && (useData[i].fields.AccountTypeName != "AR")&&(useData[i].fields.AccountTypeName != "CCARD") &&(useData[i].fields.AccountTypeName != "BANK")){
-                        splashArrayProductList.push(dataList);
+                        splashArrayAccountList.push(dataList);
                       }
                     }else if (currentLoc == "/journalentrycard"){
                       if((useData[i].fields.AccountTypeName != "AP")&&(useData[i].fields.AccountTypeName != "AR")){
-                        splashArrayProductList.push(dataList);
+                        splashArrayAccountList.push(dataList);
                       }
                     }else if(currentLoc == "/chequecard"){
                       if((useData[i].fields.AccountTypeName == "EQUITY")||(useData[i].fields.AccountTypeName == "BANK")||(useData[i].fields.AccountTypeName == "CCARD") ||(useData[i].fields.AccountTypeName == "COGS")
                       ||(useData[i].fields.AccountTypeName == "EXP")||(useData[i].fields.AccountTypeName == "FIXASSET")||(useData[i].fields.AccountTypeName == "INC")||(useData[i].fields.AccountTypeName == "LTLIAB")
                       ||(useData[i].fields.AccountTypeName == "OASSET")||(useData[i].fields.AccountTypeName == "OCASSET")||(useData[i].fields.AccountTypeName == "OCLIAB")||(useData[i].fields.AccountTypeName == "EXEXP")
                       ||(useData[i].fields.AccountTypeName == "EXINC")){
-                        splashArrayProductList.push(dataList);
+                        splashArrayAccountList.push(dataList);
                       }
                     }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
                       if((useData[i].fields.AccountTypeName == "BANK")||(useData[i].fields.AccountTypeName == "CCARD")
                       ||(useData[i].fields.AccountTypeName == "OCLIAB")
                       ){
-                        splashArrayProductList.push(dataList);
+                        splashArrayAccountList.push(dataList);
                       }
                     }else{
-                      splashArrayProductList.push(dataList);
+                      splashArrayAccountList.push(dataList);
                     }
 
                 }
-                //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
-
-                if (splashArrayProductList) {
+                //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayAccountList));
+                console.log(splashArrayAccountList);
+                if (splashArrayAccountList) {
 
                     $('#tblAccount').dataTable({
-                        data: splashArrayProductList.sort(),
+                        data: splashArrayAccountList,
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
@@ -247,54 +244,57 @@ Template.accountlistpop.onRendered(function() {
                 }
             }
         }).catch(function(err) {
-
-            accountService.getAccountListVS1().then(function(data) {
+          console.log(err);
+            sideBarService.getAccountListVS1().then(function(data) {
 
                 let records = [];
                 let inventoryData = [];
                 for (let i = 0; i < data.taccountvs1.length; i++) {
-                    var dataList = [
-                        data.taccountvs1[i].AccountName || '-',
-                        data.taccountvs1[i].Description || '',
-                        data.taccountvs1[i].AccountNumber || '',
-                        data.taccountvs1[i].AccountTypeName || '',
-                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                        data.taccountvs1[i].TaxCode || ''
-                    ];
-
-                    if (currentLoc == "/billcard"){
-                      if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")&&(data.taccountvs1[i].AccountTypeName != "CCARD") &&(data.taccountvs1[i].AccountTypeName != "BANK")){
-                        splashArrayProductList.push(dataList);
-                      }
-                    }else if (currentLoc == "/journalentrycard"){
-                      if((data.taccountvs1[i].AccountTypeName != "AP")&&(data.taccountvs1[i].AccountTypeName != "AR")){
-                        splashArrayProductList.push(dataList);
-                      }
-                    }else if(currentLoc == "/chequecard"){
-
-                      if((data.taccountvs1[i].AccountTypeName == "EQUITY")||(data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD") ||(data.taccountvs1[i].AccountTypeName == "COGS")
-                      ||(data.taccountvs1[i].AccountTypeName == "EXP")||(data.taccountvs1[i].AccountTypeName == "FIXASSET")||(data.taccountvs1[i].AccountTypeName == "INC")||(data.taccountvs1[i].AccountTypeName == "LTLIAB")
-                      ||(data.taccountvs1[i].AccountTypeName == "OASSET")||(data.taccountvs1[i].AccountTypeName == "OCASSET")||(data.taccountvs1[i].AccountTypeName == "OCLIAB")||(data.taccountvs1[i].AccountTypeName == "EXEXP")
-                      ||(data.taccountvs1[i].AccountTypeName == "EXINC")){
-                        splashArrayProductList.push(dataList);
-                      }
-                    }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
-                      if((data.taccountvs1[i].AccountTypeName == "BANK")||(data.taccountvs1[i].AccountTypeName == "CCARD")
-                      ||(data.taccountvs1[i].AccountTypeName == "OCLIAB")
-                      ){
-                        splashArrayProductList.push(dataList);
-                      }
-
-                    }else{
-                      splashArrayProductList.push(dataList);
+                   if (!isNaN(data.taccountvs1[i].fields.Balance)) {
+                    accBalance = utilityService.modifynegativeCurrencyFormat(data.taccountvs1[i].fields.Balance) || 0.00;
+                  } else {
+                    accBalance = Currency + "0.00";
+                  }
+                  var dataList = [
+                    data.taccountvs1[i].fields.AccountName || '-',
+                    data.taccountvs1[i].fields.Description || '',
+                    data.taccountvs1[i].fields.AccountNumber || '',
+                    data.taccountvs1[i].fields.AccountTypeName || '',
+                    accBalance,
+                    data.taccountvs1[i].fields.TaxCode || ''
+                  ];
+                  if (currentLoc == "/billcard"){
+                    if((data.taccountvs1[i].fields.AccountTypeName != "AP") && (data.taccountvs1[i].fields.AccountTypeName != "AR")&&(data.taccountvs1[i].fields.AccountTypeName != "CCARD") &&(data.taccountvs1[i].fields.AccountTypeName != "BANK")){
+                    splashArrayAccountList.push(dataList);
                     }
-                }
-                //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
+                  }else if (currentLoc == "/journalentrycard"){
+                    if((data.taccountvs1[i].fields.AccountTypeName != "AP")&&(data.taccountvs1[i].fields.AccountTypeName != "AR")){
+                    splashArrayAccountList.push(dataList);
+                    }
+                  }else if(currentLoc == "/chequecard"){
+                    if((data.taccountvs1[i].fields.AccountTypeName == "EQUITY")||(data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD") ||(data.taccountvs1[i].fields.AccountTypeName == "COGS")
+                    ||(data.taccountvs1[i].fields.AccountTypeName == "EXP")||(data.taccountvs1[i].fields.AccountTypeName == "FIXASSET")||(data.taccountvs1[i].fields.AccountTypeName == "INC")||(data.taccountvs1[i].fields.AccountTypeName == "LTLIAB")
+                    ||(data.taccountvs1[i].fields.AccountTypeName == "OASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")||(data.taccountvs1[i].fields.AccountTypeName == "EXEXP")
+                    ||(data.taccountvs1[i].fields.AccountTypeName == "EXINC")){
+                    splashArrayAccountList.push(dataList);
+                    }
+                  }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
+                    if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")
+                    ||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")
+                    ){
+                    splashArrayAccountList.push(dataList);
+                    }
+                  }else{
+                    splashArrayAccountList.push(dataList);
+                  }
 
-                if (splashArrayProductList) {
+              }
+                //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayAccountList));
+
+                if (splashArrayAccountList) {
 
                     $('#tblAccount').dataTable({
-                        data: splashArrayProductList.sort(),
+                        data: splashArrayAccountList,
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         paging: true,
@@ -340,7 +340,7 @@ Template.accountlistpop.onRendered(function() {
             });
         });
     };
-    tempObj.getAllProducts();
+    tempObj.getAllAccountss();
 
 });
 Template.accountlistpop.helpers({
@@ -464,33 +464,59 @@ Template.accountlistpop.events({
         const clientList = [];
         let salesOrderTable;
         var splashArray = new Array();
-        var splashArrayCustomerList = new Array();
+        var splashArrayAccountList = new Array();
+        let utilityService = new UtilityService();
         const dataTableList = [];
         const tableHeaderList = [];
         let sideBarService = new SideBarService();
         let accountService = new AccountService();
         let dataSearchName = $('#tblAccount_filter input').val();
-
+        var currentLoc = FlowRouter.current().route.path;
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getAllAccountDataVS1ByName(dataSearchName).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 if (data.taccountvs1.length > 0) {
                   for (let i = 0; i < data.taccountvs1.length; i++) {
-                         var dataList = [
-                             data.taccountvs1[i].AccountName || '-',
-                             data.taccountvs1[i].Description || '',
-                             data.taccountvs1[i].AccountNumber || '',
-                             data.taccountvs1[i].AccountTypeName || '',
-                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                             data.taccountvs1[i].TaxCode || ''
-                         ];
+                    var dataList = [
+                    	data.taccountvs1[i].fields.AccountName || '-',
+                    	data.taccountvs1[i].fields.Description || '',
+                    	data.taccountvs1[i].fields.AccountNumber || '',
+                    	data.taccountvs1[i].fields.AccountTypeName || '',
+                    	utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].fields.Balance * 100) / 100)||0,
+                    	data.taccountvs1[i].fields.TaxCode || ''
+                    ];
+                    if (currentLoc == "/billcard"){
+                      if((data.taccountvs1[i].fields.AccountTypeName != "AP") && (data.taccountvs1[i].fields.AccountTypeName != "AR")&&(data.taccountvs1[i].fields.AccountTypeName != "CCARD") &&(data.taccountvs1[i].fields.AccountTypeName != "BANK")){
+                    	splashArrayAccountList.push(dataList);
+                      }
+                    }else if (currentLoc == "/journalentrycard"){
+                      if((data.taccountvs1[i].fields.AccountTypeName != "AP")&&(data.taccountvs1[i].fields.AccountTypeName != "AR")){
+                    	splashArrayAccountList.push(dataList);
+                      }
+                    }else if(currentLoc == "/chequecard"){
+                      if((data.taccountvs1[i].fields.AccountTypeName == "EQUITY")||(data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD") ||(data.taccountvs1[i].fields.AccountTypeName == "COGS")
+                      ||(data.taccountvs1[i].fields.AccountTypeName == "EXP")||(data.taccountvs1[i].fields.AccountTypeName == "FIXASSET")||(data.taccountvs1[i].fields.AccountTypeName == "INC")||(data.taccountvs1[i].fields.AccountTypeName == "LTLIAB")
+                      ||(data.taccountvs1[i].fields.AccountTypeName == "OASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")||(data.taccountvs1[i].fields.AccountTypeName == "EXEXP")
+                      ||(data.taccountvs1[i].fields.AccountTypeName == "EXINC")){
+                    	console.log(dataList);
+                    	splashArrayAccountList.push(dataList);
+                      }
+                    }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
+                      if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")
+                      ||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")
+                      ){
+                    	splashArrayAccountList.push(dataList);
+                      }
+                    }else{
+                      splashArrayAccountList.push(dataList);
+                    }
 
-                         splashArrayProductList.push(dataList);
-                     }
+                    }
+                     console.log(splashArrayAccountList);
                     var datatable = $('#tblAccountlist').DataTable();
                     datatable.clear();
-                    datatable.rows.add(splashArrayCustomerList);
+                    datatable.rows.add(splashArrayAccountList);
                     datatable.draw(false);
 
                     $('.fullScreenSpin').css('display', 'none');
@@ -517,33 +543,35 @@ Template.accountlistpop.events({
                 }
 
             }).catch(function (err) {
+              console.log(err);
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-          accountService.getAccountListVS1().then(function(data) {
+          sideBarService.getAccountListVS1().then(function(data) {
 
                   let records = [];
                   let inventoryData = [];
                   for (let i = 0; i < data.taccountvs1.length; i++) {
                       var dataList = [
-                          data.taccountvs1[i].AccountName || '-',
-                          data.taccountvs1[i].Description || '',
-                          data.taccountvs1[i].AccountNumber || '',
-                          data.taccountvs1[i].AccountTypeName || '',
-                          utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                          data.taccountvs1[i].TaxCode || ''
+                          data.taccountvs1[i].fields.AccountName || '-',
+                          data.taccountvs1[i].fields.Description || '',
+                          data.taccountvs1[i].fields.AccountNumber || '',
+                          data.taccountvs1[i].fields.AccountTypeName || '',
+                          utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].fields.Balance * 100) / 100),
+                          data.taccountvs1[i].fields.TaxCode || ''
                       ];
 
-                      splashArrayProductList.push(dataList);
+                      splashArrayAccountList.push(dataList);
                   }
-
+                  console.log(splashArrayAccountList);
         var datatable = $('#tblAccountlist').DataTable();
               datatable.clear();
-              datatable.rows.add(splashArrayCustomerList);
+              datatable.rows.add(splashArrayAccountList);
               datatable.draw(false);
 
               $('.fullScreenSpin').css('display', 'none');
               }).catch(function (err) {
+                console.log(err);
                 $('.fullScreenSpin').css('display', 'none');
             });
         }
@@ -755,10 +783,9 @@ Template.accountlistpop.events({
     },
     'click #productListModal #refreshpagelist': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
-        localStorage.setItem('VS1PurchaseAccountList', '');
         let templateObject = Template.instance();
         Meteor._reload.reload();
-        templateObject.getAllProducts();
+        templateObject.getAllAccountss();
 
     },
     'click .lineTaxRate': function(event) {

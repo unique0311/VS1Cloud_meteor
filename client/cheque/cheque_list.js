@@ -195,13 +195,71 @@ Template.chequelist.onRendered(function() {
                             action: function() {
                                 $('#tblchequelist').DataTable().ajax.reload();
                             },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
+                            "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblchequelist_ellipsis').addClass('disabled');
+
+                              if(oSettings._iDisplayLength == -1){
+                                if(oSettings.fnRecordsDisplay() > 150){
+                                  $('.paginate_button.page-item.previous').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                              }else{
+
+                              }
+                              if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                               .on('click', function(){
+                                 $('.fullScreenSpin').css('display','inline-block');
+                                 let dataLenght = oSettings._iDisplayLength;
+
+                                 sideBarService.getAllChequeList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TCheque').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tchequeex), dataOld.tchequeex);
+                                       let objCombineData = {
+                                         tchequeex:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TCheque',JSON.stringify(objCombineData)).then(function (datareturn) {
+
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+
+                               });
+                                setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
+                            "fnInitComplete": function () {
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if(urlParametersPage){
+                                this.fnPageChange('last');
+                              }
+
+                             },
                              "fnInitComplete": function () {
-                                    $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
+                                        $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
                             }
 
                         }).on('page', function() {
@@ -213,6 +271,42 @@ Template.chequelist.onRendered(function() {
                         }).on('column-reorder', function() {
 
                         }).on('length.dt', function(e, settings, len) {
+                          $('.fullScreenSpin').css('display','inline-block');
+                          let dataLenght = settings._iDisplayLength;
+                          if(dataLenght == -1){
+                            if(settings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                              $('.fullScreenSpin').css('display','none');
+                            }else{
+                            sideBarService.getAllChequeList('All',1).then(function(dataNonBo) {
+
+                              addVS1Data('TCheque',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                templateObject.resetData(dataNonBo);
+                              $('.fullScreenSpin').css('display','none');
+                              }).catch(function (err) {
+                              $('.fullScreenSpin').css('display','none');
+                              });
+                            }).catch(function(err) {
+                              $('.fullScreenSpin').css('display','none');
+                            });
+                           }
+                          }else{
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                              $('.fullScreenSpin').css('display','none');
+                            }else{
+                              sideBarService.getAllChequeList(dataLenght,0).then(function(dataNonBo) {
+
+                                addVS1Data('TCheque',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                  templateObject.resetData(dataNonBo);
+                                $('.fullScreenSpin').css('display','none');
+                                }).catch(function (err) {
+                                $('.fullScreenSpin').css('display','none');
+                                });
+                              }).catch(function(err) {
+                                $('.fullScreenSpin').css('display','none');
+                              });
+                            }
+                          }
                             setTimeout(function() {
                                 MakeNegative();
                             }, 100);
@@ -666,11 +760,72 @@ Template.chequelist.onRendered(function() {
                         action: function() {
                             $('#tblchequelist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblchequelist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllChequeList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TCheque').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tchequeex), dataOld.tchequeex);
+                                   let objCombineData = {
+                                     tchequeex:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TCheque',JSON.stringify(objCombineData)).then(function (datareturn) {
+
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if(urlParametersPage){
+                            this.fnPageChange('last');
+                          }
+
+                         },
+                         "fnInitComplete": function () {
+                                    $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
+                        }
 
                     }).on('page', function() {
                         setTimeout(function() {
@@ -681,6 +836,42 @@ Template.chequelist.onRendered(function() {
                     }).on('column-reorder', function() {
 
                     }).on('length.dt', function(e, settings, len) {
+                      $('.fullScreenSpin').css('display','inline-block');
+                      let dataLenght = settings._iDisplayLength;
+                      if(dataLenght == -1){
+                        if(settings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                        sideBarService.getAllChequeList('All',1).then(function(dataNonBo) {
+
+                          addVS1Data('TCheque',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                            templateObject.resetData(dataNonBo);
+                          $('.fullScreenSpin').css('display','none');
+                          }).catch(function (err) {
+                          $('.fullScreenSpin').css('display','none');
+                          });
+                        }).catch(function(err) {
+                          $('.fullScreenSpin').css('display','none');
+                        });
+                       }
+                      }else{
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display','none');
+                        }else{
+                          sideBarService.getAllChequeList(dataLenght,0).then(function(dataNonBo) {
+
+                            addVS1Data('TCheque',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                              templateObject.resetData(dataNonBo);
+                            $('.fullScreenSpin').css('display','none');
+                            }).catch(function (err) {
+                            $('.fullScreenSpin').css('display','none');
+                            });
+                          }).catch(function(err) {
+                            $('.fullScreenSpin').css('display','none');
+                          });
+                        }
+                      }
                         setTimeout(function() {
                             MakeNegative();
                         }, 100);

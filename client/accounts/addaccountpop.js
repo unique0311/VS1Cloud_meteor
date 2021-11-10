@@ -313,7 +313,7 @@ Template.addaccountpop.events({
 
                 accountService.saveAccount(data).then(function (data) {
                     if ($('#showOnTransactions').is(':checked')) {
-                                            var objDetails = {
+                      var objDetails = {
                         type: "TCompanyInfo",
                         fields: {
                             Id: companyID,
@@ -499,6 +499,9 @@ Template.addaccountpop.events({
                           }else{
                               $('#edtBankAccountName').val(accountname);
                           }
+                          // setTimeout(function () {
+                          //     $('.btnRefreshAccount').trigger('click');
+                          // }, 500);
                         }else if (currentLoc == "/depositcard") {
                           var selectLineID = $('#selectLineID').val();
                           if (selectLineID) {
@@ -525,18 +528,22 @@ Template.addaccountpop.events({
                           }else{
                               $('#sltAccountName').val(accountname);
                           }
+                          // setTimeout(function () {
+                          //     $('.btnRefreshAccount').trigger('click');
+                          // }, 500);
                         } else {
-                            sideBarService.getAccountListVS1().then(function (dataReload) {
-                                addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                    location.reload();
-                                }).catch(function (err) {
-                                    location.reload();
-                                });
-                            }).catch(function (err) {
-                                location.reload();
-                            });
+                          location.reload();
                         }
 
+                        sideBarService.getAccountListVS1().then(function (dataReload) {
+                            addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+
+                            }).catch(function (err) {
+
+                            });
+                        }).catch(function (err) {
+
+                        });
                         $('#addAccountModal').modal('toggle');
                       }
 

@@ -552,7 +552,9 @@ export class PurchaseBoardService extends BaseService {
 
   getAllChequeList1() {
     let options = {
-      PropertyList: "ID",
+      PropertyList: "ID,GLAccountName",
+      orderby:'"PurchaseOrderID desc"',
+      LimitCount:'"1"',
     };
     return this.getList(this.ERPObjects.TCheque, options);
   }

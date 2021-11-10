@@ -100,16 +100,27 @@ Template.chequecard.onRendered(() => {
     let newChequeID = 0;
 
     templateObject.getAllCheques = function() {
+      let lastBankAccount = "Bank";
         clientsService.getAllChequeList1().then(function(data) {
             let newChequeID = 1;
+
             if(data.tcheque.length > 0){
                 lastCheque = data.tcheque[data.tcheque.length - 1]
                 newChequeID = parseInt(lastCheque.Id) + 1;
+                lastBankAccount = lastCheque.GLAccountName;
             } else{
 
             }
             $('.heading').html('New ' + chequeSpelling + ' #' + newChequeID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>-->');
-
+            setTimeout(function(){
+                  $('#sltBankAccountName').val(lastBankAccount);
+            },500);
+        }).catch(function(err) {
+          if(localStorage.getItem('check_acc')){
+            $('#sltBankAccountName').val(localStorage.getItem('check_acc'));
+          }else{
+            $('#sltBankAccountName').val(lastBankAccount);
+          }
         });
     }
 
@@ -1409,7 +1420,7 @@ Template.chequecard.onRendered(() => {
             if(localStorage.getItem('check_acc')){
               $('#sltBankAccountName').val(localStorage.getItem('check_acc'));
             }else{
-              $('#sltBankAccountName').val('Bank');
+              // $('#sltBankAccountName').val('Bank');
             }
         },500);
 
@@ -2913,254 +2924,6 @@ Template.chequecard.onRendered(function() {
     const taxCodesList = [];
     const accountnamerecords = [];
     let account = [];
-    tempObj.getAllProducts = function() {
-        getVS1Data('TAccountVS1').then(function(dataObject) {
-            if (dataObject.length == 0) {
-                accountService.getAccountListVS1().then(function(data) {
-
-                    let records = [];
-                    let inventoryData = [];
-                    for (let i = 0; i < data.taccountvs1.length; i++) {
-                        if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName == "CCard") {
-                            var accountList = {
-                                accountname: data.taccountvs1[i].AccountName || '',
-                                description: data.taccountvs1[i].Description || '',
-                                accountnumber: data.taccountvs1[i].AccountNumber || '',
-                                accountype: data.taccountvs1[i].AccountTypeName || '',
-                                balance: utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                                taxcode: data.taccountvs1[i].TaxCode || ''
-                            };
-
-                        }
-                        account.push(accountList);
-
-                        var dataList = [
-                            data.taccountvs1[i].AccountName || '-',
-                            data.taccountvs1[i].Description || '',
-                            data.taccountvs1[i].AccountNumber || '',
-                            data.taccountvs1[i].AccountTypeName || '',
-                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                            data.taccountvs1[i].TaxCode || ''
-                        ];
-
-                        splashArrayProductList.push(dataList);
-                    }
-                    tempObj.accounts.set(account);
-                    localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
-
-                    if (splashArrayProductList) {
-
-                        $('#tblAccount').dataTable({
-                            data: splashArrayProductList.sort(),
-
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            paging: true,
-                            "aaSorting": [],
-                            "orderMulti": true,
-                            columnDefs: [
-
-                                { className: "productName", "targets": [0] },
-                                { className: "productDesc", "targets": [1] },
-                                { className: "accountnumber", "targets": [2] },
-                                { className: "salePrice", "targets": [3] },
-                                { className: "prdqty text-right", "targets": [4] },
-                                { className: "taxrate", "targets": [5] }
-                            ],
-                            colReorder: true,
-
-
-
-                            "order": [
-                                [0, "asc"]
-                            ],
-
-
-                            pageLength: initialDatatableLoad,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                            info: true,
-                            responsive: true
-
-                        });
-
-                        $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-
-
-
-
-
-                    }
-                });
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.taccountvs1;
-
-                let records = [];
-                let inventoryData = [];
-
-                for (let i = 0; i < useData.length; i++) {
-                    if (!isNaN(useData[i].fields.Balance)) {
-                        accBalance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Balance) || 0.00;
-                    } else {
-                        accBalance = Currency + "0.00";
-                    }
-
-                    if (useData[i].fields.AccountTypeName == "BANK" || useData[i].fields.AccountTypeName == "CCARD") {
-                        var accountList = {
-                            accountname: useData[i].fields.AccountName || '',
-                            description: useData[i].fields.Description || '',
-                            accountnumber: useData[i].fields.AccountNumber || '',
-                            accountype: useData[i].fields.AccountTypeName || '',
-                            balance: utilityService.modifynegativeCurrencyFormat(Math.floor(useData[i].fields.Balance * 100) / 100),
-                            taxcode: data.taccountvs1[i].TaxCode || ''
-                        };
-                        account.push(accountList);
-                    }
-
-
-                    var dataList = [
-                        useData[i].fields.AccountName || '-',
-                        useData[i].fields.Description || '',
-                        useData[i].fields.AccountNumber || '',
-                        useData[i].fields.AccountTypeName || '',
-                        accBalance,
-                        useData[i].fields.TaxCode || ''
-                    ];
-
-                    splashArrayProductList.push(dataList);
-
-
-                }
-                tempObj.accounts.set(account);
-                localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
-                if (splashArrayProductList) {
-
-                    $('#tblAccount').dataTable({
-                        data: splashArrayProductList.sort(),
-
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        paging: true,
-                        "aaSorting": [],
-                        "orderMulti": true,
-                        columnDefs: [
-
-                            { className: "productName", "targets": [0] },
-                            { className: "productDesc", "targets": [1] },
-                            { className: "accountnumber", "targets": [2] },
-                            { className: "salePrice ", "targets": [3] },
-                            { className: "prdqty text-right", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
-                        ],
-                        colReorder: true,
-
-
-
-                        "order": [
-                            [0, "asc"]
-                        ],
-
-
-
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        info: true,
-                        responsive: true
-
-                    });
-
-                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-
-
-
-
-
-                }
-            }
-        }).catch(function(err) {
-            accountService.getAccountListVS1().then(function(data) {
-
-                let records = [];
-                let inventoryData = [];
-                for (let i = 0; i < data.taccountvs1.length; i++) {
-                    if (data.taccountvs1[i].AccountTypeName == "BANK" || data.taccountvs1[i].AccountTypeName == "Cheque or Saving" || data.taccountvs1[i].AccountTypeName == "CCard") {
-                        var accountList = {
-                            accountname: data.taccountvs1[i].AccountName || '',
-                            description: data.taccountvs1[i].Description || '',
-                            accountnumber: data.taccountvs1[i].AccountNumber || '',
-                            accountype: data.taccountvs1[i].AccountTypeName || '',
-                            balance: utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                            taxcode: data.taccountvs1[i].TaxCode || ''
-                        };
-
-                    }
-                    account.push(accountList);
-
-
-                    var dataList = [
-                        data.taccountvs1[i].AccountName || '-',
-                        data.taccountvs1[i].Description || '',
-                        data.taccountvs1[i].AccountNumber || '',
-                        data.taccountvs1[i].AccountTypeName || '',
-                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].Balance * 100) / 100),
-                        data.taccountvs1[i].TaxCode || ''
-                    ];
-
-                    splashArrayProductList.push(dataList);
-                }
-                tempObj.accounts.set(account);
-                localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayProductList));
-
-                if (splashArrayProductList) {
-
-                    $('#tblAccount').dataTable({
-                        data: splashArrayProductList.sort(),
-
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        paging: true,
-                        "aaSorting": [],
-                        "orderMulti": true,
-                        columnDefs: [
-
-                            { className: "productName", "targets": [0] },
-                            { className: "productDesc", "targets": [1] },
-                            { className: "accountnumber", "targets": [2] },
-                            { className: "salePrice", "targets": [3] },
-                            { className: "prdqty text-right", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
-                        ],
-                        colReorder: true,
-
-
-
-                        "order": [
-                            [0, "asc"]
-                        ],
-
-
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        info: true,
-                        responsive: true
-
-                    });
-
-                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-
-
-
-
-
-                }
-            });
-        });
-    };
-
-    //tempObj.getAllProducts();
-
-
-
 
     tempObj.getAllTaxCodes = function() {
         getVS1Data('TTaxcodeVS1').then(function(dataObject) {
