@@ -397,18 +397,18 @@
                                             {{#each depitem in reconVS1dep}}
                                             <tr class="dnd-moved" id="checkboxtable_{{depitem.recondepid}}" depositLineID="{{depitem.depositLineID}}">
                                                 <td style="width:15px;">
-                                                    <div class="custom-control custom-checkbox" id="checkboxtable_{{depitem.recondepid}}" style="width:15px;">
+                                                    <div class="custom-control custom-checkbox pointer" id="checkboxtable_{{depitem.recondepid}}" style="width:15px;">
                                                         <input type="checkbox" class="custom-control-input reconchkboxdep" id="formCheck_{{depitem.recondepid}}" />
                                                         <label class="custom-control-label" for="formCheck_{{depitem.recondepid}}"></label>
                                                     </div>
                                                 </td>
-                                                <td contenteditable="false" class="colSortDate hiddenColumn">{{depitem.sortdate}}</td>
-                                                <td id="vs1recondate_{{depitem.recondepid}}" recondate="{{depitem.recondepdate}}"><span style="display:none;">{{depitem.sortdate}}</span>{{depitem.recondepdate}}</td>
-                                                <td id="vs1reconref_{{depitem.recondepid}}">{{depitem.recondepref}}</td>
-                                                <td id="vs1reconname_{{depitem.recondepid}}">{{depitem.recondepname}}</td>
-                                                <td id="vs1recondesc_{{depitem.recondepid}}">{{depitem.recondeppaymenttype}}</td>
-                                                <td id="vs1reconpayid_{{depitem.recondepid}}">{{depitem.recondeppaymentid}}</td>
-                                                <td id="vs1reconamount_{{depitem.recondepid}}" class="text-right" name="vs1reconamount_{{depitem.recondepid}}">{{depitem.recondepamount}}</td>
+                                                <td contenteditable="false" class="colSortDate hiddenColumn depositClick">{{depitem.sortdate}}</td>
+                                                <td class="depositClick" id="vs1recondate_{{depitem.recondepid}}" recondate="{{depitem.recondepdate}}"><span style="display:none;">{{depitem.sortdate}}</span>{{depitem.recondepdate}}</td>
+                                                <td class="depositClick" id="vs1reconref_{{depitem.recondepid}}">{{depitem.recondepref}}</td>
+                                                <td class="depositClick" id="vs1reconname_{{depitem.recondepid}}">{{depitem.recondepname}}</td>
+                                                <td class="colPaymentType depositClick" id="vs1recondesc_{{depitem.recondepid}}">{{depitem.recondeppaymenttype}}</td>
+                                                <td class="colDepositID depositClick" id="vs1reconpayid_{{depitem.recondepid}}">{{depitem.recondeppaymentid}}</td>
+                                                <td class="text-right depositClick" id="vs1reconamount_{{depitem.recondepid}}" name="vs1reconamount_{{depitem.recondepid}}">{{depitem.recondepamount}}</td>
                                             </tr>
                                             {{/each}}
                                             {{/if}}
@@ -457,12 +457,12 @@
                                                         <label class="custom-control-label" for="formCheck_{{withitem.reconwithid}}"></label>
                                                     </div>
                                                 </td>
-                                                <td id="vs1recondatewith_{{withitem.reconwithid}}" recondate="{{withitem.reconwithdate}}"><span style="display:none;">{{withitem.sortdate}}</span>{{withitem.reconwithdate}}</td>
-                                                <td id="vs1reconrefwith_{{withitem.reconwithid}}">{{withitem.reconwithref}}</td>
-                                                <td id="vs1reconnamewith_{{withitem.reconwithid}}">{{withitem.reconwithname}}</td>
-                                                <td id="vs1recondescwith_{{withitem.reconwithid}}">{{withitem.reconwithpaymenttype}}</td>
-                                                <td id="vs1reconpayidwith_{{withitem.reconwithid}}">{{withitem.reconwithpaymentid}}</td>
-                                                <td id="vs1reconamountwith_{{withitem.reconwithid}}" class="text-right" name="vs1reconamountwith_{{withitem.reconwithid}}">{{withitem.reconwithamount}}</td>
+                                                <td class="withClick" id="vs1recondatewith_{{withitem.reconwithid}}" recondate="{{withitem.reconwithdate}}"><span style="display:none;">{{withitem.sortdate}}</span>{{withitem.reconwithdate}}</td>
+                                                <td class="withClick" id="vs1reconrefwith_{{withitem.reconwithid}}">{{withitem.reconwithref}}</td>
+                                                <td class="withClick" id="vs1reconnamewith_{{withitem.reconwithid}}">{{withitem.reconwithname}}</td>
+                                                <td class="colPaymentType withClick" id="vs1recondescwith_{{withitem.reconwithid}}">{{withitem.reconwithpaymenttype}}</td>
+                                                <td class="colWithdrawlID withClick" id="vs1reconpayidwith_{{withitem.reconwithid}}">{{withitem.reconwithpaymentid}}</td>
+                                                <td class="withClick text-right" id="vs1reconamountwith_{{withitem.reconwithid}}" name="vs1reconamountwith_{{withitem.reconwithid}}">{{withitem.reconwithamount}}</td>
                                             </tr>
                                             {{/each}}
                                             {{/if}}

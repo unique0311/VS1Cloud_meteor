@@ -30,6 +30,59 @@ Template.bankrecon.onCreated(function() {
 Template.bankrecon.onRendered(function() {
     $('.fullScreenSpin').css('display', 'inline-block');
 
+    $('#tblVS1Dep tbody').on('click', 'tr .depositClick', function () {
+
+        let paymentType = $(this).closest('tr').find(".colPaymentType").text()
+        let selectDepositID = $(this).closest('tr').find(".colDepositID").text()
+
+        if (paymentType == "Customer Payment") {
+            if (selectDepositID) {
+                FlowRouter.go('/paymentcard?id=' + selectDepositID);
+            }
+        }
+        if (paymentType == "Cheque Deposit" || paymentType == "Cheque") {
+            if (selectDepositID) {
+                FlowRouter.go('/chequecard?id=' + selectDepositID);
+            }
+        }
+        if (paymentType == "Deposit Entry") {
+            if (selectDepositID) {
+                FlowRouter.go('/depositcard?id=' + selectDepositID);
+            }
+        }
+        if (paymentType == "Journal Entry") {
+            if (selectDepositID) {
+                FlowRouter.go('/journalentrycard?id=' + selectDepositID);
+            }
+        }
+    });
+    $('#tblVS1With tbody').on('click', 'tr .withClick', function () {
+
+        let paymentType = $(this).closest('tr').find(".colPaymentType").text()
+        let selectWithdrawalID = $(this).closest('tr').find(".colWithdrawlID").text()
+
+        if (paymentType == "Supplier Payment") {
+            if (selectWithdrawalID) {
+                FlowRouter.go('/supplierpaymentcard?id=' + selectWithdrawalID);
+            }
+        }
+        if (paymentType == "Cheque") {
+            if (selectWithdrawalID) {
+                FlowRouter.go('/chequecard?id=' + selectWithdrawalID);
+            }
+        }
+        if (paymentType == "Journal Entry") {
+            if (selectWithdrawalID) {
+                FlowRouter.go('/journalentrycard?id=' + selectWithdrawalID);
+            }
+        }
+        if (paymentType == "Split Deposit") {
+            if (selectWithdrawalID) {
+                FlowRouter.go('/depositcard?id=' + selectWithdrawalID);
+            }
+        }
+    });
+
     let templateObject = Template.instance();
     let recService = new ReconService();
     var url = FlowRouter.current().path;
@@ -69,7 +122,7 @@ Template.bankrecon.onRendered(function() {
     // API to pull Accounts END
 
     // BEGIN DATE CODE
-    $(".formClassDate").datepicker({
+    $("#dtSODate1,#dtSODate2").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
         buttonImageOnly: true,
@@ -2401,10 +2454,10 @@ Template.bankrecon.events({
         var differenceAmount = parseFloat(clearedBalCalc2) - parseFloat(displayEndBal2);
         $('.differenceCalc').text(utilityService.modifynegativeCurrencyFormat(differenceAmount) || Currency + "0.00");
     },
-    'blur .statementDate, keyup .statementDate, change .statementDate': function(e) {
-        var statementDate = event.target.value.replace(/[^0-9.-]+/g, "") || 0;
-        $('.statementDate').val(event.target.value || 0);
-    },
+    // 'blur .statementDate, keyup .statementDate, change .statementDate': function(e) {
+    //     var statementDate = event.target.value.replace(/[^0-9.-]+/g, "") || 0;
+    //     $('.statementDate').val(event.target.value || 0);
+    // },
     'click .reconbtn': function(e) {
         $('.fullScreenSpin').css('display', 'inline-block');
 
