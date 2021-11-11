@@ -741,7 +741,7 @@ Template.vs1login.onRendered(function () {
                         isAllocationLaunch = true;
                     }
 
-                    if (optionaccess.fields.Description === "Allow Editing timesheet Hours") {
+                    if (optionaccess.fields.Description === "Allow Editing Timesheet Hours") {
                         isEditTimesheetHours = true;
                     }
 

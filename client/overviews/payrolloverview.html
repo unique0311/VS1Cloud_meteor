@@ -538,7 +538,7 @@
                                             <option value=""></option>
                                             {{#if datatablerecords1}}
                                                 {{#each item in datatablerecords1}}
-                                                    <option value="{{item.id}}">{{item.productname}}</option>
+                                                    <option value="{{item.id}}"  id="{{item.productcost}}">{{item.productname}}</option>
                                                 {{/each}}
                                             {{/if}}
                                         </select>
@@ -596,11 +596,11 @@
                                     {{#if equals edithours true}}
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                             <label>Hours</label>
-                                            <input type="time" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" value="00:00">
+                                            <input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" value="00:00">
                                         </div>
                                     {{else}}
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                            <label>Hours</label><input type="time" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" value="00:00" readonly>
+                                            <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" required class="form-control" value="00:00" readonly>
                                             <input type="hidden" id="txtBookedHoursSpent1" name="txtBookedHoursSpent1">
                                         </div>
                                     {{/if}}

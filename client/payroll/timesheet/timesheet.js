@@ -1146,7 +1146,8 @@ Template.timesheet.onRendered(function () {
                 for (let i = 0; i < data.tproductvs1.length; i++) {
                     dataList = {
                         id: data.tproductvs1[i].Id || '',
-                        productname: data.tproductvs1[i].ProductName || ''
+                        productname: data.tproductvs1[i].ProductName || '',
+                        productcost: data.tproductvs1[i].SellQty1Price || ''
                     }
                     if (data.tproductvs1[i].ProductType != 'INV') {
                         productList.push(dataList);
@@ -2450,7 +2451,7 @@ Template.timesheet.onRendered(function () {
             let hours = templateObject.timeToDecimal(edthour);
             var techNotes = $('#txtNotesOne').val() || '';
             var product = $('#product-listone').children("option:selected").text() || '';
-            var productcost = parseFloat($('#product-listone').children("option:selected").attr('id') || 0);
+            var productcost = parseFloat($('#product-listone').children("option:selected").attr('id')) || 0;
             var jobName = $('#sltJobOne').val() || '';
             let isPaused = checkStatus;
             let toUpdate = {};
@@ -2604,7 +2605,7 @@ Template.timesheet.onRendered(function () {
                                 fields: {
                                     EmployeeName: employeeName || '',
                                     ServiceName: product || '',
-                                    HourlyRate: productcost || '',
+                                    HourlyRate: productcost || 0,
                                     LabourCost: 1,
                                     Allowedit: true,
                                     Logs: obj,

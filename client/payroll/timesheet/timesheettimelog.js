@@ -379,7 +379,7 @@ Template.timesheettimelog.onRendered(function () {
                             "scrollCollapse": true,
                             info: true,
                             responsive: true,
-                            "order": [[1, "desc"]],
+                            "order": [[0, "desc"]],
                             action: function () {
                                 $('#tblTimeSheet').DataTable().ajax.reload();
                             },
@@ -742,7 +742,7 @@ Template.timesheettimelog.onRendered(function () {
                         "scrollCollapse": true,
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [[0, "desc"]],
                         action: function () {
                             $('#tblTimeSheet').DataTable().ajax.reload();
                         },
