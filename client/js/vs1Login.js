@@ -1615,8 +1615,10 @@ Template.vs1login.onRendered(function () {
                                                     } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                         ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                                     }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                                        ERPIPAdderess = "replica.vs1cloud.com";
-                                                    } else {
+                                                        ERPIPAdderess = "steelmains.vs1cloud.com";
+                                                    }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
+                                                        ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                                    }else {
                                                         ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                     }
                                                     var ERPdbName = dataReturnRes.ProcessLog.Databasename;
@@ -1879,8 +1881,8 @@ Template.vs1login.onRendered(function () {
                                                     .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                                     .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                                     .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                     swal({
                                                         title: 'Awaiting Email Validation',
                                                         html: true,
@@ -2237,8 +2239,10 @@ Template.vs1login.onRendered(function () {
                                 } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                 }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                    ERPIPAdderess = "replica.vs1cloud.com";
-                                } else {
+                                    ERPIPAdderess = "steelmains.vs1cloud.com";
+                                }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
+                                    ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                }else {
                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                 }
                                 var ERPdbName = dataReturnRes.ProcessLog.Databasename;
@@ -2721,8 +2725,10 @@ Template.vs1login.onRendered(function () {
                                                 } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                                 }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                                    ERPIPAdderess = "replica.vs1cloud.com";
-                                                } else {
+                                                    ERPIPAdderess = "steelmains.vs1cloud.com";
+                                                }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
+                                                    ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                                }else {
                                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                 }
                                                 var ERPdbName = dataReturnRes.ProcessLog.Databasename;
@@ -2985,8 +2991,8 @@ Template.vs1login.onRendered(function () {
                                                 .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                                 .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                                 .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                 swal({
                                                     title: 'Awaiting Email Validation',
                                                     html: true,
@@ -3368,8 +3374,10 @@ Template.vs1login.onRendered(function () {
                                             } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                                 ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                             }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                                ERPIPAdderess = "replica.vs1cloud.com";
-                                            } else {
+                                                ERPIPAdderess = "steelmains.vs1cloud.com";
+                                            }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
+                                                ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                            }else {
                                                 ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                             }
                                             var ERPdbName = dataReturnRes.ProcessLog.Databasename;
@@ -3671,8 +3679,8 @@ Template.vs1login.onRendered(function () {
                                             .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                             .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                             .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                             swal({
                                                 title: 'Awaiting Email Validation',
                                                 html: true,
@@ -4055,8 +4063,10 @@ Template.vs1login.onRendered(function () {
                                         } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
                                             ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                         }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
-                                            ERPIPAdderess = "replica.vs1cloud.com";
-                                        } else {
+                                            ERPIPAdderess = "steelmains.vs1cloud.com";
+                                        }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
+                                            ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                        }else {
                                             ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                         }
                                         var ERPdbName = dataReturnRes.ProcessLog.Databasename;
@@ -4319,8 +4329,8 @@ Template.vs1login.onRendered(function () {
                                         .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                         .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                         .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                         swal({
                                             title: 'Awaiting Email Validation',
                                             html: true,
