@@ -1833,10 +1833,28 @@ Template.timesheet.onRendered(function () {
             jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletoexcel').click();
             $('.fullScreenSpin').css('display', 'none');
         },
-        'click .btnRefresh': function () {
-            //Meteor._reload.reload();
-            window.open('/timesheet', '_self');
-        },
+'click .btnRefresh': function () {
+        $('.fullScreenSpin').css('display', 'inline-block');
+        sideBarService.getAllTimeSheetList().then(function (data) {
+            addVS1Data('TTimeSheet', JSON.stringify(data));
+            setTimeout(function () {
+                window.open('/timesheet', '_self');
+            }, 500);
+        }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    // Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
+        });
+    },
         'click #btnClockOnOff': function (event) {
             const templateObject = Template.instance();
             $("#employee_name").val(Session.get('mySessionEmployee'));

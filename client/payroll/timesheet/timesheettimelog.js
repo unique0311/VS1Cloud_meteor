@@ -139,7 +139,7 @@ Template.timesheettimelog.onRendered(function () {
                                                 let dt2 = new Date(data.ttimesheet[t].fields.Logs[l].fields.EndDatetime);
                                                 Hours = templateObject.diff_hours1(dt2, dt1);
                                             } else {
-                                                Hours = 0;
+                                                Hours = "0h:0m";
                                             }
 
                                             var dataList = {
@@ -176,7 +176,7 @@ Template.timesheettimelog.onRendered(function () {
                                             let dt2 = new Date(data.ttimesheet[t].fields.Logs.fields.EndDatetime);
                                             Hours = templateObject.diff_hours1(dt2, dt1);
                                         } else {
-                                            Hours = 0;
+                                           Hours = "0h:0m";
                                         }
 
                                         var dataList = {
@@ -503,7 +503,7 @@ Template.timesheettimelog.onRendered(function () {
                                             let dt2 = new Date(data.ttimesheet[t].fields.Logs[l].fields.EndDatetime);
                                             Hours = templateObject.diff_hours1(dt2, dt1);
                                         } else {
-                                            Hours = 0;
+                                           Hours = "0h:0m";
                                         }
 
                                         var dataList = {
@@ -540,7 +540,7 @@ Template.timesheettimelog.onRendered(function () {
                                         let dt2 = new Date(data.ttimesheet[t].fields.Logs.fields.EndDatetime);
                                         Hours = templateObject.diff_hours1(dt2, dt1);
                                     } else {
-                                        Hours = 0;
+                                        Hours = "0h:0m";
                                     }
 
                                     var dataList = {
@@ -587,7 +587,7 @@ Template.timesheettimelog.onRendered(function () {
                                         let dt2 = new Date(data.ttimesheet[t].fields.Logs[l].fields.EndDatetime);
                                         Hours = templateObject.diff_hours1(dt2, dt1);
                                     } else {
-                                        Hours = 0;
+                                        Hours = "0h:0m";
                                     }
 
                                     var dataList = {
