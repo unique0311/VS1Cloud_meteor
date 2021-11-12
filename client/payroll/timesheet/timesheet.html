@@ -830,10 +830,19 @@
                                 width: 3% !important;
                             }
                             .colView {
-                                width: 4% !important;
+                                width: 3% !important;
                             }
                             .colStatus {
                                 width: 5% !important;
+                            }
+                            .colJob {
+                                width: 20% !important;
+                            }
+                            .colNotes {
+                                width: 10% !important;
+                            }
+                            .thColHours {
+                                width: 4% !important;
                             }
                         </style>
                         <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
@@ -847,20 +856,20 @@
                                     </th>
                                     <th class="th colID" style="width: 3% !important;">ID</th>
                                     <th class="th colName" style="width:100px;">Employee</th>
-                                    <th class="th colDate" style="width:50px;">Date</th>
-                                    <th class="th colJob" style="width:150px;">Job</th>
+                                    <th class="th colDate" style="width:4% !important;">Date</th>
+                                    <th class="th colJob" style="width: 20% !important;">Job</th>
                                     <th class="th colRate" style="width:50px;">Product</th>
                                     <th class="th colRegHours hiddenColumn" style="width:50px;">Hours</th>
-                                    <th class="th colRegHoursOne" style="width:50px;">Hours</th>
-                                    <th class="th colOvertime " style="width:30px;">Overtime</th>
-                                    <th class="th colDouble " style="width:30px;">Double</th>
-                                    <th class="th colAdditional " style="width:50px;">Additional</th>
-                                    <th class="th colPaycheckTips " style="width:50px;">Tips</th>
+                                    <th class="th colRegHoursOne thColHours" style="width:4% !important;;">Hours</th>
+                                    <th class="th colOvertime " style="width: 3% !important;">Overtime</th>
+                                    <th class="th colDouble " style="width: 3% !important;">Double</th>
+                                    <th class="th colAdditional " style="width: 3% !important;">Additional</th>
+                                    <th class="th colPaycheckTips " style="width: 3% !important;">Tips</th>
                                     <!-- <th class="th colCashTips" style="width:50px;">Cash Tips</th> -->
                                     <!-- <th class="th colGrossPay" style="width:50px;">Gross Pay</th> -->
-                                    <th class="th colNotes">Technical Notes</th>
+                                    <th class="th colNotes" style="width: 10% !important;">Technical Notes</th>
                                     <th class="th colStatus" style="width: 5% !important;">Status</th>
-                                    <th class="th colView sorting_disabled" style="width: 4% !important;">View</th>
+                                    <th class="th colView sorting_disabled" style="width: 3% !important;">View</th>
                                     <!-- <th class="" style="max-width: 50px;">Edit</th> -->
                                 </tr>
                             </thead>
@@ -878,7 +887,7 @@
                                             <td class="colName" contenteditable="false" empname="{{item.employee}}"><a href="#">{{item.employee}}</a></td>
                                             <td class="colDate" contenteditable="false"><span style="display:none;">{{item.sortdate}}</span> {{item.timesheetdate}}</td>
                                             <td class="colJob" contenteditable="false">{{item.job}}</td>
-                                            <td class="colProduct" style="text-align: right!important;">{{item.product}}</td>
+                                            <td class="colProduct">{{item.product}}</td>
                                             <td style="text-align: right!important;" class="hiddenColumn"><input class="colRegHours highlightInput" type="number" value="{{item.hours}}"><span class="colRegHours"
                                                     style="display: none;">{{item.hours}}</span></td>
                                             <td class="" style="text-align: right!important;">
@@ -905,7 +914,7 @@
                                                 {{/if}}
                                             {{/if}}
 
-                                            <td class="viewTimeLog"><a href="/timesheettimelog?id={{item.id}}" class="btn btn-success btnTimesheetListOne" style="width: 45px;" id="" autocomplete="off"><i class="far fa-clock"></i></a></td>
+                                            <td class="viewTimeLog"><a href="/timesheettimelog?id={{item.id}}" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a></td>
                                             <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
                                             <!--  <td><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h"
                                                         style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
