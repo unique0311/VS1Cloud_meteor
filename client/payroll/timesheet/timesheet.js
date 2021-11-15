@@ -248,11 +248,8 @@ Template.timesheet.onRendered(function () {
                     }
 
                     setTimeout(function () {
-                        $('.fullScreenSpin').css('display', 'none');
-                        // //$.fn.dataTable.moment('DD/MM/YY');
                         $('#tblTimeSheet').DataTable({
                             columnDefs: [
-                                // {type: 'date', targets: 0},
                                 {
                                     "orderable": false,
                                     "targets": 0
@@ -267,10 +264,20 @@ Template.timesheet.onRendered(function () {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "timesheetist_" + moment().format(),
+                                    filename: "Timesheet List - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
-                                        columns: [':visible :not(:last-child)'],
+                                        columns: "thead tr th:not(.noExport)",
+                                        // columns: [':visible :not(:last-child)'],
+                                        format: {
+                                            body: function(data, row, column) {
+                                                if (data.includes("</span>")) {
+                                                    var res = data.split("</span>");
+                                                    data = res[1];
+                                                }
+                                                return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+                                            }
+                                        }
                                     }
                                 }, {
                                     extend: 'print',
@@ -278,9 +285,10 @@ Template.timesheet.onRendered(function () {
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
                                     title: 'Time Sheet',
-                                    filename: "timesheetist_" + moment().format(),
+                                    filename: "Timesheet List - " + moment().format(),
                                     exportOptions: {
-                                        columns: [':visible :not(:last-child)'],
+                                        columns: "thead tr th:not(.noExport)",
+                                        stripHtml: false
                                     }
                                 }
                             ],
@@ -531,11 +539,8 @@ Template.timesheet.onRendered(function () {
                 }
 
                 setTimeout(function () {
-                    $('.fullScreenSpin').css('display', 'none');
-                    // //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblTimeSheet').DataTable({
                         columnDefs: [
-                            // {type: 'date', targets: 0},
                             {
                                 "orderable": false,
                                 "targets": 0
@@ -544,16 +549,32 @@ Template.timesheet.onRendered(function () {
                                 orderable: false
                             }
                         ],
+                        select: true,
+                        destroy: true,
+                        colReorder: {
+                            fixedColumnsRight: 1,
+                            fixedColumnsLeft: 1
+                        },
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "timesheetist_" + moment().format(),
+                                filename: "Timesheet List - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
-                                    columns: [':visible :not(:last-child)'],
+                                    columns: "thead tr th:not(.noExport)",
+                                    // columns: [':visible :not(:last-child)'],
+                                    format: {
+                                        body: function(data, row, column) {
+                                            if (data.includes("</span>")) {
+                                                var res = data.split("</span>");
+                                                data = res[1];
+                                            }
+                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+                                        }
+                                    }
                                 }
                             }, {
                                 extend: 'print',
@@ -561,24 +582,14 @@ Template.timesheet.onRendered(function () {
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
                                 title: 'Time Sheet',
-                                filename: "timesheetist_" + moment().format(),
+                                filename: "Timesheet List - " + moment().format(),
                                 exportOptions: {
-                                    columns: [':visible :not(:last-child)'],
+                                    columns: "thead tr th:not(.noExport)",
+                                    stripHtml: false
                                 }
                             }
                         ],
-                        select: true,
-                        destroy: true,
-                        colReorder: {
-                            fixedColumnsRight: 1,
-                            fixedColumnsLeft: 1
-                        },
-                        // colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
                         paging: false,
-                        // "scrollY": "500px",
-                        // "scrollCollapse": true,
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],
@@ -1493,7 +1504,7 @@ Template.timesheet.onRendered(function () {
                     } else if (result.dismiss === 'cancel') {}
                 });
             }
-            
+
         },
         'click .clockOff': function (event) {
             const templateObject = Template.instance();
@@ -1840,16 +1851,16 @@ Template.timesheet.onRendered(function () {
             });
             templateObject.tableheaderrecords.set(tableHeaderList);
         },
-        'click .exportbtn': function () {
-            $('.fullScreenSpin').css('display', 'inline-block');
-            jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletocsv').click();
-            $('.fullScreenSpin').css('display', 'none');
-        },
-        'click .exportbtnExcel': function () {
-            $('.fullScreenSpin').css('display', 'inline-block');
-            jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletoexcel').click();
-            $('.fullScreenSpin').css('display', 'none');
-        },
+        // 'click .exportbtn': function () {
+        //     $('.fullScreenSpin').css('display', 'inline-block');
+        //     jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletocsv').click();
+        //     $('.fullScreenSpin').css('display', 'none');
+        // },
+        // 'click .exportbtnExcel': function () {
+        //     $('.fullScreenSpin').css('display', 'inline-block');
+        //     jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletoexcel').click();
+        //     $('.fullScreenSpin').css('display', 'none');
+        // },
 'click .btnRefreshOne': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getAllTimeSheetList().then(function (data) {
@@ -2188,7 +2199,7 @@ Template.timesheet.onRendered(function () {
                         document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
                         let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
                         let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-                    
+
                         let startTime = ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
                         let endTime = $('endTime').val();
                         toUpdate = {
@@ -2302,7 +2313,7 @@ Template.timesheet.onRendered(function () {
                         document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
                         let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
                         let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-                    
+
 
                         var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value + ':00');
                         var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value + ':00');
@@ -2504,7 +2515,7 @@ Template.timesheet.onRendered(function () {
             if (hours != 0.016666666666666666) {
                 edthour = hours + parseFloat($('#txtBookedHoursSpent1').val());
             }
-        
+
             if (hours != 0.016666666666666666) {
                 obj = {
                     type: "TTimeLog",
