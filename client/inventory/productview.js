@@ -54,6 +54,27 @@ Template.productview.onRendered(function() {
     let clientType = [];
 
 
+    templateObject.getAllLastInvDatas = function() {
+        productService.getAllProductList1().then(function(data) {
+            let salestaxcode = '';
+            let purchasetaxcode = '';
+
+            if(data.tproduct.length > 0){
+                let lastProduct = data.tproduct[data.tproduct.length - 1]
+                salestaxcode = lastProduct.TaxCodeSales;
+                purchasetaxcode = lastProduct.TaxCodePurchase;
+                setTimeout(function(){
+                      $('#slttaxcodesales').val(salestaxcode);
+                      $('#slttaxcodepurchase').val(purchasetaxcode);
+                },500);
+            }
+
+
+        }).catch(function(err) {
+
+        });
+    }
+
     templateObject.getAccountNames = function(){
       getVS1Data('TAccountVS1').then(function (dataObject) {
         if(dataObject.length == 0){
@@ -1417,7 +1438,7 @@ Template.productview.onRendered(function() {
 
 
         $('.fullScreenSpin').css('display','none');
-
+        templateObject.getAllLastInvDatas();
         setTimeout(function () {
             $('.recenttrasaction').css('display','none');
         }, 500);

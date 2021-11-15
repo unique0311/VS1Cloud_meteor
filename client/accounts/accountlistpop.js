@@ -195,7 +195,6 @@ Template.accountlistpop.onRendered(function() {
 
                 }
                 //localStorage.setItem('VS1PurchaseAccountList', JSON.stringify(splashArrayAccountList));
-                console.log(splashArrayAccountList);
                 if (splashArrayAccountList) {
 
                     $('#tblAccount').dataTable({
@@ -244,7 +243,6 @@ Template.accountlistpop.onRendered(function() {
                 }
             }
         }).catch(function(err) {
-          console.log(err);
             sideBarService.getAccountListVS1().then(function(data) {
 
                 let records = [];
@@ -499,7 +497,6 @@ Template.accountlistpop.events({
                       ||(data.taccountvs1[i].fields.AccountTypeName == "EXP")||(data.taccountvs1[i].fields.AccountTypeName == "FIXASSET")||(data.taccountvs1[i].fields.AccountTypeName == "INC")||(data.taccountvs1[i].fields.AccountTypeName == "LTLIAB")
                       ||(data.taccountvs1[i].fields.AccountTypeName == "OASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCASSET")||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")||(data.taccountvs1[i].fields.AccountTypeName == "EXEXP")
                       ||(data.taccountvs1[i].fields.AccountTypeName == "EXINC")){
-                    	console.log(dataList);
                     	splashArrayAccountList.push(dataList);
                       }
                     }else if(currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard"){
@@ -513,7 +510,6 @@ Template.accountlistpop.events({
                     }
 
                     }
-                     console.log(splashArrayAccountList);
                     var datatable = $('#tblAccountlist').DataTable();
                     datatable.clear();
                     datatable.rows.add(splashArrayAccountList);
@@ -543,7 +539,6 @@ Template.accountlistpop.events({
                 }
 
             }).catch(function (err) {
-              console.log(err);
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -563,7 +558,6 @@ Template.accountlistpop.events({
 
                       splashArrayAccountList.push(dataList);
                   }
-                  console.log(splashArrayAccountList);
         var datatable = $('#tblAccountlist').DataTable();
               datatable.clear();
               datatable.rows.add(splashArrayAccountList);
@@ -571,7 +565,6 @@ Template.accountlistpop.events({
 
               $('.fullScreenSpin').css('display', 'none');
               }).catch(function (err) {
-                console.log(err);
                 $('.fullScreenSpin').css('display', 'none');
             });
         }

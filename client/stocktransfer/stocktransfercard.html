@@ -93,7 +93,7 @@
                         <div class="col-12 col-lg-8">
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments">{{stocktransferrecord.comments}}</textarea>
+                                <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments">{{stocktransferrecord.notes}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Reason</label>
-                                <input class="form-control" type="text" id="txtNotes" name="txtNotes" value="{{stocktransferrecord.note}}">
+                                <input class="form-control" type="text" id="txtNotes" name="txtNotes" value="{{stocktransferrecord.descriptions}}">
                             </div>
                         </div>
                     </div>
@@ -568,11 +568,11 @@
                         </div>
                         <div style="font-size: 14px;">
                             <p style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: bold;">Department</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName">{{record.department}}</p>
+                            <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName">{{stocktransferrecord.department}}</p>
                         </div>
                     </div>
                     <div style="margin: 0px; padding: 16px; border: none !important; width: 70mm; max-width: 70mm;">
-                        <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Stock Transfer<br>{{record.id}}</h4>
+                        <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Stock Transfer<br>{{stocktransferrecord.id}}</h4>
                         <div style="display: flex; width: 100%;">
                             <div style="width: 50%; padding-right: 16px;font-weight: bold;">
                                 <label style="margin-bottom: 0px; color: rgb(0 0 0); width: 100%;">Date:</label>
@@ -621,7 +621,7 @@
                 <div style="display: flex;">
                     <div style="margin: 8px;">
                         <p style="font-weight: 600; color: rgb(0 0 0);">Reason</p>
-                        <div id="printcomment" style="color: rgb(0 0 0);">{{record.notes}}</div>
+                        <div id="printcomment" style="color: rgb(0 0 0);">{{stocktransferrecord.descriptions}}</div>
                     </div>
                 </div>
             </div>

@@ -1772,14 +1772,14 @@ Template.inventorylist.helpers({
         if(favorite.length == 0){
           $('.fullScreenSpin').css('display','none');
         }else{
-          if ($('.chkDepartment:checked').length == $('.chkDepartment').length) {
-            var datatable = $('#tblInventory').DataTable();
-            datatable.clear();
-            datatable.rows.add(splashArrayProductList);
-            datatable.draw(false);
-
-             $('.fullScreenSpin').css('display','none');
-          }else{
+          // if ($('.chkDepartment:checked').length == $('.chkDepartment').length) {
+          //   var datatable = $('#tblInventory').DataTable();
+          //   datatable.clear();
+          //   datatable.rows.add(splashArrayProductList);
+          //   datatable.draw(false);
+          //
+          //    $('.fullScreenSpin').css('display','none');
+          // }else{
           productService.getProductListDeptQtyList(favorite.join(",")).then(function (data) {
             $('.fullScreenSpin').css('display','none');
           for(let i=0; i<data.tproductlocationqty.length; i++){
@@ -1823,7 +1823,7 @@ Template.inventorylist.helpers({
          }).catch(function (err) {
              $('.fullScreenSpin').css('display','none');
          });
-       }
+       //}
         }
 
       },

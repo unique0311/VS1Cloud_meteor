@@ -335,6 +335,7 @@ Template.stocktransfercard.onRendered(function() {
                                 accountname: data.fields.AccountName,
                                 department: data.fields.TransferFromClassName || defaultDept,
                                 notes: data.fields.Notes,
+                                descriptions: data.fields.Description,
                                 transdate: data.fields.DateTransferred ? moment(data.fields.DateTransferred).format('DD/MM/YYYY') : ""
                             };
 
@@ -480,6 +481,7 @@ Template.stocktransfercard.onRendered(function() {
                                     accountname: useData[d].fields.AccountName,
                                     department: useData[d].fields.TransferFromClassName || defaultDept,
                                     notes: useData[d].fields.Notes,
+                                    descriptions: useData[d].fields.Description,
                                     transdate: useData[d].fields.DateTransferred ? moment(useData[d].fields.DateTransferred).format('DD/MM/YYYY') : ""
                                 };
 
@@ -598,6 +600,7 @@ Template.stocktransfercard.onRendered(function() {
                                     accountname: data.fields.AccountName,
                                     department: data.fields.TransferFromClassName || defaultDept,
                                     notes: data.fields.Notes,
+                                    descriptions: data.fields.Description,
                                     transdate: data.fields.DateTransferred ? moment(data.fields.DateTransferred).format('DD/MM/YYYY') : ""
                                 };
 
@@ -723,6 +726,7 @@ Template.stocktransfercard.onRendered(function() {
                             accountname: data.fields.AccountName,
                             department: data.fields.TransferFromClassName || defaultDept,
                             notes: data.fields.Notes,
+                            descriptions: data.fields.Description,
                             transdate: data.fields.DateTransferred ? moment(data.fields.DateTransferred).format('DD/MM/YYYY') : ""
                         };
 
@@ -2700,7 +2704,8 @@ Template.stocktransfercard.events({
 
             let selectAccount = $('#sltAccountName').val();
 
-            let notes = $('#shipcomments').val();
+            let notes = $('#shipcomments').val()||'';
+            let reason = $('#txtNotes').val()||'';
             var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
             let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
             var url = FlowRouter.current().path;
@@ -2724,7 +2729,7 @@ Template.stocktransfercard.events({
                         EmployeeName: Session.get('mySessionEmployee'),
                         Shipping: shipVia,
                         Notes: notes,
-
+                        Description: reason
 
                     }
                 };
@@ -2742,6 +2747,7 @@ Template.stocktransfercard.events({
                         EmployeeName: Session.get('mySessionEmployee'),
                         Shipping: shipVia,
                         Notes: notes,
+                        Description: reason
                     }
                 };
             }
@@ -3004,6 +3010,7 @@ Template.stocktransfercard.events({
             let selectAccount = $('#sltAccountName').val();
 
             let notes = $('#shipcomments').val();
+            let reason = $('#txtNotes').val()||'';
             var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
             let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
             var url = FlowRouter.current().path;
@@ -3031,6 +3038,7 @@ Template.stocktransfercard.events({
                         Lines: splashLineArray,
                         DoProcessonSave: false,
                         Notes: notes,
+                        Description: reason,
                         // SalesRef: conNote,
                         TransferFromClassName: transferFrom,
                         Transfertype: "Gen",
@@ -3056,6 +3064,7 @@ Template.stocktransfercard.events({
                         Lines: splashLineArray,
                         DoProcessonSave: false,
                         Notes: notes,
+                        Description: reason,
                         // SalesRef: conNote,
                         TransferFromClassName: transferFrom,
                         Transfertype: "Gen",

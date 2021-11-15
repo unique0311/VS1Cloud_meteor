@@ -70,7 +70,7 @@ export class ProductService extends BaseService {
         let options = {
             ClassNames: "'"+department+"'",
             //ClassNames: "ID,Active,ProductPrintName,ProductName,SalesDescription,BuyQty1CostInc,SellQty1PriceInc,BuyQty1Cost,SellQty1Price,TotalStockQty,TaxCodeSales,TaxCodePurchase,PurchaseDescription,ProductGroup1,BARCODE,TotalQtyInStock,CUSTFLD1,CUSTFLD2",
-            //select: "[Active]=true"
+            IgnoreDates:true
           };
         return this.getList(this.ERPObjects.TProductLocationQty, options);
     }
@@ -211,6 +211,15 @@ export class ProductService extends BaseService {
 
     saveClientTypeData(data) {
         return this.POST(this.ERPObjects.TClientType, data);
+    }
+
+    getAllProductList1() {
+      let options = {
+        PropertyList: "ID,TaxCodePurchase,TaxCodeSales",
+        orderby:'"PARTSID desc"',
+        LimitCount:'"1"',
+      };
+      return this.getList(this.ERPObjects.TProduct, options);
     }
 
 }
