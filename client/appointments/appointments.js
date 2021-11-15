@@ -7799,7 +7799,17 @@ Template.appointments.events({
                 aEndDate = moment().format("YYYY-MM-DD") + ' ' + aEndTime;
             }
         } else {
-            if ($('#tActualStartTime').val() != "") {
+            if ($('#tActualStartTime').val() != "" && $('#tActualEndTime').val() != "") {
+                obj = {
+                    type: "TAppointmentsTimeLog",
+                    fields: {
+                        appointID: '',
+                        StartDatetime: aStartDate,
+                        EndDatetime: aEndDate,
+                        Description: 'Job Completed'
+                    }
+                };
+            } else if ($('#tActualStartTime').val() != "") {
                 obj = {
                     type: "TAppointmentsTimeLog",
                     fields: {
@@ -7807,16 +7817,6 @@ Template.appointments.events({
                         StartDatetime: aStartDate,
                         EndDatetime: '',
                         Description: 'Job Started'
-                    }
-                };
-            } else if ($('#tActualStartTime').val() != "" && $('#tActualEndTime').val() != "") {
-                obj = {
-                    type: "TAppointmentsTimeLog",
-                    fields: {
-                        appointID: '',
-                        StartDatetime: aStartDate,
-                        EndDatetime: aEndDate,
-                        Description: 'Job Started & Completed Same Time'
                     }
                 };
             }
@@ -7882,11 +7882,13 @@ Template.appointments.events({
                 appointmentService.saveTimeLog(obj).then(function (data1) {
                     if (obj.fields.Description == "Job Completed") {
                         let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+                        if(result.length > 0) {
                         if (Array.isArray(result[0].timelog) && result[0].timelog != "") {
                             toUpdateID = result[0].timelog[result[0].timelog.length - 1].fields.ID;
-                        } else {
+                        } else if(result[0].timelog != ""){
                             toUpdateID = result[0].timelog.fields.ID;
                         }
+                    }
 
                         if (toUpdateID != "") {
                             updateData = {
@@ -7898,7 +7900,56 @@ Template.appointments.events({
                             }
                         }
 
-                        appointmentService.saveTimeLog(updateData).then(function (data) {
+                        if (Object.keys(updateData).length > 0) {
+                            appointmentService.saveTimeLog(updateData).then(function (data) {
+                                sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
+                                    addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                                        let data = '';
+                                        data = {
+                                            type: "TTimeSheetEntry",
+                                            fields: {
+                                                // "EntryDate":"2020-10-12 12:39:14",
+                                                TimeSheet: [{
+                                                        type: "TTimeSheet",
+                                                        fields: {
+                                                            EmployeeName: employeeName || '',
+                                                            // HourlyRate:50,
+                                                            LabourCost: parseFloat(hourlyRate) || 1,
+                                                            HourlyRate: parseFloat(hourlyRate) || 1,
+                                                            Allowedit: true,
+                                                            // ChargeRate: 100,
+                                                            Hours: parseFloat($('#txtActualHoursSpent').val()) || 1,
+                                                            // OverheadRate: 90,
+                                                            Job: clientname || '',
+                                                            // ServiceName: "Test"|| '',
+                                                            TimeSheetClassName: "Default" || '',
+                                                            Notes: notes || ''
+                                                            // EntryDate: accountdesc|| ''
+                                                        }
+                                                    }
+                                                ],
+                                                "TypeName": "Payroll",
+                                                "WhoEntered": Session.get('mySessionEmployee') || ""
+                                            }
+                                        };
+                                        contactService.saveTimeSheet(data).then(function (dataObj) {
+                                            setTimeout(function () {
+                                                window.open('/appointments', '_self');
+                                            }, 500);
+                                        }).catch(function (err) {
+                                            window.open('/appointments', '_self');
+                                        })
+                                    }).catch(function (err) {
+                                        window.open('/appointments', '_self');
+                                    })
+
+                                }).catch(function (err) {
+                                    window.open('/appointments', '_self');
+                                });
+                            }).catch(function (err) {
+                                window.open('/appointments', '_self');
+                            });
+                        } else {
                             sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
                                 addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                     let data = '';
@@ -7912,6 +7963,7 @@ Template.appointments.events({
                                                         EmployeeName: employeeName || '',
                                                         // HourlyRate:50,
                                                         LabourCost: parseFloat(hourlyRate) || 1,
+                                                        HourlyRate: parseFloat(hourlyRate) || 1,
                                                         Allowedit: true,
                                                         // ChargeRate: 100,
                                                         Hours: parseFloat($('#txtActualHoursSpent').val()) || 1,
@@ -7942,9 +7994,7 @@ Template.appointments.events({
                             }).catch(function (err) {
                                 window.open('/appointments', '_self');
                             });
-                        }).catch(function (err) {
-                            window.open('/appointments', '_self');
-                        });
+                        }
 
                     } else {
                         sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
@@ -7963,6 +8013,7 @@ Template.appointments.events({
                     window.open('/appointments', '_self');
                 })
             } else {
+                return false;
                 sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                         setTimeout(function () {

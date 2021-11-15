@@ -1850,7 +1850,7 @@ Template.timesheet.onRendered(function () {
             jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletoexcel').click();
             $('.fullScreenSpin').css('display', 'none');
         },
-'click .btnRefresh': function () {
+'click .btnRefreshOne': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         sideBarService.getAllTimeSheetList().then(function (data) {
             addVS1Data('TTimeSheet', JSON.stringify(data));
