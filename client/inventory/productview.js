@@ -1557,6 +1557,42 @@ Template.productview.helpers({
 });
 
 Template.productview.events({
+    'click .lblPriceEx': function(event) {
+        $('.lblPriceEx').addClass('hiddenColumn');
+        $('.lblPriceEx').removeClass('showColumn');
+        $('#edtsellqty1price').addClass('hiddenColumn');
+        $('#edtsellqty1price').removeClass('showColumn');
+
+        $('.lblPriceInc').addClass('showColumn');
+        $('.lblPriceInc').removeClass('hiddenColumn');
+        $('#edtsellqty1priceInc').addClass('showColumn');
+        $('#edtsellqty1priceInc').removeClass('hiddenColumn');
+    },
+    'click .lblPriceInc': function(event) {
+        $('.lblPriceInc').addClass('hiddenColumn');
+        $('.lblPriceInc').removeClass('showColumn');
+        $('.edtbuyqty1cost').addClass('hiddenColumn');
+        $('.edtbuyqty1cost').removeClass('showColumn');
+
+        $('.lblPriceEx').addClass('showColumn');
+        $('.lblPriceEx').removeClass('hiddenColumn');
+        $('.edtbuyqty1costInc').addClass('showColumn');
+        $('.edtbuyqty1costInc').removeClass('hiddenColumn');
+    },
+        'click .lblCostEx': function(event) {
+            $('.lblCostEx').addClass('hiddenColumn');
+            $('.lblCostEx').removeClass('showColumn');
+
+            $('.lblCostInc').addClass('showColumn');
+            $('.lblCostInc').removeClass('hiddenColumn');
+        },
+        'click .lblCostInc': function(event) {
+            $('.lblCostInc').addClass('hiddenColumn');
+            $('.lblCostInc').removeClass('showColumn');
+
+            $('.lblCostEx').addClass('showColumn');
+            $('.lblCostEx').removeClass('hiddenColumn');
+        },
     'click #sltsalesacount': function(event){
         // $('#edtassetaccount').select();
         // $('#edtassetaccount').editableSelect();
