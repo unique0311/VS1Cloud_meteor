@@ -2683,11 +2683,14 @@ Template.timesheet.onRendered(function () {
                         $('#employeeStatusField').removeClass('statusClockedOff');
                         $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
                         Bert.alert($('#employee_name').val() +' you are now Clocked On', 'now-success');
+                        templateObject.datatablerecords.set([]);
+                        templateObject.datatablerecords1.set([]);
+                        templateObject.getAllTimeSheetData();
+                        templateObject.getAllTimeSheetDataClock();
                         $('.fullScreenSpin').css('display', 'none');
 
                     })
                 }).catch(function (err) {
-                    console.log(err);
                     swal({
                         title: 'Oooops...',
                         text: err,

@@ -1740,9 +1740,12 @@ Template.payrolloverview.events({
             contactService.saveTimeSheet(data).then(function (data) {
                 sideBarService.getAllTimeSheetList().then(function (data) {
                     addVS1Data('TTimeSheet', JSON.stringify(data));
-                    setTimeout(function () {
-                        window.open('/timesheet', '_self');
-                    }, 500);
+                    $('#employeeStatusField').removeClass('statusOnHold');
+                    $('#employeeStatusField').removeClass('statusClockedOff');
+                    $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
+                    Bert.alert($('#employee_name').val() +' you are now Clocked On', 'now-success');
+                    templateObject.datatablerecords.set([]);
+                    templateObject.getAllTimeSheetDataClock();
                 })
             }).catch(function (err) {
                 swal({
