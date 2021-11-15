@@ -46,6 +46,7 @@ Template.timesheet.onRendered(function () {
         }, 500);
     }
 
+
     if(createTimesheet == false) {
          setTimeout(function () {
             $(".btnSaveTimeSheetForm").prop("disabled", true);
@@ -1477,7 +1478,23 @@ Template.timesheet.onRendered(function () {
                 document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
             } else {}
         },
-
+        'change #endTime': function () {
+            let id = $('#updateID').val();
+            if(id != "") {
+             swal({
+                    title: 'Clocking Off',
+                    text: "You are manually Clocking Off, Do you want to Clock Off?",
+                    type: 'info',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+            }
+            
+        },
         'click .clockOff': function (event) {
             const templateObject = Template.instance();
             let timesheetID = $("#updateID").val() || '';
@@ -2475,6 +2492,7 @@ Template.timesheet.onRendered(function () {
             let toUpdate = {};
             let obj = {};
             let data = '';
+
             if (startTime != "") {
                 startTime = date + ' ' + startTime;
             }
@@ -2483,10 +2501,11 @@ Template.timesheet.onRendered(function () {
                 endTime = endDate + ' ' + endTime;
             }
 
-            if (hours != 0.01) {
+            if (hours != 0.016666666666666666) {
                 edthour = hours + parseFloat($('#txtBookedHoursSpent1').val());
             }
-            if (hours != 0.01) {
+        
+            if (hours != 0.016666666666666666) {
                 obj = {
                     type: "TTimeLog",
                     fields: {
@@ -2587,19 +2606,7 @@ Template.timesheet.onRendered(function () {
                 }
             }
             if (updateID == "") {
-                if ($('#tActualStartTime').val() != "") {
-                    obj = {
-                        type: "TTimeLog",
-                        fields: {
-                            EmployeeID: Session.get('mySessionEmployeeLoggedID'),
-                            StartDatetime: startTime,
-                            EndDatetime: endTime,
-                            Product: product,
-                            Description: 'Timesheet Started',
-                            EnteredBy: Session.get('mySessionEmployeeLoggedID')
-                        }
-                    };
-                } else if ($('#tActualStartTime').val() != "" && $('#tActualEndTime').val() != "") {
+                if ($('#startTime').val() != "" && $('#endTime').val() != "") {
                     obj = {
                         type: "TTimeLog",
                         fields: {
@@ -2613,7 +2620,20 @@ Template.timesheet.onRendered(function () {
                     };
 
                     isPaused = "completed";
+                }  else if ($('#startTime').val() != "") {
+                    obj = {
+                        type: "TTimeLog",
+                        fields: {
+                            EmployeeID: Session.get('mySessionEmployeeLoggedID'),
+                            StartDatetime: startTime,
+                            EndDatetime: endTime,
+                            Product: product,
+                            Description: 'Timesheet Started',
+                            EnteredBy: Session.get('mySessionEmployeeLoggedID')
+                        }
+                    };
                 }
+
                 data = {
                     type: "TTimeSheetEntry",
                     fields: {
@@ -2630,7 +2650,7 @@ Template.timesheet.onRendered(function () {
                                     TimeSheetDate: date,
                                     StartTime: startTime,
                                     EndTime: endTime,
-                                    Hours: hours || 0.01,
+                                    Hours: hours || 0.016666666666666666,
                                     // OverheadRate: 90,
                                     Job: jobName || '',
                                     // ServiceName: "Test"|| '',
@@ -2648,11 +2668,15 @@ Template.timesheet.onRendered(function () {
                 contactService.saveTimeSheet(data).then(function (data) {
                     sideBarService.getAllTimeSheetList().then(function (data) {
                         addVS1Data('TTimeSheet', JSON.stringify(data));
-                        setTimeout(function () {
-                           window.open('/timesheet', '_self');
-                        }, 500);
+                        $('#employeeStatusField').removeClass('statusOnHold');
+                        $('#employeeStatusField').removeClass('statusClockedOff');
+                        $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
+                        Bert.alert($('#employee_name').val() +' you are now Clocked On', 'now-success');
+                        $('.fullScreenSpin').css('display', 'none');
+
                     })
                 }).catch(function (err) {
+                    console.log(err);
                     swal({
                         title: 'Oooops...',
                         text: err,
@@ -2677,7 +2701,7 @@ Template.timesheet.onRendered(function () {
                         HourlyRate: productcost || 0,
                         LabourCost: 1,
                         Allowedit: true,
-                        Hours: hours || 0.01,
+                        Hours: hours || 0.016666666666666666,
                         TimeSheetDate: date,
                         StartTime: startTime,
                         EndTime: endTime,

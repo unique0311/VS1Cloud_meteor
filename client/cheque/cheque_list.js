@@ -930,6 +930,152 @@ Template.chequelist.events({
     'click #btnNewCheque': function(event) {
         FlowRouter.go('/chequecard');
     },
+    'click .btnRefreshCheque': function (event) {
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let tableProductList;
+        const dataTableList = [];
+        var splashArrayInvoiceList = new Array();
+        const lineExtaSellItems = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataSearchName = $('#tblchequelist_filter input').val();
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getNewChequeByNameOrID(dataSearchName).then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.tchequeex.length > 0) {
+                   for (let i = 0; i < data.tchequeex.length; i++) {
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalAmount) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalTax) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalBalance) || 0.00;
+                        var dataList = {
+                            id: data.tchequeex[i].fields.ID || '',
+                            employee: data.tchequeex[i].fields.EmployeeName || '',
+                            accountname: data.tchequeex[i].fields.GLAccountName || '',
+                            sortdate: data.tchequeex[i].fields.OrderDate != '' ? moment(data.tchequeex[i].fields.OrderDate).format("YYYY/MM/DD") : data.tchequeex[i].fields.OrderDate,
+                            orderdate: data.tchequeex[i].fields.OrderDate != '' ? moment(data.tchequeex[i].fields.OrderDate).format("DD/MM/YYYY") : data.tchequeex[i].fields.OrderDate,
+                            suppliername: data.tchequeex[i].fields.SupplierName || '',
+                            chequeNumber: data.tchequeex[i].fields.SupplierInvoiceNumber || '',
+                            totalamountex: totalAmountEx || 0.00,
+                            totaltax: totalTax || 0.00,
+                            totalamount: totalAmount || 0.00,
+                            totalpaid: totalPaid || 0.00,
+                            totaloustanding: totalOutstanding || 0.00,
+                            orderstatus: data.tchequeex[i].fields.OrderStatus || '',
+                            custfield1: '' || '',
+                            custfield2: '' || '',
+                            comments: data.tchequeex[i].fields.Comments || '',
+                        };
+
+                        splashArrayInvoiceList.push(dataList);
+                        
+
+                    }
+                    templateObject.datatablerecords.set(splashArrayInvoiceList);
+
+                    let item = templateObject.datatablerecords.get();
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (splashArrayInvoiceList) {
+                        var datatable = $('#tblchequelist').DataTable();
+                        $("#tblchequelist > tbody").empty();
+                        for (let x = 0; x < item.length; x++) {
+                            $("#tblchequelist > tbody").append(
+                                ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
+                                '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
+                                '<td contenteditable="false" class="colOrderDate" ><span style="display:none;">' + item[x].orderdate + '</span>' + item[x].saledate + '</td>' +
+                                '<td contenteditable="false" class="colChequeID">' + item[x].id + '</td>' +
+                                '<td contenteditable="false" class="colBankAccount" >' + item[x].accountname + '</td>' +
+                                '<td contenteditable="false" class="colPurchaseNo">' + item[x].chequeNumber + '</td>' +
+                                '<td contenteditable="false" class="colSupplier">' + item[x].suppliername + '</td>' +
+                                '<td contenteditable="false" class="colAmountEx" style="text-align: right!important;">' + item[x].totalamountex + '</td>' +
+                                '<td contenteditable="false" class="colTax" style="text-align: right!important;">' + item[x].totaltax + '</td>' +
+                                '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
+                                '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
+                                '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;"">' + item[x].totaloustanding + '</td>' +
+                                '<td contenteditable="false" class="colComments">' + item[x].comments + '</td>' +
+                                '</tr>');
+
+                        }
+                        $('.dataTables_info').html('Showing 1 to ' + data.tinvoiceex.length + ' of ' + data.tinvoiceex.length + ' entries');
+
+                    }
+
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+
+                    swal({
+                        title: 'Question',
+                        text: "Product does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            FlowRouter.go('/productview');
+                        } else if (result.dismiss === 'cancel') {
+                            //$('#productListModal').modal('toggle');
+                        }
+                    });
+                }
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+
+            sideBarService.getAllChequeList(initialDataLoad, 0).then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+
+                 for (let i = 0; i < data.tchequeex.length; i++) {
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalAmount) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalTax) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalBalance) || 0.00;
+                        var dataList = {
+                            id: data.tchequeex[i].fields.ID || '',
+                            employee: data.tchequeex[i].fields.EmployeeName || '',
+                            accountname: data.tchequeex[i].fields.GLAccountName || '',
+                            sortdate: data.tchequeex[i].fields.OrderDate != '' ? moment(data.tchequeex[i].fields.OrderDate).format("YYYY/MM/DD") : data.tchequeex[i].fields.OrderDate,
+                            orderdate: data.tchequeex[i].fields.OrderDate != '' ? moment(data.tchequeex[i].fields.OrderDate).format("DD/MM/YYYY") : data.tchequeex[i].fields.OrderDate,
+                            suppliername: data.tchequeex[i].fields.SupplierName || '',
+                            chequeNumber: data.tchequeex[i].fields.SupplierInvoiceNumber || '',
+                            totalamountex: totalAmountEx || 0.00,
+                            totaltax: totalTax || 0.00,
+                            totalamount: totalAmount || 0.00,
+                            totalpaid: totalPaid || 0.00,
+                            totaloustanding: totalOutstanding || 0.00,
+                            orderstatus: data.tchequeex[i].fields.OrderStatus || '',
+                            custfield1: '' || '',
+                            custfield2: '' || '',
+                            comments: data.tchequeex[i].fields.Comments || '',
+                        };
+                         if (data.tchequeex[i].fields.Deleted == false) {
+                        splashArrayInvoiceList.push(dataList);
+                    }
+
+                    }
+
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (splashArrayInvoiceList) {
+                        var datatable = $('#tblchequelist').DataTable();
+                        datatable.clear();
+                        datatable.rows.add(splashArrayInvoiceList);
+                        datatable.draw(false);
+
+                    }
+
+                    //}
+                }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                $('.fullScreenSpin').css('display', 'none');
+                // Meteor._reload.reload();
+            });
+        }
+    },
     'click .chkDatatable': function(event) {
         var columns = $('#tblchequelist th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();

@@ -1574,11 +1574,11 @@ Template.payrolloverview.events({
             endTime = endDate + ' ' + endTime;
         }
 
-        if (hours != 0.01) {
+        if (hours != 0.016666666666666666) {
             edthour = hours + parseFloat($('#txtBookedHoursSpent1').val());
         }
 
-        if (hours != 0.01) {
+        if (hours != 0.016666666666666666) {
             obj = {
                 type: "TTimeLog",
                 fields: {
@@ -1679,7 +1679,7 @@ Template.payrolloverview.events({
             }
         }
         if (updateID == "") {
-            if ($('#tActualStartTime').val() != "") {
+            if ($('#startTime').val() != "") {
                 obj = {
                     type: "TTimeLog",
                     fields: {
@@ -1691,7 +1691,7 @@ Template.payrolloverview.events({
                         EnteredBy: Session.get('mySessionEmployeeLoggedID')
                     }
                 };
-            } else if ($('#tActualStartTime').val() != "" && $('#tActualEndTime').val() != "") {
+            } else if ($('#startTime').val() != "" && $('#endTime').val() != "") {
                 obj = {
                     type: "TTimeLog",
                     fields: {
@@ -1722,7 +1722,7 @@ Template.payrolloverview.events({
                                 TimeSheetDate: date,
                                 StartTime: startTime,
                                 EndTime: endTime,
-                                Hours: hours || 0.01,
+                                Hours: hours || 0.016666666666666666,
                                 // OverheadRate: 90,
                                 Job: jobName || '',
                                 // ServiceName: "Test"|| '',
@@ -1769,7 +1769,7 @@ Template.payrolloverview.events({
                     HourlyRate: productcost || 0,
                     LabourCost: 1,
                     Allowedit: true,
-                    Hours: hours || 0.01,
+                    Hours: hours || 0.016666666666666666,
                     TimeSheetDate: date,
                     StartTime: startTime,
                     EndTime: endTime,
