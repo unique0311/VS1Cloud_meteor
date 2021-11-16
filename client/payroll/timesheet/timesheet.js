@@ -139,7 +139,7 @@ Template.timesheet.onRendered(function () {
             if (result.value) {
                 
             } else {
-                $("endTime").val("");
+                $("#endTime").val("");
             }
 
         });
@@ -1509,9 +1509,11 @@ Template.timesheet.onRendered(function () {
         },
         'blur #endTime': function (){
             const templateObject = Template.instance();
+            if($("#endTime").val() != ""){
               setTimeout(function(){
                 templateObject.endTimePopUp();
-            },100);
+            },10);
+          }
           },
         'click .clockOff': function (event) {
             const templateObject = Template.instance();
@@ -2320,8 +2322,6 @@ Template.timesheet.onRendered(function () {
                         document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
                         let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
                         let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-
-
                         var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value + ':00');
                         var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value + ':00');
                         if (endTime > startTime) {
@@ -2683,13 +2683,14 @@ Template.timesheet.onRendered(function () {
                         "WhoEntered": Session.get('mySessionEmployee') || ""
                     }
                 };
-                contactService.saveTimeSheet(data).then(function (data) {
+                contactService.saveTimeSheet(data).then(function (dataReturnRes) {
+                    $('#updateID').val(dataReturnRes.fields.ID);
                     sideBarService.getAllTimeSheetList().then(function (data) {
                         addVS1Data('TTimeSheet', JSON.stringify(data));
+                        Bert.alert($('#employee_name').val() +' you are now Clocked On', 'now-success');
                         $('#employeeStatusField').removeClass('statusOnHold');
                         $('#employeeStatusField').removeClass('statusClockedOff');
                         $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
-                        Bert.alert($('#employee_name').val() +' you are now Clocked On', 'now-success');
                         templateObject.datatablerecords.set([]);
                         templateObject.datatablerecords1.set([]);
                         templateObject.getAllTimeSheetData();

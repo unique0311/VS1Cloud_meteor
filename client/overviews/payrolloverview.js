@@ -92,6 +92,23 @@ Template.payrolloverview.onRendered(function () {
         }
     });
 
+    templateObject.endTimePopUp = function () {
+          swal({
+            title: 'Please Note!',
+            text: 'By mannualy populating the Timesheet End Time, this will Clock you off when saving, Do you want to continue?',
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.value) {
+                
+            } else {
+                $("#endTime").val("");
+            }
+
+        });
+    }
+
     templateObject.diff_hours = function (dt2, dt1) {
         var diff = (dt2.getTime() - dt1.getTime()) / 1000;
         diff /= (60 * 60);
@@ -1017,6 +1034,14 @@ Template.payrolloverview.events({
             document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
         } else {}
     },
+     'blur #endTime': function (){
+            const templateObject = Template.instance();
+            if($("#endTime").val() != ""){
+              setTimeout(function(){
+                templateObject.endTimePopUp();
+            },10);
+          }
+     },
     'click .clockOn': function (event) {
         if ($('#btnClockOn').prop('disabled')) {
             swal({
@@ -1737,8 +1762,10 @@ Template.payrolloverview.events({
                     "WhoEntered": Session.get('mySessionEmployee') || ""
                 }
             };
-            contactService.saveTimeSheet(data).then(function (data) {
+            contactService.saveTimeSheet(data).then(function (dataReturnRes) {
+                 $('#updateID').val(dataReturnRes.fields.ID);
                 sideBarService.getAllTimeSheetList().then(function (data) {
+                    Bert.alert($('#employee_name').val() +' you are now Clocked On', 'now-success');
                     addVS1Data('TTimeSheet', JSON.stringify(data));
                     $('#employeeStatusField').removeClass('statusOnHold');
                     $('#employeeStatusField').removeClass('statusClockedOff');
