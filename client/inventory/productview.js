@@ -182,7 +182,7 @@ Template.productview.onRendered(function() {
 
                   let taxcoderecordObj = {
                       codename: data.ttaxcodevs1[i].CodeName || ' ',
-                      coderate: data.ttaxcodevs1[i].Rate || ' ',
+                      coderate: data.ttaxcodevs1[i].Rate || 0,
                   };
 
                   taxCodesList.push(taxcoderecordObj);
@@ -198,7 +198,7 @@ Template.productview.onRendered(function() {
 
             let taxcoderecordObj = {
                 codename: useData[i].CodeName || ' ',
-                coderate: useData[i].Rate || ' ',
+                coderate: useData[i].Rate || 0,
             };
 
             taxCodesList.push(taxcoderecordObj);
@@ -214,7 +214,7 @@ Template.productview.onRendered(function() {
 
                   let taxcoderecordObj = {
                       codename: data.ttaxcodevs1[i].CodeName || ' ',
-                      coderate: data.ttaxcodevs1[i].Rate || ' ',
+                      coderate: data.ttaxcodevs1[i].Rate || 0,
                   };
 
                   taxCodesList.push(taxcoderecordObj);
@@ -2441,26 +2441,205 @@ Template.productview.events({
         }
     },
     'blur #edtbuyqty1cost':function () {
-
+        let templateObject = Template.instance();
         let utilityService = new UtilityService();
         let costPrice= $('#edtbuyqty1cost').val()||0;
+        let taxcodeList = templateObject.taxraterecords.get();
+        var taxRate = $('#slttaxcodepurchase').val();
+
+        var taxrateamount = 0;
+        if (taxcodeList) {
+            for (var i = 0; i < taxcodeList.length; i++) {
+                if (taxcodeList[i].codename == taxRate) {
+                    taxrateamount = taxcodeList[i].coderate;
+                }
+            }
+        }
+
+        let costPriceInc= 0;
+
         if (!isNaN(costPrice)){
             $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
         }else{
-            costPrice = Number($(event.target).val().replace(/[^0-9.-]+/g,""))||0;
+            costPrice = parseFloat($(event.target).val().replace(/[^0-9.-]+/g,""))||0;
             $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+        }
+
+        var taxTotal = parseFloat(costPrice.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+        costPriceInc = parseFloat(costPrice.replace(/[^0-9.-]+/g, "")) + taxTotal;
+        $('#edtbuyqty1costInc').val(utilityService.modifynegativeCurrencyFormat(costPriceInc));
+
+    },
+    'blur #edtbuyqty1costInc':function () {
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let costPriceInc= $('#edtbuyqty1costInc').val()||0;
+        let taxcodeList = templateObject.taxraterecords.get();
+        var taxRate = $('#slttaxcodepurchase').val();
+
+        var taxrateamount = 0;
+        if (taxcodeList) {
+            for (var i = 0; i < taxcodeList.length; i++) {
+                if (taxcodeList[i].codename == taxRate) {
+                    taxrateamount = taxcodeList[i].coderate * 100;
+                }
+            }
+        }
+
+        let costPrice= 0;
+
+        if (!isNaN(costPriceInc)){
+            $('#edtbuyqty1costInc').val(utilityService.modifynegativeCurrencyFormat(costPriceInc));
+        }else{
+            costPriceInc = parseFloat($(event.target).val().replace(/[^0-9.-]+/g,""))||0;
+            $('#edtbuyqty1costInc').val(utilityService.modifynegativeCurrencyFormat(costPriceInc));
+        }
+
+        let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
+         costPrice = (parseFloat(costPriceInc) / (taxRateAmountCalc)) || Currency + '0';
+        $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+
+    },
+    'change #slttaxcodepurchase':function () {
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let costPrice= $('#edtbuyqty1cost').val()||0;
+        let taxcodeList = templateObject.taxraterecords.get();
+        var taxRate = $(event.target).val();
+        var taxrateamount = 0;
+        if (taxcodeList) {
+            for (var i = 0; i < taxcodeList.length; i++) {
+                if (taxcodeList[i].codename == taxRate) {
+                    taxrateamount = taxcodeList[i].coderate||0;
+                }
+            }
+        }
+
+        let costPriceInc= 0;
+
+        if (!isNaN(costPrice)){
+            $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+        }else{
+            costPrice = parseFloat($('#edtbuyqty1cost').val().replace(/[^0-9.-]+/g,""))||0;
+            $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+        }
+        var taxTotal = parseFloat(costPrice) * parseFloat(taxrateamount);
+        costPriceInc = parseFloat(costPrice) + taxTotal;
+        if (!isNaN(costPriceInc)){
+        $('#edtbuyqty1costInc').val(utilityService.modifynegativeCurrencyFormat(costPriceInc));
         }
 
     },
     'blur #edtsellqty1price':function () {
-
+        let templateObject = Template.instance();
         let utilityService = new UtilityService();
-        let sellPrice= $('#edtsellqty1price').val();
+        let taxcodeList = templateObject.taxraterecords.get();
+        var taxRate = $('#slttaxcodesales').val();
+        var taxrateamount = 0;
+        if (taxcodeList) {
+            for (var i = 0; i < taxcodeList.length; i++) {
+                if (taxcodeList[i].codename == taxRate) {
+                    taxrateamount = taxcodeList[i].coderate;
+                }
+            }
+        }
+
+        let sellPrice= $('#edtsellqty1price').val() ||0;
+        let sellPriceInc = 0;
+
         if (!isNaN(sellPrice)){
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
         }else{
             sellPrice = Number($(event.target).val().replace(/[^0-9.-]+/g,""));
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+        }
+
+        var taxTotal = Number(sellPrice) * parseFloat(taxrateamount);
+        sellPriceInc = Number(sellPrice) + taxTotal;
+        $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
+
+        $('.itemExtraSellRow').each(function () {
+            var lineID = this.id;
+            let tdclientType = $('#' + lineID + " .customerTypeSelect").val();
+            //let tdDiscount = $('#' + lineID + " .edtDiscount").val();
+            if(tdclientType == "Default"){
+              $('#' + lineID + " .edtDiscount").val(0);
+              $('#' + lineID + " .edtPriceEx").val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+            }
+
+        });
+
+    },
+    'blur #edtsellqty1priceInc':function () {
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let taxcodeList = templateObject.taxraterecords.get();
+        var taxRate = $('#slttaxcodesales').val();
+        var taxrateamount = 0;
+        if (taxcodeList) {
+            for (var i = 0; i < taxcodeList.length; i++) {
+                if (taxcodeList[i].codename == taxRate) {
+                    taxrateamount = taxcodeList[i].coderate* 100||0;
+                }
+            }
+        }
+
+        let sellPriceInc= $('#edtsellqty1priceInc').val() ||0;
+        let sellPrice = 0;
+
+        if (!isNaN(sellPriceInc)){
+            $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
+        }else{
+            sellPriceInc = Number($(event.target).val().replace(/[^0-9.-]+/g,""));
+            $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
+        }
+
+
+        let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
+         sellPrice = (parseFloat(sellPriceInc) / (taxRateAmountCalc)) || Currency + '0';
+        $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+
+
+        $('.itemExtraSellRow').each(function () {
+            var lineID = this.id;
+            let tdclientType = $('#' + lineID + " .customerTypeSelect").val();
+            //let tdDiscount = $('#' + lineID + " .edtDiscount").val();
+            if(tdclientType == "Default"){
+              $('#' + lineID + " .edtDiscount").val(0);
+              $('#' + lineID + " .edtPriceEx").val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+            }
+
+        });
+
+    },
+    'change #slttaxcodesales':function () {
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let taxcodeList = templateObject.taxraterecords.get();
+        var taxRate = $(event.target).val();
+        var taxrateamount = 0;
+        if (taxcodeList) {
+            for (var i = 0; i < taxcodeList.length; i++) {
+                if (taxcodeList[i].codename == taxRate) {
+                    taxrateamount = taxcodeList[i].coderate||0;
+                }
+            }
+        }
+
+        let sellPrice= $('#edtsellqty1price').val() ||0;
+        let sellPriceInc = 0;
+
+        if (!isNaN(sellPrice)){
+            $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+        }else{
+            sellPrice = parseFloat(sellPrice.replace(/[^0-9.-]+/g,""));
+            $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+        }
+
+        var taxTotal = parseFloat(sellPrice) * parseFloat(taxrateamount);
+        sellPriceInc = parseFloat(sellPrice) + taxTotal;
+        if (!isNaN(sellPriceInc)){
+        $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
         }
 
         $('.itemExtraSellRow').each(function () {
