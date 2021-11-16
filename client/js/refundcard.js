@@ -441,33 +441,33 @@ Template.refundcard.onRendered(() => {
                     let lineItemTableObj = {};
                     let exchangeCode = data.fields.ForeignExchangeCode;
                     let currencySymbol = Currency;
-                    let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                    let total =  utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
-                    let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, {
+                    let totalInc =  utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
                     let totalDiscount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
-                    let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, {
+                    let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
-                    let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, {
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
-                    let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, {
+                    let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
-                    let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
+                    let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
-                            let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
+                            let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
-                            let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
+                            let currencyAmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount);
                             let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                             let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
                             lineItemObj = {
