@@ -1079,5 +1079,13 @@ getAllRefundList(limitcount, limitfrom) {
     }
 
 
+    getNewChequeByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ID] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TChequeEx, options);
+  }
 
 }
