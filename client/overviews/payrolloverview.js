@@ -1705,33 +1705,34 @@ Template.payrolloverview.events({
             }
         }
         if (updateID == "") {
-            if ($('#startTime').val() != "") {
-                obj = {
-                    type: "TTimeLog",
-                    fields: {
-                        EmployeeID: Session.get('mySessionEmployeeLoggedID'),
-                        StartDatetime: startTime,
-                        EndDatetime: endTime,
-                        Product: product,
-                        Description: 'Timesheet Started',
-                        EnteredBy: Session.get('mySessionEmployeeLoggedID')
-                    }
-                };
-            } else if ($('#startTime').val() != "" && $('#endTime').val() != "") {
-                obj = {
-                    type: "TTimeLog",
-                    fields: {
-                        EmployeeID: Session.get('mySessionEmployeeLoggedID'),
-                        StartDatetime: startTime,
-                        EndDatetime: endTime,
-                        Product: product,
-                        Description: 'Timesheet Started & Completed Same Time',
-                        EnteredBy: Session.get('mySessionEmployeeLoggedID')
-                    }
-                };
+                           if ($('#startTime').val() != "" && $('#endTime').val() != "") {
+                    obj = {
+                        type: "TTimeLog",
+                        fields: {
+                            EmployeeID: Session.get('mySessionEmployeeLoggedID'),
+                            StartDatetime: startTime,
+                            EndDatetime: endTime,
+                            Product: product,
+                            Description: 'Timesheet Started & Completed',
+                            EnteredBy: Session.get('mySessionEmployeeLoggedID')
+                        }
+                    };
+                    isPaused = "completed";
+                }  else if ($('#startTime').val() != "" && $('#endTime').val() == "") {
+                    obj = {
+                        type: "TTimeLog",
+                        fields: {
+                            EmployeeID: Session.get('mySessionEmployeeLoggedID'),
+                            StartDatetime: startTime,
+                            EndDatetime: endTime,
+                            Product: product,
+                            Description: 'Timesheet Started',
+                            EnteredBy: Session.get('mySessionEmployeeLoggedID')
+                        }
+                    };
+                    isPaused = "";
+                }
 
-                isPaused = "completed";
-            }
             data = {
                 type: "TTimeSheetEntry",
                 fields: {
@@ -1754,7 +1755,7 @@ Template.payrolloverview.events({
                                 // ServiceName: "Test"|| '',
                                 TimeSheetClassName: "Default" || '',
                                 Notes: techNotes || '',
-                                InvoiceNotes: ""
+                                InvoiceNotes: isPaused || ""
                                 // EntryDate: accountdesc|| ''
                             }
                         }

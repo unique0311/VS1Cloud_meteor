@@ -2637,9 +2637,8 @@ Template.timesheet.onRendered(function () {
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
                     };
-
                     isPaused = "completed";
-                }  else if ($('#startTime').val() != "") {
+                }  else if ($('#startTime').val() != "" && $('#endTime').val() == "") {
                     obj = {
                         type: "TTimeLog",
                         fields: {
@@ -2651,6 +2650,7 @@ Template.timesheet.onRendered(function () {
                             EnteredBy: Session.get('mySessionEmployeeLoggedID')
                         }
                     };
+                    isPaused = "";
                 }
 
                 data = {
@@ -2675,7 +2675,7 @@ Template.timesheet.onRendered(function () {
                                     // ServiceName: "Test"|| '',
                                     TimeSheetClassName: "Default" || '',
                                     Notes: techNotes || '',
-                                    InvoiceNotes: ""
+                                    InvoiceNotes: isPaused || ""
                                     // EntryDate: accountdesc|| ''
                                 }
                             }
