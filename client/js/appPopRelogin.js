@@ -5,20 +5,21 @@ Template.appAlertPage.onCreated(function(){
 
 Template.appAlertPage.onRendered(function(){
   $("#resubmitLogin").click(function(e){
-    var password = $("#re_login").val();
+    var password = $("#erppassword").val();
     var entpassword = CryptoJS.MD5(password).toString().toUpperCase();
     var userPassword = Session.get('myerpPassword');
-
-    if(entpassword == userPassword){
+    if(password.toUpperCase() == userPassword.toUpperCase()){
       document.getElementById('apptimer').style.display='none';
     }else{
-      
-      Bert.alert('<strong>Error:</strong> The Password You Entered is Incorrect, Please Try Again.', 'danger');
-      $("#re_login").focus();
+
+      swal('Invalid VS1 Password', 'The entered user password is not correct, please re-enter your password and try again!', 'error');
+      $("#erppassword").focus();
     }
-e.preventDefault();
+    e.preventDefault();
   });
 
-
+  $(".btnLogOut").click(function(e){
+    window.open('/', '_self');
+  });
 
 });

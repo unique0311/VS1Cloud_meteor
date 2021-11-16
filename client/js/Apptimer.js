@@ -24,10 +24,11 @@ function inActive(){
         if(Session.get('isGreenTrack')){
           window.open('/vs1greentracklogin','_self');
         }else{
-          window.open('/','_self');
+          //window.open('/','_self');
         }
 
         document.getElementById('apptimer').style.display='block';
+        // $('#sessionTimeout').modal('toggle');
       }
 
 }
