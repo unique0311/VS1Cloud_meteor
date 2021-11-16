@@ -355,10 +355,12 @@ Template.productview.onRendered(function() {
                       productprintName : data.fields.ProductPrintName,
                       assetaccount : data.fields.AssetAccount,
                       buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1Cost),
+                      buyqty1costinc: utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1CostInc),
                       cogsaccount: data.fields.CogsAccount,
                       taxcodepurchase : data.fields.TaxCodePurchase,
                       purchasedescription : data.fields.PurchaseDescription,
                       sellqty1price : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1Price),
+                      sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1PriceInc),
                       incomeaccount : data.fields.IncomeAccount,
                       taxcodesales : data.fields.TaxCodeSales,
                       salesdescription : data.fields.SalesDescription,
@@ -428,6 +430,7 @@ Template.productview.onRendered(function() {
 
               for(let i=0; i<useData.length; i++){
                 if(parseInt(useData[i].fields.ID) === currentProductID){
+                  console.log(useData[i]);
                   added = true;
                   $('.fullScreenSpin').css('display','none');
                   let lineItems = [];
@@ -443,10 +446,12 @@ Template.productview.onRendered(function() {
                       productprintName : useData[i].fields.ProductPrintName,
                       assetaccount : useData[i].fields.AssetAccount,
                       buyqty1cost : utilityService.modifynegativeCurrencyFormat(useData[i].fields.BuyQty1Cost),
+                      buyqty1costinc : utilityService.modifynegativeCurrencyFormat(useData[i].fields.BuyQty1CostInc),
                       cogsaccount: useData[i].fields.CogsAccount,
                       taxcodepurchase : useData[i].fields.TaxCodePurchase,
                       purchasedescription : useData[i].fields.PurchaseDescription,
                       sellqty1price : utilityService.modifynegativeCurrencyFormat(useData[i].fields.SellQty1Price),
+                      sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(useData[i].fields.SellQty1PriceInc),
                       incomeaccount : useData[i].fields.IncomeAccount,
                       taxcodesales : useData[i].fields.TaxCodeSales,
                       salesdescription : useData[i].fields.SalesDescription,
@@ -521,10 +526,12 @@ Template.productview.onRendered(function() {
                         productprintName : data.fields.ProductPrintName,
                         assetaccount : data.fields.AssetAccount,
                         buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1Cost),
+                        buyqty1costinc: utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1CostInc),
                         cogsaccount: data.fields.CogsAccount,
                         taxcodepurchase : data.fields.TaxCodePurchase,
                         purchasedescription : data.fields.PurchaseDescription,
                         sellqty1price : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1Price),
+                        sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1PriceInc),
                         incomeaccount : data.fields.IncomeAccount,
                         taxcodesales : data.fields.TaxCodeSales,
                         salesdescription : data.fields.SalesDescription,
@@ -603,10 +610,12 @@ Template.productview.onRendered(function() {
                     productprintName : data.fields.ProductPrintName,
                     assetaccount : data.fields.AssetAccount,
                     buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1Cost),
+                    buyqty1costinc: utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1CostInc),
                     cogsaccount: data.fields.CogsAccount,
                     taxcodepurchase : data.fields.TaxCodePurchase,
                     purchasedescription : data.fields.PurchaseDescription,
                     sellqty1price : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1Price),
+                    sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1PriceInc),
                     incomeaccount : data.fields.IncomeAccount,
                     taxcodesales : data.fields.TaxCodeSales,
                     salesdescription : data.fields.SalesDescription,
@@ -855,10 +864,12 @@ Template.productview.onRendered(function() {
                       productprintName : data.tproduct[0].fields.ProductPrintName,
                       assetaccount : data.tproduct[0].fields.AssetAccount,
                       buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost),
+                      buyqty1costinc: utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1CostInc),
                       cogsaccount: data.tproduct[0].fields.CogsAccount,
                       taxcodepurchase : data.tproduct[0].fields.TaxCodePurchase,
                       purchasedescription : data.tproduct[0].fields.PurchaseDescription,
                       sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price),
+                      sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1PriceInc),
                       incomeaccount : data.tproduct[0].fields.IncomeAccount,
                       taxcodesales : data.tproduct[0].fields.TaxCodeSales,
                       salesdescription : data.tproduct[0].fields.SalesDescription,
@@ -942,10 +953,12 @@ Template.productview.onRendered(function() {
                       productprintName : useData[i].fields.ProductPrintName,
                       assetaccount : useData[i].fields.AssetAccount,
                       buyqty1cost : utilityService.modifynegativeCurrencyFormat(useData[i].fields.BuyQty1Cost),
+                      buyqty1costinc: utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1CostInc),
                       cogsaccount: useData[i].fields.CogsAccount,
                       taxcodepurchase : useData[i].fields.TaxCodePurchase,
                       purchasedescription : useData[i].fields.PurchaseDescription,
                       sellqty1price : utilityService.modifynegativeCurrencyFormat(useData[i].fields.SellQty1Price),
+                      sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1PriceInc),
                       incomeaccount : useData[i].fields.IncomeAccount,
                       taxcodesales : useData[i].fields.TaxCodeSales,
                       salesdescription : useData[i].fields.SalesDescription,
@@ -1021,10 +1034,12 @@ Template.productview.onRendered(function() {
                         productprintName : data.tproduct[0].fields.ProductPrintName,
                         assetaccount : data.tproduct[0].fields.AssetAccount,
                         buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost),
+                        buyqty1costinc: utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1CostInc),
                         cogsaccount: data.tproduct[0].fields.CogsAccount,
                         taxcodepurchase : data.tproduct[0].fields.TaxCodePurchase,
                         purchasedescription : data.tproduct[0].fields.PurchaseDescription,
                         sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price),
+                        sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1PriceInc),
                         incomeaccount : data.tproduct[0].fields.IncomeAccount,
                         taxcodesales : data.tproduct[0].fields.TaxCodeSales,
                         salesdescription : data.tproduct[0].fields.SalesDescription,
@@ -1105,10 +1120,12 @@ Template.productview.onRendered(function() {
                     productprintName : data.tproduct[0].fields.ProductPrintName,
                     assetaccount : data.tproduct[0].fields.AssetAccount,
                     buyqty1cost : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost),
+                    buyqty1costinc: utilityService.modifynegativeCurrencyFormat(data.fields.BuyQty1CostInc),
                     cogsaccount: data.tproduct[0].fields.CogsAccount,
                     taxcodepurchase : data.tproduct[0].fields.TaxCodePurchase,
                     purchasedescription : data.tproduct[0].fields.PurchaseDescription,
                     sellqty1price : utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price),
+                    sellqty1priceinc : utilityService.modifynegativeCurrencyFormat(data.fields.SellQty1PriceInc),
                     incomeaccount : data.tproduct[0].fields.IncomeAccount,
                     taxcodesales : data.tproduct[0].fields.TaxCodeSales,
                     salesdescription : data.tproduct[0].fields.SalesDescription,
@@ -1346,10 +1363,12 @@ Template.productview.onRendered(function() {
             productprintName : '',
             assetaccount : 'Inventory Asset',
             buyqty1cost : 0,
+            buyqty1costinc: 0,
             cogsaccount: 'Cost of Goods Sold',
             taxcodepurchase : '',
             purchasedescription : '',
             sellqty1price : 0,
+            sellqty1priceinc : 0,
             incomeaccount : 'Sales',
             taxcodesales : '',
             salesdescription : '',
@@ -1388,10 +1407,12 @@ Template.productview.onRendered(function() {
                     productprintName : '',
                     assetaccount :"Inventory Asset"||'',
                     buyqty1cost : 0,
+                    buyqty1costinc: 0,
                     cogsaccount: "Cost of Goods Sold"||'',
                     taxcodepurchase : purchasetaxcode||'',
                     purchasedescription : '',
                     sellqty1price : 0,
+                    sellqty1priceinc : 0,
                     incomeaccount : "Sales"||'',
                     taxcodesales : salestaxcode||'',
                     salesdescription : '',
@@ -1415,10 +1436,12 @@ Template.productview.onRendered(function() {
                         productprintName : '',
                         assetaccount :"Inventory Asset"||'',
                         buyqty1cost : 0,
+                        buyqty1costinc: 0,
                         cogsaccount: "Cost of Goods Sold"||'',
                         taxcodepurchase : purchasetaxcode||'',
                         purchasedescription : '',
                         sellqty1price : 0,
+                        sellqty1priceinc : 0,
                         incomeaccount : "Sales"||'',
                         taxcodesales : salestaxcode||'',
                         salesdescription : '',
@@ -1558,41 +1581,57 @@ Template.productview.helpers({
 
 Template.productview.events({
     'click .lblPriceEx': function(event) {
-        $('.lblPriceEx').addClass('hiddenColumn');
-        $('.lblPriceEx').removeClass('showColumn');
-        $('#edtsellqty1price').addClass('hiddenColumn');
-        $('#edtsellqty1price').removeClass('showColumn');
+      $('.lblPriceEx').addClass('hiddenColumn');
+      $('.lblPriceEx').removeClass('showColumn');
 
-        $('.lblPriceInc').addClass('showColumn');
-        $('.lblPriceInc').removeClass('hiddenColumn');
-        $('#edtsellqty1priceInc').addClass('showColumn');
-        $('#edtsellqty1priceInc').removeClass('hiddenColumn');
+      $('.lblPriceInc').addClass('showColumn');
+      $('.lblPriceInc').removeClass('hiddenColumn');
+
+      $('#edtsellqty1priceInc').removeClass('hiddenColumn');
+      $('#edtsellqty1priceInc').addClass('showColumn');
+
+      $('#edtsellqty1price').addClass('hiddenColumn');
+      $('#edtsellqty1price').removeClass('showColumn');
     },
     'click .lblPriceInc': function(event) {
         $('.lblPriceInc').addClass('hiddenColumn');
         $('.lblPriceInc').removeClass('showColumn');
-        $('.edtbuyqty1cost').addClass('hiddenColumn');
-        $('.edtbuyqty1cost').removeClass('showColumn');
 
         $('.lblPriceEx').addClass('showColumn');
         $('.lblPriceEx').removeClass('hiddenColumn');
-        $('.edtbuyqty1costInc').addClass('showColumn');
-        $('.edtbuyqty1costInc').removeClass('hiddenColumn');
+
+        $('#edtsellqty1priceInc').addClass('hiddenColumn');
+        $('#edtsellqty1priceInc').removeClass('showColumn');
+
+        $('#edtsellqty1price').removeClass('hiddenColumn');
+        $('#edtsellqty1price').addClass('showColumn');
     },
-        'click .lblCostEx': function(event) {
-            $('.lblCostEx').addClass('hiddenColumn');
-            $('.lblCostEx').removeClass('showColumn');
+    'click .lblCostEx': function(event) {
+        $('.lblCostEx').addClass('hiddenColumn');
+        $('.lblCostEx').removeClass('showColumn');
 
-            $('.lblCostInc').addClass('showColumn');
-            $('.lblCostInc').removeClass('hiddenColumn');
-        },
-        'click .lblCostInc': function(event) {
-            $('.lblCostInc').addClass('hiddenColumn');
-            $('.lblCostInc').removeClass('showColumn');
+        $('.lblCostInc').addClass('showColumn');
+        $('.lblCostInc').removeClass('hiddenColumn');
 
-            $('.lblCostEx').addClass('showColumn');
-            $('.lblCostEx').removeClass('hiddenColumn');
-        },
+        $('#edtbuyqty1costInc').removeClass('hiddenColumn');
+        $('#edtbuyqty1costInc').addClass('showColumn');
+
+        $('#edtbuyqty1cost').addClass('hiddenColumn');
+        $('#edtbuyqty1cost').removeClass('showColumn');
+    },
+    'click .lblCostInc': function(event) {
+        $('.lblCostInc').addClass('hiddenColumn');
+        $('.lblCostInc').removeClass('showColumn');
+
+        $('.lblCostEx').addClass('showColumn');
+        $('.lblCostEx').removeClass('hiddenColumn');
+
+        $('#edtbuyqty1costInc').addClass('hiddenColumn');
+        $('#edtbuyqty1costInc').removeClass('showColumn');
+
+        $('#edtbuyqty1cost').removeClass('hiddenColumn');
+        $('#edtbuyqty1cost').addClass('showColumn');
+    },
     'click #sltsalesacount': function(event){
         // $('#edtassetaccount').select();
         // $('#edtassetaccount').editableSelect();
@@ -2378,7 +2417,7 @@ Template.productview.events({
             }
         }
     },
-    'keydown #edtbuyqty1cost, keydown #edtsellqty1price, keydown #edttotalqtyinstock, keydown .edtPriceEx, keydown .edtDiscount, keydown .edtDiscountModal': function(event){
+    'keydown #edtbuyqty1cost, keydown #edtsellqty1price, keydown #edttotalqtyinstock, keydown #edtsellqty1priceInc, keydown #edtbuyqty1costInc, keydown .edtPriceEx, keydown .edtDiscount, keydown .edtDiscountModal': function(event){
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
             // Allow: Ctrl+A, Command+A
             (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
@@ -2404,11 +2443,11 @@ Template.productview.events({
     'blur #edtbuyqty1cost':function () {
 
         let utilityService = new UtilityService();
-        let costPrice= $('#edtbuyqty1cost').val();
+        let costPrice= $('#edtbuyqty1cost').val()||0;
         if (!isNaN(costPrice)){
             $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
         }else{
-            costPrice = Number($(event.target).val().replace(/[^0-9.-]+/g,""));
+            costPrice = Number($(event.target).val().replace(/[^0-9.-]+/g,""))||0;
             $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
         }
 

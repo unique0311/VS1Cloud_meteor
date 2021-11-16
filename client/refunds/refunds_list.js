@@ -14,7 +14,7 @@ import {
     AccountService
 } from "../accounts/account-service";
 import {
-    InvoiceService
+    RefundService
 } from "../invoice/invoice-service";
 import {
     UtilityService
@@ -44,7 +44,7 @@ Template.refundlist.onRendered(function () {
     if (FlowRouter.current().queryParams.success) {
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
-    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoicelist', function (error, result) {
+    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblRefundlist', function (error, result) {
         if (error) {}
         else {
             if (result) {
@@ -73,7 +73,7 @@ Template.refundlist.onRendered(function () {
     };
 
     templateObject.resetData = function (dataVal) {
-        window.open('/invoicelist?page=last', '_self');
+        window.open('/refundlist?page=last', '_self');
     }
 
     templateObject.getAllSalesOrderData = function () {
@@ -84,34 +84,34 @@ Template.refundlist.onRendered(function () {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
-                    for (let i = 0; i < data.tinvoiceex.length; i++) {
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount) || 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-                        // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
+                    for (let i = 0; i < data.trefundsale.length; i++) {
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                        // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
                         var dataList = {
-                            id: data.tinvoiceex[i].fields.ID || '',
-                            employee: data.tinvoiceex[i].fields.EmployeeName || '',
-                            sortdate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                            saledate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                            duedate: data.tinvoiceex[i].fields.DueDate != '' ? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.DueDate,
-                            customername: data.tinvoiceex[i].fields.CustomerName || '',
+                            id: data.trefundsale[i].fields.ID || '',
+                            employee: data.trefundsale[i].fields.EmployeeName || '',
+                            sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
+                            saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
+                            duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
+                            customername: data.trefundsale[i].fields.CustomerName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                            custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                            custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                            comments: data.tinvoiceex[i].fields.Comments || '',
-                            // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+                            salestatus: data.trefundsale[i].fields.SalesStatus || '',
+                            custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
+                            custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
+                            comments: data.trefundsale[i].fields.Comments || '',
+                            // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                         };
 
-                        if (data.tinvoiceex[i].fields.Deleted == false && data.tinvoiceex[i].fields.CustomerName.replace(/\s/g, '') != '') {
+                        if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
                             dataTableList.push(dataList);
                         }
 
@@ -122,7 +122,7 @@ Template.refundlist.onRendered(function () {
 
                     if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoicelist', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblRefundlist', function (error, result) {
                             if (error) {}
                             else {
                                 if (result) {
@@ -157,7 +157,7 @@ Template.refundlist.onRendered(function () {
 
                     $('.fullScreenSpin').css('display', 'none');
                     setTimeout(function () {
-                        $('#tblInvoicelist').DataTable({
+                        $('#tblRefundlist').DataTable({
                             columnDefs: [{
                                     type: 'date',
                                     targets: 0
@@ -169,7 +169,7 @@ Template.refundlist.onRendered(function () {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "Invoice List excel - " + moment().format(),
+                                    filename: "Refund List excel - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible',
@@ -190,8 +190,8 @@ Template.refundlist.onRendered(function () {
                                     download: 'open',
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
-                                    title: 'Invoice List',
-                                    filename: "Invoice List - " + moment().format(),
+                                    title: 'Refund List',
+                                    filename: "Refund List - " + moment().format(),
                                     exportOptions: {
                                         columns: ':visible',
                                         stripHtml: false
@@ -216,7 +216,7 @@ Template.refundlist.onRendered(function () {
                                 [2, "desc"]
                             ],
                             action: function () {
-                                $('#tblInvoicelist').DataTable().ajax.reload();
+                                $('#tblRefundlist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
                                 setTimeout(function () {
@@ -224,7 +224,7 @@ Template.refundlist.onRendered(function () {
                                 }, 100);
                             },
                             "fnInitComplete": function () {
-                                $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
+                                $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
 
                             }
 
@@ -240,11 +240,11 @@ Template.refundlist.onRendered(function () {
                             }, 100);
                         });
 
-                        // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
+                        // $('#tblRefundlist').DataTable().column( 0 ).visible( true );
                         $('.fullScreenSpin').css('display', 'none');
                     }, 0);
 
-                    var columns = $('#tblInvoicelist th');
+                    var columns = $('#tblRefundlist th');
                     let sTible = "";
                     let sWidth = "";
                     let sIndex = "";
@@ -271,10 +271,10 @@ Template.refundlist.onRendered(function () {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblInvoicelist tbody').on('click', 'tr', function () {
+                    $('#tblRefundlist tbody').on('click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
-                            FlowRouter.go('/invoicecard?id=' + listData);
+                            FlowRouter.go('/refundcard?id=' + listData);
                         }
                     });
 
@@ -290,34 +290,34 @@ Template.refundlist.onRendered(function () {
                 let lineItems = [];
                 let lineItemObj = {};
 
-                for (let i = 0; i < data.tinvoiceex.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-                    // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
+                for (let i = 0; i < data.trefundsale.length; i++) {
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                    // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
                     var dataList = {
-                        id: data.tinvoiceex[i].fields.ID || '',
-                        employee: data.tinvoiceex[i].fields.EmployeeName || '',
-                        sortdate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                        saledate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                        duedate: data.tinvoiceex[i].fields.DueDate != '' ? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.DueDate,
-                        customername: data.tinvoiceex[i].fields.CustomerName || '',
+                        id: data.trefundsale[i].fields.ID || '',
+                        employee: data.trefundsale[i].fields.EmployeeName || '',
+                        sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
+                        saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
+                        duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
+                        customername: data.trefundsale[i].fields.CustomerName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                        custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                        custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                        comments: data.tinvoiceex[i].fields.Comments || '',
-                        // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+                        salestatus: data.trefundsale[i].fields.SalesStatus || '',
+                        custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
+                        custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
+                        comments: data.trefundsale[i].fields.Comments || '',
+                        // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                     };
 
-                    if (data.tinvoiceex[i].fields.Deleted == false && data.tinvoiceex[i].fields.CustomerName.replace(/\s/g, '') != '') {
+                    if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
                         dataTableList.push(dataList);
                     }
 
@@ -328,7 +328,7 @@ Template.refundlist.onRendered(function () {
 
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoicelist', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblRefundlist', function (error, result) {
                         if (error) {}
                         else {
                             if (result) {
@@ -363,7 +363,7 @@ Template.refundlist.onRendered(function () {
 
                 $('.fullScreenSpin').css('display', 'none');
                 setTimeout(function () {
-                    tableAll = $('#tblInvoicelist').DataTable({
+                    tableAll = $('#tblRefundlist').DataTable({
                         columnDefs: [{
                                 type: 'date',
                                 targets: 0
@@ -375,7 +375,7 @@ Template.refundlist.onRendered(function () {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "Invoice List excel - " + moment().format(),
+                                filename: "Refund List excel - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible',
@@ -396,8 +396,8 @@ Template.refundlist.onRendered(function () {
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
-                                title: 'Invoice List',
-                                filename: "Invoice List - " + moment().format(),
+                                title: 'Refund List',
+                                filename: "Refund List - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
@@ -425,11 +425,11 @@ Template.refundlist.onRendered(function () {
                         ],
                         action: function () {
                             tableDraft.ajax.reload();
-                            $('#tblInvoicelist').DataTable().ajax.reload();
+                            $('#tblRefundlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
                             $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblInvoicelist_ellipsis').addClass('disabled');
+                            $('#tblRefundlist_ellipsis').addClass('disabled');
 
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
@@ -445,18 +445,18 @@ Template.refundlist.onRendered(function () {
                                 $('.fullScreenSpin').css('display', 'inline-block');
                                 let dataLenght = oSettings._iDisplayLength;
 
-                                sideBarService.getAllInvoiceList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-                                    getVS1Data('TInvoiceEx').then(function (dataObjectold) {
+                                sideBarService.getAllRefundList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TRefundSale').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
                                         else {
                                             let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tinvoiceex), dataOld.tinvoiceex);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsale), dataOld.trefundsale);
                                             let objCombineData = {
-                                                tinvoiceex: thirdaryData
+                                                trefundsale: thirdaryData
                                             }
 
-                                            addVS1Data('TInvoiceEx', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                            addVS1Data('TRefundSale', JSON.stringify(objCombineData)).then(function (datareturn) {
                                                 templateObject.resetData(objCombineData);
                                                 $('.fullScreenSpin').css('display', 'none');
                                             }).catch(function (err) {
@@ -480,7 +480,7 @@ Template.refundlist.onRendered(function () {
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
-                            $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
+                            $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
                         }
                     }).on('page', function () {
                         setTimeout(function () {
@@ -515,38 +515,38 @@ Template.refundlist.onRendered(function () {
                             if (settings.fnRecordsDisplay() > initialDatatableLoad) {
                                 $('.fullScreenSpin').css('display', 'none');
                             } else {
-                                sideBarService.getAllInvoiceList('All', 1).then(function (data) {
+                                sideBarService.getAllRefundList('All', 1).then(function (data) {
                                     let lineItems = [];
                                     let lineItemObj = {};
 
-                                    for (let i = 0; i < data.tinvoiceex.length; i++) {
-                                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount) || 0.00;
-                                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-                                        // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-                                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-                                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
+                                    for (let i = 0; i < data.trefundsale.length; i++) {
+                                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
+                                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                                        // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
+                                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
+                                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
                                         var dataList = {
-                                            id: data.tinvoiceex[i].fields.ID || '',
-                                            employee: data.tinvoiceex[i].fields.EmployeeName || '',
-                                            sortdate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                                            saledate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                                            duedate: data.tinvoiceex[i].fields.DueDate != '' ? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.DueDate,
-                                            customername: data.tinvoiceex[i].fields.CustomerName || '',
+                                            id: data.trefundsale[i].fields.ID || '',
+                                            employee: data.trefundsale[i].fields.EmployeeName || '',
+                                            sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
+                                            saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
+                                            duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
+                                            customername: data.trefundsale[i].fields.CustomerName || '',
                                             totalamountex: totalAmountEx || 0.00,
                                             totaltax: totalTax || 0.00,
                                             totalamount: totalAmount || 0.00,
                                             totalpaid: totalPaid || 0.00,
                                             totaloustanding: totalOutstanding || 0.00,
-                                            salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                                            custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                                            custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                                            comments: data.tinvoiceex[i].fields.Comments || '',
-                                            // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+                                            salestatus: data.trefundsale[i].fields.SalesStatus || '',
+                                            custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
+                                            custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
+                                            comments: data.trefundsale[i].fields.Comments || '',
+                                            // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                                         };
 
-                                        if (data.tinvoiceex[i].fields.Deleted == false && data.tinvoiceex[i].fields.CustomerName.replace(/\s/g, '') != '') {
+                                        if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
                                             dataTableList.push(dataList);
                                         }
 
@@ -554,14 +554,9 @@ Template.refundlist.onRendered(function () {
                                     }
 
                                     templateObject.datatablerecords.set(dataTableList);
-                                    $('.dataTables_info').html('Showing 1 to ' + data.tinvoiceex.length + ' of ' + data.tinvoiceex.length + ' entries');
+                                    $('.dataTables_info').html('Showing 1 to ' + data.trefundsale.length + ' of ' + data.trefundsale.length + ' entries');
                                     $('.fullScreenSpin').css('display', 'none');
-                                    // addVS1Data('TInvoiceEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                                    //   templateObject.resetData(dataNonBo);
-                                    // $('.fullScreenSpin').css('display','none');
-                                    // }).catch(function (err) {
-                                    // $('.fullScreenSpin').css('display','none');
-                                    // });
+
                                 }).catch(function (err) {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
@@ -570,9 +565,9 @@ Template.refundlist.onRendered(function () {
                             if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
                                 $('.fullScreenSpin').css('display', 'none');
                             } else {
-                                sideBarService.getAllInvoiceList(dataLenght, 0).then(function (dataNonBo) {
+                                sideBarService.getAllRefundList(dataLenght, 0).then(function (dataNonBo) {
 
-                                    addVS1Data('TInvoiceEx', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    addVS1Data('TRefundSale', JSON.stringify(dataNonBo)).then(function (datareturn) {
                                         templateObject.resetData(dataNonBo);
                                     }).catch(function (err) {
                                         $('.fullScreenSpin').css('display', 'none');
@@ -588,11 +583,11 @@ Template.refundlist.onRendered(function () {
                         }, 100);
                     }).on('column-reorder', function () {});
 
-                    // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
+                    // $('#tblRefundlist').DataTable().column( 0 ).visible( true );
 
                 }, 0);
 
-                var columns = $('#tblInvoicelist th');
+                var columns = $('#tblRefundlist th');
                 let sTible = "";
                 let sWidth = "";
                 let sIndex = "";
@@ -619,47 +614,47 @@ Template.refundlist.onRendered(function () {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblInvoicelist tbody').on('click', 'tr', function () {
+                $('#tblRefundlist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        FlowRouter.go('/invoicecard?id=' + listData);
+                        FlowRouter.go('/refundcard?id=' + listData);
                     }
                 });
 
             }
         }).catch(function (err) {
-            sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
+            sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
-                for (let i = 0; i < data.tinvoiceex.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-                    // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
+                for (let i = 0; i < data.trefundsale.length; i++) {
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                    // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
                     var dataList = {
-                        id: data.tinvoiceex[i].fields.ID || '',
-                        employee: data.tinvoiceex[i].fields.EmployeeName || '',
-                        sortdate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                        saledate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                        duedate: data.tinvoiceex[i].fields.DueDate != '' ? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.DueDate,
-                        customername: data.tinvoiceex[i].fields.CustomerName || '',
+                        id: data.trefundsale[i].fields.ID || '',
+                        employee: data.trefundsale[i].fields.EmployeeName || '',
+                        sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
+                        saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
+                        duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
+                        customername: data.trefundsale[i].fields.CustomerName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                        custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                        custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                        comments: data.tinvoiceex[i].fields.Comments || '',
-                        // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+                        salestatus: data.trefundsale[i].fields.SalesStatus || '',
+                        custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
+                        custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
+                        comments: data.trefundsale[i].fields.Comments || '',
+                        // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                     };
 
-                    if (data.tinvoiceex[i].fields.Deleted == false && data.tinvoiceex[i].fields.CustomerName.replace(/\s/g, '') != '') {
+                    if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
                         dataTableList.push(dataList);
                     }
 
@@ -670,7 +665,7 @@ Template.refundlist.onRendered(function () {
 
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblInvoicelist', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblRefundlist', function (error, result) {
                         if (error) {}
                         else {
                             if (result) {
@@ -705,7 +700,7 @@ Template.refundlist.onRendered(function () {
 
                 $('.fullScreenSpin').css('display', 'none');
                 setTimeout(function () {
-                    $('#tblInvoicelist').DataTable({
+                    $('#tblRefundlist').DataTable({
                         columnDefs: [{
                                 type: 'date',
                                 targets: 0
@@ -717,7 +712,7 @@ Template.refundlist.onRendered(function () {
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "Invoice List excel - " + moment().format(),
+                                filename: "Refund List excel - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible',
@@ -738,8 +733,8 @@ Template.refundlist.onRendered(function () {
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
-                                title: 'Invoice List',
-                                filename: "Invoice List - " + moment().format(),
+                                title: 'Refund List',
+                                filename: "Refund List - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
@@ -764,7 +759,7 @@ Template.refundlist.onRendered(function () {
                             [2, "desc"]
                         ],
                         action: function () {
-                            $('#tblInvoicelist').DataTable().ajax.reload();
+                            $('#tblRefundlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
                             setTimeout(function () {
@@ -784,11 +779,11 @@ Template.refundlist.onRendered(function () {
                         }, 100);
                     });
 
-                    // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
+                    // $('#tblRefundlist').DataTable().column( 0 ).visible( true );
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
-                var columns = $('#tblInvoicelist th');
+                var columns = $('#tblRefundlist th');
                 let sTible = "";
                 let sWidth = "";
                 let sIndex = "";
@@ -815,10 +810,10 @@ Template.refundlist.onRendered(function () {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblInvoicelist tbody').on('click', 'tr', function () {
+                $('#tblRefundlist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
-                        FlowRouter.go('/invoicecard?id=' + listData);
+                        FlowRouter.go('/refundcard?id=' + listData);
                     }
                 });
 
@@ -832,10 +827,10 @@ Template.refundlist.onRendered(function () {
 
     templateObject.getAllSalesOrderData();
 
-    $('#tblInvoicelist tbody').on('click', 'tr', function () {
+    $('#tblRefundlist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if (listData) {
-            FlowRouter.go('/invoicecard?id=' + listData);
+            FlowRouter.go('/refundcard?id=' + listData);
         }
 
     });
@@ -846,60 +841,60 @@ Template.refundlist.events({
     'click #newRefund': function (event) {
         FlowRouter.go('/refundcard');
     },
-    'keyup #tblInvoicelist_filter input': function (event) {
+    'keyup #tblRefundlist_filter input': function (event) {
         if ($(event.target).val() != '') {
-            $(".btnRefreshInvoiceList").addClass('btnSearchAlert');
+            $(".btnRefreshRefundList").addClass('btnSearchAlert');
         } else {
-            $(".btnRefreshInvoiceList").removeClass('btnSearchAlert');
+            $(".btnRefreshRefundList").removeClass('btnSearchAlert');
         }
         if (event.keyCode == 13) {
-            $(".btnRefreshInvoiceList").trigger("click");
+            $(".btnRefreshRefundList").trigger("click");
         }
     },
-    'click .btnRefreshInvoiceList': function (event) {
+    'click .btnRefreshRefundList': function (event) {
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         let tableProductList;
         const dataTableList = [];
-        var splashArrayInvoiceList = new Array();
+        var splashArrayRefundList = new Array();
         const lineExtaSellItems = [];
         $('.fullScreenSpin').css('display', 'inline-block');
-        let dataSearchName = $('#tblInvoicelist_filter input').val();
+        let dataSearchName = $('#tblRefundlist_filter input').val();
         if (dataSearchName.replace(/\s/g, '') != '') {
-            sideBarService.getNewInvoiceByNameOrID(dataSearchName).then(function (data) {
+            sideBarService.getNewRefundByNameOrID(dataSearchName).then(function (data) {
 
                 let lineItems = [];
                 let lineItemObj = {};
-                if (data.tinvoiceex.length > 0) {
-                    for (let i = 0; i < data.tinvoiceex.length; i++) {
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount) || 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-                        // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
+                if (data.trefundsale.length > 0) {
+                    for (let i = 0; i < data.trefundsale.length; i++) {
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                        // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
                         var dataList = {
-                            id: data.tinvoiceex[i].fields.ID || '',
-                            employee: data.tinvoiceex[i].fields.EmployeeName || '',
-                            sortdate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                            saledate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                            duedate: data.tinvoiceex[i].fields.DueDate != '' ? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.DueDate,
-                            customername: data.tinvoiceex[i].fields.CustomerName || '',
+                            id: data.trefundsale[i].fields.ID || '',
+                            employee: data.trefundsale[i].fields.EmployeeName || '',
+                            sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
+                            saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
+                            duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
+                            customername: data.trefundsale[i].fields.CustomerName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                            custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                            custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                            comments: data.tinvoiceex[i].fields.Comments || '',
-                            // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+                            salestatus: data.trefundsale[i].fields.SalesStatus || '',
+                            custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
+                            custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
+                            comments: data.trefundsale[i].fields.Comments || '',
+                            // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                         };
 
-                        //if(data.tinvoiceex[i].fields.Deleted == false){
-                        //splashArrayInvoiceList.push(dataList);
+                        //if(data.trefundsale[i].fields.Deleted == false){
+                        //splashArrayRefundList.push(dataList);
                         dataTableList.push(dataList);
                         //}
 
@@ -911,10 +906,10 @@ Template.refundlist.events({
                     let item = templateObject.datatablerecords.get();
                     $('.fullScreenSpin').css('display', 'none');
                     if (dataTableList) {
-                        var datatable = $('#tblInvoicelist').DataTable();
-                        $("#tblInvoicelist > tbody").empty();
+                        var datatable = $('#tblRefundlist').DataTable();
+                        $("#tblRefundlist > tbody").empty();
                         for (let x = 0; x < item.length; x++) {
-                            $("#tblInvoicelist > tbody").append(
+                            $("#tblRefundlist > tbody").append(
                                 ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
                                 '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
                                 '<td contenteditable="false" class="colSaleDate" ><span style="display:none;">' + item[x].sortdate + '</span>' + item[x].saledate + '</td>' +
@@ -934,7 +929,7 @@ Template.refundlist.events({
                                 '</tr>');
 
                         }
-                        $('.dataTables_info').html('Showing 1 to ' + data.tinvoiceex.length + ' of ' + data.tinvoiceex.length + ' entries');
+                        $('.dataTables_info').html('Showing 1 to ' + data.trefundsale.length + ' of ' + data.trefundsale.length + ' entries');
 
                     }
 
@@ -961,46 +956,46 @@ Template.refundlist.events({
             });
         } else {
 
-            sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
+            sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
 
-                for (let i = 0; i < data.tinvoiceex.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-                    // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
+                for (let i = 0; i < data.trefundsale.length; i++) {
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                    // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
                     var dataList = {
-                        id: data.tinvoiceex[i].fields.ID || '',
-                        employee: data.tinvoiceex[i].fields.EmployeeName || '',
-                        sortdate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                        saledate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                        duedate: data.tinvoiceex[i].fields.DueDate != '' ? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.DueDate,
-                        customername: data.tinvoiceex[i].fields.CustomerName || '',
+                        id: data.trefundsale[i].fields.ID || '',
+                        employee: data.trefundsale[i].fields.EmployeeName || '',
+                        sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
+                        saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
+                        duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
+                        customername: data.trefundsale[i].fields.CustomerName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                        custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                        custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                        comments: data.tinvoiceex[i].fields.Comments || '',
-                        // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+                        salestatus: data.trefundsale[i].fields.SalesStatus || '',
+                        custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
+                        custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
+                        comments: data.trefundsale[i].fields.Comments || '',
+                        // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                     };
 
-                    if (data.tinvoiceex[i].fields.Deleted == false) {
-                        splashArrayInvoiceList.push(dataList);
+                    if (data.trefundsale[i].fields.Deleted == false) {
+                        splashArrayRefundList.push(dataList);
                     }
 
                     $('.fullScreenSpin').css('display', 'none');
-                    if (splashArrayInvoiceList) {
-                        var datatable = $('#tblInvoicelist').DataTable();
+                    if (splashArrayRefundList) {
+                        var datatable = $('#tblRefundlist').DataTable();
                         datatable.clear();
-                        datatable.rows.add(splashArrayInvoiceList);
+                        datatable.rows.add(splashArrayRefundList);
                         datatable.draw(false);
 
                     }
@@ -1015,11 +1010,11 @@ Template.refundlist.events({
             });
         }
     },
-    'click #btnInvoiceBOList': function (event) {
-        FlowRouter.go('/invoicelistBO');
+    'click #btnRefundBOList': function (event) {
+        //FlowRouter.go('/invoicelistBO');
     },
     'click .chkDatatable': function (event) {
-        var columns = $('#tblInvoicelist th');
+        var columns = $('#tblRefundlist th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
         $.each(columns, function (i, v) {
@@ -1049,7 +1044,7 @@ Template.refundlist.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblInvoicelist'
+                    PrefName: 'tblRefundlist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.remove({
@@ -1100,7 +1095,7 @@ Template.refundlist.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblInvoicelist'
+                    PrefName: 'tblRefundlist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.update({
@@ -1111,7 +1106,7 @@ Template.refundlist.events({
                             username: clientUsername,
                             useremail: clientEmail,
                             PrefGroup: 'salesform',
-                            PrefName: 'tblInvoicelist',
+                            PrefName: 'tblRefundlist',
                             published: true,
                             customFields: lineItems,
                             updatedAt: new Date()
@@ -1130,7 +1125,7 @@ Template.refundlist.events({
                         username: clientUsername,
                         useremail: clientEmail,
                         PrefGroup: 'salesform',
-                        PrefName: 'tblInvoicelist',
+                        PrefName: 'tblRefundlist',
                         published: true,
                         customFields: lineItems,
                         createdAt: new Date()
@@ -1151,7 +1146,7 @@ Template.refundlist.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        var datable = $('#tblInvoicelist').DataTable();
+        var datable = $('#tblRefundlist').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
 
@@ -1162,7 +1157,7 @@ Template.refundlist.events({
 
         let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
-        var datable = $('#tblInvoicelist th');
+        var datable = $('#tblRefundlist th');
         $.each(datable, function (i, v) {
 
             if (v.innerText == columnDataValue) {
@@ -1176,7 +1171,7 @@ Template.refundlist.events({
     },
     'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
-        var columns = $('#tblInvoicelist th');
+        var columns = $('#tblRefundlist th');
 
         const tableHeaderList = [];
         let sTible = "";
@@ -1207,7 +1202,7 @@ Template.refundlist.events({
     },
     'click #exportbtn': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblInvoicelist_wrapper .dt-buttons .btntabletocsv').click();
+        jQuery('#tblRefundlist_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display', 'none');
 
     },
@@ -1220,21 +1215,21 @@ Template.refundlist.events({
         let month = (currentDate.getMonth() + 1);
         let days = currentDate.getDate();
 
-        sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
-            addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
-                window.open('/invoicelist', '_self');
+        sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
+            addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {
+                window.open('/refundlist', '_self');
             }).catch(function (err) {
-                window.open('/invoicelist', '_self');
+                window.open('/refundlist', '_self');
             });
         }).catch(function (err) {
-            window.open('/invoicelist', '_self');
+            window.open('/refundlist', '_self');
         });
 
     },
     'click .printConfirm': function (event) {
 
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblInvoicelist_wrapper .dt-buttons .btntabletopdf').click();
+        jQuery('#tblRefundlist_wrapper .dt-buttons .btntabletopdf').click();
         $('.fullScreenSpin').css('display', 'none');
     }
 
@@ -1258,7 +1253,7 @@ Template.refundlist.helpers({
     salesCloudPreferenceRec: () => {
         return CloudPreference.findOne({
             userid: Session.get('mycloudLogonID'),
-            PrefName: 'tblInvoicelist'
+            PrefName: 'tblRefundlist'
         });
     }
 });

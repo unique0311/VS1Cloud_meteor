@@ -101,7 +101,7 @@ Template.bankrecon.onRendered(function() {
             }
             // Session - set account dropdown BEGIN
 
-            setTimeout(function() {
+            //setTimeout(function() {
                 let bankaccountid = Session.get('bankaccountid') || '';
                 if (bankaccountid != '') {
                     $('#bankAccountName').val(bankaccountid);
@@ -109,11 +109,13 @@ Template.bankrecon.onRendered(function() {
                     templateObject.getReconcileWithdrawal(bankaccountid);
                     let bankName = $("#bankAccountName option[value='" + bankaccountid + "']").text();
                     templateObject.getOpenBalance(bankName);
+                }else{
+                  $('.fullScreenSpin').css('display', 'none');
                 }
-            }, 10);
+            //}, 10);
 
             // Session - set account dropdown END
-            $('.fullScreenSpin').css('display', 'none');
+            // $('.fullScreenSpin').css('display', 'none');
         }).catch(function(err) {
             $('.fullScreenSpin').css('display', 'none');
         });
@@ -196,99 +198,14 @@ Template.bankrecon.onRendered(function() {
                     };
                     if (data.ttobereconcileddeposit[i].Seqno != 0) {
                         recondep.push(reconciledepositObj);
-                        templateObject.reconVS1dep.set(recondep);
                     }
                 }
+                var thirdaryData = $.merge($.merge([], templateObject.reconVS1dep.get()), recondep);
+                templateObject.reconVS1dep.set(thirdaryData);
                 if (templateObject.reconVS1dep.get()) {
-                    setTimeout(function() {
-                        $('#tblVS1Dep').DataTable({
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "chequelist_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Cheque',
-                                filename: "chequelist_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }],
-                            paging: false,
-                            "scrollY": "400px",
-                            "scrollCollapse": true,
-                            "columnDefs": [{
-                                "orderable": false,
-                                "targets": 0
-                            }],
-                            colReorder: true,
-                            colReorder: {
-                                fixedColumnsLeft: 1
-                            },
-                            select: true,
-                            destroy: true,
-                            colReorder: true,
-                            pageLength: 10,
-                            lengthMenu: [
-                                [initialDatatableLoad, -1],
-                                [initialDatatableLoad, "All"]
-                            ],
-                            info: true,
-                            responsive: true,
-                            "order": [
-                                [1, "desc"]
-                            ],
-                            action: function() {
-                                $('#tblVS1Dep').DataTable().ajax.reload();
-                            },
-                            "aoColumnDefs": [{
-                                "aTargets": [0, 6],
-                                "mRender": function(data, type, full) {
-                                    if (type === 'filter') {
-                                        return data.replace(/(<([^>]+)>)/ig, "");
-                                    }
-                                    return data;
-                                }
-                            }]
-                        });
-                        $('.fullScreenSpin').css('display', 'none');
-                    }, 0);
-                }
-            } else {
-                setTimeout(function() {
+                  setTimeout(function() {
                     $('#tblVS1Dep').DataTable({
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "chequelist_" + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Cheque',
-                            filename: "chequelist_" + moment().format(),
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }],
                         paging: false,
                         "scrollY": "400px",
                         "scrollCollapse": true,
@@ -303,7 +220,7 @@ Template.bankrecon.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        pageLength: "All",
+                        pageLength: 10,
                         lengthMenu: [
                             [initialDatatableLoad, -1],
                             [initialDatatableLoad, "All"]
@@ -315,17 +232,43 @@ Template.bankrecon.onRendered(function() {
                         ],
                         action: function() {
                             $('#tblVS1Dep').DataTable().ajax.reload();
-                        },
-                        "aoColumnDefs": [{
-                            "aTargets": [0, 6],
-                            "mRender": function(data, type, full) {
-                                if (type === 'filter') {
-                                    return data.replace(/(<([^>]+)>)/ig, "");
-                                }
-                                return data;
-                            }
-                        }]
+                        }
                     });
+                      $('.fullScreenSpin').css('display', 'none');
+                  }, 0);
+                }
+            } else {
+                setTimeout(function() {
+                  $('#tblVS1Dep').DataTable({
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      paging: false,
+                      "scrollY": "400px",
+                      "scrollCollapse": true,
+                      "columnDefs": [{
+                          "orderable": false,
+                          "targets": 0
+                      }],
+                      colReorder: true,
+                      colReorder: {
+                          fixedColumnsLeft: 1
+                      },
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: 10,
+                      lengthMenu: [
+                          [initialDatatableLoad, -1],
+                          [initialDatatableLoad, "All"]
+                      ],
+                      info: true,
+                      responsive: true,
+                      "order": [
+                          [1, "desc"]
+                      ],
+                      action: function() {
+                          $('#tblVS1Dep').DataTable().ajax.reload();
+                      }
+                  });
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
             }
@@ -358,118 +301,80 @@ Template.bankrecon.onRendered(function() {
                     };
                     if (data.ttobereconciledwithdrawal[j].Seqno != 0) {
                         reconwith.push(reconcilewithdrawalObj);
-                        templateObject.reconVS1with.set(reconwith);
+                        // templateObject.reconVS1with.set(reconwith);
                     }
                 }
+
+                var thirdaryData = $.merge($.merge([], templateObject.reconVS1with.get()), reconwith);
+                templateObject.reconVS1with.set(thirdaryData);
+
                 if (templateObject.reconVS1with.get()) {
                     setTimeout(function() {
-                        $('#tblVS1With').DataTable({
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "chequelist_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Cheque',
-                                filename: "chequelist_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }],
-                            paging: false,
-                            "scrollY": "400px",
-                            "scrollCollapse": true,
-                            select: true,
-                            "columnDefs": [{
-                                "orderable": false,
-                                "targets": 0
-                            }],
-                            colReorder: true,
-                            colReorder: {
-                                fixedColumnsLeft: 1
-                            },
-                            destroy: true,
-                            colReorder: true,
-                            pageLength: 10,
-                            lengthMenu: [
-                                [initialDatatableLoad, -1],
-                                [initialDatatableLoad, "All"]
-                            ],
-                            info: true,
-                            responsive: true,
-                            "order": [
-                                [1, "desc"]
-                            ],
-                            action: function() {
-                                $('#tblVS1With').DataTable().ajax.reload();
-                            }
-                        });
+                      $('#tblVS1With').DataTable({
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          paging: false,
+                          "scrollY": "400px",
+                          "scrollCollapse": true,
+                          "columnDefs": [{
+                              "orderable": false,
+                              "targets": 0
+                          }],
+                          colReorder: true,
+                          colReorder: {
+                              fixedColumnsLeft: 1
+                          },
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: 10,
+                          lengthMenu: [
+                              [initialDatatableLoad, -1],
+                              [initialDatatableLoad, "All"]
+                          ],
+                          info: true,
+                          responsive: true,
+                          "order": [
+                              [1, "desc"]
+                          ],
+                          action: function() {
+                              $('#tblVS1With').DataTable().ajax.reload();
+                          }
+                      });
                         $('.fullScreenSpin').css('display', 'none');
                     }, 0);
                 }
             } else {
                 setTimeout(function() {
-                    $('#tblVS1With').DataTable({
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "chequelist_" + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Cheque',
-                            filename: "chequelist_" + moment().format(),
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }],
-                        paging: false,
-                        "scrollY": "400px",
-                        "scrollCollapse": true,
-                        select: true,
-                        "columnDefs": [{
-                            "orderable": false,
-                            "targets": 0
-                        }],
-                        colReorder: true,
-                        colReorder: {
-                            fixedColumnsLeft: 1
-                        },
-                        destroy: true,
-                        colReorder: true,
-                        pageLength: 10,
-                        lengthMenu: [
-                            [initialDatatableLoad, -1],
-                            [initialDatatableLoad, "All"]
-                        ],
-                        info: true,
-                        responsive: true,
-                        "order": [
-                            [1, "desc"]
-                        ],
-                        action: function() {
-                            $('#tblVS1With').DataTable().ajax.reload();
-                        }
-                    });
+                  $('#tblVS1With').DataTable({
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      paging: false,
+                      "scrollY": "400px",
+                      "scrollCollapse": true,
+                      "columnDefs": [{
+                          "orderable": false,
+                          "targets": 0
+                      }],
+                      colReorder: true,
+                      colReorder: {
+                          fixedColumnsLeft: 1
+                      },
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: 10,
+                      lengthMenu: [
+                          [initialDatatableLoad, -1],
+                          [initialDatatableLoad, "All"]
+                      ],
+                      info: true,
+                      responsive: true,
+                      "order": [
+                          [1, "desc"]
+                      ],
+                      action: function() {
+                          $('#tblVS1With').DataTable().ajax.reload();
+                      }
+                  });
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
             }
@@ -622,6 +527,7 @@ Template.bankrecon.onRendered(function() {
                                         reconepID = data.fields.DepositLines[i].fields.PaymentID;
                                     }
                                     let reconciledepositObj = {
+                                        sortdate: data.fields.DepositLines[i].fields.DepositDate != '' ? moment(data.fields.DepositLines[i].fields.DepositDate).format("YYYY-MM-DD") : data.fields.DepositLines[i].fields.DepositDate,
                                         recondepdate: data.fields.DepositLines[i].fields.DepositDate != '' ? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY") : data.fields.DepositLines[i].fields.DepositDate,
                                         recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
                                         recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
@@ -641,6 +547,7 @@ Template.bankrecon.onRendered(function() {
 
                                 $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
                                 if (templateObject.reconVS1dep.get()) {
+                                  if (data.fields.OnHold == false) {
                                     setTimeout(function() {
                                         $('#tblVS1Dep').DataTable({
                                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -695,6 +602,8 @@ Template.bankrecon.onRendered(function() {
                                         });
 
                                     }, 0);
+
+                                  }
                                 }
                                 if (data.fields.OnHold == false) {
                                     setTimeout(function() {
@@ -708,6 +617,7 @@ Template.bankrecon.onRendered(function() {
                                             $tblrow.find("td input").attr('disabled', 'disabled');
                                             $tblrow.find("td").css('background-color', '#eaecf4');
                                             $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            $tblrow.find("td .reconchkboxdep").prop( "checked", true );
                                         }, 100);
                                     });
                                 } else {
@@ -801,6 +711,7 @@ Template.bankrecon.onRendered(function() {
 
                                 $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
                                 if (templateObject.reconVS1with.get()) {
+                                  if (data.fields.OnHold == false) {
                                     setTimeout(function() {
                                         $('#tblVS1With').DataTable({
                                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -855,6 +766,7 @@ Template.bankrecon.onRendered(function() {
                                         });
 
                                     }, 0);
+                                  }
                                 }
                                 if (data.fields.OnHold == false) {
                                     setTimeout(function() {
@@ -868,6 +780,7 @@ Template.bankrecon.onRendered(function() {
                                             $tblrow.find("td input").attr('disabled', 'disabled');
                                             $tblrow.find("td").css('background-color', '#eaecf4');
                                             $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            $tblrow.find("td .reconchkboxwith").prop( "checked", true );
                                         }, 100);
                                     });
                                 } else {
@@ -935,7 +848,10 @@ Template.bankrecon.onRendered(function() {
                         //$('#hideSelectionToggle').css('pointer-events', 'none');
 
 
-
+                        if (data.fields.OnHold == true) {
+                          Session.setPersistent('bankaccountid', data.fields.AccountID);
+                          templateObject.getAccountNames();
+                        }
                         $('.fullScreenSpin').css('display', 'none');
                     }).catch(function(err) {
                         $('.fullScreenSpin').css('display', 'none');
@@ -996,6 +912,7 @@ Template.bankrecon.onRendered(function() {
                                             reconepID = useData[d].fields.DepositLines[i].fields.PaymentID;
                                         }
                                         let reconciledepositObj = {
+                                            sortdate: useData[d].fields.DepositLines[i].fields.DepositDate != '' ? moment(useData[d].fields.DepositLines[i].fields.DepositDate).format("YYYY-MM-DD") : useData[d].fields.DepositLines[i].fields.DepositDate,
                                             recondepdate: useData[d].fields.DepositLines[i].fields.DepositDate != '' ? moment(useData[d].fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY") : useData[d].fields.DepositLines[i].fields.DepositDate,
                                             recondepname: useData[d].fields.DepositLines[i].fields.Payee || ' ',
                                             recondeppaymenttype: useData[d].fields.DepositLines[i].fields.Notes || ' ',
@@ -1015,6 +932,7 @@ Template.bankrecon.onRendered(function() {
 
                                     $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
                                     if (templateObject.reconVS1dep.get()) {
+                                      if (useData[d].fields.OnHold == false) {
                                         setTimeout(function() {
                                             $('#tblVS1Dep').DataTable({
                                                 "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1069,6 +987,7 @@ Template.bankrecon.onRendered(function() {
                                             });
 
                                         }, 0);
+                                      }
                                     }
 
                                     if (useData[d].fields.OnHold == false) {
@@ -1083,6 +1002,8 @@ Template.bankrecon.onRendered(function() {
                                                 $tblrow.find("td input").attr('disabled', 'disabled');
                                                 $tblrow.find("td").css('background-color', '#eaecf4');
                                                 $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                                $tblrow.find("td .reconchkboxdep").prop( "checked", true );
+                                                // $(".reconchkboxdep").trigger("click");
                                             }, 100);
                                         });
                                     } else {
@@ -1176,6 +1097,7 @@ Template.bankrecon.onRendered(function() {
 
                                     $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
                                     if (templateObject.reconVS1with.get()) {
+                                      if (useData[d].fields.OnHold == false) {
                                         setTimeout(function() {
                                             $('#tblVS1With').DataTable({
                                                 "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1230,6 +1152,9 @@ Template.bankrecon.onRendered(function() {
                                             });
 
                                         }, 0);
+                                      }else{
+
+                                      }
                                     }
 
                                     if (useData[d].fields.OnHold == false) {
@@ -1244,6 +1169,7 @@ Template.bankrecon.onRendered(function() {
                                                 $tblrow.find("td input").attr('disabled', 'disabled');
                                                 $tblrow.find("td").css('background-color', '#eaecf4');
                                                 $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                                $tblrow.find("td .reconchkboxwith").prop( "checked", true );
                                             }, 100);
                                         });
                                     } else {
@@ -1309,6 +1235,11 @@ Template.bankrecon.onRendered(function() {
                                 }
 
                             }
+
+                            if (useData[d].fields.OnHold == true) {
+                              Session.setPersistent('bankaccountid', useData[d].fields.AccountID);
+                              templateObject.getAccountNames();
+                            }
                         }
                     }
 
@@ -1362,6 +1293,7 @@ Template.bankrecon.onRendered(function() {
                                             reconepID = data.fields.DepositLines[i].fields.PaymentID;
                                         }
                                         let reconciledepositObj = {
+                                            sortdate: data.fields.DepositLines[i].fields.DepositDate != '' ? moment(data.fields.DepositLines[i].fields.DepositDate).format("YYYY-MM-DD") : data.fields.DepositLines[i].fields.DepositDate,
                                             recondepdate: data.fields.DepositLines[i].fields.DepositDate != '' ? moment(data.fields.DepositLines[i].fields.DepositDate).format("DD/MM/YYYY") : data.fields.DepositLines[i].fields.DepositDate,
                                             recondepname: data.fields.DepositLines[i].fields.Payee || ' ',
                                             recondeppaymenttype: data.fields.DepositLines[i].fields.Notes || ' ',
@@ -1381,6 +1313,7 @@ Template.bankrecon.onRendered(function() {
 
                                     $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
                                     if (templateObject.reconVS1dep.get()) {
+                                      if (data.fields.OnHold == false) {
                                         setTimeout(function() {
                                             $('#tblVS1Dep').DataTable({
                                                 "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1435,6 +1368,7 @@ Template.bankrecon.onRendered(function() {
                                             });
 
                                         }, 0);
+                                      }
                                     }
                                     if (data.fields.OnHold == false) {
                                         setTimeout(function() {
@@ -1448,6 +1382,7 @@ Template.bankrecon.onRendered(function() {
                                                 $tblrow.find("td input").attr('disabled', 'disabled');
                                                 $tblrow.find("td").css('background-color', '#eaecf4');
                                                 $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                                $tblrow.find("td .reconchkboxdep").prop( "checked", true );
                                             }, 100);
                                         });
                                     } else {
@@ -1541,6 +1476,7 @@ Template.bankrecon.onRendered(function() {
 
                                     $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
                                     if (templateObject.reconVS1with.get()) {
+                                      if (data.fields.OnHold == false) {
                                         setTimeout(function() {
                                             $('#tblVS1With').DataTable({
                                                 "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1595,6 +1531,7 @@ Template.bankrecon.onRendered(function() {
                                             });
 
                                         }, 0);
+                                      }
                                     }
                                     if (data.fields.OnHold == false) {
                                         setTimeout(function() {
@@ -1608,6 +1545,7 @@ Template.bankrecon.onRendered(function() {
                                                 $tblrow.find("td input").attr('disabled', 'disabled');
                                                 $tblrow.find("td").css('background-color', '#eaecf4');
                                                 $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                                $tblrow.find("td .reconchkboxwith").prop( "checked", true );
                                             }, 100);
                                         });
                                     } else {
@@ -1675,7 +1613,10 @@ Template.bankrecon.onRendered(function() {
                             //$('#hideSelectionToggle').css('pointer-events', 'none');
 
 
-
+                            if (data.fields.OnHold == true) {
+                              Session.setPersistent('bankaccountid', data.fields.AccountID);
+                              templateObject.getAccountNames();
+                            }
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function(err) {
                             $('.fullScreenSpin').css('display', 'none');
@@ -1752,6 +1693,7 @@ Template.bankrecon.onRendered(function() {
 
                             $('.depositAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountdep) || Currency + "0.00");
                             if (templateObject.reconVS1dep.get()) {
+                              if (data.fields.OnHold == false) {
                                 setTimeout(function() {
                                     $('#tblVS1Dep').DataTable({
                                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1806,6 +1748,7 @@ Template.bankrecon.onRendered(function() {
                                     });
 
                                 }, 0);
+                              }
                             }
                             if (data.fields.OnHold == false) {
                                 setTimeout(function() {
@@ -1819,6 +1762,7 @@ Template.bankrecon.onRendered(function() {
                                         $tblrow.find("td input").attr('disabled', 'disabled');
                                         $tblrow.find("td").css('background-color', '#eaecf4');
                                         $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                        $tblrow.find("td .reconchkboxdep").prop( "checked", true );
                                     }, 100);
                                 });
                             } else {
@@ -1912,6 +1856,7 @@ Template.bankrecon.onRendered(function() {
 
                             $('.withdrawalAmount').text(utilityService.modifynegativeCurrencyFormat(selectedTransAmountwidth) || Currency + "0.00");
                             if (templateObject.reconVS1with.get()) {
+                              if (data.fields.OnHold == false) {
                                 setTimeout(function() {
                                     $('#tblVS1With').DataTable({
                                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1966,6 +1911,7 @@ Template.bankrecon.onRendered(function() {
                                     });
 
                                 }, 0);
+                              }
                             }
                             if (data.fields.OnHold == false) {
                                 setTimeout(function() {
@@ -1979,6 +1925,7 @@ Template.bankrecon.onRendered(function() {
                                         $tblrow.find("td input").attr('disabled', 'disabled');
                                         $tblrow.find("td").css('background-color', '#eaecf4');
                                         $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                        $tblrow.find("td .reconchkboxwith").prop( "checked", true );
                                     }, 100);
                                 });
                             } else {
@@ -2046,7 +1993,10 @@ Template.bankrecon.onRendered(function() {
                     //$('#hideSelectionToggle').css('pointer-events', 'none');
 
 
-
+                    if (data.fields.OnHold == true) {
+                      Session.setPersistent('bankaccountid', data.fields.AccountID);
+                      templateObject.getAccountNames();
+                    }
                     $('.fullScreenSpin').css('display', 'none');
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
@@ -2054,7 +2004,7 @@ Template.bankrecon.onRendered(function() {
             });
 
         }
-        templateObject.getAccountNames();
+
     } else {
         templateObject.getAccountNames();
         //templateObject.getOpenBalance();

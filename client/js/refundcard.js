@@ -41,8 +41,6 @@ let utilityService = new UtilityService();
 var times = 0;
 Template.refundcard.onCreated(() => {
 
-
-
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
     templateObject.CleintName = new ReactiveVar();
@@ -78,6 +76,8 @@ Template.refundcard.onCreated(() => {
     templateObject.referenceNumber = new ReactiveVar();
     templateObject.statusrecords = new ReactiveVar([]);
     templateObject.productextrasellrecords = new ReactiveVar([]);
+
+    templateObject.defaultsaleterm = new ReactiveVar();
 
     setTimeout(function() {
 
@@ -821,10 +821,12 @@ Template.refundcard.onRendered(() => {
 
         $('#edtCustomerName').val('');
         let getPaymentMethodVal = Session.get('paymentmethod') || 'Cash';
+
         setTimeout(function() {
             $('#sltDept').val(defaultDept);
-            $('#sltTerms').val(templateObject.defaultsaleterm.get());
             $('#sltPaymentMethod').val(getPaymentMethodVal);
+            $('#sltTerms').val(templateObject.defaultsaleterm.get());
+
         }, 200);
 
         templateObject.invoicerecord.set(invoicerecord);
@@ -924,6 +926,10 @@ Template.refundcard.onRendered(() => {
                             termsname: data.ttermsvs1[i].TermsName || ' ',
                         };
 
+                        if (data.ttermsvs1[i].isSalesdefault == true) {
+                            templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                        }
+
                         termrecords.push(termrecordObj);
                         templateObject.termrecords.set(termrecords);
 
@@ -937,6 +943,9 @@ Template.refundcard.onRendered(() => {
                     let termrecordObj = {
                         termsname: useData[i].TermsName || ' ',
                     };
+                    if (useData[i].isSalesdefault == true) {
+                        templateObject.defaultsaleterm.set(useData[i].TermsName);
+                    }
 
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
@@ -951,6 +960,11 @@ Template.refundcard.onRendered(() => {
                     let termrecordObj = {
                         termsname: data.ttermsvs1[i].TermsName || ' ',
                     };
+
+                    if (data.ttermsvs1[i].isSalesdefault == true) {
+                        templateObject.defaultsaleterm.set(data.ttermsvs1[i].TermsName);
+                    }
+
 
                     termrecords.push(termrecordObj);
                     templateObject.termrecords.set(termrecords);
@@ -3891,6 +3905,7 @@ Template.refundcard.events({
         let salesService = new SalesBoardService();
         let termname = $('#sltTerms').val() || '';
         let payMethod = $("#sltPaymentMethod").val() || 'Cash';
+        Session.setPersistent('paymentmethod', payMethod);
         if (termname === '') {
             swal('Terms has not been selected!', '', 'warning');
             event.preventDefault();
@@ -3929,9 +3944,9 @@ Template.refundcard.events({
                         fields: {
                             ProductName: tdproduct || '',
                             ProductDescription: tddescription || '',
-                            UOMOrderQty:parseFloat(tdQty) || 0,
-                            UOMQtySold: parseFloat(tdQty) || 0,
-                            UOMQtyShipped: parseFloat(tdQty) || 0,
+                            UOMOrderQty:-parseFloat(tdQty) || 0,
+                            UOMQtySold: -parseFloat(tdQty) || 0,
+                            UOMQtyShipped: -parseFloat(tdQty) || 0,
                             LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                             Headershipdate: saleDate,
                             LineTaxCode: tdtaxCode || '',
