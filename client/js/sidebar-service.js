@@ -1059,4 +1059,33 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TChequeEx, options);
   }
 
+  getAllRefundList(limitcount, limitfrom) {
+    let options = '';
+ if(limitcount == 'All'){
+    options = {
+       orderby:'"SaleID desc"',
+       ListType: "Detail",
+       select: '[Deleted]=false'
+     };
+ }else{
+   options = {
+      orderby:'"SaleID desc"',
+      ListType: "Detail",
+      select: "[Deleted]=false",
+      LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+  };
+ }
+  return this.getList(this.ERPObjects.TRefundSale, options);
+}
+
+getNewRefundByNameOrID(dataSearchName) {
+  let options = '';
+     options = {
+      ListType: "Detail",
+      select: '[ClientName] f7like "'+dataSearchName+'"'
+     };
+  return this.getList(this.ERPObjects.TRefundSale, options);
+}
+
 }
