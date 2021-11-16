@@ -140,6 +140,7 @@ Template.timesheet.onRendered(function () {
                 
             } else {
                 $("#endTime").val("");
+                $("#txtBookedHoursSpent").val("00:01");
             }
 
         });
@@ -155,9 +156,9 @@ Template.timesheet.onRendered(function () {
     templateObject.timeFormat = function (hours) {
         var decimalTime = parseFloat(hours).toFixed(2);
         decimalTime = decimalTime * 60 * 60;
-        var hours = Math.round((decimalTime / (60 * 60)));
+        var hours = Math.floor((decimalTime / (60 * 60)));
         decimalTime = decimalTime - (hours * 60 * 60);
-        var minutes = Math.round(decimalTime / 60);
+        var minutes = Math.floor(decimalTime / 60);
         decimalTime = decimalTime - (minutes * 60);
         hours = ("0" + hours).slice(-2);
         minutes = ("0" + minutes).slice(-2);
