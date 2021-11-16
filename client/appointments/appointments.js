@@ -7916,9 +7916,6 @@ Template.appointments.events({
                                                             // HourlyRate:50,
                                                             LabourCost: parseFloat(hourlyRate) || 1,
                                                             HourlyRate: parseFloat(hourlyRate) || 1,
-                                                            ServiceName: selectedProduct || '',
-                                                            Job: clientname || '',
-                                                            InvoiceNotes: "completed",
                                                             Allowedit: true,
                                                             // ChargeRate: 100,
                                                             Hours: parseFloat($('#txtActualHoursSpent').val()) || 1,
@@ -7936,12 +7933,9 @@ Template.appointments.events({
                                             }
                                         };
                                         contactService.saveTimeSheet(data).then(function (dataObj) {
-                                        sideBarService.getAllTimeSheetList().then(function (data) {
-                                        addVS1Data('TTimeSheet', JSON.stringify(data));
                                             setTimeout(function () {
                                                 window.open('/appointments', '_self');
                                             }, 500);
-                                        });
                                         }).catch(function (err) {
                                             window.open('/appointments', '_self');
                                         })
@@ -7970,10 +7964,7 @@ Template.appointments.events({
                                                         // HourlyRate:50,
                                                         LabourCost: parseFloat(hourlyRate) || 1,
                                                         HourlyRate: parseFloat(hourlyRate) || 1,
-                                                        ServiceName: selectedProduct || '',
-                                                        Job: clientname || '',
                                                         Allowedit: true,
-                                                        InvoiceNotes: "completed",
                                                         // ChargeRate: 100,
                                                         Hours: parseFloat($('#txtActualHoursSpent').val()) || 1,
                                                         // OverheadRate: 90,
@@ -7990,12 +7981,9 @@ Template.appointments.events({
                                         }
                                     };
                                     contactService.saveTimeSheet(data).then(function (dataObj) {
-                                        sideBarService.getAllTimeSheetList().then(function (data) {
-                                        addVS1Data('TTimeSheet', JSON.stringify(data));
-                                            setTimeout(function () {
-                                                window.open('/appointments', '_self');
-                                            }, 500);
-                                        });
+                                        setTimeout(function () {
+                                            window.open('/appointments', '_self');
+                                        }, 500);
                                     }).catch(function (err) {
                                         window.open('/appointments', '_self');
                                     })

@@ -127,24 +127,6 @@ Template.timesheet.onRendered(function () {
         return dateObject;
     }
 
-
-    templateObject.endTimePopUp = function () {
-          swal({
-            title: 'Please Note!',
-            text: 'By mannualy populating the Timesheet End Time, this will Clock you off when saving, Do you want to continue?',
-            type: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Yes'
-        }).then((result) => {
-            if (result.value) {
-                
-            } else {
-                $("endTime").val("");
-            }
-
-        });
-    }
-
     templateObject.timeToDecimal = function (time) {
       var hoursMinutes = time.split(/[.:]/);
       var hours = parseInt(hoursMinutes[0], 10);
@@ -1407,22 +1389,6 @@ Template.timesheet.onRendered(function () {
     });
 
     Template.timesheet.events({
-        //  'blur #endTime': function (event) {
-        //      swal({
-        //         title: 'Please Note!',
-        //         text: 'By mannualy populating the Timesheet End Time, this will Clock you off when saving, Do you want to continue?',
-        //         type: 'question',
-        //         showCancelButton: true,
-        //         confirmButtonText: 'Yes'
-        //     }).then((result) => {
-        //         if (result.value) {
-                    
-        //         } else {
-        //             $("endTime").val("");
-        //         }
-
-        //     });
-        // },
         'click .isPaused': function (event) {
             const templateObject = Template.instance();
             let timesheetID = $("#updateID").val() || '';
@@ -1523,12 +1489,23 @@ Template.timesheet.onRendered(function () {
                 document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
             } else {}
         },
-        'blur #endTime': function (){
-            const templateObject = Template.instance();
-              setTimeout(function(){
-                templateObject.endTimePopUp();
-            },100);
-          },
+        'change #endTime': function () {
+            let id = $('#updateID').val();
+            if(id != "") {
+             swal({
+                    title: 'Clocking Off',
+                    text: "You are manually Clocking Off, Do you want to Clock Off?",
+                    type: 'info',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        // Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+            }
+
+        },
         'click .clockOff': function (event) {
             const templateObject = Template.instance();
             let timesheetID = $("#updateID").val() || '';
