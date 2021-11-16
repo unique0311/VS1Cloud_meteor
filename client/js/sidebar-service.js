@@ -40,6 +40,15 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
 
+   getNewChequeByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ID] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TChequeEx, options);
+  }
+
   getAllJobssDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
