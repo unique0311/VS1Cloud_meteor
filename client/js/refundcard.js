@@ -194,38 +194,6 @@ Template.refundcard.onRendered(() => {
     });
 
 
-        jQuery(document).ready(function($) {
-
-        if (window.history && window.history.pushState) {
-
-    window.history.pushState('forward', null, FlowRouter.current().path);
-
-    $(window).on('popstate', function() {
-      swal({
-               title: 'Save Or Cancel To Continue',
-              text: "Do you want to Save or Cancel this transaction?",
-              type: 'question',
-              showCancelButton: true,
-              confirmButtonText: 'Save'
-          }).then((result) => {
-              if (result.value) {
-                  $(".btnSave").trigger("click");
-              } else if (result.dismiss === 'cancel') {
-                  let lastPageVisitUrl = window.location.pathname;
-                  if (FlowRouter.current().oldRoute) {
-                      lastPageVisitUrl = FlowRouter.current().oldRoute.path;
-                  } else {
-                      lastPageVisitUrl = window.location.pathname;
-                  }
-                 //FlowRouter.go(lastPageVisitUrl);
-                  window.open(lastPageVisitUrl, '_self');
-              } else {}
-          });
-    });
-
-  }
-    });
-
     $(document).ready(function() {
 
 
@@ -606,6 +574,7 @@ Template.refundcard.onRendered(() => {
                     $('#sltStatus').val(data.fields.SalesStatus);
                     templateObject.CleintName.set(data.fields.CustomerName);
                     $('#sltCurrency').val(data.fields.ForeignExchangeCode);
+                    $('#sltPaymentMethod').val(data.fields.PayMethod);
                     /* START attachment */
                     templateObject.attachmentCount.set(0);
                     if (data.fields.Attachments) {
@@ -851,10 +820,11 @@ Template.refundcard.onRendered(() => {
         };
 
         $('#edtCustomerName').val('');
-
+        let getPaymentMethodVal = Session.get('paymentmethod') || 'Cash';
         setTimeout(function() {
             $('#sltDept').val(defaultDept);
             $('#sltTerms').val(templateObject.defaultsaleterm.get());
+            $('#sltPaymentMethod').val(getPaymentMethodVal);
         }, 200);
 
         templateObject.invoicerecord.set(invoicerecord);
@@ -1002,7 +972,7 @@ Template.refundcard.onRendered(() => {
         $('#sltTerms').editableSelect();
         $('#sltDept').editableSelect();
         $('#sltStatus').editableSelect();
-
+        $('#sltPaymentMethod').editableSelect();
         $('#addRow').on('click', function() {
             var rowData = $('#tblInvoiceLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
@@ -2389,6 +2359,97 @@ Template.refundcard.onRendered(() => {
 
         });
 
+    $(document).on("click", "#paymentmethodList tbody tr", function(e) {
+       $('#sltPaymentMethod').val($(this).find(".colName").text());
+       $('#paymentMethodModal').modal('toggle');
+   });
+
+   $('#sltPaymentMethod').editableSelect()
+       .on('click.editable-select', function(e, li) {
+           var $earch = $(this);
+           var offset = $earch.offset();
+           var paymentDataName = e.target.value || '';
+           $('#edtPaymentMethodID').val('');
+           if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+               $('#paymentMethodModal').modal('toggle');
+           } else {
+               if (paymentDataName.replace(/\s/g, '') != '') {
+                   $('#paymentMethodHeader').text('Edit Payment Method');
+
+                   getVS1Data('TPaymentMethod').then(function(dataObject) {
+                       if (dataObject.length == 0) {
+                           $('.fullScreenSpin').css('display', 'inline-block');
+                           sideBarService.getPaymentMethodDataVS1().then(function(data) {
+                               for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                                   if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                       $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                       $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                       if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                           $('#isformcreditcard').prop('checked', true);
+                                       } else {
+                                           $('#isformcreditcard').prop('checked', false);
+                                       }
+                                   }
+                               }
+                               setTimeout(function() {
+                                   $('.fullScreenSpin').css('display', 'none');
+                                   $('#newPaymentMethodModal').modal('toggle');
+                               }, 200);
+                           });
+                       } else {
+                           let data = JSON.parse(dataObject[0].data);
+                           let useData = data.tpaymentmethodvs1;
+
+                           for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                               if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                   $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                   $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                   if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                       $('#isformcreditcard').prop('checked', true);
+                                   } else {
+                                       $('#isformcreditcard').prop('checked', false);
+                                   }
+                               }
+                           }
+                           setTimeout(function() {
+                               $('.fullScreenSpin').css('display', 'none');
+                               $('#newPaymentMethodModal').modal('toggle');
+                           }, 200);
+                       }
+                   }).catch(function(err) {
+                       $('.fullScreenSpin').css('display', 'inline-block');
+                       sideBarService.getPaymentMethodDataVS1().then(function(data) {
+                           for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                               if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                   $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                   $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                   if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                       $('#isformcreditcard').prop('checked', true);
+                                   } else {
+                                       $('#isformcreditcard').prop('checked', false);
+                                   }
+                               }
+                           }
+                           setTimeout(function() {
+                               $('.fullScreenSpin').css('display', 'none');
+                               $('#newPaymentMethodModal').modal('toggle');
+                           }, 200);
+                       });
+                   });
+               } else {
+                   $('#paymentMethodModal').modal();
+                   setTimeout(function() {
+                       $('#paymentmethodList_filter .form-control-sm').focus();
+                       $('#paymentmethodList_filter .form-control-sm').val('');
+                       $('#paymentmethodList_filter .form-control-sm').trigger("input");
+                       var datatable = $('#paymentmethodList').DataTable();
+                       datatable.draw();
+                       $('#paymentmethodList_filter .form-control-sm').trigger("input");
+                   }, 500);
+               }
+           }
+       });
+
     exportSalesToPdf = function() {
         let margins = {
             top: 0,
@@ -3670,7 +3731,7 @@ Template.refundcard.events({
             }
         }
     },
-    'click .btnDeleteInvoice': function(event) {
+    'click .btnDeleteRefund': function(event) {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let salesService = new SalesBoardService();
@@ -3681,7 +3742,7 @@ Template.refundcard.events({
         if (getso_id[1]) {
             currentInvoice = parseInt(currentInvoice);
             var objDetails = {
-                type: "TInvoiceEx",
+                type: "TRefundSale",
                 fields: {
                     ID: currentInvoice,
                     Deleted: true,
@@ -3689,8 +3750,8 @@ Template.refundcard.events({
                 }
             };
 
-            salesService.saveInvoiceEx(objDetails).then(function(objDetails) {
-                window.open('/invoicelist', '_self');
+            salesService.saveRefundSale(objDetails).then(function(objDetails) {
+                window.open('/refundlist', '_self');
             }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
@@ -3708,7 +3769,7 @@ Template.refundcard.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            window.open('/invoicelist', '_self');
+            window.open('/refundlist', '_self');
         }
         $('#deleteLineModal').modal('toggle');
     },
@@ -3829,6 +3890,7 @@ Template.refundcard.events({
         let customername = $('#edtCustomerName');
         let salesService = new SalesBoardService();
         let termname = $('#sltTerms').val() || '';
+        let payMethod = $("#sltPaymentMethod").val() || 'Cash';
         if (termname === '') {
             swal('Terms has not been selected!', '', 'warning');
             event.preventDefault();
@@ -3867,8 +3929,9 @@ Template.refundcard.events({
                         fields: {
                             ProductName: tdproduct || '',
                             ProductDescription: tddescription || '',
-                            UOMQtySold: -parseFloat(tdQty) || 0,
-                            UOMQtyShipped: -parseFloat(tdQty) || 0,
+                            UOMOrderQty:parseFloat(tdQty) || 0,
+                            UOMQtySold: parseFloat(tdQty) || 0,
+                            UOMQtyShipped: parseFloat(tdQty) || 0,
                             LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
                             Headershipdate: saleDate,
                             LineTaxCode: tdtaxCode || '',
@@ -3926,6 +3989,7 @@ Template.refundcard.events({
                         CustPONumber: poNumber,
                         // ReferenceNo: reference,
                         TermsName: termname,
+                        PayMethod:payMethod||'Cash',
                         SaleClassName: departement,
                         ShipToDesc: shippingAddress,
                         Comments: comments,
@@ -3949,6 +4013,7 @@ Template.refundcard.events({
                         CustPONumber: poNumber,
                         // ReferenceNo: reference,
                         TermsName: termname,
+                        PayMethod:payMethod||'Cash',
                         SaleClassName: departement,
                         ShipToDesc: shippingAddress,
                         Comments: comments,
@@ -4062,7 +4127,7 @@ Template.refundcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    FlowRouter.go('/invoicelist?success=true');
+                                    FlowRouter.go('/refundlist?success=true');
 
                                 } else {
 
@@ -4078,7 +4143,7 @@ Template.refundcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    FlowRouter.go('/invoicelist?success=true');
+                                    FlowRouter.go('/refundlist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -4089,7 +4154,7 @@ Template.refundcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            FlowRouter.go('/invoicelist?success=true');
+                                            FlowRouter.go('/refundlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -4109,7 +4174,7 @@ Template.refundcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    FlowRouter.go('/invoicelist?success=true');
+                                    FlowRouter.go('/refundlist?success=true');
 
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
@@ -4121,7 +4186,7 @@ Template.refundcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            FlowRouter.go('/invoicelist?success=true');
+                                            FlowRouter.go('/refundlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -4141,7 +4206,7 @@ Template.refundcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    FlowRouter.go('/invoicelist?success=true');
+                                    FlowRouter.go('/refundlist?success=true');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -4152,7 +4217,7 @@ Template.refundcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            FlowRouter.go('/invoicelist?success=true');
+                                            FlowRouter.go('/refundlist?success=true');
                                         } else if (result.dismiss === 'cancel') {
 
                                         }
@@ -4163,7 +4228,7 @@ Template.refundcard.events({
                             });
 
                         } else {
-                            FlowRouter.go('/invoicelist?success=true');
+                            FlowRouter.go('/refundlist?success=true');
                         };
                     };
 
@@ -4728,10 +4793,11 @@ Template.refundcard.events({
                 if (tdproduct != "") {
 
                     lineItemObjForm = {
-                        type: "TInvoiceLine",
+                        type: "TRefundSaleLine",
                         fields: {
                             ProductName: tdproduct || '',
                             ProductDescription: tddescription || '',
+                            UOMOrderQty:parseFloat(tdQty) || 0,
                             UOMQtySold: parseFloat(tdQty) || 0,
                             UOMQtyShipped: parseFloat(tdQty) || 0,
                             LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
@@ -4780,7 +4846,7 @@ Template.refundcard.events({
             if (getso_id[1]) {
                 currentInvoice = parseInt(currentInvoice);
                 objDetails = {
-                    type: "TInvoiceEx",
+                    type: "TRefundSale",
                     fields: {
                         ID: currentInvoice,
                         CustomerName: customer,
@@ -4804,7 +4870,7 @@ Template.refundcard.events({
                 };
             } else {
                 objDetails = {
-                    type: "TInvoiceEx",
+                    type: "TRefundSale",
                     fields: {
                         CustomerName: customer,
                         ForeignExchangeCode: currencyCode,
@@ -4827,7 +4893,7 @@ Template.refundcard.events({
                 };
             }
 
-            salesService.saveInvoiceEx(objDetails).then(function(objDetails) {
+            salesService.saveRefundSale(objDetails).then(function(objDetails) {
                 var customerID = $('#edtCustomerEmail').attr('customerid');
                 if (customerID !== " ") {
                     let customerEmailData = {
@@ -4950,256 +5016,6 @@ Template.refundcard.events({
 
         event.preventDefault();
         history.back(1);
-    },
-    'click #btnCopyInvoice': function() {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        var url = FlowRouter.current().path;
-        if ((url.indexOf('?id=') > 0) || (url.indexOf('?copyquid=') > 0) || (url.indexOf('?copyinvid='))) {
-            let templateObject = Template.instance();
-            let customername = $('#edtCustomerName');
-            let salesService = new SalesBoardService();
-            let termname = $('#sltTerms').val() || '';
-            if (termname === '') {
-                swal('Terms has not been selected!', '', 'warning');
-                event.preventDefault();
-                return false;
-            }
-            if (customername.val() === '') {
-                swal('Customer has not been selected!', '', 'warning');
-                e.preventDefault();
-            } else {
-
-                $('.fullScreenSpin').css('display', 'inline-block');
-                var splashLineArray = new Array();
-                let lineItemsForm = [];
-                let lineItemObjForm = {};
-                var saledateTime = new Date($("#dtSODate").datepicker("getDate"));
-                var duedateTime = new Date($("#dtDueDate").datepicker("getDate"));
-
-                let saleDate = saledateTime.getFullYear() + "-" + (saledateTime.getMonth() + 1) + "-" + saledateTime.getDate();
-                let dueDate = duedateTime.getFullYear() + "-" + (duedateTime.getMonth() + 1) + "-" + duedateTime.getDate();
-                $('#tblInvoiceLine > tbody > tr').each(function() {
-                    var lineID = this.id;
-                    let tdproduct = $('#' + lineID + " .lineProductName").val();
-                    let tddescription = $('#' + lineID + " .lineProductDesc").text();
-                    let tdQty = $('#' + lineID + " .lineQty").val();
-                    let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
-                    let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                    let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
-                    let tdlineamt = $('#' + lineID + " .lineAmt").text();
-
-                    if (tdproduct != "") {
-
-                        lineItemObjForm = {
-                            type: "TInvoiceLine",
-                            fields: {
-                                ProductName: tdproduct || '',
-                                ProductDescription: tddescription || '',
-                                UOMQtySold: parseFloat(tdQty) || 0,
-                                UOMQtyShipped: parseFloat(tdQty) || 0,
-                                LinePrice: Number(tdunitprice.replace(/[^0-9.-]+/g, "")) || 0,
-                                Headershipdate: saleDate,
-                                LineTaxCode: tdtaxCode || '',
-                                DiscountPercent: parseFloat($('#' + lineID + " .lineDiscount").text()) || 0
-                            }
-                        };
-                        lineItemsForm.push(lineItemObjForm);
-                        splashLineArray.push(lineItemObjForm);
-                    }
-                });
-                let getchkcustomField1 = true;
-                let getchkcustomField2 = true;
-                let getcustomField1 = $('.customField1Text').html();
-                let getcustomField2 = $('.customField2Text').html();
-                if ($('#formCheck-one').is(':checked')) {
-                    getchkcustomField1 = false;
-                }
-                if ($('#formCheck-two').is(':checked')) {
-                    getchkcustomField2 = false;
-                }
-
-                let customer = $('#edtCustomerName').val();
-                let customerEmail = $('#edtCustomerEmail').val();
-                let billingAddress = $('#txabillingAddress').val();
-
-
-
-                let poNumber = $('#ponumber').val();
-                let reference = $('#edtRef').val();
-
-                let departement = $('#sltDept').val();
-                let shippingAddress = $('#txaShipingInfo').val();
-                let comments = $('#txaComment').val();
-                let pickingInfrmation = $('#txapickmemo').val();
-
-                let saleCustField1 = $('#edtSaleCustField1').val();
-                let saleCustField2 = $('#edtSaleCustField2').val();
-                var url = FlowRouter.current().path;
-                var getso_id = url.split('?id=');
-                var currentInvoice = getso_id[getso_id.length - 1];
-                let uploadedItems = templateObject.uploadedFiles.get();
-                var currencyCode = $("#sltCurrency").val() || CountryAbbr;
-                var objDetails = '';
-                if (getso_id[1]) {
-                    currentInvoice = parseInt(currentInvoice);
-                    objDetails = {
-                        type: "TInvoiceEx",
-                        fields: {
-                            ID: currentInvoice,
-                            CustomerName: customer,
-                            ForeignExchangeCode: currencyCode,
-                            Lines: splashLineArray,
-                            InvoiceToDesc: billingAddress,
-                            SaleDate: saleDate,
-
-                            CustPONumber: poNumber,
-                            ReferenceNo: reference,
-                            TermsName: termname,
-                            SaleClassName: departement,
-                            ShipToDesc: shippingAddress,
-                            Comments: comments,
-                            SaleCustField1: saleCustField1,
-                            SaleCustField2: saleCustField2,
-                            PickMemo: pickingInfrmation,
-                            Attachments: uploadedItems,
-                            SalesStatus: $('#sltStatus').val()
-                        }
-                    };
-                } else {
-                    objDetails = {
-                        type: "TInvoiceEx",
-                        fields: {
-                            CustomerName: customer,
-                            ForeignExchangeCode: currencyCode,
-                            Lines: splashLineArray,
-                            InvoiceToDesc: billingAddress,
-                            SaleDate: saleDate,
-
-                            CustPONumber: poNumber,
-                            ReferenceNo: reference,
-                            TermsName: termname,
-                            SaleClassName: departement,
-                            ShipToDesc: shippingAddress,
-                            Comments: comments,
-                            SaleCustField1: saleCustField1,
-                            SaleCustField2: saleCustField2,
-                            PickMemo: pickingInfrmation,
-                            Attachments: uploadedItems
-                        }
-                    };
-                }
-
-                salesService.saveInvoiceEx(objDetails).then(function(objDetails) {
-                    var customerID = $('#edtCustomerEmail').attr('customerid');
-                    if (customerID !== " ") {
-                        let customerEmailData = {
-                            type: "TCustomer",
-                            fields: {
-                                ID: customerID,
-                                Email: customerEmail
-                            }
-                        }
-                        // salesService.saveCustomerEmail(customerEmailData).then(function(customerEmailData) {
-                        //
-                        // });
-                    };
-                    let linesave = objDetails.fields.ID;
-                    var getcurrentCloudDetails = CloudUser.findOne({
-                        _id: Session.get('mycloudLogonID'),
-                        clouddatabaseID: Session.get('mycloudLogonDBID')
-                    });
-                    if (getcurrentCloudDetails) {
-                        if (getcurrentCloudDetails._id.length > 0) {
-                            var clientID = getcurrentCloudDetails._id;
-                            var clientUsername = getcurrentCloudDetails.cloudUsername;
-                            var clientEmail = getcurrentCloudDetails.cloudEmail;
-                            var checkPrefDetails = CloudPreference.findOne({
-                                userid: clientID,
-                                PrefName: 'refundcard'
-                            });
-
-                            if (checkPrefDetails) {
-                                CloudPreference.update({
-                                    _id: checkPrefDetails._id
-                                }, {
-                                    $set: {
-                                        username: clientUsername,
-                                        useremail: clientEmail,
-                                        PrefGroup: 'salesform',
-                                        PrefName: 'refundcard',
-                                        published: true,
-                                        customFields: [{
-                                            index: '1',
-                                            label: getcustomField1,
-                                            hidden: getchkcustomField1
-                                        }, {
-                                            index: '2',
-                                            label: getcustomField2,
-                                            hidden: getchkcustomField2
-                                        }],
-                                        updatedAt: new Date()
-                                    }
-                                }, function(err, idTag) {
-                                    if (err) {
-                                        window.open('/invoicecard?copyinvid=' + linesave, '_self');
-                                    } else {
-                                        window.open('/invoicecard?copyinvid=' + linesave, '_self');
-
-                                    }
-                                });
-                            } else {
-                                CloudPreference.insert({
-                                    userid: clientID,
-                                    username: clientUsername,
-                                    useremail: clientEmail,
-                                    PrefGroup: 'salesform',
-                                    PrefName: 'refundcard',
-                                    published: true,
-                                    customFields: [{
-                                        index: '1',
-                                        label: getcustomField1,
-                                        hidden: getchkcustomField1
-                                    }, {
-                                        index: '2',
-                                        label: getcustomField2,
-                                        hidden: getchkcustomField2
-                                    }],
-                                    createdAt: new Date()
-                                }, function(err, idTag) {
-                                    if (err) {
-                                        window.open('/invoicecard?copyinvid=' + linesave, '_self');
-                                    } else {
-                                        window.open('/invoicecard?copyinvid=' + linesave, '_self');
-
-                                    }
-                                });
-                            }
-                        }
-                    }
-
-
-                }).catch(function(err) {
-                    swal({
-                        title: 'Oooops...',
-                        text: err,
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {
-
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
-                    });
-
-                    $('.fullScreenSpin').css('display', 'none');
-                });
-            }
-        } else {
-
-            window.open('/invoicecard', '_self');
-        }
     },
     'click .chkEmailCopy': function(event) {
         $('#edtCustomerEmail').val($('#edtCustomerEmail').val().replace(/\s/g, ''));
