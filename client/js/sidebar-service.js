@@ -40,6 +40,15 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
 
+  getNewRefundByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ClientName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TRefundSale, options);
+  }
+
   getAllJobssDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
@@ -537,7 +546,7 @@ getCustomersDataByName(dataSearchName) {
       return this.getList(this.ERPObjects.TStockTransferEntry, options);
   }
 
-  getAllInvoiceList(limitcount, limitfrom) {
+getAllInvoiceList(limitcount, limitfrom) {
     let options = '';
  if(limitcount == 'All'){
     options = {
@@ -554,8 +563,28 @@ getCustomersDataByName(dataSearchName) {
      LimitFrom:'"'+limitfrom+'"'
   };
  }
-    return this.getList(this.ERPObjects.TInvoiceEx, options);
-  }
+  return this.getList(this.ERPObjects.TInvoiceEx, options);
+}
+
+getAllRefundList(limitcount, limitfrom) {
+    let options = '';
+ if(limitcount == 'All'){
+    options = {
+       orderby:'"SaleID desc"',
+       ListType: "Detail",
+       select: '[Deleted]=false'
+     };
+ }else{
+   options = {
+      orderby:'"SaleID desc"',
+      ListType: "Detail",
+      select: "[Deleted]=false",
+      LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+  };
+ }
+  return this.getList(this.ERPObjects.TRefundSale, options);
+}
   // Rasheed Speed Here
   getNewProductListVS1Update(msTimeStamp) {
     let options = {
