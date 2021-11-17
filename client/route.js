@@ -1355,6 +1355,15 @@ authenticatedRoutes.route('/linktrueerp', {
     }
 });
 
+authenticatedRoutes.route('/payrollrules', {
+    name: 'payrollrules',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'payrollrules'
+        });
+    }
+});
+
 authenticatedRoutes.route('/subscriptionSettings', {
     name: 'subscriptionSettings',
     action() {
