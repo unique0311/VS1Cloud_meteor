@@ -4741,7 +4741,7 @@ Template.supplierpaymentcard.onRendered(() => {
         //       $('.fullScreenSpin').css('display','none');
         //     });
         // }
-    } else if (url.indexOf('?selectsupppo=') > 0) {
+    } else if ((url.indexOf('?selectsupppo') > 0) && (url.indexOf('&selectsuppbill') > 0) && (url.indexOf('&selectsuppcredit') > 0)) {
         var getpo_id = url.split('?selectsupppo=');
         var getbill_id = url.split('&selectsuppbill=');
         var getcredit_id = url.split('&selectsuppcredit=');
@@ -5470,7 +5470,7 @@ Template.supplierpaymentcard.events({
         var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        var url = window.location.href;
+        var url = FlowRouter.current().path;
         if ((url.indexOf('?id=') > 0)) {
             var getsale_id = url.split('?id=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
@@ -7372,15 +7372,17 @@ Template.supplierpaymentcard.events({
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
-        } else if ((url.indexOf('?selectsupppo=') > 0)) {
-            var getsale_id = url.split('?selectsupp=');
+        } else if ((url.indexOf('?selectsupppo') > 0) && (url.indexOf('&selectsuppbill') > 0) && (url.indexOf('&selectsuppcredit') > 0)) {
+            var getsale_id = url.split('?selectsupppo=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
 
             $('.tblSupplierPaymentcard > tbody > tr').each(function() {
+
                 var lineID = this.id;
-                let linetype = $('#' + lineID + " .colType").text();
-                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
-                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val();
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
+
                 let Line = {
                     type: 'TGuiSuppPaymentLines',
                     fields: {
