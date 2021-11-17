@@ -65,6 +65,9 @@ Template.settings.events({
 },
 'click .btnBackupRestore' : function(event){
  FlowRouter.go('/backuprestore');
+},
+'click .btnPayrollSettings' : function(event){
+ FlowRouter.go('/payrollrules');
 }
 
 
