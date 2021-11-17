@@ -342,7 +342,7 @@ Template.stocktransfercard.onRendered(function() {
                             let getDepartmentVal = data.fields.Lines[0].fields.TransferFromClassName || defaultDept;
 
                             setTimeout(function() {
-                                $('#sltDepartment').val(defaultDept);
+                                $('#sltDepartment').val(record.department);
                                 $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                                 $('#sltBankAccountName').val(data.fields.AccountName);
                                 $('#shipvia').val(data.fields.Shipping);
@@ -488,7 +488,7 @@ Template.stocktransfercard.onRendered(function() {
                                 let getDepartmentVal = useData[d].fields.Lines[0].fields.TransferFromClassName || defaultDept;
                                 $('.shippingHeader').html('Edit Stock Transfer #' + useData[d].fields.ID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a>');
                                 setTimeout(function() {
-                                    $('#sltDepartment').val(defaultDept);
+                                    $('#sltDepartment').val(record.department);
                                     $('#edtCustomerName').val(useData[d].fields.Lines[0].fields.CustomerName);
                                     $('#sltBankAccountName').val(useData[d].fields.AccountName);
                                     $('#shipvia').val(useData[d].fields.Shipping);
@@ -607,7 +607,7 @@ Template.stocktransfercard.onRendered(function() {
                                 let getDepartmentVal = data.fields.Lines[0].fields.TransferFromClassName || defaultDept;
 
                                 setTimeout(function() {
-                                    $('#sltDepartment').val(defaultDept);
+                                    $('#sltDepartment').val(record.department);
                                     $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                                     $('#sltBankAccountName').val(data.fields.AccountName);
                                     $('#shipvia').val(data.fields.Shipping);
@@ -733,7 +733,7 @@ Template.stocktransfercard.onRendered(function() {
                         let getDepartmentVal = data.fields.Lines[0].fields.TransferFromClassName || defaultDept;
 
                         setTimeout(function() {
-                            $('#sltDepartment').val(defaultDept);
+                            $('#sltDepartment').val(record.department);
                             $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                             $('#sltBankAccountName').val(data.fields.AccountName);
                             $('#shipvia').val(data.fields.Shipping);
@@ -2436,7 +2436,10 @@ Template.stocktransfercard.events({
              + '</td><td>' + '</td>'
              + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNoBOM" id="serialNoBOM" class="highlightInput " value="'+scannedCode+'" readonly>' + '</td><td class="hiddenColumn"><input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+segsSerial[s]+'" readonly></td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
              + '</tr>';
-             $("#serailscanlist").append(htmlAppend);
+             if(segsSerial[s] != ''){
+               $("#serailscanlist").append(htmlAppend);
+             }
+
         }
         //templateObject.getProductQty(targetID, productName);
 

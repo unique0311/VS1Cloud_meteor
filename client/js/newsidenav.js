@@ -918,6 +918,14 @@ Template.newsidenav.onRendered(function() {
         });
     }
 
+    templateObject.getAllRefundListData = function() {
+        sideBarService.getAllRefundList(initialDataLoad, 0).then(function(data) {
+            addVS1Data('TRefundSale', JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
     templateObject.getAllBackOrderInvoicetData = function() {
         sideBarService.getAllBackOrderInvoiceList(initialDataLoad,0).then(function(data) {
             addVS1Data('TInvoiceBackOrder',JSON.stringify(data));
@@ -1993,6 +2001,29 @@ Template.newsidenav.onRendered(function() {
                     }
                 }).catch(function(err) {
                     templateObject.getAllSalesOrderExListData();
+                });
+
+                getVS1Data('TRefundSale').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllRefundListData();
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.trefundsale;
+                        if (useData[0].Id) {
+                            templateObject.getAllRefundListData();
+                        } else {
+                            let getTimeStamp = dataObject[0].timestamp.split(' ');
+                            if (getTimeStamp) {
+                                if (loggedUserEventFired) {
+                                    if (getTimeStamp[0] != currenctTodayDate) {
+                                        templateObject.getAllRefundListData();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }).catch(function(err) {
+                    templateObject.getAllRefundListData();
                 });
 
 
