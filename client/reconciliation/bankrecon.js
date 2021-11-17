@@ -101,8 +101,9 @@ Template.bankrecon.onRendered(function() {
             }
             // Session - set account dropdown BEGIN
 
-            //setTimeout(function() {
+            setTimeout(function() {
                 let bankaccountid = Session.get('bankaccountid') || '';
+                //alert(bankaccountid);
                 if (bankaccountid != '') {
                     $('#bankAccountName').val(bankaccountid);
                     templateObject.getReconcileDeposit(bankaccountid);
@@ -112,7 +113,7 @@ Template.bankrecon.onRendered(function() {
                 }else{
                   $('.fullScreenSpin').css('display', 'none');
                 }
-            //}, 10);
+            }, 10);
 
             // Session - set account dropdown END
             // $('.fullScreenSpin').css('display', 'none');
