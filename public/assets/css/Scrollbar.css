@@ -262,6 +262,7 @@ overflow-y: auto;
 .btnRefreshAlert {
     -webkit-animation: flash linear 1s infinite;
     animation: flash linear 1s infinite;
+    margin-bottom: 36px !important;
 }
 
 .btnSearchAlert {
