@@ -2459,6 +2459,15 @@ Template.bankrecon.events({
                 if ($("#" + depID + "_desc").text() == "Customer Payment") {
                     deppaymentid = depID;
                 }
+
+                if(FlowRouter.current().queryParams.id){
+
+                }else{
+                  if ($("#" + depID + "_desc").text() == "Cheque Deposit") {
+                      deppaymentid = depID;
+                  }
+                }
+
                 // else if($("#"+depID+"_desc").text() == "Journal Entry"){
                 //   deppaymentid = depID;
                 // }
@@ -2627,6 +2636,14 @@ Template.bankrecon.events({
                 let depaccountname = $('#bankAccountName').find(":selected").text() || '';
                 if ($("#" + depID + "_desc").text() == "Customer Payment") {
                     deppaymentid = depID;
+                }
+
+                if(FlowRouter.current().queryParams.id){
+
+                }else{
+                  if ($("#" + depID + "_desc").text() == "Cheque Deposit") {
+                      deppaymentid = depID;
+                  }
                 }
                 // else if($("#"+depID+"_desc").text() == "Journal Entry"){
                 //   deppaymentid = depID;

@@ -104,13 +104,7 @@ Template.header.onRendered(function() {
             document.getElementById("mobileBarcodeScan2").style.display = "block";
     }
 
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader-global", {
-            fps: 10,
-            qrbox: 250,
-            rememberLastUsedCamera: true
-        });
-    html5QrcodeScanner.render(onScanSuccess);
+
 
     $("#scanBarcode").click(function() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -120,20 +114,6 @@ Template.header.onRendered(function() {
         }
     });
 
-    function onScanSuccess(decodedText, decodedResult) {
-        var barcodeScanner = decodedText.toUpperCase();
-        $('#scanBarcodeModalHeader').modal('toggle');
-        if (barcodeScanner != '') {
-            //$('.txtGlobalSearchMobile').val(barcode).trigger("change");
-            //var searchData = $('.txtGlobalSearchMobile').val().toLowerCase();
-            setTimeout(function() {
-                $('#tblSearchOverview_filter .form-control-sm').val(barcodeScanner);
-            }, 200);
-
-                templateObject.getAllGlobalSearch(barcodeScanner);
-
-        }
-    }
 
     templateObject.getAllGlobalSearch = function(searchName) {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -470,8 +450,6 @@ Template.header.onRendered(function() {
 
 
                 });
-
-
 
 
             }).catch(function(err) {
@@ -889,6 +867,29 @@ Template.header.onRendered(function() {
 
 
 
+    function onScanSuccess(decodedText, decodedResult) {
+        var barcodeScanner = decodedText.toUpperCase();
+        $('#scanBarcodeModalHeader').modal('toggle');
+        if (barcodeScanner != '') {
+            //$('.txtGlobalSearchMobile').val(barcode).trigger("change");
+            //var searchData = $('.txtGlobalSearchMobile').val().toLowerCase();
+            setTimeout(function() {
+                $('#tblSearchOverview_filter .form-control-sm').val(barcodeScanner);
+            }, 200);
+
+                templateObject.getAllGlobalSearch(barcodeScanner);
+
+        }
+    }
+
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader-global", {
+            fps: 10,
+            qrbox: 250,
+            rememberLastUsedCamera: true
+        });
+    html5QrcodeScanner.render(onScanSuccess);
 
 
     if (sidePanelToggle) {

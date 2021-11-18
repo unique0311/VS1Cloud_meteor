@@ -286,6 +286,7 @@ Template.paymentcard.onRendered(() => {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tpaymentmethodvs1;
+                console.log(useData);
                 for (let i in useData) {
 
                     let paymentmethodrecordObj = {
