@@ -9,15 +9,20 @@
                 <div class="card-body p-1 rounded">
                     <div class="table-responsive">
                         <style>
+                            .dataTables_scrollHeadInner {
+                                width: 100% !important;
+                            }
+                            .paymentmethodList {
+                                width: 100% !important;
+                            }
                             .colNamePopUp {
                                 width: 90% !important;
                             }
-
                             .colCreditCardPopUp {
                                 width: 10% !important;
                             }
                         </style>
-                        <table id="paymentmethodList" name="paymentmethodList" style="width:100%" class="dataTable table table-hover table-striped table-bordered paymentmethodList">
+                        <table id="paymentmethodList" name="paymentmethodList" style="width:100% !important;" class="dataTable table table-hover table-striped table-bordered paymentmethodList">
                             <thead>
                                 <tr class="dnd-moved">
                                     <th class="th colName colNamePopUp" style="width: 90% !important;">Name</th>

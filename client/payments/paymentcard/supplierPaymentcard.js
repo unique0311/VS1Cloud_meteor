@@ -2927,7 +2927,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         templateObject.record.set(record);
 
                         let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
-                        let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        let getPaymentMethodVal = '';
+
+                        if (Session.get('paymentmethod')) {
+                            getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        } else {
+                            getPaymentMethodVal = data.fields.PayMethod || '';
+                        }
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         let bankAccountData = Session.get('bankaccount') || 'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
@@ -3051,7 +3057,13 @@ Template.supplierpaymentcard.onRendered(() => {
                             templateObject.record.set(record);
 
                             let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName || defaultDept;
-                            let getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
+                            let getPaymentMethodVal = '';
+
+                            if (Session.get('paymentmethod')) {
+                                getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
+                            } else {
+                                getPaymentMethodVal = useData[d].fields.PayMethod || '';
+                            }
 
                             let bankAccountData = Session.get('bankaccount') || 'Bank';
                             $('#edtSelectBankAccountName').val(bankAccountData);
@@ -3174,7 +3186,13 @@ Template.supplierpaymentcard.onRendered(() => {
                             templateObject.record.set(record);
 
                             let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                            let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                            let getPaymentMethodVal = '';
+
+                            if (Session.get('paymentmethod')) {
+                                getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                            } else {
+                                getPaymentMethodVal = data.fields.PayMethod || '';
+                            }
 
                             //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                             $('#edtSupplierName').val(data.fields.ClientName);
@@ -3296,7 +3314,13 @@ Template.supplierpaymentcard.onRendered(() => {
                     templateObject.record.set(record);
 
                     let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                    let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    let getPaymentMethodVal = '';
+
+                    if (Session.get('paymentmethod')) {
+                        getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    } else {
+                        getPaymentMethodVal = data.fields.PayMethod || '';
+                    }
 
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
@@ -3424,7 +3448,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         templateObject.record.set(record);
 
                         let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                        let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        let getPaymentMethodVal = '';
+
+                        if (Session.get('paymentmethod')) {
+                            getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        } else {
+                            getPaymentMethodVal = data.fields.PayMethod || '';
+                        }
 
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
@@ -3547,9 +3577,14 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             };
                             templateObject.record.set(record);
-
                             let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName || defaultDept;
-                            let getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
+                            let getPaymentMethodVal = '';
+
+                            if (Session.get('paymentmethod')) {
+                                getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
+                            } else {
+                                getPaymentMethodVal = useData[d].fields.PayMethod || '';
+                            }
 
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
@@ -3672,7 +3707,13 @@ Template.supplierpaymentcard.onRendered(() => {
                     templateObject.record.set(record);
 
                     let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                    let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    let getPaymentMethodVal = '';
+
+                    if (Session.get('paymentmethod')) {
+                        getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    } else {
+                        getPaymentMethodVal = data.fields.PayMethod || '';
+                    }
 
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
@@ -3799,7 +3840,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         templateObject.record.set(record);
                         let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                        let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        let getPaymentMethodVal = '';
+
+                        if (Session.get('paymentmethod')) {
+                            getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        } else {
+                            getPaymentMethodVal = data.fields.PayMethod || '';
+                        }
 
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
@@ -3921,7 +3968,13 @@ Template.supplierpaymentcard.onRendered(() => {
                             templateObject.record.set(record);
 
                             let getDepartmentVal = Session.get('department') || useData[d].fields.DeptClassName || defaultDept;
-                            let getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
+                            let getPaymentMethodVal = '';
+
+                            if (Session.get('paymentmethod')) {
+                                getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
+                            } else {
+                                getPaymentMethodVal = useData[d].fields.PayMethod || '';
+                            }
 
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
@@ -4041,7 +4094,13 @@ Template.supplierpaymentcard.onRendered(() => {
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                    let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    let getPaymentMethodVal = '';
+
+                    if (Session.get('paymentmethod')) {
+                        getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    } else {
+                        getPaymentMethodVal = data.fields.PayMethod || '';
+                    }
 
                     $('#sltDepartment').val(getDepartmentVal);
                     $('#sltPaymentMethod').val(getPaymentMethodVal);
@@ -4502,7 +4561,13 @@ Template.supplierpaymentcard.onRendered(() => {
                 };
                 templateObject.record.set(record);
                 let getDepartmentVal = Session.get('department') || data.fields.DeptClassName;
-                let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                let getPaymentMethodVal = '';
+
+                if (Session.get('paymentmethod')) {
+                    getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                } else {
+                    getPaymentMethodVal = data.fields.PayMethod || '';
+                }
                 //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                 $('#edtSupplierName').val(data.fields.ClientName);
                 $('#sltDepartment').val(getDepartmentVal)
@@ -4813,7 +4878,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         templateObject.record.set(record);
 
                         let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                        let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        let getPaymentMethodVal = '';
+
+                        if (Session.get('paymentmethod')) {
+                            getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        } else {
+                            getPaymentMethodVal = data.fields.PayMethod || '';
+                        }
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         $('#sltDepartment').val(getDepartmentVal);
@@ -4936,7 +5007,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         templateObject.record.set(record);
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                        let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        let getPaymentMethodVal = '';
+
+                        if (Session.get('paymentmethod')) {
+                            getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        } else {
+                            getPaymentMethodVal = data.fields.PayMethod || '';
+                        }
                         $('#sltDepartment').val(getDepartmentVal);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         $('#sltPaymentMethod').val(getPaymentMethodVal);
@@ -5058,7 +5135,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         templateObject.record.set(record);
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                        let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        let getPaymentMethodVal = '';
+
+                        if (Session.get('paymentmethod')) {
+                            getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                        } else {
+                            getPaymentMethodVal = data.fields.PayMethod || '';
+                        }
                         $('#sltDepartment').val(getDepartmentVal);
                         $('#edtSupplierName').val(data.fields.ClientName);
                         $('#sltPaymentMethod').val(getPaymentMethodVal);
@@ -5180,7 +5263,13 @@ Template.supplierpaymentcard.onRendered(() => {
                     templateObject.record.set(record);
                     //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                     let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
-                    let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    let getPaymentMethodVal = '';
+
+                    if (Session.get('paymentmethod')) {
+                        getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                    } else {
+                        getPaymentMethodVal = data.fields.PayMethod || '';
+                    }
                     $('#sltDepartment').val(getDepartmentVal);
                     $('#edtSupplierName').val(data.fields.ClientName);
                     $('#sltPaymentMethod').val(getPaymentMethodVal);
