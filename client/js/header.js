@@ -104,6 +104,14 @@ Template.header.onRendered(function() {
             document.getElementById("mobileBarcodeScan2").style.display = "block";
     }
 
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader-global", {
+            fps: 10,
+            qrbox: 250,
+            rememberLastUsedCamera: true
+        });
+    html5QrcodeScanner.render(onScanSuccess);
+
     $("#scanBarcode").click(function() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
