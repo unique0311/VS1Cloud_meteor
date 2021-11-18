@@ -590,6 +590,8 @@ Template.appointments.onRendered(function () {
                     }
                     templateObject.getAllProductData();
                     if (result[0].aStartTime != '' && result[0].aEndTime != '') {
+                        console.log(result[0].aStartTime);
+                        console.log(result[0].aEndTime);
                         var startTime = moment(result[0].aStartDate + ' ' + result[0].aStartTime);
                         var endTime = moment(result[0].aEndDate + ' ' + result[0].aEndTime);
                         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
@@ -1657,7 +1659,7 @@ Template.appointments.onRendered(function () {
                             aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
                             aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
                             aStartDate: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[0] || '',
-                            aEndTDate: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[0] || '',
+                            aEndDate: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[0] || '',
                             actualHours: '',
                             closebalance: '',
                             rate: data.tappointmentex[i].fields.Rate || 1,
@@ -3146,7 +3148,7 @@ Template.appointments.onRendered(function () {
                         aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
                         aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
                         aStartDate: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[0] || '',
-                        aEndTDate: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[0] || '',
+                        aEndDate: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[0] || '',
                         actualHours: '',
                         closebalance: '',
                         rate: data.tappointmentex[i].fields.Rate || 1,
@@ -7924,7 +7926,10 @@ Template.appointments.events({
                                                             Hours: parseFloat($('#txtActualHoursSpent').val()) || 1,
                                                             // OverheadRate: 90,
                                                             Job: clientname || '',
+                                                            StartTime: aStartDate,
+                                                            EndTime: aEndDate,
                                                             // ServiceName: "Test"|| '',
+
                                                             TimeSheetClassName: "Default" || '',
                                                             Notes: notes || ''
                                                             // EntryDate: accountdesc|| ''
@@ -7978,6 +7983,8 @@ Template.appointments.events({
                                                         Hours: parseFloat($('#txtActualHoursSpent').val()) || 1,
                                                         // OverheadRate: 90,
                                                         Job: clientname || '',
+                                                        StartTime: aStartDate,
+                                                        EndTime: aEndDate,
                                                         // ServiceName: "Test"|| '',
                                                         TimeSheetClassName: "Default" || '',
                                                         Notes: notes || ''
