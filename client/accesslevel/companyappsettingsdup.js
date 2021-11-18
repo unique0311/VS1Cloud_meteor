@@ -1,5 +1,11 @@
-import { ReactiveVar } from 'meteor/reactive-var';
-import {UtilityService} from "../utility-service";
+import {
+    ReactiveVar
+}
+from 'meteor/reactive-var';
+import {
+    UtilityService
+}
+from "../utility-service";
 let utilityService = new UtilityService();
 Template.companyappsettingsdup.onCreated(() => {
     const templateObject = Template.instance();
@@ -171,12 +177,12 @@ Template.companyappsettingsdup.onRendered(function () {
             for (let i = 0; i < data.tvs1licenselevelsnmodules.length; i++) {
 
                 if (data.tvs1licenselevelsnmodules[i].Region == regionData) {
-                  let tvs1ModulePrice = data.tvs1licenselevelsnmodules[i].Price || 0;
-                  if(data.tvs1licenselevelsnmodules[i].ModuleName == "Add Extra User"){
-                    if(isPurchasedTrueERPModule == 'true'){
-                       tvs1ModulePrice = data.tvs1licenselevelsnmodules[i].isPurchasedTrueERPPrice || 0;
+                    let tvs1ModulePrice = data.tvs1licenselevelsnmodules[i].Price || 0;
+                    if (data.tvs1licenselevelsnmodules[i].ModuleName == "Add Extra User") {
+                        if (isPurchasedTrueERPModule == 'true') {
+                            tvs1ModulePrice = data.tvs1licenselevelsnmodules[i].isPurchasedTrueERPPrice || 0;
+                        }
                     }
-                  }
                     recordObj = {
                         type: data.tvs1licenselevelsnmodules[i].TYPE,
                         region: data.tvs1licenselevelsnmodules[i].Region,
@@ -487,7 +493,7 @@ Template.companyappsettingsdup.events({
                     paymentAmount = 32.5;
                 }
 
-             lineItemObjForm = {
+                lineItemObjForm = {
                     ModuleName: "Essentials" || '',
                     Price: paymentAmount.toFixed(2),
                     DiscountedPrice: paymentAmount.toFixed(2),
@@ -523,32 +529,29 @@ Template.companyappsettingsdup.events({
                 };
                 lineItemsForm1.push(lineItemObjForm);
             }
-                //paymentAmount = 25;
-            } else if (cloudPackageCheck == "Simple Start") {
-                if (getCurrenUserPack == "trialPack") {
-                    paymentAmount = 75;
-                } else if (getCurrenUserPack == "subPack") {
-                    paymentAmount = 57.5;
-                } else {
-                    paymentAmount = 57.5;
-                }
-                lineItemObjForm = {
-                    ModuleName: "Simple Start" || '',
-                    Price: paymentAmount.toFixed(2),
-                    DiscountedPrice: paymentAmount.toFixed(2),
-                    RenewPrice: paymentAmount.toFixed(2),
-                    RenewDiscountedPrice: paymentAmount.toFixed(2),
-                    RenewDiscountDesc: 1
-
-                };
-                lineItemsForm1.push(lineItemObjForm);
-                //paymentAmount = 50;
-
+            //paymentAmount = 25;
+        } else if (cloudPackageCheck == "Simple Start") {
+            if (getCurrenUserPack == "trialPack") {
+                paymentAmount = 75;
+            } else if (getCurrenUserPack == "subPack") {
+                paymentAmount = 57.5;
+            } else {
+                paymentAmount = 57.5;
             }
-            accessLevel = 3;
+            lineItemObjForm = {
+                ModuleName: "Simple Start" || '',
+                Price: paymentAmount.toFixed(2),
+                DiscountedPrice: paymentAmount.toFixed(2),
+                RenewPrice: paymentAmount.toFixed(2),
+                RenewDiscountedPrice: paymentAmount.toFixed(2),
+                RenewDiscountDesc: 1
 
+            };
+            lineItemsForm1.push(lineItemObjForm);
+            //paymentAmount = 50;
 
-
+        }
+        accessLevel = 3;
 
         $('.additionalModule:checkbox:checked').each(function () {
             userQuantity = $(this).attr('additionalqty');
@@ -584,7 +587,6 @@ Template.companyappsettingsdup.events({
         });
 
         grandTotal = paymentAmount + totalAdditions;
-
 
         var erpGet = erpDb();
         let objDetailsUser = "";
@@ -634,9 +636,9 @@ Template.companyappsettingsdup.events({
         let name = Session.get('mySessionEmployee').split(' ')[0];
         let surname = Session.get('mySessionEmployee').split(' ')[1];
 
-        if(lineItemsForm.length > 0) {
+        if (lineItemsForm.length > 0) {
             for (let i = 0; i < lineItemsForm.length; i++) {
-            lineItemObjForm = {
+                lineItemObjForm = {
                     ModuleName: lineItemsForm[i].ModuleName || '',
                     Price: lineItemsForm[i].Price.toFixed(2),
                     DiscountedPrice: lineItemsForm[i].DiscountedPrice.toFixed(2),
@@ -645,9 +647,9 @@ Template.companyappsettingsdup.events({
                     RenewDiscountDesc: lineItemsForm[i].RenewDiscountDesc
 
                 };
-                lineItemsForm1[i]=lineItemObjForm;
+                lineItemsForm1[i] = lineItemObjForm;
+            }
         }
-    }
 
         for (let l = 0; l < lineItemsForm1.length; l++) {
             stringQuery = stringQuery + "product" + l + "=" + lineItemsForm1[l].ModuleName + "&price" + l + "=" + Currency + lineItemsForm1[l].Price + "&qty" + l + "=" + lineItemsForm1[l].RenewDiscountDesc + "&";
@@ -685,7 +687,7 @@ Template.companyappsettingsdup.events({
                     if (getLasTDatabase) {
                         deleteStoreDatabase(getLasTDatabase).then(function (data) {
                             $.ajax({
-                                url: stripeGlobalURL +'vs1_module_purchase.php',
+                                url: stripeGlobalURL + 'vs1_module_purchase.php',
                                 data: {
                                     'email': Session.get('VS1AdminUserName'),
                                     'price': newStripePrice.replace('.', ''),
@@ -693,33 +695,75 @@ Template.companyappsettingsdup.events({
                                 },
                                 method: 'post',
                                 success: function (response) {
-                                    $('.fullScreenSpin').css('display', 'none');
                                     let response2 = JSON.parse(response);
                                     if (response2 != null) {
-                                        swal({
-                                            title: 'Payment Successful',
-                                            text: "Please log out to activate your changes.",
-                                            type: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonText: 'OK'
-                                        }).then((result) => {
-                                            //if (result.value) {
-                                            window.open('/', '_self');
-                                            //} else if (result.dismiss === 'cancel') {
+                                        $.ajax({
+                                            url: stripeGlobalURL + 'update.php',
+                                            data: {
+                                                'email': Session.get('VS1AdminUserName'),
+                                                'products': JSON.stringify(lineItemsForm1),
+                                                'price': newStripePrice.replace('.', ''),
+                                                'update_price': newStripePrice,
+                                                'currency': currencyname
+                                            },
+                                            method: 'post',
+                                            success: function (responseFinal) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                                if (responseFinal == "success") {
+                                                    swal({
+                                                        title: 'Payment Successful',
+                                                        text: "Please log out to activate your changes.",
+                                                        type: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonText: 'OK'
+                                                    }).then((result) => {
+                                                        //if (result.value) {
+                                                        window.open('/', '_self');
+                                                        //} else if (result.dismiss === 'cancel') {
 
-                                            //}
+                                                        //}
+                                                    });
+                                                } else {
+                                                      swal({
+                                                        title: 'Payment Successful',
+                                                        text: "Please log out to activate your changes.",
+                                                        type: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonText: 'OK'
+                                                    }).then((result) => {
+                                                        //if (result.value) {
+                                                        window.open('/', '_self');
+                                                        //} else if (result.dismiss === 'cancel') {
+
+                                                        //}
+                                                    });
+                                                }
+                                            }
                                         });
+                                        // swal({
+                                        //     title: 'Payment Successful',
+                                        //     text: "Please log out to activate your changes.",
+                                        //     type: 'success',
+                                        //     showCancelButton: false,
+                                        //     confirmButtonText: 'OK'
+                                        // }).then((result) => {
+                                        //     //if (result.value) {
+                                        //     window.open('/', '_self');
+                                        //     //} else if (result.dismiss === 'cancel') {
+
+                                        //     //}
+                                        // });
                                     } else {
-                                       window.open(stripeGlobalURL + stringQuery, '_self');
+                                        window.open(stripeGlobalURL + stringQuery, '_self');
                                     }
                                 }
                             });
                         }).catch(function (err) {
-                           window.open(stripeGlobalURL + stringQuery, '_self');
+                            window.open(stripeGlobalURL + stringQuery, '_self');
                         });
                     } else {
                         $.ajax({
-                            url: stripeGlobalURL +'vs1_module_purchase.php',
+                            url: stripeGlobalURL + 'vs1_module_purchase.php',
                             data: {
                                 'email': Session.get('VS1AdminUserName'),
                                 'price': newStripePrice.replace('.', ''),
@@ -850,33 +894,31 @@ Template.companyappsettingsdup.events({
             } else if (oPost.readyState == 4 && oPost.status == 401) {
                 $('.fullScreenSpin').css('display', 'none');
                 var ErrorResponse = oPost.getResponseHeader('errormessage');
-                if (ErrorResponse.indexOf("Could not connect to ERP") >= 0){
-                  swal({
-                    title: 'Oooops...',
-                    text: "Could not connect to Database. Unable to start Database. Licence on hold ",
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
+                if (ErrorResponse.indexOf("Could not connect to ERP") >= 0) {
+                    swal({
+                        title: 'Oooops...',
+                        text: "Could not connect to Database. Unable to start Database. Licence on hold ",
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
                     }).then((result) => {
-                    if (result.value) {
-                      Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                  });
-                }else{
-                swal({
-                    title: 'Oooops...',
-                    text: oPost.getResponseHeader('errormessage'),
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                        // Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {}
-                });
-              }
+                        if (result.value) {
+                            Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                } else {
+                    swal({
+                        title: 'Oooops...',
+                        text: oPost.getResponseHeader('errormessage'),
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            // Meteor._reload.reload();
+                        } else if (result.dismiss === 'cancel') {}
+                    });
+                }
             } else if (oPost.readyState == '') {
                 $('.fullScreenSpin').css('display', 'none');
 
