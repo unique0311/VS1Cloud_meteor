@@ -59,7 +59,6 @@ Template.addcustomerpop.onCreated(function () {
 
 
 Template.addcustomerpop.onRendered(function () {
-    $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let contactService = new ContactService();
     var countryService = new CountryService();
@@ -407,9 +406,9 @@ Template.addcustomerpop.onRendered(function () {
                 $('.customerTab').addClass('active');
                 $('.customerTab').trigger('click');
             }
-            $('.fullScreenSpin').css('display', 'none');
+            
         }, 500);
-        $('.fullScreenSpin').css('display', 'none');
+        
 
 
     templateObject.getCustomersList = function () {
@@ -612,7 +611,7 @@ Template.addcustomerpop.events({
         let typeDesc = $('#txaDescription').val() || '';
         if (custType === '') {
             swal('Client Type name cannot be blank!', '', 'warning');
-            $('.fullScreenSpin').css('display', 'none');
+            
             e.preventDefault();
         } else {
             let objDetails = {
@@ -648,7 +647,7 @@ Template.addcustomerpop.events({
 
                     }
                 });
-                $('.fullScreenSpin').css('display', 'none');
+                
             });
         }
 
@@ -688,7 +687,7 @@ Template.addcustomerpop.events({
 
         //                 }
         //             });
-        //             $('.fullScreenSpin').css('display','none');
+        //            
         //         });
 
         //     }).catch(function (err) {
@@ -719,7 +718,7 @@ Template.addcustomerpop.events({
 
         //                 }
         //             });
-        //             $('.fullScreenSpin').css('display','none');
+        //            
         //         });
         //     });
 
@@ -753,7 +752,7 @@ Template.addcustomerpop.events({
 
         //             }
         //         });
-        //         $('.fullScreenSpin').css('display','none');
+        //        
         //     });
         // }
 
@@ -1006,7 +1005,7 @@ Template.addcustomerpop.events({
 
         contactService.saveCustomerEx(objDetails).then(function (objDetails) {
             let customerSaveID = objDetails.fields.ID;
-            $('.fullScreenSpin').css('display', 'none');
+            
             if (customerSaveID) {
                 var currentLoc = FlowRouter.current().route.path;
                 if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -1063,7 +1062,7 @@ Template.addcustomerpop.events({
 
                 }
             });
-            $('.fullScreenSpin').css('display', 'none');
+            
         });
 
     },
@@ -1306,7 +1305,7 @@ Template.addcustomerpop.events({
 
                 }
             });
-            $('.fullScreenSpin').css('display', 'none');
+            
         });
 
     },
@@ -1536,24 +1535,24 @@ Template.addcustomerpop.events({
     'click #exportbtn': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblTransactionlist_wrapper .dt-buttons .btntabletocsv').click();
-        $('.fullScreenSpin').css('display', 'none');
+        
 
     },
     'click .printConfirm': function (event) {
 
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblTransactionlist_wrapper .dt-buttons .btntabletopdf').click();
-        $('.fullScreenSpin').css('display', 'none');
+        
     },
     'click #exportbtnJob': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblJoblist_wrapper .dt-buttons .btntabletocsv').click();
-        $('.fullScreenSpin').css('display', 'none');
+        
     },
     'click .printConfirmJob': function (event) {
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblJoblist_wrapper .dt-buttons .btntabletopdf').click();
-        $('.fullScreenSpin').css('display', 'none');
+        
     },
     'click .btnRefresh': function () {
         Meteor._reload.reload();
@@ -2261,7 +2260,7 @@ Template.addcustomerpop.events({
 
                     }
                 });
-                $('.fullScreenSpin').css('display', 'none');
+                
             });
         } else {
             FlowRouter.go('/customerlist?success=true');

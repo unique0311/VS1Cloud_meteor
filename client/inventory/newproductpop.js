@@ -41,7 +41,6 @@ Template.newproductpop.onCreated(()=>{
 
 
 Template.newproductpop.onRendered(function() {
-    $('.fullScreenSpin').css('display','inline-block');
     let templateObject = Template.instance();
     let productService = new ProductService();
     const records =[];
@@ -317,7 +316,6 @@ Template.newproductpop.onRendered(function() {
           getVS1Data('TProductVS1').then(function (dataObject) {
             if(dataObject.length == 0){
               productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                  $('.fullScreenSpin').css('display','none');
                   let lineItems = [];
                   let lineItemObj = {};
                   let currencySymbol = Currency;
@@ -394,7 +392,7 @@ Template.newproductpop.onRendered(function() {
                   templateObject.records.set(productrecord);
               }).catch(function (err) {
 
-                  $('.fullScreenSpin').css('display','none');
+                 
               });
             }else{
               let data = JSON.parse(dataObject[0].data);
@@ -405,7 +403,7 @@ Template.newproductpop.onRendered(function() {
               for(let i=0; i<useData.length; i++){
                 if(parseInt(useData[i].fields.ID) === currentProductID){
                   added = true;
-                  $('.fullScreenSpin').css('display','none');
+                  
                   let lineItems = [];
                   let lineItemObj = {};
                   let currencySymbol = Currency;
@@ -483,7 +481,7 @@ Template.newproductpop.onRendered(function() {
               }
               if(!added) {
                 productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                    $('.fullScreenSpin').css('display','none');
+                    
                     let lineItems = [];
                     let lineItemObj = {};
                     let currencySymbol = Currency;
@@ -559,13 +557,13 @@ Template.newproductpop.onRendered(function() {
                     templateObject.records.set(productrecord);
                 }).catch(function (err) {
 
-                    $('.fullScreenSpin').css('display','none');
+                   
                 });
               }
             }
           }).catch(function (err) {
             productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                $('.fullScreenSpin').css('display','none');
+               
                 let lineItems = [];
                 let lineItemObj = {};
                 let currencySymbol = Currency;
@@ -642,7 +640,7 @@ Template.newproductpop.onRendered(function() {
                 templateObject.records.set(productrecord);
             }).catch(function (err) {
 
-                $('.fullScreenSpin').css('display','none');
+               
             });
           });
 
@@ -702,7 +700,7 @@ Template.newproductpop.onRendered(function() {
 
         templateObject.getProductClassQtyData = function () {
             productService.getOneProductClassQtyData(currentProductID).then(function (data) {
-                $('.fullScreenSpin').css('display','none');
+               
                 let qtylineItems = [];
                 let qtylineItemObj = {};
                 let currencySymbol = Currency;
@@ -722,7 +720,7 @@ Template.newproductpop.onRendered(function() {
 
             }).catch(function (err) {
 
-                $('.fullScreenSpin').css('display','none');
+               
             });
 
         }
@@ -770,7 +768,7 @@ Template.newproductpop.onRendered(function() {
 
                     });
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('.fullScreenSpin').css('display','none');
+                   
 
                 }, 0);
 
@@ -797,10 +795,10 @@ Template.newproductpop.onRendered(function() {
                 });
 
                 $('.product_recent_trans').css('display','block');
-                $('.fullScreenSpin').css('display','none');
+               
             }).catch(function (err) {
 
-                $('.fullScreenSpin').css('display','none');
+               
                 $('.product_recent_trans').css('display','block');
 
                 //Bert.alert('<strong>' + err + '</strong>!', 'deleting products failed');
@@ -912,7 +910,7 @@ Template.newproductpop.onRendered(function() {
         //}, 500);
 
 
-        $('.fullScreenSpin').css('display','none');
+       
 
         setTimeout(function () {
             $('.recenttrasaction').css('display','none');
@@ -1051,7 +1049,7 @@ Template.newproductpop.events({
                 getVS1Data('TProductVS1').then(function (dataObject) {
                   if(dataObject.length == 0){
                     productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                        $('.fullScreenSpin').css('display','none');
+                       
                         let lineItems = [];
                         let lineItemObj = {};
                         let currencySymbol = Currency;
@@ -1128,7 +1126,7 @@ Template.newproductpop.events({
                         templateObject.records.set(productrecord);
                     }).catch(function (err) {
 
-                        $('.fullScreenSpin').css('display','none');
+                       
                     });
                   }else{
                     let data = JSON.parse(dataObject[0].data);
@@ -1139,7 +1137,7 @@ Template.newproductpop.events({
                     for(let i=0; i<useData.length; i++){
                       if(parseInt(useData[i].fields.ID) === currentProductID){
                         added = true;
-                        $('.fullScreenSpin').css('display','none');
+                       
                         let lineItems = [];
                         let lineItemObj = {};
                         let currencySymbol = Currency;
@@ -1217,7 +1215,7 @@ Template.newproductpop.events({
                     }
                     if(!added) {
                       productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                          $('.fullScreenSpin').css('display','none');
+                         
                           let lineItems = [];
                           let lineItemObj = {};
                           let currencySymbol = Currency;
@@ -1293,13 +1291,13 @@ Template.newproductpop.events({
                           templateObject.records.set(productrecord);
                       }).catch(function (err) {
 
-                          $('.fullScreenSpin').css('display','none');
+                         
                       });
                     }
                   }
                 }).catch(function (err) {
                   productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                      $('.fullScreenSpin').css('display','none');
+                     
                       let lineItems = [];
                       let lineItemObj = {};
                       let currencySymbol = Currency;
@@ -1376,7 +1374,7 @@ Template.newproductpop.events({
                       templateObject.records.set(productrecord);
                   }).catch(function (err) {
 
-                      $('.fullScreenSpin').css('display','none');
+                     
                   });
                 });
 
@@ -1436,7 +1434,7 @@ Template.newproductpop.events({
 
               templateObject.getProductClassQtyData = function () {
                   productService.getOneProductClassQtyData(currentProductID).then(function (data) {
-                      $('.fullScreenSpin').css('display','none');
+                     
                       let qtylineItems = [];
                       let qtylineItemObj = {};
                       let currencySymbol = Currency;
@@ -1456,7 +1454,7 @@ Template.newproductpop.events({
 
                   }).catch(function (err) {
 
-                      $('.fullScreenSpin').css('display','none');
+                     
                   });
 
               }
@@ -1481,10 +1479,10 @@ Template.newproductpop.events({
                           recentTransList.push(recentTranObject);
                       }
 
-                      $('.fullScreenSpin').css('display','none');
+                     
                   }).catch(function (err) {
 
-                      $('.fullScreenSpin').css('display','none');
+                     
                       $('.product_recent_trans').css('display','block');
 
                       //Bert.alert('<strong>' + err + '</strong>!', 'deleting products failed');
@@ -1526,7 +1524,7 @@ Template.newproductpop.events({
 
         if(productName == ''){
             swal('Please provide product Name !', '', 'warning');
-            $('.fullScreenSpin').css('display','none');
+           
             e.preventDefault();
             return false;
         }
@@ -1535,7 +1533,7 @@ Template.newproductpop.events({
         let  TaxCodeSales    = $("#slttaxcodesales").val();
         if(TaxCodePurchase == '' || TaxCodeSales == '' ){
             swal('Please fill Tax rate !', '', 'warning');
-            $('.fullScreenSpin').css('display','none');
+           
             e.preventDefault();
             return false;
         }
@@ -1648,7 +1646,7 @@ Template.newproductpop.events({
 
               });
               var productSaveID = objDetails.fields.ID;
-              $('.fullScreenSpin').css('display', 'none');
+              
               var currentLoc = FlowRouter.current().route.path;
 
               if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -1800,7 +1798,7 @@ Template.newproductpop.events({
             }).catch(function (err) {
               $('#newProductModal').modal('toggle');
                 //$('.loginSpinner').css('display','none');
-                $('.fullScreenSpin').css('display','none');
+               
             });
         }else{
             productService.getCheckProductData(productName).then(function (data) {
@@ -1871,7 +1869,7 @@ Template.newproductpop.events({
 
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
                       var productSaveID = objDetails.fields.ID;
-                      $('.fullScreenSpin').css('display', 'none');
+                      
                       var currentLoc = FlowRouter.current().route.path;
 
                       if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -1980,7 +1978,7 @@ Template.newproductpop.events({
                     }).catch(function (err) {
                       $('#newProductModal').modal('toggle');
                         //$('.loginSpinner').css('display','none');
-                        $('.fullScreenSpin').css('display','none');
+                       
                     });
                 }else{
                     if((itrackThisItem == true) && ($("#sltinventoryacount").val() != '')){
@@ -2048,7 +2046,7 @@ Template.newproductpop.events({
                     }
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
                       var productSaveID = objDetails.fields.ID;
-                      $('.fullScreenSpin').css('display', 'none');
+                      
                       var currentLoc = FlowRouter.current().route.path;
 
                       if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -2157,7 +2155,7 @@ Template.newproductpop.events({
                     }).catch(function (err) {
                       $('#newProductModal').modal('toggle');
                         //$('.loginSpinner').css('display','none');
-                        $('.fullScreenSpin').css('display','none');
+                       
                     });
                 }
 
@@ -2228,7 +2226,7 @@ Template.newproductpop.events({
 
                 productService.saveProductVS1(objDetails).then(function (objDetails) {
                   var productSaveID = objDetails.fields.ID;
-                  $('.fullScreenSpin').css('display', 'none');
+                  
                   var currentLoc = FlowRouter.current().route.path;
 
                   if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -2337,7 +2335,7 @@ Template.newproductpop.events({
                 }).catch(function (err) {
                   $('#newProductModal').modal('toggle');
                     //$('.loginSpinner').css('display','none');
-                    $('.fullScreenSpin').css('display','none');
+                   
                 });
             });
 
@@ -2544,7 +2542,7 @@ Template.newproductpop.events({
 
                             }
                         });
-                        $('.fullScreenSpin').css('display','none');
+                       
                     });
                 }else{
                     location.reload();
@@ -2574,7 +2572,7 @@ Template.newproductpop.events({
         let typeDesc = $('#txaDescription').val() || '';
         if (custType === '') {
             swal('Client Type name cannot be blank!', '', 'warning');
-            $('.fullScreenSpin').css('display', 'none');
+            
             e.preventDefault();
         } else {
             let objDetails = {
@@ -2610,7 +2608,7 @@ Template.newproductpop.events({
 
                     }
                 });
-                $('.fullScreenSpin').css('display', 'none');
+                
             });
         }
 

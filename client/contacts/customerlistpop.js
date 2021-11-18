@@ -408,7 +408,7 @@ Template.customerlistpop.onRendered(function () {
                             $('.fullScreenSpin').css('display', 'none');
                               //if(settings.fnRecordsDisplay() > 150){
                               //  $('.paginate_button.page-item.next').addClass('disabled');
-                              //  $('.fullScreenSpin').css('display','none');
+                              // 
                               //}else{
                               // sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
                               //     for (let i = 0; i < data.tcustomervs1.length; i++) {
@@ -493,9 +493,9 @@ Template.customerlistpop.onRendered(function () {
                               //     $('.fullScreenSpin').css('display', 'none');
                               //     // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
                               //
-                              //     // $('.fullScreenSpin').css('display','none');
+                              //     //
                               //     // }).catch(function (err) {
-                              //     // $('.fullScreenSpin').css('display','none');
+                              //     //
                               //     // });
                               // }).catch(function (err) {
                               //     $('.fullScreenSpin').css('display', 'none');
@@ -903,7 +903,7 @@ Template.customerlistpop.onRendered(function () {
                         splashArrayCustomerList = [];
                         if (dataLenght == -1) {
                           if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                            $('.fullScreenSpin').css('display','none');
+                           
                           }else{
                             if (customerSearch.replace(/\s/g, '') != '') {
                               $('.fullScreenSpin').css('display', 'inline-block');
@@ -1090,9 +1090,9 @@ Template.customerlistpop.onRendered(function () {
                             //     $('.fullScreenSpin').css('display', 'none');
                             //     // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
                             //     //   templateObject.resetData(dataNonBo);
-                            //     // $('.fullScreenSpin').css('display','none');
+                            //     //
                             //     // }).catch(function (err) {
-                            //     // $('.fullScreenSpin').css('display','none');
+                            //     //
                             //     // });
                             // }).catch(function (err) {
                             //     $('.fullScreenSpin').css('display', 'none');
@@ -1504,7 +1504,7 @@ Template.customerlistpop.onRendered(function () {
                         $('.fullScreenSpin').css('display', 'none');
                           //if(settings.fnRecordsDisplay() > 150){
                           //  $('.paginate_button.page-item.next').addClass('disabled');
-                          //  $('.fullScreenSpin').css('display','none');
+                          // 
                           //}else{
                           // sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
                           //     for (let i = 0; i < data.tcustomervs1.length; i++) {
@@ -1589,9 +1589,9 @@ Template.customerlistpop.onRendered(function () {
                           //     $('.fullScreenSpin').css('display', 'none');
                           //     // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
                           //     //   templateObject.resetData(dataNonBo);
-                          //     // $('.fullScreenSpin').css('display','none');
+                          //     //
                           //     // }).catch(function (err) {
-                          //     // $('.fullScreenSpin').css('display','none');
+                          //     //
                           //     // });
                           // }).catch(function (err) {
                           //     $('.fullScreenSpin').css('display', 'none');
