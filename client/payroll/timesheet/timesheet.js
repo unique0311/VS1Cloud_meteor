@@ -1621,6 +1621,7 @@ Template.timesheet.onRendered(function () {
                     $('.fullScreenSpin').css('display', 'none');
                     if (Object.keys(data).length > 0) {
                         $('#employee_name').val(data.fields.EmployeeName || '');
+                        $('#barcodeScanInput').val("");
                     } else {
                         swal('Employee Not Found', '', 'warning');
                     }
