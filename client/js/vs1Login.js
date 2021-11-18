@@ -1618,6 +1618,8 @@ Template.vs1login.onRendered(function () {
                                                         ERPIPAdderess = "steelmains.vs1cloud.com";
                                                     }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
                                                         ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                                    }else if (dataReturnRes.ProcessLog.ServerName == "165.228.147.127") {
+                                                        ERPIPAdderess = "vs1connection.vs1cloud.com";
                                                     }else {
                                                         ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                     }
@@ -2242,6 +2244,8 @@ Template.vs1login.onRendered(function () {
                                     ERPIPAdderess = "steelmains.vs1cloud.com";
                                 }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
                                     ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                }else if (dataReturnRes.ProcessLog.ServerName == "165.228.147.127") {
+                                    ERPIPAdderess = "vs1connection.vs1cloud.com";
                                 }else {
                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                 }
@@ -2728,6 +2732,8 @@ Template.vs1login.onRendered(function () {
                                                     ERPIPAdderess = "steelmains.vs1cloud.com";
                                                 }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
                                                     ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                                }else if (dataReturnRes.ProcessLog.ServerName == "165.228.147.127") {
+                                                    ERPIPAdderess = "vs1connection.vs1cloud.com";
                                                 }else {
                                                     ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                                 }
@@ -3377,6 +3383,8 @@ Template.vs1login.onRendered(function () {
                                                 ERPIPAdderess = "steelmains.vs1cloud.com";
                                             }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
                                                 ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                            }else if (dataReturnRes.ProcessLog.ServerName == "165.228.147.127") {
+                                                ERPIPAdderess = "vs1connection.vs1cloud.com";
                                             }else {
                                                 ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                             }
@@ -4066,6 +4074,8 @@ Template.vs1login.onRendered(function () {
                                             ERPIPAdderess = "steelmains.vs1cloud.com";
                                         }else if (dataReturnRes.ProcessLog.ServerName == "120.151.35.249") {
                                             ERPIPAdderess = "rappaustralia.vs1cloud.com";
+                                        }else if (dataReturnRes.ProcessLog.ServerName == "165.228.147.127") {
+                                            ERPIPAdderess = "vs1connection.vs1cloud.com";
                                         }else {
                                             ERPIPAdderess = dataReturnRes.ProcessLog.ServerName;
                                         }

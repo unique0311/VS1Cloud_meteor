@@ -103,11 +103,18 @@ Template.bankrecon.onRendered(function() {
 
             setTimeout(function() {
                 let bankaccountid = Session.get('bankaccountid') || '';
+                let statementDate = localStorage.getItem('statementdate')|| '';
                 //alert(bankaccountid);
+                if(statementDate != ''){
+                    $('.statementDate').val(statementDate);
+                }
                 if (bankaccountid != '') {
                     $('#bankAccountName').val(bankaccountid);
-                    templateObject.getReconcileDeposit(bankaccountid);
-                    templateObject.getReconcileWithdrawal(bankaccountid);
+                    var statementDateData = new Date($(".statementDate").datepicker("getDate"));
+                    let statementDate = statementDateData.getFullYear() + "-" + (statementDateData.getMonth() + 1) + "-" + statementDateData.getDate();
+
+                    templateObject.getReconcileDeposit(bankaccountid, statementDate, false);
+                    templateObject.getReconcileWithdrawal(bankaccountid, statementDate, false);
                     let bankName = $("#bankAccountName option[value='" + bankaccountid + "']").text();
                     templateObject.getOpenBalance(bankName);
                 }else{
@@ -178,10 +185,10 @@ Template.bankrecon.onRendered(function() {
     //     }
     // });
     // API to pull Deposits BEGIN
-    templateObject.getReconcileDeposit = function(accountTypeId) {
+    templateObject.getReconcileDeposit = function(accountTypeId, statementDate, ignoreDate) {
         let recondep = [];
         $('.fullScreenSpin').css('display', 'inline-block');
-        recService.getToBeReconciledDeposit(accountTypeId).then(function(data) {
+        recService.getToBeReconciledDeposit(accountTypeId, statementDate, ignoreDate).then(function(data) {
             if (data.ttobereconcileddeposit.length > 0) {
                 for (let i in data.ttobereconcileddeposit) {
                     let depositamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconcileddeposit[i].Amount) || 0.00;
@@ -281,10 +288,10 @@ Template.bankrecon.onRendered(function() {
     // API to pull Deposits END
 
     // API to pull Withdrawals BEGIN
-    templateObject.getReconcileWithdrawal = function(accountTypeId) {
+    templateObject.getReconcileWithdrawal = function(accountTypeId, statementDate, ignoreDate) {
         let reconwith = [];
         $('.fullScreenSpin').css('display', 'inline-block');
-        recService.getToBeReconciledWithdrawal(accountTypeId).then(function(data) {
+        recService.getToBeReconciledWithdrawal(accountTypeId, statementDate, ignoreDate).then(function(data) {
             if (data.ttobereconciledwithdrawal.length > 0) {
                 for (let j in data.ttobereconciledwithdrawal) {
                     let withdrawalamount = utilityService.modifynegativeCurrencyFormat(data.ttobereconciledwithdrawal[j].Amount) || 0.00;
@@ -2111,16 +2118,38 @@ Template.bankrecon.events({
         // Sessions - setting the accountTypeID BEGIN
         var accountTypeId = $('#bankAccountName').val();
         // Sessions - setting the accountTypeID END
+        var statementDateData = new Date($(".statementDate").datepicker("getDate"));
+
+        let statementDate = statementDateData.getFullYear() + "-" + (statementDateData.getMonth() + 1) + "-" + statementDateData.getDate();
 
         if (accountTypeId != "") {
             Session.setPersistent('bankaccountid', accountTypeId);
-            templateObject.getReconcileDeposit(accountTypeId);
-            templateObject.getReconcileWithdrawal(accountTypeId);
+            templateObject.getReconcileDeposit(accountTypeId, statementDate, false);
+            templateObject.getReconcileWithdrawal(accountTypeId, statementDate, false);
             setTimeout(function() {
                 window.open('/bankrecon', '_self');
             }, 1000);
         } else {}
         e.preventDefault();
+    },
+    'change .statementDate': function () {
+        let templateObject = Template.instance();
+        // $('.fullScreenSpin').css('display', 'inline-block');
+        var accountTypeId = $('#bankAccountName').val();
+        var statementDateData = new Date($(".statementDate").datepicker("getDate"));
+        let statementDate = statementDateData.getFullYear() + "-" + (statementDateData.getMonth() + 1) + "-" + statementDateData.getDate();
+        if ($(".statementDate").val() != "") {
+            localStorage.setItem('statementdate', $(".statementDate").val());
+
+            if (accountTypeId != "") {
+                Session.setPersistent('bankaccountid', accountTypeId);
+                templateObject.getReconcileDeposit(accountTypeId, statementDate, false);
+                templateObject.getReconcileWithdrawal(accountTypeId, statementDate, false);
+                setTimeout(function() {
+                    window.open('/bankrecon', '_self');
+                }, 1000);
+            }
+        }
     },
     'change .reconchkboxdep': function(e) {
 

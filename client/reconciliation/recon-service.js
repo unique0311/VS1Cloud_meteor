@@ -9,17 +9,43 @@ export class ReconService extends BaseService {
         return this.getList(this.ERPObjects.TAccountVS1, options);
     }
 
-    getToBeReconciledDeposit(accountid) {
-        let options = {
-            AccountId: accountid
-        };
+    getToBeReconciledDeposit(accountid,dateTo, ignoreDate) {
+        let options = '';
+        if(ignoreDate == true){
+           options = {
+              IgnoreDates:true,
+              AccountId: accountid,
+            };
+        }else{
+          options = {
+             IgnoreDates: false,
+             AccountId: accountid,
+             // DateFrom:'"'+dateFrom+'"',
+             DateTo:'"'+dateTo+'"'
+         };
+        }
+
         return this.getList(this.ERPObjects.TToBeReconciledDeposit, options);
     }
 
-    getToBeReconciledWithdrawal(accountid) {
-        let options = {
-            AccountId: accountid
-        };
+    getToBeReconciledWithdrawal(accountid, dateTo, ignoreDate) {
+        // let options = {
+        //     AccountId: accountid
+        // };
+        let options = '';
+        if(ignoreDate == true){
+           options = {
+              IgnoreDates:true,
+              AccountId: accountid,
+            };
+        }else{
+          options = {
+             IgnoreDates: false,
+             AccountId: accountid,
+             // DateFrom:'"'+dateFrom+'"',
+             DateTo:'"'+dateTo+'"'
+         };
+        }
         return this.getList(this.ERPObjects.TToBeReconciledWithDrawal, options);
     }
 

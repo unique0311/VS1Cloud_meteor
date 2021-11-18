@@ -875,6 +875,7 @@ Template.reconciliationlist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
+        localStorage.setItem('statementdate', '');
         sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function(data) {
             addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
 
