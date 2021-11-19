@@ -4200,6 +4200,7 @@ Template.appointments.onRendered(function () {
     });
 
     $(document).on("click", ".appointmentCustomer #tblCustomerlist tbody tr", function (e) {
+        $("#updateID").val("");
         document.getElementById("customer").value = $(this).find(".colCompany").text();
         document.getElementById("phone").value = $(this).find(".colPhone").text();
         document.getElementById("mobile").value = $(this).find(".colPhone").text();
@@ -6789,7 +6790,7 @@ Template.appointments.events({
                                                 confirmButtonText: 'Ok'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    // window.open('/appointments', '_self');
+                                                    $('#event-modal').modal('hide');
                                                 } else {
                                                     // window.open('/appointments', '_self');
                                                 }
@@ -6849,7 +6850,7 @@ Template.appointments.events({
                                             confirmButtonText: 'Ok'
                                         }).then((result) => {
                                             if (result.value) {
-                                                // window.open('/appointments', '_self');
+                                                $('#event-modal').modal('hide');
                                             } else {
                                                 // window.open('/appointments', '_self');
                                             }
@@ -6966,7 +6967,7 @@ Template.appointments.events({
                                     confirmButtonText: 'Ok'
                                 }).then((result) => {
                                     if (result.value) {
-                                        // window.open('/appointments', '_self');
+                                         $('#event-modal').modal('hide');
                                     } else {
                                         // window.open('/appointments', '_self');
                                     }
