@@ -943,14 +943,14 @@ Template.invoicelist.events({
 
                     swal({
                         title: 'Question',
-                        text: "Product does not exist, would you like to create it?",
+                        text: "Invoice does not exist, would you like to create it?",
                         type: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Yes',
                         cancelButtonText: 'No'
                     }).then((result) => {
                         if (result.value) {
-                            FlowRouter.go('/productview');
+                            FlowRouter.go('/invoicecard');
                         } else if (result.dismiss === 'cancel') {
                             //$('#productListModal').modal('toggle');
                         }

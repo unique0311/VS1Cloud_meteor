@@ -1007,14 +1007,14 @@ Template.chequelist.events({
 
                     swal({
                         title: 'Question',
-                        text: "Product does not exist, would you like to create it?",
+                        text: "Cheque does not exist, would you like to create it?",
                         type: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Yes',
                         cancelButtonText: 'No'
                     }).then((result) => {
                         if (result.value) {
-                            FlowRouter.go('/productview');
+                            FlowRouter.go('/chequecard');
                         } else if (result.dismiss === 'cancel') {
                             //$('#productListModal').modal('toggle');
                         }
