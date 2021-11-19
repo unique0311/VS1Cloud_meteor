@@ -98,15 +98,15 @@ Template.header.onRendered(function() {
         isMobile = true;
     }
     if (isMobile == true) {
-        document.getElementById("scanBarcode").style.display = "none";
+        document.getElementById("scanBarcodeHeadTop").style.display = "none";
         document.getElementById("mobileBarcodeScan").style.display = "block";
-            document.getElementById("scanBarcode2").style.display = "none";
+            document.getElementById("scanBarcodeHeadTop2").style.display = "none";
             document.getElementById("mobileBarcodeScan2").style.display = "block";
     }
 
 
 
-    $("#scanBarcode").click(function() {
+    $("#scanBarcodeHeadTop").click(function() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
         } else {

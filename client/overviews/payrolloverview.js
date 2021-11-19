@@ -101,7 +101,7 @@ Template.payrolloverview.onRendered(function () {
             confirmButtonText: 'Yes'
         }).then((result) => {
             if (result.value) {
-                
+
             } else {
                 $("#endTime").val("");
                 $("#txtBookedHoursSpent").val("00:01");
@@ -929,7 +929,7 @@ Template.payrolloverview.onRendered(function () {
     $("#scanBarcode").click(function () {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {}
         else {
-            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'danger', 'fixed-top', 'fa-frown-o');
+            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
         }
     });
 
@@ -1405,7 +1405,7 @@ Template.payrolloverview.events({
                         document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
                         let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
                         let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-                    
+
                         let startTime = ("0" + date.getHours()).slice(-2) + ':' + ("0" + date.getMinutes()).slice(-2);
                         let endTime = $('endTime').val();
                         toUpdate = {
@@ -1519,7 +1519,7 @@ Template.payrolloverview.events({
                         document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
                         let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
                         let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-                    
+
 
                         var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value + ':00');
                         var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value + ':00');

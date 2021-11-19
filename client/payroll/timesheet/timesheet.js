@@ -137,7 +137,7 @@ Template.timesheet.onRendered(function () {
             confirmButtonText: 'Yes'
         }).then((result) => {
             if (result.value) {
-                
+
             } else {
                 $("#endTime").val("");
                 $("#txtBookedHoursSpent").val("00:01");
@@ -1610,6 +1610,7 @@ Template.timesheet.onRendered(function () {
             let barcodeData = $('#barcodeScanInput').val();
             let empNo = barcodeData.replace(/^\D+/g, '');
             $('.fullScreenSpin').css('display', 'inline-block');
+            alert('here');
             if (barcodeData === '') {
                 swal('Please enter the employee number', '', 'warning');
                 $('.fullScreenSpin').css('display', 'none');
@@ -1627,6 +1628,7 @@ Template.timesheet.onRendered(function () {
                     }
 
                 }).catch(function (err) {
+                  $('.fullScreenSpin').css('display', 'none');
                     swal({
                         title: 'Oooops...',
                         text: "Employee Not Found",
@@ -1638,8 +1640,8 @@ Template.timesheet.onRendered(function () {
                             // Meteor._reload.reload();
                         } else if (result.dismiss === 'cancel') {}
                     });
-                })
-                $('.fullScreenSpin').css('display', 'none');
+                });
+
             }
         },
         'click .chkDatatable': function (event) {
