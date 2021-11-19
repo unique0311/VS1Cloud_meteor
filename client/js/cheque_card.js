@@ -123,7 +123,7 @@ Template.chequecard.onRendered(() => {
           }
         });
     }
-
+/*
  jQuery(document).ready(function($) {
 
         if (window.history && window.history.pushState) {
@@ -155,7 +155,7 @@ Template.chequecard.onRendered(() => {
 
   }
     });
-
+*/
 
     $("#date-input,#dtSODate,#dtDueDate").datepicker({
         showOn: 'button',

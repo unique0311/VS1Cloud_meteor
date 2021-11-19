@@ -262,7 +262,33 @@ overflow-y: auto;
 .btnRefreshAlert {
     -webkit-animation: flash linear 1s infinite;
     animation: flash linear 1s infinite;
+    /* margin-bottom: 36px !important; */
+}
+
+.btnRefreshAlert::after {
+    content: "\a Please refresh in order to see new data.";
+    white-space: pre;
+    color: #17a673;
+    position: absolute;
+    display: block;
+    margin-top: -10px;
+    margin-left: -10px;
+}
+
+.btnRefreshAlertOverview {
+    -webkit-animation: flash linear 1s infinite;
+    animation: flash linear 1s infinite;
     margin-bottom: 36px !important;
+}
+
+.btnRefreshAlertOverview::after {
+    content: "\a Please refresh in order to see new data.";
+    white-space: pre;
+    color: #17a673;
+    position: absolute;
+    display: block;
+    margin-top: -10px;
+    margin-left: -10px;
 }
 
 .btnSearchAlert {
@@ -285,15 +311,7 @@ overflow-y: auto;
     100% { opacity: 1; }
 }
 
-.btnRefreshAlert::after {
-    content: "\a Please refresh in order to see new data.";
-    white-space: pre;
-    color: #17a673;
-    position: absolute;
-    display: block;
-    margin-top: -10px;
-    margin-left: -10px;
-}
+
 
 .btnSaveAlert::after {
     content: "\a Please click to save";

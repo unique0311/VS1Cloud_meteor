@@ -94,7 +94,7 @@ Template.paymentoverview.onRendered(function() {
     const dataTableList = [];
     const tableHeaderList = [];
     if(FlowRouter.current().queryParams.success){
-        $('.btnRefresh').addClass('btnRefreshAlert');
+        $('.btnRefresh').addClass('btnRefreshAlertOverview');
     }
 
     var today = moment().format('DD/MM/YYYY');

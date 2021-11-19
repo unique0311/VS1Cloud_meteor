@@ -45,7 +45,7 @@ Template.accountsoverview.onRendered(function () {
     }
 
     if (FlowRouter.current().queryParams.success) {
-        $('.btnRefresh').addClass('btnRefreshAlert');
+        $('.btnRefresh').addClass('btnRefreshAlertOverview');
     }
 
 

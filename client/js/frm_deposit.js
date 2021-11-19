@@ -170,7 +170,7 @@ Template.depositcard.onRendered(()=>{
       });
     }, 500);
 
-
+/*
      jQuery(document).ready(function($) {
 
         if (window.history && window.history.pushState) {
@@ -202,6 +202,7 @@ Template.depositcard.onRendered(()=>{
 
   }
     });
+    */
 
     $('.fullScreenSpin').css('display','inline-block');
     templateObject.getAllClients = function(){

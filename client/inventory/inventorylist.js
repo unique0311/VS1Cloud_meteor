@@ -35,7 +35,7 @@ Template.inventorylist.onRendered(function() {
   $('.fullScreenSpin').css('display','inline-block');
 
   if(FlowRouter.current().queryParams.success){
-    $('.btnRefresh').addClass('btnRefreshAlert');
+    $('.btnRefresh').addClass('btnRefreshAlertOverview');
   }
 
   let templateObject = Template.instance();

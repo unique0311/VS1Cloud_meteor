@@ -1610,7 +1610,6 @@ Template.timesheet.onRendered(function () {
             let barcodeData = $('#barcodeScanInput').val();
             let empNo = barcodeData.replace(/^\D+/g, '');
             $('.fullScreenSpin').css('display', 'inline-block');
-            alert('here');
             if (barcodeData === '') {
                 swal('Please enter the employee number', '', 'warning');
                 $('.fullScreenSpin').css('display', 'none');

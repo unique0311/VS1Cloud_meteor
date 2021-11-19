@@ -116,7 +116,7 @@ Template.billcard.onRendered(() => {
         changeYear: true,
         yearRange: "-90:+10",
     });
-
+/*
     jQuery(document).ready(function($) {
 
         if (window.history && window.history.pushState) {
@@ -148,7 +148,7 @@ Template.billcard.onRendered(() => {
 
   }
     });
-
+*/
     $(document).ready(function() {
 
 
