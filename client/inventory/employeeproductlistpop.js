@@ -93,7 +93,7 @@ Template.employeeproductlistpop.onRendered(function () {
                           }
                       }
                         var dataList = [
-                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                             '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                             data.tproductvs1[i].fields.ProductName || '-',
                             data.tproductvs1[i].fields.SalesDescription || '',
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -102,7 +102,8 @@ Template.employeeproductlistpop.onRendered(function () {
                             data.tproductvs1[i].fields.TaxCodeSales || '',
                             data.tproductvs1[i].fields.ID || '',
                             JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                            data.tproductvs1[i].fields.BARCODE || ''
+                            data.tproductvs1[i].fields.BARCODE || '',
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                         ];
 
 
@@ -152,6 +153,9 @@ Template.employeeproductlistpop.onRendered(function () {
                               }, {
                                   className: "colBarcode hiddenColumn",
                                   "targets": [9]
+                              }, {
+                                  className: "salePriceInc hiddenColumn",
+                                  "targets": [10]
                               }
                           ],
                           select: true,
@@ -188,7 +192,7 @@ Template.employeeproductlistpop.onRendered(function () {
                                         for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                            var dataListDupp = [
-                                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                              data.tproductvs1[i].fields.ProductName || '-',
                                              data.tproductvs1[i].fields.SalesDescription || '',
                                              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -274,7 +278,7 @@ Template.employeeproductlistpop.onRendered(function () {
                       }
                   }
                     var dataList = [
-                        '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                        '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -283,7 +287,8 @@ Template.employeeproductlistpop.onRendered(function () {
                         data.tproductvs1[i].fields.TaxCodeSales || '',
                         data.tproductvs1[i].fields.ID || '',
                         JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                        data.tproductvs1[i].fields.BARCODE || ''
+                        data.tproductvs1[i].fields.BARCODE || '',
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                     ];
 
 
@@ -336,6 +341,9 @@ Template.employeeproductlistpop.onRendered(function () {
                             }, {
                                 className: "colBarcode hiddenColumn",
                                 "targets": [9]
+                            }, {
+                                className: "salePriceInc hiddenColumn",
+                                "targets": [10]
                             }
                         ],
                         select: true,
@@ -370,7 +378,7 @@ Template.employeeproductlistpop.onRendered(function () {
                                       for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                          var dataListDupp = [
-                                          '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
+                                          '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
                                            dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                            dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
                                            utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -379,7 +387,8 @@ Template.employeeproductlistpop.onRendered(function () {
                                            dataObjectnew.tproductvs1[i].fields.TaxCodeSales || '',
                                            dataObjectnew.tproductvs1[i].fields.ID || '',
                                            JSON.stringify(dataObjectnew.tproductvs1[i].fields.ExtraSellPrice)||null,
-                                           dataObjectnew.tproductvs1[i].fields.BARCODE || ''
+                                           dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                                           utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                                        ];
                                        splashArrayProductList.push(dataListDupp);
 
@@ -453,7 +462,7 @@ Template.employeeproductlistpop.onRendered(function () {
                       }
                   }
                     var dataList = [
-                        '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                        '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -462,7 +471,8 @@ Template.employeeproductlistpop.onRendered(function () {
                         data.tproductvs1[i].fields.TaxCodeSales || '',
                         data.tproductvs1[i].fields.ID || '',
                         JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                        data.tproductvs1[i].fields.BARCODE || ''
+                        data.tproductvs1[i].fields.BARCODE || '',
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                     ];
 
 
@@ -513,6 +523,9 @@ Template.employeeproductlistpop.onRendered(function () {
                           }, {
                               className: "colBarcode hiddenColumn",
                               "targets": [9]
+                          }, {
+                              className: "salePriceInc hiddenColumn",
+                              "targets": [10]
                           }
                       ],
                       select: true,
@@ -548,7 +561,7 @@ Template.employeeproductlistpop.onRendered(function () {
                                     for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                       var dataListDupp = [
-                                       '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
+                                       '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
                                         dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                         dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
                                         utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -557,7 +570,8 @@ Template.employeeproductlistpop.onRendered(function () {
                                         dataObjectnew.tproductvs1[i].fields.TaxCodeSales || '',
                                         dataObjectnew.tproductvs1[i].fields.ID || '',
                                         JSON.stringify(dataObjectnew.tproductvs1[i].fields.ExtraSellPrice)||null,
-                                        dataObjectnew.tproductvs1[i].fields.BARCODE || ''
+                                        dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+                                        utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                                     ];
                                      splashArrayProductList.push(dataListDupp);
 
@@ -647,7 +661,7 @@ Template.employeeproductlistpop.events({
         if(data.tproductvs1.length > 0){
         for (let i = 0; i < data.tproductvs1.length; i++) {
             var dataList = [
-                '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                 data.tproductvs1[i].fields.ProductName || '-',
                 data.tproductvs1[i].fields.SalesDescription || '',
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -656,7 +670,8 @@ Template.employeeproductlistpop.events({
                 data.tproductvs1[i].fields.TaxCodeSales || '',
                 data.tproductvs1[i].fields.ID || '',
                 JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                data.tproductvs1[i].fields.BARCODE || ''
+                data.tproductvs1[i].fields.BARCODE || '',
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
             ];
 
             if (data.tproductvs1[i].fields.ExtraSellPrice != null) {
@@ -711,7 +726,7 @@ Template.employeeproductlistpop.events({
           let inventoryData = [];
           for (let i = 0; i < data.tproductvs1.length; i++) {
               var dataList = [
-                  '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                  '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                   data.tproductvs1[i].fields.ProductName || '-',
                   data.tproductvs1[i].fields.SalesDescription || '',
                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -720,7 +735,8 @@ Template.employeeproductlistpop.events({
                   data.tproductvs1[i].fields.TaxCodeSales || '',
                   data.tproductvs1[i].fields.ID || '',
                   JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                  data.tproductvs1[i].fields.BARCODE || ''
+                  data.tproductvs1[i].fields.BARCODE || '',
+                  utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
               ];
 
               if (data.tproductvs1[i].fields.ExtraSellPrice != null) {

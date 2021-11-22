@@ -154,7 +154,7 @@ Template.employeescard.onRendered(function () {
                         id: data.trepservices[i].fields.ID || '',
                         employee: data.trepservices[i].fields.EmployeeName || '',
                         productname: data.trepservices[i].fields.ServiceDesc || '',
-                        rate: data.trepservices[i].fields.Rate || ''
+                        rate: utilityService.modifynegativeCurrencyFormat(data.trepservices[i].fields.Rate) || 0.00
                     }
 
                     if(employeeName == data.trepservices[i].fields.EmployeeName){
@@ -182,9 +182,11 @@ Template.employeescard.onRendered(function () {
                             },
                         // pageLength: initialDatatableLoad,
                         // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        paging: false,
+                        paging: true,
                         // "scrollY": "400px",
                         info: true,
+                        pageLength: -1,
+                        lengthMenu: [ [ -1], ["All"] ],
                         responsive: true,
                         "order": [[0, "asc"]],
                         action: function () {
@@ -1444,7 +1446,6 @@ Template.employeescard.onRendered(function () {
                         }
                     }
                 }).catch(function (err) {
-                    console.log(err);
                     contactService.getOneEmployeeDataEx(employeeID).then(function (data) {
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
@@ -2027,23 +2028,23 @@ Template.employeescard.events({
             $('.customerShipping-2').css('display', 'block');
         }
     },
-    'click .chkPaymentCard': function () {
+    'click .chkServiceCardTest': function () {
         const templateObject = Template.instance();
         let selectedproduct = [];
         // const selectedAwaitingPayment2 = [];
-        $('.chkPaymentCard:checkbox:checked').each(function () {
+        $('.chkServiceCard:checkbox:checked').each(function () {
             let productName = $(this).closest('tr').find('.productName').text();
-            let paymentTransObj = {
-                    type: "TRepServices",
-                    fields: {
-                        EmployeeName: Session.get('mySessionEmployee') || '',
-                        ServiceDesc: productName
-                    }
-
-            };
-            selectedproduct.push(paymentTransObj);
+            // let paymentTransObj = {
+            //         type: "TRepServices",
+            //         fields: {
+            //             EmployeeName: Session.get('mySessionEmployee') || '',
+            //             ServiceDesc: productName
+            //         }
+            //
+            // };
+            selectedproduct.push(productName);
         });
-
+        //console.log(selectedproduct);
        templateObject.selectedemployeeproducts.set(selectedproduct);
 
     },
@@ -2054,18 +2055,36 @@ Template.employeescard.events({
             $(".chkBox").prop("checked", false);
         }
     },
-    'click .btnSaveProducts': async function (event) {
+    'click .btnSelectProducts': async function (event) {
         let templateObject = Template.instance();
         let trepserviceObjects = templateObject.selectedemployeeproducts.get();
+        let getselectedproducts = templateObject.selectedproducts.get();
         let productService = new ProductService();
-        for(let x =0; x < trepserviceObjects.length; x++) {
-             productService.saveEmployeeProducts(trepserviceObjects[x]).then(function (data) {
-                console.log(data);
-        })
-        }
+
+        var tblInventoryService = $(".tblInventoryService").dataTable();
+        var dataserviceList = {};
+        let productservicelist = [];
+        $(".chkServiceCard:checked", tblInventoryService.fnGetNodes()).each(function() {
+          let productServiceName = $(this).closest('tr').find('.productName').text()||'';
+          let productServicerate = $(this).closest('tr').find('.salePriceInc').text()||'';
+          dataserviceList = {
+              id: '',
+              employee: Session.get('mySessionEmployee') || '',
+              productname: productServiceName || '',
+              rate: productServicerate || ''
+          };
+          let checkServiceArray = getselectedproducts.filter(function(prodData){ return prodData.productname === productServiceName })||'';
+
+          if (checkServiceArray.length > 0) {
+          }else{
+            getselectedproducts.push(dataserviceList);
+          }
 
 
-
+      });
+      templateObject.selectedproducts.set(getselectedproducts);
+      $('#tblEmpServiceList_info').html('Showing 1 to '+getselectedproducts.length+ ' of ' +getselectedproducts.length+ ' entries');
+      $('#productListModal').modal('toggle');
     },
     'click .btnSave': async function (event) {
         let templateObject = Template.instance();
