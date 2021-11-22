@@ -120,8 +120,8 @@ Template.stocktransfercard.onRendered(function() {
             templateObject.availserialrecord.set(dataSerialNumber);
         });
     }
-    if(Session.get('CloudShowSerial')){
-    templateObject.getAllAvailableSerialNumber();
+    if (Session.get('CloudShowSerial')) {
+        templateObject.getAllAvailableSerialNumber();
     }
     stockTransferService.getProductClassQuantitys().then(function(dataProductQty) {
         templateObject.productquantityrecord.set(dataProductQty);
@@ -353,7 +353,7 @@ Template.stocktransfercard.onRendered(function() {
                             }, 200);
 
                             if (data.fields.Processed == true) {
-                              templateObject.isProccessed.set(true);
+                                templateObject.isProccessed.set(true);
                                 $('.colProcessed').css('display', 'block');
                                 $("#form :input").prop("disabled", true);
                                 $(".btnDeleteStock").prop("disabled", false);
@@ -441,7 +441,7 @@ Template.stocktransfercard.onRendered(function() {
                                         lineItemObj = {
                                             lineID: Random.id(),
                                             id: useData[d].fields.Lines[i].fields.ID || '',
-                                            pqa: useData[d].fields.Lines[i].fields.TransferSerialnos|| '',
+                                            pqa: useData[d].fields.Lines[i].fields.TransferSerialnos || '',
                                             serialnumber: useData[d].fields.Lines[i].fields.TransferSerialnos || '',
                                             productname: useData[d].fields.Lines[i].fields.ProductName || '',
                                             item: useData[d].fields.Lines[i].fields.ProductName || '',
@@ -461,7 +461,7 @@ Template.stocktransfercard.onRendered(function() {
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: useData[d].fields.Lines.fields.ID || '',
-                                        pqa: useData[d].fields.Lines.fields.TransferSerialnos ||'',
+                                        pqa: useData[d].fields.Lines.fields.TransferSerialnos || '',
                                         serialnumber: useData[d].fields.Lines.fields.TransferSerialnos || '',
                                         productname: useData[d].fields.Lines.fields.ProductName || '',
                                         item: useData[d].fields.Lines.fields.ProductName || '',
@@ -509,7 +509,7 @@ Template.stocktransfercard.onRendered(function() {
                                 // $(".btnBack").prop("disabled", false);
 
                                 if (useData[d].fields.Processed == true) {
-                                  templateObject.isProccessed.set(true);
+                                    templateObject.isProccessed.set(true);
                                     $('.colProcessed').css('display', 'block');
                                     $("#form :input").prop("disabled", true);
                                     $(".btnDeleteStock").prop("disabled", false);
@@ -579,7 +579,7 @@ Template.stocktransfercard.onRendered(function() {
                                         lineItemObj = {
                                             lineID: Random.id(),
                                             id: data.fields.Lines[i].fields.ID || '',
-                                            pqa: data.fields.Lines[i].fields.TransferSerialnos ||'',
+                                            pqa: data.fields.Lines[i].fields.TransferSerialnos || '',
                                             serialnumber: data.fields.Lines[i].fields.TransferSerialnos || '',
                                             productname: data.fields.Lines[i].fields.ProductName || '',
                                             item: data.fields.Lines[i].fields.ProductName || '',
@@ -620,7 +620,7 @@ Template.stocktransfercard.onRendered(function() {
                                 }, 200);
 
                                 if (data.fields.Processed == true) {
-                                  templateObject.isProccessed.set(true);
+                                    templateObject.isProccessed.set(true);
                                     $('.colProcessed').css('display', 'block');
                                     $("#form :input").prop("disabled", true);
                                     $(".btnDeleteStock").prop("disabled", false);
@@ -745,7 +745,7 @@ Template.stocktransfercard.onRendered(function() {
                         }, 200);
 
                         if (data.fields.Processed == true) {
-                          templateObject.isProccessed.set(true);
+                            templateObject.isProccessed.set(true);
                             $('.colProcessed').css('display', 'block');
                             $("#form :input").prop("disabled", true);
                             $(".btnDeleteStock").prop("disabled", false);
@@ -822,7 +822,7 @@ Template.stocktransfercard.onRendered(function() {
             $('.fullScreenSpin').css('display', 'none');
         }
         setTimeout(function() {
-        $('#edtCustomerEmail').val(localStorage.getItem('mySession'));
+            $('#edtCustomerEmail').val(localStorage.getItem('mySession'));
         }, 200);
     } else {
         $('.fullScreenSpin').css('display', 'none');
@@ -910,9 +910,9 @@ Template.stocktransfercard.onRendered(function() {
 
     if (FlowRouter.current().queryParams.id) {
 
-       // setTimeout(function() {
-       //     $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
-       // }, 400);
+        // setTimeout(function() {
+        //     $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
+        // }, 400);
     } else {
         setTimeout(function() {
             $('#tblStocktransfer .lineProductName').trigger("click");
@@ -1009,7 +1009,7 @@ Template.stocktransfercard.onRendered(function() {
         $('#' + rowIndex + " #UOMQtyBackOrder").text(qtyBackOrder);
     });
 
-       exportSalesToPdf = function () {
+    exportSalesToPdf = function() {
         let margins = {
             top: 0,
             bottom: 0,
@@ -1039,7 +1039,7 @@ Template.stocktransfercard.onRendered(function() {
                 orientation: 'portrait'
             }
         };
-        html2pdf().set(opt).from(source).save().then(function (dataObject) {
+        html2pdf().set(opt).from(source).save().then(function(dataObject) {
             $('.fullScreenSpin').css('display', 'none');
             $('#html-2-pdfwrapper').css('display', 'none');
         });
@@ -1129,21 +1129,21 @@ Template.stocktransfercard.onRendered(function() {
 
                     getVS1Data('TShippingMethod').then(function(dataObject) {
                         if (dataObject.length == 0) {
-                          $('.fullScreenSpin').css('display', 'inline-block');
-                          sideBarService.getShippingMethodData().then(function(data) {
-                              for (let i = 0; i < data.tshippingmethod.length; i++) {
-                                  if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
-                                      $('#edtShipViaID').val(data.tshippingmethod[i].Id);
-                                      $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
-                                  }
-                              }
-                              setTimeout(function() {
-                                  $('.fullScreenSpin').css('display', 'none');
-                                  $('#newShipViaModal').modal('toggle');
-                              }, 200);
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display', 'none');
-                          });
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getShippingMethodData().then(function(data) {
+                                for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                    if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                        $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                        $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newShipViaModal').modal('toggle');
+                                }, 200);
+                            }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
                         } else {
                             let data = JSON.parse(dataObject[0].data);
                             let useData = data.tshippingmethod;
@@ -1172,7 +1172,7 @@ Template.stocktransfercard.onRendered(function() {
                                 $('#newShipViaModal').modal('toggle');
                             }, 200);
                         }).catch(function(err) {
-                          $('.fullScreenSpin').css('display', 'none');
+                            $('.fullScreenSpin').css('display', 'none');
                         });
                     });
                 } else {
@@ -2154,8 +2154,8 @@ Template.stocktransfercard.onRendered(function() {
             $('#' + selectLineID + " .colOrdered").val(lineAvailQty);
             $('#' + selectLineID + " .lineUOMQtyShipped").val(0);
             $('#' + selectLineID + " .ProductID").text(lineProductID);
-            if(lineProductName != ''){
-            templateObject.getProductQty(selectLineID, lineProductName);
+            if (lineProductName != '') {
+                templateObject.getProductQty(selectLineID, lineProductName);
             }
 
             $('.stock_print #' + selectLineID + " .lineProductNamePrint").text(lineProductName);
@@ -2177,176 +2177,69 @@ Template.stocktransfercard.onRendered(function() {
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
     });
+
+    var isMobile = false;
+    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) ||
+        /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0, 4))) {
+        isMobile = true;
+    }
+    if (isMobile != true) {
+        setTimeout(function() {
+            document.getElementById("scanBarcodeModalHidden").style.display = "none";
+        }, 500);
+    }
+    setTimeout(function() {
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", {
+                fps: 10,
+                qrbox: 250,
+                rememberLastUsedCamera: true
+            });
+        html5QrcodeScanner.render(onScanSuccess);
+    }, 500);
+
+    function onScanSuccess(decodedText, decodedResult) {
+        var barcodeScanner = decodedText.toUpperCase();
+        $('#scanBarcode').modal('toggle');
+        if (barcodeScanner != '') {
+            alert('scan');
+            // setTimeout(function() {
+            //     $('#tblSearchOverview_filter .form-control-sm').val(barcodeScanner);
+            // }, 200);
+            // templateObject.getAllGlobalSearch(barcodeScanner);
+        }
+    }
 });
 
 Template.stocktransfercard.events({
+
     'click .lineProductName, keydown .lineProductName': function(event) {
         var $earch = $(event.currentTarget);
         var offset = $earch.offset();
 
-            var productDataName = $(event.target).val() || '';
-            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
-                $('#productListModal').modal('toggle');
-                var targetID = $(event.target).closest('tr').attr('id');
-                $('#selectLineID').val(targetID);
-                setTimeout(function() {
-                    $('#tblInventory_filter .form-control-sm').focus();
-                    $('#tblInventory_filter .form-control-sm').val('');
-                    $('#tblInventory_filter .form-control-sm').trigger("input");
+        var productDataName = $(event.target).val() || '';
+        if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+            $('#productListModal').modal('toggle');
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
+            setTimeout(function() {
+                $('#tblInventory_filter .form-control-sm').focus();
+                $('#tblInventory_filter .form-control-sm').val('');
+                $('#tblInventory_filter .form-control-sm').trigger("input");
 
-                    var datatable = $('#tblInventory').DataTable();
-                    datatable.draw();
-                    $('#tblInventory_filter .form-control-sm').trigger("input");
+                var datatable = $('#tblInventory').DataTable();
+                datatable.draw();
+                $('#tblInventory_filter .form-control-sm').trigger("input");
 
-                }, 500);
-            } else {
-                if (productDataName.replace(/\s/g, '') != '') {
-                    //FlowRouter.go('/productview?prodname=' +  $(event.target).text());
-                    let lineExtaSellItems = [];
-                    let lineExtaSellObj = {};
-                    $('.fullScreenSpin').css('display', 'inline-block');
-                    getVS1Data('TProductVS1').then(function(dataObject) {
-                        if (dataObject.length == 0) {
-                            sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
-                                $('.fullScreenSpin').css('display', 'none');
-                                let lineItems = [];
-                                let lineItemObj = {};
-                                let currencySymbol = Currency;
-                                let totalquantity = 0;
-                                let productname = data.tproduct[0].fields.ProductName || '';
-                                let productcode = data.tproduct[0].fields.PRODUCTCODE || '';
-                                let productprintName = data.tproduct[0].fields.ProductPrintName || '';
-                                let assetaccount = data.tproduct[0].fields.AssetAccount || '';
-                                let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost) || 0;
-                                let cogsaccount = data.tproduct[0].fields.CogsAccount || '';
-                                let taxcodepurchase = data.tproduct[0].fields.TaxCodePurchase || '';
-                                let purchasedescription = data.tproduct[0].fields.PurchaseDescription || '';
-                                let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price) || 0;
-                                let incomeaccount = data.tproduct[0].fields.IncomeAccount || '';
-                                let taxcodesales = data.tproduct[0].fields.TaxCodeSales || '';
-                                let salesdescription = data.tproduct[0].fields.SalesDescription || '';
-                                let active = data.tproduct[0].fields.Active;
-                                let lockextrasell = data.tproduct[0].fields.LockExtraSell || '';
-                                let customfield1 = data.tproduct[0].fields.CUSTFLD1 || '';
-                                let customfield2 = data.tproduct[0].fields.CUSTFLD2 || '';
-                                let barcode = data.tproduct[0].fields.BARCODE || '';
-                                $("#selectProductID").val(data.tproduct[0].fields.ID).trigger("change");
-                                $('#add-product-title').text('Edit Product');
-                                $('#edtproductname').val(productname);
-                                $('#edtsellqty1price').val(sellqty1price);
-                                $('#txasalesdescription').val(salesdescription);
-                                $('#sltsalesacount').val(incomeaccount);
-                                $('#slttaxcodesales').val(taxcodesales);
-                                $('#edtbarcode').val(barcode);
-                                $('#txapurchasedescription').val(purchasedescription);
-                                $('#sltcogsaccount').val(cogsaccount);
-                                $('#slttaxcodepurchase').val(taxcodepurchase);
-                                $('#edtbuyqty1cost').val(buyqty1cost);
-
-                                setTimeout(function() {
-                                    $('#newProductModal').modal('show');
-                                }, 500);
-                            }).catch(function(err) {
-
-                                $('.fullScreenSpin').css('display', 'none');
-                            });
-                        } else {
-                            let data = JSON.parse(dataObject[0].data);
-                            let useData = data.tproductvs1;
-                            var added = false;
-
-                            for (let i = 0; i < data.tproductvs1.length; i++) {
-                                if (data.tproductvs1[i].fields.ProductName === productDataName) {
-                                    added = true;
-                                    $('.fullScreenSpin').css('display', 'none');
-                                    let lineItems = [];
-                                    let lineItemObj = {};
-                                    let currencySymbol = Currency;
-                                    let totalquantity = 0;
-
-                                    let productname = data.tproductvs1[i].fields.ProductName || '';
-                                    let productcode = data.tproductvs1[i].fields.PRODUCTCODE || '';
-                                    let productprintName = data.tproductvs1[i].fields.ProductPrintName || '';
-                                    let assetaccount = data.tproductvs1[i].fields.AssetAccount || '';
-                                    let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1Cost) || 0;
-                                    let cogsaccount = data.tproductvs1[i].fields.CogsAccount || '';
-                                    let taxcodepurchase = data.tproductvs1[i].fields.TaxCodePurchase || '';
-                                    let purchasedescription = data.tproductvs1[i].fields.PurchaseDescription || '';
-                                    let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1Price) || 0;
-                                    let incomeaccount = data.tproductvs1[i].fields.IncomeAccount || '';
-                                    let taxcodesales = data.tproductvs1[i].fields.TaxCodeSales || '';
-                                    let salesdescription = data.tproductvs1[i].fields.SalesDescription || '';
-                                    let active = data.tproductvs1[i].fields.Active;
-                                    let lockextrasell = data.tproductvs1[i].fields.LockExtraSell || '';
-                                    let customfield1 = data.tproductvs1[i].fields.CUSTFLD1 || '';
-                                    let customfield2 = data.tproductvs1[i].fields.CUSTFLD2 || '';
-                                    let barcode = data.tproductvs1[i].fields.BARCODE || '';
-                                    $("#selectProductID").val(data.tproductvs1[i].fields.ID).trigger("change");
-                                    $('#add-product-title').text('Edit Product');
-                                    $('#edtproductname').val(productname);
-                                    $('#edtsellqty1price').val(sellqty1price);
-                                    $('#txasalesdescription').val(salesdescription);
-                                    $('#sltsalesacount').val(incomeaccount);
-                                    $('#slttaxcodesales').val(taxcodesales);
-                                    $('#edtbarcode').val(barcode);
-                                    $('#txapurchasedescription').val(purchasedescription);
-                                    $('#sltcogsaccount').val(cogsaccount);
-                                    $('#slttaxcodepurchase').val(taxcodepurchase);
-                                    $('#edtbuyqty1cost').val(buyqty1cost);
-
-                                    setTimeout(function() {
-                                        $('#newProductModal').modal('show');
-                                    }, 500);
-                                }
-                            }
-                            if (!added) {
-                                sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
-                                    $('.fullScreenSpin').css('display', 'none');
-                                    let lineItems = [];
-                                    let lineItemObj = {};
-                                    let currencySymbol = Currency;
-                                    let totalquantity = 0;
-                                    let productname = data.tproduct[0].fields.ProductName || '';
-                                    let productcode = data.tproduct[0].fields.PRODUCTCODE || '';
-                                    let productprintName = data.tproduct[0].fields.ProductPrintName || '';
-                                    let assetaccount = data.tproduct[0].fields.AssetAccount || '';
-                                    let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost) || 0;
-                                    let cogsaccount = data.tproduct[0].fields.CogsAccount || '';
-                                    let taxcodepurchase = data.tproduct[0].fields.TaxCodePurchase || '';
-                                    let purchasedescription = data.tproduct[0].fields.PurchaseDescription || '';
-                                    let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price) || 0;
-                                    let incomeaccount = data.tproduct[0].fields.IncomeAccount || '';
-                                    let taxcodesales = data.tproduct[0].fields.TaxCodeSales || '';
-                                    let salesdescription = data.tproduct[0].fields.SalesDescription || '';
-                                    let active = data.tproduct[0].fields.Active;
-                                    let lockextrasell = data.tproduct[0].fields.LockExtraSell || '';
-                                    let customfield1 = data.tproduct[0].fields.CUSTFLD1 || '';
-                                    let customfield2 = data.tproduct[0].fields.CUSTFLD2 || '';
-                                    let barcode = data.tproduct[0].fields.BARCODE || '';
-                                    $("#selectProductID").val(data.tproduct[0].fields.ID).trigger("change");
-                                    $('#add-product-title').text('Edit Product');
-                                    $('#edtproductname').val(productname);
-                                    $('#edtsellqty1price').val(sellqty1price);
-                                    $('#txasalesdescription').val(salesdescription);
-                                    $('#sltsalesacount').val(incomeaccount);
-                                    $('#slttaxcodesales').val(taxcodesales);
-                                    $('#edtbarcode').val(barcode);
-                                    $('#txapurchasedescription').val(purchasedescription);
-                                    $('#sltcogsaccount').val(cogsaccount);
-                                    $('#slttaxcodepurchase').val(taxcodepurchase);
-                                    $('#edtbuyqty1cost').val(buyqty1cost);
-
-                                    setTimeout(function() {
-                                        $('#newProductModal').modal('show');
-                                    }, 500);
-                                }).catch(function(err) {
-
-                                    $('.fullScreenSpin').css('display', 'none');
-                                });
-                            }
-                        }
-                    }).catch(function(err) {
-
+            }, 500);
+        } else {
+            if (productDataName.replace(/\s/g, '') != '') {
+                //FlowRouter.go('/productview?prodname=' +  $(event.target).text());
+                let lineExtaSellItems = [];
+                let lineExtaSellObj = {};
+                $('.fullScreenSpin').css('display', 'inline-block');
+                getVS1Data('TProductVS1').then(function(dataObject) {
+                    if (dataObject.length == 0) {
                         sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
@@ -2390,130 +2283,236 @@ Template.stocktransfercard.events({
 
                             $('.fullScreenSpin').css('display', 'none');
                         });
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tproductvs1;
+                        var added = false;
 
+                        for (let i = 0; i < data.tproductvs1.length; i++) {
+                            if (data.tproductvs1[i].fields.ProductName === productDataName) {
+                                added = true;
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                let lineItemObj = {};
+                                let currencySymbol = Currency;
+                                let totalquantity = 0;
+
+                                let productname = data.tproductvs1[i].fields.ProductName || '';
+                                let productcode = data.tproductvs1[i].fields.PRODUCTCODE || '';
+                                let productprintName = data.tproductvs1[i].fields.ProductPrintName || '';
+                                let assetaccount = data.tproductvs1[i].fields.AssetAccount || '';
+                                let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1Cost) || 0;
+                                let cogsaccount = data.tproductvs1[i].fields.CogsAccount || '';
+                                let taxcodepurchase = data.tproductvs1[i].fields.TaxCodePurchase || '';
+                                let purchasedescription = data.tproductvs1[i].fields.PurchaseDescription || '';
+                                let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1Price) || 0;
+                                let incomeaccount = data.tproductvs1[i].fields.IncomeAccount || '';
+                                let taxcodesales = data.tproductvs1[i].fields.TaxCodeSales || '';
+                                let salesdescription = data.tproductvs1[i].fields.SalesDescription || '';
+                                let active = data.tproductvs1[i].fields.Active;
+                                let lockextrasell = data.tproductvs1[i].fields.LockExtraSell || '';
+                                let customfield1 = data.tproductvs1[i].fields.CUSTFLD1 || '';
+                                let customfield2 = data.tproductvs1[i].fields.CUSTFLD2 || '';
+                                let barcode = data.tproductvs1[i].fields.BARCODE || '';
+                                $("#selectProductID").val(data.tproductvs1[i].fields.ID).trigger("change");
+                                $('#add-product-title').text('Edit Product');
+                                $('#edtproductname').val(productname);
+                                $('#edtsellqty1price').val(sellqty1price);
+                                $('#txasalesdescription').val(salesdescription);
+                                $('#sltsalesacount').val(incomeaccount);
+                                $('#slttaxcodesales').val(taxcodesales);
+                                $('#edtbarcode').val(barcode);
+                                $('#txapurchasedescription').val(purchasedescription);
+                                $('#sltcogsaccount').val(cogsaccount);
+                                $('#slttaxcodepurchase').val(taxcodepurchase);
+                                $('#edtbuyqty1cost').val(buyqty1cost);
+
+                                setTimeout(function() {
+                                    $('#newProductModal').modal('show');
+                                }, 500);
+                            }
+                        }
+                        if (!added) {
+                            sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                let lineItemObj = {};
+                                let currencySymbol = Currency;
+                                let totalquantity = 0;
+                                let productname = data.tproduct[0].fields.ProductName || '';
+                                let productcode = data.tproduct[0].fields.PRODUCTCODE || '';
+                                let productprintName = data.tproduct[0].fields.ProductPrintName || '';
+                                let assetaccount = data.tproduct[0].fields.AssetAccount || '';
+                                let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost) || 0;
+                                let cogsaccount = data.tproduct[0].fields.CogsAccount || '';
+                                let taxcodepurchase = data.tproduct[0].fields.TaxCodePurchase || '';
+                                let purchasedescription = data.tproduct[0].fields.PurchaseDescription || '';
+                                let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price) || 0;
+                                let incomeaccount = data.tproduct[0].fields.IncomeAccount || '';
+                                let taxcodesales = data.tproduct[0].fields.TaxCodeSales || '';
+                                let salesdescription = data.tproduct[0].fields.SalesDescription || '';
+                                let active = data.tproduct[0].fields.Active;
+                                let lockextrasell = data.tproduct[0].fields.LockExtraSell || '';
+                                let customfield1 = data.tproduct[0].fields.CUSTFLD1 || '';
+                                let customfield2 = data.tproduct[0].fields.CUSTFLD2 || '';
+                                let barcode = data.tproduct[0].fields.BARCODE || '';
+                                $("#selectProductID").val(data.tproduct[0].fields.ID).trigger("change");
+                                $('#add-product-title').text('Edit Product');
+                                $('#edtproductname').val(productname);
+                                $('#edtsellqty1price').val(sellqty1price);
+                                $('#txasalesdescription').val(salesdescription);
+                                $('#sltsalesacount').val(incomeaccount);
+                                $('#slttaxcodesales').val(taxcodesales);
+                                $('#edtbarcode').val(barcode);
+                                $('#txapurchasedescription').val(purchasedescription);
+                                $('#sltcogsaccount').val(cogsaccount);
+                                $('#slttaxcodepurchase').val(taxcodepurchase);
+                                $('#edtbuyqty1cost').val(buyqty1cost);
+
+                                setTimeout(function() {
+                                    $('#newProductModal').modal('show');
+                                }, 500);
+                            }).catch(function(err) {
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                }).catch(function(err) {
+
+                    sideBarService.getOneProductdatavs1byname(productDataName).then(function(data) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let lineItems = [];
+                        let lineItemObj = {};
+                        let currencySymbol = Currency;
+                        let totalquantity = 0;
+                        let productname = data.tproduct[0].fields.ProductName || '';
+                        let productcode = data.tproduct[0].fields.PRODUCTCODE || '';
+                        let productprintName = data.tproduct[0].fields.ProductPrintName || '';
+                        let assetaccount = data.tproduct[0].fields.AssetAccount || '';
+                        let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost) || 0;
+                        let cogsaccount = data.tproduct[0].fields.CogsAccount || '';
+                        let taxcodepurchase = data.tproduct[0].fields.TaxCodePurchase || '';
+                        let purchasedescription = data.tproduct[0].fields.PurchaseDescription || '';
+                        let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price) || 0;
+                        let incomeaccount = data.tproduct[0].fields.IncomeAccount || '';
+                        let taxcodesales = data.tproduct[0].fields.TaxCodeSales || '';
+                        let salesdescription = data.tproduct[0].fields.SalesDescription || '';
+                        let active = data.tproduct[0].fields.Active;
+                        let lockextrasell = data.tproduct[0].fields.LockExtraSell || '';
+                        let customfield1 = data.tproduct[0].fields.CUSTFLD1 || '';
+                        let customfield2 = data.tproduct[0].fields.CUSTFLD2 || '';
+                        let barcode = data.tproduct[0].fields.BARCODE || '';
+                        $("#selectProductID").val(data.tproduct[0].fields.ID).trigger("change");
+                        $('#add-product-title').text('Edit Product');
+                        $('#edtproductname').val(productname);
+                        $('#edtsellqty1price').val(sellqty1price);
+                        $('#txasalesdescription').val(salesdescription);
+                        $('#sltsalesacount').val(incomeaccount);
+                        $('#slttaxcodesales').val(taxcodesales);
+                        $('#edtbarcode').val(barcode);
+                        $('#txapurchasedescription').val(purchasedescription);
+                        $('#sltcogsaccount').val(cogsaccount);
+                        $('#slttaxcodepurchase').val(taxcodepurchase);
+                        $('#edtbuyqty1cost').val(buyqty1cost);
+
+                        setTimeout(function() {
+                            $('#newProductModal').modal('show');
+                        }, 500);
+                    }).catch(function(err) {
+
+                        $('.fullScreenSpin').css('display', 'none');
                     });
-                } else {
-                    $('#productListModal').modal('toggle');
-                    var targetID = $(event.target).closest('tr').attr('id');
-                    $('#selectLineID').val(targetID);
-                    setTimeout(function() {
-                        $('#tblInventory_filter .form-control-sm').focus();
-                        $('#tblInventory_filter .form-control-sm').val('');
-                        $('#tblInventory_filter .form-control-sm').trigger("input");
 
-                        var datatable = $('#tblInventory').DataTable();
-                        datatable.draw();
-                        $('#tblInventory_filter .form-control-sm').trigger("input");
+                });
+            } else {
+                $('#productListModal').modal('toggle');
+                var targetID = $(event.target).closest('tr').attr('id');
+                $('#selectLineID').val(targetID);
+                setTimeout(function() {
+                    $('#tblInventory_filter .form-control-sm').focus();
+                    $('#tblInventory_filter .form-control-sm').val('');
+                    $('#tblInventory_filter .form-control-sm').trigger("input");
 
-                    }, 500);
-                }
+                    var datatable = $('#tblInventory').DataTable();
+                    datatable.draw();
+                    $('#tblInventory_filter .form-control-sm').trigger("input");
 
+                }, 500);
             }
+
+        }
 
     },
     'click .lineProductBarCode, click .lineDescription, click .lineOrdered': function(event) {
-      let templateObject = Template.instance();
-      if(FlowRouter.current().queryParams.id){
+        let templateObject = Template.instance();
+        if (FlowRouter.current().queryParams.id) {
 
-        var $tblrow = $("#tblStocktransfer tbody tr");
-        var targetID = $(event.target).closest('tr').attr('id');
-        var prodPQALine = "";
-        var dataListRet = "";
+            var $tblrow = $("#tblStocktransfer tbody tr");
+            var targetID = $(event.target).closest('tr').attr('id');
+            var prodPQALine = "";
+            var dataListRet = "";
 
-        var productName = $('#' + targetID + " .lineProductName").val() || '';
-        var productID = $('#' + targetID + " .ProductID").text() || '';
-        prodPQALine = $('#' + targetID + " .lineID").text();
-        $('input[name="prodID"]').val($('#' + targetID + " .ProductID").text());
-        $('input[name="orderQty"]').val($('#' + targetID + " .colOrdered").val());
-        let countSerial = 0;
-        //$('table tr').css('background','#ffffff');
-        $('table tr').css('background', 'transparent');
-        $('#serailscanlist').find('tbody').remove();
-        //alert(rowIndex);
-        $('input[name="salesLineRow"]').val(targetID);
-         prodPQALine = $('#' + targetID + " .lineID").text();
-        var segsSerial = prodPQALine.split(',');
-        $('#' + targetID).css('background', 'rgba(0,163,211,0.1)');
-        for (let s = 0; s < segsSerial.length; s++) {
-          countSerial++;
-          let scannedCode = "PSN-"+productID+"-"+segsSerial[s];
-          let  htmlAppend = '<tr class="dnd-moved"><td class="form_id">'+countSerial+'</td><td>' + ''
-             + '</td><td>' + '</td>'
-             + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNoBOM" id="serialNoBOM" class="highlightInput " value="'+scannedCode+'" readonly>' + '</td><td class="hiddenColumn"><input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+segsSerial[s]+'" readonly></td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
-             + '</tr>';
-             if(segsSerial[s] != ''){
-               //$("#serailscanlist").append(htmlAppend);
-             }
+            var productName = $('#' + targetID + " .lineProductName").val() || '';
+            var productID = $('#' + targetID + " .ProductID").text() || '';
+            prodPQALine = $('#' + targetID + " .lineID").text();
+            $('input[name="prodID"]').val($('#' + targetID + " .ProductID").text());
+            $('input[name="orderQty"]').val($('#' + targetID + " .colOrdered").val());
+            let countSerial = 0;
+            //$('table tr').css('background','#ffffff');
+            $('table tr').css('background', 'transparent');
+            $('#serailscanlist').find('tbody').remove();
+            //alert(rowIndex);
+            $('input[name="salesLineRow"]').val(targetID);
+            prodPQALine = $('#' + targetID + " .lineID").text();
+            var segsSerial = prodPQALine.split(',');
+            $('#' + targetID).css('background', 'rgba(0,163,211,0.1)');
+            for (let s = 0; s < segsSerial.length; s++) {
+                countSerial++;
+                let scannedCode = "PSN-" + productID + "-" + segsSerial[s];
+                let htmlAppend = '<tr class="dnd-moved"><td class="form_id">' + countSerial + '</td><td>' + '' +
+                    '</td><td>' + '</td>' +
+                    '<td>' + '<input type="text" style="text-align: left !important;" name="serialNoBOM" id="serialNoBOM" class="highlightInput " value="' + scannedCode + '" readonly>' + '</td><td class="hiddenColumn"><input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="' + segsSerial[s] + '" readonly></td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>' +
+                    '</tr>';
+                if (segsSerial[s] != '') {
+                    //$("#serailscanlist").append(htmlAppend);
+                }
+
+            }
+            if (productName != '') {
+                templateObject.getProductQty(targetID, productName);
+            }
+            //templateObject.getProductQty(targetID, productName);
 
         }
-        if(productName != ''){
-        templateObject.getProductQty(targetID, productName);
-        }
-        //templateObject.getProductQty(targetID, productName);
-
-      }
     },
     'click .lineDepartment, keydown .lineDepartment': function(event) {
         var $earch = $(event.currentTarget);
         var offset = $earch.offset();
-            var departmentDataName = $(event.target).val() || '';
-            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
-                $('#departmentModal').modal('toggle');
-                var targetID = $(event.target).closest('tr').attr('id');
-                $('#selectLineID').val(targetID);
-                setTimeout(function() {
-                    $('#departmentList_filter .form-control-sm').focus();
-                    $('#departmentList_filter .form-control-sm').val('');
-                    $('#departmentList_filter .form-control-sm').trigger("input");
+        var departmentDataName = $(event.target).val() || '';
+        if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+            $('#departmentModal').modal('toggle');
+            var targetID = $(event.target).closest('tr').attr('id');
+            $('#selectLineID').val(targetID);
+            setTimeout(function() {
+                $('#departmentList_filter .form-control-sm').focus();
+                $('#departmentList_filter .form-control-sm').val('');
+                $('#departmentList_filter .form-control-sm').trigger("input");
 
-                    var datatable = $('#departmentList').DataTable();
-                    datatable.draw();
-                    $('#departmentList_filter .form-control-sm').trigger("input");
+                var datatable = $('#departmentList').DataTable();
+                datatable.draw();
+                $('#departmentList_filter .form-control-sm').trigger("input");
 
-                }, 500);
-            } else {
-                if (departmentDataName.replace(/\s/g, '') != '') {
-                    let lineExtaSellItems = [];
-                    let lineExtaSellObj = {};
-                    $('.fullScreenSpin').css('display', 'inline-block');
-                    $('#newDeptHeader').text('Edit Department');
+            }, 500);
+        } else {
+            if (departmentDataName.replace(/\s/g, '') != '') {
+                let lineExtaSellItems = [];
+                let lineExtaSellObj = {};
+                $('.fullScreenSpin').css('display', 'inline-block');
+                $('#newDeptHeader').text('Edit Department');
 
-                    getVS1Data('TDeptClass').then(function(dataObject) {
-                        if (dataObject.length == 0) {
-                            $('.fullScreenSpin').css('display', 'inline-block');
-                            sideBarService.getDepartment().then(function(data) {
-                                for (let i = 0; i < data.tdeptclass.length; i++) {
-                                    if (data.tdeptclass[i].DeptClassName === departmentDataName) {
-                                        $('#edtDepartmentID').val(data.tdeptclass[i].Id);
-                                        $('#edtNewDeptName').val(data.tdeptclass[i].DeptClassName);
-                                        $('#edtSiteCode').val(data.tdeptclass[i].SiteCode);
-                                        $('#edtDeptDesc').val(data.tdeptclass[i].Description);
-                                    }
-                                }
-                                setTimeout(function() {
-                                    $('.fullScreenSpin').css('display', 'none');
-                                    $('#newDepartmentModal').modal('toggle');
-                                }, 200);
-                            }).catch(function(err) {
-                                $('.fullScreenSpin').css('display', 'none');
-                            });
-                        } else {
-                            let data = JSON.parse(dataObject[0].data);
-                            let useData = data.tdeptclass;
-                            for (let i = 0; i < data.tdeptclass.length; i++) {
-                                if (data.tdeptclass[i].DeptClassName === deptDataName) {
-                                    $('#edtDepartmentID').val(data.tdeptclass[i].Id);
-                                    $('#edtNewDeptName').val(data.tdeptclass[i].DeptClassName);
-                                    $('#edtSiteCode').val(data.tdeptclass[i].SiteCode);
-                                    $('#edtDeptDesc').val(data.tdeptclass[i].Description);
-                                }
-                            }
-                            setTimeout(function() {
-                                $('.fullScreenSpin').css('display', 'none');
-                                $('#newDepartmentModal').modal('toggle');
-                            }, 200);
-                        }
-                    }).catch(function(err) {
+                getVS1Data('TDeptClass').then(function(dataObject) {
+                    if (dataObject.length == 0) {
                         $('.fullScreenSpin').css('display', 'inline-block');
                         sideBarService.getDepartment().then(function(data) {
                             for (let i = 0; i < data.tdeptclass.length; i++) {
@@ -2531,24 +2530,58 @@ Template.stocktransfercard.events({
                         }).catch(function(err) {
                             $('.fullScreenSpin').css('display', 'none');
                         });
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tdeptclass;
+                        for (let i = 0; i < data.tdeptclass.length; i++) {
+                            if (data.tdeptclass[i].DeptClassName === deptDataName) {
+                                $('#edtDepartmentID').val(data.tdeptclass[i].Id);
+                                $('#edtNewDeptName').val(data.tdeptclass[i].DeptClassName);
+                                $('#edtSiteCode').val(data.tdeptclass[i].SiteCode);
+                                $('#edtDeptDesc').val(data.tdeptclass[i].Description);
+                            }
+                        }
+                        setTimeout(function() {
+                            $('.fullScreenSpin').css('display', 'none');
+                            $('#newDepartmentModal').modal('toggle');
+                        }, 200);
+                    }
+                }).catch(function(err) {
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    sideBarService.getDepartment().then(function(data) {
+                        for (let i = 0; i < data.tdeptclass.length; i++) {
+                            if (data.tdeptclass[i].DeptClassName === departmentDataName) {
+                                $('#edtDepartmentID').val(data.tdeptclass[i].Id);
+                                $('#edtNewDeptName').val(data.tdeptclass[i].DeptClassName);
+                                $('#edtSiteCode').val(data.tdeptclass[i].SiteCode);
+                                $('#edtDeptDesc').val(data.tdeptclass[i].Description);
+                            }
+                        }
+                        setTimeout(function() {
+                            $('.fullScreenSpin').css('display', 'none');
+                            $('#newDepartmentModal').modal('toggle');
+                        }, 200);
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'none');
                     });
-                } else {
-                    $('#departmentModal').modal('toggle');
-                    var targetID = $(event.target).closest('tr').attr('id');
-                    $('#selectLineID').val(targetID);
-                    setTimeout(function() {
-                        $('#departmentList_filter .form-control-sm').focus();
-                        $('#departmentList_filter .form-control-sm').val('');
-                        $('#departmentList_filter .form-control-sm').trigger("input");
+                });
+            } else {
+                $('#departmentModal').modal('toggle');
+                var targetID = $(event.target).closest('tr').attr('id');
+                $('#selectLineID').val(targetID);
+                setTimeout(function() {
+                    $('#departmentList_filter .form-control-sm').focus();
+                    $('#departmentList_filter .form-control-sm').val('');
+                    $('#departmentList_filter .form-control-sm').trigger("input");
 
-                        var datatable = $('#departmentList').DataTable();
-                        datatable.draw();
-                        $('#departmentList_filter .form-control-sm').trigger("input");
+                    var datatable = $('#departmentList').DataTable();
+                    datatable.draw();
+                    $('#departmentList_filter .form-control-sm').trigger("input");
 
-                    }, 500);
-                }
-
+                }, 500);
             }
+
+        }
 
     },
     'click #includeInvoiceAttachment': function(e) {
@@ -2645,7 +2678,7 @@ Template.stocktransfercard.events({
         event.preventDefault();
         history.back(1);
     },
-    'click .printConfirm': function (event) {
+    'click .printConfirm': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#sltAccountName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val());
@@ -2662,296 +2695,296 @@ Template.stocktransfercard.events({
         let conNote = $('#shipcomments').val() || '';
         let toAccount = $('#sltBankAccountName').val() || '';
         let stockTransferService = new StockTransferService();
-            //$('.loginSpinner').css('display','inline-block');
-            $('.fullScreenSpin').css('display', 'inline-block');
-            var splashLineArray = new Array();
-            let lineItemsForm = [];
-            let lineItemObjForm = {};
-            $('#tblStocktransfer > tbody > tr').each(function() {
-                var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").val();
-                let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
-                let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
-                let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
-                let tddescription = $('#' + lineID + " .lineDescription").html() || '';
-                let tdserialNumber = $('#' + lineID + " .pqa").text()||'';
-                // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
-                // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
-                let tdDepartment = $('#' + lineID + " .lineDepartment").val();
+        //$('.loginSpinner').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
+        var splashLineArray = new Array();
+        let lineItemsForm = [];
+        let lineItemObjForm = {};
+        $('#tblStocktransfer > tbody > tr').each(function() {
+            var lineID = this.id;
+            let tdproduct = $('#' + lineID + " .lineProductName").val();
+            let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
+            let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
+            let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
+            let tddescription = $('#' + lineID + " .lineDescription").html() || '';
+            let tdserialNumber = $('#' + lineID + " .pqa").text() || '';
+            // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
+            // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
+            let tdDepartment = $('#' + lineID + " .lineDepartment").val();
 
-                let tdavailqty = $('#' + lineID + " .lineOrdere").val();
-                let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
-                if (tdproduct != "") {
-                    if(tdserialNumber != ''){
-                      lineItemObjForm = {
-                          type: "TSTELinesFlat",
-                          fields: {
-                              ProductName: tdproduct || '',
-                              AccountName: 'Inventory Asset',
-                              TransferQty: parseFloat(tdtransferqty) || 0,
-                              ClassNameTo: tdDepartment || defaultDept,
-                              TransferSerialnos: tdserialNumber || '',
-                              PartBarcode: tdbarcode || '',
-                          }
-                      };
-                    }else{
-                      lineItemObjForm = {
-                          type: "TSTELinesFlat",
-                          fields: {
-                              ProductName: tdproduct || '',
-                              AccountName: 'Inventory Asset',
-                              TransferQty: parseFloat(tdtransferqty) || 0,
-                              ClassNameTo: tdDepartment || defaultDept,
-                              PartBarcode: tdbarcode || '',
-                          }
-                      };
-                    }
-
-
-                    //lineItemsForm.push(lineItemObjForm);
-                    splashLineArray.push(lineItemObjForm);
+            let tdavailqty = $('#' + lineID + " .lineOrdere").val();
+            let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
+            if (tdproduct != "") {
+                if (tdserialNumber != '') {
+                    lineItemObjForm = {
+                        type: "TSTELinesFlat",
+                        fields: {
+                            ProductName: tdproduct || '',
+                            AccountName: 'Inventory Asset',
+                            TransferQty: parseFloat(tdtransferqty) || 0,
+                            ClassNameTo: tdDepartment || defaultDept,
+                            TransferSerialnos: tdserialNumber || '',
+                            PartBarcode: tdbarcode || '',
+                        }
+                    };
+                } else {
+                    lineItemObjForm = {
+                        type: "TSTELinesFlat",
+                        fields: {
+                            ProductName: tdproduct || '',
+                            AccountName: 'Inventory Asset',
+                            TransferQty: parseFloat(tdtransferqty) || 0,
+                            ClassNameTo: tdDepartment || defaultDept,
+                            PartBarcode: tdbarcode || '',
+                        }
+                    };
                 }
-            });
 
-            let selectAccount = $('#sltAccountName').val();
 
-            let notes = $('#shipcomments').val()||'';
-            let reason = $('#txtNotes').val()||'';
-            var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
-            let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
-            var url = FlowRouter.current().path;
-            var getso_id = url.split('?id=');
-            var currentStock = getso_id[getso_id.length - 1];
-            // let uploadedItems = templateObject.uploadedFiles.get();
-            var objDetails = '';
-            if (getso_id[1]) {
-                currentStock = parseInt(currentStock);
-                objDetails = {
-                    type: "TStockTransferEntry",
-                    fields: {
-                        ID: currentStock,
-                        AccountName: selectAccount,
-                        TransferFromClassName: transferFrom,
-                        DateTransferred: creationDate,
-                        DoProcessonSave: true,
-                        Transfertype: "Gen",
-                        EnforceUOM: false,
-                        Lines: splashLineArray,
-                        EmployeeName: Session.get('mySessionEmployee'),
-                        Shipping: shipVia,
-                        Notes: notes,
-                        Description: reason
+                //lineItemsForm.push(lineItemObjForm);
+                splashLineArray.push(lineItemObjForm);
+            }
+        });
 
+        let selectAccount = $('#sltAccountName').val();
+
+        let notes = $('#shipcomments').val() || '';
+        let reason = $('#txtNotes').val() || '';
+        var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
+        let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
+        var url = FlowRouter.current().path;
+        var getso_id = url.split('?id=');
+        var currentStock = getso_id[getso_id.length - 1];
+        // let uploadedItems = templateObject.uploadedFiles.get();
+        var objDetails = '';
+        if (getso_id[1]) {
+            currentStock = parseInt(currentStock);
+            objDetails = {
+                type: "TStockTransferEntry",
+                fields: {
+                    ID: currentStock,
+                    AccountName: selectAccount,
+                    TransferFromClassName: transferFrom,
+                    DateTransferred: creationDate,
+                    DoProcessonSave: true,
+                    Transfertype: "Gen",
+                    EnforceUOM: false,
+                    Lines: splashLineArray,
+                    EmployeeName: Session.get('mySessionEmployee'),
+                    Shipping: shipVia,
+                    Notes: notes,
+                    Description: reason
+
+                }
+            };
+        } else {
+            objDetails = {
+                type: "TStockTransferEntry",
+                fields: {
+                    AccountName: selectAccount,
+                    TransferFromClassName: transferFrom,
+                    DateTransferred: creationDate,
+                    DoProcessonSave: true,
+                    Transfertype: "Gen",
+                    EnforceUOM: false,
+                    Lines: splashLineArray,
+                    EmployeeName: Session.get('mySessionEmployee'),
+                    Shipping: shipVia,
+                    Notes: notes,
+                    Description: reason
+                }
+            };
+        }
+
+        stockTransferService.saveStockTransfer(objDetails).then(function(objDetails) {
+            function generatePdfForMail(invoiceId) {
+                let file = "Invoice-" + invoiceId + ".pdf"
+                return new Promise((resolve, reject) => {
+                    let templateObject = Template.instance();
+                    let completeTabRecord;
+                    let doc = new jsPDF('p', 'pt', 'a4');
+                    var source = document.getElementById('html-2-pdfwrapper');
+                    var opt = {
+                        margin: 0,
+                        filename: file,
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+                        },
+                        html2canvas: {
+                            scale: 2
+                        },
+                        jsPDF: {
+                            unit: 'in',
+                            format: 'a4',
+                            orientation: 'portrait'
+                        }
                     }
-                };
-            } else {
-                objDetails = {
-                    type: "TStockTransferEntry",
-                    fields: {
-                        AccountName: selectAccount,
-                        TransferFromClassName: transferFrom,
-                        DateTransferred: creationDate,
-                        DoProcessonSave: true,
-                        Transfertype: "Gen",
-                        EnforceUOM: false,
-                        Lines: splashLineArray,
-                        EmployeeName: Session.get('mySessionEmployee'),
-                        Shipping: shipVia,
-                        Notes: notes,
-                        Description: reason
-                    }
-                };
+                    resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+
+                });
             }
 
-            stockTransferService.saveStockTransfer(objDetails).then(function(objDetails) {
-                function generatePdfForMail(invoiceId) {
-                    let file = "Invoice-" + invoiceId + ".pdf"
-                    return new Promise((resolve, reject) => {
-                        let templateObject = Template.instance();
-                        let completeTabRecord;
-                        let doc = new jsPDF('p', 'pt', 'a4');
-                        var source = document.getElementById('html-2-pdfwrapper');
-                        var opt = {
-                            margin: 0,
-                            filename: file,
-                            image: {
-                                type: 'jpeg',
-                                quality: 0.98
-                            },
-                            html2canvas: {
-                                scale: 2
-                            },
-                            jsPDF: {
-                                unit: 'in',
-                                format: 'a4',
-                                orientation: 'portrait'
-                            }
+            async function addAttachment() {
+                let attachment = [];
+                let templateObject = Template.instance();
+
+                let invoiceId = objDetails.fields.ID;
+                let encodedPdf = await generatePdfForMail(invoiceId);
+                // var base64data = reader.result;
+                let base64data = encodedPdf.split(',')[1];
+                pdfObject = {
+                    filename: 'Stock Adjustment-' + invoiceId + '.pdf',
+                    content: base64data,
+                    encoding: 'base64'
+                };
+                attachment.push(pdfObject);
+                let erpInvoiceId = objDetails.fields.ID;
+
+                let mailFromName = Session.get('vs1companyName');
+                let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                //let customerEmailName = $('#edtCustomerName').val();
+                let checkEmailData = $('#edtCustomerEmail').val();
+                // let grandtotal = $('#grandTotal').html();
+                // let amountDueEmail = $('#totalBalanceDue').html();
+                // let emailDueDate = $("#dtDueDate").val();
+                // let customerBillingAddress = $('#txabillingAddress').val();
+                // let customerTerms = $('#sltTerms').val();
+
+                // let customerSubtotal = $('#subtotal_total').html();
+                // let customerTax = $('#subtotal_tax').html();
+                // let customerNett = $('#subtotal_nett').html();
+                // let customerTotal = $('#grandTotal').html();
+                let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
+                let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
+
+                var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                    '        <tr>' +
+                    '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                    '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                    '                    <table class="main">' +
+                    '                        <tr>' +
+                    '                            <td class="wrapper">' +
+                    '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                    '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr style="height: 16px;"></tr>' +
+                    '                                    <tr>' +
+                    '                                        <td>' +
+                    '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr style="height: 48px;"></tr>' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                    '                                            <p style="font-size: 18px;">Hi </p>' +
+                    '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Transfer attached to this email.</p>' +
+                    '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks you</p>' +
+                    '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                    '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr>' +
+                    '                                        <td>' +
+                    '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                    '                                                <tbody>' +
+                    '                                                    <tr>' +
+                    '                                                        <td align="center">' +
+                    '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                    '                                                                <tbody>' +
+                    '                                                                    <tr>' +
+                    '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                    '                                                                    </tr>' +
+                    '                                                                </tbody>' +
+                    '                                                            </table>' +
+                    '                                                        </td>' +
+                    '                                                    </tr>' +
+                    '                                                </tbody>' +
+                    '                                            </table>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                </table>' +
+                    '                            </td>' +
+                    '                        </tr>' +
+                    '                    </table>' +
+                    '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                    '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                    '                            <tr>' +
+                    '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                    '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                    '                                    <br>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                    '                                </td>' +
+                    '                            </tr>' +
+                    '                        </table>' +
+                    '                    </div>' +
+                    '                </div>' +
+                    '            </td>' +
+                    '        </tr>' +
+                    '    </table>';
+
+                if ($('.chkEmailCopy').is(':checked')) {
+
+                    $('#html-2-pdfwrapper').css('display', 'none');
+                    Meteor.call('sendEmail', {
+                        from: "" + mailFromName + " <" + mailFrom + ">",
+                        to: checkEmailData,
+                        subject: mailSubject,
+                        text: '',
+                        html: htmlmailBody,
+                        attachments: attachment
+                    }, function(error, result) {
+                        if (error && error.error === "error") {
+                            FlowRouter.go('/stocktransferlist?success=true');
+
+                        } else {
+                            swal({
+                                title: 'SUCCESS',
+                                text: "Email Sent To Employee: " + checkEmailData + " ",
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.value) {
+                                    FlowRouter.go('/stocktransferlist?success=true');
+                                } else if (result.dismiss === 'cancel') {}
+                            });
+
+                            $('.fullScreenSpin').css('display', 'none');
                         }
-                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
-
                     });
-                }
 
-                async function addAttachment() {
-                    let attachment = [];
-                    let templateObject = Template.instance();
+                } else {
+                    FlowRouter.go('/stocktransferlist?success=true');
+                };
 
-                    let invoiceId = objDetails.fields.ID;
-                    let encodedPdf = await generatePdfForMail(invoiceId);
-                    // var base64data = reader.result;
-                    let base64data = encodedPdf.split(',')[1];
-                    pdfObject = {
-                        filename: 'Stock Adjustment-' + invoiceId + '.pdf',
-                        content: base64data,
-                        encoding: 'base64'
-                    };
-                    attachment.push(pdfObject);
-                    let erpInvoiceId = objDetails.fields.ID;
+            }
+            addAttachment();
 
-                    let mailFromName = Session.get('vs1companyName');
-                    let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
-                    //let customerEmailName = $('#edtCustomerName').val();
-                    let checkEmailData = $('#edtCustomerEmail').val();
-                    // let grandtotal = $('#grandTotal').html();
-                    // let amountDueEmail = $('#totalBalanceDue').html();
-                    // let emailDueDate = $("#dtDueDate").val();
-                    // let customerBillingAddress = $('#txabillingAddress').val();
-                    // let customerTerms = $('#sltTerms').val();
+            $('.modal-backdrop').css('display', 'none');
 
-                    // let customerSubtotal = $('#subtotal_total').html();
-                    // let customerTax = $('#subtotal_tax').html();
-                    // let customerNett = $('#subtotal_nett').html();
-                    // let customerTotal = $('#grandTotal').html();
-                    let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
-                    let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
-
-                    var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
-                        '        <tr>' +
-                        '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
-                        '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
-                        '                    <table class="main">' +
-                        '                        <tr>' +
-                        '                            <td class="wrapper">' +
-                        '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
-                        '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="height: 16px;"></tr>' +
-                        '                                    <tr>' +
-                        '                                        <td>' +
-                        '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="height: 48px;"></tr>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <p style="font-size: 18px;">Hi </p>' +
-                        '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Transfer attached to this email.</p>' +
-                        '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks you</p>' +
-                        '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr>' +
-                        '                                        <td>' +
-                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
-                        '                                                <tbody>' +
-                        '                                                    <tr>' +
-                        '                                                        <td align="center">' +
-                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
-                        '                                                                <tbody>' +
-                        '                                                                    <tr>' +
-                        '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
-                        '                                                                    </tr>' +
-                        '                                                                </tbody>' +
-                        '                                                            </table>' +
-                        '                                                        </td>' +
-                        '                                                    </tr>' +
-                        '                                                </tbody>' +
-                        '                                            </table>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                </table>' +
-                        '                            </td>' +
-                        '                        </tr>' +
-                        '                    </table>' +
-                        '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
-                        '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                        '                            <tr>' +
-                        '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
-                        '                                    <br>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
-                        '                                </td>' +
-                        '                            </tr>' +
-                        '                        </table>' +
-                        '                    </div>' +
-                        '                </div>' +
-                        '            </td>' +
-                        '        </tr>' +
-                        '    </table>';
-
-                    if ($('.chkEmailCopy').is(':checked')) {
-
-                        $('#html-2-pdfwrapper').css('display', 'none');
-                        Meteor.call('sendEmail', {
-                            from: "" + mailFromName + " <" + mailFrom + ">",
-                            to: checkEmailData,
-                            subject: mailSubject,
-                            text: '',
-                            html: htmlmailBody,
-                            attachments: attachment
-                        }, function(error, result) {
-                            if (error && error.error === "error") {
-                                FlowRouter.go('/stocktransferlist?success=true');
-
-                            } else {
-                                swal({
-                                    title: 'SUCCESS',
-                                    text: "Email Sent To Employee: " + checkEmailData + " ",
-                                    type: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        FlowRouter.go('/stocktransferlist?success=true');
-                                    } else if (result.dismiss === 'cancel') {}
-                                });
-
-                                $('.fullScreenSpin').css('display', 'none');
-                            }
-                        });
-
-                    } else {
-                        FlowRouter.go('/stocktransferlist?success=true');
-                    };
-
-                }
-                addAttachment();
-
-                $('.modal-backdrop').css('display', 'none');
-
-            }).catch(function(err) {
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                        Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {}
-                });
-                //$('.loginSpinner').css('display','none');
-                $('.fullScreenSpin').css('display', 'none');
+        }).catch(function(err) {
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
             });
+            //$('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
+        });
 
 
     },
@@ -2966,29 +2999,29 @@ Template.stocktransfercard.events({
         let toAccount = $('#sltBankAccountName').val() || '';
         // let department = $('#sltDepartment').val();
         let stockTransferService = new StockTransferService();
-            //$('.loginSpinner').css('display','inline-block');
-            $('.fullScreenSpin').css('display', 'inline-block');
-            var splashLineArray = new Array();
-            let lineItemsForm = [];
-            let lineItemObjForm = {};
+        //$('.loginSpinner').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
+        var splashLineArray = new Array();
+        let lineItemsForm = [];
+        let lineItemObjForm = {};
 
-            $('#tblStocktransfer > tbody > tr').each(function() {
-                var lineID = this.id;
-                let tdproduct = $('#' + lineID + " .lineProductName").val();
-                let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
-                let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
-                let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
-                let tddescription = $('#' + lineID + " .lineDescription").html() || '';
-                let tdserialNumber = $('#' + lineID + " .pqa").text();
-                // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
-                // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
-                let tdDepartment = $('#' + lineID + " .lineDepartment").val();
+        $('#tblStocktransfer > tbody > tr').each(function() {
+            var lineID = this.id;
+            let tdproduct = $('#' + lineID + " .lineProductName").val();
+            let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
+            let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
+            let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
+            let tddescription = $('#' + lineID + " .lineDescription").html() || '';
+            let tdserialNumber = $('#' + lineID + " .pqa").text();
+            // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
+            // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
+            let tdDepartment = $('#' + lineID + " .lineDepartment").val();
 
-                let tdavailqty = $('#' + lineID + " .lineOrdere").val();
-                let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
-                if (tdproduct != "") {
+            let tdavailqty = $('#' + lineID + " .lineOrdere").val();
+            let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
+            if (tdproduct != "") {
 
-                  if(tdserialNumber != ''){
+                if (tdserialNumber != '') {
                     lineItemObjForm = {
                         type: "TSTELinesFlat",
                         fields: {
@@ -3000,7 +3033,7 @@ Template.stocktransfercard.events({
                             PartBarcode: tdbarcode || '',
                         }
                     };
-                  }else{
+                } else {
                     lineItemObjForm = {
                         type: "TSTELinesFlat",
                         fields: {
@@ -3011,268 +3044,268 @@ Template.stocktransfercard.events({
                             PartBarcode: tdbarcode || '',
                         }
                     };
-                  }
-
-                    //lineItemsForm.push(lineItemObjForm);
-                    splashLineArray.push(lineItemObjForm);
                 }
-            });
 
-            let selectAccount = $('#sltAccountName').val();
+                //lineItemsForm.push(lineItemObjForm);
+                splashLineArray.push(lineItemObjForm);
+            }
+        });
 
-            let notes = $('#shipcomments').val();
-            let reason = $('#txtNotes').val()||'';
-            var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
-            let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
-            var url = FlowRouter.current().path;
-            var getso_id = url.split('?id=');
-            var currentStock = getso_id[getso_id.length - 1];
-            // let uploadedItems = templateObject.uploadedFiles.get();
-            var objDetails = '';
-            if (getso_id[1]) {
-                currentStock = parseInt(currentStock);
-                objDetails = {
-                    type: "TStockTransferEntry",
-                    fields: {
-                        ID: currentStock,
-                        AccountName: selectAccount,
-                        DateTransferred: creationDate,
-                        // AdjustmentOnInStock: true,
-                        // AdjustType: "Gen",
-                        // Approved: false,
-                        CreationDate: creationDate,
-                        //Deleted: false,
-                        EmployeeName: Session.get('mySessionEmployee'),
-                        EnforceUOM: false,
-                        //ISEmpty:false,
-                        //IsStockTake:false,
-                        Lines: splashLineArray,
-                        DoProcessonSave: false,
-                        Notes: notes,
-                        Description: reason,
-                        // SalesRef: conNote,
-                        TransferFromClassName: transferFrom,
-                        Transfertype: "Gen",
-                        Shipping: shipVia
+        let selectAccount = $('#sltAccountName').val();
 
+        let notes = $('#shipcomments').val();
+        let reason = $('#txtNotes').val() || '';
+        var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
+        let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
+        var url = FlowRouter.current().path;
+        var getso_id = url.split('?id=');
+        var currentStock = getso_id[getso_id.length - 1];
+        // let uploadedItems = templateObject.uploadedFiles.get();
+        var objDetails = '';
+        if (getso_id[1]) {
+            currentStock = parseInt(currentStock);
+            objDetails = {
+                type: "TStockTransferEntry",
+                fields: {
+                    ID: currentStock,
+                    AccountName: selectAccount,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
+                    CreationDate: creationDate,
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
+                    EnforceUOM: false,
+                    //ISEmpty:false,
+                    //IsStockTake:false,
+                    Lines: splashLineArray,
+                    DoProcessonSave: false,
+                    Notes: notes,
+                    Description: reason,
+                    // SalesRef: conNote,
+                    TransferFromClassName: transferFrom,
+                    Transfertype: "Gen",
+                    Shipping: shipVia
+
+                }
+            };
+        } else {
+            objDetails = {
+                type: "TStockTransferEntry",
+                fields: {
+                    AccountName: selectAccount,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
+                    CreationDate: creationDate,
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
+                    EnforceUOM: false,
+                    //ISEmpty:false,
+                    //IsStockTake:false,
+                    Lines: splashLineArray,
+                    DoProcessonSave: false,
+                    Notes: notes,
+                    Description: reason,
+                    // SalesRef: conNote,
+                    TransferFromClassName: transferFrom,
+                    Transfertype: "Gen",
+                    Shipping: shipVia
+                }
+            };
+        }
+
+        stockTransferService.saveStockTransfer(objDetails).then(function(objDetails) {
+            function generatePdfForMail(invoiceId) {
+                let file = "Invoice-" + invoiceId + ".pdf"
+                return new Promise((resolve, reject) => {
+                    let templateObject = Template.instance();
+                    let completeTabRecord;
+                    let doc = new jsPDF('p', 'pt', 'a4');
+                    var source = document.getElementById('html-2-pdfwrapper');
+                    var opt = {
+                        margin: 0,
+                        filename: file,
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+                        },
+                        html2canvas: {
+                            scale: 2
+                        },
+                        jsPDF: {
+                            unit: 'in',
+                            format: 'a4',
+                            orientation: 'portrait'
+                        }
                     }
-                };
-            } else {
-                objDetails = {
-                    type: "TStockTransferEntry",
-                    fields: {
-                        AccountName: selectAccount,
-                        DateTransferred: creationDate,
-                        // AdjustmentOnInStock: true,
-                        // AdjustType: "Gen",
-                        // Approved: false,
-                        CreationDate: creationDate,
-                        //Deleted: false,
-                        EmployeeName: Session.get('mySessionEmployee'),
-                        EnforceUOM: false,
-                        //ISEmpty:false,
-                        //IsStockTake:false,
-                        Lines: splashLineArray,
-                        DoProcessonSave: false,
-                        Notes: notes,
-                        Description: reason,
-                        // SalesRef: conNote,
-                        TransferFromClassName: transferFrom,
-                        Transfertype: "Gen",
-                        Shipping: shipVia
-                    }
-                };
+                    resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+
+                });
             }
 
-            stockTransferService.saveStockTransfer(objDetails).then(function(objDetails) {
-                function generatePdfForMail(invoiceId) {
-                    let file = "Invoice-" + invoiceId + ".pdf"
-                    return new Promise((resolve, reject) => {
-                        let templateObject = Template.instance();
-                        let completeTabRecord;
-                        let doc = new jsPDF('p', 'pt', 'a4');
-                        var source = document.getElementById('html-2-pdfwrapper');
-                        var opt = {
-                            margin: 0,
-                            filename: file,
-                            image: {
-                                type: 'jpeg',
-                                quality: 0.98
-                            },
-                            html2canvas: {
-                                scale: 2
-                            },
-                            jsPDF: {
-                                unit: 'in',
-                                format: 'a4',
-                                orientation: 'portrait'
-                            }
+            async function addAttachment() {
+                let attachment = [];
+                let templateObject = Template.instance();
+
+                let invoiceId = objDetails.fields.ID;
+                let encodedPdf = await generatePdfForMail(invoiceId);
+                // var base64data = reader.result;
+                let base64data = encodedPdf.split(',')[1];
+                pdfObject = {
+                    filename: 'Stock Adjustment-' + invoiceId + '.pdf',
+                    content: base64data,
+                    encoding: 'base64'
+                };
+                attachment.push(pdfObject);
+                let erpInvoiceId = objDetails.fields.ID;
+
+                let mailFromName = Session.get('vs1companyName');
+                let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                //let customerEmailName = $('#edtCustomerName').val();
+                let checkEmailData = $('#edtCustomerEmail').val();
+                // let grandtotal = $('#grandTotal').html();
+                // let amountDueEmail = $('#totalBalanceDue').html();
+                // let emailDueDate = $("#dtDueDate").val();
+                // let customerBillingAddress = $('#txabillingAddress').val();
+                // let customerTerms = $('#sltTerms').val();
+
+                // let customerSubtotal = $('#subtotal_total').html();
+                // let customerTax = $('#subtotal_tax').html();
+                // let customerNett = $('#subtotal_nett').html();
+                // let customerTotal = $('#grandTotal').html();
+                let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
+                let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
+
+                var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                    '        <tr>' +
+                    '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                    '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                    '                    <table class="main">' +
+                    '                        <tr>' +
+                    '                            <td class="wrapper">' +
+                    '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                    '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr style="height: 16px;"></tr>' +
+                    '                                    <tr>' +
+                    '                                        <td>' +
+                    '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr style="height: 48px;"></tr>' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                    '                                            <p style="font-size: 18px;">Hi </p>' +
+                    '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Transfer attached to this email.</p>' +
+                    '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks you</p>' +
+                    '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                    '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr>' +
+                    '                                        <td>' +
+                    '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                    '                                                <tbody>' +
+                    '                                                    <tr>' +
+                    '                                                        <td align="center">' +
+                    '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                    '                                                                <tbody>' +
+                    '                                                                    <tr>' +
+                    '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                    '                                                                    </tr>' +
+                    '                                                                </tbody>' +
+                    '                                                            </table>' +
+                    '                                                        </td>' +
+                    '                                                    </tr>' +
+                    '                                                </tbody>' +
+                    '                                            </table>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                </table>' +
+                    '                            </td>' +
+                    '                        </tr>' +
+                    '                    </table>' +
+                    '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                    '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                    '                            <tr>' +
+                    '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                    '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                    '                                    <br>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                    '                                </td>' +
+                    '                            </tr>' +
+                    '                        </table>' +
+                    '                    </div>' +
+                    '                </div>' +
+                    '            </td>' +
+                    '        </tr>' +
+                    '    </table>';
+
+
+                if ($('.chkEmailCopy').is(':checked')) {
+
+                    $('#html-2-pdfwrapper').css('display', 'none');
+                    Meteor.call('sendEmail', {
+                        from: "" + mailFromName + " <" + mailFrom + ">",
+                        to: checkEmailData,
+                        subject: mailSubject,
+                        text: '',
+                        html: htmlmailBody,
+                        attachments: attachment
+                    }, function(error, result) {
+                        if (error && error.error === "error") {
+                            FlowRouter.go('/stocktransferlist?success=true');
+
+                        } else {
+                            swal({
+                                title: 'SUCCESS',
+                                text: "Email Sent To Employee: " + checkEmailData + " ",
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.value) {
+                                    FlowRouter.go('/stocktransferlist?success=true');
+                                } else if (result.dismiss === 'cancel') {}
+                            });
+
+                            $('.fullScreenSpin').css('display', 'none');
                         }
-                        resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
-
                     });
-                }
 
-                async function addAttachment() {
-                    let attachment = [];
-                    let templateObject = Template.instance();
+                } else {
+                    FlowRouter.go('/stocktransferlist?success=true');
+                };
 
-                    let invoiceId = objDetails.fields.ID;
-                    let encodedPdf = await generatePdfForMail(invoiceId);
-                    // var base64data = reader.result;
-                    let base64data = encodedPdf.split(',')[1];
-                    pdfObject = {
-                        filename: 'Stock Adjustment-' + invoiceId + '.pdf',
-                        content: base64data,
-                        encoding: 'base64'
-                    };
-                    attachment.push(pdfObject);
-                    let erpInvoiceId = objDetails.fields.ID;
+            }
+            addAttachment();
+            $('.modal-backdrop').css('display', 'none');
 
-                    let mailFromName = Session.get('vs1companyName');
-                    let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
-                    //let customerEmailName = $('#edtCustomerName').val();
-                    let checkEmailData = $('#edtCustomerEmail').val();
-                    // let grandtotal = $('#grandTotal').html();
-                    // let amountDueEmail = $('#totalBalanceDue').html();
-                    // let emailDueDate = $("#dtDueDate").val();
-                    // let customerBillingAddress = $('#txabillingAddress').val();
-                    // let customerTerms = $('#sltTerms').val();
-
-                    // let customerSubtotal = $('#subtotal_total').html();
-                    // let customerTax = $('#subtotal_tax').html();
-                    // let customerNett = $('#subtotal_nett').html();
-                    // let customerTotal = $('#grandTotal').html();
-                    let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
-                    let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
-
-                    var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
-                        '        <tr>' +
-                        '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
-                        '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
-                        '                    <table class="main">' +
-                        '                        <tr>' +
-                        '                            <td class="wrapper">' +
-                        '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
-                        '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="height: 16px;"></tr>' +
-                        '                                    <tr>' +
-                        '                                        <td>' +
-                        '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr style="height: 48px;"></tr>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <p style="font-size: 18px;">Hi </p>' +
-                        '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Transfer attached to this email.</p>' +
-                        '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks you</p>' +
-                        '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
-                        '                                    <tr>' +
-                        '                                        <td class="content-block" style="padding: 16px 32px;">' +
-                        '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                    <tr>' +
-                        '                                        <td>' +
-                        '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
-                        '                                                <tbody>' +
-                        '                                                    <tr>' +
-                        '                                                        <td align="center">' +
-                        '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
-                        '                                                                <tbody>' +
-                        '                                                                    <tr>' +
-                        '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
-                        '                                                                    </tr>' +
-                        '                                                                </tbody>' +
-                        '                                                            </table>' +
-                        '                                                        </td>' +
-                        '                                                    </tr>' +
-                        '                                                </tbody>' +
-                        '                                            </table>' +
-                        '                                        </td>' +
-                        '                                    </tr>' +
-                        '                                </table>' +
-                        '                            </td>' +
-                        '                        </tr>' +
-                        '                    </table>' +
-                        '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
-                        '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
-                        '                            <tr>' +
-                        '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
-                        '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
-                        '                                    <br>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
-                        '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
-                        '                                </td>' +
-                        '                            </tr>' +
-                        '                        </table>' +
-                        '                    </div>' +
-                        '                </div>' +
-                        '            </td>' +
-                        '        </tr>' +
-                        '    </table>';
-
-
-                    if ($('.chkEmailCopy').is(':checked')) {
-
-                        $('#html-2-pdfwrapper').css('display', 'none');
-                        Meteor.call('sendEmail', {
-                            from: "" + mailFromName + " <" + mailFrom + ">",
-                            to: checkEmailData,
-                            subject: mailSubject,
-                            text: '',
-                            html: htmlmailBody,
-                            attachments: attachment
-                        }, function(error, result) {
-                            if (error && error.error === "error") {
-                                FlowRouter.go('/stocktransferlist?success=true');
-
-                            } else {
-                                swal({
-                                    title: 'SUCCESS',
-                                    text: "Email Sent To Employee: " + checkEmailData + " ",
-                                    type: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.value) {
-                                        FlowRouter.go('/stocktransferlist?success=true');
-                                    } else if (result.dismiss === 'cancel') {}
-                                });
-
-                                $('.fullScreenSpin').css('display', 'none');
-                            }
-                        });
-
-                    } else {
-                        FlowRouter.go('/stocktransferlist?success=true');
-                    };
-
-                }
-                addAttachment();
-                $('.modal-backdrop').css('display', 'none');
-
-            }).catch(function(err) {
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                        Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {}
-                });
-                //$('.loginSpinner').css('display','none');
-                $('.fullScreenSpin').css('display', 'none');
+        }).catch(function(err) {
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
             });
+            //$('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
+        });
 
 
     },
@@ -3428,6 +3461,20 @@ Template.stocktransfercard.events({
             }
 
         }
+    },
+    'click .tdBarcodeScanner': function(event) {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+        } else {
+            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
+        }
+    },
+    'click .scanNewRow': function(event) {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+        } else {
+            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
+        }
     }
 });
 
@@ -3460,7 +3507,7 @@ Template.stocktransfercard.helpers({
     availableserialnumberlist: () => {
         return Template.instance().availableserialnumberlist.get();
     },
-     showSerial: () => {
+    showSerial: () => {
         return Session.get('CloudShowSerial') || false;
     },
     availableserialnumberqty: () => {
