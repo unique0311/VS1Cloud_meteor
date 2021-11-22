@@ -77,7 +77,7 @@
                 }
             </style>
 
-            <div class="row" style="background-color: #ededed; padding: 32px;">
+            <!-- <div class="row" style="background-color: #ededed; padding: 32px;">
                 <div class="col-12 col-lg-6">
                     <div class="row">
                         <div class="col-12 col-lg-4">
@@ -141,31 +141,41 @@
                 <div class="col-12 col-lg-2 colProcessed" id="colProcessed" style="display: none;">
                     <h3 style="margin-left: 0px; margin-top: 35px; color: #e02d1b; font-weight: 600;">Processed</h3>
                 </div>
-            </div>
+            </div> -->
 
 
-            <!-- <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
+            <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
                 <div class="col-12 col-lg-3">
-                    <div class="form-group"><label>Employee Email</label>
-                        <input class="form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" ">
+                  <div class="row">
+                    <div class="col-6 col-lg-6">
+                      <div class="form-group"><label>Employee Email</label>
+                          <input class="form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" ">
+                      </div>
+                      <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px;padding: -2px;padding-left: 24px;width: 100%;">
+                          <div class="form-group" style="margin-right: 35px; Width:50%;">
+                              <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px;"><label class="custom-control-label" for="formCheck-1">Email Employee</label>
+                          </div>
+                      </div>
                     </div>
-                    <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px;padding: -2px;padding-left: 24px;width: 100%;">
-                        <div class="form-group" style="margin-right: 35px; Width:50%;">
-                            <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px;"><label class="custom-control-label" for="formCheck-1">Email Employee</label>
-                        </div>
+                    <div class="col-6 col-lg-6">
+                      <div class="form-group">
+                               <label>Transfer No</label>
+                               <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
+                      </div>
                     </div>
+                  </div>
                 </div>
-
+                <div class="col-12 col-lg-3">
+                      <div class="form-group">
+                          <label>Description</label>
+                          <textarea class="form-control" rows="4" id="shipcomments" name="shipcomments" style="height: 123px;">{{stocktransferrecord.notes}}</textarea>
+                      </div>
+                </div>
                 <div class="col-12 col-md-6 col-lg-2 colProcessed" id="colProcessed" style="display: none;">
                     <h3 style="margin-left: 0px; margin-top: 35px; color: #e02d1b; font-weight: 600;">Processed</h3>
                 </div>
             </div>
             <div class="row" style="background-color: #ededed; padding: 8px 32px 0px 32px;">
-                <div class="col-12 col-lg-3" style="display: none;">
-                    <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Shipping Address</label>
-                        <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo">{{stocktransferrecord.shipto}}</textarea>
-                    </div>
-                </div>
                 <div class="col-12 col-lg-3">
                     <div class="row">
                         <div class="col-6 col-lg-6">
@@ -200,31 +210,12 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-3">
-                    <div class="row">
-                        <div class="col-12 col-lg-6">
-                            <div class="form-group">
-                                <label>Transfer No</label>
-                                <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
-                            </div>
-                        </div>
-                    </div>
+                      <div class="form-group">
+                          <label>Reason</label>
+                          <textarea class="form-control" rows="4" id="txtNotes" name="txtNotes" style="height: 123px;">{{stocktransferrecord.descriptions}}</textarea>
+                      </div>
                 </div>
             </div>
-            <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
-                <div class="col-12 mb-2">
-                    <a class="btn btn-link" style="margin-left: 16px;" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Comments</a>
-                    <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="collapse" id="collapse-notes" style="margin: 16px; margin-top: 8px;">
-                                <div class="form-group"><label style="color:#858796;">Comments</label>
-                                    <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments">{{stocktransferrecord.comments}}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div> -->
 
             <div class="row" style="margin: 0px 32px; margin-top: 16px;">
                 <div class="table-responsive">
@@ -348,7 +339,7 @@
                                     <!-- <td class="UOMQtyShipped" id="UOMQtyShipped">{{item.qtyshipped}}</td> -->
                                     <td><input class="lineUOMQtyShipped UOMQtyShipped highlightInput" id="UOMQtyShipped" type="number" value="{{item.qtyshipped}}"></td>
                                     <td class="hiddenColumn ID" id="ID">{{item.id}}</td>
-                                    <td class="hiddenColumn pqa" id="pqa"></td>
+                                    <td class="hiddenColumn pqa" id="pqa">{{item.pqa}}</td>
 
                                     <td class="hiddenColumn UOMQtyBackOrder" id="UOMQtyBackOrder">{{item.qtybo}}</td>
                                     <td class="hiddenColumn ProductID" id="ProductID">{{item.productid}}</td>

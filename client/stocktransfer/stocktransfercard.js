@@ -110,7 +110,7 @@ Template.stocktransfercard.onRendered(function() {
                 newTransferID = 1;
             }
             $('#txtTransfer').val(newTransferID);
-            $('.shippingHeader').html('New Stock Transfer #' + newTransferID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a>');
+            $('.shippingHeader').html('New Stock Transfer #' + newTransferID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a> ');
 
         });
     }
@@ -120,7 +120,9 @@ Template.stocktransfercard.onRendered(function() {
             templateObject.availserialrecord.set(dataSerialNumber);
         });
     }
+    if(Session.get('CloudShowSerial')){
     templateObject.getAllAvailableSerialNumber();
+    }
     stockTransferService.getProductClassQuantitys().then(function(dataProductQty) {
         templateObject.productquantityrecord.set(dataProductQty);
     });
@@ -346,7 +348,8 @@ Template.stocktransfercard.onRendered(function() {
                                 $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                                 $('#sltBankAccountName').val(data.fields.AccountName);
                                 $('#shipvia').val(data.fields.Shipping);
-                                $('#tblStocktransfer .lineOrdered').trigger("click");
+                                // $('#tblStocktransfer .lineOrdered').trigger("click");
+                                $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
                             }, 200);
 
                             if (data.fields.Processed == true) {
@@ -486,13 +489,14 @@ Template.stocktransfercard.onRendered(function() {
                                 };
 
                                 let getDepartmentVal = useData[d].fields.Lines[0].fields.TransferFromClassName || defaultDept;
-                                $('.shippingHeader').html('Edit Stock Transfer #' + useData[d].fields.ID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a>');
+                                $('.shippingHeader').html('Edit Stock Transfer #' + useData[d].fields.ID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a> ');
                                 setTimeout(function() {
                                     $('#sltDepartment').val(record.department);
                                     $('#edtCustomerName').val(useData[d].fields.Lines[0].fields.CustomerName);
                                     $('#sltBankAccountName').val(useData[d].fields.AccountName);
                                     $('#shipvia').val(useData[d].fields.Shipping);
-                                    $('#tblStocktransfer .lineOrdered').trigger("click");
+                                    // $('#tblStocktransfer .lineOrdered').trigger("click");
+                                    $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
                                 }, 200);
 
 
@@ -611,7 +615,8 @@ Template.stocktransfercard.onRendered(function() {
                                     $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                                     $('#sltBankAccountName').val(data.fields.AccountName);
                                     $('#shipvia').val(data.fields.Shipping);
-                                    $('#tblStocktransfer .lineOrdered').trigger("click");
+                                    // $('#tblStocktransfer .lineOrdered').trigger("click");
+                                    $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
                                 }, 200);
 
                                 if (data.fields.Processed == true) {
@@ -905,9 +910,9 @@ Template.stocktransfercard.onRendered(function() {
 
     if (FlowRouter.current().queryParams.id) {
 
-       setTimeout(function() {
-           $('#tblStocktransfer .lineOrdered').trigger("click");
-       }, 400);
+       // setTimeout(function() {
+       //     $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
+       // }, 400);
     } else {
         setTimeout(function() {
             $('#tblStocktransfer .lineProductName').trigger("click");
@@ -2437,9 +2442,12 @@ Template.stocktransfercard.events({
              + '<td>' + '<input type="text" style="text-align: left !important;" name="serialNoBOM" id="serialNoBOM" class="highlightInput " value="'+scannedCode+'" readonly>' + '</td><td class="hiddenColumn"><input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="'+segsSerial[s]+'" readonly></td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>'
              + '</tr>';
              if(segsSerial[s] != ''){
-               $("#serailscanlist").append(htmlAppend);
+               //$("#serailscanlist").append(htmlAppend);
              }
 
+        }
+        if(productName != ''){
+        templateObject.getProductQty(targetID, productName);
         }
         //templateObject.getProductQty(targetID, productName);
 
