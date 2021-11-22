@@ -831,6 +831,10 @@ Template.contactoverview.onRendered(function() {
                                 }, 100);
                             },
                             "fnInitComplete": function () {
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage) {
+                                  this.fnPageChange('last');
+                              }
                             $("<button class='btn btn-primary btnRefreshContact' type='button' id='btnRefreshContact' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcontactoverview_filter");
                           }
 
@@ -1219,11 +1223,58 @@ Template.contactoverview.onRendered(function() {
                             $('#tblcontactoverview').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblcontactoverview_ellipsis').addClass('disabled');
+
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+                                  $('.paginate_button.page-item.previous').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+                          } else {}
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                          .on('click', function () {
+                              $('.fullScreenSpin').css('display', 'inline-block');
+                              let dataLenght = oSettings._iDisplayLength;
+
+                              sideBarService.getAllContactCombineVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                  getVS1Data('TERPCombinedContactsVS1').then(function (dataObjectold) {
+                                      if (dataObjectold.length == 0) {}
+                                      else {
+                                          let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                          var thirdaryData = $.merge($.merge([], dataObjectnew.terpcombinedcontactsvs1), dataOld.terpcombinedcontactsvs1);
+                                          let objCombineData = {
+                                              terpcombinedcontactsvs1: thirdaryData
+                                          }
+
+                                          addVS1Data('TERPCombinedContactsVS1', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                              templateObject.resetData(objCombineData);
+                                              $('.fullScreenSpin').css('display', 'none');
+                                          }).catch(function (err) {
+                                              $('.fullScreenSpin').css('display', 'none');
+                                          });
+
+                                      }
+                                  }).catch(function (err) {});
+
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+
+                          });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage) {
+                              this.fnPageChange('last');
+                          }
                             $("<button class='btn btn-primary btnRefreshContact' type='button' id='btnRefreshContact' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcontactoverview_filter");
                         }
                     }).on('page', function () {
@@ -2026,24 +2077,6 @@ Template.contactoverview.events({
         $('#dateFrom').attr('readonly', true);
         $('#dateTo').attr('readonly', true);
         templateObject.getAllFilterCombinedContactsData('', '', true);
-    },
-    'click #newSalesOrder' : function(event){
-        FlowRouter.go('/salesordercard');
-    },
-    'click .salesOrderList' : function(event){
-        FlowRouter.go('/salesorderslist');
-    },
-    'click #newInvoice' : function(event){
-        FlowRouter.go('/invoicecard');
-    },
-    'click .invoiceList' : function(event){
-        FlowRouter.go('/invoicelist');
-    },
-    'click #newQuote' : function(event){
-        FlowRouter.go('/quotecard');
-    },
-    'click .QuoteList' : function(event){
-        FlowRouter.go('/quoteslist');
     },
     'click .chkDatatable' : function(event){
         var columns = $('#tblcontactoverview th');

@@ -71,10 +71,10 @@ Template.employeeproductlistpop.onRendered(function () {
     const lineExtaSellItems = [];
     var currentLoc = FlowRouter.current().route.path;
     tempObj.getAllProducts = function () {
-        getVS1Data('TProductVS1').then(function (dataObject) {
+        getVS1Data('TProductWeb').then(function (dataObject) {
             if (dataObject.length == 0) {
-                sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
-                    addVS1Data('TProductVS1',JSON.stringify(data));
+                sideBarService.getProductServiceListVS1(initialBaseDataLoad,0).then(function (data) {
+                    addVS1Data('TProductWeb',JSON.stringify(data));
                     let records = [];
                     let inventoryData = [];
                     for (let i = 0; i < data.tproductvs1.length; i++) {
@@ -105,65 +105,149 @@ Template.employeeproductlistpop.onRendered(function () {
                             data.tproductvs1[i].fields.BARCODE || ''
                         ];
 
-                      if (currentLoc == "/stockadjustmentcard"){
-                        if (data.tproductvs1[i].fields.ProductType == "INV") {
+
                         splashArrayProductList.push(dataList);
-                         }
-                      }else{
-                        splashArrayProductList.push(dataList);
-                      }
+
                     }
                     //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
                     if (splashArrayProductList) {
 
-                        $('#tblInventory').dataTable({
-                            data: splashArrayProductList,
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      $('#tblInventoryService').dataTable({
+                          data: splashArrayProductList,
 
-                            columnDefs: [
-                                {
-                                    className: "productName",
-                                    "targets": [0]
-                                }, {
-                                    className: "productDesc",
-                                    "targets": [1]
-                                }, {
-                                    className: "costPrice text-right",
-                                    "targets": [2]
-                                }, {
-                                    className: "salePrice text-right",
-                                    "targets": [3]
-                                }, {
-                                    className: "prdqty text-right",
-                                    "targets": [4]
-                                }, {
-                                    className: "taxrate",
-                                    "targets": [5]
-                                }, {
-                                    className: "colProuctPOPID hiddenColumn",
-                                    "targets": [6]
-                                }, {
-                                    className: "colExtraSellPrice hiddenColumn",
-                                    "targets": [7]
-                                }, {
-                                    className: "colBarcode hiddenColumn",
-                                    "targets": [8]
-                                }
-                            ],
-                            colReorder: true,
-                            lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
-                            info: true,
-                            responsive: true,
-                            "fnDrawCallback": function (oSettings) {
-                                // $('.dataTables_paginate').css('display', 'none');
-                            },
-                            "fnInitComplete": function () {
-                                $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
-                                $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
-                            }
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
 
-                        });
+                          columnDefs: [
+                              {
+                                  className: "chkBox pointer",
+                                  "orderable": false,
+                                  "targets": [0]
+
+                              },
+                              {
+                                  className: "productName",
+                                  "targets": [1]
+                              }, {
+                                  className: "productDesc",
+                                  "targets": [2]
+                              }, {
+                                  className: "costPrice text-right",
+                                  "targets": [3]
+                              }, {
+                                  className: "salePrice text-right",
+                                  "targets": [4]
+                              }, {
+                                  className: "prdqty text-right",
+                                  "targets": [5]
+                              }, {
+                                  className: "taxrate",
+                                  "targets": [6]
+                              }, {
+                                  className: "colProuctPOPID hiddenColumn",
+                                  "targets": [7]
+                              }, {
+                                  className: "colExtraSellPrice hiddenColumn",
+                                  "targets": [8]
+                              }, {
+                                  className: "colBarcode hiddenColumn",
+                                  "targets": [9]
+                              }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[ 1, "asc" ]],
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblInventoryService_ellipsis').addClass('disabled');
+                              /*
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+
+                                  }
+                              } else {
+
+                              }
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  //$('.paginate_button.page-item.next').addClass('disabled');
+                              }
+
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      let dataLenght = oSettings._iDisplayLength;
+                                      let customerSearch = $('#tblInventoryService_filter input').val();
+
+                                      sideBarService.getProductServiceListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                        for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                                           var dataListDupp = [
+                                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                             data.tproductvs1[i].fields.ProductName || '-',
+                                             data.tproductvs1[i].fields.SalesDescription || '',
+                                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                             data.tproductvs1[i].fields.TotalQtyInStock,
+                                             data.tproductvs1[i].fields.TaxCodeSales || '',
+                                             data.tproductvs1[i].fields.ID || '',
+                                             JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                                             data.tproductvs1[i].fields.BARCODE || ''
+                                         ];
+                                         splashArrayProductList.push(dataListDupp);
+
+                                        }
+
+                                                  let uniqueChars = [...new Set(splashArrayProductList)];
+                                                  var datatable = $('#tblInventoryService').DataTable();
+                                                  datatable.clear();
+                                                  datatable.rows.add(uniqueChars);
+                                                  datatable.draw(false);
+                                                  setTimeout(function () {
+                                                    $("#tblInventoryService").dataTable().fnPageChange('last');
+                                                  }, 400);
+
+                                                  $('.fullScreenSpin').css('display', 'none');
+
+
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+
+                                  });
+                                  */
+                              // setTimeout(function () {
+                              //     MakeNegative();
+                              // }, 100);
+                          },
+                          "fnInitComplete": function () {
+                              $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryService_filter");
+                              $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryService_filter");
+                          }
+
+
+                      }).on('length.dt', function (e, settings, len) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        // splashArrayProductList = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+                        }else{
+                          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                              $('.fullScreenSpin').css('display', 'none');
+                          } else {
+
+                              $('.fullScreenSpin').css('display', 'none');
+                          }
+
+                        }
+
+                      });
 
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
@@ -204,13 +288,9 @@ Template.employeeproductlistpop.onRendered(function () {
 
 
                     // splashArrayProductList.push(dataList);
-                    if (currentLoc == "/stockadjustmentcard"){
-                      if (data.tproductvs1[i].fields.ProductType == "INV") {
+
                       splashArrayProductList.push(dataList);
-                       }
-                    }else{
-                      splashArrayProductList.push(dataList);
-                    }
+
                 }
 
                 tempObj.productextrasellrecords.set(lineExtaSellItems);
@@ -218,19 +298,18 @@ Template.employeeproductlistpop.onRendered(function () {
 
                 if (splashArrayProductList) {
 
-                    $('#tblInventory').dataTable({
+                    $('#tblInventoryService').dataTable({
                         data: splashArrayProductList,
 
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
 
                         columnDefs: [
-
                             {
                                 className: "chkBox pointer",
                                 "orderable": false,
                                 "targets": [0]
 
-                            }, 
+                            },
                             {
                                 className: "productName",
                                 "targets": [1]
@@ -267,9 +346,10 @@ Template.employeeproductlistpop.onRendered(function () {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
+                        "order": [[ 1, "asc" ]],
                         "fnDrawCallback": function (oSettings) {
                             $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblInventory_ellipsis').addClass('disabled');
+                            $('#tblInventoryService_ellipsis').addClass('disabled');
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -285,13 +365,14 @@ Template.employeeproductlistpop.onRendered(function () {
                                 .on('click', function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     let dataLenght = oSettings._iDisplayLength;
-                                    let customerSearch = $('#tblInventory_filter input').val();
+                                    let customerSearch = $('#tblInventoryService_filter input').val();
 
-                                    sideBarService.getNewProductListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    sideBarService.getProductServiceListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
                                       for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                          var dataListDupp = [
+                                          '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                            data.tproductvs1[i].fields.ProductName || '-',
                                            data.tproductvs1[i].fields.SalesDescription || '',
                                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -307,12 +388,12 @@ Template.employeeproductlistpop.onRendered(function () {
                                       }
 
                                                 let uniqueChars = [...new Set(splashArrayProductList)];
-                                                var datatable = $('#tblInventory').DataTable();
+                                                var datatable = $('#tblInventoryService').DataTable();
                                                 datatable.clear();
                                                 datatable.rows.add(uniqueChars);
                                                 datatable.draw(false);
                                                 setTimeout(function () {
-                                                  $("#tblInventory").dataTable().fnPageChange('last');
+                                                  $("#tblInventoryService").dataTable().fnPageChange('last');
                                                 }, 400);
 
                                                 $('.fullScreenSpin').css('display', 'none');
@@ -328,8 +409,8 @@ Template.employeeproductlistpop.onRendered(function () {
                             // }, 100);
                         },
                         "fnInitComplete": function () {
-                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
-                            $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
+                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryService_filter");
+                            $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryService_filter");
                         }
 
 
@@ -355,8 +436,8 @@ Template.employeeproductlistpop.onRendered(function () {
                 }
             }
         }).catch(function (err) {
-            sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
-                addVS1Data('TProductVS1',JSON.stringify(data));
+            sideBarService.getProductServiceListVS1(initialBaseDataLoad,0).then(function (data) {
+                addVS1Data('TProductWeb',JSON.stringify(data));
                 let records = [];
                 let inventoryData = [];
                 for (let i = 0; i < data.tproductvs1.length; i++) {
@@ -375,7 +456,7 @@ Template.employeeproductlistpop.onRendered(function () {
                       }
                   }
                     var dataList = [
-
+                        '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -388,70 +469,147 @@ Template.employeeproductlistpop.onRendered(function () {
                     ];
 
 
-                    if (currentLoc == "/stockadjustmentcard"){
-                      if (data.tproductvs1[i].fields.ProductType == "INV") {
+
                       splashArrayProductList.push(dataList);
-                       }
-                    }else{
-                      splashArrayProductList.push(dataList);
-                    }
+
                 }
                 //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
 
                 if (splashArrayProductList) {
 
-                    $('#tblInventory').dataTable({
-                        data: splashArrayProductList,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        columnDefs: [
-                            {
-                                className: "productName",
-                                "targets": [0]
-                            }, {
-                                className: "productDesc",
-                                "targets": [1]
-                            }, {
-                                className: "costPrice text-right",
-                                "targets": [2]
-                            }, {
-                                className: "salePrice text-right",
-                                "targets": [3]
-                            }, {
-                                className: "prdqty text-right",
-                                "targets": [4]
-                            }, {
-                                className: "taxrate",
-                                "targets": [5]
-                            }, {
-                                className: "taxrate",
-                                "targets": [5]
-                            }, {
-                                className: "colProuctPOPID hiddenColumn",
-                                "targets": [6]
-                            }, {
-                                className: "colExtraSellPrice hiddenColumn",
-                                "targets": [7]
-                            }, {
-                                className: "colBarcode hiddenColumn",
-                                "targets": [8]
-                            }
-                        ],
-                        colReorder: true,
-                        lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
-                        info: true,
-                        responsive: true,
-                        "order": [[0, "asc"]],
-                        "fnDrawCallback": function (oSettings) {
-                            // $('.dataTables_paginate').css('display', 'none');
-                        },
-                        "fnInitComplete": function () {
-                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventory_filter");
-                            $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventory_filter");
-                        }
+                  $('#tblInventoryService').dataTable({
+                      data: splashArrayProductList,
+
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+
+                      columnDefs: [
+                          {
+                              className: "chkBox pointer",
+                              "orderable": false,
+                              "targets": [0]
+
+                          },
+                          {
+                              className: "productName",
+                              "targets": [1]
+                          }, {
+                              className: "productDesc",
+                              "targets": [2]
+                          }, {
+                              className: "costPrice text-right",
+                              "targets": [3]
+                          }, {
+                              className: "salePrice text-right",
+                              "targets": [4]
+                          }, {
+                              className: "prdqty text-right",
+                              "targets": [5]
+                          }, {
+                              className: "taxrate",
+                              "targets": [6]
+                          }, {
+                              className: "colProuctPOPID hiddenColumn",
+                              "targets": [7]
+                          }, {
+                              className: "colExtraSellPrice hiddenColumn",
+                              "targets": [8]
+                          }, {
+                              className: "colBarcode hiddenColumn",
+                              "targets": [9]
+                          }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[ 1, "asc" ]],
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblInventoryService_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+
+                              }
+                          } else {
+
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              //$('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblInventoryService_filter input').val();
+
+                                  sideBarService.getProductServiceListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                    for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
+
+                                       var dataListDupp = [
+                                         '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                         data.tproductvs1[i].fields.ProductName || '-',
+                                         data.tproductvs1[i].fields.SalesDescription || '',
+                                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                         data.tproductvs1[i].fields.TotalQtyInStock,
+                                         data.tproductvs1[i].fields.TaxCodeSales || '',
+                                         data.tproductvs1[i].fields.ID || '',
+                                         JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+                                         data.tproductvs1[i].fields.BARCODE || ''
+                                     ];
+                                     splashArrayProductList.push(dataListDupp);
+
+                                    }
+
+                                              let uniqueChars = [...new Set(splashArrayProductList)];
+                                              var datatable = $('#tblInventoryService').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblInventoryService").dataTable().fnPageChange('last');
+                                              }, 400);
+
+                                              $('.fullScreenSpin').css('display', 'none');
 
 
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
 
-                    });
+                              });
+                          // setTimeout(function () {
+                          //     MakeNegative();
+                          // }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryService_filter");
+                          $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryService_filter");
+                      }
+
+
+                  }).on('length.dt', function (e, settings, len) {
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    // splashArrayProductList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+                    }else{
+                      if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display', 'none');
+                      } else {
+
+                          $('.fullScreenSpin').css('display', 'none');
+                      }
+
+                    }
+
+                  });
 
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
@@ -466,7 +624,7 @@ Template.employeeproductlistpop.onRendered(function () {
 });
 
 Template.employeeproductlistpop.events({
-  'keyup #tblInventory_filter input': function (event) {
+  'keyup #tblInventoryService_filter input': function (event) {
     if (event.keyCode == 13) {
        $(".btnRefreshProduct").trigger("click");
     }
@@ -483,16 +641,16 @@ Template.employeeproductlistpop.events({
   const taxCodesList = [];
   const lineExtaSellItems = [];
     $('.fullScreenSpin').css('display', 'inline-block');
-    let dataSearchName = $('#tblInventory_filter input').val();
+    let dataSearchName = $('#tblInventoryService_filter input').val();
     if(dataSearchName.replace(/\s/g, '') != ''){
-    sideBarService.getNewProductListVS1ByName(dataSearchName).then(function (data) {
+    sideBarService.getProductServiceListVS1ByName(dataSearchName).then(function (data) {
         let records = [];
 
         let inventoryData = [];
         if(data.tproductvs1.length > 0){
         for (let i = 0; i < data.tproductvs1.length; i++) {
             var dataList = [
-
+                '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                 data.tproductvs1[i].fields.ProductName || '-',
                 data.tproductvs1[i].fields.SalesDescription || '',
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -515,18 +673,14 @@ Template.employeeproductlistpop.events({
 
                 }
             }
-            if (currentLoc == "/stockadjustmentcard"){
-              if (data.tproductvs1[i].fields.ProductType == "INV") {
+
               splashArrayProductList.push(dataList);
-               }
-            }else{
-              splashArrayProductList.push(dataList);
-            }
+
         }
         //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
         $('.fullScreenSpin').css('display', 'none');
         if (splashArrayProductList) {
-          var datatable = $('#tblInventory').DataTable();
+          var datatable = $('#tblInventoryService').DataTable();
           datatable.clear();
           datatable.rows.add(splashArrayProductList);
           datatable.draw(false);
@@ -555,12 +709,12 @@ Template.employeeproductlistpop.events({
       $('.fullScreenSpin').css('display', 'none');
     });
   }else{
-    sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+    sideBarService.getProductServiceListVS1(initialBaseDataLoad,0).then(function (data) {
           let records = [];
           let inventoryData = [];
           for (let i = 0; i < data.tproductvs1.length; i++) {
               var dataList = [
-
+                  '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                   data.tproductvs1[i].fields.ProductName || '-',
                   data.tproductvs1[i].fields.SalesDescription || '',
                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -583,18 +737,14 @@ Template.employeeproductlistpop.events({
 
                   }
               }
-              if (currentLoc == "/stockadjustmentcard"){
-                if (data.tproductvs1[i].fields.ProductType == "INV") {
+
                 splashArrayProductList.push(dataList);
-                 }
-              }else{
-                splashArrayProductList.push(dataList);
-              }
+
           }
           //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
           $('.fullScreenSpin').css('display', 'none');
           if (splashArrayProductList) {
-            var datatable = $('#tblInventory').DataTable();
+            var datatable = $('#tblInventoryService').DataTable();
             datatable.clear();
             datatable.rows.add(splashArrayProductList);
             datatable.draw(false);

@@ -750,8 +750,15 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllProductData = function() {
         sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
-            //localStorage.setItem('VS1ProductList', JSON.stringify(data) || '');
             addVS1Data('TProductVS1', JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
+    templateObject.getAllProductServiceData = function() {
+        sideBarService.getProductServiceListVS1(initialBaseDataLoad, 0).then(function(data) {
+            addVS1Data('TProductWeb', JSON.stringify(data));
         }).catch(function(err) {
 
         });
@@ -2305,6 +2312,24 @@ Template.newsidenav.onRendered(function() {
             });
         }
         if (isInventory) {
+          getVS1Data('TProductWeb').then(function(dataObject) {
+              if (dataObject.length == 0) {
+                  templateObject.getAllProductServiceData();
+              } else {
+                  let getTimeStamp = dataObject[0].timestamp.split(' ');
+                  if (getTimeStamp) {
+                      if (loggedUserEventFired) {
+                          if (getTimeStamp[0] != currenctTodayDate) {
+                              templateObject.getAllProductServiceData();
+                          }
+                      }
+                  }
+
+              }
+          }).catch(function(err) {
+              templateObject.getAllProductServiceData();
+          });
+
             getVS1Data('TProductVS1').then(function(dataObject) {
                 if (dataObject.length == 0) {
                     sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {

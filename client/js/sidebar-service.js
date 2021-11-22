@@ -19,7 +19,33 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
 
+  getProductServiceListVS1(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+         ListType: "Detail",
+         select: "[Active]=true and [ProductType]!='INV'"
+        };
+    }else{
+      options = {
+         orderby:'"PARTSID desc"',
+         ListType: "Detail",
+         select: "[Active]=true and [ProductType]!='INV'",
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+    return this.getList(this.ERPObjects.TProductVS1, options);
+  }
 
+  getProductServiceListVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ProductType]!="INV" and [ProductName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TProductVS1, options);
+  }
 
   getSelectedProducts(employeeName) {
     let options = '';
