@@ -531,23 +531,38 @@
                                                         .colNotes {
                                                             width: 200px !important;
                                                         }
+                                                        .thcheckbox {
+                                                            width: 3% !important;
+                                                        }
+                                                        .colPaymentDate {
+                                                            width: 5% !important;
+                                                        }
+                                                        .colPaymentAmount {
+                                                            width: 7% !important;
+                                                        }
+                                                        .colAppliedPop {
+                                                            width: 7% !important;
+                                                        }
+                                                        .colBalancePop {
+                                                            width: 7% !important;
+                                                        }
                                                     </style>
                                                     <table id="tblcustomerAwaitingPayment" name="tblcustomerAwaitingPayment" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblcustomerAwaitingPayment">
                                                         <thead>
                                                             <tr class="dnd-moved">
-                                                                <th class="th chkBox" style="width:15px;">
-                                                                    <div class="custom-control custom-checkbox chkBox" style="width:15px;"><input class="custom-control-input chkBoxAll" type="checkbox" id="formCheck-All"><label
-                                                                            class="custom-control-label chkBoxAll" for="formCheck-All"></label></div>
+                                                                <th class="th chkBox thcheckbox" style="width: 3% !important;">
+                                                                    <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBoxAll" type="checkbox" id="formCheck-All">
+                                                                        <label class="custom-control-label chkBoxAll" for="formCheck-All"></label></div>
                                                                 </th>
                                                                 <th class="th colSortDate hiddenColumn">id</th>
-                                                                <th class="th colPaymentDate" style="width:80px;">Date</th>
-                                                                <th class="th colReceiptNo" style="width:85px;">Ref No.</th>
-                                                                <th class="th colPaymentAmount" style="width:80px;">Paid</th>
-                                                                <th class="th colApplied" style="width:80px;">Original</th>
-                                                                <th class="th colBalance" style="width:80px;">Outstanding</th>
-                                                                <th class="th colCustomerName" style="width:200px;">Customer Name</th>
+                                                                <th class="th colPaymentDate" style="width:;">Date</th>
+                                                                <th class="th colReceiptNo" style="width:;">Ref No.</th>
+                                                                <th class="th colPaymentAmount" style="width: 7% !important;">Paid</th>
+                                                                <th class="th colApplied colAppliedPop" style="wwidth: 7% !important;">Original</th>
+                                                                <th class="th colBalance colBalancePop" style="width: 7% !important;">Outstanding</th>
+                                                                <th class="th colCustomerName" style="width:;">Customer Name</th>
                                                                 <!-- <th class="th colBankAccount" style="width:80px;">Bank Account</th> -->
-                                                                <th class="th colDepartment" style="width:80px;">Department</th>
+                                                                <th class="th colDepartment" style="width:;">Department</th>
                                                                 <th class="th colRefNo hiddenColumn">Custom Field 1</th>
                                                                 <th class="th colPaymentMethod hiddenColumn">Custom Field 2</th>
                                                                 <th class="th colNotes">Comments</th>
@@ -557,7 +572,7 @@
                                                             {{#if datatablerecords}}
                                                                 {{#each item in datatablerecords}}
                                                                     <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                                                        <td contenteditable="false" class="chkBox pointer" style="width:15px;">
+                                                                        <td contenteditable="false" class="chkBox pointer">
                                                                             <div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox"
                                                                                     id="formCheck-{{item.id}}" value="{{item.outsandingamount}}"><label class="custom-control-label chkBox pointer" for="formCheck-{{item.id}}"></label></div>
                                                                         </td>

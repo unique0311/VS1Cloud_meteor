@@ -659,7 +659,6 @@ Template.paymentcard.onRendered(() => {
                             }, 100);
                         },
                         "fnInitComplete": function() {
-                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblcustomerAwaitingPayment_filter");
                             $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
 
                         }
