@@ -1055,35 +1055,48 @@
                                                                         <h4 style="margin-bottom: 8px;">Active Products / Services for {{record.company}}</h4>
                                                                     </div>
                                                                     <div class="col-12 col-md-6" style="margin-bottom: 16px;">
-                                                                        <button class="btn btn-primary btnProductServicesModal" type="button" data-toggle="modal" data-target="#productListModal"><i class="fas fa-plus" style="margin: 4px;"></i>Add New Product / Service</button>
+                                                                        <button class="btn btn-primary btnProductServicesModal" type="button" data-toggle="modal" data-target="#productListModal"><i class="fas fa-plus" style="margin: 4px;"></i>Add New
+                                                                            Product / Service</button>
                                                                     </div>
                                                                     <div class="col-12" style="margin-bottom: 16px;">
-                                                                    <table id="tblEmpServiceList" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblEmpServiceList">
-                                                                        <thead>
-                                                                            <tr class="dnd-moved">
-                                                                                <th class="th colServiceName" style="width: 20% !important;">Name</th>
-                                                                                <th class="th colServiceDescription">Description</th>
-                                                                                <th class="th colServiceRate" style="width: 8%!important;;">Rate</th>
-                                                                                <!-- <th class="th colPurcDef" style="width:20px">Purchase Default</th>
+                                                                        <style>
+                                                                            .colServiceName {
+                                                                                width: 30% !important;
+                                                                            }
+                                                                            .colServiceRate {
+                                                                                width: 8% !important;
+                                                                            }
+                                                                            .colServiceDelete {
+                                                                                width: 2% !important;
+                                                                            }
+                                                                        </style>
+                                                                        <table id="tblEmpServiceList" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblEmpServiceList">
+                                                                            <thead>
+                                                                                <tr class="dnd-moved">
+                                                                                    <th class="th colServiceName" style="width: 30% !important;">Name</th>
+                                                                                    <th class="th colServiceDescription">Description</th>
+                                                                                    <th class="th colServiceRate" style="width: 8%!important;">Rate</th>
+                                                                                    <!-- <th class="th colPurcDef" style="width:20px">Purchase Default</th>
                                                                                 <th class="th colSaleDef" style="width:20px">Sales Default</th> -->
-                                                                                <th  class="th colServiceDelete" style="width: 2%!important;;"></th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            {{#if selectedproducts}}
-                                                                          {{#each item in selectedproducts}}
-                                                                            <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                                                                <td contenteditable="false" class="colServiceName">{{item.productname}}</td>
-                                                                                <td contenteditable="false" class="colServiceDescription">{{item.productname}}</td>
-                                                                                <td contenteditable="true" class="colServiceRate text-right">{{item.rate}}</td>
-                                                                                <td contenteditable="false" class="colServiceDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>
-                                                                            </tr>
-                                                                            {{/each}}
-                                                                            {{/if}}
+                                                                                    <th class="th colServiceDelete" style="width: 2% !important;"></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {{#if selectedproducts}}
+                                                                                    {{#each item in selectedproducts}}
+                                                                                        <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                                                                            <td contenteditable="false" class="colServiceName">{{item.productname}}</td>
+                                                                                            <td contenteditable="false" class="colServiceDescription">{{item.productname}}</td>
+                                                                                            <td contenteditable="true" class="colServiceRate text-right">{{item.rate}}</td>
+                                                                                            <td contenteditable="false" class="colServiceDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i
+                                                                                                            class="fa fa-remove"></i></button></span></td>
+                                                                                        </tr>
+                                                                                    {{/each}}
+                                                                                {{/if}}
 
-                                                                        </tbody>
+                                                                            </tbody>
 
-                                                                    </table>
+                                                                        </table>
                                                                     </div>
 
                                                                     <!-- {{#if selectedproducts}}
@@ -1311,7 +1324,7 @@
                                                                 opacity: 1;
                                                             }
 
-                                                           /* .dataTables_scrollHeadInner,
+                                                            /* .dataTables_scrollHeadInner,
                                                            .dataTables_scrollHeadInner .table {
                                                                 width: 100% !important;
                                                             } */
