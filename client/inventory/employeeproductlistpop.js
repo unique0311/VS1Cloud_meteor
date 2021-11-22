@@ -295,7 +295,6 @@ Template.employeeproductlistpop.onRendered(function () {
 
                 tempObj.productextrasellrecords.set(lineExtaSellItems);
                 //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
-
                 if (splashArrayProductList) {
 
                     $('#tblInventoryService').dataTable({
@@ -368,25 +367,23 @@ Template.employeeproductlistpop.onRendered(function () {
                                     let customerSearch = $('#tblInventoryService_filter input').val();
 
                                     sideBarService.getProductServiceListVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-
                                       for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                          var dataListDupp = [
-                                          '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
-                                           data.tproductvs1[i].fields.ProductName || '-',
-                                           data.tproductvs1[i].fields.SalesDescription || '',
-                                           utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-                                           utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-                                           data.tproductvs1[i].fields.TotalQtyInStock,
-                                           data.tproductvs1[i].fields.TaxCodeSales || '',
-                                           data.tproductvs1[i].fields.ID || '',
-                                           JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                                           data.tproductvs1[i].fields.BARCODE || ''
+                                          '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
+                                           dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                                           dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                           utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                           utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                           dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                                           dataObjectnew.tproductvs1[i].fields.TaxCodeSales || '',
+                                           dataObjectnew.tproductvs1[i].fields.ID || '',
+                                           JSON.stringify(dataObjectnew.tproductvs1[i].fields.ExtraSellPrice)||null,
+                                           dataObjectnew.tproductvs1[i].fields.BARCODE || ''
                                        ];
                                        splashArrayProductList.push(dataListDupp);
 
                                       }
-
                                                 let uniqueChars = [...new Set(splashArrayProductList)];
                                                 var datatable = $('#tblInventoryService').DataTable();
                                                 datatable.clear();
@@ -550,18 +547,18 @@ Template.employeeproductlistpop.onRendered(function () {
 
                                     for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
-                                       var dataListDupp = [
-                                         '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
-                                         data.tproductvs1[i].fields.ProductName || '-',
-                                         data.tproductvs1[i].fields.SalesDescription || '',
-                                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-                                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-                                         data.tproductvs1[i].fields.TotalQtyInStock,
-                                         data.tproductvs1[i].fields.TaxCodeSales || '',
-                                         data.tproductvs1[i].fields.ID || '',
-                                         JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                                         data.tproductvs1[i].fields.BARCODE || ''
-                                     ];
+                                      var dataListDupp = [
+                                       '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
+                                        dataObjectnew.tproductvs1[i].fields.ProductName || '-',
+                                        dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                        utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                        utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                        dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
+                                        dataObjectnew.tproductvs1[i].fields.TaxCodeSales || '',
+                                        dataObjectnew.tproductvs1[i].fields.ID || '',
+                                        JSON.stringify(dataObjectnew.tproductvs1[i].fields.ExtraSellPrice)||null,
+                                        dataObjectnew.tproductvs1[i].fields.BARCODE || ''
+                                    ];
                                      splashArrayProductList.push(dataListDupp);
 
                                     }

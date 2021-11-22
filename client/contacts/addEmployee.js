@@ -153,7 +153,8 @@ Template.employeescard.onRendered(function () {
                     dataList = {
                         id: data.trepservices[i].fields.ID || '',
                         employee: data.trepservices[i].fields.EmployeeName || '',
-                        productname: data.trepservices[i].fields.ServiceDesc || ''
+                        productname: data.trepservices[i].fields.ServiceDesc || '',
+                        rate: data.trepservices[i].fields.Rate || ''
                     }
 
                     if(employeeName == data.trepservices[i].fields.EmployeeName){
@@ -163,6 +164,48 @@ Template.employeescard.onRendered(function () {
 
                 }
                 templateObject.selectedproducts.set(productlist);
+
+                if(templateObject.selectedproducts.get()){
+                  setTimeout(function () {
+
+                    $('#tblEmpServiceList').DataTable({
+                      columnDefs: [
+                                {type: 'date', targets: 0},
+                                { "orderable": false, "targets": -1 }
+                            ],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                                fixedColumnsRight: 1
+                            },
+                        // pageLength: initialDatatableLoad,
+                        // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        paging: false,
+                        // "scrollY": "400px",
+                        info: true,
+                        responsive: true,
+                        "order": [[0, "asc"]],
+                        action: function () {
+                            $('#tblEmpServiceList').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+              }).on('page', function () {
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  let draftRecord = templateObject.datatablerecords.get();
+                  templateObject.datatablerecords.set(draftRecord);
+              }).on('column-reorder', function () {});
+
+                    }, 100);
+                }
 
             });
     }
@@ -2004,6 +2047,13 @@ Template.employeescard.events({
        templateObject.selectedemployeeproducts.set(selectedproduct);
 
     },
+    'click .chkBoxAll': function () {
+        if ($(event.target).is(':checked')) {
+            $(".chkBox").prop("checked", true);
+        } else {
+            $(".chkBox").prop("checked", false);
+        }
+    },
     'click .btnSaveProducts': async function (event) {
         let templateObject = Template.instance();
         let trepserviceObjects = templateObject.selectedemployeeproducts.get();
@@ -2013,8 +2063,8 @@ Template.employeescard.events({
                 console.log(data);
         })
         }
-       
-        
+
+
 
     },
     'click .btnSave': async function (event) {
@@ -3436,7 +3486,7 @@ Template.employeescard.events({
     'click .btnRefresh': function () {
         Meteor._reload.reload();
     },
-    'click .btnRemoveProduct': function () {  
+    'click .btnRemoveProduct': function () {
         console.log($(this).attr('id'));
     },
     'click #formCheck-2': function () {
