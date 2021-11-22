@@ -111,6 +111,10 @@ export class ProductService extends BaseService {
         return this.POST(this.ERPObjects.TProductVS1, data);
     }
 
+    saveEmployeeProducts(data){
+        return this.POST(this.ERPObjects.TRepServices, data);
+    }
+
     getDepartment() {
         let options = {
             PropertyList: "DeptClassName",

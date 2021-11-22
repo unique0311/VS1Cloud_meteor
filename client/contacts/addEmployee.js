@@ -4,6 +4,7 @@ import { CoreService } from '../js/core-service';
 import { UtilityService } from "../utility-service";
 import { CountryService } from '../js/country-service';
 import { PaymentsService } from '../payments/payments-service';
+import { ProductService } from '../product/product-service';
 import { SideBarService } from '../js/sidebar-service';
 import { AppointmentService } from '../appointments/appointment-service';
 import '../lib/global/indexdbstorage.js';
@@ -24,6 +25,10 @@ Template.employeescard.onCreated(function () {
 
     templateObject.isCloudUserPass = new ReactiveVar();
     templateObject.isCloudUserPass.set(false);
+
+    templateObject.selectedproducts = new ReactiveVar([]);
+
+    templateObject.selectedemployeeproducts = new ReactiveVar([]);
 
     templateObject.preferedPaymentList = new ReactiveVar();
     templateObject.termsList = new ReactiveVar();
@@ -54,6 +59,7 @@ Template.employeescard.onRendered(function () {
     let contactService = new ContactService();
     var countryService = new CountryService();
     let paymentService = new PaymentsService();
+    let productService = new ProductService();
     let appointmentService = new AppointmentService();
     const records = [];
     let countries = [];
@@ -138,6 +144,29 @@ Template.employeescard.onRendered(function () {
                 $(this).addClass('text-danger')
         });
     };
+
+    templateObject.getAllSelectedProducts = function (employeeName) {
+        let productlist = [];
+        sideBarService.getSelectedProducts(employeeName).then(function (data) {
+                var dataList = {};
+                for (let i = 0; i < data.trepservices.length; i++) {
+                    dataList = {
+                        id: data.trepservices[i].fields.ID || '',
+                        employee: data.trepservices[i].fields.EmployeeName || '',
+                        productname: data.trepservices[i].fields.ServiceDesc || ''
+                    }
+
+                    if(employeeName == data.trepservices[i].fields.EmployeeName){
+                        productlist.push(dataList);
+                    }
+
+
+                }
+                templateObject.selectedproducts.set(productlist);
+
+            });
+    }
+
 
     templateObject.getAllProductData = function () {
         productList = [];
@@ -1017,7 +1046,7 @@ Template.employeescard.onRendered(function () {
                                 let lineItems = [];
                                 let empEmail = '';
                                 let overideset = useData[i].fields.CustFld14;
-
+                                templateObject.getAllSelectedProducts(useData[i].fields.EmployeeName);
                                 if (useData[i].fields.Email.replace(/\s/g, '') == '') {
                                     if (useData[i].fields.User != null) {
                                         let emplineItems = [];
@@ -1372,7 +1401,7 @@ Template.employeescard.onRendered(function () {
                         }
                     }
                 }).catch(function (err) {
-
+                    console.log(err);
                     contactService.getOneEmployeeDataEx(employeeID).then(function (data) {
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
@@ -1954,6 +1983,39 @@ Template.employeescard.events({
         } else {
             $('.customerShipping-2').css('display', 'block');
         }
+    },
+    'click .chkPaymentCard': function () {
+        const templateObject = Template.instance();
+        let selectedproduct = [];
+        // const selectedAwaitingPayment2 = [];
+        $('.chkPaymentCard:checkbox:checked').each(function () {
+            let productName = $(this).closest('tr').find('.productName').text();
+            let paymentTransObj = {
+                    type: "TRepServices",
+                    fields: {
+                        EmployeeName: Session.get('mySessionEmployee') || '',
+                        ServiceDesc: productName
+                    }
+
+            };
+            selectedproduct.push(paymentTransObj);
+        });
+
+       templateObject.selectedemployeeproducts.set(selectedproduct);
+
+    },
+    'click .btnSaveProducts': async function (event) {
+        let templateObject = Template.instance();
+        let trepserviceObjects = templateObject.selectedemployeeproducts.get();
+        let productService = new ProductService();
+        for(let x =0; x < trepserviceObjects.length; x++) {
+             productService.saveEmployeeProducts(trepserviceObjects[x]).then(function (data) {
+                console.log(data);
+        })
+        }
+       
+        
+
     },
     'click .btnSave': async function (event) {
         let templateObject = Template.instance();
@@ -3374,6 +3436,9 @@ Template.employeescard.events({
     'click .btnRefresh': function () {
         Meteor._reload.reload();
     },
+    'click .btnRemoveProduct': function () {  
+        console.log($(this).attr('id'));
+    },
     'click #formCheck-2': function () {
         if ($(event.target).is(':checked')) {
             $('#autoUpdate').css('display', 'none');
@@ -3852,6 +3917,16 @@ Template.employeescard.helpers({
     },
     productsdatatable: () => {
         return Template.instance().productsdatatable.get().sort(function (a, b) {
+            if (a.productname == 'NA') {
+                return 1;
+            } else if (b.productname == 'NA') {
+                return -1;
+            }
+            return (a.productname.toUpperCase() > b.productname.toUpperCase()) ? 1 : -1;
+        });
+    },
+     selectedproducts: () => {
+        return Template.instance().selectedproducts.get().sort(function (a, b) {
             if (a.productname == 'NA') {
                 return 1;
             } else if (b.productname == 'NA') {

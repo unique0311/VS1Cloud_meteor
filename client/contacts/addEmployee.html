@@ -442,7 +442,7 @@
                                                             <li class="nav-item" style="cursor: pointer;"><a class="nav-link" role="tab" data-toggle="tab" data-target="#tab-9">Custom Fields</a></li>
                                                             <li class="nav-item" style="cursor: pointer;"><a class="nav-link" role="tab" data-toggle="tab" data-target="#tab-EmpLogo">Employee Photo</a></li>
                                                             <li class="nav-item" style="cursor: pointer;"><a class="nav-link" role="tab" data-toggle="tab" data-target="#tab-appointment">Appointment Settings</a></li>
-                                                            <!-- <li class="nav-item" style="cursor: pointer;"><a class="nav-link tabproductsservices" role="tab" data-toggle="tab" data-target="#tab-productsservices">Product / Service</a></li> -->
+                                                            <li class="nav-item" style="cursor: pointer;"><a class="nav-link tabproductsservices" role="tab" data-toggle="tab" data-target="#tab-productsservices">Product / Service</a></li>
                                                             {{#if isCloudUserPass}}
                                                                 <li class="nav-item" style="cursor: pointer;"><a class="nav-link addvs1usertab" role="tab" data-toggle="tab" data-target="#tab-11">VS1 User Login</a></li>
                                                             {{/if}}
@@ -1057,18 +1057,18 @@
                                                                     <div class="col-12 col-md-6" style="margin-bottom: 16px;">
                                                                         <button class="btn btn-primary btnProductServicesModal" type="button" data-toggle="modal" data-target="#productListModal"><i class="fas fa-plus" style="margin: 4px;"></i>Add New Product / Service</button>
                                                                     </div>
-                                                                    {{#if productsdatatable}}
-                                                                        {{#each item in productsdatatable}}
+                                                                    {{#if selectedproducts}}
+                                                                        {{#each item in selectedproducts}}
                                                                             <div class="col-6">
                                                                                 <div class="row align-items-end">
                                                                                     <div class="col-10 ">
                                                                                         <div class="form-grou" style="margin: 4px;">
                                                                                             <label class="text-nowrap">Product / Service Name</label>
-                                                                                            <input type="text" class="form-control" id="prdouctServiceName" name="prdouctServiceName" value="{{item.productname}}">
+                                                                                            <input type="text" class="form-control productServiceName" id="{{item.id}}" name="productServiceName" value="{{item.productname}}">
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="col-2">
-                                                                                        <button type="button" class="btn btn-danger btn-rounded btn-sm" autocomplete="off" style="margin-bottom: 8px; margin-left: -16px;" value="{{item.id}}">
+                                                                                        <button type="button" class="btn btn-danger btn-rounded btn-sm btnRemoveProduct" autocomplete="off" style="margin-bottom: 8px; margin-left: -16px;" id="{{item.id}}">
                                                                                             <i class="fa fa-remove" style="padding: 8px 4px;"></i></button>
                                                                                     </div>
                                                                                 </div>
@@ -1077,7 +1077,7 @@
                                                                     {{/if}}
 
                                                                     <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
-                                                                        {{> productlistpop}}
+                                                                        {{> employeeproductlistpop}}
                                                                     </div>
 
                                                                     <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">

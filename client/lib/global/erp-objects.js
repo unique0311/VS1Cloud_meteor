@@ -179,7 +179,8 @@ ERPObjects = function () {
         TRoster: "TRoster",
         TTimeLog: "TTimeLog",
         TRefundSale: "TRefundSale",
-        TSerialNumberListCurrentReport: "TSerialNumberListCurrentReport"
+        TSerialNumberListCurrentReport: "TSerialNumberListCurrentReport",
+        TRepServices:"TRepServices"
     }
     return objects;
 }

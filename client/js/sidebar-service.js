@@ -21,6 +21,15 @@ export class SideBarService extends BaseService {
 
 
 
+  getSelectedProducts(employeeName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+       // select: '[EmployeeName]  = "' + employeeName + '"'
+       };
+    return this.getList(this.ERPObjects.TRepServices, options);
+  }
+
   getNewProductListVS1ByName(dataSearchName) {
     let options = '';
        options = {
