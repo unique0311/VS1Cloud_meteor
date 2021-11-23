@@ -1,7 +1,15 @@
-import {OrganisationService} from '../../js/organisation-service';
-import {CountryService} from '../../js/country-service';
-import {ReactiveVar} from 'meteor/reactive-var';
-import { SideBarService } from '../../js/sidebar-service';
+import {
+    OrganisationService
+} from '../../js/organisation-service';
+import {
+    CountryService
+} from '../../js/country-service';
+import {
+    ReactiveVar
+} from 'meteor/reactive-var';
+import {
+    SideBarService
+} from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let organisationService = new OrganisationService();
@@ -9,8 +17,8 @@ let organisationService = new OrganisationService();
 
 Template.subscriptionSettings.onCreated(() => {});
 
-Template.subscriptionSettings.onRendered(function () {
-   $('.fullScreenSpin').css('display', 'inline-block');
+Template.subscriptionSettings.onRendered(function() {
+    $('.fullScreenSpin').css('display', 'inline-block');
     $.ajax({
         url: 'https://depot.vs1cloud.com/stripe-sandbox/vs1_get-payment_method.php',
         //url: 'https://depot.vs1cloud.com/stripe/vs1_get-payment_method.php',
@@ -18,7 +26,7 @@ Template.subscriptionSettings.onRendered(function () {
             'email': Session.get('VS1AdminUserName'),
         },
         method: 'post',
-        success: function (response) {
+        success: function(response) {
             let response2 = JSON.parse(response);
             if (response2 != null) {
                 let month = response2.card.exp_month;
@@ -49,11 +57,11 @@ Template.subscriptionSettings.onRendered(function () {
 });
 
 Template.subscriptionSettings.events({
-    'click .btnBack': function (event) {
+    'click .btnBack': function(event) {
         event.preventDefault();
         history.back();
     },
-    'click .btnAddVS1User': function (event) {
+    'click .btnAddVS1User': function(event) {
         swal({
             title: 'Is this an existing Employee?',
             text: '',
@@ -71,7 +79,7 @@ Template.subscriptionSettings.events({
             }
         })
     },
-    'click .btnCancelSub': function (event) {
+    'click .btnCancelSub': function(event) {
         let loggeduserEmail = localStorage.getItem('mySession');
         let currentURL = FlowRouter.current().queryParams;
         swal({
@@ -84,8 +92,7 @@ Template.subscriptionSettings.events({
             confirmButtonText: 'No',
             cancelButtonText: 'Yes'
         }).then((result) => {
-            if (result.value) {}
-            else if (result.dismiss === 'cancel') {
+            if (result.value) {} else if (result.dismiss === 'cancel') {
 
                 swal({
                     title: 'Reason For Cancellation?',
@@ -107,6 +114,78 @@ Template.subscriptionSettings.events({
                             showCancelButton: false,
                             confirmButtonText: 'OK'
                         }).then((result) => {
+                            var htmlmailBody = '<table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                                '    <tr>' +
+                                '        <td style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                                '            <div style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                                '                <table>' +
+                                '                    <tr>' +
+                                '                        <td>' +
+                                '                            <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                                '                                <tr>' +
+                                '                                    <td style="text-align: center; letter-spacing: 2px;">' +
+                                '                                        <span style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Account Cancellation Notice</span>' +
+                                '                                    </td>' +
+                                '                                </tr>' +
+                                '                                <tr style="height: 16px;"></tr>' +
+                                '                                <tr style="width: 100%;">' +
+                                '                                    <td style="width: 100%;">' +
+                                '                                        <img src="vs1logo.png" style="border: none; max-width: 75%; margin-left: 10%;" />' +
+                                '                                    </td>' +
+                                '                                </tr>' +
+                                '                                <tr style="height: 48px;"></tr>' +
+                                '                                <tr style="background-color: rgba(0, 163, 211, 0.5); ">' +
+                                '                                    <td style="text-align: center;padding: 32px 16px;">' +
+                                '                                        <p style="font-weight: 700; font-size: 36px; color: #363a3b;">Your account has been canceled. We\'re really sorry to see you go.</p>' +
+                                '                                    </td>' +
+                                '                                </tr>' +
+                                '                                <tr>' +
+                                '                                    <td style="padding: 16px 32px 0px 32px;">' +
+                                '                                        <p style="font-size: 18px;">Hi Dene Mills,</p>' +
+                                '                                        <p style="font-size: 18px; margin: 34px 0px;">This email confirms that your VS1 Cloud account has been canceled. We\'re really sorry to see you go, but thaks for giving us a try.</p>' +
+                                '                                        <p style="font-size: 18px; margin: 34px 0px;">Your account will remain active until <span>30/11/2021</span>.</p>' +
+                                '                                    </td>' +
+                                '                                </tr>' +
+                                '                                <tr>' +
+                                '                                    <td style="padding: 0px 32px 16px 32px;">' +
+                                '                                        <p style="font-size: 24px; font-weight: 700;">Made a mistake? Having second thoughts?</p>' +
+                                '                                        <p style="font-size: 18px; margin: 34px 0px;">If you believe this cancellation is an error, or you have any other questions about your account, please visit: <a href="https://vs1cloud.com/contact.php">www.vs1cloud.com/contact</a></p>' +
+                                '                                    </td>' +
+                                '                                </tr>' +
+                                '                                <tr>' +
+                                '                                    <td style="padding: 16px 32px;">' +
+                                '                                        <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                                '                                    </td>' +
+                                '                                </tr>' +
+                                '                            </table>' +
+                                '                        </td>' +
+                                '                    </tr>' +
+                                '                </table>' +
+                                '                <div style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                                '                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                                '                        <tr>' +
+                                '                            <td style="color: #999999; font-size: 12px; text-align: center;">' +
+                                '                                <span style="color: #999999; font-size: 12px; text-align: center;">VS1 Cloud</span>' +
+                                '                                <br>' +
+                                '                                <a href="https://vs1cloud.com/downloads/VS1%20Privacy%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                                '                                <a href="https://vs1cloud.com/downloads/VS1%20Terms%20ZA.pdf" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                                '                            </td>' +
+                                '                        </tr>' +
+                                '                    </table>' +
+                                '                </div>' +
+                                '            </div>' +
+                                '        </td>' +
+                                '    </tr>' +
+                                '</table>';
+
+                            Meteor.call('sendEmail', {
+                                from: "VS1 Cloud <info@vs1cloud.com>",
+                                to: loggeduserEmail,
+                                subject: 'VS1 Cloud - Account Cancellation Notice',
+                                text: '',
+                                html: htmlmailBody
+                            }, function(error, result) {});
+
                             if (result.value) {
                                 window.open('https://www.depot.vs1cloud.com/vs1subscription/cancelsubscription.php?email=' + loggeduserEmail + '', '_self');
                             } else if (result.dismiss === 'cancel') {}
@@ -118,7 +197,7 @@ Template.subscriptionSettings.events({
                             subject: loggeduserEmail + ': Reason For Cancellation',
                             text: inputValue.value,
                             html: ''
-                        }, function (error, result) {});
+                        }, function(error, result) {});
 
                         swal({
                             title: 'Successfully Cancel Your Subscription',
@@ -210,8 +289,8 @@ Template.subscriptionSettings.events({
     //     window.open('/subscriptionSettings','_self');
     //   }
     // },
-    'click .btnSaveCreditCard': function (event) {
-         $('.fullScreenSpin').css('display', 'inline-block');
+    'click .btnSaveCreditCard': function(event) {
+        $('.fullScreenSpin').css('display', 'inline-block');
         let cardnumber = $('#txtCardNo').val();
         let month = $('#txtExpireDate').val().split('/')[0];
         let year = $('#txtExpireDate').val().split('/')[1];
@@ -228,7 +307,7 @@ Template.subscriptionSettings.events({
                 'cvc': cvc
             },
             method: 'post',
-            success: function (response) {
+            success: function(response) {
                 let response2 = JSON.parse(response);
                 if (response2 != null) {
 
@@ -257,7 +336,7 @@ Template.subscriptionSettings.events({
                     if (lineID != '') {
                         oPost.send(myString);
 
-                        oPost.onreadystatechange = function () {
+                        oPost.onreadystatechange = function() {
                             if (oPost.readyState == 4 && oPost.status == 200) {
 
                                 $('.fullScreenSpin').css('display', 'none');
@@ -299,7 +378,7 @@ Template.subscriptionSettings.events({
                         window.open('/subscriptionSettings', '_self');
                     }
                 } else {
-                   $('.fullScreenSpin').css('display', 'none');
+                    $('.fullScreenSpin').css('display', 'none');
                     swal({
                         title: 'Oops...',
                         text: "Something went wrong, please try again later",

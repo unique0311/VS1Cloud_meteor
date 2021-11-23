@@ -1113,6 +1113,38 @@ Template.stocktransfercard.onRendered(function() {
                 $('#' + tokenid + " .lineProductName").trigger('click');
             }, 200);
         });
+        $('#scanNewRowMobile').on('click', function() {
+            var rowData = $('#tblStocktransfer tbody>tr:last').clone(true);
+            var rowData1 = $('.stock_print tbody>tr:last').clone(true);
+            let tokenid = Random.id();
+            $(".lineProductName", rowData).val("");
+            // $(".lineProductBarCode", rowData).text("");
+            $(".lineDescription", rowData).text("");
+            $(".lineOrdered", rowData).val("");
+            $(".ID", rowData).text("");
+            $(".pqa", rowData).text("");
+            $(".UOMQtyShipped", rowData).val("");
+            $(".UOMQtyBackOrder", rowData).text("");
+            $(".ProductID", rowData).text("");
+            rowData.attr('id', tokenid);
+            $("#tblStocktransfer tbody").append(rowData);
+
+            $(".lineProductNamePrint", rowData1).text("");
+            $(".lineProductBarCodePrint", rowData1).text("");
+            $(".lineDescriptionPrint", rowData1).text("");
+            $(".lineTransferPrint", rowData1).text("");
+            $(".lineAvailablePrint", rowData1).text("");
+            $(".lineAdjustQtyPrint", rowData1).text("");
+            // $(".lineAmt", rowData).text("");
+            rowData1.attr('id', tokenid);
+            $(".stock_print tbody").append(rowData1);
+            $('#' + tokenid).css('background', 'transparent');
+
+
+            // setTimeout(function() {
+            //     $('#' + tokenid + " .lineProductName").trigger('click');
+            // }, 200);
+        });
     });
 
     $('#shipvia').editableSelect()
@@ -2202,7 +2234,7 @@ Template.stocktransfercard.onRendered(function() {
         var barcodeScanner = decodedText.toUpperCase();
         $('#scanBarcode').modal('toggle');
         if (barcodeScanner != '') {
-            alert('scan');
+
             // setTimeout(function() {
             //     $('#tblSearchOverview_filter .form-control-sm').val(barcodeScanner);
             // }, 200);
@@ -3462,14 +3494,7 @@ Template.stocktransfercard.events({
 
         }
     },
-    'click .tdBarcodeScanner': function(event) {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-
-        } else {
-            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
-        }
-    },
-    'click .scanNewRow': function(event) {
+    'click .scanProdBarcodePOP': function(event) {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
 
         } else {
