@@ -96,13 +96,14 @@ Template.employeeproductlistpop.onRendered(function () {
                              '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                             data.tproductvs1[i].fields.ProductName || '-',
                             data.tproductvs1[i].fields.SalesDescription || '',
+                            data.tproductvs1[i].fields.BARCODE || '',
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                             data.tproductvs1[i].fields.TotalQtyInStock,
                             data.tproductvs1[i].fields.TaxCodeSales || '',
                             data.tproductvs1[i].fields.ID || '',
                             JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                            data.tproductvs1[i].fields.BARCODE || '',
+
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                         ];
 
@@ -133,25 +134,25 @@ Template.employeeproductlistpop.onRendered(function () {
                                   className: "productDesc",
                                   "targets": [2]
                               }, {
-                                  className: "costPrice text-right",
+                                  className: "colBarcode",
                                   "targets": [3]
                               }, {
-                                  className: "salePrice text-right",
+                                  className: "costPrice text-right",
                                   "targets": [4]
                               }, {
-                                  className: "prdqty text-right",
+                                  className: "salePrice text-right",
                                   "targets": [5]
                               }, {
-                                  className: "taxrate",
+                                  className: "prdqty text-right",
                                   "targets": [6]
                               }, {
-                                  className: "colProuctPOPID hiddenColumn",
+                                  className: "taxrate",
                                   "targets": [7]
                               }, {
-                                  className: "colExtraSellPrice hiddenColumn",
+                                  className: "colProuctPOPID hiddenColumn",
                                   "targets": [8]
                               }, {
-                                  className: "colBarcode hiddenColumn",
+                                  className: "colExtraSellPrice hiddenColumn",
                                   "targets": [9]
                               }, {
                                   className: "salePriceInc hiddenColumn",
@@ -230,6 +231,7 @@ Template.employeeproductlistpop.onRendered(function () {
                               // }, 100);
                           },
                           "fnInitComplete": function () {
+                              $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryService_filter");
                               $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryService_filter");
                               $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryService_filter");
                           }
@@ -281,13 +283,14 @@ Template.employeeproductlistpop.onRendered(function () {
                         '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
+                        data.tproductvs1[i].fields.BARCODE || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                         data.tproductvs1[i].fields.TotalQtyInStock,
                         data.tproductvs1[i].fields.TaxCodeSales || '',
                         data.tproductvs1[i].fields.ID || '',
                         JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                        data.tproductvs1[i].fields.BARCODE || '',
+
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                     ];
 
@@ -321,25 +324,25 @@ Template.employeeproductlistpop.onRendered(function () {
                                 className: "productDesc",
                                 "targets": [2]
                             }, {
-                                className: "costPrice text-right",
+                                className: "colBarcode",
                                 "targets": [3]
                             }, {
-                                className: "salePrice text-right",
+                                className: "costPrice text-right",
                                 "targets": [4]
                             }, {
-                                className: "prdqty text-right",
+                                className: "salePrice text-right",
                                 "targets": [5]
                             }, {
-                                className: "taxrate",
+                                className: "prdqty text-right",
                                 "targets": [6]
                             }, {
-                                className: "colProuctPOPID hiddenColumn",
+                                className: "taxrate",
                                 "targets": [7]
                             }, {
-                                className: "colExtraSellPrice hiddenColumn",
+                                className: "colProuctPOPID hiddenColumn",
                                 "targets": [8]
                             }, {
-                                className: "colBarcode hiddenColumn",
+                                className: "colExtraSellPrice hiddenColumn",
                                 "targets": [9]
                             }, {
                                 className: "salePriceInc hiddenColumn",
@@ -381,13 +384,14 @@ Template.employeeproductlistpop.onRendered(function () {
                                           '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
                                            dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                            dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                           dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                                            utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                                            utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                                            dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
                                            dataObjectnew.tproductvs1[i].fields.TaxCodeSales || '',
                                            dataObjectnew.tproductvs1[i].fields.ID || '',
                                            JSON.stringify(dataObjectnew.tproductvs1[i].fields.ExtraSellPrice)||null,
-                                           dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+
                                            utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                                        ];
                                        splashArrayProductList.push(dataListDupp);
@@ -415,6 +419,7 @@ Template.employeeproductlistpop.onRendered(function () {
                             // }, 100);
                         },
                         "fnInitComplete": function () {
+                            $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryService_filter");
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryService_filter");
                             $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryService_filter");
                         }
@@ -465,13 +470,14 @@ Template.employeeproductlistpop.onRendered(function () {
                         '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
+                        data.tproductvs1[i].fields.BARCODE || '',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                         data.tproductvs1[i].fields.TotalQtyInStock,
                         data.tproductvs1[i].fields.TaxCodeSales || '',
                         data.tproductvs1[i].fields.ID || '',
                         JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                        data.tproductvs1[i].fields.BARCODE || '',
+
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                     ];
 
@@ -503,25 +509,25 @@ Template.employeeproductlistpop.onRendered(function () {
                               className: "productDesc",
                               "targets": [2]
                           }, {
-                              className: "costPrice text-right",
+                              className: "colBarcode",
                               "targets": [3]
                           }, {
-                              className: "salePrice text-right",
+                              className: "costPrice text-right",
                               "targets": [4]
                           }, {
-                              className: "prdqty text-right",
+                              className: "salePrice text-right",
                               "targets": [5]
                           }, {
-                              className: "taxrate",
+                              className: "prdqty text-right",
                               "targets": [6]
                           }, {
-                              className: "colProuctPOPID hiddenColumn",
+                              className: "taxrate",
                               "targets": [7]
                           }, {
-                              className: "colExtraSellPrice hiddenColumn",
+                              className: "colProuctPOPID hiddenColumn",
                               "targets": [8]
                           }, {
-                              className: "colBarcode hiddenColumn",
+                              className: "colExtraSellPrice hiddenColumn",
                               "targets": [9]
                           }, {
                               className: "salePriceInc hiddenColumn",
@@ -564,13 +570,14 @@ Template.employeeproductlistpop.onRendered(function () {
                                        '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tproductvs1[i].fields.ID+'"></label></div>',
                                         dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                         dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                        dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                                         utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                                         utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                                         dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
                                         dataObjectnew.tproductvs1[i].fields.TaxCodeSales || '',
                                         dataObjectnew.tproductvs1[i].fields.ID || '',
                                         JSON.stringify(dataObjectnew.tproductvs1[i].fields.ExtraSellPrice)||null,
-                                        dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+
                                         utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
                                     ];
                                      splashArrayProductList.push(dataListDupp);
@@ -599,6 +606,7 @@ Template.employeeproductlistpop.onRendered(function () {
                           // }, 100);
                       },
                       "fnInitComplete": function () {
+                          $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryService_filter");
                           $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryService_filter");
                           $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryService_filter");
                       }
@@ -664,13 +672,14 @@ Template.employeeproductlistpop.events({
                 '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                 data.tproductvs1[i].fields.ProductName || '-',
                 data.tproductvs1[i].fields.SalesDescription || '',
+                data.tproductvs1[i].fields.BARCODE || '',
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                 data.tproductvs1[i].fields.TotalQtyInStock,
                 data.tproductvs1[i].fields.TaxCodeSales || '',
                 data.tproductvs1[i].fields.ID || '',
                 JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                data.tproductvs1[i].fields.BARCODE || '',
+
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
             ];
 
@@ -729,13 +738,14 @@ Template.employeeproductlistpop.events({
                   '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                   data.tproductvs1[i].fields.ProductName || '-',
                   data.tproductvs1[i].fields.SalesDescription || '',
+                  data.tproductvs1[i].fields.BARCODE || '',
                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                   data.tproductvs1[i].fields.TotalQtyInStock,
                   data.tproductvs1[i].fields.TaxCodeSales || '',
                   data.tproductvs1[i].fields.ID || '',
                   JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
-                  data.tproductvs1[i].fields.BARCODE || '',
+
                   utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
               ];
 

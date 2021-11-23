@@ -148,11 +148,12 @@ var splashArrayProductList = new Array();
               var dataList = [
                 data.tproductvs1[i].fields.ProductName || '-',
                 data.tproductvs1[i].fields.SalesDescription || '',
+                data.tproductvs1[i].fields.BARCODE || '',
                 departmentData,
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                 data.tproductvs1[i].fields.TotalQtyInStock,
-                data.tproductvs1[i].fields.BARCODE || '',
+
                 data.tproductvs1[i].fields.PurchaseDescription || '',
                 data.tproductvs1[i].fields.CUSTFLD1 || '',
                 data.tproductvs1[i].fields.CUSTFLD2 || '',
@@ -222,19 +223,19 @@ var splashArrayProductList = new Array();
                             className: "colSalesDescription",
                             "targets": [1]
                         }, {
-                            className: "colDepartment",
+                            className: "colBarcode",
                             "targets": [2]
                         }, {
-                            className: "colCostPrice text-right",
+                            className: "colDepartment",
                             "targets": [3]
                         }, {
-                            className: "colSalePrice text-right",
+                            className: "colCostPrice text-right",
                             "targets": [4]
                         }, {
-                            className: "colQuantity text-right",
+                            className: "colSalePrice text-right",
                             "targets": [5]
                         }, {
-                            className: "colBarcode",
+                            className: "colQuantity text-right",
                             "targets": [6]
                         }, {
                             className: "colPurchaseDescription hiddenColumn",
@@ -316,11 +317,12 @@ var splashArrayProductList = new Array();
                                      var dataListDupp = [
                                        dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                        dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                       dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                                        departmentData,
                                        utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                                        utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                                        dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
-                                       dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+
                                        dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                                        dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                                        dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
@@ -403,11 +405,12 @@ let deptStatus = '';
      var dataList = [
        data.tproductvs1[i].fields.ProductName || '-',
        data.tproductvs1[i].fields.SalesDescription || '',
+       data.tproductvs1[i].fields.BARCODE || '',
        departmentData,
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
        data.tproductvs1[i].fields.TotalQtyInStock,
-       data.tproductvs1[i].fields.BARCODE || '',
+
        data.tproductvs1[i].fields.PurchaseDescription || '',
        data.tproductvs1[i].fields.CUSTFLD1 || '',
        data.tproductvs1[i].fields.CUSTFLD2 || '',
@@ -478,19 +481,19 @@ setTimeout(function () {
                   className: "colSalesDescription",
                   "targets": [1]
               }, {
-                  className: "colDepartment",
+                  className: "colBarcode",
                   "targets": [2]
               }, {
-                  className: "colCostPrice text-right",
+                  className: "colDepartment",
                   "targets": [3]
               }, {
-                  className: "colSalePrice text-right",
+                  className: "colCostPrice text-right",
                   "targets": [4]
               }, {
-                  className: "colQuantity text-right",
+                  className: "colSalePrice text-right",
                   "targets": [5]
               }, {
-                  className: "colBarcode",
+                  className: "colQuantity text-right",
                   "targets": [6]
               }, {
                   className: "colPurchaseDescription hiddenColumn",
@@ -572,11 +575,12 @@ setTimeout(function () {
                            var dataListDupp = [
                              dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                              dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                             dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                              departmentData,
                              utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                              utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                              dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
-                             dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+
                              dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                              dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                              dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
@@ -655,11 +659,12 @@ setTimeout(function () {
             var dataList = [
               data.tproductvs1[i].fields.ProductName || '-',
               data.tproductvs1[i].fields.SalesDescription || '',
+              data.tproductvs1[i].fields.BARCODE || '',
               departmentData,
               utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
               utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
               data.tproductvs1[i].fields.TotalQtyInStock,
-              data.tproductvs1[i].fields.BARCODE || '',
+
               data.tproductvs1[i].fields.PurchaseDescription || '',
               data.tproductvs1[i].fields.CUSTFLD1 || '',
               data.tproductvs1[i].fields.CUSTFLD2 || '',
@@ -729,19 +734,19 @@ setTimeout(function () {
                           className: "colSalesDescription",
                           "targets": [1]
                       }, {
-                          className: "colDepartment",
+                          className: "colBarcode",
                           "targets": [2]
                       }, {
-                          className: "colCostPrice text-right",
+                          className: "colDepartment",
                           "targets": [3]
                       }, {
-                          className: "colSalePrice text-right",
+                          className: "colCostPrice text-right",
                           "targets": [4]
                       }, {
-                          className: "colQuantity text-right",
+                          className: "colSalePrice text-right",
                           "targets": [5]
                       }, {
-                          className: "colBarcode",
+                          className: "colQuantity text-right",
                           "targets": [6]
                       }, {
                           className: "colPurchaseDescription hiddenColumn",
@@ -823,11 +828,12 @@ setTimeout(function () {
                                    var dataListDupp = [
                                      dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                      dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
+                                     dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                                      departmentData,
                                      utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                                      utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                                      dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
-                                     dataObjectnew.tproductvs1[i].fields.BARCODE || '',
+
                                      dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                                      dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                                      dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
@@ -1448,11 +1454,12 @@ Template.productlist.helpers({
                     var dataList = [
                       data.tproductvs1[i].fields.ProductName || '-',
                       data.tproductvs1[i].fields.SalesDescription || '',
+                      data.tproductvs1[i].fields.BARCODE || '',
                       'All',
                       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                       data.tproductvs1[i].fields.TotalQtyInStock,
-                      data.tproductvs1[i].fields.BARCODE || '',
+
                       data.tproductvs1[i].fields.PurchaseDescription || '',
                       data.tproductvs1[i].fields.CUSTFLD1 || '',
                       data.tproductvs1[i].fields.CUSTFLD2 || '',
@@ -1500,11 +1507,12 @@ Template.productlist.helpers({
                       var dataList = [
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
+                        data.tproductvs1[i].fields.BARCODE || '',
                         'All',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
                         data.tproductvs1[i].fields.TotalQtyInStock,
-                        data.tproductvs1[i].fields.BARCODE || '',
+
                         data.tproductvs1[i].fields.PurchaseDescription || '',
                         data.tproductvs1[i].fields.CUSTFLD1 || '',
                         data.tproductvs1[i].fields.CUSTFLD2 || '',
