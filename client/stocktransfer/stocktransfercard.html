@@ -12,7 +12,7 @@
         </style>
         <header style="padding: 16px; padding-right: 0px;background-color: #ededed;margin-top: -24px;padding-bottom: 0px;">
             <h2 class="shippingHeader" style="margin: 16px;margin-bottom: 0px;">Stock Transfer
-                <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+                <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px; margin-left: 16px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
                 <!-- <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a> -->
             </h2>
             <input type="text" id="SalesId" name="SalesId" style="display: none;" readonly>
@@ -157,32 +157,7 @@
             </div> -->
 
             <div class="row" style="background-color: #ededed; padding: 32px; padding-bottom: 0px;">
-                <div class="col-12 col-lg-3">
-                    <div class="row">
-                        <div class="col-6 col-lg-8">
-                            <div class="form-group"><label>Employee Email</label>
-                                <input class="form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                            </div>
-                            <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0px 16px;padding: -2px;padding-left: 24px;width: 100%;">
-                                <div class="form-group" style="margin-right: 35px; Width:50%;">
-                                    <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px;"><label class="custom-control-label" for="formCheck-1">Email Employee</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-4">
-                            <div class="form-group">
-                                <label>Transfer No</label>
-                                <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments">{{stocktransferrecord.notes}}</textarea>
-                    </div>
-                </div>
+
                 <div class="col-12 col-md-6 col-lg-2 colProcessed" id="colProcessed" style="display: none;">
                     <h3 style="margin-left: 0px; margin-top: 35px; color: #e02d1b; font-weight: 600;">Processed</h3>
                 </div>
@@ -190,8 +165,27 @@
             <div class="row" style="background-color: #ededed; padding: 8px 32px 0px 32px;">
                 <div class="col-12 col-lg-3">
                     <div class="row">
+                        <div class="col-12">
+                            <div class="form-group" style="margin-bottom: 0px !important;">
+                                <label>Employee Email</label>
+                                <input class="form-control" type="text" id="edtCustomerEmail" name="edtCustomerEmail" customerid=" " customerfirstname=" " customerlastname=" " style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                            </div>
+                            <div class="custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 8px 16px;padding-left: 24px;width: 100%;">
+                                <div class="form-group" style="margin-right: 35px; Width:50%;">
+                                    <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px;"><label class="custom-control-label" for="formCheck-1">Email Employee</label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="max-width: 25%;">
+                                <label>Transfer No</label>
+                                <input class="form-control" type="text" id="txtTransfer" name="txtTransfer" value="{{stocktransferrecord.id}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="row">
                         <div class="col-6 col-lg-6">
-                            <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
+                            <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY" style="margin-bottom: 2.5rem;">
                                 <label>Transfer Date</label>
                                 <div class="input-group date" style="cursor: pointer;">
                                     <input type="text" class="form-control" id="dtShipDate" name="dtShipDate" value="{{stocktransferrecord.transdate}}">
@@ -207,7 +201,7 @@
                             </div>
                         </div>
                         <div class="col-6 col-lg-6">
-                            <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
+                            <div class="form-group" style="margin-bottom: 2.5rem;">
                                 <label>Transfer From</label>
                                 <select type="search" class="form-control" id="sltDepartment" name="sltDepartment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                 </select>
@@ -224,7 +218,13 @@
                 <div class="col-12 col-lg-3">
                     <div class="form-group">
                         <label>Reason</label>
-                        <textarea class="form-control" rows="4" id="txtNotes" name="txtNotes" style="height: 123px;">{{stocktransferrecord.descriptions}}</textarea>
+                        <textarea class="form-control" rows="4" id="txtNotes" name="txtNotes" style="height: 150px;">{{stocktransferrecord.descriptions}}</textarea>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" rows="4" id="shipcomments" name="shipcomments" style="height: 150px;">{{stocktransferrecord.notes}}</textarea>
                     </div>
                 </div>
             </div>
