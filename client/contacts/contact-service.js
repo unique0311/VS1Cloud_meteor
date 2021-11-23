@@ -503,4 +503,8 @@ export class ContactService extends BaseService {
            };
          return this.getList(this.ERPObjects.TUser, options);
      }
+
+     saveEmployeeProducts(data){
+         return this.POST(this.ERPObjects.TRepServices, data);
+     }
   }

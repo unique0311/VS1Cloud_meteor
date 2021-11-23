@@ -150,6 +150,7 @@ Template.employeescard.onRendered(function () {
         let productlist = [];
         sideBarService.getSelectedProducts(employeeName).then(function (data) {
                 var dataList = {};
+                if(data.trepservices.length > 0){
                 for (let i = 0; i < data.trepservices.length; i++) {
                   let linePayRate = data.trepservices[i].PayRate||0;
                   if(data.trepservices[i].PayRate != 0){
@@ -172,6 +173,17 @@ Template.employeescard.onRendered(function () {
 
 
                 }
+              }else{
+                dataList = {
+                      id:'',
+                      employee:  '',
+                      productname: '',
+                      productdesc:  '',
+                      rate: Currency + 0.00,
+                      payrate: Currency + 0.00
+                  };
+                      productlist.push(dataList);
+              }
                 templateObject.selectedproducts.set(productlist);
 
                 if(templateObject.selectedproducts.get()){
@@ -222,6 +234,18 @@ Template.employeescard.onRendered(function () {
                     }, 100);
                 }
 
+            }).catch(function (err) {
+
+            var  dataList = {
+                  id:'',
+                  employee:  '',
+                  productname: '',
+                  productdesc:  '',
+                  rate: Currency + 0.00,
+                  payrate: Currency + 0.00
+              }
+                  productlist.push(dataList);
+                  templateObject.selectedproducts.set(productlist);
             });
     }
 
@@ -1019,6 +1043,21 @@ Template.employeescard.onRendered(function () {
                             templateObject.getEmployeeProfileImageData(data.fields.EmployeeName);
 
                             templateObject.records.set(lineItemObj);
+                            setTimeout(function () {
+                              if(data.fields.CustFld7 == "true"){
+                                $("#productCostPayRate").prop("checked", true);
+                              }else{
+                                $("#productCostPayRate").prop("checked", false);
+                              }
+
+                              if(data.fields.CustFld8 == "true"){
+                                $("#addAllProducts").prop("checked", true);
+                                $('.activeProductEmployee').css('display', 'none');
+                              }else{
+                                $("#addAllProducts").prop("checked", false);
+                                $('.activeProductEmployee').css('display', 'block');
+                              }
+                            }, 500);
                             if (currentId.addvs1user == "true") {
                                 setTimeout(function () {
                                     $('.employeeTab').trigger('click');
@@ -1214,7 +1253,24 @@ Template.employeescard.onRendered(function () {
                                     } else {
                                         $("#overridesettings").prop('checked', false);
                                     }
+
                                 }, 1000);
+
+                              setTimeout(function () {
+                                if(useData[i].fields.CustFld7 == "true"){
+                                  $("#productCostPayRate").prop("checked", true);
+                                }else{
+                                  $("#productCostPayRate").prop("checked", false);
+                                }
+
+                                if(useData[i].fields.CustFld8 == "true"){
+                                  $("#addAllProducts").prop("checked", true);
+                                  $('.activeProductEmployee').css('display', 'none');
+                                }else{
+                                  $("#addAllProducts").prop("checked", false);
+                                  $('.activeProductEmployee').css('display', 'block');
+                                }
+                              }, 500);
                                 if ((currentId.addvs1user == "true") && (currentId.id)) {
                                     // swal("Please ensure the employee has a email and password.", "", "info");
 
@@ -1553,7 +1609,21 @@ Template.employeescard.onRendered(function () {
 
                         };
                         templateObject.getEmployeeProfileImageData(data.fields.EmployeeName);
+                        setTimeout(function () {
+                          if(data.fields.CustFld7 == "true"){
+                            $("#productCostPayRate").prop("checked", true);
+                          }else{
+                            $("#productCostPayRate").prop("checked", false);
+                          }
 
+                          if(data.fields.CustFld8 == "true"){
+                            $("#addAllProducts").prop("checked", true);
+                            $('.activeProductEmployee').css('display', 'none');
+                          }else{
+                            $("#addAllProducts").prop("checked", false);
+                            $('.activeProductEmployee').css('display', 'block');
+                          }
+                        }, 500);
                         templateObject.records.set(lineItemObj);
                         if (currentId.addvs1user == "true") {
                             setTimeout(function () {
@@ -2089,8 +2159,12 @@ Template.employeescard.events({
     'click .chkBoxAll': function () {
         if ($(event.target).is(':checked')) {
             $(".chkBox").prop("checked", true);
+            $("#addAllProducts").prop("checked", true);
+            $('.activeProductEmployee').css('display', 'none');
         } else {
             $(".chkBox").prop("checked", false);
+            $("#addAllProducts").prop("checked", false);
+            $('.activeProductEmployee').css('display', 'block');
         }
     },
     'click .btnSelectProducts': async function (event) {
@@ -2182,9 +2256,19 @@ Template.employeescard.events({
         //var currentEmployee = getemp_id[getemp_id.length-1];
         var currentEmployee = 0;
         let overrideGlobalCalendarSet = "false";
+        let useProductCostaspayRate = "false";
+        let includeAllProducts = "false";
 
         if ($('#overridesettings').is(':checked')) {
             overrideGlobalCalendarSet = "true";
+        }
+
+        if ($('#productCostPayRate').is(':checked')) {
+            useProductCostaspayRate = "true";
+        }
+
+        if ($('#addAllProducts').is(':checked')) {
+            includeAllProducts = "true";
         }
 
         let currentId = FlowRouter.current().queryParams;
@@ -2247,7 +2331,9 @@ Template.employeescard.events({
                     CustFld4: custField4,
                     CustFld5: $('#edtPriority').val(),
                     CustFld6: $('#favcolor').val(),
-                    CustFld14: overrideGlobalCalendarSet
+                    CustFld14: overrideGlobalCalendarSet,
+                    CustFld7: useProductCostaspayRate,
+                    CustFld8: includeAllProducts
                 }
             };
         } else {
@@ -2281,7 +2367,9 @@ Template.employeescard.events({
                     CustFld4: custField4,
                     CustFld5: $('#edtPriority').val(),
                     CustFld6: $('#favcolor').val(),
-                    CustFld14: overrideGlobalCalendarSet
+                    CustFld14: overrideGlobalCalendarSet,
+                    CustFld7: useProductCostaspayRate,
+                    CustFld8: includeAllProducts
 
                 }
             };
@@ -2311,6 +2399,57 @@ Template.employeescard.events({
             }
 
             contactService.saveEmployeePicture(employeePicObj).then(function (employeePicObj) {});
+
+            var tblSelectedInventoryService = $(".tblEmpServiceList").dataTable();
+            if(includeAllProducts == "true"){
+
+            }else{
+            $(".colServiceName",tblSelectedInventoryService).each(function () {
+                var lineID =$(this).closest('tr').attr('id'); // table row ID
+                let tdproduct = $(this).text() ||'';
+                //$('#' + lineID + " .colServiceName").text()||'';
+                let tddescription = $(this).closest('tr').find('.colServiceDescription').text()||'';
+                //$('#' + lineID + " .colServiceDescription").text()||'';
+                let tdCostPrice = $(this).closest('tr').find('.colServiceCostPrice').val()||Currency +0;
+                //$('#' + lineID + " .colServiceCostPrice").val() || 0;
+
+                let tdSalePrice = $(this).closest('tr').find('.colServiceSalesPrice').val()||Currency +0;
+                //$('#' + lineID + " .colServiceSalesPrice").val()|| 0;
+                //$('#' + lineID + " .colServiceSalesPrice").val()|| 0;
+                let paymentTransObj = '';
+                if(tdproduct!= ''){
+                  if($.isNumeric(lineID)){
+                    paymentTransObj = {
+                           type: "TRepServices",
+                           fields: {
+                               ID: parseInt(lineID) || 0,
+                               EmployeeName: Session.get('mySessionEmployee') || '',
+                               Rate:Number(tdCostPrice.replace(/[^0-9.-]+/g, ""))||0,
+                               PayRate:Number(tdSalePrice.replace(/[^0-9.-]+/g, ""))||0,
+                               ServiceDesc: tdproduct || '',
+                               AbilityDesc: tddescription || ''
+                           }
+
+                   };
+                  }else{
+                 paymentTransObj = {
+                        type: "TRepServices",
+                        fields: {
+                            EmployeeName: Session.get('mySessionEmployee') || '',
+                            Rate:Number(tdCostPrice.replace(/[^0-9.-]+/g, ""))||0,
+                            PayRate:Number(tdSalePrice.replace(/[^0-9.-]+/g, ""))||0,
+                            ServiceDesc: tdproduct || '',
+                            AbilityDesc: tddescription || ''
+                        }
+
+                };
+              }
+
+
+                contactService.saveEmployeeProducts(paymentTransObj).then(function (paymentTransObj) {});
+                }
+            });
+            }
 
             let showSat = false;
             let showSun = false;
@@ -2675,6 +2814,61 @@ Template.employeescard.events({
             $('.fullScreenSpin').css('display', 'none');
         });
 
+    },
+    'change .colServiceCostPrice': function (event) {
+
+        let utilityService = new UtilityService();
+        let inputUnitPrice = 0;
+        if (!isNaN($(event.target).val())) {
+            inputUnitPrice = parseFloat($(event.target).val()) || 0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        } else {
+            inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
+
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+
+        }
+    },
+    'change .colServiceSalesPrice': function (event) {
+
+        let utilityService = new UtilityService();
+        let inputUnitPrice = 0;
+        if (!isNaN($(event.target).val())) {
+            inputUnitPrice = parseFloat($(event.target).val()) || 0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        } else {
+            inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
+
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+
+        }
+    },
+    'click #addAllProducts': function(event) {
+        if ($(event.target).is(':checked')) {
+            $('.activeProductEmployee').css('display', 'none');
+        } else {
+          $('.activeProductEmployee').css('display', 'block');
+        }
+    },
+    'keydown .colServiceCostPrice, keydown .colServiceSalesPrice': function (event) {
+        if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+            (event.keyCode === 65 && (event.ctrlKey === true || event.metaKey === true)) ||
+            (event.keyCode >= 35 && event.keyCode <= 40)) {
+            return;
+        }
+
+        if (event.shiftKey == true) {
+            event.preventDefault();
+        }
+
+        if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+            (event.keyCode >= 96 && event.keyCode <= 105) ||
+            event.keyCode == 8 || event.keyCode == 9 ||
+            event.keyCode == 37 || event.keyCode == 39 ||
+            event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 189 || event.keyCode == 109) {}
+        else {
+            event.preventDefault();
+        }
     },
     'click .btnClosePayment': function (event) {
         if (FlowRouter.current().queryParams.id) {

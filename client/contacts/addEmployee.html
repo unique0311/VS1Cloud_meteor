@@ -409,7 +409,7 @@
                                                             <div class="form-group flex-grow-1" style="margin: 4px;">
                                                                 <label>Date of Birth</label>
                                                                 <div class="input-group date">
-                                                                    <input type="text" class="form-control highlightInput" id="dtDOB" name="dtDOB" value="{{record.dob}}">
+                                                                    <input type="text" class="form-control" id="dtDOB" name="dtDOB" value="{{record.dob}}">
                                                                     <div class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-th"></span>
                                                                     </div>
@@ -1042,7 +1042,7 @@
                                                                             <label class="custom-control-label" for="productCostPayRate" style=" cursor: pointer;">Use Product Cost as Pay Rate for Employee</label>
                                                                         </div>
                                                                         <div class="custom-control custom-switch" style="margin: 8px;">
-                                                                            <input class="custom-control-input" type="checkbox" id="addAllProducts" style=" cursor: pointer;">
+                                                                            <input class="custom-control-input" type="checkbox" id="addAllProducts" name="addAllProducts" style=" cursor: pointer;">
                                                                             <label class="custom-control-label" for="addAllProducts" style=" cursor: pointer;">Include All Products</label>
                                                                         </div>
                                                                     </div>
@@ -1050,14 +1050,14 @@
                                                                         <hr style="margin-top: 14px;">
                                                                     </div>
                                                                 </div>
-                                                                <div class="row" style="padding: 0px 24px 24px 24px;">
+                                                                <div class="row activeProductEmployee" style="padding: 0px 24px 24px 24px;">
                                                                     <div class="col-12 col-md-6">
                                                                         <h4 style="margin-bottom: 8px;">Active Products for {{record.company}}</h4>
                                                                     </div>
-                                                                    <div class="col-12 col-md-6" style="margin-bottom: 16px;">
+                                                                    <!-- <div class="col-12 col-md-6" style="margin-bottom: 16px;">
                                                                         <button class="btn btn-primary btnProductServicesModal" type="button" data-toggle="modal" data-target="#productListModal"><i class="fas fa-plus" style="margin: 4px;"></i>Add New
                                                                             Products</button>
-                                                                    </div>
+                                                                    </div> -->
                                                                     <div class="col-12" style="margin-bottom: 16px;">
                                                                         <style>
                                                                             .colServiceName {
@@ -1068,6 +1068,26 @@
                                                                             }
                                                                             .colServiceDelete {
                                                                                 width: 2% !important;
+                                                                            }
+
+                                                                            .highlightInput {
+                                                                                border: 0px solid transparent !important;
+                                                                                background-color: rgba(0, 0, 0, 0) !important;
+                                                                                padding: 0px !important;
+                                                                                width: 100% !important;
+                                                                                text-align: right !important;
+                                                                                color: #858796 !important;
+                                                                            }
+
+                                                                            .highlightInput::-webkit-outer-spin-button,
+                                                                            .highlightInput::-webkit-inner-spin-button {
+                                                                                -webkit-appearance: none !important;
+                                                                                margin: 0 !important;
+                                                                            }
+
+                                                                            /* Firefox */
+                                                                            .highlightInput[type=number] {
+                                                                                -moz-appearance: textfield !important;
                                                                             }
                                                                         </style>
                                                                         <table id="tblEmpServiceList" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblEmpServiceList">
@@ -1089,8 +1109,8 @@
                                                                                         <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                                                                             <td contenteditable="false" class="colServiceName">{{item.productname}}</td>
                                                                                             <td contenteditable="false" class="colServiceDescription">{{item.productdesc}}</td>
-                                                                                            <td contenteditable="true" class="colServiceCostPrice text-right">{{item.rate}}</td>
-                                                                                            <td contenteditable="true" class="colServiceSalesPrice text-right">{{item.payrate}}</td>
+                                                                                            <td contenteditable="true" class=" text-right"><input class="colServiceCostPrice highlightInput" type="text" value="{{item.rate}}"></td>
+                                                                                            <td contenteditable="true" class=" text-right"><input class="colServiceSalesPrice  highlightInput" type="text" value="{{item.payrate}}"></td>
                                                                                             <td contenteditable="false" class="colServiceDelete"><span class="table-remove colServiceDelete"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i
                                                                                                             class="fa fa-remove"></i></button></span></td>
                                                                                         </tr>
