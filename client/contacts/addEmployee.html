@@ -426,7 +426,7 @@
                                                             </div>
                                                             <div class="form-group flex-grow-0" style="margin: 4px;">
                                                                 <label class="text-nowrap">Employee ID</label>
-                                                                <input type="text" class="form-control" id="edtSkype" name="edtEmployeeID" value="EMP_{{record.id}}" readonly>
+                                                                <input type="text" class="form-control" id="edtSkype" name="edtEmployeeID" value="emp_{{record.id}}" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -442,7 +442,7 @@
                                                             <li class="nav-item" style="cursor: pointer;"><a class="nav-link" role="tab" data-toggle="tab" data-target="#tab-9">Custom Fields</a></li>
                                                             <li class="nav-item" style="cursor: pointer;"><a class="nav-link" role="tab" data-toggle="tab" data-target="#tab-EmpLogo">Employee Photo</a></li>
                                                             <li class="nav-item" style="cursor: pointer;"><a class="nav-link" role="tab" data-toggle="tab" data-target="#tab-appointment">Appointment Settings</a></li>
-                                                            <li class="nav-item" style="cursor: pointer;"><a class="nav-link tabproductsservices" role="tab" data-toggle="tab" data-target="#tab-productsservices">Product / Service</a></li>
+                                                            <li class="nav-item" style="cursor: pointer;"><a class="nav-link tabproductsservices" role="tab" data-toggle="tab" data-target="#tab-productsservices">Products</a></li>
                                                             {{#if isCloudUserPass}}
                                                                 <li class="nav-item" style="cursor: pointer;"><a class="nav-link addvs1usertab" role="tab" data-toggle="tab" data-target="#tab-11">VS1 User Login</a></li>
                                                             {{/if}}
@@ -1043,7 +1043,7 @@
                                                                         </div>
                                                                         <div class="custom-control custom-switch" style="margin: 8px;">
                                                                             <input class="custom-control-input" type="checkbox" id="addAllProducts" style=" cursor: pointer;">
-                                                                            <label class="custom-control-label" for="addAllProducts" style=" cursor: pointer;">Include All Products / Services</label>
+                                                                            <label class="custom-control-label" for="addAllProducts" style=" cursor: pointer;">Include All Products</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1052,18 +1052,18 @@
                                                                 </div>
                                                                 <div class="row" style="padding: 0px 24px 24px 24px;">
                                                                     <div class="col-12 col-md-6">
-                                                                        <h4 style="margin-bottom: 8px;">Active Products / Services for {{record.company}}</h4>
+                                                                        <h4 style="margin-bottom: 8px;">Active Products for {{record.company}}</h4>
                                                                     </div>
                                                                     <div class="col-12 col-md-6" style="margin-bottom: 16px;">
                                                                         <button class="btn btn-primary btnProductServicesModal" type="button" data-toggle="modal" data-target="#productListModal"><i class="fas fa-plus" style="margin: 4px;"></i>Add New
-                                                                            Product / Service</button>
+                                                                            Products</button>
                                                                     </div>
                                                                     <div class="col-12" style="margin-bottom: 16px;">
                                                                         <style>
                                                                             .colServiceName {
                                                                                 width: 30% !important;
                                                                             }
-                                                                            .colServiceRate {
+                                                                            .colServiceCostPrice, .colServiceSalesPrice {
                                                                                 width: 8% !important;
                                                                             }
                                                                             .colServiceDelete {
@@ -1075,7 +1075,9 @@
                                                                                 <tr class="dnd-moved">
                                                                                     <th class="th colServiceName" style="width: 30% !important;">Name</th>
                                                                                     <th class="th colServiceDescription">Description</th>
-                                                                                    <th class="th colServiceRate" style="width: 8%!important;">Rate</th>
+                                                                                    <!-- <th class="th colServiceRate" style="width: 8%!important;">Rate</th> -->
+                                                                                    <th class="th colServiceCostPrice" style="width: 8% !important;text-align: left!important;">Cost Price</th>
+                                                                                    <th class="th colServiceSalesPrice" style="width: 8% !important;text-align: left!important;">Sale Price</th>
                                                                                     <!-- <th class="th colPurcDef" style="width:20px">Purchase Default</th>
                                                                                 <th class="th colSaleDef" style="width:20px">Sales Default</th> -->
                                                                                     <th class="th colServiceDelete" style="width: 2% !important;"></th>
@@ -1086,9 +1088,10 @@
                                                                                     {{#each item in selectedproducts}}
                                                                                         <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                                                                             <td contenteditable="false" class="colServiceName">{{item.productname}}</td>
-                                                                                            <td contenteditable="false" class="colServiceDescription">{{item.productname}}</td>
-                                                                                            <td contenteditable="true" class="colServiceRate text-right">{{item.rate}}</td>
-                                                                                            <td contenteditable="false" class="colServiceDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i
+                                                                                            <td contenteditable="false" class="colServiceDescription">{{item.productdesc}}</td>
+                                                                                            <td contenteditable="true" class="colServiceCostPrice text-right">{{item.rate}}</td>
+                                                                                            <td contenteditable="true" class="colServiceSalesPrice text-right">{{item.payrate}}</td>
+                                                                                            <td contenteditable="false" class="colServiceDelete"><span class="table-remove colServiceDelete"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i
                                                                                                             class="fa fa-remove"></i></button></span></td>
                                                                                         </tr>
                                                                                     {{/each}}
@@ -1488,6 +1491,27 @@
         </div>
     </div>
     <!-- End Upgrade POP -->
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="deleteServiceModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <input type="hidden" style="width: 100%; display:none;" id="selectDeleteServiceID" name="selectDeleteServiceID"  readonly>
+                <div class="modal-header">
+                    <h4>Delete</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Please click "Delete" to delete Product</p>
+
+                    <button class="btn btn-danger float-right btnDeleteProductService" type="button">
+                        <i class="fa fa-close" style="margin-right: 5px;"></i>Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         modalDraggable();

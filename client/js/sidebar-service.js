@@ -47,11 +47,10 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
 
-  getSelectedProducts(employeeName) {
-    let options = '';
-       options = {
-        ListType: "Detail",
-       // select: '[EmployeeName]  = "' + employeeName + '"'
+  getSelectedProducts(employeeID) {
+       let options = {
+           PropertyList: "ID,EmployeeName,PayRate,Rate,AbilityDesc, ServiceDesc",
+           select: '[EmployeeID]='+employeeID+''
        };
     return this.getList(this.ERPObjects.TRepServices, options);
   }

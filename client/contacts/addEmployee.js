@@ -6,6 +6,7 @@ import { CountryService } from '../js/country-service';
 import { PaymentsService } from '../payments/payments-service';
 import { ProductService } from '../product/product-service';
 import { SideBarService } from '../js/sidebar-service';
+import { Random } from 'meteor/random';
 import { AppointmentService } from '../appointments/appointment-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
@@ -150,16 +151,24 @@ Template.employeescard.onRendered(function () {
         sideBarService.getSelectedProducts(employeeName).then(function (data) {
                 var dataList = {};
                 for (let i = 0; i < data.trepservices.length; i++) {
+                  let linePayRate = data.trepservices[i].PayRate||0;
+                  if(data.trepservices[i].PayRate != 0){
+
+                  }else{
+                     linePayRate = data.trepservices[i].Rate;
+                  }
                     dataList = {
-                        id: data.trepservices[i].fields.ID || '',
-                        employee: data.trepservices[i].fields.EmployeeName || '',
-                        productname: data.trepservices[i].fields.ServiceDesc || '',
-                        rate: utilityService.modifynegativeCurrencyFormat(data.trepservices[i].fields.Rate) || 0.00
+                        id: data.trepservices[i].Id || '',
+                        employee: data.trepservices[i].EmployeeName || '',
+                        productname: data.trepservices[i].ServiceDesc || '',
+                        productdesc: data.trepservices[i].AbilityDesc || data.trepservices[i].ServiceDesc || '',
+                        rate: utilityService.modifynegativeCurrencyFormat(data.trepservices[i].Rate) || 0.00,
+                        payrate: utilityService.modifynegativeCurrencyFormat(linePayRate) || utilityService.modifynegativeCurrencyFormat(linePayRate)|| 0.00
                     }
 
-                    if(employeeName == data.trepservices[i].fields.EmployeeName){
+                    //if(employeeName == data.trepservices[i].fields.EmployeeName){
                         productlist.push(dataList);
-                    }
+                    //}
 
 
                 }
@@ -182,7 +191,7 @@ Template.employeescard.onRendered(function () {
                             },
                         // pageLength: initialDatatableLoad,
                         // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        paging: true,
+                        paging: false,
                         // "scrollY": "400px",
                         info: true,
                         pageLength: -1,
@@ -197,6 +206,10 @@ Template.employeescard.onRendered(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#productListModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEmpServiceList_filter");
+                            $("<button class='btn btn-primary btnRefreshProductService' type='button' id='btnRefreshProductService' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEmpServiceList_filter");
+                        }
 
               }).on('page', function () {
                   setTimeout(function () {
@@ -205,7 +218,7 @@ Template.employeescard.onRendered(function () {
                   let draftRecord = templateObject.datatablerecords.get();
                   templateObject.datatablerecords.set(draftRecord);
               }).on('column-reorder', function () {});
-
+              $('.fullScreenSpin').css('display', 'none');
                     }, 100);
                 }
 
@@ -894,6 +907,7 @@ Template.employeescard.onRendered(function () {
     } else {
         if (!isNaN(currentId.id)) {
             employeeID = currentId.id;
+            templateObject.getAllSelectedProducts(employeeID);
             templateObject.getEmployeeData = function () {
                 getVS1Data('TEmployee').then(function (dataObject) {
 
@@ -1091,7 +1105,7 @@ Template.employeescard.onRendered(function () {
                                 let lineItems = [];
                                 let empEmail = '';
                                 let overideset = useData[i].fields.CustFld14;
-                                templateObject.getAllSelectedProducts(useData[i].fields.EmployeeName);
+
                                 if (useData[i].fields.Email.replace(/\s/g, '') == '') {
                                     if (useData[i].fields.User != null) {
                                         let emplineItems = [];
@@ -2028,6 +2042,30 @@ Template.employeescard.events({
             $('.customerShipping-2').css('display', 'block');
         }
     },
+    'click .colServiceDelete': function (event) {
+        let templateObject = Template.instance();
+        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        $('#selectDeleteServiceID').val(targetID);
+        $('#deleteServiceModal').modal('toggle');
+    },
+    'click .btnRefreshProductService': function (event) {
+      $('.fullScreenSpin').css('display', 'inline-block');
+      let templateObject = Template.instance();
+      if(FlowRouter.current().queryParams.id){
+        templateObject.getAllSelectedProducts(FlowRouter.current().queryParams.id);
+      }else{
+          $('.fullScreenSpin').css('display', 'none');
+      }
+        // let templateObject = Template.instance();
+        // var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        // $('#selectDeleteServiceID').val(targetID);
+        // $('#deleteServiceModal').modal('toggle');
+    },
+    'click .btnDeleteProductService': function (event) {
+        let selectLineID = $('#selectDeleteServiceID').val();
+        $('#' + selectLineID).closest('tr').remove();
+        $('#deleteServiceModal').modal('toggle');
+    },
     'click .chkServiceCardTest': function () {
         const templateObject = Template.instance();
         let selectedproduct = [];
@@ -2060,18 +2098,20 @@ Template.employeescard.events({
         let trepserviceObjects = templateObject.selectedemployeeproducts.get();
         let getselectedproducts = templateObject.selectedproducts.get();
         let productService = new ProductService();
-
+        let tokenid = Random.id();
         var tblInventoryService = $(".tblInventoryService").dataTable();
         var dataserviceList = {};
         let productservicelist = [];
         $(".chkServiceCard:checked", tblInventoryService.fnGetNodes()).each(function() {
           let productServiceName = $(this).closest('tr').find('.productName').text()||'';
-          let productServicerate = $(this).closest('tr').find('.salePriceInc').text()||'';
+          let productServicerate = $(this).closest('tr').find('.costPrice').text()||'';
+          let productServicecost = $(this).closest('tr').find('.salePrice').text()||'';
           dataserviceList = {
-              id: '',
+              id: tokenid||'',
               employee: Session.get('mySessionEmployee') || '',
               productname: productServiceName || '',
-              rate: productServicerate || ''
+              rate: productServicerate || 0,
+              payrate:productServicecost || 0
           };
           let checkServiceArray = getselectedproducts.filter(function(prodData){ return prodData.productname === productServiceName })||'';
 
