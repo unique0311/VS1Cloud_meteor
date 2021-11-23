@@ -15,6 +15,12 @@ Template.payrolloverview.onCreated(function () {
     templateObject.timesheetrecords = new ReactiveVar([]);
     templateObject.jobsrecords = new ReactiveVar([]);
     templateObject.selectedFile = new ReactiveVar();
+
+    templateObject.includeAllProducts = new ReactiveVar();
+    templateObject.includeAllProducts.set(true);
+
+    templateObject.useProductCostaspayRate = new ReactiveVar();
+    templateObject.useProductCostaspayRate.set(false);
 });
 
 Template.payrolloverview.onRendered(function () {
@@ -347,6 +353,11 @@ Template.payrolloverview.onRendered(function () {
 
                         if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                             dataTableList.push(dataList);
+                            if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                              if(data.temployee[i].fields.CustFld8 == "false"){
+                                templateObject.includeAllProducts.set(false);
+                              }
+                            }
                         }
                         //}
                     }
@@ -511,6 +522,11 @@ Template.payrolloverview.onRendered(function () {
 
                     if (useData[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                         dataTableList.push(dataList);
+                        if(Session.get('mySessionEmployee') == useData[i].fields.EmployeeName){
+                          if(useData[i].fields.CustFld8 == "false"){
+                            templateObject.includeAllProducts.set(false);
+                          }
+                        }
                     }
                     //}
                 }
@@ -669,6 +685,11 @@ Template.payrolloverview.onRendered(function () {
 
                     if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                         dataTableList.push(dataList);
+                        if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                          if(data.temployee[i].fields.CustFld8 == "false"){
+                            templateObject.includeAllProducts.set(false);
+                          }
+                        }
                     }
                     //}
                 }
@@ -921,6 +942,33 @@ Template.payrolloverview.onRendered(function () {
 
     }
 
+    templateObject.getAllSelectedProducts = function (employeeID) {
+        let productlist = [];
+        sideBarService.getSelectedProducts(employeeID).then(function (data) {
+                var dataList = {};
+                if(data.trepservices.length > 0){
+                for (let i = 0; i < data.trepservices.length; i++) {
+                    dataList = {
+                      id: data.trepservices[i].Id || '',
+                      productname: data.trepservices[i].ServiceDesc || '',
+                      productcost: data.trepservices[i].Rate || 0.00
+
+                    }
+
+                    productlist.push(dataList);
+
+                }
+                templateObject.datatablerecords1.set(productlist);
+              }else{
+                templateObject.getAllProductData();
+              }
+
+
+        }).catch(function (err) {
+          templateObject.getAllProductData();
+        });
+    }
+
     // setTimeout(function () {
     //     templateObject.getAllProductData();
     // }, 500);
@@ -1089,6 +1137,7 @@ Template.payrolloverview.events({
     },
     'click #btnClockOnOff': function (event) {
         const templateObject = Template.instance();
+        let checkIncludeAllProducts = templateObject.includeAllProducts.get();
         $("#employee_name").val(Session.get('mySessionEmployee'));
         $('#sltJob').val("");
         $('#product-list').val("");
@@ -1102,10 +1151,20 @@ Template.payrolloverview.events({
         $('#btnHold').prop('disabled', false);
         $('#btnClockOff').prop('disabled', false);
         var curretDate = moment().format('DD/MM/YYYY');
+        let getEmployeeID  = Session.get('mySessionEmployeeLoggedID') || '';
         setTimeout(function () {
             $("#dtSODate").val(curretDate);
         }, 100);
+        if(checkIncludeAllProducts ==  true){
         templateObject.getAllProductData();
+        }else{
+          if(getEmployeeID != ''){
+            templateObject.getAllProductData();
+          }else{
+            templateObject.getAllSelectedProducts(getEmployeeID);
+          }
+
+        }
         let clockList = templateObject.timesheetrecords.get();
         clockList = clockList.filter(clkList => {
             return clkList.employee == $('#employee_name').val();
@@ -2247,7 +2306,12 @@ Template.payrolloverview.events({
                     setTimeout(function () {
                         $("#dtSODate").val(curretDate);
                     }, 100);
-                    templateObject.getAllProductData();
+                    if(data.fields.CustFld8 == "false"){
+                      templateObject.getAllSelectedProducts(data.fields.ID);
+                    }else{
+                      templateObject.getAllProductData();
+                    }
+
                     let clockList = templateObject.timesheetrecords.get();
                     clockList = clockList.filter(clkList => {
                         return clkList.employee == $('#employee_name').val();

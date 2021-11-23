@@ -1129,6 +1129,7 @@ Template.timesheet.onRendered(function () {
 
     templateObject.getAllProductData = function () {
         productList = [];
+        templateObject.productsdatatablerecords.set([]);
         getVS1Data('TProductVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
                 productService.getNewProductListVS1().then(function (data) {
@@ -1185,6 +1186,34 @@ Template.timesheet.onRendered(function () {
             });
         });
 
+    }
+
+    templateObject.getAllSelectedProducts = function (employeeID) {
+        let productlist = [];
+        templateObject.productsdatatablerecords.set([]);
+        sideBarService.getSelectedProducts(employeeID).then(function (data) {
+                var dataList = {};
+                if(data.trepservices.length > 0){
+                for (let i = 0; i < data.trepservices.length; i++) {
+                    dataList = {
+                      id: data.trepservices[i].Id || '',
+                      productname: data.trepservices[i].ServiceDesc || '',
+                      productcost: data.trepservices[i].Rate || 0.00
+
+                    }
+
+                    productlist.push(dataList);
+
+                }
+                templateObject.productsdatatablerecords.set(productlist);
+              }else{
+                templateObject.getAllProductData();
+              }
+
+
+        }).catch(function (err) {
+          templateObject.getAllProductData();
+        });
     }
 
     setTimeout(function () {
@@ -1709,6 +1738,11 @@ Template.timesheet.events({
                     } else {
                         $(".paused").hide();
                         $("#btnHoldOne").prop("disabled", false);
+                    }
+                    if(data.fields.CustFld8 == "false"){
+                      templateObject.getAllSelectedProducts(data.fields.ID);
+                    }else{
+                      templateObject.getAllProductData();
                     }
 
                 } else {
