@@ -23,6 +23,14 @@ export class ContactService extends BaseService {
       return this.getList(this.ERPObjects.TEmployee, options);
   }
 
+  getCheckTimeEmployeeSetting(empID) {
+      let options = {
+          PropertyList: "ID,CustFld7,CustFld8",
+          select: '[Id]="'+empID+'" and [Active]=true',
+      };
+      return this.getList(this.ERPObjects.TEmployee, options);
+  }
+
 
   getAllEmployeesPriority() {
     let options = {

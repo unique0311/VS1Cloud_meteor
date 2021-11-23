@@ -19,6 +19,12 @@ Template.timesheet.onCreated(function () {
     templateObject.selectedTimesheetID = new ReactiveVar();
     templateObject.selectedFile = new ReactiveVar();
 
+    templateObject.includeAllProducts = new ReactiveVar();
+    templateObject.includeAllProducts.set(true);
+
+    templateObject.useProductCostaspayRate = new ReactiveVar();
+    templateObject.useProductCostaspayRate.set(false);
+
 });
 
 Template.timesheet.onRendered(function () {
@@ -185,10 +191,21 @@ Template.timesheet.onRendered(function () {
                         sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                         sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
                         let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                        let lineEmpID = '';
+                        if(data.ttimesheet[t].fields.Logs){
+                          if (Array.isArray(data.ttimesheet[t].fields.Logs)) {
+                            // It is array
+                            lineEmpID = data.ttimesheet[t].fields.Logs[0].fields.EmployeeID || '';
+                          } else{
+                            lineEmpID = data.ttimesheet[t].fields.Logs.fields.EmployeeID || '';
+                          }
+                        }
                         var dataList = {
                             id: data.ttimesheet[t].fields.ID || '',
                             employee: data.ttimesheet[t].fields.EmployeeName || '',
+                            employeeID: lineEmpID || '',
                             hourlyrate: hourlyRate,
+                            hourlyrateval: data.ttimesheet[t].fields.HourlyRate || '',
                             hours: data.ttimesheet[t].fields.Hours || '',
                             hourFormat: hoursFormatted,
                             job: data.ttimesheet[t].fields.Job || '',
@@ -411,7 +428,6 @@ Template.timesheet.onRendered(function () {
                 let data = JSON.parse(dataObject[0].data);
                 let lineItems = [];
                 let lineItemObj = {};
-
                 let sumTotalCharge = 0;
                 let sumSumHour = 0;
                 let sumSumHourlyRate = 0;
@@ -426,10 +442,21 @@ Template.timesheet.onRendered(function () {
                         sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                         sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
                         let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                        let lineEmpID = '';
+                        if(data.ttimesheet[t].fields.Logs){
+                          if (Array.isArray(data.ttimesheet[t].fields.Logs)) {
+                            // It is array
+                            lineEmpID = data.ttimesheet[t].fields.Logs[0].fields.EmployeeID || '';
+                          } else{
+                            lineEmpID = data.ttimesheet[t].fields.Logs.fields.EmployeeID || '';
+                          }
+                        }
                         var dataList = {
                             id: data.ttimesheet[t].fields.ID || '',
                             employee: data.ttimesheet[t].fields.EmployeeName || '',
+                            employeeID: lineEmpID || '',
                             hourlyrate: hourlyRate,
+                            hourlyrateval: data.ttimesheet[t].fields.HourlyRate || '',
                             hours: data.ttimesheet[t].fields.Hours || '',
                             hourFormat: hoursFormatted,
                             job: data.ttimesheet[t].fields.Job || '',
@@ -476,6 +503,7 @@ Template.timesheet.onRendered(function () {
                                 id: data.ttimesheet[t].fields.ID || '',
                                 employee: data.ttimesheet[t].fields.EmployeeName || '',
                                 hourlyrate: hourlyRate,
+                                hourlyrateval: data.ttimesheet[t].fields.HourlyRate || '',
                                 hours: data.ttimesheet[t].fields.Hours || '',
                                 hourFormat: hoursFormatted,
                                 job: data.ttimesheet[t].fields.Job || '',
@@ -1062,40 +1090,134 @@ Template.timesheet.onRendered(function () {
     templateObject.getAllTimeSheetDataClock();
 
     templateObject.getEmployees = function () {
-        contactService.getAllEmployeesData().then(function (data) {
-            let lineItems = [];
-            let lineItemObj = {};
-            $('.fullScreenSpin').css('display', 'none');
-            for (let i = 0; i < data.temployee.length; i++) {
-                var dataList = {
-                    id: data.temployee[i].Id || '',
-                    employeeno: data.temployee[i].EmployeeNo || '',
-                    employeename: data.temployee[i].EmployeeName || '',
-                    firstname: data.temployee[i].FirstName || '',
-                    lastname: data.temployee[i].LastName || '',
-                    phone: data.temployee[i].Phone || '',
-                    mobile: data.temployee[i].Mobile || '',
-                    email: data.temployee[i].Email || '',
-                    address: data.temployee[i].Street || '',
-                    country: data.temployee[i].Country || '',
-                    department: data.temployee[i].DefaultClassName || '',
-                    custFld1: data.temployee[i].CustFld1 || '',
-                    custFld2: data.temployee[i].CustFld2 || '',
-                    custFld3: data.temployee[i].CustFld3 || '',
-                    custFld4: data.temployee[i].CustFld4 || ''
-                };
 
-                if (data.temployee[i].EmployeeName.replace(/\s/g, '') != '') {
-                    employeeList.push(dataList);
+        getVS1Data('TEmployee').then(function (dataObject) {
+
+            if (dataObject.length == 0) {
+              sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
+                  addVS1Data('TEmployee', JSON.stringify(data));
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for (let i = 0; i < data.temployee.length; i++) {
+                      var dataList = {
+                          id: data.temployee[i].fields.ID || '',
+                          employeeno: data.temployee[i].fields.EmployeeNo || '',
+                          employeename: data.temployee[i].fields.EmployeeName || '',
+                          firstname: data.temployee[i].fields.FirstName || '',
+                          lastname: data.temployee[i].fields.LastName || '',
+                          phone: data.temployee[i].fields.Phone || '',
+                          mobile: data.temployee[i].fields.Mobile || '',
+                          email: data.temployee[i].fields.Email || '',
+                          address: data.temployee[i].fields.Street || '',
+                          country: data.temployee[i].fields.Country || '',
+                          department: data.temployee[i].fields.DefaultClassName || '',
+                          custFld1: data.temployee[i].fields.CustFld1 || '',
+                          custFld2: data.temployee[i].fields.CustFld2 || '',
+                          custFld3: data.temployee[i].fields.CustFld3 || '',
+                          custFld4: data.temployee[i].fields.CustFld4 || '',
+                          custFld7: data.temployee[i].fields.CustFld7 || '',
+                          custFld8: data.temployee[i].fields.CustFld8 || ''
+                      };
+
+                      if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
+                          employeeList.push(dataList);
+                          if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                            if(data.temployee[i].fields.CustFld8 == "false"){
+                              templateObject.includeAllProducts.set(false);
+                            }
+                          }
+                      }
+                      //}
+                  }
+                  templateObject.employeerecords.set(employeeList);
+                  $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                  $('.fullScreenSpin').css('display', 'none');
+              });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.temployee;
+
+                let lineItems = [];
+                let lineItemObj = {};
+                for (let i = 0; i < useData.length; i++) {
+                    var dataList = {
+                        id: useData[i].fields.ID || '',
+                        employeeno: useData[i].fields.EmployeeNo || '',
+                        employeename: useData[i].fields.EmployeeName || '',
+                        firstname: useData[i].fields.FirstName || '',
+                        lastname: useData[i].fields.LastName || '',
+                        phone: useData[i].fields.Phone || '',
+                        mobile: useData[i].fields.Mobile || '',
+                        email: useData[i].fields.Email || '',
+                        address: useData[i].fields.Street || '',
+                        country: useData[i].fields.Country || '',
+                        department: useData[i].fields.DefaultClassName || '',
+                        custFld1: useData[i].fields.CustFld1 || '',
+                        custFld2: useData[i].fields.CustFld2 || '',
+                        custFld3: useData[i].fields.CustFld3 || '',
+                        custFld4: useData[i].fields.CustFld4 || '',
+                        custFld7: useData[i].fields.CustFld7 || '',
+                        custFld8: useData[i].fields.CustFld8 || ''
+                    };
+
+                    if (useData[i].fields.EmployeeName.replace(/\s/g, '') != '') {
+                        employeeList.push(dataList);
+                        if(Session.get('mySessionEmployee') == useData[i].fields.EmployeeName){
+                          if(useData[i].fields.CustFld8 == "false"){
+                            templateObject.includeAllProducts.set(false);
+                          }
+                        }
+                    }
+                    //}
                 }
-                //}
+                templateObject.employeerecords.set(employeeList);
+                $('.fullScreenSpin').css('display', 'none');
             }
-
-            templateObject.employeerecords.set(employeeList);
-
         }).catch(function (err) {
-            $('.fullScreenSpin').css('display', 'none');
+            sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
+                addVS1Data('TEmployee', JSON.stringify(data));
+                let lineItems = [];
+                let lineItemObj = {};
+                for (let i = 0; i < data.temployee.length; i++) {
+                    var dataList = {
+                        id: data.temployee[i].fields.ID || '',
+                        employeeno: data.temployee[i].fields.EmployeeNo || '',
+                        employeename: data.temployee[i].fields.EmployeeName || '',
+                        firstname: data.temployee[i].fields.FirstName || '',
+                        lastname: data.temployee[i].fields.LastName || '',
+                        phone: data.temployee[i].fields.Phone || '',
+                        mobile: data.temployee[i].fields.Mobile || '',
+                        email: data.temployee[i].fields.Email || '',
+                        address: data.temployee[i].fields.Street || '',
+                        country: data.temployee[i].fields.Country || '',
+                        department: data.temployee[i].fields.DefaultClassName || '',
+                        custFld1: data.temployee[i].fields.CustFld1 || '',
+                        custFld2: data.temployee[i].fields.CustFld2 || '',
+                        custFld3: data.temployee[i].fields.CustFld3 || '',
+                        custFld4: data.temployee[i].fields.CustFld4 || '',
+                        custFld7: data.temployee[i].fields.CustFld7 || '',
+                        custFld8: data.temployee[i].fields.CustFld8 || ''
+                    };
+
+                    if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
+                        employeeList.push(dataList);
+                        if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                          if(data.temployee[i].fields.CustFld8 == "false"){
+                            templateObject.includeAllProducts.set(false);
+                          }
+                        }
+                    }
+                    //}
+                }
+                templateObject.employeerecords.set(employeeList);
+                $('.fullScreenSpin').css('display', 'none');
+
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
         });
+
     }
 
     templateObject.getEmployees();
@@ -1224,6 +1346,7 @@ Template.timesheet.onRendered(function () {
         //$('#tblTimeSheet tbody').on('click', 'tr td:not(:first-child)', function (event) {
         $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colProduct, tr .colRegHours, tr .colNotes, tr .colStatus', function () {
             event.preventDefault();
+            // templateObject.getAllProductData();
             if (canClockOnClockOff == true) {
                 var curretDate = moment().format('DD/MM/YYYY');
                 let productCheck = templateObject.productsdatatablerecords.get();
@@ -1235,11 +1358,38 @@ Template.timesheet.onRendered(function () {
                 } else {
                     $('#product-listone').prepend('<option>' + $(event.target).closest("tr").find('.colProduct').text() + '</option>');
                 }
+                // let employeeLineID = $(event.target).closest("tr").find('.colName').attr('emplid') || '';
+                // let employeeselectCheck = templateObject.employeerecords.get();
+                // employeeselectCheck = employeeselectCheck.filter(empList => {
+                //     return empList.employeename == $(event.target).closest("tr").find('.colName').text();
+                // });
+
+                // if (employeeselectCheck.length > 0) {
+                //   if(employeeselectCheck[0].custFld8 == "false"){
+                //     if(employeeselectCheck[0].id != ''){
+                //       templateObject.getAllSelectedProducts(employeeselectCheck[0].id);
+                //     }else{
+                //       templateObject.getAllProductData();
+                //     }
+                //
+                //   }else{
+                //     templateObject.getAllProductData();
+                //   }
+                // }else{
+                //   templateObject.getAllProductData();
+                // }
+
+
                 $('#txtBookedHoursSpent').val("")
                 $('#txtBookedHoursSpent1').val("");
                 $('#employee_name').val($(event.target).closest("tr").find('.colName').text());
                 $('#sltJobOne').val($(event.target).closest("tr").find('.colJob').text());
+
                 $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
+                let prodLineData = $(event.target).closest("tr").find('.colProduct').text() ||'';
+                let prodLineCost = $(event.target).closest("tr").find('.colProduct').text() ||'';
+                // $('#product-listone').append('<option value="' + prodLineData + '" selected="selected" id="' +prodLineData +'">' + prodLineData + '</option>');
+
                 $('#txtNotesOne').val($(event.target).closest("tr").find('.colNotes').text());
                 $('#updateID').val($(event.target).closest("tr").find('.colID').text());
                 $('#timesheetID').text($(event.target).closest("tr").find('.colID').text());
@@ -2018,9 +2168,13 @@ Template.timesheet.events({
             });
         });
     },
-    'click #btnClockOnOff': function (event) {
+    'click #btnClockOnOff': async function (event) {
         const templateObject = Template.instance();
+        let contactService = new ContactService();
         $("#employee_name").val(Session.get('mySessionEmployee'));
+        let getEmployeeID  = Session.get('mySessionEmployeeLoggedID') || '';
+        let checkIncludeAllProducts = templateObject.includeAllProducts.get();
+
         $('#sltJobOne').val("");
         $('#product-listone').val("");
         $('#updateID').val("");
@@ -2036,6 +2190,17 @@ Template.timesheet.events({
         $('.processTimesheet').prop('disabled', false);
         $('#txtBookedHoursSpent').prop('disabled', false);
         var curretDate = moment().format('DD/MM/YYYY');
+        if(checkIncludeAllProducts ==  true){
+        templateObject.getAllProductData();
+        }else{
+          if(getEmployeeID != ''){
+            templateObject.getAllProductData();
+          }else{
+            templateObject.getAllSelectedProducts(getEmployeeID);
+          }
+
+        }
+
         let clockList = templateObject.timesheetrecords.get();
         clockList = clockList.filter(clkList => {
             return clkList.employee == $('#employee_name').val();

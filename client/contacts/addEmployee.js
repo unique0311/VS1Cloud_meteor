@@ -162,7 +162,7 @@ Template.employeescard.onRendered(function () {
                         id: data.trepservices[i].Id || '',
                         employee: data.trepservices[i].EmployeeName || '',
                         productname: data.trepservices[i].ServiceDesc || '',
-                        productdesc: data.trepservices[i].AbilityDesc || data.trepservices[i].ServiceDesc || '',
+                        productdesc: data.trepservices[i].ServiceDesc || '',
                         rate: utilityService.modifynegativeCurrencyFormat(data.trepservices[i].Rate) || 0.00,
                         payrate: utilityService.modifynegativeCurrencyFormat(linePayRate) || utilityService.modifynegativeCurrencyFormat(linePayRate)|| 0.00
                     }
@@ -2178,12 +2178,14 @@ Template.employeescard.events({
         let productservicelist = [];
         $(".chkServiceCard:checked", tblInventoryService.fnGetNodes()).each(function() {
           let productServiceName = $(this).closest('tr').find('.productName').text()||'';
+          let productServiceDesc = $(this).closest('tr').find('.productDesc').text()||'';
           let productServicerate = $(this).closest('tr').find('.costPrice').text()||'';
           let productServicecost = $(this).closest('tr').find('.salePrice').text()||'';
           dataserviceList = {
               id: tokenid||'',
               employee: Session.get('mySessionEmployee') || '',
               productname: productServiceName || '',
+              productdesc: productServiceDesc || '',
               rate: productServicerate || 0,
               payrate:productServicecost || 0
           };
@@ -2417,17 +2419,16 @@ Template.employeescard.events({
                 //$('#' + lineID + " .colServiceSalesPrice").val()|| 0;
                 //$('#' + lineID + " .colServiceSalesPrice").val()|| 0;
                 let paymentTransObj = '';
-                if(tdproduct!= ''){
+                if(tdproduct!= '' || tdproduct!= 'Name'){
                   if($.isNumeric(lineID)){
                     paymentTransObj = {
                            type: "TRepServices",
                            fields: {
                                ID: parseInt(lineID) || 0,
-                               EmployeeName: Session.get('mySessionEmployee') || '',
+                               EmployeeName: employeeName || '',
                                Rate:Number(tdCostPrice.replace(/[^0-9.-]+/g, ""))||0,
                                PayRate:Number(tdSalePrice.replace(/[^0-9.-]+/g, ""))||0,
-                               ServiceDesc: tdproduct || '',
-                               AbilityDesc: tddescription || ''
+                               ServiceDesc: tdproduct || ''
                            }
 
                    };
@@ -2435,11 +2436,10 @@ Template.employeescard.events({
                  paymentTransObj = {
                         type: "TRepServices",
                         fields: {
-                            EmployeeName: Session.get('mySessionEmployee') || '',
+                            EmployeeName: employeeName || '',
                             Rate:Number(tdCostPrice.replace(/[^0-9.-]+/g, ""))||0,
                             PayRate:Number(tdSalePrice.replace(/[^0-9.-]+/g, ""))||0,
-                            ServiceDesc: tdproduct || '',
-                            AbilityDesc: tddescription || ''
+                            ServiceDesc: tdproduct || ''
                         }
 
                 };

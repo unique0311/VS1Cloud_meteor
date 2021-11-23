@@ -414,16 +414,16 @@ Template.chequecard.onRendered(() => {
                             let lineItemTableObj = {};
                             let exchangeCode = data.fields.ForeignExchangeCode;
                             let currencySymbol = Currency;
-                            let total = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalInc = currencySymbol + '' + data.fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let subTotal = currencySymbol + '' + data.fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                            let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalInc = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let subTotal = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, { minimumFractionDigits: 2 });
                             if (data.fields.Lines) {
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
-                                        let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                        let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
                                         let currencyAmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                         let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineTaxTotal);
                                         let TaxRateGbp = (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -435,9 +435,9 @@ Template.chequecard.onRendered(() => {
                                             item: data.fields.Lines[i].fields.ProductName || '',
                                             description: data.fields.Lines[i].fields.ProductDescription || '',
                                             quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                            unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                            unitPriceInc: currencySymbol + '' + data.fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
-                                            lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
                                             TotalAmt: AmountGbp || 0,
@@ -651,16 +651,16 @@ Template.chequecard.onRendered(() => {
                                 let lineItemTableObj = {};
                                 let exchangeCode = useData[d].fields.ForeignExchangeCode;
                                 let currencySymbol = Currency;
-                                let total = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalInc = currencySymbol + '' + useData[d].fields.TotalAmountInc.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let subTotal = currencySymbol + '' + useData[d].fields.TotalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalTax = currencySymbol + '' + useData[d].fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalBalance = currencySymbol + '' + useData[d].fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
-                                let totalPaidAmount = currencySymbol + '' + useData[d].fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let total = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalInc = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let subTotal = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalTax = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalTax).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalBalance = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalPaid).toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 if (useData[d].fields.Lines) {
                                     if (useData[d].fields.Lines.length) {
                                         for (let i = 0; i < useData[d].fields.Lines.length; i++) {
-                                            let AmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                            let AmountGbp = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 });
                                             let currencyAmountGbp = currencySymbol + '' + useData[d].fields.Lines[i].fields.TotalLineAmount.toFixed(2);
                                             let TaxTotalGbp = utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineTaxTotal);
                                             let TaxRateGbp = (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2);
@@ -672,9 +672,9 @@ Template.chequecard.onRendered(() => {
                                                 item: useData[d].fields.Lines[i].fields.ProductName || '',
                                                 description: useData[d].fields.Lines[i].fields.ProductDescription || '',
                                                 quantity: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
-                                                unitPrice: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
-                                                unitPriceInc: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCostInc.toFixed(2) || 0,
-                                                lineCost: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                                 taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                 taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
                                                 TotalAmt: AmountGbp || 0,

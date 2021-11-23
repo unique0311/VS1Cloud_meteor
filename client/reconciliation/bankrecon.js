@@ -2466,6 +2466,10 @@ Template.bankrecon.events({
                   if ($("#" + depID + "_desc").text() == "Cheque Deposit") {
                       deppaymentid = depID;
                   }
+
+                  if ($("#" + depID + "_desc").text() == "Cheque") {
+                      deppaymentid = depID;
+                  }
                 }
 
                 // else if($("#"+depID+"_desc").text() == "Journal Entry"){
@@ -2642,6 +2646,10 @@ Template.bankrecon.events({
 
                 }else{
                   if ($("#" + depID + "_desc").text() == "Cheque Deposit") {
+                      deppaymentid = depID;
+                  }
+
+                  if ($("#" + depID + "_desc").text() == "Cheque") {
                       deppaymentid = depID;
                   }
                 }

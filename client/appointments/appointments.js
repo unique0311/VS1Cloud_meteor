@@ -8033,7 +8033,7 @@ Template.appointments.events({
                     window.open('/appointments', '_self');
                 })
             } else {
-                return false;
+                //return false;
                 sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                         setTimeout(function () {
