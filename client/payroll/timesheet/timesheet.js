@@ -1122,6 +1122,7 @@ Template.timesheet.onRendered(function () {
                       if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                           employeeList.push(dataList);
                           if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                            console.log(data.temployee[i].fields.CustFld8);
                             if(data.temployee[i].fields.CustFld8 == "false"){
                               templateObject.includeAllProducts.set(false);
                             }
@@ -1164,6 +1165,7 @@ Template.timesheet.onRendered(function () {
                     if (useData[i].fields.EmployeeName.replace(/\s/g, '') != '') {
                         employeeList.push(dataList);
                         if(Session.get('mySessionEmployee') == useData[i].fields.EmployeeName){
+                          console.log(data.temployee[i].fields.CustFld8);
                           if(useData[i].fields.CustFld8 == "false"){
                             templateObject.includeAllProducts.set(false);
                           }
@@ -1252,9 +1254,9 @@ Template.timesheet.onRendered(function () {
     templateObject.getAllProductData = function () {
         productList = [];
         templateObject.productsdatatablerecords.set([]);
-        getVS1Data('TProductVS1').then(function (dataObject) {
+        getVS1Data('TProductWeb').then(function (dataObject) {
             if (dataObject.length == 0) {
-                productService.getNewProductListVS1().then(function (data) {
+                productService.getNewProductServiceListVS1().then(function (data) {
                     var dataList = {};
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         dataList = {
@@ -1262,9 +1264,9 @@ Template.timesheet.onRendered(function () {
                             productname: data.tproductvs1[i].ProductName || '',
                             productcost: data.tproductvs1[i].SellQty1Price || ''
                         }
-                        if (data.tproductvs1[i].ProductType != 'INV') {
+                        //if (data.tproductvs1[i].ProductType != 'INV') {
                             productList.push(dataList);
-                        }
+                        //}
 
                     }
 
@@ -1275,21 +1277,23 @@ Template.timesheet.onRendered(function () {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tproductvs1;
                 var dataList = {};
+                console.log(data);
                 for (let i = 0; i < useData.length; i++) {
                     dataList = {
                         id: useData[i].fields.ID || '',
                         productname: useData[i].fields.ProductName || '',
                         productcost: useData[i].fields.SellQty1Price || ''
                     }
-                    if (useData[i].fields.ProductType != 'INV') {
+                    //if (useData[i].fields.ProductType != 'INV') {
                         productList.push(dataList);
-                    }
+                  //  }
                 }
+                console.log(productList);
                 templateObject.productsdatatablerecords.set(productList);
 
             }
         }).catch(function (err) {
-            productService.getNewProductListVS1().then(function (data) {
+            productService.getNewProductServiceListVS1().then(function (data) {
 
                 var dataList = {};
                 for (let i = 0; i < data.tproductvs1.length; i++) {
@@ -1298,9 +1302,9 @@ Template.timesheet.onRendered(function () {
                         productname: data.tproductvs1[i].ProductName || '',
                         productcost: data.tproductvs1[i].SellQty1Price || ''
                     }
-                    if (data.tproductvs1[i].ProductType != 'INV') {
+                    //if (data.tproductvs1[i].ProductType != 'INV') {
                         productList.push(dataList);
-                    }
+                    //}
 
                 }
                 templateObject.productsdatatablerecords.set(productList);
@@ -2171,6 +2175,7 @@ Template.timesheet.events({
         $('.processTimesheet').prop('disabled', false);
         $('#txtBookedHoursSpent').prop('disabled', false);
         var curretDate = moment().format('DD/MM/YYYY');
+        console.log(checkIncludeAllProducts);
         if(checkIncludeAllProducts ==  true){
         templateObject.getAllProductData();
         }else{

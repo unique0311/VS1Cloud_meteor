@@ -66,6 +66,14 @@ export class ProductService extends BaseService {
         return this.getList(this.ERPObjects.TProductVS1, options);
     }
 
+    getNewProductServiceListVS1(){
+        let options = {
+            PropertyList: "ID,Active,ProductPrintName,ProductName,ProductType,SalesDescription,BuyQty1CostInc,SellQty1PriceInc,BuyQty1Cost,SellQty1Price,TotalStockQty,TaxCodeSales,TaxCodePurchase,PurchaseDescription,ProductGroup1,BARCODE,TotalQtyInStock,CUSTFLD1,CUSTFLD2",
+            select: "[Active]=true and [ProductType]!='INV'"
+          };
+        return this.getList(this.ERPObjects.TProductVS1, options);
+    }
+
     getProductListDeptQtyList(department){
         let options = {
             ClassNames: "'"+department+"'",

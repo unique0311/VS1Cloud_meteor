@@ -885,9 +885,9 @@ Template.payrolloverview.onRendered(function () {
     templateObject.getAllProductData = function () {
         productList = [];
         templateObject.datatablerecords1.set([]);
-        getVS1Data('TProductVS1').then(function (dataObject) {
+        getVS1Data('TProductWeb').then(function (dataObject) {
             if (dataObject.length == 0) {
-                productService.getNewProductListVS1().then(function (data) {
+                productService.getNewProductServiceListVS1().then(function (data) {
                     var dataList = {};
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         dataList = {
@@ -895,9 +895,9 @@ Template.payrolloverview.onRendered(function () {
                             productname: data.tproductvs1[i].ProductName || '',
                             productcost: data.tproductvs1[i].SellQty1Price || ''
                         }
-                        if (data.tproductvs1[i].ProductType != 'INV') {
+                        //if (data.tproductvs1[i].ProductType != 'INV') {
                             productList.push(dataList);
-                        }
+                      //  }
 
                     }
 
@@ -914,15 +914,15 @@ Template.payrolloverview.onRendered(function () {
                         productname: useData[i].fields.ProductName || '',
                         productcost: useData[i].fields.SellQty1Price || ''
                     }
-                    if (useData[i].fields.ProductType != 'INV') {
+                    //if (useData[i].fields.ProductType != 'INV') {
                         productList.push(dataList);
-                    }
+                    //}
                 }
                 templateObject.datatablerecords1.set(productList);
 
             }
         }).catch(function (err) {
-            productService.getNewProductListVS1().then(function (data) {
+            productService.getNewProductServiceListVS1().then(function (data) {
 
                 var dataList = {};
                 for (let i = 0; i < data.tproductvs1.length; i++) {
@@ -931,9 +931,9 @@ Template.payrolloverview.onRendered(function () {
                         productname: data.tproductvs1[i].ProductName || '',
                         productcost: data.tproductvs1[i].SellQty1Price || ''
                     }
-                    if (data.tproductvs1[i].ProductType != 'INV') {
+                    //if (data.tproductvs1[i].ProductType != 'INV') {
                         productList.push(dataList);
-                    }
+                    //}
 
                 }
                 templateObject.datatablerecords1.set(productList);
