@@ -1050,7 +1050,7 @@ Template.employeescard.onRendered(function () {
                                 $("#productCostPayRate").prop("checked", false);
                               }
 
-                              if(data.fields.CustFld8 == "true"){
+                              if(data.fields.CustFld8 == "true" || data.fields.CustFld8 == ""){
                                 $("#addAllProducts").prop("checked", true);
                                 $('.activeProductEmployee').css('display', 'none');
                               }else{
@@ -1263,7 +1263,7 @@ Template.employeescard.onRendered(function () {
                                   $("#productCostPayRate").prop("checked", false);
                                 }
 
-                                if(useData[i].fields.CustFld8 == "true"){
+                                if(useData[i].fields.CustFld8 == "true" || useData[i].fields.CustFld8 == ""){
                                   $("#addAllProducts").prop("checked", true);
                                   $('.activeProductEmployee').css('display', 'none');
                                 }else{
@@ -1616,7 +1616,7 @@ Template.employeescard.onRendered(function () {
                             $("#productCostPayRate").prop("checked", false);
                           }
 
-                          if(data.fields.CustFld8 == "true"){
+                          if(data.fields.CustFld8 == "true" || data.fields.CustFld8 == ""){
                             $("#addAllProducts").prop("checked", true);
                             $('.activeProductEmployee').css('display', 'none');
                           }else{
@@ -1796,6 +1796,9 @@ Template.employeescard.onRendered(function () {
                     changeYear: true,
                     yearRange: "-90:+10",
                 });
+                $("#addAllProducts").prop("checked", false);
+                $('.activeProductEmployee').css('display', 'block');
+
                 $('.fullScreenSpin').css('display', 'none');
             }, 100);
         }
