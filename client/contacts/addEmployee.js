@@ -2050,58 +2050,6 @@ Template.employeescard.onRendered(function () {
         }, 1000);
     }
 
-    setTimeout(function () {
-
-        var x = window.matchMedia("(max-width: 1024px)");
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#displayList").removeClass("col-2");
-                $("#displayList").addClass("col-3");
-
-                $("#displayInfo").removeClass("col-10");
-                $("#displayInfo").addClass("col-9");
-
-                $("#absentInfo").removeClass("col-3");
-                $("#absentInfo").addClass("col-12");
-
-                $("#absentChart").removeClass("col-3");
-                $("#absentChart").addClass("col-12");
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 500);
-
-    setTimeout(function () {
-
-        var x = window.matchMedia("(max-width: 420px)");
-        var btnView = document.getElementById("btnsViewHide");
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#displayList").removeClass("col-2");
-                $("#displayList").addClass("col-12");
-
-                $("#cardB").addClass("cardB420");
-
-                $("#displayInfo").removeClass("col-10");
-                $("#displayInfo").addClass("col-12");
-
-                $("#absentInfo").removeClass("col-3");
-                $("#absentInfo").addClass("col-12");
-                btnsViewHide.style.display = "none";
-
-                $("#absentChart").removeClass("col-9");
-                $("#absentChart").addClass("col-12");
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 500);
-
 });
 Template.employeescard.events({
     'click #customerShipping-1': function (event) {
@@ -4191,6 +4139,13 @@ Template.employeescard.events({
             FlowRouter.go('/employeelist?success=true');
         }
         $('#deleteEmployeeModal').modal('toggle');
+    },
+    'click .scanProdServiceBarcodePOP': function(event) {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+        } else {
+            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
+        }
     }
 
 });
