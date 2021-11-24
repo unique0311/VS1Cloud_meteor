@@ -278,25 +278,45 @@ Template.paymentcard.onRendered(() => {
                             paymentmethod: data.tpaymentmethodvs1[i].PaymentMethodName || ' ',
                         };
 
+                        if(FlowRouter.current().queryParams.id){
+
+                        }else{
+                          if(data.tpaymentmethodvs1[i].IsCreditCard == true){
+                            setTimeout(function() {
+                              $('#sltPaymentMethod').val(data.tpaymentmethodvs1[i].PaymentMethodName);
+                            }, 200);
+                          }
+                        }
+
                         paymentmethodrecords.push(paymentmethodrecordObj);
-                        templateObject.paymentmethodrecords.set(paymentmethodrecords);
+
 
                     }
+                    templateObject.paymentmethodrecords.set(paymentmethodrecords);
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tpaymentmethodvs1;
-                console.log(useData);
                 for (let i in useData) {
 
                     let paymentmethodrecordObj = {
                         paymentmethod: useData[i].fields.PaymentMethodName || ' ',
                     };
+                    if(FlowRouter.current().queryParams.id){
+
+                    }else{
+                      if(useData[i].fields.IsCreditCard == true){
+                        setTimeout(function() {
+                          $('#sltPaymentMethod').val(useData[i].fields.PaymentMethodName);
+                        }, 200);
+                      }
+                    }
 
                     paymentmethodrecords.push(paymentmethodrecordObj);
-                    templateObject.paymentmethodrecords.set(paymentmethodrecords);
+
 
                 }
+                templateObject.paymentmethodrecords.set(paymentmethodrecords);
             }
 
         }).catch(function(err) {
@@ -306,11 +326,22 @@ Template.paymentcard.onRendered(() => {
                     let paymentmethodrecordObj = {
                         paymentmethod: data.tpaymentmethodvs1[i].PaymentMethodName || ' ',
                     };
+                    if(FlowRouter.current().queryParams.id){
+
+                    }else{
+                      if(data.tpaymentmethodvs1[i].IsCreditCard == true){
+                        setTimeout(function() {
+                          $('#sltPaymentMethod').val(data.tpaymentmethodvs1[i].PaymentMethodName);
+                        }, 200);
+
+                      }
+                    }
 
                     paymentmethodrecords.push(paymentmethodrecordObj);
-                    templateObject.paymentmethodrecords.set(paymentmethodrecords);
+
 
                 }
+                templateObject.paymentmethodrecords.set(paymentmethodrecords);
             });
         });
 

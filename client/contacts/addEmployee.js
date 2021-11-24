@@ -2080,7 +2080,21 @@ Template.employeescard.events({
         // $('#deleteServiceModal').modal('toggle');
     },
     'click .btnDeleteProductService': function (event) {
-        let selectLineID = $('#selectDeleteServiceID').val();
+        let selectLineID = $('#selectDeleteServiceID').val()||'';
+        let contactService = new ContactService();
+        if($.isNumeric(selectLineID)){
+          var objDetails = {
+              type: "TRepServices",
+              fields: {
+                  ID: parseInt(selectLineID)||0,
+                  Deleted: true
+              }
+          };
+          // contactService.saveEmployeeProducts(objDetails).then(function (data) {});
+        }else{
+
+        }
+
         $('#' + selectLineID).closest('tr').remove();
         $('#deleteServiceModal').modal('toggle');
     },
