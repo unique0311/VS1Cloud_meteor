@@ -884,6 +884,7 @@ Template.payrolloverview.onRendered(function () {
 
     templateObject.getAllProductData = function () {
         productList = [];
+        templateObject.datatablerecords1.set([]);
         getVS1Data('TProductVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
                 productService.getNewProductListVS1().then(function (data) {
@@ -944,6 +945,7 @@ Template.payrolloverview.onRendered(function () {
 
     templateObject.getAllSelectedProducts = function (employeeID) {
         let productlist = [];
+        templateObject.datatablerecords1.set([]);
         sideBarService.getSelectedProducts(employeeID).then(function (data) {
                 var dataList = {};
                 if(data.trepservices.length > 0){
@@ -1159,9 +1161,9 @@ Template.payrolloverview.events({
         templateObject.getAllProductData();
         }else{
           if(getEmployeeID != ''){
-            templateObject.getAllProductData();
-          }else{
             templateObject.getAllSelectedProducts(getEmployeeID);
+          }else{
+            templateObject.getAllProductData();
           }
 
         }
