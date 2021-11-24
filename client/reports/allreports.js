@@ -323,6 +323,10 @@ Template.allreports.events({
             $('#chevron_up_inventory').hide();
             $('#ellipsis_inventory').show();
         }
+    },
+    'click .btnBatchUpdate': function () {
+      $('.fullScreenSpin').css('display','inline-block');
+        batchUpdateCall();
     }
 });
 
@@ -403,10 +407,6 @@ Template.allreports.helpers({
   },
   loggedCompany: () => {
     return localStorage.getItem('mySession') || '';
- },
- 'click .btnBatchUpdate': function () {
-   $('.fullScreenSpin').css('display','inline-block');
-     batchUpdateCall();
  }
 });
 

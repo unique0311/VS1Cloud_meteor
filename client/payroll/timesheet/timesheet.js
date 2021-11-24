@@ -499,9 +499,20 @@ Template.timesheet.onRendered(function () {
                             sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                             sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
                             let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                            let lineEmpID = '';
+                            if (data.ttimesheet[t].fields.Logs) {
+                                if (Array.isArray(data.ttimesheet[t].fields.Logs)) {
+                                    // It is array
+                                    lineEmpID = data.ttimesheet[t].fields.Logs[0].fields.EmployeeID || '';
+                                } else {
+                                    lineEmpID = data.ttimesheet[t].fields.Logs.fields.EmployeeID || '';
+                                }
+                            }
+
                             var dataList = {
                                 id: data.ttimesheet[t].fields.ID || '',
                                 employee: data.ttimesheet[t].fields.EmployeeName || '',
+                                employeeID: lineEmpID || '',
                                 hourlyrate: hourlyRate,
                                 hourlyrateval: data.ttimesheet[t].fields.HourlyRate || '',
                                 hours: data.ttimesheet[t].fields.Hours || '',
@@ -1343,10 +1354,11 @@ Template.timesheet.onRendered(function () {
 
     $(document).ready(function () {
         //$('#tblTimeSheet tbody').on('click', 'tr td:not(:first-child)', function (event) {
-        $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colProduct, tr .colRegHours, tr .colNotes, tr .colStatus', function () {
+        $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colProduct, tr .colRegHours, tr .colNotes, tr .colStatus', async function () {
             event.preventDefault();
             // templateObject.getAllProductData();
             if (canClockOnClockOff == true) {
+              $('.fullScreenSpin').css('display', 'inline-block');
                 var curretDate = moment().format('DD/MM/YYYY');
                 let productCheck = templateObject.productsdatatablerecords.get();
                 productCheck = productCheck.filter(pdctList => {
@@ -1458,21 +1470,39 @@ Template.timesheet.onRendered(function () {
                     $(".paused").hide();
                     $("#btnHoldOne").prop("disabled", false);
                 }
-                contactService.getOneEmployeeDataEx($(event.target).closest("tr").find('.colName ').attr('emplid')).then(function (data) {
-                        if (data.fields.CustFld8 == "false") {
-                            templateObject.getAllSelectedProducts(data.fields.ID);
-                        } else {
-                            templateObject.getAllProductData();
-                        }
-                        setTimeout(function () {
-                            $('#product-listone').val(clockList[clockList.length - 1].product);
-                        }, 3000);
-                        $('#settingsModal').modal('show');
-                    }).catch(function (err) {
-                        $('#product-listone').val(clockList[clockList.length - 1].product);
-                        $('#settingsModal').modal('show');
 
-                    })
+                let getEmpIDFromLine = $(event.target).closest("tr").find('.colName ').text() || '';
+                if(getEmpIDFromLine != ''){
+                  let checkEmpTimeSettings = await contactService.getCheckTimeEmployeeSettingByName(getEmpIDFromLine) || '';
+                  if(checkEmpTimeSettings != ''){
+                    if(checkEmpTimeSettings.temployee[0].CustFld8 == 'false'){
+                      templateObject.getAllSelectedProducts(checkEmpTimeSettings.temployee[0].Id);
+                    }else{
+                      templateObject.getAllProductData();
+                    }
+                    setTimeout(function () {
+                        $('#product-listone').val(clockList[clockList.length - 1].product);
+                        $('.fullScreenSpin').css('display', 'none');
+                    }, 500);
+                    $('.fullScreenSpin').css('display', 'none');
+                    $('#settingsModal').modal('show');
+                  }else{
+                    setTimeout(function () {
+                        $('#product-listone').val(clockList[clockList.length - 1].product);
+                        $('.fullScreenSpin').css('display', 'none');
+                    }, 500);
+                    $('.fullScreenSpin').css('display', 'none');
+                    $('#settingsModal').modal('show');
+                  }
+                }else{
+                  setTimeout(function () {
+                      $('#product-listone').val(clockList[clockList.length - 1].product);
+                      $('.fullScreenSpin').css('display', 'none');
+                  }, 500);
+                  $('.fullScreenSpin').css('display', 'none');
+                  $('#settingsModal').modal('show');
+                }
+
             }
         })
 

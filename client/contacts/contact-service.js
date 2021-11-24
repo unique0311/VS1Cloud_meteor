@@ -26,7 +26,14 @@ export class ContactService extends BaseService {
   getCheckTimeEmployeeSetting(empID) {
       let options = {
           PropertyList: "ID,CustFld7,CustFld8",
-          select: '[Id]="'+empID+'" and [Active]=true',
+          select: '[Id]="'+empID+'"',
+      };
+      return this.getList(this.ERPObjects.TEmployee, options);
+  }
+  getCheckTimeEmployeeSettingByName(empID) {
+      let options = {
+          PropertyList: "ID,CustFld7,CustFld8",
+          select: '[EmployeeName]="'+empID+'"',
       };
       return this.getList(this.ERPObjects.TEmployee, options);
   }
