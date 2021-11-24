@@ -81,6 +81,7 @@ Template.subscriptionSettings.events({
     },
     'click .btnCancelSub': function(event) {
         let loggeduserEmail = localStorage.getItem('mySession');
+        let loggeduserName = Session.get('mySessionEmployee');
         let currentURL = FlowRouter.current().queryParams;
         swal({
             title: 'Are you sure you want to cancel this subscription?',
@@ -135,7 +136,7 @@ Template.subscriptionSettings.events({
                             '                                <tr style="height: 16px;"></tr>' +
                             '                                <tr style="width: 100%;">' +
                             '                                    <td style="width: 100%;">' +
-                            '                                        <img src="vs1logo.png" style="border: none; max-width: 75%; margin-left: 10%;" />' +
+                            '                                        <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" style="border: none; max-width: 75%; margin-left: 10%;" />' +
                             '                                    </td>' +
                             '                                </tr>' +
                             '                                <tr style="height: 48px;"></tr>' +
@@ -146,20 +147,15 @@ Template.subscriptionSettings.events({
                             '                                </tr>' +
                             '                                <tr>' +
                             '                                    <td style="padding: 16px 32px 0px 32px;">' +
-                            '                                        <p style="font-size: 18px;">Hi Dene Mills,</p>' +
+                            '                                        <p style="font-size: 18px;">Hi ' + loggeduserName + ',</p>' +
                             '                                        <p style="font-size: 18px; margin: 34px 0px;">This email confirms that your VS1 Cloud account has been canceled. We\'re really sorry to see you go, but thaks for giving us a try.</p>' +
-                            '                                        <p style="font-size: 18px; margin: 34px 0px;">Your account will remain active until <span>30/11/2021</span>.</p>' +
+                            '                                        <p style="font-size: 18px; margin: 34px 0px;">Your account will remain active until the end of the month.</p>' +
                             '                                    </td>' +
                             '                                </tr>' +
                             '                                <tr>' +
                             '                                    <td style="padding: 0px 32px 16px 32px;">' +
                             '                                        <p style="font-size: 24px; font-weight: 700;">Made a mistake? Having second thoughts?</p>' +
                             '                                        <p style="font-size: 18px; margin: 34px 0px;">If you believe this cancellation is an error, or you have any other questions about your account, please visit: <a href="https://vs1cloud.com/contact.php">www.vs1cloud.com/contact</a></p>' +
-                            '                                    </td>' +
-                            '                                </tr>' +
-                            '                                <tr>' +
-                            '                                    <td style="padding: 16px 32px;">' +
-                            '                                        <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
                             '                                    </td>' +
                             '                                </tr>' +
                             '                            </table>' +
@@ -190,7 +186,7 @@ Template.subscriptionSettings.events({
                             text: '',
                             html: htmlmailBody
                         }, function(error, result) {});
-                        
+
                         Meteor.call('sendEmail', {
                             from: "VS1 Cloud <info@vs1cloud.com>",
                             to: 'info@vs1cloud.com',
