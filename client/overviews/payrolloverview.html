@@ -520,13 +520,13 @@
                                 <div class="col-6">
                                     <div class="form-group" style="margin: 8px 0px;">
                                         <label>Job Name</label>
-                                        <select class="form-control sltJob" id="sltJob" name="sltJob">
-                                            {{#if jobsrecords}}
+                                        <select type="search" class="form-control sltJob" id="sltJob" name="sltJob" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                            <!-- {{#if jobsrecords}}
                                                 <option value=""></option>
                                                 {{#each itemjob in jobsrecords}}
                                                     <option value="{{itemjob.jobname}}">{{itemjob.jobname}}</option>
                                                 {{/each}}
-                                            {{/if}}
+                                            {{/if}} -->
                                         </select>
                                     </div>
                                 </div>
@@ -534,14 +534,15 @@
                                     <div class="form-group flex-grow-1" style="margin: 8px 0px;">
                                         <label>Product /
                                             Service</label>
-                                        <select id="product-list" name="product-list" class="form-control">
-                                            <option value=""></option>
-                                            {{#if datatablerecords1}}
+                                        <select type="search" id="product-list" name="product-list" class="form-control" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                            <!-- <option value=""></option> -->
+                                            <!-- {{#if datatablerecords1}}
                                                 {{#each item in datatablerecords1}}
                                                     <option value="{{item.id}}"  id="{{item.productcost}}">{{item.productname}}</option>
                                                 {{/each}}
-                                            {{/if}}
+                                            {{/if}} -->
                                         </select>
+                                        <input id="edtProductCost" name="edtProductCost" type="hidden">
                                         <input id="updateID" name="updateID" type="hidden">
                                     </div>
                                 </div>

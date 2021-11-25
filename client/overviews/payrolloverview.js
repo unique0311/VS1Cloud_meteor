@@ -5,6 +5,7 @@ import { UtilityService } from "../utility-service";
 import { ProductService } from "../product/product-service";
 import XLSX from 'xlsx';
 import { SideBarService }from '../js/sidebar-service';
+import 'jquery-editable-select';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 Template.payrolloverview.onCreated(function () {
@@ -850,6 +851,7 @@ Template.payrolloverview.onRendered(function () {
                         };
 
                         if (data.tjobvs1[i].ClientName.replace(/\s/g, '') != '') {
+                          $('#sltJob').editableSelect('add', data.tjobvs1[i].ClientName);
                             jobsList.push(dataListJobs);
                         }
                         //}
@@ -872,13 +874,39 @@ Template.payrolloverview.onRendered(function () {
                     };
 
                     if (useData[i].fields.ClientName.replace(/\s/g, '') != '') {
+                      $('#sltJob').editableSelect('add', useData[i].fields.ClientName);
                         jobsList.push(dataListJobs);
                     }
                     //}
                 }
                 templateObject.jobsrecords.set(jobsList);
             }
-        }).catch(function (err) {}); ;
+        }).catch(function (err) {
+          contactService.getAllJobsNameData().then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+
+              for (let i = 0; i < data.tjobvs1.length; i++) {
+                  var dataListJobs = {
+                      id: data.tjobvs1[i].Id || '',
+                      jobname: data.tjobvs1[i].ClientName || '',
+                      // employeename:data.tjobvs1[i].EmployeeName || '',
+
+                  };
+
+                  if (data.tjobvs1[i].ClientName.replace(/\s/g, '') != '') {
+                    $('#sltJobOne').editableSelect('add', data.tjobvs1[i].ClientName);
+                      jobsList.push(dataListJobs);
+                  }
+                  //}
+              }
+
+              templateObject.jobsrecords.set(jobsList);
+
+          }).catch(function (err) {
+              // $('.fullScreenSpin').css('display', 'none');
+          });
+        });
 
     }
     templateObject.getJobs();
@@ -886,6 +914,7 @@ Template.payrolloverview.onRendered(function () {
     templateObject.getAllProductData = function () {
         productList = [];
         templateObject.datatablerecords1.set([]);
+        $('#product-list').editableSelect('clear');
         getVS1Data('TProductWeb').then(function (dataObject) {
             if (dataObject.length == 0) {
                 productService.getNewProductServiceListVS1().then(function (data) {
@@ -897,6 +926,11 @@ Template.payrolloverview.onRendered(function () {
                             productcost: data.tproductvs1[i].SellQty1Price || ''
                         }
                         //if (data.tproductvs1[i].ProductType != 'INV') {
+                        // $('#product-list').editableSelect('add', data.tproductvs1[i].ProductName);
+                        $('#product-list').editableSelect('add', function(){
+                          $(this).text(data.tproductvs1[i].ProductName);
+                          $(this).attr('id', data.tproductvs1[i].SellQty1Price);
+                        });
                             productList.push(dataList);
                       //  }
 
@@ -914,7 +948,13 @@ Template.payrolloverview.onRendered(function () {
                         id: useData[i].fields.ID || '',
                         productname: useData[i].fields.ProductName || '',
                         productcost: useData[i].fields.SellQty1Price || ''
-                    }
+                    };
+                    // $('#product-list').editableSelect('add', useData[i].fields.ProductName);
+                    $('#product-list').editableSelect('add', function(){
+                      $(this).val(useData[i].fields.ID);
+                      $(this).text(useData[i].fields.ProductName);
+                      $(this).attr('id', useData[i].fields.SellQty1Price);
+                    });
                     //if (useData[i].fields.ProductType != 'INV') {
                         productList.push(dataList);
                     //}
@@ -931,7 +971,11 @@ Template.payrolloverview.onRendered(function () {
                         id: data.tproductvs1[i].Id || '',
                         productname: data.tproductvs1[i].ProductName || '',
                         productcost: data.tproductvs1[i].SellQty1Price || ''
-                    }
+                    };
+                    $('#product-list').editableSelect('add', function(){
+                      $(this).text(data.tproductvs1[i].ProductName);
+                      $(this).attr('id', data.tproductvs1[i].SellQty1Price);
+                    });
                     //if (data.tproductvs1[i].ProductType != 'INV') {
                         productList.push(dataList);
                     //}
@@ -947,6 +991,7 @@ Template.payrolloverview.onRendered(function () {
     templateObject.getAllSelectedProducts = function (employeeID) {
         let productlist = [];
         templateObject.datatablerecords1.set([]);
+        $('#product-list').editableSelect('clear');
         sideBarService.getSelectedProducts(employeeID).then(function (data) {
                 var dataList = {};
                 if(data.trepservices.length > 0){
@@ -956,7 +1001,12 @@ Template.payrolloverview.onRendered(function () {
                       productname: data.trepservices[i].ServiceDesc || '',
                       productcost: data.trepservices[i].Rate || 0.00
 
-                    }
+                    };
+
+                    $('#product-list').editableSelect('add', function(){
+                      $(this).text(data.trepservices[i].ServiceDesc);
+                      $(this).attr('id', data.trepservices[i].Rate);
+                    });
 
                     productlist.push(dataList);
 
@@ -995,7 +1045,32 @@ Template.payrolloverview.onRendered(function () {
         if (e.key === 'Enter') {
             $("#btnDesktopSearch").trigger("click");
         }
-    })
+    });
+
+    $(document).ready(function() {
+      $('#sltJob').editableSelect();
+      $('#product-list').editableSelect();
+    });
+
+    $('#product-list').editableSelect()
+    .on('select.editable-select', function(e, el) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var productDataName = e.target.value || '';
+            //var productDataID = el.context.value || '';
+            if(el){
+              var productCostData = el.context.id || 0;
+              $('#edtProductCost').val(productCostData);
+            }
+            if(e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+            }else{
+                if (productDataName.replace(/\s/g, '') != '') {
+
+                } else {
+
+                }
+          }
+    });
 
 });
 
@@ -1144,6 +1219,7 @@ Template.payrolloverview.events({
         $("#employee_name").val(Session.get('mySessionEmployee'));
         $('#sltJob').val("");
         $('#product-list').val("");
+        $('#edtProductCost').val(0);
         $('#updateID').val("");
         $('#startTime').val("");
         $('#endTime').val("");
@@ -1203,8 +1279,10 @@ Template.payrolloverview.events({
                     $('#timesheetID').text(clockList[clockList.length - 1].id);
                     $('#txtNotes').val(clockList[clockList.length - 1].notes);
                     $('#sltJob').val(clockList[clockList.length - 1].job);
-                    $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
-                    $("#product-list")[0].options[0].selected = true;
+                    $('#product-list').val(clockList[clockList.length - 1].product);
+                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                    //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                    //$("#product-list")[0].options[0].selected = true;
                     $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                     $('#startTime').prop('disabled', true);
                     if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -1228,8 +1306,10 @@ Template.payrolloverview.events({
                         $('#timesheetID').text(clockList[clockList.length - 1].id);
                         $('#txtNotes').val(clockList[clockList.length - 1].notes);
                         $('#sltJob').val(clockList[clockList.length - 1].job);
-                        $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        $('#product-list').val(clockList[clockList.length - 1].product);
+                        $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                        //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                        //$("#product-list")[0].options[0].selected = true;
                         $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                         $('#startTime').prop('disabled', true);
                         if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -1251,7 +1331,7 @@ Template.payrolloverview.events({
     'click #btnClockOn': function () {
         const templateObject = Template.instance();
         let clockList = templateObject.timesheetrecords.get();
-        var product = $('#product-list').children("option:selected").text() || '';
+        var product = $('#product-list').val() || '';
         clockList = clockList.filter(clkList => {
             return clkList.employee == $('#employee_name').val() && clkList.id == $('#updateID').val();
         });
@@ -1421,7 +1501,7 @@ Template.payrolloverview.events({
         let checkStartTime = "";
         let checkEndTime = "";
         let latestTimeLogId = "";
-        var product = $('#product-list').children("option:selected").text() || '';
+        var product = $('#product-list').val() || '';
         let toUpdate = {};
         let date = new Date();
         let initialDate = new Date(moment($("#dtSODate").datepicker("getDate")).format("YYYY-MM-DD"));
@@ -1645,8 +1725,8 @@ Template.payrolloverview.events({
         var edthour = $('#txtBookedHoursSpent').val() || '00:01';
         let hours = templateObject.timeToDecimal(edthour);
         var techNotes = $('#txtNotes').val() || '';
-        var product = $('#product-list').children("option:selected").text() || '';
-        var productcost = parseFloat($('#product-list').children("option:selected").attr('id')) || 0;
+        var product = $('#product-list').val() || '';
+        var productcost = parseFloat($('#edtProductCost').val()) || 0;
         var jobName = $('#sltJob').val() || '';
         let isPaused = checkStatus;
         let toUpdate = {};
@@ -1952,7 +2032,7 @@ Template.payrolloverview.events({
         let contactService = new ContactService();
         var startTime = $('#startTime').val() || '';
         var endTime = $('#endTime').val() || '';
-        var product = $('#product-list').children("option:selected").text() || '';
+        var product = $('#product-list').val() || '';
         if (startTime == "" || endTime == "") {
             $('.fullScreenSpin').css('display', 'none');
             swal({
@@ -1996,7 +2076,7 @@ Template.payrolloverview.events({
         var edthour = $('#txtBookedHoursSpent').val() || 0.01;
         let hours = templateObject.timeToDecimal(edthour);
         var techNotes = $('#txtNotes').val() || '';
-        var product = $('#product-list').children("option:selected").text() || '';
+        var product = $('#product-list').val() || '';
         var jobName = $('#sltJob').val() || '';
         var status = "Processed"
             let isPaused = checkStatus;
@@ -2296,6 +2376,7 @@ Template.payrolloverview.events({
                     $('#barcodeScanInput').val("");
                     $('#sltJob').val("");
                     $('#product-list').val("");
+                    $('#edtProductCost').val(0);
                     $('#updateID').val("");
                     $('#startTime').val("");
                     $('#endTime').val("");
@@ -2350,8 +2431,10 @@ Template.payrolloverview.events({
                                 $('#timesheetID').text(clockList[clockList.length - 1].id);
                                 $('#txtNotes').val(clockList[clockList.length - 1].notes);
                                 $('#sltJob').val(clockList[clockList.length - 1].job);
-                                $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
+                                $('#product-list').val(clockList[clockList.length - 1].product);
+                                $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                                //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                                //$("#product-list")[0].options[0].selected = true;
                                 $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                 $('#startTime').prop('disabled', true);
                                 if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -2375,8 +2458,10 @@ Template.payrolloverview.events({
                                     $('#timesheetID').text(clockList[clockList.length - 1].id);
                                     $('#txtNotes').val(clockList[clockList.length - 1].notes);
                                     $('#sltJob').val(clockList[clockList.length - 1].job);
-                                    $('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
-                                    $("#product-list")[0].options[0].selected = true;
+                                    $('#product-list').val(clockList[clockList.length - 1].product);
+                                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                                    //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
+                                    //$("#product-list")[0].options[0].selected = true;
                                     $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                     $('#startTime').prop('disabled', true);
                                     if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -2398,6 +2483,7 @@ Template.payrolloverview.events({
                 }
 
             }).catch(function (err) {
+              console.log(err);
                 swal({
                     title: 'Oooops...',
                     text: "Employee Not Found",

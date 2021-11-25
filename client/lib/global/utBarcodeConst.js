@@ -63,13 +63,15 @@ if(Session.get('ERPLoggedCountry') == "Australia"){
   LoggedCountry = Session.get('ERPLoggedCountry');
   chequeSpelling = "Cheque";
   if(isPurchasedTrueERPModule === 'true'){
-    addExtraUserPrice = Currency+152;
+    addExtraUserPrice = Currency+65; //152
+    /*
     if(localStorage.getItem('EDatabase')){
     if(localStorage.getItem('EDatabase') == 'rapp_australia_pty_ltd'){
       addExtraUserPrice = Currency+65;
       Session.setPersistent('VS1AdminUserName', 'roger@rappaustralia.com.au');
     }
    }
+   */
   }else{
     addExtraUserPrice = Currency+45;
   }

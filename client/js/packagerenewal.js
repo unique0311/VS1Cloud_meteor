@@ -26,7 +26,7 @@ Template.packagerenewal.onRendered(function() {
       text: 'eeeeeeeeeeeeee8888eeeeeeee!',
       html: 'With meteor it&apos;s easy to set up <strong>HTML</strong> <span style="color:red">emails</span> too.'
       }, function (error, result) {
-        
+
       });
 
   let currentURL = FlowRouter.current().queryParams;
@@ -186,27 +186,7 @@ Template.packagerenewal.onRendered(function() {
 
           localStorage.usremail = userEmail;
           localStorage.usrpassword = cloudpassword;
-          window.open('/','_self');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          //window.open('/','_self');
         }
 
       } else if (oPost.readyState == 4 && oPost.status == 403) {
@@ -248,9 +228,5 @@ Template.packagerenewal.onRendered(function() {
   } else {
 
   }
-
-
-
-
 
 });

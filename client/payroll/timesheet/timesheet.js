@@ -4,6 +4,7 @@ import {UtilityService} from "../../utility-service";
 import {ContactService} from "../../contacts/contact-service";
 import { ProductService } from "../../product/product-service";
 import { SideBarService } from '../../js/sidebar-service';
+import 'jquery-editable-select';
 let utilityService = new UtilityService();
 let sideBarService = new SideBarService();
 Template.timesheet.onCreated(function () {
@@ -426,12 +427,14 @@ Template.timesheet.onRendered(function () {
             } else {
                 $('.fullScreenSpin').css('display', 'none');
                 let data = JSON.parse(dataObject[0].data);
+                console.log(data);
                 let lineItems = [];
                 let lineItemObj = {};
                 let sumTotalCharge = 0;
                 let sumSumHour = 0;
                 let sumSumHourlyRate = 0;
                 for (let t = 0; t < data.ttimesheet.length; t++) {
+                  console.log(data.ttimesheet[t].fields.ServiceName);
                     if (seeOwnTimesheets == false) {
                         let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
                         let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
@@ -823,6 +826,7 @@ Template.timesheet.onRendered(function () {
                         if (clockList.length > 0) {
                             $('#sltJobOne').val("");
                             $('#product-listone').val("");
+                            $('#edtProductCost').val("");
                             $('#updateID').val("");
                             $('#startTime').val("");
                             $('#endTime').val("");
@@ -866,6 +870,7 @@ Template.timesheet.onRendered(function () {
                                     $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                     $('#sltJobOne').val(clockList[clockList.length - 1].job);
                                     $('#product-listone').val(clockList[clockList.length - 1].product);
+                                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                     $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                     $('#startTime').prop('disabled', true);
                                     if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -889,6 +894,7 @@ Template.timesheet.onRendered(function () {
                                         $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                         $('#sltJobOne').val(clockList[clockList.length - 1].job);
                                         $('#product-listone').val(clockList[clockList.length - 1].product);
+                                        $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                         $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                         $('#startTime').prop('disabled', true);
                                         if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -1008,6 +1014,7 @@ Template.timesheet.onRendered(function () {
                     if (clockList.length > 0) {
                         $('#sltJobOne').val("");
                         $('#product-listone').val("");
+                        $('#edtProductCost').val(0);
                         $('#updateID').val("");
                         $('#startTime').val("");
                         $('#endTime').val("");
@@ -1053,6 +1060,7 @@ Template.timesheet.onRendered(function () {
                                 $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                 $('#sltJobOne').val(clockList[clockList.length - 1].job);
                                 $('#product-listone').val(clockList[clockList.length - 1].product);
+                                $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                 $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                 $('#startTime').prop('disabled', true);
                                 if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -1076,6 +1084,7 @@ Template.timesheet.onRendered(function () {
                                 $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                 $('#sltJobOne').val(clockList[clockList.length - 1].job);
                                 $('#product-listone').val(clockList[clockList.length - 1].product);
+                                $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                 $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                 $('#startTime').prop('disabled', true);
                                 if (clockList[clockList.length - 1].isPaused == "completed") {
@@ -1233,29 +1242,78 @@ Template.timesheet.onRendered(function () {
 
     templateObject.getEmployees();
     templateObject.getJobs = function () {
-        contactService.getAllJobsNameData().then(function (data) {
-            let lineItems = [];
-            let lineItemObj = {};
+        getVS1Data('TJobVS1').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                contactService.getAllJobsNameData().then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
 
-            for (let i = 0; i < data.tjobvs1.length; i++) {
-                var dataListJobs = {
-                    id: data.tjobvs1[i].Id || '',
-                    jobname: data.tjobvs1[i].ClientName || '',
-                    // employeename:data.tjobvs1[i].EmployeeName || '',
+                    for (let i = 0; i < data.tjobvs1.length; i++) {
+                        var dataListJobs = {
+                            id: data.tjobvs1[i].Id || '',
+                            jobname: data.tjobvs1[i].ClientName || '',
+                            // employeename:data.tjobvs1[i].EmployeeName || '',
 
-                };
+                        };
 
-                if (data.tjobvs1[i].ClientName.replace(/\s/g, '') != '') {
-                    jobsList.push(dataListJobs);
+                        if (data.tjobvs1[i].ClientName.replace(/\s/g, '') != '') {
+                          $('#sltJobOne').editableSelect('add', data.tjobvs1[i].ClientName);
+                            jobsList.push(dataListJobs);
+                        }
+                        //}
+                    }
+
+                    templateObject.jobsrecords.set(jobsList);
+
+                }).catch(function (err) {
+                    // $('.fullScreenSpin').css('display', 'none');
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tjobvs1;
+                for (let i = 0; i < useData.length; i++) {
+                    var dataListJobs = {
+                        id: useData[i].fields.ID || '',
+                        jobname: useData[i].fields.ClientName || '',
+                        // employeename:data.tjobvs1[i].EmployeeName || '',
+
+                    };
+
+                    if (useData[i].fields.ClientName.replace(/\s/g, '') != '') {
+                      $('#sltJobOne').editableSelect('add', useData[i].fields.ClientName);
+                        jobsList.push(dataListJobs);
+                    }
+                    //}
                 }
-                //}
+                templateObject.jobsrecords.set(jobsList);
             }
-
-            templateObject.jobsrecords.set(jobsList);
-
         }).catch(function (err) {
-            $('.fullScreenSpin').css('display', 'none');
+          contactService.getAllJobsNameData().then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+
+              for (let i = 0; i < data.tjobvs1.length; i++) {
+                  var dataListJobs = {
+                      id: data.tjobvs1[i].Id || '',
+                      jobname: data.tjobvs1[i].ClientName || '',
+                      // employeename:data.tjobvs1[i].EmployeeName || '',
+
+                  };
+
+                  if (data.tjobvs1[i].ClientName.replace(/\s/g, '') != '') {
+                    $('#sltJobOne').editableSelect('add', data.tjobvs1[i].ClientName);
+                      jobsList.push(dataListJobs);
+                  }
+                  //}
+              }
+
+              templateObject.jobsrecords.set(jobsList);
+
+          }).catch(function (err) {
+              // $('.fullScreenSpin').css('display', 'none');
+          });
         });
+
     }
 
     templateObject.getJobs();
@@ -1263,6 +1321,7 @@ Template.timesheet.onRendered(function () {
     templateObject.getAllProductData = function () {
         productList = [];
         templateObject.productsdatatablerecords.set([]);
+        $('#product-listone').editableSelect('clear');
         getVS1Data('TProductWeb').then(function (dataObject) {
             if (dataObject.length == 0) {
                 productService.getNewProductServiceListVS1().then(function (data) {
@@ -1272,7 +1331,11 @@ Template.timesheet.onRendered(function () {
                             id: data.tproductvs1[i].Id || '',
                             productname: data.tproductvs1[i].ProductName || '',
                             productcost: data.tproductvs1[i].SellQty1Price || ''
-                        }
+                        };
+                        $('#product-listone').editableSelect('add', function(){
+                          $(this).text(data.tproductvs1[i].ProductName);
+                          $(this).attr('id', data.tproductvs1[i].SellQty1Price);
+                        });
                         //if (data.tproductvs1[i].ProductType != 'INV') {
                         productList.push(dataList);
                         //}
@@ -1291,7 +1354,11 @@ Template.timesheet.onRendered(function () {
                         id: useData[i].fields.ID || '',
                         productname: useData[i].fields.ProductName || '',
                         productcost: useData[i].fields.SellQty1Price || ''
-                    }
+                    };
+                    $('#product-listone').editableSelect('add', function(){
+                      $(this).text(useData[i].fields.ProductName);
+                      $(this).attr('id', useData[i].fields.SellQty1Price);
+                    });
                     //if (useData[i].fields.ProductType != 'INV') {
                     productList.push(dataList);
                     //  }
@@ -1308,7 +1375,12 @@ Template.timesheet.onRendered(function () {
                         id: data.tproductvs1[i].Id || '',
                         productname: data.tproductvs1[i].ProductName || '',
                         productcost: data.tproductvs1[i].SellQty1Price || ''
-                    }
+                    };
+
+                    $('#product-listone').editableSelect('add', function(){
+                      $(this).text(data.tproductvs1[i].ProductName);
+                      $(this).attr('id', data.tproductvs1[i].SellQty1Price);
+                    });
                     //if (data.tproductvs1[i].ProductType != 'INV') {
                     productList.push(dataList);
                     //}
@@ -1324,6 +1396,7 @@ Template.timesheet.onRendered(function () {
     templateObject.getAllSelectedProducts = function (employeeID) {
         let productlist = [];
         templateObject.productsdatatablerecords.set([]);
+        $('#product-listone').editableSelect('clear');
         sideBarService.getSelectedProducts(employeeID).then(function (data) {
             var dataList = {};
             if (data.trepservices.length > 0) {
@@ -1333,7 +1406,11 @@ Template.timesheet.onRendered(function () {
                         productname: data.trepservices[i].ServiceDesc || '',
                         productcost: data.trepservices[i].Rate || 0.00
 
-                    }
+                    };
+                    $('#product-listone').editableSelect('add', function(){
+                      $(this).text(data.trepservices[i].ServiceDesc);
+                      $(this).attr('id', data.trepservices[i].Rate);
+                    });
 
                     productlist.push(dataList);
 
@@ -1353,12 +1430,14 @@ Template.timesheet.onRendered(function () {
     }, 500);
 
     $(document).ready(function () {
+      $('#sltJobOne').editableSelect();
+      $('#product-listone').editableSelect();
         //$('#tblTimeSheet tbody').on('click', 'tr td:not(:first-child)', function (event) {
         $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colProduct, tr .colRegHours, tr .colNotes, tr .colStatus', async function () {
             event.preventDefault();
             // templateObject.getAllProductData();
             if (canClockOnClockOff == true) {
-              $('.fullScreenSpin').css('display', 'inline-block');
+              //$('.fullScreenSpin').css('display', 'inline-block');
                 var curretDate = moment().format('DD/MM/YYYY');
                 let productCheck = templateObject.productsdatatablerecords.get();
                 productCheck = productCheck.filter(pdctList => {
@@ -1367,7 +1446,7 @@ Template.timesheet.onRendered(function () {
                 if (productCheck.length > 0) {
                     $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
                 } else {
-                    $('#product-listone').prepend('<option>' + $(event.target).closest("tr").find('.colProduct').text() + '</option>');
+                    $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
                 }
 
                 $('#txtBookedHoursSpent').val("")
@@ -1376,6 +1455,8 @@ Template.timesheet.onRendered(function () {
                 $('#sltJobOne').val($(event.target).closest("tr").find('.colJob').text());
 
                 $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
+                $('#edtProductCost').val($(event.target).closest("tr").find('.colName').attr('hourlyrate') || 0);
+
                 let prodLineData = $(event.target).closest("tr").find('.colProduct').text() || '';
                 let prodLineCost = $(event.target).closest("tr").find('.colProduct').text() || '';
                 // $('#product-listone').append('<option value="' + prodLineData + '" selected="selected" id="' +prodLineData +'">' + prodLineData + '</option>');
@@ -1434,6 +1515,7 @@ Template.timesheet.onRendered(function () {
                             $('#sltJobOne').val(clockList[clockList.length - 1].job);
                             //$('#product-listone').val(clockList[clockList.length - 1].product);
                             $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                            $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                             $('#startTime').prop('disabled', true);
                             if (clockList[clockList.length - 1].isPaused == "completed") {
                                 $('#endTime').val(endTime);
@@ -1456,6 +1538,7 @@ Template.timesheet.onRendered(function () {
                         $('#sltJobOne').val(clockList[clockList.length - 1].job);
                         //$('#product-listone').val(clockList[clockList.length - 1].product);
                         $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                        $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                         $('#startTime').prop('disabled', true);
                         if (clockList[clockList.length - 1].isPaused == "completed") {
                             $('#endTime').val(startTime);
@@ -1470,7 +1553,7 @@ Template.timesheet.onRendered(function () {
                     $(".paused").hide();
                     $("#btnHoldOne").prop("disabled", false);
                 }
-
+                $('#settingsModal').modal('show');
                 let getEmpIDFromLine = $(event.target).closest("tr").find('.colName ').text() || '';
                 if(getEmpIDFromLine != ''){
                   let checkEmpTimeSettings = await contactService.getCheckTimeEmployeeSettingByName(getEmpIDFromLine) || '';
@@ -1482,29 +1565,29 @@ Template.timesheet.onRendered(function () {
                     }
                     setTimeout(function () {
                         $('#product-listone').val(clockList[clockList.length - 1].product);
-                        $('.fullScreenSpin').css('display', 'none');
+                        //$('.fullScreenSpin').css('display', 'none');
                     }, 500);
-                    $('.fullScreenSpin').css('display', 'none');
-                    $('#settingsModal').modal('show');
+                    //$('.fullScreenSpin').css('display', 'none');
+                    //$('#settingsModal').modal('show');
                   }else{
                     setTimeout(function () {
                         $('#product-listone').val(clockList[clockList.length - 1].product);
-                        $('.fullScreenSpin').css('display', 'none');
+                        //$('.fullScreenSpin').css('display', 'none');
                     }, 500);
-                    $('.fullScreenSpin').css('display', 'none');
-                    $('#settingsModal').modal('show');
+                    //$('.fullScreenSpin').css('display', 'none');
+                    //$('#settingsModal').modal('show');
                   }
                 }else{
                   setTimeout(function () {
                       $('#product-listone').val(clockList[clockList.length - 1].product);
-                      $('.fullScreenSpin').css('display', 'none');
+                      //$('.fullScreenSpin').css('display', 'none');
                   }, 500);
-                  $('.fullScreenSpin').css('display', 'none');
-                  $('#settingsModal').modal('show');
+                  //$('.fullScreenSpin').css('display', 'none');
+
                 }
 
             }
-        })
+        });
 
                     var table = $('#example').DataTable({
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -1581,6 +1664,26 @@ Template.timesheet.onRendered(function () {
                         }
                     });
                 });
+
+      $('#product-listone').editableSelect()
+      .on('select.editable-select', function(e, el) {
+              var $earch = $(this);
+              var offset = $earch.offset();
+              var productDataName = e.target.value || '';
+              //var productDataID = el.context.value || '';
+              if(el){
+                var productCostData = el.context.id || 0;
+                $('#edtProductCost').val(productCostData);
+              }
+              if(e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+              }else{
+                  if (productDataName.replace(/\s/g, '') != '') {
+
+                  } else {
+
+                  }
+            }
+      });
 
                 $("#scanBarcode").click(function () {
                     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {}
@@ -1821,6 +1924,7 @@ Template.timesheet.onRendered(function () {
                                 $('#barcodeScanInput').val("");
                                 $('#sltJobOne').val("");
                                 $('#product-listone').val("");
+                                $('#edtProductCost').val(0);
                                 $('#updateID').val("");
                                 $('#startTime').val("");
                                 $('#endTime').val("");
@@ -1868,6 +1972,8 @@ Template.timesheet.onRendered(function () {
                                             $('#timesheetID').text(clockList[clockList.length - 1].id);
                                             $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                             $('#sltJobOne').val(clockList[clockList.length - 1].job);
+                                            $('#product-listone').val(clockList[clockList.length - 1].product);
+                                            $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                             setTimeout(function () {
                                                 $('#product-listone').val(clockList[clockList.length - 1].product);
                                             }, 2000)
@@ -1895,6 +2001,8 @@ Template.timesheet.onRendered(function () {
                                                 $('#timesheetID').text(clockList[clockList.length - 1].id);
                                                 $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                                 $('#sltJobOne').val(clockList[clockList.length - 1].job);
+                                                $('#product-listone').val(clockList[clockList.length - 1].product);
+                                                $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                                 setTimeout(function () {
                                                     $('#product-listone').val(clockList[clockList.length - 1].product);
                                                 }, 2000)
@@ -2201,6 +2309,7 @@ Template.timesheet.onRendered(function () {
                     let getEmployeeID = Session.get('mySessionEmployeeLoggedID') || '';
                     $('#sltJobOne').val("");
                     $('#product-listone').val("");
+                    $('#edtProductCost').val(0);
                     $('#updateID').val("");
                     $('#startTime').val("");
                     $('#endTime').val("");
@@ -2260,6 +2369,8 @@ Template.timesheet.onRendered(function () {
                                 $('#timesheetID').text(clockList[clockList.length - 1].id);
                                 $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                 $('#sltJobOne').val(clockList[clockList.length - 1].job);
+                                $('#product-listone').val(clockList[clockList.length - 1].product);
+                                $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                 setTimeout(function () {
                                     $('#product-listone').val(clockList[clockList.length - 1].product);
                                 }, 1000);
@@ -2287,6 +2398,8 @@ Template.timesheet.onRendered(function () {
                                     $('#timesheetID').text(clockList[clockList.length - 1].id);
                                     $('#txtNotesOne').val(clockList[clockList.length - 1].notes);
                                     $('#sltJobOne').val(clockList[clockList.length - 1].job);
+                                    $('#product-listone').val(clockList[clockList.length - 1].product);
+                                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
                                     setTimeout(function () {
                                         $('#product-listone').val(clockList[clockList.length - 1].product);
                                     }, 1000);
@@ -2312,7 +2425,7 @@ Template.timesheet.onRendered(function () {
                 'click #btnClockOn': function () {
                     const templateObject = Template.instance();
                     let clockList = templateObject.timesheetrecords.get();
-                    var product = $('#product-listone').children("option:selected").text() || '';
+                    var product = $('#product-listone').val() || '';
                     clockList = clockList.filter(clkList => {
                         return clkList.employee == $('#employee_name').val() && clkList.id == $('#updateID').val();
                     });
@@ -2482,7 +2595,7 @@ Template.timesheet.onRendered(function () {
                     let checkStartTime = "";
                     let checkEndTime = "";
                     let latestTimeLogId = "";
-                    var product = $('#product-listone').children("option:selected").text() || '';
+                    var product = $('#product-listone').val() || '';
                     let toUpdate = {};
                     let date = new Date();
                     let initialDate = new Date(moment($("#dtSODate").datepicker("getDate")).format("YYYY-MM-DD"));
@@ -2822,8 +2935,8 @@ Template.timesheet.onRendered(function () {
                     var edthour = $('#txtBookedHoursSpent').val() || '00:01';
                     let hours = templateObject.timeToDecimal(edthour);
                     var techNotes = $('#txtNotesOne').val() || '';
-                    var product = $('#product-listone').children("option:selected").text() || '';
-                    var productcost = parseFloat($('#product-listone').children("option:selected").attr('id')) || 0;
+                    var product = $('#product-listone').val() || '';
+                    var productcost = parseFloat($('#edtProductCost').val()) || 0;
                     var jobName = $('#sltJobOne').val() || '';
                     let isPaused = checkStatus;
                     let toUpdate = {};
@@ -3223,7 +3336,7 @@ Template.timesheet.onRendered(function () {
                     var edthour = $('#txtBookedHoursSpent').val() || 0.01;
                     let hours = templateObject.timeToDecimal(edthour);
                     var techNotes = $('#txtNotesOne').val() || '';
-                    var product = $('#product-listone').children("option:selected").text() || '';
+                    var product = $('#product-listone').val() || '';
                     var jobName = $('#sltJobOne').val() || '';
                     var status = "Processed"
                         let isPaused = checkStatus;
@@ -3562,7 +3675,7 @@ Template.timesheet.onRendered(function () {
                     let updateID = $("#updateID").val() || "";
                     let notes = $("#txtpause-notes").val() || "";
                     let latestTimeLogId = '';
-                    var product = $('#product-listone').children("option:selected").text() || '';
+                    var product = $('#product-listone').val() || '';
                     let type = "Break";
                     if ($('#break').is(":checked")) {
                         type = $('#break').val();
