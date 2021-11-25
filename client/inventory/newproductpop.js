@@ -392,7 +392,7 @@ Template.newproductpop.onRendered(function() {
                   templateObject.records.set(productrecord);
               }).catch(function (err) {
 
-                 
+
               });
             }else{
               let data = JSON.parse(dataObject[0].data);
@@ -403,7 +403,7 @@ Template.newproductpop.onRendered(function() {
               for(let i=0; i<useData.length; i++){
                 if(parseInt(useData[i].fields.ID) === currentProductID){
                   added = true;
-                  
+
                   let lineItems = [];
                   let lineItemObj = {};
                   let currencySymbol = Currency;
@@ -481,7 +481,7 @@ Template.newproductpop.onRendered(function() {
               }
               if(!added) {
                 productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                    
+
                     let lineItems = [];
                     let lineItemObj = {};
                     let currencySymbol = Currency;
@@ -557,13 +557,13 @@ Template.newproductpop.onRendered(function() {
                     templateObject.records.set(productrecord);
                 }).catch(function (err) {
 
-                   
+
                 });
               }
             }
           }).catch(function (err) {
             productService.getOneProductdatavs1(currentProductID).then(function (data) {
-               
+
                 let lineItems = [];
                 let lineItemObj = {};
                 let currencySymbol = Currency;
@@ -640,7 +640,7 @@ Template.newproductpop.onRendered(function() {
                 templateObject.records.set(productrecord);
             }).catch(function (err) {
 
-               
+
             });
           });
 
@@ -700,7 +700,7 @@ Template.newproductpop.onRendered(function() {
 
         templateObject.getProductClassQtyData = function () {
             productService.getOneProductClassQtyData(currentProductID).then(function (data) {
-               
+
                 let qtylineItems = [];
                 let qtylineItemObj = {};
                 let currencySymbol = Currency;
@@ -720,7 +720,7 @@ Template.newproductpop.onRendered(function() {
 
             }).catch(function (err) {
 
-               
+
             });
 
         }
@@ -768,7 +768,7 @@ Template.newproductpop.onRendered(function() {
 
                     });
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                   
+
 
                 }, 0);
 
@@ -795,10 +795,10 @@ Template.newproductpop.onRendered(function() {
                 });
 
                 $('.product_recent_trans').css('display','block');
-               
+
             }).catch(function (err) {
 
-               
+
                 $('.product_recent_trans').css('display','block');
 
                 //Bert.alert('<strong>' + err + '</strong>!', 'deleting products failed');
@@ -910,7 +910,7 @@ Template.newproductpop.onRendered(function() {
         //}, 500);
 
 
-       
+
 
         setTimeout(function () {
             $('.recenttrasaction').css('display','none');
@@ -1049,7 +1049,7 @@ Template.newproductpop.events({
                 getVS1Data('TProductVS1').then(function (dataObject) {
                   if(dataObject.length == 0){
                     productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                       
+
                         let lineItems = [];
                         let lineItemObj = {};
                         let currencySymbol = Currency;
@@ -1126,7 +1126,7 @@ Template.newproductpop.events({
                         templateObject.records.set(productrecord);
                     }).catch(function (err) {
 
-                       
+
                     });
                   }else{
                     let data = JSON.parse(dataObject[0].data);
@@ -1137,7 +1137,7 @@ Template.newproductpop.events({
                     for(let i=0; i<useData.length; i++){
                       if(parseInt(useData[i].fields.ID) === currentProductID){
                         added = true;
-                       
+
                         let lineItems = [];
                         let lineItemObj = {};
                         let currencySymbol = Currency;
@@ -1215,7 +1215,7 @@ Template.newproductpop.events({
                     }
                     if(!added) {
                       productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                         
+
                           let lineItems = [];
                           let lineItemObj = {};
                           let currencySymbol = Currency;
@@ -1291,13 +1291,13 @@ Template.newproductpop.events({
                           templateObject.records.set(productrecord);
                       }).catch(function (err) {
 
-                         
+
                       });
                     }
                   }
                 }).catch(function (err) {
                   productService.getOneProductdatavs1(currentProductID).then(function (data) {
-                     
+
                       let lineItems = [];
                       let lineItemObj = {};
                       let currencySymbol = Currency;
@@ -1374,7 +1374,7 @@ Template.newproductpop.events({
                       templateObject.records.set(productrecord);
                   }).catch(function (err) {
 
-                     
+
                   });
                 });
 
@@ -1434,7 +1434,7 @@ Template.newproductpop.events({
 
               templateObject.getProductClassQtyData = function () {
                   productService.getOneProductClassQtyData(currentProductID).then(function (data) {
-                     
+
                       let qtylineItems = [];
                       let qtylineItemObj = {};
                       let currencySymbol = Currency;
@@ -1454,7 +1454,7 @@ Template.newproductpop.events({
 
                   }).catch(function (err) {
 
-                     
+
                   });
 
               }
@@ -1479,10 +1479,10 @@ Template.newproductpop.events({
                           recentTransList.push(recentTranObject);
                       }
 
-                     
+
                   }).catch(function (err) {
 
-                     
+
                       $('.product_recent_trans').css('display','block');
 
                       //Bert.alert('<strong>' + err + '</strong>!', 'deleting products failed');
@@ -1524,7 +1524,7 @@ Template.newproductpop.events({
 
         if(productName == ''){
             swal('Please provide product Name !', '', 'warning');
-           
+
             e.preventDefault();
             return false;
         }
@@ -1533,7 +1533,7 @@ Template.newproductpop.events({
         let  TaxCodeSales    = $("#slttaxcodesales").val();
         if(TaxCodePurchase == '' || TaxCodeSales == '' ){
             swal('Please fill Tax rate !', '', 'warning');
-           
+
             e.preventDefault();
             return false;
         }
@@ -1640,13 +1640,27 @@ Template.newproductpop.events({
             }
 
             productService.saveProductVS1(objDetails).then(function (objDetails) {
+              let linesave = objDetails.fields.ID;
+              if(itrackThisItem == false){
+                let objServiceDetails = {
+                    type:"TServices",
+                    fields:
+                    {
+                        ProductId:parseInt(linesave),
+                        ServiceDesc:productName,
+                        StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+              };
+
               sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                   addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {}).catch(function (err) {});
               }).catch(function (err) {
 
               });
               var productSaveID = objDetails.fields.ID;
-              
+
               var currentLoc = FlowRouter.current().route.path;
 
               if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -1798,7 +1812,7 @@ Template.newproductpop.events({
             }).catch(function (err) {
               $('#newProductModal').modal('toggle');
                 //$('.loginSpinner').css('display','none');
-               
+
             });
         }else{
             productService.getCheckProductData(productName).then(function (data) {
@@ -1869,7 +1883,19 @@ Template.newproductpop.events({
 
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
                       var productSaveID = objDetails.fields.ID;
-                      
+                      let linesave = objDetails.fields.ID;
+                      if(itrackThisItem == false){
+                        let objServiceDetails = {
+                            type:"TServices",
+                            fields:
+                            {
+                                ProductId:parseInt(linesave),
+                                ServiceDesc:productName,
+                                StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                            }
+                        };
+                        productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+                      };
                       var currentLoc = FlowRouter.current().route.path;
 
                       if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -1978,7 +2004,7 @@ Template.newproductpop.events({
                     }).catch(function (err) {
                       $('#newProductModal').modal('toggle');
                         //$('.loginSpinner').css('display','none');
-                       
+
                     });
                 }else{
                     if((itrackThisItem == true) && ($("#sltinventoryacount").val() != '')){
@@ -2046,7 +2072,19 @@ Template.newproductpop.events({
                     }
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
                       var productSaveID = objDetails.fields.ID;
-                      
+                      let linesave = objDetails.fields.ID;
+                      if(itrackThisItem == false){
+                        let objServiceDetails = {
+                            type:"TServices",
+                            fields:
+                            {
+                                ProductId:parseInt(linesave),
+                                ServiceDesc:productName,
+                                StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                            }
+                        };
+                        productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+                      };
                       var currentLoc = FlowRouter.current().route.path;
 
                       if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -2155,7 +2193,7 @@ Template.newproductpop.events({
                     }).catch(function (err) {
                       $('#newProductModal').modal('toggle');
                         //$('.loginSpinner').css('display','none');
-                       
+
                     });
                 }
 
@@ -2226,7 +2264,19 @@ Template.newproductpop.events({
 
                 productService.saveProductVS1(objDetails).then(function (objDetails) {
                   var productSaveID = objDetails.fields.ID;
-                  
+                  let linesave = objDetails.fields.ID;
+                  if(itrackThisItem == false){
+                    let objServiceDetails = {
+                        type:"TServices",
+                        fields:
+                        {
+                            ProductId:parseInt(linesave),
+                            ServiceDesc:productName,
+                            StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                        }
+                    };
+                    productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+                  };
                   var currentLoc = FlowRouter.current().route.path;
 
                   if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -2335,7 +2385,7 @@ Template.newproductpop.events({
                 }).catch(function (err) {
                   $('#newProductModal').modal('toggle');
                     //$('.loginSpinner').css('display','none');
-                   
+
                 });
             });
 
@@ -2542,7 +2592,7 @@ Template.newproductpop.events({
 
                             }
                         });
-                       
+
                     });
                 }else{
                     location.reload();
@@ -2572,7 +2622,7 @@ Template.newproductpop.events({
         let typeDesc = $('#txaDescription').val() || '';
         if (custType === '') {
             swal('Client Type name cannot be blank!', '', 'warning');
-            
+
             e.preventDefault();
         } else {
             let objDetails = {
@@ -2608,7 +2658,7 @@ Template.newproductpop.events({
 
                     }
                 });
-                
+
             });
         }
 

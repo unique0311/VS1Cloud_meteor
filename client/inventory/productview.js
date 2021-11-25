@@ -430,7 +430,7 @@ Template.productview.onRendered(function() {
 
               for(let i=0; i<useData.length; i++){
                 if(parseInt(useData[i].fields.ID) === currentProductID){
-                  
+
                   added = true;
                   $('.fullScreenSpin').css('display','none');
                   let lineItems = [];
@@ -1784,6 +1784,19 @@ Template.productview.events({
             }
 
             productService.saveProductVS1(objDetails).then(function (objDetails) {
+              if(itrackThisItem == false){
+                let objServiceDetails = {
+                    type:"TServices",
+                    fields:
+                    {
+                        ProductId:currentID,
+                        ServiceDesc:productName,
+                        StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                    }
+                };
+                productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+              };
+
 
                 var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
                 if(getcurrentCloudDetails){
@@ -1805,12 +1818,7 @@ Template.productview.events({
                                                                                              hidden: getchkcustomField2
                                                                                          }],
                                                                                          updatedAt: new Date() }}, function(err, idTag) {
-                                if (err) {
-                                    //window.open('/inventorylist','_self');
-                                } else {
-                                  //window.open('/inventorylist','_self');
 
-                                }
                             });
                         }else{
                             CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
@@ -1826,25 +1834,25 @@ Template.productview.events({
                                                     }],
                                                     createdAt: new Date() }, function(err, idTag) {
                                 if (err) {
-                                    window.open('/inventorylist','_self');
+                                    FlowRouter.go('/inventorylist?success=true');
                                 } else {
-                                    window.open('/inventorylist','_self');
+                                    FlowRouter.go('/inventorylist?success=true');
 
                                 }
                             });
                         }
                     }
                 }else{
-                    //window.open('/inventorylist','_self');
+                    //FlowRouter.go('/inventorylist?success=true');
                 }
                 sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                    addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                     window.open('/inventorylist','_self');
+                     FlowRouter.go('/inventorylist?success=true');
                    }).catch(function (err) {
-                     window.open('/inventorylist','_self');
+                     FlowRouter.go('/inventorylist?success=true');
                    });
                  }).catch(function(err) {
-                   window.open('/inventorylist','_self');
+                   FlowRouter.go('/inventorylist?success=true');
                  });
             }).catch(function (err) {
                 swal({
@@ -1932,6 +1940,19 @@ Template.productview.events({
                     }
 
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
+                      let linesave = objDetails.fields.ID;
+                      if(itrackThisItem == false){
+                        let objServiceDetails = {
+                            type:"TServices",
+                            fields:
+                            {
+                                ProductId:parseInt(linesave),
+                                ServiceDesc:productName,
+                                StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                            }
+                        };
+                        productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+                      };
 
                         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
                         if(getcurrentCloudDetails){
@@ -1953,12 +1974,7 @@ Template.productview.events({
                                                                                                      hidden: getchkcustomField2
                                                                                                  }],
                                                                                                  updatedAt: new Date() }}, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
 
-                                        }
                                     });
                                 }else{
                                     CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
@@ -1973,26 +1989,21 @@ Template.productview.events({
                                                                 hidden: getchkcustomField2
                                                             }],
                                                             createdAt: new Date() }, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
 
-                                        }
                                     });
                                 }
                             }
                         }else{
-                          //  window.open('/inventorylist','_self');
+                          //  FlowRouter.go('/inventorylist?success=true');
                         }
                           sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                              addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                               window.open('/inventorylist','_self');
+                               FlowRouter.go('/inventorylist?success=true');
                              }).catch(function (err) {
-                               window.open('/inventorylist','_self');
+                               FlowRouter.go('/inventorylist?success=true');
                              });
                            }).catch(function(err) {
-                             window.open('/inventorylist','_self');
+                             FlowRouter.go('/inventorylist?success=true');
                            });
                     }).catch(function (err) {
                         swal({
@@ -2076,7 +2087,19 @@ Template.productview.events({
                         };
                     }
                     productService.saveProductVS1(objDetails).then(function (objDetails) {
-
+                      let linesave = objDetails.fields.ID;
+                      if(itrackThisItem == false){
+                        let objServiceDetails = {
+                            type:"TServices",
+                            fields:
+                            {
+                                ProductId:parseInt(linesave),
+                                ServiceDesc:productName,
+                                StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                            }
+                        };
+                        productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+                      };
                         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
                         if(getcurrentCloudDetails){
                             if (getcurrentCloudDetails._id.length > 0) {
@@ -2097,12 +2120,7 @@ Template.productview.events({
                                                                                                      hidden: getchkcustomField2
                                                                                                  }],
                                                                                                  updatedAt: new Date() }}, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
 
-                                        }
                                     });
                                 }else{
                                     CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
@@ -2117,26 +2135,21 @@ Template.productview.events({
                                                                 hidden: getchkcustomField2
                                                             }],
                                                             createdAt: new Date() }, function(err, idTag) {
-                                        if (err) {
-                                            //window.open('/inventorylist','_self');
-                                        } else {
-                                            //window.open('/inventorylist','_self');
 
-                                        }
                                     });
                                 }
                             }
                         }else{
-                            //window.open('/inventorylist','_self');
+                            //FlowRouter.go('/inventorylist?success=true');
                         }
                         sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                            addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                             window.open('/inventorylist','_self');
+                             FlowRouter.go('/inventorylist?success=true');
                            }).catch(function (err) {
-                             window.open('/inventorylist','_self');
+                             FlowRouter.go('/inventorylist?success=true');
                            });
                          }).catch(function(err) {
-                           window.open('/inventorylist','_self');
+                           FlowRouter.go('/inventorylist?success=true');
                          });
                     }).catch(function (err) {
                         swal({
@@ -2223,7 +2236,19 @@ Template.productview.events({
                 }
 
                 productService.saveProductVS1(objDetails).then(function (objDetails) {
-
+                  let linesave = objDetails.fields.ID;
+                  if(itrackThisItem == false){
+                    let objServiceDetails = {
+                        type:"TServices",
+                        fields:
+                        {
+                            ProductId:parseInt(linesave),
+                            ServiceDesc:productName,
+                            StandardRate:parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g,"")) || 0,
+                        }
+                    };
+                    productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+                  };
                     var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
                     if(getcurrentCloudDetails){
                         if (getcurrentCloudDetails._id.length > 0) {
@@ -2244,12 +2269,7 @@ Template.productview.events({
                                                                                                  hidden: getchkcustomField2
                                                                                              }],
                                                                                              updatedAt: new Date() }}, function(err, idTag) {
-                                    if (err) {
-                                        //window.open('/inventorylist','_self');
-                                    } else {
-                                        //window.open('/inventorylist','_self');
 
-                                    }
                                 });
                             }else{
                                 CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
@@ -2264,26 +2284,21 @@ Template.productview.events({
                                                             hidden: getchkcustomField2
                                                         }],
                                                         createdAt: new Date() }, function(err, idTag) {
-                                    if (err) {
-                                        //window.open('/inventorylist','_self');
-                                    } else {
-                                        //window.open('/inventorylist','_self');
 
-                                    }
                                 });
                             }
                         }
                     }else{
-                        //window.open('/inventorylist','_self');
+                        //FlowRouter.go('/inventorylist?success=true');
                     }
                     sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(dataReload) {
                        addVS1Data('TProductVS1',JSON.stringify(dataReload)).then(function (datareturn) {
-                         window.open('/inventorylist','_self');
+                         FlowRouter.go('/inventorylist?success=true');
                        }).catch(function (err) {
-                         window.open('/inventorylist','_self');
+                         FlowRouter.go('/inventorylist?success=true');
                        });
                      }).catch(function(err) {
-                       window.open('/inventorylist','_self');
+                       FlowRouter.go('/inventorylist?success=true');
                      });
                 }).catch(function (err) {
                     swal({
@@ -2682,7 +2697,7 @@ Template.productview.events({
                     };
 
                     productService.saveProduct(objDetails).then(function (objDetails) {
-                        window.open('/inventorylist','_self');
+                        FlowRouter.go('/inventorylist?success=true');
                     }).catch(function (err) {
                         swal({
                             title: 'Oooops...',
@@ -2700,7 +2715,7 @@ Template.productview.events({
                         $('.fullScreenSpin').css('display','none');
                     });
                 }else{
-                    window.open('/inventorylist','_self');
+                    FlowRouter.go('/inventorylist?success=true');
                 }
 
             } else if (result.dismiss === 'cancel') {

@@ -79,7 +79,7 @@ export class ProductService extends BaseService {
     getNewProductServiceListVS1(){
         let options = {
             PropertyList: "ID,Active,ProductPrintName,ProductName,ProductType,SalesDescription,BuyQty1CostInc,SellQty1PriceInc,BuyQty1Cost,SellQty1Price,TotalStockQty,TaxCodeSales,TaxCodePurchase,PurchaseDescription,ProductGroup1,BARCODE,TotalQtyInStock,CUSTFLD1,CUSTFLD2",
-            select: "[Active]=true and [ProductType]!='INV'"
+            //select: "[Active]=true and [ProductType]!='INV'"
           };
         return this.getList(this.ERPObjects.TProductVS1, options);
     }
@@ -127,6 +127,10 @@ export class ProductService extends BaseService {
 
     saveProductVS1(data){
         return this.POST(this.ERPObjects.TProductVS1, data);
+    }
+
+    saveProductService(data){
+        return this.POST(this.ERPObjects.TServices, data);
     }
 
     saveEmployeeProducts(data){

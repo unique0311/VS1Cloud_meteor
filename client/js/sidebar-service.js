@@ -31,8 +31,8 @@ export class SideBarService extends BaseService {
          orderby:'"PARTSID desc"',
          ListType: "Detail",
          select: "[Active]=true and [ProductType]!='INV'",
-         LimitCount:'"'+limitcount+'"',
-         LimitFrom:'"'+limitfrom+'"'
+         //LimitCount:'"'+limitcount+'"',
+         //LimitFrom:'"'+limitfrom+'"'
      };
     }
     return this.getList(this.ERPObjects.TProductVS1, options);
