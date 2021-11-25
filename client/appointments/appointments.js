@@ -515,22 +515,25 @@ Template.appointments.onRendered(function () {
                 templateObject.getAllProductData();
                 $(".paused").hide();
                 let dateStart = new Date(info.start);
-                $(".paused").hide();
+                let dateStartForEndTime = new Date(info.start);
                 let dateEnd = new Date(info.end);
                 let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
                 let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
-                dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                dateStartForEndTime.setHours(dateStartForEndTime.getHours() + calendarSet.DefaultApptDuration || "02:00");
                 let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
                 let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
                 document.getElementById("dtSODate").value = startDate;
                 document.getElementById("dtSODate2").value = endDate;
                 document.getElementById("startTime").value = startTime;
-                document.getElementById("endTime").value = endTime;
+                document.getElementById("endTime").value = dateStartForEndTime;
                 document.getElementById("employee_name").value = Session.get('mySessionEmployee');
                 if (calendarSet.DefaultApptDuration) {
-                    document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                    let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                    document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime
                 } else {
-                    document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                    let hours = templateObject.diff_hours(dateStart, dateStartForEndTime);
+                    let hoursFormattedStartTime = templateObject.timeFormat(hours) || '';
+                    document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                 }
                 templateObject.attachmentCount.set('');
                 templateObject.uploadedFiles.set('');
@@ -590,13 +593,14 @@ Template.appointments.onRendered(function () {
                     }
                     templateObject.getAllProductData();
                     if (result[0].aStartTime != '' && result[0].aEndTime != '') {
-                        console.log(result[0].aStartTime);
-                        console.log(result[0].aEndTime);
                         var startTime = moment(result[0].aStartDate + ' ' + result[0].aStartTime);
                         var endTime = moment(result[0].aEndDate + ' ' + result[0].aEndTime);
                         var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                         hours = duration.asHours();
                     }
+
+                    let hoursFormatted = templateObject.timeFormat(hours) || '';
+                    let hoursFormattedStartTime = templateObject.timeFormat(result[0].totalHours) || '';
                     document.getElementById("aStartDate").value = result[0].aStartDate || '';
                     document.getElementById("updateID").value = result[0].id || 0;
                     document.getElementById("appID").value = result[0].id;
@@ -627,10 +631,10 @@ Template.appointments.onRendered(function () {
                     document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
                     document.getElementById("startTime").value = result[0].startTime;
                     document.getElementById("endTime").value = result[0].endTime;
-                    document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
+                    document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     document.getElementById("tActualStartTime").value = result[0].aStartTime;
                     document.getElementById("tActualEndTime").value = result[0].aEndTime;
-                    document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+                    document.getElementById("txtActualHoursSpent").value = hoursFormatted || '';
                     templateObject.attachmentCount.set(0);
                     if (result[0].attachments) {
                         if (result.length) {
@@ -755,13 +759,15 @@ Template.appointments.onRendered(function () {
                     if (calendarSet.DefaultApptDuration) {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.DefaultApptDuration), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
-                        document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                        let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     } else {
                         var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
                         var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
                         var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                        document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
                     $("#product-list")[0].options[0].selected = true;
@@ -769,13 +775,15 @@ Template.appointments.onRendered(function () {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
-                        document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
+                        let hoursFormattedStartTime = templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     } else {
                         var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
                         var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
                         var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                        document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     if (empData.length > 0) {
                         $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
@@ -788,13 +796,15 @@ Template.appointments.onRendered(function () {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
-                        document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
+                        let hoursFormattedStartTime =  templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     } else {
                         var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
                         var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
                         var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                        document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
 
                     if (empData.length > 0) {
@@ -910,21 +920,25 @@ Template.appointments.onRendered(function () {
                 $(".paused").hide();
                 templateObject.getAllProductData();
                 let dateStart = new Date(info.start);
+                let dateStartForEndTime = new Date(info.start);
                 let dateEnd = new Date(info.end);
                 let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
                 let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
-                dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                dateStartForEndTime.setHours(dateStartForEndTime.getHours() + parseInt(calendarSet.DefaultApptDuration) || 2);
                 let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
-                let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateEnd.getMinutes()).toString().slice(-2);
+                let endTime = ("0" + dateStartForEndTime.getHours()).toString().slice(-2) + ':' + ("0" + dateStartForEndTime.getMinutes()).toString().slice(-2);
                 document.getElementById("dtSODate").value = startDate;
                 document.getElementById("dtSODate2").value = endDate;
                 document.getElementById("startTime").value = startTime;
                 document.getElementById("endTime").value = endTime;
                 document.getElementById("employee_name").value = Session.get('mySessionEmployee');
                 if (calendarSet.DefaultApptDuration) {
-                    document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                    let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                    document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime
                 } else {
-                    document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                    let hours = templateObject.diff_hours(dateStart, dateStartForEndTime);
+                    let hoursFormattedStartTime = templateObject.timeFormat(hours) || '';
+                    document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                 }
                 templateObject.attachmentCount.set('');
                 templateObject.uploadedFiles.set('');
@@ -991,6 +1005,9 @@ Template.appointments.onRendered(function () {
                         hours = duration.asHours();
                     }
 
+                    let hoursFormatted = templateObject.timeFormat(hours) || '';
+                    let hoursFormattedStartTime = templateObject.timeFormat(result[0].totalHours) || '';
+
                     document.getElementById("aStartDate").value = result[0].aStartDate || '';
                     document.getElementById("updateID").value = result[0].id || 0;
                     document.getElementById("appID").value = result[0].id;
@@ -1021,10 +1038,10 @@ Template.appointments.onRendered(function () {
                     document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
                     document.getElementById("startTime").value = result[0].startTime;
                     document.getElementById("endTime").value = result[0].endTime;
-                    document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
+                    document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     document.getElementById("tActualStartTime").value = result[0].aStartTime;
                     document.getElementById("tActualEndTime").value = result[0].aEndTime;
-                    document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+                    document.getElementById("txtActualHoursSpent").value = hoursFormatted || '';
                     templateObject.attachmentCount.set(0);
                     if (result[0].attachments) {
                         if (result.length) {
@@ -1151,27 +1168,31 @@ Template.appointments.onRendered(function () {
                     if (calendarSet.DefaultApptDuration) {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.DefaultApptDuration), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
-                        document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                        let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     } else {
                         var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
                         var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
                         var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                        document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
-                    $('#product-list').prepend('<option value="' + calendarSet.id + '" selected>' + calendarSet.defaultProduct + '</option>');
+                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
                     $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
-                        document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
+                        let hoursFormattedStartTime = templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     } else {
                         var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
                         var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
                         var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                        document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     if (empData.length > 0) {
                         $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
@@ -1184,21 +1205,25 @@ Template.appointments.onRendered(function () {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
-                        document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
+                        let hoursFormattedStartTime =  templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     } else {
                         var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
                         var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
                         document.getElementById("endTime").value = endTime;
                         var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                        document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
+
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
                         $("#product-list")[0].options[0].selected = true;
                     } else {
                         $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
                         $("#product-list")[0].options[0].selected = true;
                     }
+
                 }
 
                 var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
@@ -1338,6 +1363,26 @@ Template.appointments.onRendered(function () {
         var dateParts = date.split("/");
         var dateObject = dateParts[2] + '/' + ('0' + (dateParts[1] - 1)).toString().slice(-2) + '/' + dateParts[0];
         return dateObject;
+    }
+
+    templateObject.timeToDecimal = function (time) {
+        var hoursMinutes = time.split(/[.:]/);
+        var hours = parseInt(hoursMinutes[0], 10);
+        var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+        return hours + minutes / 60;
+    }
+
+    templateObject.timeFormat = function (hours) {
+        var decimalTime = parseFloat(hours).toFixed(2);
+        decimalTime = decimalTime * 60 * 60;
+        var hours = Math.floor((decimalTime / (60 * 60)));
+        decimalTime = decimalTime - (hours * 60 * 60);
+        var minutes = Math.abs(decimalTime / 60);
+        decimalTime = decimalTime - (minutes * 60);
+        hours = ("0" + hours).slice(-2);
+        minutes = ("0" + Math.round(minutes)).slice(-2);
+        let time = hours + ":" + minutes;
+        return time;
     }
 
     templateObject.getEmployeesList = function () {
@@ -2300,21 +2345,25 @@ Template.appointments.onRendered(function () {
                             $(".paused").hide();
                             templateObject.getAllProductData();
                             let dateStart = new Date(info.start);
+                            let dateStartForEndTime = new Date(info.start);
                             let dateEnd = new Date(info.end);
                             let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
                             let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
-                            dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                            dateStartForEndTime.setHours(dateStartForEndTime.getHours() + parseInt(calendarSet.DefaultApptDuration) || 2);
                             let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
-                            let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateEnd.getMinutes()).toString().slice(-2);
+                            let endTime = ("0" + dateStartForEndTime.getHours()).toString().slice(-2) + ':' + ("0" + dateStartForEndTime.getMinutes()).toString().slice(-2);
                             document.getElementById("dtSODate").value = startDate;
                             document.getElementById("dtSODate2").value = endDate;
                             document.getElementById("startTime").value = startTime;
                             document.getElementById("endTime").value = endTime;
                             document.getElementById("employee_name").value = Session.get('mySessionEmployee');
                             if (calendarSet.DefaultApptDuration) {
-                                document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                                let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                                document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime
                             } else {
-                                document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                                let hours = templateObject.diff_hours(dateStart, dateStartForEndTime);
+                                let hoursFormattedStartTime = templateObject.timeFormat(hours) || '';
+                                document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                             }
                             templateObject.attachmentCount.set('');
                             templateObject.uploadedFiles.set('');
@@ -2411,60 +2460,67 @@ Template.appointments.onRendered(function () {
                             document.getElementById("dtSODate2").value = start
                                 var startTime = moment(event.dateStr).format("HH:mm");
                             document.getElementById("startTime").value = startTime;
-                            if (overridesettings[0].override == "false") {
-                                if (calendarSet.defaultApptDuration) {
-                                    var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.defaultApptDuration), 'hours').format('HH:mm');
-                                    document.getElementById("endTime").value = endTime;
-                                    document.getElementById("txtBookedHoursSpent").value = calendarSet.defaultApptDuration;
-                                } else {
-                                    var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                    var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                    document.getElementById("endTime").value = endTime;
-                                    var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                    document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                                }
-                                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            } else if (overridesettings[0].override == "true") {
-                                if (templateObject.empDuration.get() != "") {
-                                    var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
-                                    document.getElementById("endTime").value = endTime;
-                                    document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
-                                } else {
-                                    var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                    var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                    document.getElementById("endTime").value = endTime;
-                                    var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                    document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                                }
-                                if (empData.length > 0) {
-                                    $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                                    $("#product-list")[0].options[0].selected = true;
-                                } else {
-                                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                                    $("#product-list")[0].options[0].selected = true;
-                                }
-                            } else {
-                                if (templateObject.empDuration.get() != "") {
-                                    var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
-                                    document.getElementById("endTime").value = endTime;
-                                    document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
-                                } else {
-                                    var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                    var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                    document.getElementById("endTime").value = endTime;
-                                    var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                    document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                                }
-                                if (empData.length > 0) {
-                                    $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                                    $("#product-list")[0].options[0].selected = true;
-                                } else {
-                                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                                    $("#product-list")[0].options[0].selected = true;
-                                }
-                            }
+                           if (overridesettings[0].override == "false") {
+                    if (calendarSet.DefaultApptDuration) {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.DefaultApptDuration), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    $("#product-list")[0].options[0].selected = true;
+                } else if (overridesettings[0].override == "true") {
+                    if (templateObject.empDuration.get() != "") {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime = templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+                    if (empData.length > 0) {
+                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    } else {
+                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    }
+                } else {
+                    if (templateObject.empDuration.get() != "") {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime =  templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
 
+                    if (empData.length > 0) {
+                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    } else {
+                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    }
+
+                }
                             var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                             var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
                             $('#customerListModal').modal();
@@ -3789,21 +3845,25 @@ Template.appointments.onRendered(function () {
                         $(".paused").hide();
                         templateObject.getAllProductData();
                         let dateStart = new Date(info.start);
+                        let dateStartForEndTime = new Date(info.start);
                         let dateEnd = new Date(info.end);
                         let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
                         let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
-                        dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                        dateStartForEndTime.setHours(dateStartForEndTime.getHours() + calendarSet.DefaultApptDuration || "02:00");
                         let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
-                        let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateEnd.getMinutes()).toString().slice(-2);
+                       let endTime = ("0" + dateStartForEndTime.getHours()).toString().slice(-2) + ':' + ("0" + dateStartForEndTime.getMinutes()).toString().slice(-2);
                         document.getElementById("dtSODate").value = startDate;
                         document.getElementById("dtSODate2").value = endDate;
                         document.getElementById("startTime").value = startTime;
                         document.getElementById("endTime").value = endTime;
                         document.getElementById("employee_name").value = Session.get('mySessionEmployee');
                         if (calendarSet.DefaultApptDuration) {
-                            document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                            let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                            document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime
                         } else {
-                            document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                            let hours = templateObject.diff_hours(dateStart, dateStartForEndTime);
+                            let hoursFormattedStartTime = templateObject.timeFormat(hours) || '';
+                            document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                         }
                         templateObject.attachmentCount.set('');
                         templateObject.uploadedFiles.set('');
@@ -3900,58 +3960,66 @@ Template.appointments.onRendered(function () {
                             var startTime = moment(event.dateStr).format("HH:mm");
                         document.getElementById("startTime").value = startTime;
                         if (overridesettings[0].override == "false") {
-                            if (calendarSet.defaultApptDuration) {
-                                var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.defaultApptDuration), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                document.getElementById("txtBookedHoursSpent").value = calendarSet.defaultApptDuration;
-                            } else {
-                                var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                            }
-                            $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                            $("#product-list")[0].options[0].selected = true;
-                        } else if (overridesettings[0].override == "true") {
-                            if (templateObject.empDuration.get() != "") {
-                                var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
-                            } else {
-                                var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                            }
-                            if (empData.length > 0) {
-                                $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            } else {
-                                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            }
-                        } else {
-                            if (templateObject.empDuration.get() != "") {
-                                var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
-                            } else {
-                                var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                            }
-                            if (empData.length > 0) {
-                                $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            } else {
-                                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            }
-                        }
+                    if (calendarSet.DefaultApptDuration) {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.DefaultApptDuration), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    $("#product-list")[0].options[0].selected = true;
+                } else if (overridesettings[0].override == "true") {
+                    if (templateObject.empDuration.get() != "") {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime = templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+                    if (empData.length > 0) {
+                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    } else {
+                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    }
+                } else {
+                    if (templateObject.empDuration.get() != "") {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime =  templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+
+                    if (empData.length > 0) {
+                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    } else {
+                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    }
+
+                }
 
                         var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                         var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
@@ -4414,21 +4482,25 @@ Template.appointments.onRendered(function () {
                         $(".paused").hide();
                         templateObject.getAllProductData();
                         let dateStart = new Date(info.start);
+                        let dateStartForEndTime = new Date(info.start);
                         let dateEnd = new Date(info.end);
                         let startDate = ("0" + dateStart.getDate()).toString().slice(-2) + "/" + ("0" + (dateStart.getMonth() + 1)).toString().slice(-2) + "/" + dateStart.getFullYear();
                         let endDate = ("0" + dateEnd.getDate()).toString().slice(-2) + "/" + ("0" + (dateEnd.getMonth() + 1)).toString().slice(-2) + "/" + dateEnd.getFullYear();
-                        dateEnd.setHours(dateEnd.getHours() + calendarSet.DefaultApptDuration || "02:00");
+                        dateStartForEndTime.setHours(dateStartForEndTime.getHours() + calendarSet.DefaultApptDuration || "02:00");
                         let startTime = ("0" + dateStart.getHours()).toString().slice(-2) + ':' + ("0" + dateStart.getMinutes()).toString().slice(-2);
-                        let endTime = ("0" + dateEnd.getHours()).toString().slice(-2) + ':' + ("0" + dateEnd.getMinutes()).toString().slice(-2);
+                        let endTime = ("0" + dateStartForEndTime.getHours()).toString().slice(-2) + ':' + ("0" + dateStartForEndTime.getMinutes()).toString().slice(-2);
                         document.getElementById("dtSODate").value = startDate;
                         document.getElementById("dtSODate2").value = endDate;
                         document.getElementById("startTime").value = startTime;
                         document.getElementById("endTime").value = endTime;
                         document.getElementById("employee_name").value = Session.get('mySessionEmployee');
                         if (calendarSet.DefaultApptDuration) {
-                            document.getElementById("txtBookedHoursSpent").value = calendarSet.DefaultApptDuration;
+                            let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                            document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime
                         } else {
-                            document.getElementById("txtBookedHoursSpent").value = templateObject.diff_hours(dateStart, dateEnd);
+                            let hours = templateObject.diff_hours(dateStart, dateStartForEndTime);
+                            let hoursFormattedStartTime = templateObject.timeFormat(hours) || '';
+                            document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                         }
                         templateObject.attachmentCount.set('');
                         templateObject.uploadedFiles.set('');
@@ -4460,6 +4532,10 @@ Template.appointments.onRendered(function () {
                                 var duration = moment.duration(moment(endTime).diff(moment(startTime)));
                                 hours = duration.asHours();
                             }
+
+                            let hoursFormatted = templateObject.timeFormat(hours) || '';
+                            let hoursFormattedStartTime = templateObject.timeFormat(result[0].totalHours) || '';
+
                             if (result[0].isPaused == "Paused") {
                                 $(".paused").show();
                                 $("#btnHold").prop("disabled", true);
@@ -4501,10 +4577,10 @@ Template.appointments.onRendered(function () {
                             document.getElementById("dtSODate2").value = result[0].endDate.split(' ')[0];
                             document.getElementById("startTime").value = result[0].startTime;
                             document.getElementById("endTime").value = result[0].endTime;
-                            document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
+                            document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                             document.getElementById("tActualStartTime").value = result[0].aStartTime;
                             document.getElementById("tActualEndTime").value = result[0].aEndTime;
-                            document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+                            document.getElementById("txtActualHoursSpent").value = hoursFormatted || '';
 
                             templateObject.attachmentCount.set(0);
                             if (result[0].attachments) {
@@ -4610,59 +4686,67 @@ Template.appointments.onRendered(function () {
                         document.getElementById("dtSODate2").value = start
                             var startTime = moment(event.dateStr).format("HH:mm");
                         document.getElementById("startTime").value = startTime;
-                        if (overridesettings[0].override == "false") {
-                            if (calendarSet.defaultApptDuration) {
-                                var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.defaultApptDuration), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                document.getElementById("txtBookedHoursSpent").value = calendarSet.defaultApptDuration;
-                            } else {
-                                var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                            }
-                            $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                            $("#product-list")[0].options[0].selected = true;
-                        } else if (overridesettings[0].override == "true") {
-                            if (templateObject.empDuration.get() != "") {
-                                var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
-                            } else {
-                                var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                            }
-                            if (empData.length > 0) {
-                                $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            } else {
-                                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            }
-                        } else {
-                            if (templateObject.empDuration.get() != "") {
-                                var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                document.getElementById("txtBookedHoursSpent").value = templateObject.empDuration.get();
-                            } else {
-                                var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
-                                var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
-                                document.getElementById("endTime").value = endTime;
-                                var hoursSpent = moment(appointmentHours, 'hours').format('HH');
-                                document.getElementById("txtBookedHoursSpent").value = hoursSpent.replace(/^0+/, '');
-                            }
-                            if (empData.length > 0) {
-                                $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[0].DefaultServiceProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            } else {
-                                $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                                $("#product-list")[0].options[0].selected = true;
-                            }
-                        }
+                       if (overridesettings[0].override == "false") {
+                    if (calendarSet.DefaultApptDuration) {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(calendarSet.DefaultApptDuration), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime = templateObject.timeFormat(calendarSet.DefaultApptDuration) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    $("#product-list")[0].options[0].selected = true;
+                } else if (overridesettings[0].override == "true") {
+                    if (templateObject.empDuration.get() != "") {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime = templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+                    if (empData.length > 0) {
+                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    } else {
+                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    }
+                } else {
+                    if (templateObject.empDuration.get() != "") {
+                        var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        let hoursFormattedStartTime =  templateObject.timeFormat(templateObject.empDuration.get()) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    } else {
+                        var appointmentHours = moment(event.dateStr.substr(event.dateStr.length - 5), 'HH:mm').format('HH:mm');
+                        var endTime = moment(startTime, 'HH:mm').add(appointmentHours.substr(0, 2), 'hours').format('HH:mm');
+                        document.getElementById("endTime").value = endTime;
+                        var hoursSpent = moment(appointmentHours, 'hours').format('HH');
+                        let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
+                        document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                    }
+
+                    if (empData.length > 0) {
+                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    } else {
+                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        $("#product-list")[0].options[0].selected = true;
+                    }
+
+                }
 
                         var endTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("endTime").value).format('DD/MM/YYYY HH:mm');
                         var startTime = moment(document.getElementById("dtSODate2").value + ' ' + document.getElementById("startTime").value).format('DD/MM/YYYY HH:mm');
@@ -5083,6 +5167,9 @@ Template.appointments.events({
                 hours = duration.asHours();
             }
 
+            let hoursFormatted = templateObject.timeFormat(hours) || '';
+            let hoursFormattedStartTime = templateObject.timeFormat(result[0].totalHours) || '';
+
             if (result[0].isPaused == "Paused") {
                 $(".paused").show();
                 $("#btnHold").prop("disabled", true);
@@ -5130,10 +5217,10 @@ Template.appointments.events({
             document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
             document.getElementById("startTime").value = result[0].startTime;
             document.getElementById("endTime").value = result[0].endTime;
-            document.getElementById("txtBookedHoursSpent").value = result[0].totalHours;
+            document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
             document.getElementById("tActualStartTime").value = result[0].aStartTime;
             document.getElementById("tActualEndTime").value = result[0].aEndTime;
-            document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+            document.getElementById("txtActualHoursSpent").value = hoursFormatted || '';
             $('#event-modal').modal();
         } else {
             let bookingDate = new Date();
@@ -5145,7 +5232,8 @@ Template.appointments.events({
             var date = $(event.target).closest('#allocationTable').find('th').eq($(event.target).closest('td').index()).attr('id');
             $("#dtSODate").val(moment(date).format('DD/MM/YYYY'))
             $("#dtSODate2").val(moment(date).format('DD/MM/YYYY'))
-            $("#txtBookedHoursSpent").val(defaultDuration);
+            let hoursFormatted = templateObject.timeFormat(defaultDuration) || '';
+            $("#txtBookedHoursSpent").val(hoursFormatted);
             $("#startTime").val(startTime);
             $("#endTime").val(endTime);
             $("#employee_name").val(name);
@@ -6967,7 +7055,7 @@ Template.appointments.events({
                                     confirmButtonText: 'Ok'
                                 }).then((result) => {
                                     if (result.value) {
-                                         $('#event-modal').modal('hide');
+                                        $('#event-modal').modal('hide');
                                     } else {
                                         // window.open('/appointments', '_self');
                                     }
@@ -7205,7 +7293,8 @@ Template.appointments.events({
         var endTime = new Date(date2 + ' ' + document.getElementById("endTime").value + ':00');
         var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
         if (date2 != "" && endTime > startTime) {
-            document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours) || '';
         } else {}
     },
     'change #endTime': function () {
@@ -7217,7 +7306,8 @@ Template.appointments.events({
         var endTime = new Date(date2 + ' ' + document.getElementById("endTime").value + ':00');
         var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
         if (endTime > startTime) {
-            document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours) || '';
         } else {}
     },
     'change #tActualStartTime': function () {
@@ -7229,7 +7319,8 @@ Template.appointments.events({
         var endTime = new Date(date2 + ' ' + document.getElementById("tActualEndTime").value + ':00');
         var startTime = new Date(date1 + ' ' + document.getElementById("tActualStartTime").value + ':00');
         if (date2 != "" && endTime > startTime) {
-            document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            document.getElementById('txtActualHoursSpent').value = templateObject.timeFormat(hours) || '';
         } else {}
     },
     'change #tActualEndTime': function () {
@@ -7241,7 +7332,8 @@ Template.appointments.events({
         var endTime = new Date(date2 + ' ' + document.getElementById("tActualEndTime").value + ':00');
         var startTime = new Date(date1 + ' ' + document.getElementById("tActualStartTime").value + ':00');
         if (endTime > startTime) {
-            document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+            let hours = parseFloat(templateObject.diff_hours(endTime, startTime));
+            document.getElementById('txtActualHoursSpent').value = templateObject.timeFormat(hours) || '';
         } else {}
     },
     'submit #appointmentOptions': function (event) {
@@ -7885,13 +7977,13 @@ Template.appointments.events({
                 appointmentService.saveTimeLog(obj).then(function (data1) {
                     if (obj.fields.Description == "Job Completed") {
                         let endTime1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2) + ' ' + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
-                        if(result.length > 0) {
-                        if (Array.isArray(result[0].timelog) && result[0].timelog != "") {
-                            toUpdateID = result[0].timelog[result[0].timelog.length - 1].fields.ID;
-                        } else if(result[0].timelog != ""){
-                            toUpdateID = result[0].timelog.fields.ID;
+                        if (result.length > 0) {
+                            if (Array.isArray(result[0].timelog) && result[0].timelog != "") {
+                                toUpdateID = result[0].timelog[result[0].timelog.length - 1].fields.ID;
+                            } else if (result[0].timelog != "") {
+                                toUpdateID = result[0].timelog.fields.ID;
+                            }
                         }
-                    }
 
                         if (toUpdateID != "") {
                             updateData = {
@@ -7942,12 +8034,12 @@ Template.appointments.events({
                                             }
                                         };
                                         contactService.saveTimeSheet(data).then(function (dataObj) {
-                                        sideBarService.getAllTimeSheetList().then(function (data) {
-                                        addVS1Data('TTimeSheet', JSON.stringify(data));
-                                            setTimeout(function () {
-                                                window.open('/appointments', '_self');
-                                            }, 500);
-                                        });
+                                            sideBarService.getAllTimeSheetList().then(function (data) {
+                                                addVS1Data('TTimeSheet', JSON.stringify(data));
+                                                setTimeout(function () {
+                                                    window.open('/appointments', '_self');
+                                                }, 500);
+                                            });
                                         }).catch(function (err) {
                                             window.open('/appointments', '_self');
                                         })
@@ -7999,7 +8091,7 @@ Template.appointments.events({
                                     };
                                     contactService.saveTimeSheet(data).then(function (dataObj) {
                                         sideBarService.getAllTimeSheetList().then(function (data) {
-                                        addVS1Data('TTimeSheet', JSON.stringify(data));
+                                            addVS1Data('TTimeSheet', JSON.stringify(data));
                                             setTimeout(function () {
                                                 window.open('/appointments', '_self');
                                             }, 500);
