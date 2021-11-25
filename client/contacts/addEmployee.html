@@ -489,12 +489,11 @@
                                                                     <div class="col-12 col-md-6">
                                                                         <div class="row">
                                                                             <div class="col-6" style="padding: 0px;">
-                                                                                <div class="form-group" style="margin: 4px;"><label>City / Town</label><input type="text" class="form-control" id="edtCity" name="edtCity"
-                                                                                        value="{{record.city}}"></div>
+                                                                                <div class="form-group" style="margin: 4px;"><label>City / Town</label><input type="text" class="form-control" id="edtCity" name="edtCity" value="{{record.city}}"></div>
                                                                             </div>
                                                                             <div class="col-6" style="padding: 0px;">
-                                                                                <div class="form-group" style="margin: 4px;"><label>State / Region</label><input type="text" class="form-control" id="edtState" name="edtState"
-                                                                                        value="{{record.state}}"></div>
+                                                                                <div class="form-group" style="margin: 4px;"><label>State / Region</label><input type="text" class="form-control" id="edtState" name="edtState" value="{{record.state}}">
+                                                                                </div>
                                                                             </div>
                                                                             <div class="col-6" style="padding: 0px;">
                                                                                 <div class="form-group" style="margin: 4px;"><label>ZIP Code</label><input type="text" class="form-control" id="edtPostalCode" name="edtPostalCode"
@@ -562,12 +561,11 @@
                                                                                                 value="{{record.state}}"></div>
                                                                                     </div>
                                                                                     <div class="col-6" style="padding: 0px;">
-                                                                                        <div class="form-group" style="margin: 4px;"><label>ZIP Code</label><input type="text" class="form-control" id="bedtPostalCode"
-                                                                                                name="bedtPostalCode" value="{{record.postalcode}}"></div>
+                                                                                        <div class="form-group" style="margin: 4px;"><label>ZIP Code</label><input type="text" class="form-control" id="bedtPostalCode" name="bedtPostalCode"
+                                                                                                value="{{record.postalcode}}"></div>
                                                                                     </div>
                                                                                     <div class="col-6" style="padding: 0px;">
-                                                                                        <div class="form-group" style="margin: 4px;"><label>Country</label><select class="form-control" id="bedtCountry" name="bedtCountry"
-                                                                                                style=" cursor: pointer;">
+                                                                                        <div class="form-group" style="margin: 4px;"><label>Country</label><select class="form-control" id="bedtCountry" name="bedtCountry" style=" cursor: pointer;">
                                                                                                 {{#each item in countryList}}
                                                                                                     {{#if equals item record.country }}
                                                                                                         <option value="{{record.country}}" selected="">{{record.country}}</option>
@@ -1082,6 +1080,26 @@
                                                                         <div class="custom-control custom-switch" style="margin: 8px;">
                                                                             <input class="custom-control-input" type="checkbox" id="useOvertimeRates" name="useOvertimeRates" style=" cursor: pointer;" checked>
                                                                             <label class="custom-control-label" for="useOvertimeRates" style=" cursor: pointer;">Use Overtime Rates</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12 col-md-6">
+                                                                        <div class="form-group" style="margin: 4px;">
+                                                                            <label>Copy Products From</label>
+                                                                            <div class="input-group">
+                                                                                <div class="input-group">
+                                                                                    <select class="custom-select" id="sltCopyFromEmployee">
+                                                                                        {{#if employeerecords}}
+                                                                                            {{#each item in employeerecords}}
+                                                                                                <option value="{{item.company}}" class="{{item.classname}}" title="{{item.company}}" id="{{item.id}}">{{item.company}}</option>
+                                                                                                <a class="dropdown-item {{item.classname}}" title="{{item.company}}" id="{{item.id}}">{{item.company}}</a>
+                                                                                            {{/each}}
+                                                                                        {{/if}}>
+                                                                                    </select>
+                                                                                    <div class="input-group-append">
+                                                                                        <button class="btn btn-primary" type="button">Copy From</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
