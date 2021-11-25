@@ -134,18 +134,19 @@ Template.payrolloverview.onRendered(function () {
         return hours + minutes / 60;
     }
 
-    templateObject.timeFormat = function (hours) {
+       templateObject.timeFormat = function (hours) {
         var decimalTime = parseFloat(hours).toFixed(2);
         decimalTime = decimalTime * 60 * 60;
         var hours = Math.floor((decimalTime / (60 * 60)));
         decimalTime = decimalTime - (hours * 60 * 60);
-        var minutes = Math.floor(decimalTime / 60);
+        var minutes = Math.abs(decimalTime / 60);
         decimalTime = decimalTime - (minutes * 60);
         hours = ("0" + hours).slice(-2);
-        minutes = ("0" + minutes).slice(-2);
+        minutes = ("0" + Math.round(minutes)).slice(-2);
         let time = hours + ":" + minutes;
         return time;
     }
+
 
     templateObject.getAllTimeSheetDataClock = function () {
         getVS1Data('TTimeSheet').then(function (dataObject) {
