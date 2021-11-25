@@ -1913,14 +1913,14 @@ Template.payrolloverview.events({
                     $('#employeeStatusField').removeClass('statusClockedOff');
                     $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
                     Bert.alert($('#employee_name').val() + ' you are now Clocked On', 'now-success');
-                    templateObject.datatablerecords.set([]);
+                    $('#startTime').prop('disabled', true);
+                    templateObject.timesheetrecords.set([]);
                     templateObject.getAllTimeSheetDataClock();
                      setTimeout(function(){
-                        let getTimesheetRecords = templateObject.datatablerecords.get();
+                        let getTimesheetRecords = templateObject.timesheetrecords.get();
                          let getLatestTimesheet = getTimesheetRecords.filter(clkList => {
                             return clkList.employee == employeeName;
                         });
-                         console.log(getLatestTimesheet[getLatestTimesheet.length - 1]);
                          $('#updateID').val(getLatestTimesheet[getLatestTimesheet.length - 1].id || '');
                         $('.fullScreenSpin').css('display', 'none');
                     },1500);

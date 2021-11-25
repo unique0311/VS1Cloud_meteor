@@ -3133,7 +3133,6 @@ Template.timesheet.onRendered(function () {
                                  let getLatestTimesheet = getTimesheetRecords.filter(clkList => {
                                     return clkList.employee == employeeName;
                                 });
-                                 console.log(getLatestTimesheet[getLatestTimesheet.length - 1]);
                                  $('#updateID').val(getLatestTimesheet[getLatestTimesheet.length - 1].id || '');
                                 $('.fullScreenSpin').css('display', 'none');
                             },1500);
