@@ -3336,6 +3336,16 @@ Template.stockadjustmentcard.events({
         if ($(event.target).is(':checked')) {
             $('#employeeList').modal('show');
         }
+    },
+    'click #tdBarcodeScannerMobile': function(event) {
+        setTimeout(function() {
+            document.getElementById("scanBarcodeModalInput").focus();
+        }, 500);
+    },
+    'click #scanNewRowMobile': function(event) {
+        setTimeout(function() {
+            document.getElementById("scanBarcodeModalInput").focus();
+        }, 500);
     }
 
 });

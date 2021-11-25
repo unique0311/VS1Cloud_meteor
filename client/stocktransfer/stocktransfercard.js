@@ -3500,6 +3500,16 @@ Template.stocktransfercard.events({
         } else {
             Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
         }
+    },
+    'click #tdBarcodeScannerMobile': function(event) {
+        setTimeout(function() {
+            document.getElementById("scanBarcodeModalInput").focus();
+        }, 500);
+    },
+    'click #scanNewRowMobile': function(event) {
+        setTimeout(function() {
+            document.getElementById("scanBarcodeModalInput").focus();
+        }, 500);
     }
 });
 
