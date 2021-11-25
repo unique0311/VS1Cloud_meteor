@@ -3341,6 +3341,327 @@ Template.stocktransfercard.events({
 
 
     },
+    'click .btnSave': function(event) {
+        $('#html-2-pdfwrapper').css('display', 'block');
+        let templateObject = Template.instance();
+        //let customername = $('#edtCustomerName').val() || '';
+        //let shippingaddress = $('#txaShipingInfo').val() || '';
+        let transferFrom = $('#sltDepartment').val() || '';
+        let shipVia = $('#shipvia').val() || '';
+        let conNote = $('#shipcomments').val() || '';
+        let toAccount = $('#sltBankAccountName').val() || '';
+        // let department = $('#sltDepartment').val();
+        let stockTransferService = new StockTransferService();
+        //$('.loginSpinner').css('display','inline-block');
+        $('.fullScreenSpin').css('display', 'inline-block');
+        var splashLineArray = new Array();
+        let lineItemsForm = [];
+        let lineItemObjForm = {};
+
+        $('#tblStocktransfer > tbody > tr').each(function() {
+            var lineID = this.id;
+            let tdproduct = $('#' + lineID + " .lineProductName").val();
+            let tdproductID = $('#' + lineID + " .lineProductName").attr('productid');
+            let tdproductCost = $('#' + lineID + " .lineProductName").attr('productcost');
+            let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
+            let tddescription = $('#' + lineID + " .lineDescription").html() || '';
+            let tdserialNumber = $('#' + lineID + " .pqa").text();
+            // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
+            // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
+            let tdDepartment = $('#' + lineID + " .lineDepartment").val();
+
+            let tdavailqty = $('#' + lineID + " .lineOrdere").val();
+            let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
+            if (tdproduct != "") {
+
+                if (tdserialNumber != '') {
+                    lineItemObjForm = {
+                        type: "TSTELinesFlat",
+                        fields: {
+                            ProductName: tdproduct || '',
+                            AccountName: 'Inventory Asset',
+                            TransferQty: parseFloat(tdtransferqty) || 0,
+                            ClassNameTo: tdDepartment || defaultDept,
+                            TransferSerialnos: tdserialNumber || '',
+                            PartBarcode: tdbarcode || '',
+                        }
+                    };
+                } else {
+                    lineItemObjForm = {
+                        type: "TSTELinesFlat",
+                        fields: {
+                            ProductName: tdproduct || '',
+                            AccountName: 'Inventory Asset',
+                            TransferQty: parseFloat(tdtransferqty) || 0,
+                            ClassNameTo: tdDepartment || defaultDept,
+                            PartBarcode: tdbarcode || '',
+                        }
+                    };
+                }
+
+                //lineItemsForm.push(lineItemObjForm);
+                splashLineArray.push(lineItemObjForm);
+            }
+        });
+
+        let selectAccount = $('#sltAccountName').val();
+
+        let notes = $('#shipcomments').val();
+        let reason = $('#txtNotes').val() || '';
+        var creationdateTime = new Date($("#dtShipDate").datepicker("getDate"));
+        let creationDate = creationdateTime.getFullYear() + "-" + (creationdateTime.getMonth() + 1) + "-" + creationdateTime.getDate();
+        var url = FlowRouter.current().path;
+        var getso_id = url.split('?id=');
+        var currentStock = getso_id[getso_id.length - 1];
+        // let uploadedItems = templateObject.uploadedFiles.get();
+        var objDetails = '';
+        if (getso_id[1]) {
+            currentStock = parseInt(currentStock);
+            objDetails = {
+                type: "TStockTransferEntry",
+                fields: {
+                    ID: currentStock,
+                    AccountName: selectAccount,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
+                    CreationDate: creationDate,
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
+                    EnforceUOM: false,
+                    //ISEmpty:false,
+                    //IsStockTake:false,
+                    Lines: splashLineArray,
+                    DoProcessonSave: false,
+                    Notes: notes,
+                    Description: reason,
+                    // SalesRef: conNote,
+                    TransferFromClassName: transferFrom,
+                    Transfertype: "Gen",
+                    Shipping: shipVia
+
+                }
+            };
+        } else {
+            objDetails = {
+                type: "TStockTransferEntry",
+                fields: {
+                    AccountName: selectAccount,
+                    DateTransferred: creationDate,
+                    // AdjustmentOnInStock: true,
+                    // AdjustType: "Gen",
+                    // Approved: false,
+                    CreationDate: creationDate,
+                    //Deleted: false,
+                    EmployeeName: Session.get('mySessionEmployee'),
+                    EnforceUOM: false,
+                    //ISEmpty:false,
+                    //IsStockTake:false,
+                    Lines: splashLineArray,
+                    DoProcessonSave: false,
+                    Notes: notes,
+                    Description: reason,
+                    // SalesRef: conNote,
+                    TransferFromClassName: transferFrom,
+                    Transfertype: "Gen",
+                    Shipping: shipVia
+                }
+            };
+        }
+
+        stockTransferService.saveStockTransfer(objDetails).then(function(objDetails) {
+            function generatePdfForMail(invoiceId) {
+                let file = "Invoice-" + invoiceId + ".pdf"
+                return new Promise((resolve, reject) => {
+                    let templateObject = Template.instance();
+                    let completeTabRecord;
+                    let doc = new jsPDF('p', 'pt', 'a4');
+                    var source = document.getElementById('html-2-pdfwrapper');
+                    var opt = {
+                        margin: 0,
+                        filename: file,
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+                        },
+                        html2canvas: {
+                            scale: 2
+                        },
+                        jsPDF: {
+                            unit: 'in',
+                            format: 'a4',
+                            orientation: 'portrait'
+                        }
+                    }
+                    resolve(html2pdf().set(opt).from(source).toPdf().output('datauristring'));
+
+                });
+            }
+
+            async function addAttachment() {
+                let attachment = [];
+                let templateObject = Template.instance();
+
+                let invoiceId = objDetails.fields.ID;
+                let encodedPdf = await generatePdfForMail(invoiceId);
+                // var base64data = reader.result;
+                let base64data = encodedPdf.split(',')[1];
+                pdfObject = {
+                    filename: 'Stock Adjustment-' + invoiceId + '.pdf',
+                    content: base64data,
+                    encoding: 'base64'
+                };
+                attachment.push(pdfObject);
+                let erpInvoiceId = objDetails.fields.ID;
+
+                let mailFromName = Session.get('vs1companyName');
+                let mailFrom = localStorage.getItem('VS1OrgEmail') || localStorage.getItem('VS1AdminUserName');
+                //let customerEmailName = $('#edtCustomerName').val();
+                let checkEmailData = $('#edtCustomerEmail').val();
+                // let grandtotal = $('#grandTotal').html();
+                // let amountDueEmail = $('#totalBalanceDue').html();
+                // let emailDueDate = $("#dtDueDate").val();
+                // let customerBillingAddress = $('#txabillingAddress').val();
+                // let customerTerms = $('#sltTerms').val();
+
+                // let customerSubtotal = $('#subtotal_total').html();
+                // let customerTax = $('#subtotal_tax').html();
+                // let customerNett = $('#subtotal_nett').html();
+                // let customerTotal = $('#grandTotal').html();
+                let mailSubject = 'Stock Adjustment ' + erpInvoiceId + ' from ' + mailFromName;
+                let mailBody = "Hi " + ",\n\n Here's Stock Adjustment " + erpInvoiceId + " from  " + mailFromName;
+
+                var htmlmailBody = '    <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: separate;mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">' +
+                    '        <tr>' +
+                    '            <td class="container" style="display: block; margin: 0 auto !important; max-width: 650px; padding: 10px; width: 650px;">' +
+                    '                <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 650px; padding: 10px;">' +
+                    '                    <table class="main">' +
+                    '                        <tr>' +
+                    '                            <td class="wrapper">' +
+                    '                                <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="text-align: center; letter-spacing: 2px;">' +
+                    '                                            <span class="doc-details" style="color: #999999; font-size: 12px; text-align: center; margin: 0 auto; text-transform: uppercase;">Stock Adjustment No. ' + erpInvoiceId + ' Details</span>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr style="height: 16px;"></tr>' +
+                    '                                    <tr>' +
+                    '                                        <td>' +
+                    '                                            <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%;" />' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr style="height: 48px;"></tr>' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                    '                                            <p style="font-size: 18px;">Hi </p>' +
+                    '                                            <p style="font-size: 18px; margin: 34px 0px;">Please find the Stock Transfer attached to this email.</p>' +
+                    '                                            <p style="font-size: 18px; margin-bottom: 8px;">Thanks you</p>' +
+                    '                                            <p style="font-size: 18px;">' + mailFromName + '</p>' +
+                    '                                    <tr>' +
+                    '                                        <td class="content-block" style="padding: 16px 32px;">' +
+                    '                                            <p style="font-size: 15px; color: #666666;">If you receive an email that seems fraudulent, please check with the business owner before paying.</p>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                    <tr>' +
+                    '                                        <td>' +
+                    '                                            <table border="0" cellpadding="0" cellspacing="0" style="box-sizing: border-box; width: 100%;">' +
+                    '                                                <tbody>' +
+                    '                                                    <tr>' +
+                    '                                                        <td align="center">' +
+                    '                                                            <table border="0" cellpadding="0" cellspacing="0" style="width: auto;">' +
+                    '                                                                <tbody>' +
+                    '                                                                    <tr>' +
+                    '                                                                        <td> <img src="https://sandbox.vs1cloud.com/assets/VS1logo.png" class="uploadedImage" style="border: none; -ms-interpolation-mode: bicubic; max-width: 100%; width: 20%; margin: 0; padding: 12px 25px; display: inline-block;" /> </td>' +
+                    '                                                                    </tr>' +
+                    '                                                                </tbody>' +
+                    '                                                            </table>' +
+                    '                                                        </td>' +
+                    '                                                    </tr>' +
+                    '                                                </tbody>' +
+                    '                                            </table>' +
+                    '                                        </td>' +
+                    '                                    </tr>' +
+                    '                                </table>' +
+                    '                            </td>' +
+                    '                        </tr>' +
+                    '                    </table>' +
+                    '                    <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">' +
+                    '                        <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">' +
+                    '                            <tr>' +
+                    '                                <td class="content-block" style="color: #999999; font-size: 12px; text-align: center;">' +
+                    '                                    <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Company Inc, 3 Abbey Road, San Francisco CA 90210</span>' +
+                    '                                    <br>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Privacy</a>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Security</a>' +
+                    '                                    <a href="#" style="color: #999999; font-size: 12px; text-align: center;">Terms of Service</a>' +
+                    '                                </td>' +
+                    '                            </tr>' +
+                    '                        </table>' +
+                    '                    </div>' +
+                    '                </div>' +
+                    '            </td>' +
+                    '        </tr>' +
+                    '    </table>';
+
+
+                if ($('.chkEmailCopy').is(':checked')) {
+
+                    $('#html-2-pdfwrapper').css('display', 'none');
+                    Meteor.call('sendEmail', {
+                        from: "" + mailFromName + " <" + mailFrom + ">",
+                        to: checkEmailData,
+                        subject: mailSubject,
+                        text: '',
+                        html: htmlmailBody,
+                        attachments: attachment
+                    }, function(error, result) {
+                        if (error && error.error === "error") {
+                            FlowRouter.go('/stocktransferlist?success=true');
+
+                        } else {
+                            swal({
+                                title: 'SUCCESS',
+                                text: "Email Sent To Employee: " + checkEmailData + " ",
+                                type: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.value) {
+                                    FlowRouter.go('/stocktransferlist?success=true');
+                                } else if (result.dismiss === 'cancel') {}
+                            });
+
+                            $('.fullScreenSpin').css('display', 'none');
+                        }
+                    });
+
+                } else {
+                    FlowRouter.go('/stocktransferlist?success=true');
+                };
+
+            }
+            addAttachment();
+            $('.modal-backdrop').css('display', 'none');
+
+        }).catch(function(err) {
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
+            //$('.loginSpinner').css('display','none');
+            $('.fullScreenSpin').css('display', 'none');
+        });
+
+
+    },
     'click .btnDeleteStock': function(event) {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();

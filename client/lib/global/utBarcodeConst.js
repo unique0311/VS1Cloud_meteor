@@ -12,6 +12,11 @@
   Barcode_Prefix_BXR          = 'BXR'; //Barcode x ref -> tblBarcodexRef
   Barcode_Prefix_SLBatch      = 'SLB';
   Barcode_Prefix_Customer     = 'C';
+  Barcode_Prefix_PurchaseOrder = 'P';
+  Barcode_Prefix_PurchaseLine = 'PL';
+  Barcode_Prefix_Proctree     = 'PT';
+  Barcode_Prefix_DeptClass    = 'DEPT';
+  Barcode_Prefix_StockTransfer    = 'ST';
 
  licenceIPAddress = "login.vs1cloud.com"; //165.228.147.127
   //Global Declaration
@@ -59,6 +64,12 @@ if(Session.get('ERPLoggedCountry') == "Australia"){
   chequeSpelling = "Cheque";
   if(isPurchasedTrueERPModule === 'true'){
     addExtraUserPrice = Currency+152;
+    if(localStorage.getItem('EDatabase')){
+    if(localStorage.getItem('EDatabase') == 'rapp_australia_pty_ltd'){
+      addExtraUserPrice = Currency+65;
+      Session.setPersistent('VS1AdminUserName', 'roger@rappaustralia.com.au');
+    }
+   }
   }else{
     addExtraUserPrice = Currency+45;
   }

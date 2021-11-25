@@ -11,6 +11,16 @@ export class ProductService extends BaseService {
       return this.getList(this.ERPObjects.TGlobalSearchReport, options);
   }
 
+  getGlobalSearchReportByType(searchName, searchType){
+      let options = {
+        SearchType: "'"+searchType+"'",
+        SearchName: "'"+searchName+"'",
+        QuerySearchMode: "'smSearchEngineLike'"
+        //LimitCount:'"'+initialReportLoad+'"'
+      };
+      return this.getList(this.ERPObjects.TGlobalSearchReport, options);
+  }
+
     getRecentTransactions() {
         let options = {
             PropertyList: "ProductID,ProductName,ProductID,ProductDescription,TransactionType,Total Profit (Inc),UnitOfMeasure,SaleDate,TransactionNo,Qty,Line Cost (Ex),Total Amount (Ex)",
