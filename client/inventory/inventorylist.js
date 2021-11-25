@@ -1651,18 +1651,28 @@ Template.inventorylist.helpers({
 
           });
 
-          sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
-            addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
-              window.open('/inventorylist','_self');
-            }).catch(function (err) {
+          sideBarService.getProductServiceListVS1(initialBaseDataLoad,0).then(function(data) {
+              addVS1Data('TProductWeb',JSON.stringify(data));
+              sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
+                addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
+                  window.open('/inventorylist','_self');
+                }).catch(function (err) {
+                  window.open('/inventorylist','_self');
+                });
+              }).catch(function(err) {
+                window.open('/inventorylist','_self');
+              });
+          }).catch(function(err) {
+            sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
+              addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
+                window.open('/inventorylist','_self');
+              }).catch(function (err) {
+                window.open('/inventorylist','_self');
+              });
+            }).catch(function(err) {
               window.open('/inventorylist','_self');
             });
-          }).catch(function(err) {
-            window.open('/inventorylist','_self');
           });
-          // templateObject.getAllProductClassDeptData();
-          //templateObject.getAllProductData("All");
-
 
       },
       'click #exportinv_pdf': async function () {

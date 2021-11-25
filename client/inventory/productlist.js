@@ -1542,16 +1542,28 @@ Template.productlist.helpers({
       'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
-          addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
-            Meteor._reload.reload();
-          }).catch(function (err) {
+        sideBarService.getProductServiceListVS1(initialBaseDataLoad,0).then(function(data) {
+            addVS1Data('TProductWeb',JSON.stringify(data));
+            sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
+              addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
+                Meteor._reload.reload();
+              }).catch(function (err) {
+                Meteor._reload.reload();
+              });
+            }).catch(function(err) {
+              Meteor._reload.reload();
+            });
+        }).catch(function(err) {
+          sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function(data) {
+            addVS1Data('TProductVS1',JSON.stringify(data)).then(function (datareturn) {
+              Meteor._reload.reload();
+            }).catch(function (err) {
+              Meteor._reload.reload();
+            });
+          }).catch(function(err) {
             Meteor._reload.reload();
           });
-        }).catch(function(err) {
-          Meteor._reload.reload();
         });
-
 
       },
       'click #exportinv_pdf': async function () {
