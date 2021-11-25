@@ -37,7 +37,7 @@ Template.subscriptionSettings.onRendered(function() {
                 $('#txtCVC').val("***");
                 $('.fullScreenSpin').css('display', 'none');
             } else {
-                //window.open('https://www.depot.vs1cloud.com/stripe/' + stringQuery, '_self');
+                 $('.fullScreenSpin').css('display', 'none');
             }
         }
     });
