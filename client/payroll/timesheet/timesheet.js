@@ -2904,6 +2904,7 @@ Template.timesheet.onRendered(function () {
                     let contactService = new ContactService();
 
                     let clockList = templateObject.timesheetrecords.get();
+                    
                     clockList = clockList.filter(clkList => {
                         return clkList.employee == $('#employee_name').val() && clkList.id == $('#updateID').val();
                     });
@@ -3115,18 +3116,27 @@ Template.timesheet.onRendered(function () {
                             }
                         };
                         contactService.saveTimeSheet(data).then(function (dataReturnRes) {
-                            $('#updateID').val(dataReturnRes.fields.ID);
                             sideBarService.getAllTimeSheetList().then(function (data) {
                                 addVS1Data('TTimeSheet', JSON.stringify(data));
                                 Bert.alert($('#employee_name').val() + ' you are now Clocked On', 'now-success');
                                 $('#employeeStatusField').removeClass('statusOnHold');
                                 $('#employeeStatusField').removeClass('statusClockedOff');
                                 $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
+                                $('#startTime').prop('disabled', true);
                                 templateObject.datatablerecords.set([]);
                                 templateObject.datatablerecords1.set([]);
                                 templateObject.getAllTimeSheetData();
                                 templateObject.getAllTimeSheetDataClock();
+
+                                setTimeout(function(){
+                                let getTimesheetRecords = templateObject.timesheetrecords.get();
+                                 let getLatestTimesheet = getTimesheetRecords.filter(clkList => {
+                                    return clkList.employee == employeeName;
+                                });
+                                 console.log(getLatestTimesheet[getLatestTimesheet.length - 1]);
+                                 $('#updateID').val(getLatestTimesheet[getLatestTimesheet.length - 1].id || '');
                                 $('.fullScreenSpin').css('display', 'none');
+                            },1500);
 
                             })
                         }).catch(function (err) {

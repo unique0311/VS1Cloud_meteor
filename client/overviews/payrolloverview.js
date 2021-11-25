@@ -1915,6 +1915,15 @@ Template.payrolloverview.events({
                     Bert.alert($('#employee_name').val() + ' you are now Clocked On', 'now-success');
                     templateObject.datatablerecords.set([]);
                     templateObject.getAllTimeSheetDataClock();
+                     setTimeout(function(){
+                        let getTimesheetRecords = templateObject.datatablerecords.get();
+                         let getLatestTimesheet = getTimesheetRecords.filter(clkList => {
+                            return clkList.employee == employeeName;
+                        });
+                         console.log(getLatestTimesheet[getLatestTimesheet.length - 1]);
+                         $('#updateID').val(getLatestTimesheet[getLatestTimesheet.length - 1].id || '');
+                        $('.fullScreenSpin').css('display', 'none');
+                    },1500);
                 })
             }).catch(function (err) {
                 swal({
