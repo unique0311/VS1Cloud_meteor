@@ -430,7 +430,7 @@ Template.productview.onRendered(function() {
 
               for(let i=0; i<useData.length; i++){
                 if(parseInt(useData[i].fields.ID) === currentProductID){
-                  console.log(useData[i]);
+                  
                   added = true;
                   $('.fullScreenSpin').css('display','none');
                   let lineItems = [];

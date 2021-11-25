@@ -427,14 +427,13 @@ Template.timesheet.onRendered(function () {
             } else {
                 $('.fullScreenSpin').css('display', 'none');
                 let data = JSON.parse(dataObject[0].data);
-                console.log(data);
                 let lineItems = [];
                 let lineItemObj = {};
                 let sumTotalCharge = 0;
                 let sumSumHour = 0;
                 let sumSumHourlyRate = 0;
                 for (let t = 0; t < data.ttimesheet.length; t++) {
-                  console.log(data.ttimesheet[t].fields.ServiceName);
+
                     if (seeOwnTimesheets == false) {
                         let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
                         let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
