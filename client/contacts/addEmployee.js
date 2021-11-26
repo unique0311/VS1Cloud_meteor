@@ -148,6 +148,12 @@ Template.employeescard.onRendered(function () {
     };
 
 
+    setTimeout(function () {
+    if (currentId.transTab == 'prod') {
+        $('.nav-link').removeClass('active');
+        $('.tabproductsservices').trigger('click');
+    }
+    }, 500);
 
     templateObject.getAllSelectedProducts = function (employeeName) {
         let productlist = [];
@@ -278,6 +284,66 @@ Template.employeescard.onRendered(function () {
               }
                   productlist.push(dataList);
                   templateObject.selectedproducts.set(productlist);
+                  var dataListService = [
+                    '',
+                    '',
+                    '<input class="colServiceCostPrice highlightInput" type="text" value="">' || '',
+                    '<input class="colServiceSalesPrice highlightInput" type="text" value="">' || '',
+                    Random.id(),
+                    '<span class="table-remove colServiceDelete"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>' || ''
+                    // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                ];
+
+                  setTimeout(function () {
+
+                    $('#tblEmpServiceList').DataTable({
+                      data: splashArrayRepServiceList,
+                      columnDefs: [
+                                {contenteditable:"false", className: "colServiceName", targets: 0},
+                                {contenteditable:"false", className: "colServiceDescription", targets: 1},
+                                {contenteditable:"true", targets: 2},
+                                {contenteditable:"true", targets: 3},
+                                {contenteditable:"false", className: "colID hiddenColumn", targets: 4},
+                                {contenteditable:"false", "orderable": false, className: "colServiceDelete", targets: -1}
+                            ],
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                                fixedColumnsRight: 1
+                            },
+                        // pageLength: initialDatatableLoad,
+                        // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        paging: false,
+                        // "scrollY": "400px",
+                        info: true,
+                        pageLength: -1,
+                        lengthMenu: [ [ -1], ["All"] ],
+                        responsive: true,
+                        "order": [[0, "asc"]],
+                        action: function () {
+                            $('#tblEmpServiceList').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#productListModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEmpServiceList_filter");
+                            $("<button class='btn btn-primary btnRefreshProductService' type='button' id='btnRefreshProductService' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEmpServiceList_filter");
+                        }
+
+              }).on('page', function () {
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+                  let draftRecord = templateObject.datatablerecords.get();
+                  templateObject.datatablerecords.set(draftRecord);
+              }).on('column-reorder', function () {});
+              $('.fullScreenSpin').css('display', 'none');
+            }, 0);
             });
     }
 
@@ -2117,8 +2183,19 @@ Template.employeescard.events({
         let templateObject = Template.instance();
         var targetID = $(event.target).closest('tr').find('.colID').text() || ''; // table row ID
         let contactService = new ContactService();
+        var tblRepService = $('#tblEmpServiceList').DataTable();
+        tblRepService.$('tr.selected').removeClass('selected');
+        $(event.target).closest('tr').addClass('selected');
+        // if ( $(event.target).closest('tr').hasClass('selected') ) {
+        //     $(event.target).closest('tr').removeClass('selected');
+        // }else {
+        //     //tblRepService.$('tr.selected').removeClass('selected');
+        //     $(event.target).closest('tr').addClass('selected');
+        // }
+
         //$('#selectDeleteServiceID').val(targetID);
         //$('#deleteServiceModal').modal('toggle');
+
         swal({
             title: 'Delete Active Product',
             text: "Are you sure you want to Delete this Employee Active Product?",
@@ -2142,9 +2219,10 @@ Template.employeescard.events({
 
               }
 
-              $(event.target).closest('tr').remove();
-
+              //$(event.target).closest('tr').remove();
+              tblRepService.row('.selected').remove().draw( false );
             } else {
+              tblRepService.$('tr.selected').removeClass('selected');
               $('.fullScreenSpin').css('display', 'none');
             }
         });
@@ -2152,11 +2230,14 @@ Template.employeescard.events({
     'click .btnRefreshProductService': function (event) {
       $('.fullScreenSpin').css('display', 'inline-block');
       let templateObject = Template.instance();
+      let currentId = FlowRouter.current().queryParams;
       if(FlowRouter.current().queryParams.id){
         templateObject.getAllSelectedProducts(FlowRouter.current().queryParams.id);
+        window.open('/employeescard?id=' + currentId.id +'&transTab=prod', '_self');
       }else{
           $('.fullScreenSpin').css('display', 'none');
       }
+
         // let templateObject = Template.instance();
         // var targetID = $(event.target).closest('tr').attr('id'); // table row ID
         // $('#selectDeleteServiceID').val(targetID);
