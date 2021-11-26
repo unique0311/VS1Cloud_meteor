@@ -3393,51 +3393,6 @@ Template.customerscard.onRendered(function () {
     }
     templateObject.getCustomersList();
 
-
-    setTimeout(function () {
-
-        var x = window.matchMedia("(max-width: 1024px)")
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#displayList").removeClass("col-2");
-                $("#displayList").addClass("col-3");
-
-                $("#displayInfo").removeClass("col-10");
-                $("#displayInfo").addClass("col-9");
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 500);
-
-    setTimeout(function () {
-
-        var x = window.matchMedia("(max-width: 420px)");
-        var btnView = document.getElementById("btnsViewHide");
-
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#displayList").removeClass("col-3");
-                $("#displayList").addClass("col-12");
-                $("#customerListCard").removeClass("cardB");
-                $("#customerListCard").addClass("cardB420");
-                btnsViewHide.style.display = "none";
-
-                $("#displayInfo").removeClass("col-9");
-                $("#displayInfo").addClass("col-12");
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-
-    }, 500);
-
-    setTimeout
-
 });
 Template.customerscard.events({
     'click .tblJoblist tbody tr': function (event) {
