@@ -143,6 +143,42 @@ Template.payrollrules.events({
     'click .btnRefresh': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         location.reload(true);
+    },
+    'change #ruleModifierInitial': function(event) {
+        var optionSelected = $(event.target).val();
+
+        if (optionSelected == "greaterthan") {
+            document.getElementById("ruleModifierTimeDiv").style.display = "inline-flex";
+            document.getElementById("ruleModifierDayDiv").style.display = "none";
+            $("#ruleModifierInitial").addClass("noradiusright");
+        } else if (optionSelected == "lessthan") {
+            document.getElementById("ruleModifierTimeDiv").style.display = "inline-flex";
+            document.getElementById("ruleModifierDayDiv").style.display = "none";
+            $("#ruleModifierInitial").addClass("noradiusright");
+        } else if (optionSelected == "dayoftheweek") {
+            document.getElementById("ruleModifierTimeDiv").style.display = "none";
+            document.getElementById("ruleModifierDayDiv").style.display = "inline-flex";
+            $("#ruleModifierInitial").addClass("noradiusright");
+        } else {
+            document.getElementById("ruleModifierTimeDiv").style.display = "none";
+            document.getElementById("ruleModifierDayDiv").style.display = "none";
+            $("#ruleModifierInitial").removeClass("noradiusright");
+
+        }
+
+        // document.getElementById("ruleConstructOne").value = "Greater Than";
+        // document.getElementById("ruleModifierTime").style.display = "inline-flex";
+        // document.getElementById("ruleModifierDay").style.display = "none";
+    },
+    'click #ruleLessThan': function() {
+        document.getElementById("ruleConstructOne").value = "Less Than";
+        document.getElementById("ruleModifierTimeDiv").style.display = "inline-flex";
+        document.getElementById("ruleModifierDay").style.display = "none";
+    },
+    'click #ruleSpecificDay': function() {
+        document.getElementById("ruleConstructOne").value = "Specific Day";
+        document.getElementById("ruleModifierTime").style.display = "none";
+        document.getElementById("ruleModifierDay").style.display = "inline-flex";
     }
 });
 
