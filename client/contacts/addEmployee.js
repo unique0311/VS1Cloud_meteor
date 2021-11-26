@@ -2090,10 +2090,10 @@ Template.employeescard.events({
               type: "TRepServices",
               fields: {
                   ID: parseInt(selectLineID)||0,
-                  Deleted: true
+                  Active: false
               }
           };
-          // contactService.saveEmployeeProducts(objDetails).then(function (data) {});
+          contactService.saveEmployeeProducts(objDetails).then(function (data) {});
         }else{
 
         }
