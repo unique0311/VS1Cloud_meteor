@@ -1685,7 +1685,7 @@ Template.payrolloverview.events({
     'click #btnHold': function (event) {
         $('#frmOnHoldModal').modal('show');
     },
-    'click .btnSaveTimeSheet': function () {
+    'click .btnSaveTimeSheet': async function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let checkStatus = "";
@@ -1696,6 +1696,21 @@ Template.payrolloverview.events({
         let contactService = new ContactService();
 
         let clockList = templateObject.timesheetrecords.get();
+
+         let getEmpIDFromLine = $('.employee_name').val() || '';
+                if(getEmpIDFromLine != ''){
+                  let checkEmpTimeSettings = await contactService.getCheckTimeEmployeeSettingByName(getEmpIDFromLine) || '';
+                  if(checkEmpTimeSettings != ''){
+                    if(checkEmpTimeSettings.temployee[0].CustFld8 == 'false'){
+                      var productcost = parseFloat($('#edtProductCost').val()) || 0;
+                    }else{
+                      var productcost = 0;
+                    }
+
+                  }
+              } else {
+                var productcost = 0;
+              }
         clockList = clockList.filter(clkList => {
             return clkList.employee == $('#employee_name').val() && clkList.id == $('#updateID').val();
         });
@@ -1726,7 +1741,6 @@ Template.payrolloverview.events({
         let hours = templateObject.timeToDecimal(edthour);
         var techNotes = $('#txtNotes').val() || '';
         var product = $('#product-list').val() || '';
-        var productcost = parseFloat($('#edtProductCost').val()) || 0;
         var jobName = $('#sltJob').val() || '';
         let isPaused = checkStatus;
         let toUpdate = {};
