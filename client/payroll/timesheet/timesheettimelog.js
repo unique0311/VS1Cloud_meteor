@@ -2,7 +2,9 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../../js/core-service';
 import {UtilityService} from "../../utility-service";
 import {ContactService} from "../../contacts/contact-service";
+import { SideBarService } from '../../js/sidebar-service';
 let utilityService = new UtilityService();
+let sideBarService = new SideBarService();
 Template.timesheettimelog.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
@@ -896,6 +898,44 @@ Template.timesheettimelog.onRendered(function () {
 
     $(document).ready(function () {
 
+        $("#btnRefreshTimeLog").click(function(){
+              $('.fullScreenSpin').css('display', 'inline-block');
+                    sideBarService.getAllTimeSheetList().then(function (data) {
+                        addVS1Data('TTimeSheet', JSON.stringify(data));
+                        setTimeout(function () {
+                            window.open('/timesheettimelog', '_self');
+                        }, 500);
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        swal({
+                            title: 'Oooops...',
+                            text: err,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonText: 'Try Again'
+                        }).then((result) => {
+                            if (result.value) {
+                                // Meteor._reload.reload();
+                            } else if (result.dismiss === 'cancel') {}
+                        });
+                    });
+        
+        }); 
+
+         $(".exportbtn").click(function(){
+            $('.fullScreenSpin').css('display', 'inline-block');
+            jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletocsv').click();
+            $('.fullScreenSpin').css('display', 'none');
+        })
+
+
+          $(".printConfirm").click(function(){
+            $('.fullScreenSpin').css('display', 'inline-block');
+             jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletopdf').click();
+            $('.fullScreenSpin').css('display', 'none');
+        })
+
+
         $('#tblTimeSheet tbody').on('click', 'tr td:not(:first-child)', function () {
             var id = $(this).closest('tr').attr('id');
             window.open('timesheet?id=' + id, '_self');
@@ -1225,10 +1265,6 @@ Template.timesheettimelog.onRendered(function () {
             jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletoexcel').click();
             $('.fullScreenSpin').css('display', 'none');
         },
-        'click .btnRefresh': function () {
-            //Meteor._reload.reload();
-            window.open('/timesheet', '_self');
-        },
         'click .btnSaveTimeSheet': function () {
             $('.fullScreenSpin').css('display', 'inline-block');
             let templateObject = Template.instance();
@@ -1384,11 +1420,6 @@ Template.timesheettimelog.onRendered(function () {
             $('#edtBankAccountName').val('');
             $('#edtBSB').val('');
             $('#edtBankAccountNo').val('');
-        },
-        'click .printConfirm': function (event) {
-            $('.fullScreenSpin').css('display', 'inline-block');
-            jQuery('#tblTimeSheet_wrapper .dt-buttons .btntabletopdf').click();
-            $('.fullScreenSpin').css('display', 'none');
         },
         'click .btnDeleteTimeSheet': function () {
             $('.fullScreenSpin').css('display', 'inline-block');
