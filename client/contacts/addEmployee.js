@@ -2142,10 +2142,23 @@ Template.employeescard.events({
         var dataserviceList = {};
         let productservicelist = [];
         $(".chkServiceCard:checked", tblInventoryService.fnGetNodes()).each(function() {
+          let productServiceID = $(this).closest('tr').find('.colProuctPOPID').text()||'';
           let productServiceName = $(this).closest('tr').find('.productName').text()||'';
           let productServiceDesc = $(this).closest('tr').find('.productDesc').text()||'';
           let productServicerate = $(this).closest('tr').find('.costPrice').text()||'';
           let productServicecost = $(this).closest('tr').find('.salePrice').text()||'';
+
+          let objServiceDetails = {
+              type:"TServices",
+              fields:
+              {
+                  ProductId:parseInt(productServiceID),
+                  ServiceDesc:productServiceName,
+                  StandardRate:parseFloat(productServicerate.replace(/[^0-9.-]+/g,"")) || 0,
+              }
+          };
+          productService.saveProductService(objServiceDetails).then(function (objServiceDetails) { });
+
           dataserviceList = {
               id: tokenid||'',
               employee: Session.get('mySessionEmployee') || '',
