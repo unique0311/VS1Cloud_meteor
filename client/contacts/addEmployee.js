@@ -11,6 +11,7 @@ import { AppointmentService } from '../appointments/appointment-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
+var splashArrayRepServiceList = new Array();
 Template.employeescard.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -146,6 +147,8 @@ Template.employeescard.onRendered(function () {
         });
     };
 
+
+
     templateObject.getAllSelectedProducts = function (employeeName) {
         let productlist = [];
         sideBarService.getSelectedProducts(employeeName).then(function (data) {
@@ -158,6 +161,20 @@ Template.employeescard.onRendered(function () {
                   }else{
                      linePayRate = data.trepservices[i].Rate;
                   }
+
+                  let calcRate =  utilityService.modifynegativeCurrencyFormat(data.trepservices[i].Rate) || 0.00;
+                  let calcPayRate = utilityService.modifynegativeCurrencyFormat(linePayRate) || utilityService.modifynegativeCurrencyFormat(linePayRate)|| 0.00;
+                  var dataListService = [
+                    data.trepservices[i].ServiceDesc || '',
+                    data.trepservices[i].ServiceDesc || '',
+                    '<input class="colServiceCostPrice highlightInput" type="text" value="'+calcRate+'">' || '',
+                    '<input class="colServiceSalesPrice highlightInput" type="text" value="'+calcPayRate+'">' || '',
+                    data.trepservices[i].Id || '',
+                    '<span class="table-remove colServiceDelete"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>' || ''
+                    // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                ];
+
+                splashArrayRepServiceList.push(dataListService);
                     dataList = {
                         id: data.trepservices[i].Id || '',
                         employee: data.trepservices[i].EmployeeName || '',
@@ -165,7 +182,7 @@ Template.employeescard.onRendered(function () {
                         productdesc: data.trepservices[i].ServiceDesc || '',
                         rate: utilityService.modifynegativeCurrencyFormat(data.trepservices[i].Rate) || 0.00,
                         payrate: utilityService.modifynegativeCurrencyFormat(linePayRate) || utilityService.modifynegativeCurrencyFormat(linePayRate)|| 0.00
-                    }
+                    };
 
                     //if(employeeName == data.trepservices[i].fields.EmployeeName){
                         productlist.push(dataList);
@@ -174,6 +191,17 @@ Template.employeescard.onRendered(function () {
 
                 }
               }else{
+
+                var dataListService = [
+                  '',
+                  '',
+                  '<input class="colServiceCostPrice highlightInput" type="text" value="">' || '',
+                  '<input class="colServiceSalesPrice highlightInput" type="text" value="">' || '',
+                  Random.id(),
+                  '<span class="table-remove colServiceDelete"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>' || ''
+                  // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+              ];
+              //splashArrayRepServiceList.push(dataListService);
                 dataList = {
                       id:'',
                       employee:  '',
@@ -190,9 +218,14 @@ Template.employeescard.onRendered(function () {
                   setTimeout(function () {
 
                     $('#tblEmpServiceList').DataTable({
+                      data: splashArrayRepServiceList,
                       columnDefs: [
-                                {type: 'date', targets: 0},
-                                { "orderable": false, "targets": -1 }
+                                {contenteditable:"false", className: "colServiceName", targets: 0},
+                                {contenteditable:"false", className: "colServiceDescription", targets: 1},
+                                {contenteditable:"true", targets: 2},
+                                {contenteditable:"true", targets: 3},
+                                {contenteditable:"false", className: "colID hiddenColumn", targets: 4},
+                                {contenteditable:"false", "orderable": false, className: "colServiceDelete", targets: -1}
                             ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         select: true,
@@ -235,7 +268,6 @@ Template.employeescard.onRendered(function () {
                 }
 
             }).catch(function (err) {
-
             var  dataList = {
                   id:'',
                   employee:  '',
@@ -1903,6 +1935,12 @@ Template.employeescard.onRendered(function () {
                         templateObject.isUserAddition.set(false);
                     }
 
+                    if(localStorage.getItem('EDatabase')){
+                    if(localStorage.getItem('EDatabase') == 'rapp_australia_pty_ltd'){
+                      templateObject.isUserAddition.set(false);
+                    }
+                    };
+
                     templateObject.countUserCreated.set(totalUser);
                     templateObject.employeerecords.set(lineItems);
 
@@ -1952,6 +1990,12 @@ Template.employeescard.onRendered(function () {
                     templateObject.isUserAddition.set(false);
                 }
 
+                if(localStorage.getItem('EDatabase')){
+                if(localStorage.getItem('EDatabase') == 'rapp_australia_pty_ltd'){
+                  templateObject.isUserAddition.set(false);
+                }
+                };
+
                 templateObject.countUserCreated.set(totalUser);
                 templateObject.employeerecords.set(lineItems);
 
@@ -2000,6 +2044,12 @@ Template.employeescard.onRendered(function () {
                 } else if ((cloudPackage === "PLUS") && (totalUser < 3)) {
                     templateObject.isUserAddition.set(false);
                 }
+
+                if(localStorage.getItem('EDatabase')){
+                if(localStorage.getItem('EDatabase') == 'rapp_australia_pty_ltd'){
+                  templateObject.isUserAddition.set(false);
+                }
+                };
 
                 templateObject.countUserCreated.set(totalUser);
                 templateObject.employeerecords.set(lineItems);
@@ -2065,9 +2115,39 @@ Template.employeescard.events({
     },
     'click .colServiceDelete': function (event) {
         let templateObject = Template.instance();
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
-        $('#selectDeleteServiceID').val(targetID);
-        $('#deleteServiceModal').modal('toggle');
+        var targetID = $(event.target).closest('tr').find('.colID').text() || ''; // table row ID
+        let contactService = new ContactService();
+        //$('#selectDeleteServiceID').val(targetID);
+        //$('#deleteServiceModal').modal('toggle');
+        swal({
+            title: 'Delete Active Product',
+            text: "Are you sure you want to Delete this Employee Active Product?",
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.value) {
+              //$('.fullScreenSpin').css('display', 'inline-block');
+
+              if($.isNumeric(targetID)){
+                var objDetails = {
+                    type: "TRepServices",
+                    fields: {
+                        ID: parseInt(targetID)||0,
+                        Active: false
+                    }
+                };
+                contactService.saveEmployeeProducts(objDetails).then(function (data) {});
+              }else{
+
+              }
+
+              $(event.target).closest('tr').remove();
+
+            } else {
+              $('.fullScreenSpin').css('display', 'none');
+            }
+        });
     },
     'click .btnRefreshProductService': function (event) {
       $('.fullScreenSpin').css('display', 'inline-block');
@@ -2137,6 +2217,7 @@ Template.employeescard.events({
         let trepserviceObjects = templateObject.selectedemployeeproducts.get();
         let getselectedproducts = templateObject.selectedproducts.get();
         let productService = new ProductService();
+        //var splashArrayRepServiceList = new Array();
         let tokenid = Random.id();
         var tblInventoryService = $(".tblInventoryService").dataTable();
         var dataserviceList = {};
@@ -2167,17 +2248,35 @@ Template.employeescard.events({
               rate: productServicerate || 0,
               payrate:productServicecost || 0
           };
+
+          var dataListService = [
+                    productServiceName || '',
+                    productServiceDesc || '',
+                    '<input class="colServiceCostPrice highlightInput" type="text" value="'+productServicerate+'">' || '',
+                    '<input class="colServiceSalesPrice highlightInput" type="text" value="'+productServicecost+'">' || '',
+                    tokenid || '',
+                    '<span class="table-remove colServiceDelete"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>' || ''
+                    // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+                ];
+
           let checkServiceArray = getselectedproducts.filter(function(prodData){ return prodData.productname === productServiceName })||'';
 
           if (checkServiceArray.length > 0) {
           }else{
+            splashArrayRepServiceList.push(dataListService);
             getselectedproducts.push(dataserviceList);
           }
 
 
       });
       templateObject.selectedproducts.set(getselectedproducts);
-      $('#tblEmpServiceList_info').html('Showing 1 to '+getselectedproducts.length+ ' of ' +getselectedproducts.length+ ' entries');
+      let uniqueChars = [...new Set(splashArrayRepServiceList)];
+      var datatable = $('#tblEmpServiceList').DataTable();
+      datatable.clear();
+      datatable.rows.add(uniqueChars);
+      datatable.draw(false);
+
+      //$('#tblEmpServiceList_info').html('Showing 1 to '+getselectedproducts.length+ ' of ' +getselectedproducts.length+ ' entries');
       $('#productListModal').modal('toggle');
     },
     'click .btnSave': async function (event) {
@@ -2385,7 +2484,7 @@ Template.employeescard.events({
 
             }else{
             $(".colServiceName",tblSelectedInventoryService).each(function () {
-                var lineID =$(this).closest('tr').attr('id'); // table row ID
+                var lineID =$(this).closest('tr').find('.colID').text()||''; // table row ID
                 let tdproduct = $(this).text() ||'';
                 //$('#' + lineID + " .colServiceName").text()||'';
                 let tddescription = $(this).closest('tr').find('.colServiceDescription').text()||'';
@@ -2397,7 +2496,7 @@ Template.employeescard.events({
                 //$('#' + lineID + " .colServiceSalesPrice").val()|| 0;
                 //$('#' + lineID + " .colServiceSalesPrice").val()|| 0;
                 let paymentTransObj = '';
-                if(tdproduct!= '' || tdproduct!= 'Name'){
+                if(tdproduct!= '' && tdproduct!= 'Name'){
                   if($.isNumeric(lineID)){
                     paymentTransObj = {
                            type: "TRepServices",
@@ -3617,14 +3716,14 @@ Template.employeescard.events({
             return /^[A-Z0-9'.1234z_%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailData);
         };
 
-        if (emailData != '') {
-            if (!isEmailValid(emailData)) {
-                swal('Oops...', 'The email field must be a valid email address, please re-enter your email addres and try again!', 'error');
-                // $('#cloudEmpEmailAddress').focus();
-                e.preventDefault();
-                return false;
-            }
-        }
+        // if (emailData != '') {
+        //     if (!isEmailValid(emailData)) {
+        //         swal('Oops...', 'The email field must be a valid email address, please re-enter your email addres and try again!', 'error');
+        //         // $('#cloudEmpEmailAddress').focus();
+        //         e.preventDefault();
+        //         return false;
+        //     }
+        // }
     },
     'blur #cloudEmpUserPassword': function (event) {
         let cloudpassword = $(event.target).val().replace(/;/g, ",");

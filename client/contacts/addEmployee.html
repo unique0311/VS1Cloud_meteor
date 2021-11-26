@@ -946,11 +946,11 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col d-xl-flex align-items-xl-start" style="width: 50%;">
-                                                                                <div class="form-group flex-grow-1" style="margin: 4px;"><label>Email Address</label>
+                                                                                <div class="form-group flex-grow-1" style="margin: 4px;"><label>Username or Email</label>
                                                                                     <!-- <input type="text" class="form-control" id="cloudEmpEmailAddress" name="cloudEmpEmailAddress"> -->
                                                                                     <input type="text" class="form-control" name="cloudCheckEmpEmailAddress" id="cloudCheckEmpEmailAddress" value="{{itemrecord.LogonName}}"
                                                                                         style="display:none!important;">
-                                                                                    <input type="email" class="form-control" name="cloudEmpEmailAddress" id="cloudEmpEmailAddress" value="{{itemrecord.LogonName}}">
+                                                                                    <input type="text" class="form-control" name="cloudEmpEmailAddress" id="cloudEmpEmailAddress" value="{{itemrecord.LogonName}}">
                                                                                 </div>
                                                                                 <!--
 <div class="form-group flex-grow-1" style="margin: 4px;"><label>Password</label>
@@ -1157,13 +1157,13 @@
                                                                                     <!-- <th class="th colServiceRate" style="width: 8%!important;">Rate</th> -->
                                                                                     <th class="th colServiceCostPrice" style="width: 8% !important;text-align: left!important;">Cost Price</th>
                                                                                     <th class="th colServiceSalesPrice" style="width: 8% !important;text-align: left!important;">Sale Price</th>
-                                                                                    <!-- <th class="th colPurcDef" style="width:20px">Purchase Default</th>
-                                                                                <th class="th colSaleDef" style="width:20px">Sales Default</th> -->
+                                                                                    <!-- <th class="th colPurcDef" style="width:20px">Purchase Default</th>-->
+                                                                                <th class="th colID hiddenColumn" style="width:20px">ID</th>
                                                                                     <th class="th colServiceDelete" style="width: 2% !important;"></th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                {{#if selectedproducts}}
+                                                                                <!-- {{#if selectedproducts}}
                                                                                     {{#each item in selectedproducts}}
                                                                                         <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                                                                             <td contenteditable="false" class="colServiceName">{{item.productname}}</td>
@@ -1174,7 +1174,7 @@
                                                                                                         class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>
                                                                                         </tr>
                                                                                     {{/each}}
-                                                                                {{/if}}
+                                                                                {{/if}} -->
 
                                                                             </tbody>
 
