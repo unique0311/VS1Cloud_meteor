@@ -152,6 +152,9 @@ Template.employeescard.onRendered(function () {
     if (currentId.transTab == 'prod') {
         $('.nav-link').removeClass('active');
         $('.tabproductsservices').trigger('click');
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#tab-productsservices").offset().top
+        }, 1000);
     }
     }, 500);
 
