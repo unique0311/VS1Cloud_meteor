@@ -34,7 +34,7 @@ if (Meteor.isServer) {
 Meteor.methods({
   readMethod: function(useremail) {
     //console.log(useremail+' '+userLoginPassword);
-    var documentUser = CloudUser.findOne({cloudEmail: useremail.toLowerCase()});
+    var documentUser = CloudUser.findOne({cloudEmail: useremail});
     // console.log(documentUser);
     if (!documentUser) {
       //throw new Meteor.Error( 'document-not-found', 'No documents found matching this query.' );

@@ -2904,7 +2904,7 @@ Template.timesheet.onRendered(function () {
                     let contactService = new ContactService();
 
                     let clockList = templateObject.timesheetrecords.get();
-                    
+
                     clockList = clockList.filter(clkList => {
                         return clkList.employee == $('#employee_name').val() && clkList.id == $('#updateID').val();
                     });
@@ -3863,43 +3863,60 @@ Template.timesheet.onRendered(function () {
                     $('#lunch').prop('checked', false);
                 },
                 'click .btnDeleteTimeSheetOne': function () {
-                    $('.fullScreenSpin').css('display', 'inline-block');
+                    // $('.fullScreenSpin').css('display', 'inline-block');
                     let templateObject = Template.instance();
                     let contactService = new ContactService();
-                    let timesheetID = $('#updateID').val();
-                    if (timesheetID == "") {
-                        //window.open('/timesheet', '_self');
-                    } else {
-                        data = {
-                            type: "TTimeSheet",
-                            fields: {
-                                ID: timesheetID,
-                                Active: false,
-                            }
-                        };
 
-                        contactService.saveTimeSheetUpdate(data).then(function (data) {
-                            sideBarService.getAllTimeSheetList().then(function (data) {
-                                addVS1Data('TTimeSheet', JSON.stringify(data));
-                                setTimeout(function () {
-                                    window.open('/timesheet', '_self');
-                                }, 500);
-                            })
-                        }).catch(function (err) {
-                            swal({
-                                title: 'Oooops...',
-                                text: err,
-                                type: 'error',
-                                showCancelButton: false,
-                                confirmButtonText: 'Try Again'
-                            }).then((result) => {
-                                if (result.value) {
-                                    //Meteor._reload.reload();
-                                } else if (result.dismiss === 'cancel') {}
-                            });
-                            $('.fullScreenSpin').css('display', 'none');
-                        });
-                    }
+                    swal({
+                        title: 'Delete TimeSheet',
+                        text: "Are you sure you want to Delete this TimeSheet?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes'
+                    }).then((result) => {
+                        if (result.value) {
+                          $('.fullScreenSpin').css('display', 'inline-block');
+                          let timesheetID = $('#updateID').val();
+                          if (timesheetID == "") {
+                              //window.open('/timesheet', '_self');
+                          } else {
+                            let data = {
+                                  type: "TTimeSheet",
+                                  fields: {
+                                      ID: timesheetID,
+                                      Active: false,
+                                  }
+                              };
+
+                              contactService.saveTimeSheetUpdate(data).then(function (data) {
+                                  sideBarService.getAllTimeSheetList().then(function (data) {
+                                      addVS1Data('TTimeSheet', JSON.stringify(data));
+                                      setTimeout(function () {
+                                          window.open('/timesheet', '_self');
+                                      }, 500);
+                                  });
+                              }).catch(function (err) {
+                                  swal({
+                                      title: 'Oooops...',
+                                      text: err,
+                                      type: 'error',
+                                      showCancelButton: false,
+                                      confirmButtonText: 'Try Again'
+                                  }).then((result) => {
+                                      if (result.value) {
+                                          //Meteor._reload.reload();
+                                      } else if (result.dismiss === 'cancel') {}
+                                  });
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+                          }
+
+                        } else {
+                          $('.fullScreenSpin').css('display', 'none');
+                        }
+                    });
+
+
 
                 },
                 'blur .cashamount': function (event) {
