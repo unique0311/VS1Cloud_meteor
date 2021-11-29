@@ -934,7 +934,13 @@ Template.appointments.onRendered(function () {
                 $('#frmAppointment')[0].reset();
                 $(".paused").hide();
                 //templateObject.getAllProductData();
+                let calendarData = templateObject.employeeOptions.get();
+                let calendarSet = templateObject.globalSettings.get();
                 templateObject.empID.set(Session.get('mySessionEmployeeLoggedID'));
+
+                let empData = calendarData.filter(calendarOpt => {
+                    return calendarOpt.EmployeeID == parseInt(templateObject.empID.get())
+                });
                 let dateStart = new Date(info.start);
                 let dateStartForEndTime = new Date(info.start);
                 let dateEnd = new Date(info.end);
@@ -956,6 +962,16 @@ Template.appointments.onRendered(function () {
                     let hoursFormattedStartTime = templateObject.timeFormat(hours) || '';
                     document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                 }
+
+                 if (empData.length > 0) {
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
+                    } else {
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
+                    }
                 templateObject.attachmentCount.set('');
                 templateObject.uploadedFiles.set('');
                 templateObject.uploadedFile.set('')
