@@ -54,7 +54,6 @@ Template.employeescard.onCreated(function () {
 
 Template.employeescard.onRendered(function () {
     var erpGet = erpDb();
-
     $('.fullScreenSpin').css('display', 'inline-block');
     Session.setPersistent('cloudCurrentLogonName', '');
     let templateObject = Template.instance();
@@ -160,6 +159,7 @@ Template.employeescard.onRendered(function () {
 
     templateObject.getAllSelectedProducts = function (employeeName) {
         let productlist = [];
+
         sideBarService.getSelectedProducts(employeeName).then(function (data) {
                 var dataList = {};
                 if(data.trepservices.length > 0){

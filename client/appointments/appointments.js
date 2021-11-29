@@ -39,6 +39,12 @@ Template.appointments.onCreated(function () {
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.uploadedFile = new ReactiveVar();
 
+    templateObject.includeAllProducts = new ReactiveVar();
+    templateObject.includeAllProducts.set(true);
+
+    templateObject.useProductCostaspayRate = new ReactiveVar();
+    templateObject.useProductCostaspayRate.set(false);
+
     templateObject.allnoninvproducts = new ReactiveVar([]);
 
     //templateObject.uploadedFiles = new ReactiveVar([]);
@@ -927,7 +933,8 @@ Template.appointments.onRendered(function () {
             select: function (info) {
                 $('#frmAppointment')[0].reset();
                 $(".paused").hide();
-                templateObject.getAllProductData();
+                //templateObject.getAllProductData();
+                templateObject.empID.set(Session.get('mySessionEmployeeLoggedID'));
                 let dateStart = new Date(info.start);
                 let dateStartForEndTime = new Date(info.start);
                 let dateEnd = new Date(info.end);
@@ -967,6 +974,10 @@ Template.appointments.onRendered(function () {
                 let googleLink = "";
                 var hours = '0';
                 var id = info.event.id;
+                let getAllEmployeeData = templateObject.employeerecords.get() || '';
+
+
+
                 var appointmentData = templateObject.appointmentrecords.get();
 
                 var result = appointmentData.filter(apmt => {
@@ -974,6 +985,20 @@ Template.appointments.onRendered(function () {
                 });
 
                 if (result.length > 0) {
+
+                  var filterEmpData = getAllEmployeeData.filter(empdData => {
+                      return empdData.employeeName == result[0].employeename;
+                  });
+                  if(filterEmpData){
+                    if(filterEmpData[0].custFld8 == "false"){
+                      templateObject.getAllSelectedProducts(filterEmpData[0].id);
+                    }else{
+                      templateObject.getAllProductData();
+                    }
+                  }else{
+                    templateObject.getAllProductData();
+                  }
+
                     if (result[0].isPaused == "Paused") {
                         $(".paused").show();
                         $("#btnHold").prop("disabled", true);
@@ -1418,6 +1443,12 @@ Template.appointments.onRendered(function () {
                             randomColor = randomColor + '6';
                         }
                         let selectedColor = '#' + randomColor;
+                        if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                          if(data.temployee[i].fields.CustFld8 == "false"){
+                            templateObject.includeAllProducts.set(false);
+                          }
+                        }
+
                         if (seeOwnAppointments == true) {
                             if (data.temployee[i].fields.EmployeeName == Session.get('mySessionEmployee')) {
                                 var dataList = {
@@ -1425,7 +1456,9 @@ Template.appointments.onRendered(function () {
                                     employeeName: data.temployee[i].fields.EmployeeName || '',
                                     color: data.temployee[i].fields.CustFld6 || selectedColor,
                                     priority: data.temployee[i].fields.CustFld5 || "0",
-                                    override: data.temployee[i].fields.CustFld14 || "false"
+                                    override: data.temployee[i].fields.CustFld14 || "false",
+                                    custFld7: data.temployee[i].fields.CustFld7 || '',
+                                    custFld8: data.temployee[i].fields.CustFld8 || ''
                                 };
                                 lineItems.push(dataList);
                                 allEmployees.push(dataList);
@@ -1436,7 +1469,9 @@ Template.appointments.onRendered(function () {
                                 employeeName: data.temployee[i].fields.EmployeeName || '',
                                 color: data.temployee[i].fields.CustFld6 || selectedColor,
                                 priority: data.temployee[i].fields.CustFld5 || "0",
-                                override: data.temployee[i].fields.CustFld14 || "false"
+                                override: data.temployee[i].fields.CustFld14 || "false",
+                                custFld7: data.temployee[i].fields.CustFld7 || '',
+                                custFld8: data.temployee[i].fields.CustFld8 || ''
                             };
                             lineItems.push(dataList);
                             allEmployees.push(dataList);
@@ -1492,6 +1527,12 @@ Template.appointments.onRendered(function () {
                         contactService.saveEmployeeEx(objDetails).then(function (data) {});
                     }
 
+                    if(Session.get('mySessionEmployee') == useData[i].fields.EmployeeName){
+                      if(useData[i].fields.CustFld8 == "false"){
+                        templateObject.includeAllProducts.set(false);
+                      }
+                    }
+
                     if (seeOwnAppointments == true) {
                         if (useData[i].fields.EmployeeName == Session.get('mySessionEmployee')) {
                             var dataList = {
@@ -1499,7 +1540,9 @@ Template.appointments.onRendered(function () {
                                 employeeName: useData[i].fields.EmployeeName || '',
                                 color: useData[i].fields.CustFld6 || selectedColor,
                                 priority: useData[i].fields.CustFld5 || "0",
-                                override: useData[i].fields.CustFld14 || "false"
+                                override: useData[i].fields.CustFld14 || "false",
+                                custFld7: useData[i].fields.CustFld7 || '',
+                                custFld8: useData[i].fields.CustFld8 || ''
                             };
                             lineItems.push(dataList);
                         }
@@ -1509,7 +1552,9 @@ Template.appointments.onRendered(function () {
                             employeeName: useData[i].fields.EmployeeName || '',
                             color: useData[i].fields.CustFld6 || selectedColor,
                             priority: useData[i].fields.CustFld5 || "0",
-                            override: useData[i].fields.CustFld14 || "false"
+                            override: useData[i].fields.CustFld14 || "false",
+                            custFld7: useData[i].fields.CustFld7 || '',
+                            custFld8: useData[i].fields.CustFld8 || ''
                         };
                         lineItems.push(dataList);
                     }
@@ -1548,6 +1593,11 @@ Template.appointments.onRendered(function () {
                         randomColor = randomColor + '6';
                     }
                     let selectedColor = '#' + randomColor;
+                    if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                      if(useData[i].fields.CustFld8 == "false"){
+                        templateObject.includeAllProducts.set(false);
+                      }
+                    }
                     if (seeOwnAppointments == true) {
                         if (data.temployee[i].fields.EmployeeName == Session.get('mySessionEmployee')) {
                             var dataList = {
@@ -1555,7 +1605,9 @@ Template.appointments.onRendered(function () {
                                 employeeName: data.temployee[i].fields.EmployeeName || '',
                                 color: data.temployee[i].fields.CustFld6 || selectedColor,
                                 priority: data.temployee[i].fields.CustFld5 || "0",
-                                override: data.temployee[i].fields.CustFld14 || "false"
+                                override: data.temployee[i].fields.CustFld14 || "false",
+                                custFld7: data.temployee[i].fields.CustFld7 || '',
+                                custFld8: data.temployee[i].fields.CustFld8 || ''
                             };
                             lineItems.push(dataList);
                         }
@@ -1565,7 +1617,9 @@ Template.appointments.onRendered(function () {
                             employeeName: data.temployee[i].fields.EmployeeName || '',
                             color: data.temployee[i].fields.CustFld6 || selectedColor,
                             priority: data.temployee[i].fields.CustFld5 || "0",
-                            override: data.temployee[i].fields.CustFld14 || "false"
+                            override: data.temployee[i].fields.CustFld14 || "false",
+                            custFld7: data.temployee[i].fields.CustFld7 || '',
+                            custFld8: data.temployee[i].fields.CustFld8 || ''
                         };
                         lineItems.push(dataList);
                     }
@@ -1589,6 +1643,68 @@ Template.appointments.onRendered(function () {
                 }
 
             }).catch(function (err) {});
+        });
+    }
+
+    templateObject.getAllSelectedProducts = function (employeeID) {
+        let productlist = [];
+        templateObject.datatablerecords.set([]);
+        var splashArrayProductServiceList = new Array();
+        var splashArrayProductServiceListGet = [];
+        //$('#product-list').editableSelect('clear');
+        sideBarService.getSelectedProducts(employeeID).then(function (data) {
+                var dataList = {};
+
+                let getallinvproducts = templateObject.allnoninvproducts.get();
+                if(data.trepservices.length > 0){
+                for (let i = 0; i < data.trepservices.length; i++) {
+                    dataList = {
+                      id: data.trepservices[i].Id || '',
+                      productname: data.trepservices[i].ServiceDesc || '',
+                      productcost: data.trepservices[i].Rate || 0.00
+
+                    };
+                let checkServiceArray = getallinvproducts.filter(function(prodData){
+                  if(prodData[1] === data.trepservices[i].ServiceDesc){
+                  var prodservicedataList = [
+                      prodData[0],
+                      prodData[1] || '-',
+                      prodData[2] || '',
+                      prodData[3] || '',
+                      prodData[4],
+                      prodData[5],
+                      prodData[6],
+                      prodData[7] || '',
+                      prodData[8] || '',
+                      prodData[9]||null,
+                      prodData[10]
+                  ];
+                    splashArrayProductServiceListGet.push(prodservicedataList);
+                  //splashArrayProductServiceListGet.push(prodservicedataList);
+                  return prodservicedataList||'';
+                };
+                })||'';
+
+                    productlist.push(dataList);
+
+                }
+                if (splashArrayProductServiceListGet) {
+                    let uniqueChars = [...new Set(splashArrayProductServiceListGet)];
+                    var datatable = $('#tblInventoryPayrollService').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(uniqueChars);
+                    datatable.draw(false);
+
+                }
+
+                templateObject.datatablerecords.set(productlist);
+              }else{
+                templateObject.getAllProductData();
+              }
+
+
+        }).catch(function (err) {
+          templateObject.getAllProductData();
         });
     }
 
@@ -5382,6 +5498,9 @@ Template.appointments.onRendered(function () {
 
     $(document).on("click", ".appointmentCustomer #tblCustomerlist tbody tr", function (e) {
         //$("#updateID").val("");
+        let checkIncludeAllProducts = templateObject.includeAllProducts.get();
+        let getAllEmployeeData = templateObject.employeerecords.get() || '';
+        let getEmployeeID = templateObject.empID.get() || '';
 
         document.getElementById("customer").value = $(this).find(".colCompany").text();
         document.getElementById("phone").value = $(this).find(".colPhone").text();
@@ -5410,7 +5529,31 @@ Template.appointments.onRendered(function () {
                 document.getElementById("appID").value = 1;
             }
         });
-        templateObject.getAllProductData();
+        // console.log(getAllEmployeeData);
+        var filterEmpData = getAllEmployeeData.filter(empdData => {
+            return empdData.id == getEmployeeID;
+        });
+        if(filterEmpData){
+          if(filterEmpData[0].custFld8 == "false"){
+            templateObject.getAllSelectedProducts(getEmployeeID);
+          }else{
+            templateObject.getAllProductData();
+          }
+        }else{
+          templateObject.getAllProductData();
+        }
+        // if(checkIncludeAllProducts ==  true){
+        // templateObject.getAllProductData();
+        // }else{
+        //   if(getEmployeeID != ''){
+        //     templateObject.getAllSelectedProducts(getEmployeeID);
+        //   }else{
+        //     templateObject.getAllProductData();
+        //   }
+        //
+        // }
+
+        //templateObject.getAllProductData();
         };
         $('#customerListModal').modal('hide');
         $('#event-modal').modal();
