@@ -541,6 +541,8 @@ Template.chequecard.onRendered(() => {
                             templateObject.CleintName.set(data.fields.SupplierName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
                             $('#sltStatus').val(data.fields.OrderStatus);
+                            $('#shipvia').val(data.fields.Shipping);
+
 
                             if(data.fields.Isreconciled){
                               $(".btnDeleteCheque").prop("disabled", true);
@@ -778,6 +780,7 @@ Template.chequecard.onRendered(() => {
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
                                 $('#sltStatus').val(useData[d].fields.OrderStatus);
+                                $('#shipvia').val(useData[d].fields.Shipping);
 
                                 if(useData[d].fields.Isreconciled){
                                   $(".btnDeleteCheque").prop("disabled", true);
@@ -996,6 +999,7 @@ Template.chequecard.onRendered(() => {
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
                                 $('#sltStatus').val(data.fields.OrderStatus);
+                                $('#shipvia').val(data.fields.Shipping);
 
                                 if(data.fields.Isreconciled){
                                   $(".btnDeleteCheque").prop("disabled", true);
@@ -1230,6 +1234,7 @@ Template.chequecard.onRendered(() => {
                         templateObject.CleintName.set(data.fields.SupplierName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
                         $('#sltStatus').val(data.fields.OrderStatus);
+                        $('#shipvia').val(data.fields.Shipping);
 
                         if(data.fields.Isreconciled){
                           $(".btnDeleteCheque").prop("disabled", true);
@@ -1539,6 +1544,7 @@ Template.chequecard.onRendered(() => {
         $('#sltBankAccountName').editableSelect();
         $('#sltCurrency').editableSelect();
         $('#sltStatus').editableSelect();
+        $('#shipvia').editableSelect();
 
         $('#addRow').on('click', function() {
             var rowData = $('#tblChequeLine tbody>tr:last').clone(true);
@@ -1575,6 +1581,85 @@ Template.chequecard.onRendered(() => {
 
 
 
+    });
+
+    $('#shipvia').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var shipvianame = e.target.value || '';
+            $('#edtShipViaID').val('');
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#shipViaModal').modal('toggle');
+            } else {
+                if (shipvianame.replace(/\s/g, '') != '') {
+                    $('#newShipViaMethodName').text('Edit Ship Via');
+
+                    getVS1Data('TShippingMethod').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getShippingMethodData().then(function(data) {
+                                for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                    if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                        $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                        $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newShipViaModal').modal('toggle');
+                                }, 200);
+                            }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tshippingmethod;
+                            for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                if (useData[i].DeptClassName === deptDataName) {
+                                    $('#edtShipViaID').val(useData[i].Id);
+                                    $('#edtShipVia').val(useData[i].ShippingMethod);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newShipViaModal').modal('toggle');
+                            }, 200);
+                        }
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getShippingMethodData().then(function(data) {
+                            for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                    $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                    $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newShipViaModal').modal('toggle');
+                            }, 200);
+                        }).catch(function(err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    });
+                } else {
+                    $('#shipViaModal').modal();
+                    setTimeout(function() {
+                        $('#tblShipViaPopList_filter .form-control-sm').focus();
+                        $('#tblShipViaPopList_filter .form-control-sm').val('');
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblShipViaPopList').DataTable();
+                        datatable.draw();
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
+        });
+
+    $(document).on("click", "#tblShipViaPopList tbody tr", function(e) {
+        $('#shipvia').val($(this).find(".colShipName ").text());
+        $('#shipViaModal').modal('toggle');
     });
 
     $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
