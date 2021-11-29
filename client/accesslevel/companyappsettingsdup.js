@@ -704,7 +704,8 @@ Template.companyappsettingsdup.events({
                                                 'products': JSON.stringify(lineItemsForm1),
                                                 'price': newStripePrice.replace('.', ''),
                                                 'update_price': newStripePrice,
-                                                'currency': currencyname
+                                                'currency': currencyname,
+                                                'country': Session.get('ERPLoggedCountry')
                                             },
                                             method: 'post',
                                             success: function (responseFinal) {
