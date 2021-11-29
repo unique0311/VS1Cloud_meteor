@@ -38,6 +38,9 @@ Template.appointments.onCreated(function () {
     templateObject.empDuration = new ReactiveVar;
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.uploadedFile = new ReactiveVar();
+
+    templateObject.allnoninvproducts = new ReactiveVar([]);
+
     //templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
     templateObject.checkRefresh.set(false);
@@ -619,13 +622,13 @@ Template.appointments.onRendered(function () {
                         googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
                         $("#googleLink").attr("href", googleLink).attr('target', '_blank');
                     }
-
-                    if (result[0].product.replace(/\s/g, '') != "") {
-                        $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
-
-                    } else {
-                        $('#product-list').prop('selectedIndex', -1);
-                    }
+                    document.getElementById("product-list").value = result[0].product || '';
+                    // if (result[0].product.replace(/\s/g, '') != "") {
+                    //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
+                    //
+                    // } else {
+                    //     $('#product-list').prop('selectedIndex', -1);
+                    // }
                     document.getElementById("employee_name").value = result[0].employeename;
                     document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
                     document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
@@ -769,8 +772,10 @@ Template.appointments.onRendered(function () {
                         let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
-                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                    $("#product-list")[0].options[0].selected = true;
+
+                    document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                    // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    // $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -786,11 +791,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                      document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                      document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
                 } else {
                     if (templateObject.empDuration.get() != "") {
@@ -808,11 +815,13 @@ Template.appointments.onRendered(function () {
                     }
 
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
 
                 }
@@ -1027,12 +1036,14 @@ Template.appointments.onRendered(function () {
                         $("#googleLink").attr("href", googleLink).attr('target', '_blank');
                     }
 
-                    if (result[0].product.replace(/\s/g, '') != "") {
-                        $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
+                    document.getElementById("product-list").value = result[0].product || '';
 
-                    } else {
-                        $('#product-list').prop('selectedIndex', -1);
-                    }
+                    // if (result[0].product.replace(/\s/g, '') != "") {
+                    //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
+                    //
+                    // } else {
+                    //     $('#product-list').prop('selectedIndex', -1);
+                    // }
                     document.getElementById("employee_name").value = result[0].employeename;
                     document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
                     document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
@@ -1178,8 +1189,9 @@ Template.appointments.onRendered(function () {
                         let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
-                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                    $("#product-list")[0].options[0].selected = true;
+                    document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                    // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    // $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -1195,11 +1207,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
                 } else {
                     if (templateObject.empDuration.get() != "") {
@@ -1217,11 +1231,13 @@ Template.appointments.onRendered(function () {
                     }
 
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
 
                 }
@@ -1578,18 +1594,132 @@ Template.appointments.onRendered(function () {
 
     templateObject.getAllProductData = function () {
         productList = [];
-        getVS1Data('TProductVS1').then(function (dataObject) {
+        templateObject.datatablerecords.set([]);
+        var splashArrayProductServiceList = new Array();
+      //  $('#product-list').editableSelect('clear');
+        getVS1Data('TProductWeb').then(function (dataObject) {
             if (dataObject.length == 0) {
-                productService.getNewProductListVS1().then(function (data) {
+                sideBarService.getProductServiceListVS1(initialBaseDataLoad,0).then(function (data) {
+                    addVS1Data('TProductWeb',JSON.stringify(data));
                     var dataList = {};
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                         dataList = {
-                            id: data.tproductvs1[i].Id || '',
-                            productname: data.tproductvs1[i].ProductName || ''
+                            id: data.tproductvs1[i].fields.ID || '',
+                            productname: data.tproductvs1[i].fields.ProductName || ''
                         }
-                        if (data.tproductvs1[i].ProductType != 'INV') {
+
+                        var prodservicedataList = [
+                             '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                            data.tproductvs1[i].fields.ProductName || '-',
+                            data.tproductvs1[i].fields.SalesDescription || '',
+                            data.tproductvs1[i].fields.BARCODE || '',
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                            data.tproductvs1[i].fields.TotalQtyInStock,
+                            data.tproductvs1[i].fields.TaxCodeSales || '',
+                            data.tproductvs1[i].fields.ID || '',
+                            JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
+                        ];
+
+                        splashArrayProductServiceList.push(prodservicedataList);
+
+                        //if (data.tproductvs1[i].ProductType != 'INV') {
+                        // $('#product-list').editableSelect('add', data.tproductvs1[i].ProductName);
+                        // $('#product-list').editableSelect('add', function(){
+                        //   $(this).text(data.tproductvs1[i].ProductName);
+                        //   $(this).attr('id', data.tproductvs1[i].SellQty1Price);
+                        // });
                             productList.push(dataList);
+                      //  }
+
+                    }
+
+                    if (splashArrayProductServiceList) {
+                      templateObject.allnoninvproducts.set(splashArrayProductServiceList);
+                      $('#tblInventoryPayrollService').dataTable({
+                          data: splashArrayProductServiceList,
+
+                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+
+                          columnDefs: [
+                              {
+                                  className: "chkBox pointer hiddenColumn",
+                                  "orderable": false,
+                                  "targets": [0]
+
+                              },
+                              {
+                                  className: "productName",
+                                  "targets": [1]
+                              }, {
+                                  className: "productDesc",
+                                  "targets": [2]
+                              }, {
+                                  className: "colBarcode",
+                                  "targets": [3]
+                              }, {
+                                  className: "costPrice text-right",
+                                  "targets": [4]
+                              }, {
+                                  className: "salePrice text-right",
+                                  "targets": [5]
+                              }, {
+                                  className: "prdqty text-right",
+                                  "targets": [6]
+                              }, {
+                                  className: "taxrate",
+                                  "targets": [7]
+                              }, {
+                                  className: "colProuctPOPID hiddenColumn",
+                                  "targets": [8]
+                              }, {
+                                  className: "colExtraSellPrice hiddenColumn",
+                                  "targets": [9]
+                              }, {
+                                  className: "salePriceInc hiddenColumn",
+                                  "targets": [10]
+                              }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: true,
+                          pageLength: initialDatatableLoad,
+                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          info: true,
+                          responsive: true,
+                          "order": [[ 1, "asc" ]],
+                          "fnDrawCallback": function (oSettings) {
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
+                          },
+                          "fnInitComplete": function () {
+                              $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryPayrollService_filter");
+                              $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryPayrollService_filter");
+                              $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryPayrollService_filter");
+                          }
+
+
+                      }).on('length.dt', function (e, settings, len) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        let dataLenght = settings._iDisplayLength;
+                        // splashArrayProductList = [];
+                        if (dataLenght == -1) {
+                          $('.fullScreenSpin').css('display', 'none');
+                        }else{
+                          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                              $('.fullScreenSpin').css('display', 'none');
+                          } else {
+
+                              $('.fullScreenSpin').css('display', 'none');
+                          }
+
                         }
+
+                      });
+
+                        $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
                     }
 
@@ -1604,31 +1734,252 @@ Template.appointments.onRendered(function () {
                     dataList = {
                         id: useData[i].fields.ID || '',
                         productname: useData[i].fields.ProductName || ''
-                    }
-                    if (useData[i].fields.ProductType != 'INV') {
+                    };
+
+                    var prodservicedataList = [
+                         '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                        data.tproductvs1[i].fields.ProductName || '-',
+                        data.tproductvs1[i].fields.SalesDescription || '',
+                        data.tproductvs1[i].fields.BARCODE || '',
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                        data.tproductvs1[i].fields.TotalQtyInStock,
+                        data.tproductvs1[i].fields.TaxCodeSales || '',
+                        data.tproductvs1[i].fields.ID || '',
+                        JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
+                    ];
+
+                    splashArrayProductServiceList.push(prodservicedataList);
+                    // $('#product-list').editableSelect('add', useData[i].fields.ProductName);
+                    // $('#product-list').editableSelect('add', function(){
+                    //   $(this).val(useData[i].fields.ID);
+                    //   $(this).text(useData[i].fields.ProductName);
+                    //   $(this).attr('id', useData[i].fields.SellQty1Price);
+                    // });
+                    //if (useData[i].fields.ProductType != 'INV') {
                         productList.push(dataList);
+                    //}
+                }
+
+                if (splashArrayProductServiceList) {
+                  templateObject.allnoninvproducts.set(splashArrayProductServiceList);
+                  $('#tblInventoryPayrollService').dataTable({
+                      data: splashArrayProductServiceList,
+
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+
+                      columnDefs: [
+                          {
+                              className: "chkBox pointer hiddenColumn",
+                              "orderable": false,
+                              "targets": [0]
+
+                          },
+                          {
+                              className: "productName",
+                              "targets": [1]
+                          }, {
+                              className: "productDesc",
+                              "targets": [2]
+                          }, {
+                              className: "colBarcode",
+                              "targets": [3]
+                          }, {
+                              className: "costPrice text-right",
+                              "targets": [4]
+                          }, {
+                              className: "salePrice text-right",
+                              "targets": [5]
+                          }, {
+                              className: "prdqty text-right",
+                              "targets": [6]
+                          }, {
+                              className: "taxrate",
+                              "targets": [7]
+                          }, {
+                              className: "colProuctPOPID hiddenColumn",
+                              "targets": [8]
+                          }, {
+                              className: "colExtraSellPrice hiddenColumn",
+                              "targets": [9]
+                          }, {
+                              className: "salePriceInc hiddenColumn",
+                              "targets": [10]
+                          }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[ 1, "asc" ]],
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
+                      },
+                      "fnInitComplete": function () {
+                          $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryPayrollService_filter");
+                          $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryPayrollService_filter");
+                          $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryPayrollService_filter");
+                      }
+
+
+                  }).on('length.dt', function (e, settings, len) {
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    // splashArrayProductList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+                    }else{
+                      if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                          $('.fullScreenSpin').css('display', 'none');
+                      } else {
+
+                          $('.fullScreenSpin').css('display', 'none');
+                      }
+
                     }
+
+                  });
+
+                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+
                 }
                 templateObject.datatablerecords.set(productList);
 
             }
         }).catch(function (err) {
-            productService.getNewProductListVS1().then(function (data) {
+          sideBarService.getProductServiceListVS1(initialBaseDataLoad,0).then(function (data) {
+              addVS1Data('TProductWeb',JSON.stringify(data));
+              var dataList = {};
+              for (let i = 0; i < data.tproductvs1.length; i++) {
+                  dataList = {
+                      id: data.tproductvs1[i].fields.ID || '',
+                      productname: data.tproductvs1[i].fields.ProductName || ''
+                  }
 
-                var dataList = {};
-                for (let i = 0; i < data.tproductvs1.length; i++) {
-                    dataList = {
-                        id: data.tproductvs1[i].Id || '',
-                        productname: data.tproductvs1[i].ProductName || ''
+                  var prodservicedataList = [
+                       '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                      data.tproductvs1[i].fields.ProductName || '-',
+                      data.tproductvs1[i].fields.SalesDescription || '',
+                      data.tproductvs1[i].fields.BARCODE || '',
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                      data.tproductvs1[i].fields.TotalQtyInStock,
+                      data.tproductvs1[i].fields.TaxCodeSales || '',
+                      data.tproductvs1[i].fields.ID || '',
+                      JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
+
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100)
+                  ];
+
+                  splashArrayProductServiceList.push(prodservicedataList);
+
+                  //if (data.tproductvs1[i].ProductType != 'INV') {
+                  // $('#product-list').editableSelect('add', data.tproductvs1[i].ProductName);
+                  // $('#product-list').editableSelect('add', function(){
+                  //   $(this).text(data.tproductvs1[i].ProductName);
+                  //   $(this).attr('id', data.tproductvs1[i].SellQty1Price);
+                  // });
+                      productList.push(dataList);
+                //  }
+
+              }
+
+              if (splashArrayProductServiceList) {
+                templateObject.allnoninvproducts.set(splashArrayProductServiceList);
+                $('#tblInventoryPayrollService').dataTable({
+                    data: splashArrayProductServiceList,
+
+                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+
+                    columnDefs: [
+                        {
+                            className: "chkBox pointer hiddenColumn",
+                            "orderable": false,
+                            "targets": [0]
+
+                        },
+                        {
+                            className: "productName",
+                            "targets": [1]
+                        }, {
+                            className: "productDesc",
+                            "targets": [2]
+                        }, {
+                            className: "colBarcode",
+                            "targets": [3]
+                        }, {
+                            className: "costPrice text-right",
+                            "targets": [4]
+                        }, {
+                            className: "salePrice text-right",
+                            "targets": [5]
+                        }, {
+                            className: "prdqty text-right",
+                            "targets": [6]
+                        }, {
+                            className: "taxrate",
+                            "targets": [7]
+                        }, {
+                            className: "colProuctPOPID hiddenColumn",
+                            "targets": [8]
+                        }, {
+                            className: "colExtraSellPrice hiddenColumn",
+                            "targets": [9]
+                        }, {
+                            className: "salePriceInc hiddenColumn",
+                            "targets": [10]
+                        }
+                    ],
+                    select: true,
+                    destroy: true,
+                    colReorder: true,
+                    pageLength: initialDatatableLoad,
+                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                    info: true,
+                    responsive: true,
+                    "order": [[ 1, "asc" ]],
+                    "fnDrawCallback": function (oSettings) {
+                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
+                    },
+                    "fnInitComplete": function () {
+                        $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryPayrollService_filter");
+                        $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#newProductModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblInventoryPayrollService_filter");
+                        $("<button class='btn btn-primary btnRefreshProduct' type='button' id='btnRefreshProduct' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInventoryPayrollService_filter");
                     }
-                    if (data.tproductvs1[i].ProductType != 'INV') {
-                        productList.push(dataList);
+
+
+                }).on('length.dt', function (e, settings, len) {
+                  $('.fullScreenSpin').css('display', 'inline-block');
+                  let dataLenght = settings._iDisplayLength;
+                  // splashArrayProductList = [];
+                  if (dataLenght == -1) {
+                    $('.fullScreenSpin').css('display', 'none');
+                  }else{
+                    if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    } else {
+
+                        $('.fullScreenSpin').css('display', 'none');
                     }
 
-                }
-                templateObject.datatablerecords.set(productList);
+                  }
 
-            });
+                });
+
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+
+              }
+
+              templateObject.datatablerecords.set(productList);
+
+          });
         });
 
     }
@@ -1810,12 +2161,14 @@ Template.appointments.onRendered(function () {
                                 $("#googleLink").attr("href", googleLink).attr('target', '_blank');
                             }
 
-                            if (result[0].product.replace(/\s/g, '') != "") {
-                                $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
+                            document.getElementById("product-list").value = result[0].product || '';
+                            // if (result[0].product.replace(/\s/g, '') != "") {
+                            //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
+                            //
+                            // } else {
+                            //     $('#product-list').prop('selectedIndex', -1);
+                            // }
 
-                            } else {
-                                $('#product-list').prop('selectedIndex', -1);
-                            }
                             document.getElementById("employee_name").value = result[0].employeename;
                             document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
                             document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
@@ -2474,8 +2827,9 @@ Template.appointments.onRendered(function () {
                         let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
-                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                    $("#product-list")[0].options[0].selected = true;
+                      document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                    // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    // $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -2491,11 +2845,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                      document.getElementById("product-list").value =  empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                      document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
                 } else {
                     if (templateObject.empDuration.get() != "") {
@@ -2513,11 +2869,13 @@ Template.appointments.onRendered(function () {
                     }
 
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                      document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
 
                 }
@@ -2697,13 +3055,14 @@ Template.appointments.onRendered(function () {
                             googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
                             $("#googleLink").attr("href", googleLink).attr('target', '_blank');
                         }
-
-                        if (result[0].product.replace(/\s/g, '') != "") {
-                            $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
-
-                        } else {
-                            $('#product-list').prop('selectedIndex', -1);
-                        }
+                        document.getElementById("product-list").value = result[0].product || '';
+                        // if (result[0].product.replace(/\s/g, '') != "") {
+                        //
+                        //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
+                        //
+                        // } else {
+                        //     $('#product-list').prop('selectedIndex', -1);
+                        // }
                         document.getElementById("employee_name").value = result[0].employeename;
                         document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
                         document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
@@ -3309,13 +3668,13 @@ Template.appointments.onRendered(function () {
                             googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
                             $("#googleLink").attr("href", googleLink).attr('target', '_blank');
                         }
-
-                        if (result[0].product.replace(/\s/g, '') != "") {
-                            $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
-
-                        } else {
-                            $('#product-list').prop('selectedIndex', -1);
-                        }
+                        document.getElementById("product-list").value = result[0].product || '';
+                        // if (result[0].product.replace(/\s/g, '') != "") {
+                        //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
+                        //
+                        // } else {
+                        //     $('#product-list').prop('selectedIndex', -1);
+                        // }
                         document.getElementById("employee_name").value = result[0].employeename;
                         document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
                         document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
@@ -3973,8 +4332,9 @@ Template.appointments.onRendered(function () {
                         let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
-                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                    $("#product-list")[0].options[0].selected = true;
+                      document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                    // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    // $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -3990,11 +4350,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
                 } else {
                     if (templateObject.empDuration.get() != "") {
@@ -4012,11 +4374,13 @@ Template.appointments.onRendered(function () {
                     }
 
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
 
                 }
@@ -4089,7 +4453,7 @@ Template.appointments.onRendered(function () {
                         }));
 
                     for (var i = 0; i < clientList.length; i++) {
-                        $('#customer').editableSelect('add', clientList[i].customername);
+                        //$('#customer').editableSelect('add', clientList[i].customername);
                     }
 
                 });
@@ -4127,7 +4491,7 @@ Template.appointments.onRendered(function () {
                     }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#customer').editableSelect('add', clientList[i].customername);
+                    //$('#customer').editableSelect('add', clientList[i].customername);
                 }
 
             }
@@ -4164,35 +4528,784 @@ Template.appointments.onRendered(function () {
                     }));
 
                 for (var i = 0; i < clientList.length; i++) {
-                    $('#customer').editableSelect('add', clientList[i].customername);
+                    //$('#customer').editableSelect('add', clientList[i].customername);
                 }
 
             });
         });
 
     };
-    templateObject.getAllClients();
+    //templateObject.getAllClients();
     //get employee data to auto fill data on new appointment
     function populateEmployDetails(employeeName) {
         document.getElementById("employee_name").value = employeeName;
     }
 
+    $(document).ready(function() {
+      $('#customer').editableSelect();
+      $('#product-list').editableSelect();
+    });
     $('#customer').editableSelect()
-    .on('select.editable-select', function (e, li) {
-        //let selectedCustomer = li.text();
-        var custName = li.text();
-        var newJob = clientList.filter(function (customer) {
-            return customer.customername == custName;
-        });
+    .on('click.editable-select', function (e, li) {
+      var $earch = $(this);
+      var offset = $earch.offset();
+      $('#edtCustomerPOPID').val('');
+      //$('#edtCustomerCompany').attr('readonly', false);
+      var customerDataName = e.target.value || '';
+      if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+          $('#customerListModal').modal();
+          setTimeout(function () {
+              $('#tblCustomerlist_filter .form-control-sm').focus();
+              $('#tblCustomerlist_filter .form-control-sm').val('');
+              $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+              var datatable = $('#tblCustomerlist').DataTable();
+              //datatable.clear();
+              //datatable.rows.add(splashArrayCustomerList);
+              datatable.draw();
+              $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+              //$('#tblCustomerlist').dataTable().fnFilter(' ').draw(false);
+          }, 500);
+      } else {
+          if (customerDataName.replace(/\s/g, '') != '') {
+              //FlowRouter.go('/customerscard?name=' + e.target.value);
+              $('#edtCustomerPOPID').val('');
+              getVS1Data('TCustomerVS1').then(function (dataObject) {
+                  if (dataObject.length == 0) {
+                      $('.fullScreenSpin').css('display', 'inline-block');
+                      sideBarService.getOneCustomerDataExByName(customerDataName).then(function (data) {
+                          $('.fullScreenSpin').css('display', 'none');
+                          let lineItems = [];
+                          $('#add-customer-title').text('Edit Customer');
+                          let popCustomerID = data.tcustomer[0].fields.ID || '';
+                          let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                          let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                          let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                          let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                          let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                          let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                          let popCustomertfn = '' || '';
+                          let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                          let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                          let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                          let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                          let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                          let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                          let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                          let popCustomerState = data.tcustomer[0].fields.State || '';
+                          let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                          let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                          let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                          let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                          let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                          let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                          let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                          let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                          let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                          let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                          let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                          let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                          let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                          let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                          let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                          let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                          let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                          let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                          let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                          let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                          let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                          let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                          //$('#edtCustomerCompany').attr('readonly', true);
+                          $('#edtCustomerCompany').val(popCustomerName);
+                          $('#edtCustomerPOPID').val(popCustomerID);
+                          $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                          $('#edtTitle').val(popCustomerTitle);
+                          $('#edtFirstName').val(popCustomerFirstName);
+                          $('#edtMiddleName').val(popCustomerMiddleName);
+                          $('#edtLastName').val(popCustomerLastName);
+                          $('#edtCustomerPhone').val(popCustomerPhone);
+                          $('#edtCustomerMobile').val(popCustomerMobile);
+                          $('#edtCustomerFax').val(popCustomerFaxnumber);
+                          $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                          $('#edtCustomerWebsite').val(popCustomerURL);
+                          $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                          $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                          $('#edtCustomerShippingState').val(popCustomerState);
+                          $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                          $('#sedtCountry').val(popCustomerCountry);
+                          $('#txaNotes').val(popCustomernotes);
+                          $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                          $('#sltTermsPOP').val(popCustomerterms);
+                          $('#sltCustomerType').val(popCustomerType);
+                          $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                          $('#edtCustomeField1').val(popCustomercustfield1);
+                          $('#edtCustomeField2').val(popCustomercustfield2);
+                          $('#edtCustomeField3').val(popCustomercustfield3);
+                          $('#edtCustomeField4').val(popCustomercustfield4);
 
-        document.getElementById("customer").value = newJob[0].customername || '';
-        document.getElementById("phone").value = newJob[0].phone || '';
-        document.getElementById("mobile").value = newJob[0].phone || '';
-        document.getElementById("state").value = newJob[0].country || '';
-        document.getElementById("address").value = newJob[0].street || '';
-        // document.getElementById("txtNotes").value = $(this).find(".colNotes").text();
-        document.getElementById("suburb").value = newJob[0].suburb || '';
-        document.getElementById("zip").value = newJob[0].statecode || '0';
+                          $('#sltTaxCode').val(popCustomerTaxCode);
+
+                          if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                              (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                              (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                              $('#chkSameAsShipping2').attr("checked", "checked");
+                          }
+
+                          if (data.tcustomer[0].fields.IsSupplier == true) {
+                              // $('#isformcontractor')
+                              $('#chkSameAsSupplier').attr("checked", "checked");
+                          } else {
+                              $('#chkSameAsSupplier').removeAttr("checked");
+                          }
+
+                          setTimeout(function () {
+                              $('#addCustomerModal').modal('show');
+                          }, 200);
+                      }).catch(function (err) {
+                          $('.fullScreenSpin').css('display', 'none');
+                      });
+                  } else {
+                      let data = JSON.parse(dataObject[0].data);
+                      let useData = data.tcustomervs1;
+
+                      var added = false;
+                      for (let i = 0; i < data.tcustomervs1.length; i++) {
+                          if (data.tcustomervs1[i].fields.ClientName === customerDataName) {
+                              let lineItems = [];
+                              added = true;
+                              $('.fullScreenSpin').css('display', 'none');
+                              $('#add-customer-title').text('Edit Customer');
+                              let popCustomerID = data.tcustomervs1[i].fields.ID || '';
+                              let popCustomerName = data.tcustomervs1[i].fields.ClientName || '';
+                              let popCustomerEmail = data.tcustomervs1[i].fields.Email || '';
+                              let popCustomerTitle = data.tcustomervs1[i].fields.Title || '';
+                              let popCustomerFirstName = data.tcustomervs1[i].fields.FirstName || '';
+                              let popCustomerMiddleName = data.tcustomervs1[i].fields.CUSTFLD10 || '';
+                              let popCustomerLastName = data.tcustomervs1[i].fields.LastName || '';
+                              let popCustomertfn = '' || '';
+                              let popCustomerPhone = data.tcustomervs1[i].fields.Phone || '';
+                              let popCustomerMobile = data.tcustomervs1[i].fields.Mobile || '';
+                              let popCustomerFaxnumber = data.tcustomervs1[i].fields.Faxnumber || '';
+                              let popCustomerSkypeName = data.tcustomervs1[i].fields.SkypeName || '';
+                              let popCustomerURL = data.tcustomervs1[i].fields.URL || '';
+                              let popCustomerStreet = data.tcustomervs1[i].fields.Street || '';
+                              let popCustomerStreet2 = data.tcustomervs1[i].fields.Street2 || '';
+                              let popCustomerState = data.tcustomervs1[i].fields.State || '';
+                              let popCustomerPostcode = data.tcustomervs1[i].fields.Postcode || '';
+                              let popCustomerCountry = data.tcustomervs1[i].fields.Country || LoggedCountry;
+                              let popCustomerbillingaddress = data.tcustomervs1[i].fields.BillStreet || '';
+                              let popCustomerbcity = data.tcustomervs1[i].fields.BillStreet2 || '';
+                              let popCustomerbstate = data.tcustomervs1[i].fields.BillState || '';
+                              let popCustomerbpostalcode = data.tcustomervs1[i].fields.BillPostcode || '';
+                              let popCustomerbcountry = data.tcustomervs1[i].fields.Billcountry || LoggedCountry;
+                              let popCustomercustfield1 = data.tcustomervs1[i].fields.CUSTFLD1 || '';
+                              let popCustomercustfield2 = data.tcustomervs1[i].fields.CUSTFLD2 || '';
+                              let popCustomercustfield3 = data.tcustomervs1[i].fields.CUSTFLD3 || '';
+                              let popCustomercustfield4 = data.tcustomervs1[i].fields.CUSTFLD4 || '';
+                              let popCustomernotes = data.tcustomervs1[i].fields.Notes || '';
+                              let popCustomerpreferedpayment = data.tcustomervs1[i].fields.PaymentMethodName || '';
+                              let popCustomerterms = data.tcustomervs1[i].fields.TermsName || '';
+                              let popCustomerdeliverymethod = data.tcustomervs1[i].fields.ShippingMethodName || '';
+                              let popCustomeraccountnumber = data.tcustomervs1[i].fields.ClientNo || '';
+                              let popCustomerisContractor = data.tcustomervs1[i].fields.Contractor || false;
+                              let popCustomerissupplier = data.tcustomervs1[i].fields.IsSupplier || false;
+                              let popCustomeriscustomer = data.tcustomervs1[i].fields.IsCustomer || false;
+                              let popCustomerTaxCode = data.tcustomervs1[i].fields.TaxCodeName || '';
+                              let popCustomerDiscount = data.tcustomervs1[i].fields.Discount || 0;
+                              let popCustomerType = data.tcustomervs1[i].fields.ClientTypeName || '';
+                              //$('#edtCustomerCompany').attr('readonly', true);
+                              $('#edtCustomerCompany').val(popCustomerName);
+                              $('#edtCustomerPOPID').val(popCustomerID);
+                              $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                              $('#edtTitle').val(popCustomerTitle);
+                              $('#edtFirstName').val(popCustomerFirstName);
+                              $('#edtMiddleName').val(popCustomerMiddleName);
+                              $('#edtLastName').val(popCustomerLastName);
+                              $('#edtCustomerPhone').val(popCustomerPhone);
+                              $('#edtCustomerMobile').val(popCustomerMobile);
+                              $('#edtCustomerFax').val(popCustomerFaxnumber);
+                              $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                              $('#edtCustomerWebsite').val(popCustomerURL);
+                              $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                              $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                              $('#edtCustomerShippingState').val(popCustomerState);
+                              $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                              $('#sedtCountry').val(popCustomerCountry);
+                              $('#txaNotes').val(popCustomernotes);
+                              $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                              $('#sltTermsPOP').val(popCustomerterms);
+                              $('#sltCustomerType').val(popCustomerType);
+                              $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                              $('#edtCustomeField1').val(popCustomercustfield1);
+                              $('#edtCustomeField2').val(popCustomercustfield2);
+                              $('#edtCustomeField3').val(popCustomercustfield3);
+                              $('#edtCustomeField4').val(popCustomercustfield4);
+
+                              $('#sltTaxCode').val(popCustomerTaxCode);
+
+                              if ((data.tcustomervs1[i].fields.Street == data.tcustomervs1[i].fields.BillStreet) && (data.tcustomervs1[i].fields.Street2 == data.tcustomervs1[i].fields.BillStreet2) &&
+                                  (data.tcustomervs1[i].fields.State == data.tcustomervs1[i].fields.BillState) && (data.tcustomervs1[i].fields.Postcode == data.tcustomervs1[i].fields.BillPostcode) &&
+                                  (data.tcustomervs1[i].fields.Country == data.tcustomervs1[i].fields.Billcountry)) {
+                                  $('#chkSameAsShipping2').attr("checked", "checked");
+                              }
+
+                              if (data.tcustomervs1[i].fields.IsSupplier == true) {
+                                  // $('#isformcontractor')
+                                  $('#chkSameAsSupplier').attr("checked", "checked");
+                              } else {
+                                  $('#chkSameAsSupplier').removeAttr("checked");
+                              }
+
+                              setTimeout(function () {
+                                  $('#addCustomerModal').modal('show');
+                              }, 200);
+
+                          }
+                      }
+                      if (!added) {
+                          $('.fullScreenSpin').css('display', 'inline-block');
+                          sideBarService.getOneCustomerDataExByName(customerDataName).then(function (data) {
+                              $('.fullScreenSpin').css('display', 'none');
+                              let lineItems = [];
+                              $('#add-customer-title').text('Edit Customer');
+                              let popCustomerID = data.tcustomer[0].fields.ID || '';
+                              let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                              let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                              let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                              let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                              let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                              let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                              let popCustomertfn = '' || '';
+                              let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                              let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                              let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                              let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                              let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                              let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                              let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                              let popCustomerState = data.tcustomer[0].fields.State || '';
+                              let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                              let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                              let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                              let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                              let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                              let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                              let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                              let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                              let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                              let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                              let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                              let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                              let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                              let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                              let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                              let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                              let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                              let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                              let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                              let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                              let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                              let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                              //$('#edtCustomerCompany').attr('readonly', true);
+                              $('#edtCustomerCompany').val(popCustomerName);
+                              $('#edtCustomerPOPID').val(popCustomerID);
+                              $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                              $('#edtTitle').val(popCustomerTitle);
+                              $('#edtFirstName').val(popCustomerFirstName);
+                              $('#edtMiddleName').val(popCustomerMiddleName);
+                              $('#edtLastName').val(popCustomerLastName);
+                              $('#edtCustomerPhone').val(popCustomerPhone);
+                              $('#edtCustomerMobile').val(popCustomerMobile);
+                              $('#edtCustomerFax').val(popCustomerFaxnumber);
+                              $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                              $('#edtCustomerWebsite').val(popCustomerURL);
+                              $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                              $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                              $('#edtCustomerShippingState').val(popCustomerState);
+                              $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                              $('#sedtCountry').val(popCustomerCountry);
+                              $('#txaNotes').val(popCustomernotes);
+                              $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                              $('#sltTermsPOP').val(popCustomerterms);
+                              $('#sltCustomerType').val(popCustomerType);
+                              $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                              $('#edtCustomeField1').val(popCustomercustfield1);
+                              $('#edtCustomeField2').val(popCustomercustfield2);
+                              $('#edtCustomeField3').val(popCustomercustfield3);
+                              $('#edtCustomeField4').val(popCustomercustfield4);
+
+                              $('#sltTaxCode').val(popCustomerTaxCode);
+
+                              if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                                  (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                                  (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                                  $('#chkSameAsShipping2').attr("checked", "checked");
+                              }
+
+                              if (data.tcustomer[0].fields.IsSupplier == true) {
+                                  // $('#isformcontractor')
+                                  $('#chkSameAsSupplier').attr("checked", "checked");
+                              } else {
+                                  $('#chkSameAsSupplier').removeAttr("checked");
+                              }
+
+                              setTimeout(function () {
+                                  $('#addCustomerModal').modal('show');
+                              }, 200);
+                          }).catch(function (err) {
+                              $('.fullScreenSpin').css('display', 'none');
+                          });
+                      }
+                  }
+              }).catch(function (err) {
+                  sideBarService.getOneCustomerDataExByName(customerDataName).then(function (data) {
+                      $('.fullScreenSpin').css('display', 'none');
+                      let lineItems = [];
+                      $('#add-customer-title').text('Edit Customer');
+                      let popCustomerID = data.tcustomer[0].fields.ID || '';
+                      let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                      let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                      let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                      let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                      let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                      let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                      let popCustomertfn = '' || '';
+                      let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                      let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                      let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                      let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                      let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                      let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                      let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                      let popCustomerState = data.tcustomer[0].fields.State || '';
+                      let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                      let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                      let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                      let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                      let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                      let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                      let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                      let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                      let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                      let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                      let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                      let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                      let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                      let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                      let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                      let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                      let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                      let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                      let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                      let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                      let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                      let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                      //$('#edtCustomerCompany').attr('readonly', true);
+                      $('#edtCustomerCompany').val(popCustomerName);
+                      $('#edtCustomerPOPID').val(popCustomerID);
+                      $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                      $('#edtTitle').val(popCustomerTitle);
+                      $('#edtFirstName').val(popCustomerFirstName);
+                      $('#edtMiddleName').val(popCustomerMiddleName);
+                      $('#edtLastName').val(popCustomerLastName);
+                      $('#edtCustomerPhone').val(popCustomerPhone);
+                      $('#edtCustomerMobile').val(popCustomerMobile);
+                      $('#edtCustomerFax').val(popCustomerFaxnumber);
+                      $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                      $('#edtCustomerWebsite').val(popCustomerURL);
+                      $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                      $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                      $('#edtCustomerShippingState').val(popCustomerState);
+                      $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                      $('#sedtCountry').val(popCustomerCountry);
+                      $('#txaNotes').val(popCustomernotes);
+                      $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                      $('#sltTermsPOP').val(popCustomerterms);
+                      $('#sltCustomerType').val(popCustomerType);
+                      $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                      $('#edtCustomeField1').val(popCustomercustfield1);
+                      $('#edtCustomeField2').val(popCustomercustfield2);
+                      $('#edtCustomeField3').val(popCustomercustfield3);
+                      $('#edtCustomeField4').val(popCustomercustfield4);
+
+                      $('#sltTaxCode').val(popCustomerTaxCode);
+
+                      if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                          (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                          (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                          $('#chkSameAsShipping2').attr("checked", "checked");
+                      }
+
+                      if (data.tcustomer[0].fields.IsSupplier == true) {
+                          // $('#isformcontractor')
+                          $('#chkSameAsSupplier').attr("checked", "checked");
+                      } else {
+                          $('#chkSameAsSupplier').removeAttr("checked");
+                      }
+
+                      setTimeout(function () {
+                          $('#addCustomerModal').modal('show');
+                      }, 200);
+                  }).catch(function (err) {
+                      $('.fullScreenSpin').css('display', 'none');
+                  });
+              });
+          } else {
+              $('#customerListModal').modal();
+              setTimeout(function () {
+                  $('#tblCustomerlist_filter .form-control-sm').focus();
+                  $('#tblCustomerlist_filter .form-control-sm').val('');
+                  $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                  var datatable = $('#tblCustomerlist').DataTable();
+                  //datatable.clear();
+                  //datatable.rows.add(splashArrayCustomerList);
+                  datatable.draw();
+                  $('#tblCustomerlist_filter .form-control-sm').trigger("input");
+                  //$('#tblCustomerlist').dataTable().fnFilter(' ').draw(false);
+              }, 500);
+          }
+      }
+
+        //let selectedCustomer = li.text();
+        // var custName = li.text();
+        // var newJob = clientList.filter(function (customer) {
+        //     return customer.customername == custName;
+        // });
+        //
+        // document.getElementById("customer").value = newJob[0].customername || '';
+        // document.getElementById("phone").value = newJob[0].phone || '';
+        // document.getElementById("mobile").value = newJob[0].phone || '';
+        // document.getElementById("state").value = newJob[0].country || '';
+        // document.getElementById("address").value = newJob[0].street || '';
+        // // document.getElementById("txtNotes").value = $(this).find(".colNotes").text();
+        // document.getElementById("suburb").value = newJob[0].suburb || '';
+        // document.getElementById("zip").value = newJob[0].statecode || '0';
+    });
+
+    $('#product-list').editableSelect()
+    .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var productDataName =  e.target.value || '';
+            //var productDataID = el.context.value || '';
+            // if(el){
+            //   var productCostData = el.context.id || 0;
+            //   $('#edtProductCost').val(productCostData);
+            // }
+            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+                $('#productListModal').modal('toggle');
+                setTimeout(function () {
+                    $('#tblInventoryPayrollService_filter .form-control-sm').focus();
+                    $('#tblInventoryPayrollService_filter .form-control-sm').val('');
+                    $('#tblInventoryPayrollService_filter .form-control-sm').trigger("input");
+
+                    var datatable = $('#tblInventoryPayrollService').DataTable();
+                    datatable.draw();
+                    $('#tblInventoryPayrollService_filter .form-control-sm').trigger("input");
+
+                }, 500);
+            } else {
+                // var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+                if (productDataName.replace(/\s/g, '') != '') {
+                    //FlowRouter.go('/productview?prodname=' + $(event.target).text());
+                    let lineExtaSellItems = [];
+                    let lineExtaSellObj = {};
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    getVS1Data('TProductWeb').then(function (dataObject) {
+                        if (dataObject.length == 0) {
+                            sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                let lineItemObj = {};
+                                let currencySymbol = Currency;
+                                let totalquantity = 0;
+                                let productname = data.tproduct[0].fields.ProductName || '';
+                                let productcode = data.tproduct[0].fields.PRODUCTCODE || '';
+                                let productprintName = data.tproduct[0].fields.ProductPrintName || '';
+                                let assetaccount = data.tproduct[0].fields.AssetAccount || '';
+                                let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost) || 0;
+                                let cogsaccount = data.tproduct[0].fields.CogsAccount || '';
+                                let taxcodepurchase = data.tproduct[0].fields.TaxCodePurchase || '';
+                                let purchasedescription = data.tproduct[0].fields.PurchaseDescription || '';
+                                let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price) || 0;
+                                let incomeaccount = data.tproduct[0].fields.IncomeAccount || '';
+                                let taxcodesales = data.tproduct[0].fields.TaxCodeSales || '';
+                                let salesdescription = data.tproduct[0].fields.SalesDescription || '';
+                                let active = data.tproduct[0].fields.Active;
+                                let lockextrasell = data.tproduct[0].fields.LockExtraSell || '';
+                                let customfield1 = data.tproduct[0].fields.CUSTFLD1 || '';
+                                let customfield2 = data.tproduct[0].fields.CUSTFLD2 || '';
+                                let barcode = data.tproduct[0].fields.BARCODE || '';
+                                $("#selectProductID").val(data.tproduct[0].fields.ID).trigger("change");
+                                $('#add-product-title').text('Edit Product');
+                                $('#edtproductname').val(productname);
+                                $('#edtsellqty1price').val(sellqty1price);
+                                $('#txasalesdescription').val(salesdescription);
+                                $('#sltsalesacount').val(incomeaccount);
+                                $('#slttaxcodesales').val(taxcodesales);
+                                $('#edtbarcode').val(barcode);
+                                $('#txapurchasedescription').val(purchasedescription);
+                                $('#sltcogsaccount').val(cogsaccount);
+                                $('#slttaxcodepurchase').val(taxcodepurchase);
+                                $('#edtbuyqty1cost').val(buyqty1cost);
+
+                                setTimeout(function () {
+                                    $('#newProductModal').modal('show');
+                                }, 500);
+                            }).catch(function (err) {
+
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tproductvs1;
+                            var added = false;
+
+                            for (let i = 0; i < data.tproductvs1.length; i++) {
+                                if (data.tproductvs1[i].fields.ProductName === productDataName) {
+                                    added = true;
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    let lineItems = [];
+                                    let lineItemObj = {};
+                                    let currencySymbol = Currency;
+                                    let totalquantity = 0;
+
+                                    let productname = data.tproductvs1[i].fields.ProductName || '';
+                                    let productcode = data.tproductvs1[i].fields.PRODUCTCODE || '';
+                                    let productprintName = data.tproductvs1[i].fields.ProductPrintName || '';
+                                    let assetaccount = data.tproductvs1[i].fields.AssetAccount || '';
+                                    let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1Cost) || 0;
+                                    let cogsaccount = data.tproductvs1[i].fields.CogsAccount || '';
+                                    let taxcodepurchase = data.tproductvs1[i].fields.TaxCodePurchase || '';
+                                    let purchasedescription = data.tproductvs1[i].fields.PurchaseDescription || '';
+                                    let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1Price) || 0;
+                                    let incomeaccount = data.tproductvs1[i].fields.IncomeAccount || '';
+                                    let taxcodesales = data.tproductvs1[i].fields.TaxCodeSales || '';
+                                    let salesdescription = data.tproductvs1[i].fields.SalesDescription || '';
+                                    let active = data.tproductvs1[i].fields.Active;
+                                    let lockextrasell = data.tproductvs1[i].fields.LockExtraSell || '';
+                                    let customfield1 = data.tproductvs1[i].fields.CUSTFLD1 || '';
+                                    let customfield2 = data.tproductvs1[i].fields.CUSTFLD2 || '';
+                                    let barcode = data.tproductvs1[i].fields.BARCODE || '';
+                                    $("#selectProductID").val(data.tproductvs1[i].fields.ID).trigger("change");
+                                    $('#add-product-title').text('Edit Product');
+                                    $('#edtproductname').val(productname);
+                                    $('#edtsellqty1price').val(sellqty1price);
+                                    $('#txasalesdescription').val(salesdescription);
+                                    $('#sltsalesacount').val(incomeaccount);
+                                    $('#slttaxcodesales').val(taxcodesales);
+                                    $('#edtbarcode').val(barcode);
+                                    $('#txapurchasedescription').val(purchasedescription);
+                                    $('#sltcogsaccount').val(cogsaccount);
+                                    $('#slttaxcodepurchase').val(taxcodepurchase);
+                                    $('#edtbuyqty1cost').val(buyqty1cost);
+
+                                    setTimeout(function () {
+                                        $('#newProductModal').modal('show');
+                                    }, 500);
+                                }
+                            }
+                            if (!added) {
+                                sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    let lineItems = [];
+                                    let lineItemObj = {};
+                                    let currencySymbol = Currency;
+                                    let totalquantity = 0;
+                                    let productname = data.tproduct[0].fields.ProductName || '';
+                                    let productcode = data.tproduct[0].fields.PRODUCTCODE || '';
+                                    let productprintName = data.tproduct[0].fields.ProductPrintName || '';
+                                    let assetaccount = data.tproduct[0].fields.AssetAccount || '';
+                                    let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost) || 0;
+                                    let cogsaccount = data.tproduct[0].fields.CogsAccount || '';
+                                    let taxcodepurchase = data.tproduct[0].fields.TaxCodePurchase || '';
+                                    let purchasedescription = data.tproduct[0].fields.PurchaseDescription || '';
+                                    let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price) || 0;
+                                    let incomeaccount = data.tproduct[0].fields.IncomeAccount || '';
+                                    let taxcodesales = data.tproduct[0].fields.TaxCodeSales || '';
+                                    let salesdescription = data.tproduct[0].fields.SalesDescription || '';
+                                    let active = data.tproduct[0].fields.Active;
+                                    let lockextrasell = data.tproduct[0].fields.LockExtraSell || '';
+                                    let customfield1 = data.tproduct[0].fields.CUSTFLD1 || '';
+                                    let customfield2 = data.tproduct[0].fields.CUSTFLD2 || '';
+                                    let barcode = data.tproduct[0].fields.BARCODE || '';
+                                    $("#selectProductID").val(data.tproduct[0].fields.ID).trigger("change");
+                                    $('#add-product-title').text('Edit Product');
+                                    $('#edtproductname').val(productname);
+                                    $('#edtsellqty1price').val(sellqty1price);
+                                    $('#txasalesdescription').val(salesdescription);
+                                    $('#sltsalesacount').val(incomeaccount);
+                                    $('#slttaxcodesales').val(taxcodesales);
+                                    $('#edtbarcode').val(barcode);
+                                    $('#txapurchasedescription').val(purchasedescription);
+                                    $('#sltcogsaccount').val(cogsaccount);
+                                    $('#slttaxcodepurchase').val(taxcodepurchase);
+                                    $('#edtbuyqty1cost').val(buyqty1cost);
+
+                                    setTimeout(function () {
+                                        $('#newProductModal').modal('show');
+                                    }, 500);
+                                }).catch(function (err) {
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
+                    }).catch(function (err) {
+
+                        sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
+                            $('.fullScreenSpin').css('display', 'none');
+                            let lineItems = [];
+                            let lineItemObj = {};
+                            let currencySymbol = Currency;
+                            let totalquantity = 0;
+                            let productname = data.tproduct[0].fields.ProductName || '';
+                            let productcode = data.tproduct[0].fields.PRODUCTCODE || '';
+                            let productprintName = data.tproduct[0].fields.ProductPrintName || '';
+                            let assetaccount = data.tproduct[0].fields.AssetAccount || '';
+                            let buyqty1cost = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.BuyQty1Cost) || 0;
+                            let cogsaccount = data.tproduct[0].fields.CogsAccount || '';
+                            let taxcodepurchase = data.tproduct[0].fields.TaxCodePurchase || '';
+                            let purchasedescription = data.tproduct[0].fields.PurchaseDescription || '';
+                            let sellqty1price = utilityService.modifynegativeCurrencyFormat(data.tproduct[0].fields.SellQty1Price) || 0;
+                            let incomeaccount = data.tproduct[0].fields.IncomeAccount || '';
+                            let taxcodesales = data.tproduct[0].fields.TaxCodeSales || '';
+                            let salesdescription = data.tproduct[0].fields.SalesDescription || '';
+                            let active = data.tproduct[0].fields.Active;
+                            let lockextrasell = data.tproduct[0].fields.LockExtraSell || '';
+                            let customfield1 = data.tproduct[0].fields.CUSTFLD1 || '';
+                            let customfield2 = data.tproduct[0].fields.CUSTFLD2 || '';
+                            let barcode = data.tproduct[0].fields.BARCODE || '';
+                            $("#selectProductID").val(data.tproduct[0].fields.ID).trigger("change");
+                            $('#add-product-title').text('Edit Product');
+                            $('#edtproductname').val(productname);
+                            $('#edtsellqty1price').val(sellqty1price);
+                            $('#txasalesdescription').val(salesdescription);
+                            $('#sltsalesacount').val(incomeaccount);
+                            $('#slttaxcodesales').val(taxcodesales);
+                            $('#edtbarcode').val(barcode);
+                            $('#txapurchasedescription').val(purchasedescription);
+                            $('#sltcogsaccount').val(cogsaccount);
+                            $('#slttaxcodepurchase').val(taxcodepurchase);
+                            $('#edtbuyqty1cost').val(buyqty1cost);
+
+                            setTimeout(function () {
+                                $('#newProductModal').modal('show');
+                            }, 500);
+                        }).catch(function (err) {
+
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+
+                    });
+
+                    setTimeout(function () {
+                        var begin_day_value = $('#event_begin_day').attr('value');
+                        $("#dtDateTo").datepicker({
+                            showOn: 'button',
+                            buttonText: 'Show Date',
+                            buttonImageOnly: true,
+                            buttonImage: '/img/imgCal2.png',
+                            constrainInput: false,
+                            dateFormat: 'd/mm/yy',
+                            showOtherMonths: true,
+                            selectOtherMonths: true,
+                            changeMonth: true,
+                            changeYear: true,
+                            yearRange: "-90:+10",
+                        }).keyup(function (e) {
+                            if (e.keyCode == 8 || e.keyCode == 46) {
+                                $("#dtDateTo,#dtDateFrom").val('');
+                            }
+                        });
+
+                        $("#dtDateFrom").datepicker({
+                            showOn: 'button',
+                            buttonText: 'Show Date',
+                            altField: "#dtDateFrom",
+                            buttonImageOnly: true,
+                            buttonImage: '/img/imgCal2.png',
+                            constrainInput: false,
+                            dateFormat: 'd/mm/yy',
+                            showOtherMonths: true,
+                            selectOtherMonths: true,
+                            changeMonth: true,
+                            changeYear: true,
+                            yearRange: "-90:+10",
+                        }).keyup(function (e) {
+                            if (e.keyCode == 8 || e.keyCode == 46) {
+                                $("#dtDateTo,#dtDateFrom").val('');
+                            }
+                        });
+
+                        $(".ui-datepicker .ui-state-hihglight").removeClass("ui-state-highlight");
+
+                    }, 1000);
+                    //}
+
+
+                    templateObject.getProductClassQtyData = function () {
+                        productService.getOneProductClassQtyData(currentProductID).then(function (data) {
+                            $('.fullScreenSpin').css('display', 'none');
+                            let qtylineItems = [];
+                            let qtylineItemObj = {};
+                            let currencySymbol = Currency;
+                            let totaldeptquantity = 0;
+
+                            for (let j in data.tproductclassquantity) {
+                                qtylineItemObj = {
+                                    department: data.tproductclassquantity[j].DepartmentName || '',
+                                    quantity: data.tproductclassquantity[j].InStockQty || 0,
+                                }
+                                totaldeptquantity += data.tproductclassquantity[j].InStockQty;
+                                qtylineItems.push(qtylineItemObj);
+                            }
+                            // $('#edttotalqtyinstock').val(totaldeptquantity);
+                            templateObject.productqtyrecords.set(qtylineItems);
+                            templateObject.totaldeptquantity.set(totaldeptquantity);
+
+                        }).catch(function (err) {
+
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+
+                    }
+
+                    //templateObject.getProductClassQtyData();
+                    //templateObject.getProductData();
+                } else {
+                    $('#productListModal').modal('toggle');
+
+                    setTimeout(function () {
+                        $('#tblInventoryPayrollService_filter .form-control-sm').focus();
+                        $('#tblInventoryPayrollService_filter .form-control-sm').val('');
+                        $('#tblInventoryPayrollService_filter .form-control-sm').trigger("input");
+
+                        var datatable = $('#tblInventoryPayrollService').DataTable();
+                        datatable.draw();
+                        $('#tblInventoryPayrollService_filter .form-control-sm').trigger("input");
+
+                    }, 500);
+                }
+
+            }
+    });
+
+    /* On clik Inventory Line */
+    $(document).on("click", "#tblInventoryPayrollService tbody tr", function (e) {
+        var tableProductService = $(this);
+
+        let lineProductName = tableProductService.find(".productName").text()||'';
+        let lineProductDesc = tableProductService.find(".productDesc").text()||'';
+        let lineProdCost = tableProductService.find(".costPrice").text()||0;
+        $('#product-list').val(lineProductName);
+        $('#productListModal').modal('toggle');
+        $('#tblInventoryPayrollService_filter .form-control-sm').val('');
+
+        setTimeout(function () {
+            //$('#tblCustomerlist_filter .form-control-sm').focus();
+            $('.btnRefreshProduct').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
     getHours = function (start, end) {
@@ -4268,7 +5381,8 @@ Template.appointments.onRendered(function () {
     });
 
     $(document).on("click", ".appointmentCustomer #tblCustomerlist tbody tr", function (e) {
-        $("#updateID").val("");
+        //$("#updateID").val("");
+
         document.getElementById("customer").value = $(this).find(".colCompany").text();
         document.getElementById("phone").value = $(this).find(".colPhone").text();
         document.getElementById("mobile").value = $(this).find(".colPhone").text();
@@ -4280,6 +5394,7 @@ Template.appointments.onRendered(function () {
         }
         document.getElementById("suburb").value = $(this).find(".colCity").text();
         document.getElementById("zip").value = $(this).find(".colZipCode").text();
+        if($("#updateID").val() == ""){
         let appointmentService = new AppointmentService();
         appointmentService.getAllAppointmentListCount().then(function (data) {
             if (data.tappointmentex.length > 0) {
@@ -4296,6 +5411,7 @@ Template.appointments.onRendered(function () {
             }
         });
         templateObject.getAllProductData();
+        };
         $('#customerListModal').modal('hide');
         $('#event-modal').modal();
     });
@@ -4571,7 +5687,8 @@ Template.appointments.onRendered(function () {
                             document.getElementById("suburb").value = result[0].suburb;
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
-                            $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
+                            //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
+                            document.getElementById("product-list").value = result[0].product || '';
                             document.getElementById("employee_name").value = result[0].employeename;
                             document.getElementById("dtSODate").value = result[0].startDate.split(' ')[0];
                             document.getElementById("dtSODate2").value = result[0].endDate.split(' ')[0];
@@ -4700,8 +5817,9 @@ Template.appointments.onRendered(function () {
                         let hoursFormattedStartTime = templateObject.timeFormat(hoursSpent.replace(/^0+/, '')) || '';
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
-                    $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                    $("#product-list")[0].options[0].selected = true;
+                    document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                    // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                    // $("#product-list")[0].options[0].selected = true;
                 } else if (overridesettings[0].override == "true") {
                     if (templateObject.empDuration.get() != "") {
                         var endTime = moment(startTime, 'HH:mm').add(parseInt(templateObject.empDuration.get()), 'hours').format('HH:mm');
@@ -4717,11 +5835,13 @@ Template.appointments.onRendered(function () {
                         document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
                     }
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[empData.length - 1].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
                 } else {
                     if (templateObject.empDuration.get() != "") {
@@ -4739,11 +5859,13 @@ Template.appointments.onRendered(function () {
                     }
 
                     if (empData.length > 0) {
-                        $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = empData[empData.length - 1].DefaultServiceProduct || '';
+                        // $('#product-list').prepend('<option value=' + empData[0].Id + ' selected>' + empData[empData.length - 1].DefaultServiceProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     } else {
-                        $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
-                        $("#product-list")[0].options[0].selected = true;
+                        document.getElementById("product-list").value = calendarSet.defaultProduct || '';
+                        // $('#product-list').prepend('<option value=' + calendarSet.id + ' selected>' + calendarSet.defaultProduct + '</option>');
+                        // $("#product-list")[0].options[0].selected = true;
                     }
 
                 }
@@ -4981,7 +6103,6 @@ Template.appointments.onRendered(function () {
 
     });
 
-    $(document).ready(function () {})
 
 });
 
@@ -5211,7 +6332,8 @@ Template.appointments.events({
             document.getElementById("suburb").value = result[0].suburb;
             document.getElementById("zip").value = result[0].zip;
             document.getElementById("country").value = result[0].country;
-            $('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
+            document.getElementById("product-list").value = result[0].product || '';
+            //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
             document.getElementById("employee_name").value = result[0].employeename;
             document.getElementById("dtSODate").value = moment(result[0].startDate.split(' ')[0]).format('DD/MM/YYYY');
             document.getElementById("dtSODate2").value = moment(result[0].endDate.split(' ')[0]).format('DD/MM/YYYY');
@@ -5237,12 +6359,13 @@ Template.appointments.events({
             $("#startTime").val(startTime);
             $("#endTime").val(endTime);
             $("#employee_name").val(name);
-            if (calOptions.defaultProduct != "") {
-                $('#product-list').prepend('<option value="' + calOptions.productID + '" selected>' + calOptions.defaultProduct + '</option>');
-
-            } else {
-                $('#product-list').prop('selectedIndex', -1);
-            }
+            // if (calOptions.defaultProduct != "") {
+            //     //$('#product-list').prepend('<option value="' + calOptions.productID + '" selected>' + calOptions.defaultProduct + '</option>');
+            //
+            // } else {
+            //     //$('#product-list').prop('selectedIndex', -1);
+            // }
+            document.getElementById("product-list").value = calOptions.defaultProduct || '';
             $(".paused").hide();
             $("#btnHold").prop("disabled", false);
             $("#btnStartActualTime").prop("disabled", false)
@@ -7729,7 +8852,7 @@ Template.appointments.events({
             let employeeName = $('#employee_name').val().trim() || '';
             let id = '0';
             let notes = $('#txtNotes').val() || ' ';
-            let selectedProduct = $('#product-list').children("option:selected").text() || '';
+            let selectedProduct = $('#product-list').val() || '';
             let status = "Not Converted";
             // if (aStartTime != "" && aEndDate == "") {
             //     aEndDate = aStartDate;
@@ -7842,7 +8965,7 @@ Template.appointments.events({
         let employeeName = formData.get('employee_name').trim() || '';
         let id = formData.get('updateID') || '0';
         let notes = formData.get('txtNotes') || ' ';
-        let selectedProduct = $('#product-list').children("option:selected").text() || '';
+        let selectedProduct = $('#product-list').val() || '';
         let hourlyRate = '';
         let status = "Not Converted";
         let uploadedItems = templateObject.uploadedFiles.get();

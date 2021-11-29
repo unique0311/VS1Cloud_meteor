@@ -1398,7 +1398,7 @@ Template.payrolloverview.onRendered(function () {
 
     $(document).ready(function() {
       $('#sltJob').editableSelect();
-      $('#product-list').editableSelect();
+      // $('#product-list').editableSelect();
     });
 
     $('#product-list').editableSelect()

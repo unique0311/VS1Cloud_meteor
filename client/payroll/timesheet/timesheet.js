@@ -1958,7 +1958,7 @@ Template.timesheet.onRendered(function () {
                                 let lineExtaSellItems = [];
                                 let lineExtaSellObj = {};
                                 $('.fullScreenSpin').css('display', 'inline-block');
-                                getVS1Data('TProductVS1').then(function (dataObject) {
+                                getVS1Data('TProductWeb').then(function (dataObject) {
                                     if (dataObject.length == 0) {
                                         sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
                                             $('.fullScreenSpin').css('display', 'none');

@@ -510,9 +510,7 @@
                             <div class="col" style="padding: 0px;">
                                 <div class="row" style="padding: 0px 8px;">
                                     <div class="col-6 colCustJobName" id="colCustJobName">
-                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Customer /
-                                                Job
-                                                Name</label>
+                                        <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Customer / Job</label>
                                             <select type="search" class="form-control" id="customer" name="customer" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
                                         </div>
                                     </div>
@@ -672,12 +670,14 @@
                                 <div class="row" style="padding: 0px 8px;">
                                     <div class="col-xl-4 col-12 colProductService2" id="colProductService2">
                                         <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Product /
-                                                Service</label><select id="product-list" name="product-list" class="form-control">
-                                                {{#if datatablerecords}}
+                                                Service</label>
+
+                                                <select type="search" id="product-list" name="product-list" class="form-control" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                <!-- {{#if datatablerecords}}
                                                     {{#each item in datatablerecords}}
                                                         <option value="{{item.id}}">{{item.productname}}</option>
                                                     {{/each}}
-                                                {{/if}}
+                                                {{/if}} -->
                                             </select></div>
                                     </div>
                                     {{#if equals addAttachment true}}
@@ -1180,7 +1180,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
 
     <!-- Modal print-button -modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
-        {{> productlistpop}}
+        {{> payrollproductlistpop}}
     </div>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
