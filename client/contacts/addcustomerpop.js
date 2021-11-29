@@ -406,9 +406,9 @@ Template.addcustomerpop.onRendered(function () {
                 $('.customerTab').addClass('active');
                 $('.customerTab').trigger('click');
             }
-            
+
         }, 500);
-        
+
 
 
     templateObject.getCustomersList = function () {
@@ -611,7 +611,7 @@ Template.addcustomerpop.events({
         let typeDesc = $('#txaDescription').val() || '';
         if (custType === '') {
             swal('Client Type name cannot be blank!', '', 'warning');
-            
+
             e.preventDefault();
         } else {
             let objDetails = {
@@ -647,7 +647,7 @@ Template.addcustomerpop.events({
 
                     }
                 });
-                
+
             });
         }
 
@@ -687,7 +687,7 @@ Template.addcustomerpop.events({
 
         //                 }
         //             });
-        //            
+        //
         //         });
 
         //     }).catch(function (err) {
@@ -718,7 +718,7 @@ Template.addcustomerpop.events({
 
         //                 }
         //             });
-        //            
+        //
         //         });
         //     });
 
@@ -752,7 +752,7 @@ Template.addcustomerpop.events({
 
         //             }
         //         });
-        //        
+        //
         //     });
         // }
 
@@ -1005,7 +1005,7 @@ Template.addcustomerpop.events({
 
         contactService.saveCustomerEx(objDetails).then(function (objDetails) {
             let customerSaveID = objDetails.fields.ID;
-            
+            $('.fullScreenSpin').css('display', 'none');
             if (customerSaveID) {
                 var currentLoc = FlowRouter.current().route.path;
                 if (currentLoc == "/invoicecard" || currentLoc == "/quotecard" || currentLoc == "/salesordercard"|| currentLoc == "/refundcard") {
@@ -1025,7 +1025,18 @@ Template.addcustomerpop.events({
                     var selectLineID = $('#selectLineID').val();
                     $('#' + selectLineID + " .colCustomerJob").text(company);
 
-                } else {
+                }else if (currentLoc == "/payrolloverview" ) {
+                      $("#sltJob").text(company);
+                }else if (currentLoc == "/timesheet") {
+                    var selectLineID = $('#selectLineID').val();
+                    if(selectLineID != ''){
+                      $('#' + selectLineID + " .sltJobOne").text(company);
+                    }else{
+                      $("#sltJob").text(company);
+                    }
+
+
+                }else {
                     sideBarService.getAllCustomersDataVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                         addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {
                             location.reload();
@@ -1062,7 +1073,7 @@ Template.addcustomerpop.events({
 
                 }
             });
-            
+            $('.fullScreenSpin').css('display', 'none');
         });
 
     },
@@ -1305,7 +1316,7 @@ Template.addcustomerpop.events({
 
                 }
             });
-            
+
         });
 
     },
@@ -1535,24 +1546,24 @@ Template.addcustomerpop.events({
     'click #exportbtn': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblTransactionlist_wrapper .dt-buttons .btntabletocsv').click();
-        
+
 
     },
     'click .printConfirm': function (event) {
 
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblTransactionlist_wrapper .dt-buttons .btntabletopdf').click();
-        
+
     },
     'click #exportbtnJob': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblJoblist_wrapper .dt-buttons .btntabletocsv').click();
-        
+
     },
     'click .printConfirmJob': function (event) {
         $('.fullScreenSpin').css('display', 'inline-block');
         jQuery('#tblJoblist_wrapper .dt-buttons .btntabletopdf').click();
-        
+
     },
     'click .btnRefresh': function () {
         Meteor._reload.reload();
@@ -2260,7 +2271,7 @@ Template.addcustomerpop.events({
 
                     }
                 });
-                
+
             });
         } else {
             FlowRouter.go('/customerlist?success=true');
