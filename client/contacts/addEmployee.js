@@ -11,7 +11,7 @@ import { AppointmentService } from '../appointments/appointment-service';
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
-var splashArrayRepServiceList = new Array();
+
 Template.employeescard.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -162,7 +162,7 @@ Template.employeescard.onRendered(function () {
 
     templateObject.getAllSelectedProducts = function (employeeName) {
         let productlist = [];
-
+        var splashArrayRepServiceList = new Array();
         sideBarService.getSelectedProducts(employeeName).then(function (data) {
                 var dataList = {};
                 if(data.trepservices.length > 0){
@@ -2185,6 +2185,9 @@ Template.employeescard.events({
             $('.customerShipping-2').css('display', 'block');
         }
     },
+    'click .tabproductsservices': function (event) {
+        // $('.btnRefreshProductService').trigger('click');
+    },
     'click .colServiceDelete': function (event) {
         let templateObject = Template.instance();
         var targetID = $(event.target).closest('tr').find('.colID').text() || ''; // table row ID
@@ -2304,6 +2307,9 @@ Template.employeescard.events({
         let trepserviceObjects = templateObject.selectedemployeeproducts.get();
         let getselectedproducts = templateObject.selectedproducts.get();
         let productService = new ProductService();
+        var splashArrayRepServiceListGet = new Array();
+
+        let tempCurrenctTRePService = templateObject.allrepservicedata.get() || '';
         //var splashArrayRepServiceList = new Array();
         //var splashArrayRepServiceList = new Array();
         let tokenid = Random.id();
@@ -2351,18 +2357,24 @@ Template.employeescard.events({
 
           if (checkServiceArray.length > 0) {
           }else{
-            splashArrayRepServiceList.push(dataListService);
+            splashArrayRepServiceListGet.push(dataListService);
+
             getselectedproducts.push(dataserviceList);
           }
 
 
       });
+
       templateObject.selectedproducts.set(getselectedproducts);
-      let uniqueChars = [...new Set(splashArrayRepServiceList)];
+      var thirdaryData = $.merge($.merge([], tempCurrenctTRePService), splashArrayRepServiceListGet);
+      if(thirdaryData){
+        templateObject.allrepservicedata.set(thirdaryData);
+      let uniqueChars = [...new Set(thirdaryData)];
       var datatable = $('#tblEmpServiceList').DataTable();
       datatable.clear();
       datatable.rows.add(uniqueChars);
       datatable.draw(false);
+      }
 
       //$('#tblEmpServiceList_info').html('Showing 1 to '+getselectedproducts.length+ ' of ' +getselectedproducts.length+ ' entries');
       $('#productListModal').modal('toggle');
@@ -2543,6 +2555,10 @@ Template.employeescard.events({
         }
         contactService.saveEmployeeEx(objDetails).then(function (objDetails) {
             let employeeSaveID = objDetails.fields.ID;
+            sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function (dataReload) {
+                  addVS1Data('TEmployee',JSON.stringify(dataReload));
+            }).catch(function (err) {});
+
             $('#selectEmployeeID').val(employeeSaveID);
             // var erpUserID = $("#erpEmpID").val();
             let employeePicObj = "";
@@ -2743,7 +2759,7 @@ Template.employeescard.events({
                                                 });
                                             } else {
                                                 if (employeeSaveID) {
-                                                    sideBarService.getAllEmployees(25, 0).then(function (dataReload) {
+                                                    sideBarService.getAllEmployees(initialBaseDataLoad,0).then(function (dataReload) {
                                                         addVS1Data('TEmployee', JSON.stringify(dataReload)).then(function (datareturn) {}).catch(function (err) {});
                                                     }).catch(function (err) {});
 

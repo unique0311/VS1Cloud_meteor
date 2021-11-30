@@ -168,8 +168,8 @@ Template.payrollproductlistpop.onRendered(function () {
                           responsive: true,
                           "order": [[ 1, "asc" ]],
                           "fnDrawCallback": function (oSettings) {
-                              $('.paginate_button.page-item').removeClass('disabled');
-                              $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
+                              // $('.paginate_button.page-item').removeClass('disabled');
+                              // $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
                           },
                           "fnInitComplete": function () {
                               $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryPayrollService_filter");
@@ -299,8 +299,8 @@ Template.payrollproductlistpop.onRendered(function () {
                         responsive: true,
                         "order": [[ 1, "asc" ]],
                         "fnDrawCallback": function (oSettings) {
-                            $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
+                            // $('.paginate_button.page-item').removeClass('disabled');
+                            // $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -314,6 +314,7 @@ Template.payrollproductlistpop.onRendered(function () {
 
                             $('.paginate_button.next:not(.disabled)', this.api().table().container())
                                 .on('click', function () {
+                                  /*
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     let dataLenght = oSettings._iDisplayLength;
                                     let customerSearch = $('#tblInventoryPayrollService_filter input').val();
@@ -353,6 +354,7 @@ Template.payrollproductlistpop.onRendered(function () {
                                     }).catch(function (err) {
                                         $('.fullScreenSpin').css('display', 'none');
                                     });
+                                    */
 
                                 });
                             // setTimeout(function () {
@@ -484,8 +486,8 @@ Template.payrollproductlistpop.onRendered(function () {
                       responsive: true,
                       "order": [[ 1, "asc" ]],
                       "fnDrawCallback": function (oSettings) {
-                          $('.paginate_button.page-item').removeClass('disabled');
-                          $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
+                          // $('.paginate_button.page-item').removeClass('disabled');
+                          // $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
                           if (oSettings._iDisplayLength == -1) {
                               if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -499,6 +501,7 @@ Template.payrollproductlistpop.onRendered(function () {
 
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
                               .on('click', function () {
+                                /*
                                   $('.fullScreenSpin').css('display', 'inline-block');
                                   let dataLenght = oSettings._iDisplayLength;
                                   let customerSearch = $('#tblInventoryPayrollService_filter input').val();
@@ -540,7 +543,7 @@ Template.payrollproductlistpop.onRendered(function () {
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
-
+                                  */
                               });
                           // setTimeout(function () {
                           //     MakeNegative();

@@ -5517,7 +5517,6 @@ Template.appointments.onRendered(function () {
         let checkIncludeAllProducts = templateObject.includeAllProducts.get();
         let getAllEmployeeData = templateObject.employeerecords.get() || '';
         let getEmployeeID = templateObject.empID.get() || '';
-
         document.getElementById("customer").value = $(this).find(".colCompany").text();
         document.getElementById("phone").value = $(this).find(".colPhone").text();
         document.getElementById("mobile").value = $(this).find(".colPhone").text();
@@ -5545,7 +5544,7 @@ Template.appointments.onRendered(function () {
                 document.getElementById("appID").value = 1;
             }
         });
-        // console.log(getAllEmployeeData);
+        if(getEmployeeID != ''){
         var filterEmpData = getAllEmployeeData.filter(empdData => {
             return empdData.id == getEmployeeID;
         });
@@ -5558,6 +5557,7 @@ Template.appointments.onRendered(function () {
         }else{
           templateObject.getAllProductData();
         }
+      }
         // if(checkIncludeAllProducts ==  true){
         // templateObject.getAllProductData();
         // }else{
