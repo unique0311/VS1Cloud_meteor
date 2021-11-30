@@ -132,7 +132,9 @@ Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
     let allDataToLoad = 47;
     let progressPercentage = 0;
-    $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+    // $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+    // $('.headerprogressbar').addClass('headerprogressbarShow');
+    // $('.headerprogressbar').removeClass('headerprogressbarHidden');
     let templateObject = Template.instance();
 
     let employeeLoggedUserAccess = Session.get('ERPSolidCurrentUSerAccess');
@@ -742,12 +744,35 @@ Template.newsidenav.onRendered(function() {
     var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
     let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
+
     templateObject.getAllAccountsData = function() {
         sideBarService.getAccountListVS1().then(function(data) {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("AccountVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Accounts "+Math.round(progressPercentage)+"%");
+
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+
             //localStorage.setItem('VS1AccountList', JSON.stringify(data) || '');
             addVS1Data('TAccountVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -760,7 +785,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TProductVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Products "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TProductVS1', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -772,7 +817,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TProductWeb "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Non-Inventory Products "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TProductWeb', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -784,7 +849,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TCustomerVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Customers "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1CustomerList', JSON.stringify(data) || '');
             addVS1Data('TCustomerVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -798,7 +883,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TSupplierVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Suppliers "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1SupplierList', JSON.stringify(data) || '');
             addVS1Data('TSupplierVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -811,7 +916,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TTaxcodeVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Tax Code "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TaxCodeList', JSON.stringify(data) || '');
             addVS1Data('TTaxcodeVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -825,7 +950,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TTermsVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Terms "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TermsList', JSON.stringify(data) || '');
             addVS1Data('TTermsVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -838,7 +983,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TDeptClass "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Departments "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1DepartmentList', JSON.stringify(data) || '');
             addVS1Data('TDeptClass', JSON.stringify(data));
         }).catch(function(err) {
@@ -851,7 +1016,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TCurrency "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Currency "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1CurrencyList', JSON.stringify(data) || '');
             addVS1Data('TCurrency', JSON.stringify(data));
         }).catch(function(err) {
@@ -864,7 +1049,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TCountries "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Countries "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TCountries', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -876,7 +1081,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TPaymentMethod "+valeur+"%");
+          $(".progressBarInner").text("Payment Method "+valeur+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TPaymentMethod', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -888,7 +1113,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TClientType "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Client Type "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TClientType', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -900,7 +1145,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TLeadStatusType "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Lead Status Type "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1LeadStatusList', JSON.stringify(data) || '');
             addVS1Data('TLeadStatusType', JSON.stringify(data));
         }).catch(function(err) {
@@ -913,7 +1178,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TShippingMethod "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Shipping Method "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1ShippingMethodList', JSON.stringify(data) || '');
             addVS1Data('TShippingMethod', JSON.stringify(data));
         }).catch(function(err) {
@@ -926,7 +1211,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TAccountType "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Account Type "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
             addVS1Data('TAccountType', JSON.stringify(data));
         }).catch(function(err) {
@@ -939,7 +1244,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TERPCombinedContactsVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
             addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -952,7 +1277,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TEmployee "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Employee "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1EmployeeList', JSON.stringify(data) || '');
             addVS1Data('TEmployee', JSON.stringify(data));
         }).catch(function(err) {
@@ -965,7 +1310,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TJournalEntryLines "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Journal Entry Lines "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1JournalEntryLineList', JSON.stringify(data) || '');
             addVS1Data('TJournalEntryLines', JSON.stringify(data));
         }).catch(function(err) {
@@ -979,7 +1344,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TBankAccountReport "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
             addVS1Data('TBankAccountReport', JSON.stringify(data));
         }).catch(function(err) {
@@ -1000,7 +1385,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TInvoiceEx "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
             addVS1Data('TInvoiceEx', JSON.stringify(data));
         }).catch(function(err) {
@@ -1013,7 +1418,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TRefundSale "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Refund Sale "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TRefundSale', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1025,7 +1450,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TInvoiceBackOrderTInvoiceBackOrder "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(" Invoice Back Order "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TInvoiceBackOrder',JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1037,7 +1482,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TSalesOrderEx "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Sales Order "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TSalesOrderEx', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1067,7 +1532,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TPurchaseOrderEx "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TPurchaseOrderList', JSON.stringify(data) || '');
             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
         }).catch(function(err) {
@@ -1090,7 +1575,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TbillReport "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Bill Report "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
             addVS1Data('TbillReport', JSON.stringify(data));
         }).catch(function(err) {
@@ -1103,7 +1608,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TCheque "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Cheque "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TChequeList', JSON.stringify(data) || '');
             addVS1Data('TCheque', JSON.stringify(data));
         }).catch(function(err) {
@@ -1132,7 +1657,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TProductStocknSalePeriodReport "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Product Stock & Sale Period Report "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TProductStocknSalePeriodReport', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1144,7 +1689,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TAppUser "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("App User "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TAppUserList', JSON.stringify(data) || '');
             addVS1Data('TAppUser', JSON.stringify(data));
         }).catch(function(err) {
@@ -1157,7 +1722,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TJobVS1 "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Job "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TJobVS1List', JSON.stringify(data) || '');
             addVS1Data('TJobVS1', JSON.stringify(data));
         }).catch(function(err) {
@@ -1171,12 +1756,34 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TStockAdjustEntry "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Stock Adjust Entry "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TStockAdjustEntry', JSON.stringify(data));
         }).catch(function(err) {
 
         });
-       }
+      }else{
+        allDataToLoad = allDataToLoad - 1;
+      }
     }
 
     templateObject.getAllTStockTransferEntryData = function() {
@@ -1185,11 +1792,33 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TStockTransferEntry "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Stock Transfer Entry "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TStockTransferEntry', JSON.stringify(data));
         }).catch(function(err) {
 
         });
+      }else{
+        allDataToLoad = allDataToLoad - 1;
       }
     }
 
@@ -1198,7 +1827,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TQuote "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Quote "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TQuoteList', JSON.stringify(data) || '');
             addVS1Data('TQuote', JSON.stringify(data));
         }).catch(function(err) {
@@ -1229,7 +1878,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TBillEx "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TBillEx', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1241,7 +1910,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TCredit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Credit "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TCredit', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1272,7 +1961,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TSalesList "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Sales List "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
             addVS1Data('TSalesList', JSON.stringify(data));
         }).catch(function(err) {
@@ -1285,7 +1994,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TAppointment "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TAppointment', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1297,7 +2026,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TERPPreference "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("ERP Preference "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TERPPreference', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1310,7 +2059,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TERPPreferenceExtra "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TERPPreferenceExtra', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1322,7 +2091,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TAppointmentPreferences "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Appointment Preferences "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TAppointmentPreferences', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1335,7 +2124,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TPaymentList "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Payment List "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TPaymentList', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1348,7 +2157,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TARReport "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("AR Report "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TARReport', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1361,7 +2190,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TAPReport "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("AP Report "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TAPReport', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1373,7 +2222,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TCustomerPayment "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Customer Payment "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TCustomerPayment', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1386,7 +2255,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TSupplierPayment "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Supplier Payment "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TSupplierPayment', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1398,7 +2287,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TStatementList "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Statement List "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TStatementList', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1410,7 +2319,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TVS1BankDeposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TVS1BankDeposit', JSON.stringify(data)).then(function(datareturn) {
 
             }).catch(function(err) {
@@ -1427,7 +2356,27 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++; console.log(countObjectTimes);
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("TTimeSheet "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text("Timesheets "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
             addVS1Data('TTimeSheet', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -1463,6 +2412,8 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getTStatementListData();
                 });
 
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
             if (isBanking) {
                 getVS1Data('TVS1BankDeposit').then(function(dataObject) {
@@ -1482,6 +2433,8 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getTVS1BankDepositData();
                 });
 
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
             if (isPayroll) {
                 getVS1Data('TTimeSheet').then(function(dataObject) {
@@ -1501,6 +2454,8 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getAllTimeSheetData();
                 });
 
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
             if (isAccounts) {
                 getVS1Data('TJournalEntryLines').then(function(dataObject) {
@@ -1528,6 +2483,8 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllJournalEntryLineData();
                 });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
             if (isBanking) {
                 getVS1Data('TReconciliation').then(function(dataObject) {
@@ -1545,6 +2502,8 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTReconcilationData();
                 });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
 
             if (isInventory) {
@@ -1572,6 +2531,8 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTStockAdjustEntryData();
                 });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
 
             if (isReports) {
@@ -1608,6 +2569,8 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getTAPReportData();
                 });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
             if (isPayments) {
                 getVS1Data('TPaymentList').then(function(dataObject) {
@@ -1661,6 +2624,8 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getTCustomerPaymentData();
                 });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
             if (isBanking) {
                 getVS1Data('TBankAccountReport').then(function(dataObject) {
@@ -1670,6 +2635,8 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllBankAccountReportData();
                 });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
             if (isContacts) {
                 getVS1Data('TTransactionListReport').then(function(dataObject) {
@@ -1688,6 +2655,8 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTTransactionListReportData();
                 });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
         }, 3000);
     }
@@ -1710,7 +2679,27 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++; console.log(countObjectTimes);
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("TPurchaseOrderEx "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }else{
+                              $('.headerprogressbar').addClass('headerprogressbarShow');
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }
+
+                          }else if(Math.round(progressPercentage) == 100){
+                            setTimeout(function() {
+                              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }else{
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }
+
+                            }, 1000);
+                          }
                             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
                             templateObject.getFollowedAllObjectPull();
                         }).catch(function(err) {
@@ -1724,7 +2713,27 @@ Template.newsidenav.onRendered(function() {
                               countObjectTimes++; console.log(countObjectTimes);
                               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                              $(".progressBarInner").text("TPurchaseOrderEx "+Math.round(progressPercentage)+"%");
+                              $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                              if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                }else{
+                                  $('.headerprogressbar').addClass('headerprogressbarShow');
+                                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                }
+
+                              }else if(Math.round(progressPercentage) == 100){
+                                setTimeout(function() {
+                                  if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                  }else{
+                                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                  }
+
+                                }, 1000);
+                              }
                                 addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
                                 templateObject.getFollowedAllObjectPull();
                             }).catch(function(err) {
@@ -1739,7 +2748,27 @@ Template.newsidenav.onRendered(function() {
                                           countObjectTimes++; console.log(countObjectTimes);
                                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                          $(".progressBarInner").text("TPurchaseOrderEx "+Math.round(progressPercentage)+"%");
+                                          $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                                          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                            }else{
+                                              $('.headerprogressbar').addClass('headerprogressbarShow');
+                                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                            }
+
+                                          }else if(Math.round(progressPercentage) == 100){
+                                            setTimeout(function() {
+                                              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                              }else{
+                                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                              }
+
+                                            }, 1000);
+                                          }
                                             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
                                             templateObject.getFollowedAllObjectPull();
                                         }).catch(function(err) {
@@ -1755,7 +2784,27 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++; console.log(countObjectTimes);
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("TPurchaseOrderEx "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                      if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }else{
+                          $('.headerprogressbar').addClass('headerprogressbarShow');
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }
+
+                      }else if(Math.round(progressPercentage) == 100){
+                        setTimeout(function() {
+                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }else{
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }
+
+                        }, 1000);
+                      }
                         addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
                         templateObject.getFollowedAllObjectPull();
                     }).catch(function(err) {
@@ -2011,7 +3060,27 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++; console.log(countObjectTimes);
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("TAppointment "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }else{
+                              $('.headerprogressbar').addClass('headerprogressbarShow');
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }
+
+                          }else if(Math.round(progressPercentage) == 100){
+                            setTimeout(function() {
+                              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }else{
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }
+
+                            }, 1000);
+                          }
                             addVS1Data('TAppointment', JSON.stringify(data));
                             //setTimeout(function() {
                             templateObject.getFollowedPurchaseDetailsPull();
@@ -2031,7 +3100,27 @@ Template.newsidenav.onRendered(function() {
                                       countObjectTimes++; console.log(countObjectTimes);
                                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                      $(".progressBarInner").text("TAppointment "+Math.round(progressPercentage)+"%");
+                                      $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                                      if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                        }else{
+                                          $('.headerprogressbar').addClass('headerprogressbarShow');
+                                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                        }
+
+                                      }else if(Math.round(progressPercentage) == 100){
+                                        setTimeout(function() {
+                                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                          }else{
+                                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                          }
+
+                                        }, 1000);
+                                      }
                                         addVS1Data('TAppointment', JSON.stringify(data));
                                         //setTimeout(function() {
                                         templateObject.getFollowedPurchaseDetailsPull();
@@ -2050,7 +3139,27 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++; console.log(countObjectTimes);
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("TAppointment "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                      if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }else{
+                          $('.headerprogressbar').addClass('headerprogressbarShow');
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }
+
+                      }else if(Math.round(progressPercentage) == 100){
+                        setTimeout(function() {
+                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }else{
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }
+
+                        }, 1000);
+                      }
                         addVS1Data('TAppointment', JSON.stringify(data));
                         //setTimeout(function() {
                         templateObject.getFollowedPurchaseDetailsPull();
@@ -2155,7 +3264,27 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++; console.log(countObjectTimes);
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("TInvoiceEx "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }else{
+                              $('.headerprogressbar').addClass('headerprogressbarShow');
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }
+
+                          }else if(Math.round(progressPercentage) == 100){
+                            setTimeout(function() {
+                              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }else{
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }
+
+                            }, 1000);
+                          }
                             addVS1Data('TInvoiceEx', JSON.stringify(data));
                             templateObject.getFollowedQuickDataDetailsPull();
                         }).catch(function(err) {
@@ -2169,7 +3298,27 @@ Template.newsidenav.onRendered(function() {
                               countObjectTimes++; console.log(countObjectTimes);
                               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                              $(".progressBarInner").text("TInvoiceEx "+Math.round(progressPercentage)+"%");
+                              $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                              if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                }else{
+                                  $('.headerprogressbar').addClass('headerprogressbarShow');
+                                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                }
+
+                              }else if(Math.round(progressPercentage) == 100){
+                                setTimeout(function() {
+                                  if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                  }else{
+                                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                  }
+
+                                }, 1000);
+                              }
                                 addVS1Data('TInvoiceEx', JSON.stringify(data));
                                 //setTimeout(function() {
                                 templateObject.getFollowedQuickDataDetailsPull();
@@ -2189,7 +3338,27 @@ Template.newsidenav.onRendered(function() {
                                           countObjectTimes++; console.log(countObjectTimes);
                                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                          $(".progressBarInner").text("TInvoiceEx "+Math.round(progressPercentage)+"%");
+                                          $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                                          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                            }else{
+                                              $('.headerprogressbar').addClass('headerprogressbarShow');
+                                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                            }
+
+                                          }else if(Math.round(progressPercentage) == 100){
+                                            setTimeout(function() {
+                                              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                              }else{
+                                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                              }
+
+                                            }, 1000);
+                                          }
                                             addVS1Data('TInvoiceEx', JSON.stringify(data));
                                             //setTimeout(function() {
                                             templateObject.getFollowedQuickDataDetailsPull();
@@ -2210,7 +3379,27 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++; console.log(countObjectTimes);
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("TInvoiceEx "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                      if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }else{
+                          $('.headerprogressbar').addClass('headerprogressbarShow');
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }
+
+                      }else if(Math.round(progressPercentage) == 100){
+                        setTimeout(function() {
+                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }else{
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }
+
+                        }, 1000);
+                      }
                         addVS1Data('TInvoiceEx', JSON.stringify(data));
                         //setTimeout(function() {
                         templateObject.getFollowedQuickDataDetailsPull();
@@ -2338,6 +3527,8 @@ Template.newsidenav.onRendered(function() {
               }).catch(function (err) {
                   templateObject.getAllBackOrderInvoicetData();
               });
+            }else{
+              allDataToLoad = allDataToLoad - 1;
             }
 
         }, 3000);
@@ -2369,7 +3560,27 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++; console.log(countObjectTimes);
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("TERPCombinedContactsVS1 "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+                          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }else{
+                              $('.headerprogressbar').addClass('headerprogressbarShow');
+                              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                            }
+
+                          }else if(Math.round(progressPercentage) == 100){
+                            setTimeout(function() {
+                              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }else{
+                                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                $('.headerprogressbar').addClass('headerprogressbarHidden');
+                              }
+
+                            }, 1000);
+                          }
                             addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
                             templateObject.getFollowedSalesDetailsPull();
                         }).catch(function(err) {
@@ -2383,7 +3594,27 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++; console.log(countObjectTimes);
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("TERPCombinedContactsVS1 "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+                      if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }else{
+                          $('.headerprogressbar').addClass('headerprogressbarShow');
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }
+
+                      }else if(Math.round(progressPercentage) == 100){
+                        setTimeout(function() {
+                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }else{
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }
+
+                        }, 1000);
+                      }
                         addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
                         templateObject.getFollowedSalesDetailsPull();
                     }).catch(function(err) {
@@ -2476,7 +3707,27 @@ Template.newsidenav.onRendered(function() {
               countObjectTimes++; console.log(countObjectTimes);
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-              $(".progressBarInner").text("TAppointment "+Math.round(progressPercentage)+"%");
+              $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+              if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                }else{
+                  $('.headerprogressbar').addClass('headerprogressbarShow');
+                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                }
+
+              }else if(Math.round(progressPercentage) == 100){
+                setTimeout(function() {
+                  if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                  }else{
+                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                  }
+
+                }, 1000);
+              }
                 addVS1Data('TAppointment', JSON.stringify(data));
 
             }).catch(function(err) {
@@ -2539,7 +3790,27 @@ Template.newsidenav.onRendered(function() {
               countObjectTimes++; console.log(countObjectTimes);
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-              $(".progressBarInner").text("TProductVS1 "+Math.round(progressPercentage)+"%");
+              $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+              if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                }else{
+                  $('.headerprogressbar').addClass('headerprogressbarShow');
+                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                }
+
+              }else if(Math.round(progressPercentage) == 100){
+                setTimeout(function() {
+                  if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                  }else{
+                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                  }
+
+                }, 1000);
+              }
                 addVS1Data('TProductVS1', JSON.stringify(data));
             }).catch(function(err) {});
         }, 1000);
@@ -2587,7 +3858,27 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++; console.log(countObjectTimes);
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("TProductVS1 "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                      if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }else{
+                          $('.headerprogressbar').addClass('headerprogressbarShow');
+                          $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                        }
+
+                      }else if(Math.round(progressPercentage) == 100){
+                        setTimeout(function() {
+                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }else{
+                            $('.headerprogressbar').removeClass('headerprogressbarShow');
+                            $('.headerprogressbar').addClass('headerprogressbarHidden');
+                          }
+
+                        }, 1000);
+                      }
                         addVS1Data('TProductVS1', JSON.stringify(data));
                         templateObject.getFollowedContactDetailsPull();
                     }).catch(function(err) {
@@ -2602,7 +3893,27 @@ Template.newsidenav.onRendered(function() {
                                   countObjectTimes++; console.log(countObjectTimes);
                                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                  $(".progressBarInner").text("TProductVS1 "+Math.round(progressPercentage)+"%");
+                                  $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                                  if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                    if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                      $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                    }else{
+                                      $('.headerprogressbar').addClass('headerprogressbarShow');
+                                      $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                    }
+
+                                  }else if(Math.round(progressPercentage) == 100){
+                                    setTimeout(function() {
+                                      if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                        $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                        $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                      }else{
+                                        $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                        $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                      }
+
+                                    }, 1000);
+                                  }
                                     addVS1Data('TProductVS1', JSON.stringify(data));
                                     templateObject.getFollowedContactDetailsPull();
                                 }).catch(function(err) {
@@ -2617,7 +3928,27 @@ Template.newsidenav.onRendered(function() {
                   countObjectTimes++; console.log(countObjectTimes);
                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                  $(".progressBarInner").text("TProductVS1 "+Math.round(progressPercentage)+"%");
+                  $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                  if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                    if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                      $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                    }else{
+                      $('.headerprogressbar').addClass('headerprogressbarShow');
+                      $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                    }
+
+                  }else if(Math.round(progressPercentage) == 100){
+                    setTimeout(function() {
+                      if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                        $('.headerprogressbar').removeClass('headerprogressbarShow');
+                        $('.headerprogressbar').addClass('headerprogressbarHidden');
+                      }else{
+                        $('.headerprogressbar').removeClass('headerprogressbarShow');
+                        $('.headerprogressbar').addClass('headerprogressbarHidden');
+                      }
+
+                    }, 1000);
+                  }
                     addVS1Data('TProductVS1', JSON.stringify(data));
                     templateObject.getFollowedContactDetailsPull();
                 }).catch(function(err) {

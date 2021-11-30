@@ -162,9 +162,11 @@ Template.employeescard.onRendered(function () {
 
     templateObject.getAllSelectedProducts = function (employeeName) {
         let productlist = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
         var splashArrayRepServiceList = new Array();
         sideBarService.getSelectedProducts(employeeName).then(function (data) {
                 var dataList = {};
+                $('.fullScreenSpin').css('display', 'none');
                 if(data.trepservices.length > 0){
                 for (let i = 0; i < data.trepservices.length; i++) {
                   let linePayRate = data.trepservices[i].PayRate||0;
@@ -293,6 +295,7 @@ Template.employeescard.onRendered(function () {
                 }
 
             }).catch(function (err) {
+              $('.fullScreenSpin').css('display', 'none');
             var  dataList = {
                   id:'',
                   employee:  '',
@@ -2199,7 +2202,20 @@ Template.employeescard.events({
         }
     },
     'click .tabproductsservices': function (event) {
-        // $('.btnRefreshProductService').trigger('click');
+      $('.fullScreenSpin').css('display', 'inline-block');
+      let templateObject = Template.instance();
+      let currentId = FlowRouter.current().queryParams;
+      let tempCurrenctTRePService = templateObject.allrepservicedata.get() || '';
+      if(FlowRouter.current().queryParams.id){
+        if(tempCurrenctTRePService.length > 0){
+          $('.fullScreenSpin').css('display', 'none');
+        }else{
+          templateObject.getAllSelectedProducts(FlowRouter.current().queryParams.id);
+        }
+
+      }else{
+          $('.fullScreenSpin').css('display', 'none');
+      }
     },
     'click .colServiceDelete': function (event) {
         let templateObject = Template.instance();

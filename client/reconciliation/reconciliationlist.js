@@ -183,6 +183,56 @@ Template.reconciliationlist.onRendered(function() {
                               $('#tblreconciliationlist').DataTable().ajax.reload();
                           },
                           "fnDrawCallback": function (oSettings) {
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblreconciliationlist_ellipsis').addClass('disabled');
+
+                            if(oSettings._iDisplayLength == -1){
+                              if(oSettings.fnRecordsDisplay() > 150){
+                                $('.paginate_button.page-item.previous').addClass('disabled');
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+                            }else{
+
+                            }
+                            if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                             .on('click', function(){
+                               $('.fullScreenSpin').css('display','inline-block');
+                               let dataLenght = oSettings._iDisplayLength;
+
+                               sideBarService.getAllReconcilationList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TReconciliation').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliation), dataOld.treconciliation);
+                                     let objCombineData = {
+                                       treconciliation:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TReconciliation',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+
+                             });
                               setTimeout(function () {
                                   MakeNegative();
                               }, 100);
@@ -640,6 +690,56 @@ Template.reconciliationlist.onRendered(function() {
                             $('#tblreconciliationlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblreconciliationlist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+
+                             sideBarService.getAllReconcilationList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TReconciliation').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliation), dataOld.treconciliation);
+                                   let objCombineData = {
+                                     treconciliation:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TReconciliation',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);

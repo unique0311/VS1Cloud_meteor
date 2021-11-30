@@ -3071,7 +3071,7 @@ Template.paymentcard.onRendered(() => {
                             customerName: data.fields.CustomerName || '',
                             paymentDate: begunDate,
                             reference: data.fields.ReferenceNo || ' ',
-                            bankAccount: Session.get('banaccount') || data.fields.GLAccountName || '',
+                            bankAccount: Session.get('bankaccount') || data.fields.GLAccountName || '',
                             paymentAmount: appliedAmt || 0,
                             notes: data.fields.Comments,
                             LineItems: lineItems,
@@ -3090,7 +3090,7 @@ Template.paymentcard.onRendered(() => {
                         templateObject.record.set(record);
                         $('#edtCustomerName').val(data.fields.CustomerName);
                         $('#sltDept').val(getDepartmentVal);
-                        let bankAccountData = Session.get('bankaccount')|| data.fields.GLAccountName||'Bank';
+                        let bankAccountData = Session.get('bankaccount')||'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
@@ -3191,7 +3191,7 @@ Template.paymentcard.onRendered(() => {
                                 customerName: useData[d].fields.CustomerName || '',
                                 paymentDate: begunDate,
                                 reference: useData[d].fields.ReferenceNo || ' ',
-                                bankAccount: Session.get('banaccount') || useData[d].fields.GLAccountName || '',
+                                bankAccount: Session.get('bankaccount') || useData[d].fields.GLAccountName || '',
                                 paymentAmount: appliedAmt || 0,
                                 notes: useData[d].fields.Comments,
                                 LineItems: lineItems,
@@ -3312,7 +3312,7 @@ Template.paymentcard.onRendered(() => {
                         customerName: data.fields.CustomerName || '',
                         paymentDate: begunDate,
                         reference: data.fields.ReferenceNo || ' ',
-                        bankAccount: Session.get('banaccount') || data.fields.GLAccountName || '',
+                        bankAccount: Session.get('bankaccount') || data.fields.GLAccountName || '',
                         paymentAmount: appliedAmt || 0,
                         notes: data.fields.Comments,
                         LineItems: lineItems,
@@ -3331,7 +3331,7 @@ Template.paymentcard.onRendered(() => {
                     let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod || 'Cash';
                     $('#sltPaymentMethod').val(getPaymentMethodVal);
                     $('#sltDept').val(getDepartmentVal);
-                    let bankAccountData = Session.get('bankaccount')|| data.fields.GLAccountName||'Bank';
+                    let bankAccountData = Session.get('bankaccount')||'Bank';
                     $('#edtSelectBankAccountName').val(bankAccountData);
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
@@ -3467,7 +3467,7 @@ Template.paymentcard.onRendered(() => {
                     customerName: companyName || '',
                     paymentDate: paymentdate ? moment(paymentdate).format('DD/MM/YYYY') : "",
                     reference: referenceNo || ' ',
-                    bankAccount: Session.get('banaccount') || accountName || '',
+                    bankAccount: Session.get('bankaccount') || accountName || '',
                     paymentAmount: appliedAmt.toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     }) || 0,
@@ -3641,7 +3641,7 @@ Template.paymentcard.onRendered(() => {
                     customerName: data.fields.CustomerName || '',
                     paymentDate: begunDate,
                     reference: data.fields.ReferenceNo || ' ',
-                    bankAccount: Session.get('banaccount') || data.fields.GLAccountName || '',
+                    bankAccount: Session.get('bankaccount') || data.fields.GLAccountName || '',
                     paymentAmount: appliedAmt || 0,
                     notes: data.fields.Comments,
                     LineItems: lineItems,
@@ -3662,7 +3662,7 @@ Template.paymentcard.onRendered(() => {
                 $('#sltPaymentMethod').val(getPaymentMethodVal);
 
                 $('#sltDept').val(getDepartmentVal);
-                let bankAccountData = Session.get('bankaccount')|| data.fields.GLAccountName||'Bank';
+                let bankAccountData = Session.get('bankaccount')||'Bank';
                 $('#edtSelectBankAccountName').val(bankAccountData);
                 if (clientList) {
                     for (var i = 0; i < clientList.length; i++) {
@@ -3775,7 +3775,7 @@ Template.paymentcard.onRendered(() => {
                         customerName: data.fields.CustomerName || '',
                         paymentDate: begunDate,
                         reference: data.fields.ReferenceNo || ' ',
-                        bankAccount: Session.get('banaccount') || data.fields.GLAccountName || '',
+                        bankAccount: Session.get('bankaccount') || data.fields.GLAccountName || '',
                         paymentAmount: utilityService.modifynegativeCurrencyFormat(amountData) || 0,
                         notes: data.fields.Comments,
                         LineItems: lineItems,
@@ -3792,7 +3792,7 @@ Template.paymentcard.onRendered(() => {
 
                     $('#edtCustomerName').val(data.fields.CustomerName);
                     $('#sltDept').val(getDepartmentVal);
-                    let bankAccountData = Session.get('bankaccount')|| data.fields.GLAccountName||'Bank';
+                    let bankAccountData = Session.get('bankaccount')||'Bank';
                     $('#edtSelectBankAccountName').val(bankAccountData);
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
@@ -4048,7 +4048,7 @@ Template.paymentcard.events({
         let empName = localStorage.getItem('mySession');
         let paymentData = [];
         Session.setPersistent('paymentmethod', payMethod);
-        Session.setPersistent('banaccount', bankAccount);
+        Session.setPersistent('bankaccount', bankAccount);
         Session.setPersistent('department', department);
         var url = FlowRouter.current().path;
         if (url.indexOf('?soid=') > 0) {
