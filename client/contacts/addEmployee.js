@@ -274,6 +274,19 @@ Template.employeescard.onRendered(function () {
                   }, 100);
                   let draftRecord = templateObject.datatablerecords.get();
                   templateObject.datatablerecords.set(draftRecord);
+              }).on('search.dt', function (eventSearch, searchdata) {
+                  let dataSearchName = $('#tblEmpServiceList_filter input').val();
+                  if (searchdata.fnRecordsDisplay() > 0) {
+
+                  }else {
+                    $('#productListModal').modal();
+                    setTimeout(function() {
+                        $('#tblInventoryService_filter .form-control-sm').focus();
+                        $('#tblInventoryService_filter .form-control-sm').val(dataSearchName);
+                        $('#tblInventoryService_filter .form-control-sm').trigger("input");
+
+                    }, 500);
+                  }
               }).on('column-reorder', function () {});
               $('.fullScreenSpin').css('display', 'none');
                     }, 100);
