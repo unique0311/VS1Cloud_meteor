@@ -50,12 +50,15 @@ Template.employeescard.onCreated(function () {
     templateObject.isUserAddition = new ReactiveVar();
     templateObject.isUserAddition.set(true);
     templateObject.calendarOptions = new ReactiveVar([]);
+
+    templateObject.allrepservicedata = new ReactiveVar([]);
 });
 
 Template.employeescard.onRendered(function () {
     var erpGet = erpDb();
     $('.fullScreenSpin').css('display', 'inline-block');
     Session.setPersistent('cloudCurrentLogonName', '');
+    //var splashArrayRepServiceList = new Array();
     let templateObject = Template.instance();
     let contactService = new ContactService();
     var countryService = new CountryService();
@@ -225,7 +228,7 @@ Template.employeescard.onRendered(function () {
 
                 if(templateObject.selectedproducts.get()){
                   setTimeout(function () {
-
+                    templateObject.allrepservicedata.set(splashArrayRepServiceList);
                     $('#tblEmpServiceList').DataTable({
                       data: splashArrayRepServiceList,
                       columnDefs: [
@@ -298,7 +301,7 @@ Template.employeescard.onRendered(function () {
                 ];
 
                   setTimeout(function () {
-
+                    templateObject.allrepservicedata.set(splashArrayRepServiceList);
                     $('#tblEmpServiceList').DataTable({
                       data: splashArrayRepServiceList,
                       columnDefs: [
@@ -2301,6 +2304,7 @@ Template.employeescard.events({
         let trepserviceObjects = templateObject.selectedemployeeproducts.get();
         let getselectedproducts = templateObject.selectedproducts.get();
         let productService = new ProductService();
+        //var splashArrayRepServiceList = new Array();
         //var splashArrayRepServiceList = new Array();
         let tokenid = Random.id();
         var tblInventoryService = $(".tblInventoryService").dataTable();

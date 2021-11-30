@@ -1086,7 +1086,6 @@ Template.payrolloverview.onRendered(function () {
                         productList.push(dataList);
                     //}
                 }
-
                 if (splashArrayProductServiceList) {
                   templateObject.allnoninvproducts.set(splashArrayProductServiceList);
                   $('#tblInventoryPayrollService').dataTable({
@@ -1319,6 +1318,7 @@ Template.payrolloverview.onRendered(function () {
                 var dataList = {};
 
                 let getallinvproducts = templateObject.allnoninvproducts.get();
+
                 if(data.trepservices.length > 0){
                 for (let i = 0; i < data.trepservices.length; i++) {
                     dataList = {
@@ -1351,6 +1351,7 @@ Template.payrolloverview.onRendered(function () {
                     productlist.push(dataList);
 
                 }
+
                 if (splashArrayProductServiceListGet) {
                     let uniqueChars = [...new Set(splashArrayProductServiceListGet)];
                     var datatable = $('#tblInventoryPayrollService').DataTable();
@@ -1371,9 +1372,9 @@ Template.payrolloverview.onRendered(function () {
         });
     }
 
-    // setTimeout(function () {
-    //     templateObject.getAllProductData();
-    // }, 500);
+    setTimeout(function () {
+        templateObject.getAllProductData();
+    }, 500);
 
     $("#scanBarcode").click(function () {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {}
@@ -1398,7 +1399,7 @@ Template.payrolloverview.onRendered(function () {
 
     $(document).ready(function() {
       $('#sltJob').editableSelect();
-      // $('#product-list').editableSelect();
+      $('#product-list').editableSelect();
     });
 
     $('#product-list').editableSelect()
