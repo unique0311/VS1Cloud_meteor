@@ -76,7 +76,7 @@
     </style>
     <!-- Mobile Search Header END -->
 
-    <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+    <nav class="navbar navbar-light navbar-expand bg-white shadow topbar static-top mb-0">
         <div class="container-fluid">
             <button class="btn btn-link d-md rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars" style="color: #00A3D3;"></i></button>
 
@@ -207,6 +207,9 @@
         </div>
     </nav>
 
+    <div class="progress progress-striped active mb-4" style="height: 35px; border-radius: 0px;">
+        <div class="loadingbar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><span class="progressBarInner"></span></div>
+    </div>
 
     {{#if isGreenTrack}}
         <script>
