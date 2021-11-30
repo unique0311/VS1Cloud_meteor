@@ -2053,7 +2053,7 @@ templateObject.getFollowedSalesDetailsPull = function () {
   }else{
     templateObject.getFollowedQuickDataDetailsPull();
   }
-  
+
   if(isShipping){
     getVS1Data('TInvoiceBackOrder').then(function (dataObject) {
         if(dataObject.length == 0){
