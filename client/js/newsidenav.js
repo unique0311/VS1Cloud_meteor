@@ -747,7 +747,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllAccountsData = function() {
         sideBarService.getAccountListVS1().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Accounts "+Math.round(progressPercentage)+"%");
@@ -782,7 +782,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllProductData = function() {
         sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Products "+Math.round(progressPercentage)+"%");
@@ -814,7 +814,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllProductServiceData = function() {
         sideBarService.getProductServiceListVS1(initialBaseDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Non-Inventory Products "+Math.round(progressPercentage)+"%");
@@ -846,7 +846,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllCustomersData = function() {
         sideBarService.getAllCustomersDataVS1(initialBaseDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Customers "+Math.round(progressPercentage)+"%");
@@ -880,7 +880,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllSuppliersData = function() {
         sideBarService.getAllSuppliersDataVS1(initialBaseDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Suppliers "+Math.round(progressPercentage)+"%");
@@ -913,7 +913,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTaxCodeData = function() {
         sideBarService.getTaxRateVS1().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Tax Code "+Math.round(progressPercentage)+"%");
@@ -947,7 +947,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTermsData = function() {
         sideBarService.getTermsVS1().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Terms "+Math.round(progressPercentage)+"%");
@@ -980,7 +980,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllDepartmentData = function() {
         sideBarService.getDepartment().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Departments "+Math.round(progressPercentage)+"%");
@@ -1013,7 +1013,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllCurrencyData = function() {
         sideBarService.getCurrencies().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Currency "+Math.round(progressPercentage)+"%");
@@ -1046,7 +1046,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTCountriesData = function() {
         sideBarService.getCountry().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Countries "+Math.round(progressPercentage)+"%");
@@ -1078,7 +1078,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTPaymentMethodData = function() {
         sideBarService.getPaymentMethodDataVS1().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Payment Method "+valeur+"%");
@@ -1110,7 +1110,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTClientTypeData = function() {
         sideBarService.getClientTypeData().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Client Type "+Math.round(progressPercentage)+"%");
@@ -1142,7 +1142,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllLeadStatusData = function() {
         sideBarService.getAllLeadStatus().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Lead Status Type "+Math.round(progressPercentage)+"%");
@@ -1175,7 +1175,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllShippingMethodData = function() {
         sideBarService.getShippingMethodData().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Shipping Method "+Math.round(progressPercentage)+"%");
@@ -1208,7 +1208,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllAccountTypeData = function() {
         sideBarService.getAccountTypesToAddNew().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Account Type "+Math.round(progressPercentage)+"%");
@@ -1241,7 +1241,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllERPCombinedContactsData = function() {
         sideBarService.getAllContactCombineVS1(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
@@ -1274,7 +1274,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllEmployeeData = function() {
         sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Employee "+Math.round(progressPercentage)+"%");
@@ -1307,7 +1307,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllJournalEntryLineData = function() {
         sideBarService.getAllJournalEnrtryLinesList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Journal Entry Lines "+Math.round(progressPercentage)+"%");
@@ -1341,7 +1341,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getAllBankAccountReportData = function() {
 
         sideBarService.getAllBankAccountDetails(prevMonth11Date, toDate, false).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
@@ -1382,7 +1382,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllInvoiceListData = function() {
         sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
@@ -1415,7 +1415,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllRefundListData = function() {
         sideBarService.getAllRefundList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Refund Sale "+Math.round(progressPercentage)+"%");
@@ -1447,7 +1447,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllBackOrderInvoicetData = function() {
         sideBarService.getAllBackOrderInvoiceList(initialDataLoad,0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text(" Invoice Back Order "+Math.round(progressPercentage)+"%");
@@ -1479,7 +1479,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllSalesOrderExListData = function() {
         sideBarService.getAllSalesOrderList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Sales Order "+Math.round(progressPercentage)+"%");
@@ -1529,7 +1529,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTPurchaseOrderData = function() {
         sideBarService.getAllPurchaseOrderList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
@@ -1572,7 +1572,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getAllTbillReportData = function() {
 
         sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Bill Report "+Math.round(progressPercentage)+"%");
@@ -1605,7 +1605,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTChequeData = function() {
         sideBarService.getAllChequeList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Cheque "+Math.round(progressPercentage)+"%");
@@ -1654,7 +1654,7 @@ Template.newsidenav.onRendered(function() {
         var fromDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
         let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
         sideBarService.getProductStocknSaleReportData(prevMonth11Date, fromDate).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Product Stock & Sale Period Report "+Math.round(progressPercentage)+"%");
@@ -1686,7 +1686,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllAppUserData = function() {
         sideBarService.getCurrentLoggedUser().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("App User "+Math.round(progressPercentage)+"%");
@@ -1719,7 +1719,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTJobVS1Data = function() {
         sideBarService.getAllJobssDataVS1(initialBaseDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Job "+Math.round(progressPercentage)+"%");
@@ -1753,7 +1753,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getAllTStockAdjustEntryData = function() {
         if(isStockAdjustment){
         sideBarService.getAllStockAdjustEntry(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Stock Adjust Entry "+Math.round(progressPercentage)+"%");
@@ -1789,7 +1789,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getAllTStockTransferEntryData = function() {
       if(isStockTransfer){
         sideBarService.getAllStockTransferEntry(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Stock Transfer Entry "+Math.round(progressPercentage)+"%");
@@ -1824,7 +1824,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTQuoteData = function() {
         sideBarService.getAllQuoteList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Quote "+Math.round(progressPercentage)+"%");
@@ -1875,7 +1875,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTBillExData = function() {
         sideBarService.getAllBillExList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
@@ -1907,7 +1907,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTCreditData = function() {
         sideBarService.getAllCreditList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Credit "+Math.round(progressPercentage)+"%");
@@ -1958,7 +1958,7 @@ Template.newsidenav.onRendered(function() {
 
 
         sideBarService.getSalesListData(prevMonth11Date, toDate, false).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Sales List "+Math.round(progressPercentage)+"%");
@@ -1991,7 +1991,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllAppointmentData = function() {
         sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
@@ -2023,7 +2023,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTERPPreferenceData = function() {
         sideBarService.getGlobalSettings().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("ERP Preference "+Math.round(progressPercentage)+"%");
@@ -2056,30 +2056,62 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTERPPreferenceExtraData = function() {
         sideBarService.getGlobalSettingsExtra().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
-          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
-          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
-            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
-              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+          if (isAppointmentLaunch) {
+              if (isAppointmentScheduling) {
+                   allDataToLoad = 28;
+                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                   $(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
+                   if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                     if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                       $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                     }else{
+                       $('.headerprogressbar').addClass('headerprogressbarShow');
+                       $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                     }
+
+                   }else if(Math.round(progressPercentage) == 100){
+                     setTimeout(function() {
+                       if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                         $('.headerprogressbar').removeClass('headerprogressbarShow');
+                         $('.headerprogressbar').addClass('headerprogressbarHidden');
+                       }else{
+                         $('.headerprogressbar').removeClass('headerprogressbarShow');
+                         $('.headerprogressbar').addClass('headerprogressbarHidden');
+                       }
+
+                     }, 1000);
+                   }
+                 }
             }else{
-              $('.headerprogressbar').addClass('headerprogressbarShow');
-              $('.headerprogressbar').removeClass('headerprogressbarHidden');
-            }
+              progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+              $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+              $(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
+              if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                }else{
+                  $('.headerprogressbar').addClass('headerprogressbarShow');
+                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                }
 
-          }else if(Math.round(progressPercentage) == 100){
-            setTimeout(function() {
-              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
-                $('.headerprogressbar').removeClass('headerprogressbarShow');
-                $('.headerprogressbar').addClass('headerprogressbarHidden');
-              }else{
-                $('.headerprogressbar').removeClass('headerprogressbarShow');
-                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else if(Math.round(progressPercentage) == 100){
+                setTimeout(function() {
+                  if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                  }else{
+                    $('.headerprogressbar').removeClass('headerprogressbarShow');
+                    $('.headerprogressbar').addClass('headerprogressbarHidden');
+                  }
+
+                }, 1000);
               }
-
-            }, 1000);
           }
+
+
             addVS1Data('TERPPreferenceExtra', JSON.stringify(data));
         }).catch(function(err) {
 
@@ -2088,7 +2120,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllAppointmentPrefData = function() {
         sideBarService.getAllAppointmentPredList().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Appointment Preferences "+Math.round(progressPercentage)+"%");
@@ -2121,7 +2153,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getTPaymentListData = function() {
 
         sideBarService.getTPaymentList(prevMonth11Date, toDate, false).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Payment List "+Math.round(progressPercentage)+"%");
@@ -2154,7 +2186,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getTARReportData = function() {
 
         sideBarService.getTARReport(prevMonth11Date, toDate, false).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("AR Report "+Math.round(progressPercentage)+"%");
@@ -2187,7 +2219,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getTAPReportData = function() {
 
         sideBarService.getTAPReport(prevMonth11Date, toDate, false).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("AP Report "+Math.round(progressPercentage)+"%");
@@ -2219,7 +2251,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTCustomerPaymentData = function() {
         sideBarService.getTCustomerPaymentList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Customer Payment "+Math.round(progressPercentage)+"%");
@@ -2252,7 +2284,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTSupplierPaymentData = function() {
         sideBarService.getTSupplierPaymentList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Supplier Payment "+Math.round(progressPercentage)+"%");
@@ -2284,7 +2316,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTStatementListData = function() {
         sideBarService.getAllCustomerStatementData().then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Statement List "+Math.round(progressPercentage)+"%");
@@ -2316,7 +2348,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTVS1BankDepositData = function() {
         sideBarService.getAllTVS1BankDepositData(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
@@ -2353,7 +2385,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTimeSheetData = function() {
         sideBarService.getAllTimeSheetList(initialDataLoad, 0).then(function(data) {
-          countObjectTimes++; console.log(countObjectTimes);
+          countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           $(".progressBarInner").text("Timesheets "+Math.round(progressPercentage)+"%");
@@ -2412,8 +2444,6 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getTStatementListData();
                 });
 
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
             if (isBanking) {
                 getVS1Data('TVS1BankDeposit').then(function(dataObject) {
@@ -2433,8 +2463,6 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getTVS1BankDepositData();
                 });
 
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
             if (isPayroll) {
                 getVS1Data('TTimeSheet').then(function(dataObject) {
@@ -2454,8 +2482,6 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getAllTimeSheetData();
                 });
 
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
             if (isAccounts) {
                 getVS1Data('TJournalEntryLines').then(function(dataObject) {
@@ -2483,8 +2509,6 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllJournalEntryLineData();
                 });
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
             if (isBanking) {
                 getVS1Data('TReconciliation').then(function(dataObject) {
@@ -2502,8 +2526,6 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTReconcilationData();
                 });
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
 
             if (isInventory) {
@@ -2531,8 +2553,6 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTStockAdjustEntryData();
                 });
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
 
             if (isReports) {
@@ -2569,8 +2589,6 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getTAPReportData();
                 });
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
             if (isPayments) {
                 getVS1Data('TPaymentList').then(function(dataObject) {
@@ -2624,8 +2642,6 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getTCustomerPaymentData();
                 });
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
             if (isBanking) {
                 getVS1Data('TBankAccountReport').then(function(dataObject) {
@@ -2635,8 +2651,6 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllBankAccountReportData();
                 });
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
             if (isContacts) {
                 getVS1Data('TTransactionListReport').then(function(dataObject) {
@@ -2655,10 +2669,19 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTTransactionListReportData();
                 });
-            }else{
-              allDataToLoad = allDataToLoad - 1;
             }
         }, 3000);
+
+        setTimeout(function() {
+          $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
+          $(".progressBarInner").text(""+Math.round(100)+"%");
+
+          setTimeout(function() {
+          $('.headerprogressbar').removeClass('headerprogressbarShow');
+          $('.headerprogressbar').addClass('headerprogressbarHidden');
+          }, 500);
+        }, 60000);
+
     }
 
     //Followed by Purchase Details
@@ -2676,7 +2699,7 @@ Template.newsidenav.onRendered(function() {
                 getVS1Data('TPurchaseOrderEx').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         sideBarService.getAllPurchaseOrderList(initialDataLoad, 0).then(function(data) {
-                          countObjectTimes++; console.log(countObjectTimes);
+                          countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                           $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
@@ -2710,7 +2733,7 @@ Template.newsidenav.onRendered(function() {
                         let useData = data.tpurchaseorderex;
                         if (useData[0].Id) {
                             sideBarService.getAllPurchaseOrderList(initialDataLoad, 0).then(function(data) {
-                              countObjectTimes++; console.log(countObjectTimes);
+                              countObjectTimes++;
                               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                               $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
@@ -2745,7 +2768,7 @@ Template.newsidenav.onRendered(function() {
                                 if (loggedUserEventFired) {
                                     if (getTimeStamp[0] != currenctTodayDate) {
                                         sideBarService.getAllPurchaseOrderList(initialDataLoad, 0).then(function(data) {
-                                          countObjectTimes++; console.log(countObjectTimes);
+                                          countObjectTimes++;
                                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                                           $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
@@ -2781,7 +2804,7 @@ Template.newsidenav.onRendered(function() {
                     }
                 }).catch(function(err) {
                     sideBarService.getAllPurchaseOrderList(initialDataLoad, 0).then(function(data) {
-                      countObjectTimes++; console.log(countObjectTimes);
+                      countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                       $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
@@ -3057,7 +3080,7 @@ Template.newsidenav.onRendered(function() {
                 getVS1Data('TAppointment').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
-                          countObjectTimes++; console.log(countObjectTimes);
+                          countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                           $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
@@ -3097,7 +3120,7 @@ Template.newsidenav.onRendered(function() {
                             if (loggedUserEventFired) {
                                 if (getTimeStamp[0] != currenctTodayDate) {
                                     sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
-                                      countObjectTimes++; console.log(countObjectTimes);
+                                      countObjectTimes++;
                                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                                       $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
@@ -3136,7 +3159,7 @@ Template.newsidenav.onRendered(function() {
                     }
                 }).catch(function(err) {
                     sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
-                      countObjectTimes++; console.log(countObjectTimes);
+                      countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                       $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
@@ -3261,7 +3284,7 @@ Template.newsidenav.onRendered(function() {
                 getVS1Data('TInvoiceEx').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
-                          countObjectTimes++; console.log(countObjectTimes);
+                          countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                           $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
@@ -3295,7 +3318,7 @@ Template.newsidenav.onRendered(function() {
                         let useData = data.tinvoiceex;
                         if (useData[0].Id) {
                             sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
-                              countObjectTimes++; console.log(countObjectTimes);
+                              countObjectTimes++;
                               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                               $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
@@ -3335,7 +3358,7 @@ Template.newsidenav.onRendered(function() {
                                 if (loggedUserEventFired) {
                                     if (getTimeStamp[0] != currenctTodayDate) {
                                         sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
-                                          countObjectTimes++; console.log(countObjectTimes);
+                                          countObjectTimes++;
                                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                                           $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
@@ -3376,7 +3399,7 @@ Template.newsidenav.onRendered(function() {
                     }
                 }).catch(function(err) {
                     sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
-                      countObjectTimes++; console.log(countObjectTimes);
+                      countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                       $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
@@ -3557,7 +3580,7 @@ Template.newsidenav.onRendered(function() {
                 getVS1Data('TERPCombinedContactsVS1').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         sideBarService.getAllContactCombineVS1(initialDataLoad, 0).then(function(data) {
-                          countObjectTimes++; console.log(countObjectTimes);
+                          countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                           $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
@@ -3591,7 +3614,7 @@ Template.newsidenav.onRendered(function() {
                     }
                 }).catch(function(err) {
                     sideBarService.getAllContactCombineVS1(initialDataLoad, 0).then(function(data) {
-                      countObjectTimes++; console.log(countObjectTimes);
+                      countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                       $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
@@ -3704,7 +3727,7 @@ Template.newsidenav.onRendered(function() {
             templateObject.getAllEmployeeData();
 
             sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
-              countObjectTimes++; console.log(countObjectTimes);
+              countObjectTimes++;
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
               $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
@@ -3787,7 +3810,7 @@ Template.newsidenav.onRendered(function() {
         }
         setTimeout(function() {
             sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
-              countObjectTimes++; console.log(countObjectTimes);
+              countObjectTimes++;
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
               $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
@@ -3855,7 +3878,7 @@ Template.newsidenav.onRendered(function() {
             getVS1Data('TProductVS1').then(function(dataObject) {
                 if (dataObject.length == 0) {
                     sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
-                      countObjectTimes++; console.log(countObjectTimes);
+                      countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                       $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
@@ -3890,7 +3913,7 @@ Template.newsidenav.onRendered(function() {
                         if (loggedUserEventFired) {
                             if (getTimeStamp[0] != currenctTodayDate) {
                                 sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
-                                  countObjectTimes++; console.log(countObjectTimes);
+                                  countObjectTimes++;
                                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                                   $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
@@ -3925,7 +3948,7 @@ Template.newsidenav.onRendered(function() {
                 }
             }).catch(function(err) {
                 sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
-                  countObjectTimes++; console.log(countObjectTimes);
+                  countObjectTimes++;
                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
                   $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
@@ -4064,7 +4087,6 @@ Template.newsidenav.onRendered(function() {
         templateObject.isPrintStatement.set(true);
     }
 
-    console.log(countObjectTimes);
 });
 Template.newsidenav.events({
     'click #sidenavaccessLevel': function(event) {

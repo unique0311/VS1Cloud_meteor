@@ -281,13 +281,15 @@ Template.employeescard.onRendered(function () {
                   if (searchdata.fnRecordsDisplay() > 0) {
 
                   }else {
-                    $('#productListModal').modal();
+                    if(dataSearchName.replace(/\s/g, '') != ''){
+                     $('#productListModal').modal();
                     setTimeout(function() {
                         $('#tblInventoryService_filter .form-control-sm').focus();
                         $('#tblInventoryService_filter .form-control-sm').val(dataSearchName);
                         $('#tblInventoryService_filter .form-control-sm').trigger("input");
 
                     }, 500);
+                  }
                   }
               }).on('column-reorder', function () {});
               $('.fullScreenSpin').css('display', 'none');
