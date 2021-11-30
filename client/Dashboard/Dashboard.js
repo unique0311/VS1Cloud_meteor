@@ -26,5 +26,16 @@ Template.dashboard.events({
 'click .btnBatchUpdate': function () {
   $('.fullScreenSpin').css('display','inline-block');
     batchUpdateCall();
+},
+'click .progressbarcheck': function() {
+    var valeur = 0;
+    $('.loadingbar').css('width', valeur + '%').attr('aria-valuenow', valeur);
+    $('input:checked').each(function() {
+        if ($(this).attr('value') > valeur) {
+            valeur = $(this).attr('value');
+        }
+    });
+    $('.loadingbar').css('width', valeur + '%').attr('aria-valuenow', valeur);
+    $(".progressBarInner").text("Invoices "+valeur+"%");
 }
 });
