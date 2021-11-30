@@ -6431,6 +6431,7 @@ Template.appointments.events({
     'click .droppable': function (event) {
         let templateObject = Template.instance();
         let calOptions = templateObject.globalSettings.get();
+        let getAllEmployeeData = templateObject.employeerecords.get() || '';
         $('#frmAppointment')[0].reset();
         let element = $(event.target);
         if (element.is("p") || element.is(".card-body")) {
@@ -6476,7 +6477,18 @@ Template.appointments.events({
                 $("#tActualEndTime").prop("disabled", true);
                 $("#txtActualHoursSpent").prop("disabled", true);
             }
+            var resultEmpData = getAllEmployeeData.filter(empDataObj => {
+            	return empDataObj.employeeName == result[0].employeename
+            });
+            if(resultEmpData){
+              if(resultEmpData[0].custFld8 == "false"){
+                    templateObject.getAllSelectedProducts(resultEmpData[0].id);
+                  }else{
+                    templateObject.getAllProductData();
+                  }
+            }else{
             templateObject.getAllProductData();
+            }
             document.getElementById("aStartDate").value = result[0].aStartDate || 0;
             document.getElementById("updateID").value = result[0].id || 0;
             document.getElementById("appID").value = result[0].id;
@@ -6518,6 +6530,20 @@ Template.appointments.events({
             $("#startTime").val(startTime);
             $("#endTime").val(endTime);
             $("#employee_name").val(name);
+
+            var resultEmpData = getAllEmployeeData.filter(empDataObj => {
+              return empDataObj.employeeName == name
+            });
+            if(resultEmpData){
+              if(resultEmpData[0].custFld8 == "false"){
+                    templateObject.getAllSelectedProducts(resultEmpData[0].id);
+                  }else{
+                    templateObject.getAllProductData();
+                  }
+            }else{
+            templateObject.getAllProductData();
+            }
+
             // if (calOptions.defaultProduct != "") {
             //     //$('#product-list').prepend('<option value="' + calOptions.productID + '" selected>' + calOptions.defaultProduct + '</option>');
             //
