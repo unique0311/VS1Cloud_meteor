@@ -3762,7 +3762,11 @@ Template.timesheet.onRendered(function () {
                                 let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
                                 let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
                                 var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value + ':00');
-                                var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value + ':00');
+                                var endTime = new Date(date + ' ' + document.getElementById("endTime").value + ':00');
+                                alert(endDate);
+                                alert(startTime);
+                                alert(endTime);
+                                alert(endDate + ' ' + document.getElementById("endTime").value + ':00');
                                 if (endTime > startTime) {
                                     let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
                                     document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
