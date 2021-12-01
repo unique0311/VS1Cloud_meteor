@@ -517,9 +517,9 @@ Template.timesheettimelog.onRendered(function () {
                                             startTime: startTime,
                                             endTime: endTime,
                                             product: data.ttimesheet[t].fields.Logs[l].fields.Product,
-                                            sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
-                                            timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
-                                            timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
+                                            sortdate: data.ttimesheet[t].fields.Logs[l].fields.MsTimeStamp != '' ? moment(data.ttimesheet[t].fields.Logs[l].fields.MsTimeStamp).format("YYYY/MM/DD") : data.ttimesheet[t].fields.Logs[l].fields.MsTimeStamp,
+                                            timesheetdate: data.ttimesheet[t].fields.Logs[l].fields.MsTimeStamp != '' ? moment(data.ttimesheet[t].fields.Logs[l].fields.MsTimeStamp).format("DD/MM/YYYY") : data.ttimesheet[t].fields.Logs[l].fields.MsTimeStamp,
+                                            timesheetdate1: data.ttimesheet[t].fields.Logs[l].fields.MsTimeStamp || '',
                                             notes: data.ttimesheet[t].fields.Logs[l].fields.Description || '',
                                         };
                                         dataTableList.push(dataList);
@@ -639,9 +639,9 @@ Template.timesheettimelog.onRendered(function () {
                                     startTime: startTime,
                                     endTime: endTime,
                                     product: data.ttimesheet[t].fields.Logs.fields.Product || data.ttimesheet[t].fields.ServiceName || '',
-                                    sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
-                                    timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
-                                    timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
+                                    sortdate: data.ttimesheet[t].fields.Log.fields.MsTimeStamp != '' ? moment(data.ttimesheet[t].fields.Log.fields.MsTimeStamp).format("YYYY/MM/DD") : data.ttimesheet[t].fields.Log.fields.MsTimeStamp,
+                                    timesheetdate: data.ttimesheet[t].fields.Log.fields.MsTimeStamp!= '' ? moment(data.ttimesheet[t].fields.Log.fields.MsTimeStamp).format("DD/MM/YYYY") : data.ttimesheet[t].fields.Log.fields.MsTimeStamp,
+                                    timesheetdate1: data.ttimesheet[t].fields.Log.fields.MsTimeStamp || '',
                                     notes: data.ttimesheet[t].fields.Logs.fields.Description || '',
                                 };
                                 dataTableList.push(dataList);
