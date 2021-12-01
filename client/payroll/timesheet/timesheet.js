@@ -389,7 +389,7 @@ Template.timesheet.onRendered(function () {
                             columVisible = false;
                         }
                         sWidth = v.style.width.replace('px', "");
-
+                        if(v.className.includes("colRegHoursOne") == false) {
                         let datatablerecordObj = {
                             sTitle: v.innerText || '',
                             sWidth: sWidth || '',
@@ -398,6 +398,7 @@ Template.timesheet.onRendered(function () {
                             sClass: v.className || ''
                         };
                         tableHeaderList.push(datatablerecordObj);
+                    }
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control');
@@ -697,8 +698,8 @@ Template.timesheet.onRendered(function () {
                         columVisible = false;
                     }
                     sWidth = v.style.width.replace('px', "");
-
-                    let datatablerecordObj = {
+                    if(v.className.includes("colRegHoursOne") == false) {
+                        let datatablerecordObj = {
                         sTitle: v.innerText || '',
                         sWidth: sWidth || '',
                         sIndex: v.cellIndex || '',
@@ -706,6 +707,9 @@ Template.timesheet.onRendered(function () {
                         sClass: v.className || ''
                     };
                     tableHeaderList.push(datatablerecordObj);
+
+                    }
+                  
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control');
@@ -798,7 +802,7 @@ Template.timesheet.onRendered(function () {
                             $('#employeeStatusField').removeClass('statusClockedOn');
                             $('#employeeStatusField').removeClass('statusClockedOff');
                             $('#employeeStatusField').addClass('statusOnHold').text('On Hold');
-                        } else if (clockList[clockList.length - 1].isPaused == "") {
+                        } else if (clockList[clockList.length - 1].isPaused == "Clocked On" || clockList[clockList.length - 1].isPaused == "") {
                             $('#employeeStatusField').removeClass('statusOnHold');
                             $('#employeeStatusField').removeClass('statusClockedOff');
                             $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
@@ -976,7 +980,6 @@ Template.timesheet.onRendered(function () {
                 clockList = timeSheetList.filter(clkList => {
                     return clkList.employee == Session.get('mySessionEmployee');
                 });
-
                 if (clockList.length > 0) {
                     if (clockList[clockList.length - 1].isPaused == "completed") {
                         $('#employeeStatusField').removeClass('statusClockedOn');
@@ -986,7 +989,7 @@ Template.timesheet.onRendered(function () {
                         $('#employeeStatusField').removeClass('statusClockedOn');
                         $('#employeeStatusField').removeClass('statusClockedOff');
                         $('#employeeStatusField').addClass('statusOnHold').text('On Hold');
-                    } else if (clockList[clockList.length - 1].isPaused == "") {
+                    } else if (clockList[clockList.length - 1].isPaused == "Clocked On" || clockList[clockList.length - 1].isPaused == "") {
                         $('#employeeStatusField').removeClass('statusOnHold');
                         $('#employeeStatusField').removeClass('statusClockedOff');
                         $('#employeeStatusField').addClass('statusClockedOn').text('Clocked On');
@@ -3506,7 +3509,7 @@ Template.timesheet.onRendered(function () {
                                 type: "TTimeSheet",
                                 fields: {
                                     ID: updateID,
-                                    InvoiceNotes: ""
+                                    InvoiceNotes: "Clocked On"
                                 }
                             }
 
@@ -3672,7 +3675,7 @@ Template.timesheet.onRendered(function () {
                                     type: "TTimeSheet",
                                     fields: {
                                         ID: updateID,
-                                        InvoiceNotes: ""
+                                        InvoiceNotes: "Clocked On"
                                     }
                                 }
 
@@ -4133,7 +4136,7 @@ Template.timesheet.onRendered(function () {
                                             // ServiceName: "Test"|| '',
                                             TimeSheetClassName: "Default" || '',
                                             Notes: techNotes || '',
-                                            InvoiceNotes: isPaused || ""
+                                            InvoiceNotes: "Clocked On" || ""
                                             // EntryDate: accountdesc|| ''
                                         }
                                     }
@@ -4374,7 +4377,7 @@ Template.timesheet.onRendered(function () {
                     var product = $('#product-listone').val() || '';
                     var jobName = $('#sltJobOne').val() || '';
                     var status = "Processed"
-                        let isPaused = checkStatus;
+                    let isPaused = checkStatus;
                     let toUpdate = {};
                     let obj = {};
                     let data = '';

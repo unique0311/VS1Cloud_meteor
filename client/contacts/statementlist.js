@@ -16,6 +16,7 @@ let statementMailObj = {};
 Template.statementlist.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
+    templateObject.datatablerecords1 = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
 
     templateObject.statmentprintrecords = new ReactiveVar([]);
@@ -60,13 +61,13 @@ Template.statementlist.onRendered(function () {
 
         }
     });
-    var today = moment().format('DD/MM/YYYY');
+     var today = moment().format('DD/MM/YYYY');
     var currentDate = new Date();
     var begunDate = moment(currentDate).format("DD/MM/YYYY");
-    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateMonth = currentDate.getMonth();
     let fromDateDay = currentDate.getDate();
-    if ((currentDate.getMonth()+1) < 10) {
-        fromDateMonth = "0" + (currentDate.getMonth()+1);
+    if (currentDate.getMonth() < 10) {
+        fromDateMonth = "0" + currentDate.getMonth();
     }
 
     if (currentDate.getDate() < 10) {
@@ -89,6 +90,7 @@ Template.statementlist.onRendered(function () {
 
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
+    $("#dtSODate").val(begunDate);
     templateObject.getOrganisationDetails = function () {
 
         let account_id = Session.get('vs1companyStripeID') || '';
@@ -390,6 +392,8 @@ Template.statementlist.onRendered(function () {
                             company: data.tstatementlist[i].Customername || '',
                             contactname: data.tstatementlist[i].Customername || '',
                             phone: '' || '',
+                            dateFrom: data.Params.DateFrom,
+                            dateTo: data.Params.DateTo.split(' ')[0],
                             //arbalance: arBalance || 0.00,
                             //creditbalance: creditBalance || 0.00,
                             balance: balance || 0.00,
@@ -413,8 +417,8 @@ Template.statementlist.onRendered(function () {
                                 $(this).addClass('text-danger')
                         });
                     };
-
                     templateObject.datatablerecords.set(dataTableList);
+                    templateObject.datatablerecords1.set(dataTableList);
 
                     if (templateObject.datatablerecords.get()) {
 
@@ -589,6 +593,8 @@ Template.statementlist.onRendered(function () {
                         company: useData[i].Customername || '',
                         contactname: useData[i].Customername || '',
                         phone: '' || '',
+                        dateFrom: data.Params.DateFrom,
+                        dateTo: data.Params.DateTo.split('')[0],
                         //arbalance: arBalance || 0.00,
                         //creditbalance: creditBalance || 0.00,
                         balance: balance || 0.00,
@@ -1390,6 +1396,44 @@ Template.statementlist.events({
         } else {
             $('.fullScreenSpin').css('display', 'none');
         }
+    },
+     'change #dateTo': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let statementListData = templateObject.datatablerecords1.get();
+        let statementList = [];
+        //templateObject.datatablerecords.set('');
+        let startDate = new Date($("#dateFrom").datepicker("getDate"));
+        let endDate = new Date($("#dateTo").datepicker("getDate"));
+        for (let x = 0; x < statementListData.length; x++) {
+            let date = new Date(statementListData[x].dateFrom);
+            if (date >= startDate && date <= endDate) {
+                statementList.push(statementListData[x]);
+            }
+        }
+        templateObject.datatablerecords.set(statementList);
+        $('.dataTables_info').html('Showing 1 to ' + statementList.length + ' of ' + statementList.length + ' entries');
+        $('.fullScreenSpin').css('display', 'none');
+
+    },
+    'change #dateFrom': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let statementListData = templateObject.datatablerecords1.get();
+        let statementList = [];
+        //templateObject.datatablerecords.set('');
+        let startDate = new Date($("#dateFrom").datepicker("getDate"));
+        let endDate = new Date($("#dateTo").datepicker("getDate"));
+        for (let x = 0; x < statementListData.length; x++) {
+            let date = new Date(statementListData[x].dateFrom);
+            if (date >= startDate && date <= endDate) {
+                statementList.push(statementListData[x]);
+            }
+        }
+        templateObject.datatablerecords.set(statementList);
+        $('.dataTables_info').html('Showing 1 to ' + statementList.length + ' of ' + statementList.length + ' entries');
+        $('.fullScreenSpin').css('display', 'none');
+
     },
     'click .printConfirm ': async function (event) {
         $('.fullScreenSpin').css('display', 'block');

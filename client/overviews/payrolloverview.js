@@ -22,7 +22,7 @@ Template.payrolloverview.onCreated(function () {
 
     templateObject.useProductCostaspayRate = new ReactiveVar();
     templateObject.useProductCostaspayRate.set(false);
-
+    templateObject.loggeduserdata = new ReactiveVar([]);
     templateObject.allnoninvproducts = new ReactiveVar([]);
 
 });
@@ -38,6 +38,7 @@ Template.payrolloverview.onRendered(function () {
     const dataTableList = [];
     const timeSheetList = [];
     const tableHeaderList = [];
+    const loggedUserList = [];
     const jobsList = [];
     let clockEntry = [];
 
@@ -151,7 +152,7 @@ Template.payrolloverview.onRendered(function () {
         return time;
     }
 
-
+   
     templateObject.getAllTimeSheetDataClock = function () {
         getVS1Data('TTimeSheet').then(function (dataObject) {
             if (dataObject == 0) {
@@ -262,7 +263,6 @@ Template.payrolloverview.onRendered(function () {
                     }
 
                 }
-
                 templateObject.timesheetrecords.set(timeSheetList);
                 let url = window.location.href;
                 $('.fullScreenSpin').css('display', 'none');
@@ -329,6 +329,31 @@ Template.payrolloverview.onRendered(function () {
     }
 
     templateObject.getAllTimeSheetDataClock();
+
+     templateObject.getLoggedUserData = function () {
+          let dataListloggedUser = {};
+          let vs1EmployeeImage = Session.get('vs1EmployeeImages');
+          let timesheetEmployeeData = templateObject.timesheetrecords.get();
+          let encoded = '';
+          for(let i=0; i < timesheetEmployeeData.length; i++){
+            if(timesheetEmployeeData[i].isPaused == "Clocked On"){
+                  let employeeUser = timesheetEmployeeData[i].employee;
+                  dataListloggedUser = {
+                      //id: data.tappuser[i].EmployeeID || '',
+                      employeename: employeeUser || '- -',
+                      //ladtloging: data.tappuser[i].LastTime|| '',
+                      // employeepicture: encoded|| ''
+                  };
+                  loggedUserList.push(dataListloggedUser);
+
+            }
+          }
+          templateObject.loggeduserdata.set(loggedUserList);
+
+    };
+        setTimeout(function(){ 
+    templateObject.getLoggedUserData();
+},500);
     templateObject.getEmployees = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
 
@@ -2501,7 +2526,7 @@ Template.payrolloverview.events({
                     type: "TTimeSheet",
                     fields: {
                         ID: updateID,
-                        InvoiceNotes: ""
+                        InvoiceNotes: "Clocked On"
                     }
                 }
 
@@ -2667,7 +2692,7 @@ Template.payrolloverview.events({
                         type: "TTimeSheet",
                         fields: {
                             ID: updateID,
-                            InvoiceNotes: ""
+                            InvoiceNotes: "Clocked On"
                         }
                     }
 
@@ -3005,7 +3030,7 @@ Template.payrolloverview.events({
                                 // ServiceName: "Test"|| '',
                                 TimeSheetClassName: "Default" || '',
                                 Notes: techNotes || '',
-                                InvoiceNotes: isPaused || ""
+                                InvoiceNotes: "Clocked On"
                                 // EntryDate: accountdesc|| ''
                             }
                         }
@@ -4275,6 +4300,17 @@ Template.payrolloverview.helpers({
             if (a.employeename == 'NA') {
                 return 1;
             } else if (b.employeename == 'NA') {
+                return -1;
+            }
+            return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
+        });
+    },
+     loggeduserdata: () => {
+        return Template.instance().loggeduserdata.get().sort(function(a, b){
+            if (a.employeename == 'NA') {
+                return 1;
+            }
+            else if (b.employeename == 'NA') {
                 return -1;
             }
             return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
