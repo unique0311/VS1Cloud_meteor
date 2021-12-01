@@ -3443,7 +3443,8 @@ Template.timesheet.onRendered(function () {
                     let toUpdate = {};
                     let newEntry = {};
                     let date = new Date();
-                    let initialDate = new Date(moment($('dtSODate').val()).format("YYYY-MM-DD"));
+                    let initialDate = new Date($("#dtSODate").datepicker("getDate"));
+                    //new Date(moment($('dtSODate').val()).format("YYYY-MM-DD"));
                     if (clockList.length > 0) {
 
                         if (Array.isArray(clockList[clockList.length - 1].timelog)) {
@@ -3603,7 +3604,8 @@ Template.timesheet.onRendered(function () {
                     var product = $('#product-listone').val() || '';
                     let toUpdate = {};
                     let date = new Date();
-                    let initialDate = new Date(moment($("#dtSODate").datepicker("getDate")).format("YYYY-MM-DD"));
+                    let initialDate = new Date($("#dtSODate").datepicker("getDate"));
+                    // new Date(moment($("#dtSODate").datepicker("getDate")).format("YYYY-MM-DD"));
                     if (clockList.length > 0) {
                         if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                             checkStatus = clockList[clockList.length - 1].isPaused || "";
