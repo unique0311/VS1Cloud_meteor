@@ -2236,8 +2236,8 @@ Template.payrolloverview.events({
         const templateObject = Template.instance();
         let date1 = document.getElementById("dtSODate").value;
         date1 = templateObject.dateFormat(date1);
-        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value);
+        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value);
         if (endTime > startTime) {
             let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
             document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
@@ -2247,8 +2247,8 @@ Template.payrolloverview.events({
         const templateObject = Template.instance();
         let date1 = document.getElementById("dtSODate").value;
         date1 = templateObject.dateFormat(date1);
-        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value);
+        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value);
         if (endTime > startTime) {
             let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
             document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
@@ -2462,8 +2462,8 @@ Template.payrolloverview.events({
             $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
             let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
             let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-            var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value + ':00');
-            var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value + ':00');
+            var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value);
+            var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value);
             if (endTime > startTime) {
                 let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
                 document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
@@ -2567,8 +2567,8 @@ Template.payrolloverview.events({
                 return false;
                 // $("#startTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
                 // let date1 = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
-                // var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value + ':00');
-                // var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value + ':00');
+                // var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value);
+                // var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value);
                 // if (endTime > startTime) {
                 //     document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
                 // } else if (document.getElementById("endTime").value == "") {
@@ -2679,8 +2679,8 @@ Template.payrolloverview.events({
                                 $('.paused').hide();
                                 $("#btnHold").removeClass("mt-32");
                                 //document.getElementById("endTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
-                                var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value + ':00');
-                                var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value + ':00');
+                                var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value);
+                                var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value);
                                 if (endTime > startTime) {
                                     let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
                                     document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
@@ -2757,8 +2757,8 @@ Template.payrolloverview.events({
                     let startDate = initialDate.getFullYear() + "-" + ("0" + (initialDate.getMonth() + 1)).slice(-2) + "-" + ("0" + (initialDate.getDate())).slice(-2);
                     let endDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + (date.getDate())).slice(-2);
 
-                    var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value + ':00');
-                    var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value + ':00');
+                    var startTime = new Date(startDate + ' ' + document.getElementById("startTime").value);
+                    var endTime = new Date(endDate + ' ' + document.getElementById("endTime").value);
                     if (endTime > startTime) {
                         let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
                         document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
