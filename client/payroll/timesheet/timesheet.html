@@ -411,6 +411,9 @@
                                                             {{#if equals item.sTitle "id"}}
 
                                                             {{else}}
+                                                            {{#if equals item.sTitle "HiddenHours"}}
+
+                                                            {{else}}
                                                                 <div id="{{item.sIndex}}" class="columnSettings">
                                                                     <div class="custom-control custom-switch" style="margin: 8px; float:left;">
                                                                         <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}"
@@ -443,6 +446,7 @@
                                                                             }
                                                                         } + ".chkDatatable").removeAttr("checked");
                                                                     </script>
+                                                                {{/if}}
                                                                 {{/if}}
                                                             {{/if}}
                                                         {{/if}}
@@ -864,8 +868,8 @@
                                     <th class="th colDate" style="width:4% !important;">Date</th>
                                     <th class="th colJob" style="width: 20% !important;">Job</th>
                                     <th class="th colRate" style="width:50px;">Product</th>
-                                    <th class="th colRegHours hiddenColumn" style="width:50px;">Hours</th>
-                                    <th class="th colRegHoursOne thColHours noExport" style="width:4% !important;;">Hours</th>
+                                    <th class="th colRegHours hiddenColumn" style="width:50px;">HiddenHours</th>
+                                    <th class="th colRegHoursOne thColHours noExport" style="width:4% !important;">Hours</th>
                                     <th class="th colOvertime " style="width: 3% !important;">Overtime</th>
                                     <th class="th colDouble " style="width: 3% !important;">Double</th>
                                     <th class="th colAdditional " style="width: 3% !important;">Additional</th>
