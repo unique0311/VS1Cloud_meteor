@@ -112,6 +112,27 @@ Template.supplierpaymentcard.onRendered(() => {
     const paymentmethodrecords = [];
     const accountnamerecords = [];
 
+    templateObject.getLastPaymentData = function() {
+      let lastBankAccount = "Bank";
+        paymentService.getAllSupplierPaymentData1().then(function(data) {
+            if(data.tsupplierpayment.length > 0){
+                lastCheque = data.tsupplierpayment[data.tsupplierpayment.length - 1]
+                lastBankAccount = lastCheque.AccountName;
+            } else{
+
+            }
+            setTimeout(function(){
+                  $('#edtSelectBankAccountName').val(lastBankAccount);
+            },50);
+        }).catch(function(err) {
+          if(Session.get('bankaccount')){
+            $('#edtSelectBankAccountName').val(Session.get('bankaccount'));
+          }else{
+            $('#edtSelectBankAccountName').val(lastBankAccount);
+          }
+        });
+    };
+
     templateObject.getAllClients = function() {
         getVS1Data('TSupplierVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
@@ -2964,6 +2985,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
                         let bankAccountData = Session.get('bankaccount') || 'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
+                        templateObject.getLastPaymentData();
                         $('#edtSupplierName').val(data.fields.ClientName);
                         $('#sltDepartment').val(data.fields.DeptClassName);
                         $('#sltPaymentMethod').val(getPaymentMethodVal);
@@ -3094,6 +3116,7 @@ Template.supplierpaymentcard.onRendered(() => {
 
                             let bankAccountData = Session.get('bankaccount') || 'Bank';
                             $('#edtSelectBankAccountName').val(bankAccountData);
+                            templateObject.getLastPaymentData();
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.ClientName);
                             $('#edtSupplierName').val(useData[d].fields.ClientName);
                             $('#sltDepartment').val(getDepartmentVal);
@@ -3228,6 +3251,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             let bankAccountData = Session.get('bankaccount') || 'Bank';
                             $('#edtSelectBankAccountName').val(bankAccountData);
+                            templateObject.getLastPaymentData();
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == data.fields.SupplierName) {
@@ -3356,6 +3380,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     let bankAccountData = Session.get('bankaccount') || 'Bank';
                     $('#edtSelectBankAccountName').val(bankAccountData);
+                    templateObject.getLastPaymentData();
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
                             if (clientList[i].customername == data.fields.SupplierName) {
@@ -3490,6 +3515,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         let bankAccountData = Session.get('bankaccount') || 'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
+                        templateObject.getLastPaymentData();
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.SupplierName) {
@@ -3620,6 +3646,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             let bankAccountData = Session.get('bankaccount') || 'Bank';
                             $('#edtSelectBankAccountName').val(bankAccountData);
+                            templateObject.getLastPaymentData();
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == useData[d].fields.SupplierName) {
@@ -3749,6 +3776,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     let bankAccountData = Session.get('bankaccount') || 'Bank';
                     $('#edtSelectBankAccountName').val(bankAccountData);
+                    templateObject.getLastPaymentData();
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
                             if (clientList[i].customername == data.fields.SupplierName) {
@@ -3882,6 +3910,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         let bankAccountData = Session.get('bankaccount') || 'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
+                        templateObject.getLastPaymentData();
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.SupplierName) {
@@ -4010,6 +4039,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                             let bankAccountData = Session.get('bankaccount') || 'Bank';
                             $('#edtSelectBankAccountName').val(bankAccountData);
+                            templateObject.getLastPaymentData();
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == useData[d].fields.SupplierName) {
@@ -4134,6 +4164,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     let bankAccountData = Session.get('bankaccount') || 'Bank';
                     $('#edtSelectBankAccountName').val(bankAccountData);
+                    templateObject.getLastPaymentData();
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
                             if (clientList[i].customername == data.fields.SupplierName) {
@@ -4602,6 +4633,7 @@ Template.supplierpaymentcard.onRendered(() => {
                 //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                 let bankAccountData = Session.get('bankaccount') || 'Bank';
                 $('#edtSelectBankAccountName').val(bankAccountData);
+                templateObject.getLastPaymentData();
                 if (clientList) {
                     for (var i = 0; i < clientList.length; i++) {
                         if (clientList[i].customername == data.fields.SupplierName) {
@@ -4919,6 +4951,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         let bankAccountData = Session.get('bankaccount') || 'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
+                        templateObject.getLastPaymentData();
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.SupplierName) {
@@ -5047,6 +5080,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         let bankAccountData = Session.get('bankaccount') || 'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
+                        templateObject.getLastPaymentData();
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.SupplierName) {
@@ -5175,6 +5209,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                         let bankAccountData = Session.get('bankaccount') || 'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
+                        templateObject.getLastPaymentData();
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.SupplierName) {
@@ -5303,6 +5338,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
                     let bankAccountData = Session.get('bankaccount') || 'Bank';
                     $('#edtSelectBankAccountName').val(bankAccountData);
+                    templateObject.getLastPaymentData();
                     if (clientList) {
                         for (var i = 0; i < clientList.length; i++) {
                             if (clientList[i].customername == data.fields.SupplierName) {

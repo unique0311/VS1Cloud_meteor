@@ -152,7 +152,7 @@ Template.payrolloverview.onRendered(function () {
         return time;
     }
 
-   
+
     templateObject.getAllTimeSheetDataClock = function () {
         getVS1Data('TTimeSheet').then(function (dataObject) {
             if (dataObject == 0) {
@@ -351,7 +351,7 @@ Template.payrolloverview.onRendered(function () {
           templateObject.loggeduserdata.set(loggedUserList);
 
     };
-        setTimeout(function(){ 
+        setTimeout(function(){
     templateObject.getLoggedUserData();
 },500);
     templateObject.getEmployees = function () {
@@ -4035,6 +4035,7 @@ Template.payrolloverview.events({
               let timesheetID = $('#updateID').val();
               if (timesheetID == "") {
                   //window.open('/timesheet', '_self');
+                  $('.fullScreenSpin').css('display', 'none');
               } else {
                   data = {
                       type: "TTimeSheet",

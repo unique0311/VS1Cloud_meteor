@@ -110,6 +110,27 @@ Template.paymentcard.onRendered(() => {
     const paymentmethodrecords = [];
     const accountnamerecords = [];
 
+    templateObject.getLastPaymentData = function() {
+      let lastBankAccount = "Bank";
+        paymentService.getAllCustomerPaymentData1().then(function(data) {
+            if(data.tcustomerpayment.length > 0){
+                lastCheque = data.tcustomerpayment[data.tcustomerpayment.length - 1]
+                lastBankAccount = lastCheque.AccountName;
+            } else{
+
+            }
+            setTimeout(function(){
+                  $('#edtSelectBankAccountName').val(lastBankAccount);
+            },50);
+        }).catch(function(err) {
+          if(Session.get('bankaccount')){
+            $('#edtSelectBankAccountName').val(Session.get('bankaccount'));
+          }else{
+            $('#edtSelectBankAccountName').val(lastBankAccount);
+          }
+        });
+    };
+
     templateObject.getAllClients = function() {
         getVS1Data('TCustomerVS1').then(function(dataObject) {
             if (dataObject.length == 0) {
@@ -3092,6 +3113,7 @@ Template.paymentcard.onRendered(() => {
                         $('#sltDept').val(getDepartmentVal);
                         let bankAccountData = Session.get('bankaccount')||'Bank';
                         $('#edtSelectBankAccountName').val(bankAccountData);
+                        templateObject.getLastPaymentData();
                         if (clientList) {
                             for (var i = 0; i < clientList.length; i++) {
                                 if (clientList[i].customername == data.fields.CustomerName) {
@@ -3212,10 +3234,9 @@ Template.paymentcard.onRendered(() => {
                             let getPaymentMethodVal = Session.get('paymentmethod') || useData[d].fields.PayMethod;
                             $('#sltPaymentMethod').val(getPaymentMethodVal);
                             $('#sltDept').val(getDepartmentVal);
-                            let bankAccountData = Session.get('bankaccount')|| useData[d].fields.GLAccountName||'Bank';
+                            let bankAccountData = Session.get('bankaccount')||'Bank';
                             $('#edtSelectBankAccountName').val(bankAccountData);
-
-
+                            templateObject.getLastPaymentData();
                             if (clientList) {
                                 for (var i = 0; i < clientList.length; i++) {
                                     if (clientList[i].customername == useData[d].fields.CustomerName) {

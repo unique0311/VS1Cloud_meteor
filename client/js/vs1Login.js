@@ -1612,7 +1612,7 @@ Template.vs1login.onRendered(function () {
                                                     var ERPIPAdderess = "";
                                                     if (dataReturnRes.ProcessLog.ServerName == "110.142.175.245") {
                                                         ERPIPAdderess = ERPDatabaseIPAdderess;
-                                                    } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
+                                                    } else if (dataReturnRes.ProcessLog.ServerName == "192.168.20.2") {
                                                         ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                                     }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
                                                         ERPIPAdderess = "steelmains.vs1cloud.com";
@@ -2238,7 +2238,7 @@ Template.vs1login.onRendered(function () {
                                 var ERPIPAdderess = "";
                                 if (dataReturnRes.ProcessLog.ServerName == "110.142.175.245") {
                                     ERPIPAdderess = ERPDatabaseIPAdderess;
-                                } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
+                                } else if (dataReturnRes.ProcessLog.ServerName == "192.168.20.2") {
                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                 }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
                                     ERPIPAdderess = "steelmains.vs1cloud.com";
@@ -2726,7 +2726,7 @@ Template.vs1login.onRendered(function () {
                                                 var ERPIPAdderess = "";
                                                 if (dataReturnRes.ProcessLog.ServerName == "110.142.175.245") {
                                                     ERPIPAdderess = ERPDatabaseIPAdderess;
-                                                } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
+                                                } else if (dataReturnRes.ProcessLog.ServerName == "192.168.20.2") {
                                                     ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                                 }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
                                                     ERPIPAdderess = "steelmains.vs1cloud.com";
@@ -3377,7 +3377,7 @@ Template.vs1login.onRendered(function () {
                                             var ERPIPAdderess = "";
                                             if (dataReturnRes.ProcessLog.ServerName == "110.142.175.245") {
                                                 ERPIPAdderess = ERPDatabaseIPAdderess;
-                                            } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
+                                            } else if (dataReturnRes.ProcessLog.ServerName == "192.168.20.2") {
                                                 ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                             }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
                                                 ERPIPAdderess = "steelmains.vs1cloud.com";
@@ -4068,7 +4068,7 @@ Template.vs1login.onRendered(function () {
                                         var ERPIPAdderess = "";
                                         if (dataReturnRes.ProcessLog.ServerName == "110.142.175.245") {
                                             ERPIPAdderess = ERPDatabaseIPAdderess;
-                                        } else if (dataReturnRes.ProcessLog.ServerName == "59.154.69.210") {
+                                        } else if (dataReturnRes.ProcessLog.ServerName == "192.168.20.2") {
                                             ERPIPAdderess = "gardenscapes.vs1cloud.com";
                                         }else if (dataReturnRes.ProcessLog.ServerName == "144.130.174.170") {
                                             ERPIPAdderess = "steelmains.vs1cloud.com";

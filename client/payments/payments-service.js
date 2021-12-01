@@ -16,6 +16,24 @@ export class PaymentsService extends BaseService {
     return this.getList(this.ERPObjects.TCustomerPayment, options);
   }
 
+  getAllCustomerPaymentData1() {
+    let options = {
+      PropertyList: "ID,AccountName",
+      orderby:'"PaymentID desc"',
+      LimitCount:'"1"',
+    };
+    return this.getList(this.ERPObjects.TCustomerPayment, options);
+  }
+
+  getAllSupplierPaymentData1() {
+    let options = {
+        PropertyList:'ID,AccountName',
+        orderby:'"PaymentID desc"',
+        LimitCount:'"1"',
+    };
+    return this.getList(this.ERPObjects.TSupplierPayment, options);
+  }
+
   getAllCombinePaymentDetails() {
     let options = {
         PropertyList:'PaymentDate,PaymentID,ReceiptNo,ReferenceNo,PaymentMethod,BankAccount,ClientName,PaymentAmount,Notes,Department,OpeningBalance,TYPE,jobname',
