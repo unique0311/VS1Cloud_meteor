@@ -85,6 +85,18 @@ Template.creditcard.onCreated(() => {
     templateObject.statusrecords = new ReactiveVar([]);
 });
 Template.creditcard.onRendered(() => {
+    $(window).on('load', function () {
+        var win = $(this); //this = window
+        if (win.width() <= 1024 && win.width() >= 450) {
+            $("#colBalanceDue").addClass("order-12");
+        }
+
+        if (win.width() <= 926) {
+            $("#totalSection").addClass("offset-md-6");
+        }
+
+    });
+
     let imageData = (localStorage.getItem("Image"));
     if (imageData) {
         $('.uploadedImage').attr('src', imageData);
@@ -529,6 +541,7 @@ Template.creditcard.onRendered(() => {
                             $('#sltTerms').val(data.fields.TermsName);
                             $('#sltDept').val(getDepartmentVal);
                             $('#sltStatus').val(data.fields.OrderStatus);
+                            $('#shipvia').val(data.fields.Shipping);
 
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
@@ -751,6 +764,7 @@ Template.creditcard.onRendered(() => {
                                 $('#sltTerms').val(useData[d].fields.TermsName);
                                 $('#sltDept').val(getDepartmentVal);
                                 $('#sltStatus').val(useData[d].fields.OrderStatus);
+                                $('#shipvia').val(useData[d].fields.Shipping);
 
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
@@ -973,6 +987,7 @@ Template.creditcard.onRendered(() => {
                                 $('#sltTerms').val(data.fields.TermsName);
                                 $('#sltDept').val(getDepartmentVal);
                                 $('#sltStatus').val(data.fields.OrderStatus);
+                                $('#shipvia').val(data.fields.Shipping);
 
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
@@ -1211,6 +1226,7 @@ Template.creditcard.onRendered(() => {
                         $('#sltTerms').val(data.fields.TermsName);
                         $('#sltDept').val(getDepartmentVal);
                         $('#sltStatus').val(data.fields.OrderStatus);
+                        $('#shipvia').val(data.fields.Shipping);
 
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
@@ -1590,6 +1606,7 @@ Template.creditcard.onRendered(() => {
         $('#sltTerms').editableSelect();
         $('#sltDept').editableSelect();
         $('#sltStatus').editableSelect();
+        $('#shipvia').editableSelect();
         $('#addRow').on('click', function() {
             var rowData = $('#tblCreditLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
@@ -1598,7 +1615,7 @@ Template.creditcard.onRendered(() => {
             $(".lineQty", rowData).text("");
             $(".lineAmount", rowData).val("");
             $(".lineTaxRate", rowData).text("");
-            $(".lineTaxCode", rowData).text("");
+            $(".lineTaxCode", rowData).val("");
             $(".lineAmt", rowData).text("");
             rowData.attr('id', tokenid);
             $("#tblCreditLine tbody").append(rowData);
@@ -1624,6 +1641,85 @@ Template.creditcard.onRendered(() => {
 
 
 
+    });
+
+    $('#shipvia').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var shipvianame = e.target.value || '';
+            $('#edtShipViaID').val('');
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#shipViaModal').modal('toggle');
+            } else {
+                if (shipvianame.replace(/\s/g, '') != '') {
+                    $('#newShipViaMethodName').text('Edit Ship Via');
+
+                    getVS1Data('TShippingMethod').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getShippingMethodData().then(function(data) {
+                                for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                    if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                        $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                        $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newShipViaModal').modal('toggle');
+                                }, 200);
+                            }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tshippingmethod;
+                            for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                if (useData[i].DeptClassName === deptDataName) {
+                                    $('#edtShipViaID').val(useData[i].Id);
+                                    $('#edtShipVia').val(useData[i].ShippingMethod);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newShipViaModal').modal('toggle');
+                            }, 200);
+                        }
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getShippingMethodData().then(function(data) {
+                            for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                    $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                    $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newShipViaModal').modal('toggle');
+                            }, 200);
+                        }).catch(function(err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    });
+                } else {
+                    $('#shipViaModal').modal();
+                    setTimeout(function() {
+                        $('#tblShipViaPopList_filter .form-control-sm').focus();
+                        $('#tblShipViaPopList_filter .form-control-sm').val('');
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblShipViaPopList').DataTable();
+                        datatable.draw();
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
+        });
+
+    $(document).on("click", "#tblShipViaPopList tbody tr", function(e) {
+        $('#shipvia').val($(this).find(".colShipName ").text());
+        $('#shipViaModal').modal('toggle');
     });
 
     $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
@@ -1677,7 +1773,7 @@ Template.creditcard.onRendered(() => {
             $('#' + selectLineID + " .lineAccountName").val(lineProductName);
             $('#' + selectLineID + " .lineMemo").text(lineProductDesc);
             $('#' + selectLineID + " .colAmount").val(lineUnitPrice);
-            $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+            $('#' + selectLineID + " .lineTaxCode").val(lineTaxRate);
 
             if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                 $('#' + selectLineID + " #lineAccountName").text(lineProductName);
@@ -1790,7 +1886,7 @@ Template.creditcard.onRendered(() => {
             let taxGrandTotalPrint = 0;
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
-            $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
+            $('#' + selectLineID + " .lineTaxCode").val(lineTaxCode);
 
             let $printrows = $(".credit_print tbody tr");
             if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
@@ -3131,6 +3227,7 @@ Template.creditcard.onRendered(function() {
                             info: true,
                             responsive: true,
                             "fnInitComplete": function() {
+                                $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
                                 $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                             }
 
@@ -3209,6 +3306,7 @@ Template.creditcard.onRendered(function() {
                         info: true,
                         responsive: true,
                         "fnInitComplete": function() {
+                            $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }
 
@@ -3288,6 +3386,7 @@ Template.creditcard.onRendered(function() {
                         info: true,
                         responsive: true,
                         "fnInitComplete": function() {
+                            $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
                             $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }
 
@@ -3303,77 +3402,6 @@ Template.creditcard.onRendered(function() {
         });
     };
     tempObj.getAllTaxCodes();
-
-
-
-    setTimeout(function() {
-
-        var x = window.matchMedia("(max-width: 1024px)")
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#colInvnoReference").removeClass("col-auto");
-                $("#colInvnoReference").addClass("col-4");
-
-                $("#colTermsVia").removeClass("col-auto");
-                $("#colTermsVia").addClass("col-4");
-
-                $("#colStatusDepartment").removeClass("col-auto");
-                $("#colStatusDepartment").addClass("col-4");
-
-                $("#colBillingAddress").removeClass("col-auto");
-                $("#colBillingAddress").addClass("col-6");
-
-                $("#colOrderDue").removeClass("col-auto");
-                $("#colOrderDue").addClass("col-6");
-
-                $("#fieldwidth").removeClass("billaddressfield");
-                $("#fieldwidth").addClass("billaddressfield2");
-
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 10);
-
-    setTimeout(function() {
-
-        var x = window.matchMedia("(max-width: 420px)")
-
-        function mediaQuery(x) {
-            if (x.matches) {
-
-                $("#colInvnoReference").removeClass("col-auto");
-                $("#colInvnoReference").addClass("col-12");
-
-                $("#colTermsVia").removeClass("col-auto");
-                $("#colTermsVia").addClass("col-12");
-
-                $("#colStatusDepartment").removeClass("col-auto");
-                $("#colStatusDepartment").addClass("col-12");
-
-                $("#colBillingAddress").removeClass("col-auto");
-                $("#colBillingAddress").addClass("col-12");
-
-                $("#colOrderDue").removeClass("col-auto");
-                $("#colOrderDue").addClass("col-12");
-
-                $("#colSupplierName").removeClass("col-auto");
-                $("#colSupplierName").addClass("col-12");
-
-                $("#colSupplierEmail").removeClass("col-auto");
-                $("#colSupplierEmail").addClass("col-12");
-
-                $("#fieldwidth").removeClass("billaddressfield");
-                $("#fieldwidth").addClass("billaddressfield2");
-
-            }
-        }
-        mediaQuery(x)
-        x.addListener(mediaQuery)
-    }, 10);
-
 });
 Template.creditcard.helpers({
     creditrecord: () => {
@@ -4333,7 +4361,7 @@ Template.creditcard.events({
             $('#' + selectLineID + " .lineCostPrice").text('');
             $('#' + selectLineID + " .lineCustomField2").text('');
             $('#' + selectLineID + " .lineTaxRate").text('');
-            $('#' + selectLineID + " .lineTaxCode").text('');
+            $('#' + selectLineID + " .lineTaxCode").val('');
             $('#' + selectLineID + " .lineAmount").val('');
 
             document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
@@ -4377,7 +4405,7 @@ Template.creditcard.events({
                 let tddmemo = $('#' + lineID + " .lineMemo").text();
                 let tdamount = $('#' + lineID + " .lineAmount").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
 
                 if (tdaccount != "") {
 
@@ -4421,7 +4449,7 @@ Template.creditcard.events({
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
 
-            let departement = $('#sltVia').val();
+            let departement = $('#shipvia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
@@ -5233,7 +5261,7 @@ Template.creditcard.events({
                 let tddmemo = $('#' + lineID + " .lineMemo").text();
                 let tdamount = $('#' + lineID + " .lineAmount").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
 
                 if (tdaccount != "") {
 
@@ -5278,7 +5306,7 @@ Template.creditcard.events({
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
 
-            let departement = $('#sltVia').val();
+            let departement = $('#shipvia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
