@@ -43,7 +43,7 @@ export class SideBarService extends BaseService {
     let options = '';
        options = {
         ListType: "Detail",
-        select: '[ProductType]!="INV" and [ProductName] f7like "'+dataSearchName+'"'
+        select: '[ProductName] f7like "'+dataSearchName+'" OR [BARCODE] f7like "'+dataSearchName+'" and [ProductType]!="INV"'
        };
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
@@ -60,7 +60,7 @@ export class SideBarService extends BaseService {
     let options = '';
        options = {
         ListType: "Detail",
-        select: '[ProductName] f7like "'+dataSearchName+'"'
+        select: '[ProductName] f7like "'+dataSearchName+'" OR [BARCODE] f7like "'+dataSearchName+'"'
        };
     return this.getList(this.ERPObjects.TProductVS1, options);
   }
@@ -70,7 +70,7 @@ export class SideBarService extends BaseService {
     let options = '';
        options = {
         ListType: "Detail",
-        select: '[ClientName] f7like "'+dataSearchName+'"'
+        select: '[ClientName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'"'
        };
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
@@ -1089,7 +1089,8 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
        options = {
         ListType: "Detail",
-        select: '[ID] f7like "'+dataSearchName+'"'
+        //select: '[ID] f7like "'+dataSearchName+'"'
+        select: '[ClientName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'" OR [GLAccountName] f7like "'+dataSearchName+'" OR [SupplierInvoiceNumber] f7like "'+dataSearchName+'"'
        };
     return this.getList(this.ERPObjects.TChequeEx, options);
   }
@@ -1118,7 +1119,8 @@ getNewRefundByNameOrID(dataSearchName) {
   let options = '';
      options = {
       ListType: "Detail",
-      select: '[ClientName] f7like "'+dataSearchName+'"'
+      select: '[ClientName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'"'
+      //select: '[ClientName] f7like "'+dataSearchName+'"'
      };
   return this.getList(this.ERPObjects.TRefundSale, options);
 }

@@ -867,7 +867,7 @@ Template.invoicelist.events({
         let dataSearchName = $('#tblInvoicelist_filter input').val();
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getNewInvoiceByNameOrID(dataSearchName).then(function (data) {
-
+                $(".btnRefreshInvoiceList").removeClass('btnSearchAlert');
                 let lineItems = [];
                 let lineItemObj = {};
                 if (data.tinvoiceex.length > 0) {
@@ -961,58 +961,7 @@ Template.invoicelist.events({
             });
         } else {
 
-            sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
-                let lineItems = [];
-                let lineItemObj = {};
-
-                for (let i = 0; i < data.tinvoiceex.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-                    // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
-                    var dataList = {
-                        id: data.tinvoiceex[i].fields.ID || '',
-                        employee: data.tinvoiceex[i].fields.EmployeeName || '',
-                        sortdate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                        saledate: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                        duedate: data.tinvoiceex[i].fields.DueDate != '' ? moment(data.tinvoiceex[i].fields.DueDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.DueDate,
-                        customername: data.tinvoiceex[i].fields.CustomerName || '',
-                        totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
-                        totalamount: totalAmount || 0.00,
-                        totalpaid: totalPaid || 0.00,
-                        totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                        custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                        custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                        comments: data.tinvoiceex[i].fields.Comments || '',
-                        // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
-
-                    };
-
-                    if (data.tinvoiceex[i].fields.Deleted == false) {
-                        splashArrayInvoiceList.push(dataList);
-                    }
-
-                    $('.fullScreenSpin').css('display', 'none');
-                    if (splashArrayInvoiceList) {
-                        var datatable = $('#tblInvoicelist').DataTable();
-                        datatable.clear();
-                        datatable.rows.add(splashArrayInvoiceList);
-                        datatable.draw(false);
-
-                    }
-
-                    //}
-                }
-
-            }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
-            });
+          $(".btnRefresh").trigger("click");
         }
     },
     'click #btnInvoiceBOList': function (event) {

@@ -862,7 +862,7 @@ Template.refundlist.events({
         let dataSearchName = $('#tblRefundlist_filter input').val();
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getNewRefundByNameOrID(dataSearchName).then(function (data) {
-
+              $(".btnRefreshRefundList").removeClass('btnSearchAlert');
                 let lineItems = [];
                 let lineItemObj = {};
                 if (data.trefundsale.length > 0) {
@@ -956,58 +956,7 @@ Template.refundlist.events({
             });
         } else {
 
-            sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
-                let lineItems = [];
-                let lineItemObj = {};
-
-                for (let i = 0; i < data.trefundsale.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
-                    // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
-                    var dataList = {
-                        id: data.trefundsale[i].fields.ID || '',
-                        employee: data.trefundsale[i].fields.EmployeeName || '',
-                        sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
-                        saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
-                        duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
-                        customername: data.trefundsale[i].fields.CustomerName || '',
-                        totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
-                        totalamount: totalAmount || 0.00,
-                        totalpaid: totalPaid || 0.00,
-                        totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.trefundsale[i].fields.SalesStatus || '',
-                        custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
-                        custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
-                        comments: data.trefundsale[i].fields.Comments || '',
-                        // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
-
-                    };
-
-                    if (data.trefundsale[i].fields.Deleted == false) {
-                        splashArrayRefundList.push(dataList);
-                    }
-
-                    $('.fullScreenSpin').css('display', 'none');
-                    if (splashArrayRefundList) {
-                        var datatable = $('#tblRefundlist').DataTable();
-                        datatable.clear();
-                        datatable.rows.add(splashArrayRefundList);
-                        datatable.draw(false);
-
-                    }
-
-                    //}
-                }
-
-            }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
-            });
+          $(".btnRefresh").trigger("click");
         }
     },
     'click #btnRefundBOList': function (event) {

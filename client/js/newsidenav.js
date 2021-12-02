@@ -2684,10 +2684,38 @@ Template.newsidenav.onRendered(function() {
 
     }
 
-    //Followed by Purchase Details
-    templateObject.getFollowedPurchaseDetailsPull = function() {
+    //Followed by Bill Details
+    templateObject.getFollowedBillDetailsPull = function() {
         setTimeout(function() {
             if (isPurchases) {
+
+              getVS1Data('TCredit').then(function(dataObject) {
+                  if (dataObject.length == 0) {
+                      templateObject.getAllTCreditData();
+                  } else {
+                      let data = JSON.parse(dataObject[0].data);
+                      let useData = data.tcredit;
+                      if (useData.length > 0) {
+                          if (useData[0].Id) {
+                              templateObject.getAllTCreditData();
+                          } else {
+                              let getTimeStamp = dataObject[0].timestamp.split(' ');
+                              if (getTimeStamp) {
+                                  if (loggedUserEventFired) {
+                                      if (getTimeStamp[0] != currenctTodayDate) {
+                                          templateObject.getAllTCreditData();
+                                      }
+                                  }
+                              }
+                          }
+                      }
+
+
+                  }
+              }).catch(function(err) {
+                  templateObject.getAllTCreditData();
+              });
+
                 getVS1Data('TbillReport').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         templateObject.getAllTbillReportData();
@@ -2696,6 +2724,178 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getAllTbillReportData();
                 });
 
+                getVS1Data('TBillEx').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                      sideBarService.getAllBillExList(initialDataLoad, 0).then(function(data) {
+                        countObjectTimes++;
+                        progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                        $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                        $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                        if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                          }else{
+                            $('.headerprogressbar').addClass('headerprogressbarShow');
+                            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                          }
+
+                        }else if(Math.round(progressPercentage) == 100){
+                          setTimeout(function() {
+                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                              $('.headerprogressbar').removeClass('headerprogressbarShow');
+                              $('.headerprogressbar').addClass('headerprogressbarHidden');
+                            }else{
+                              $('.headerprogressbar').removeClass('headerprogressbarShow');
+                              $('.headerprogressbar').addClass('headerprogressbarHidden');
+                            }
+
+                          }, 1000);
+                        }
+                          addVS1Data('TBillEx', JSON.stringify(data));
+                          templateObject.getFollowedAllObjectPull();
+                      }).catch(function(err) {
+
+                      });
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tbillex;
+                        if (useData.length > 0) {
+                            if (useData[0].Id) {
+                              sideBarService.getAllBillExList(initialDataLoad, 0).then(function(data) {
+                                countObjectTimes++;
+                                progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                                $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                                $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                                if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                  if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                    $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                  }else{
+                                    $('.headerprogressbar').addClass('headerprogressbarShow');
+                                    $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                  }
+
+                                }else if(Math.round(progressPercentage) == 100){
+                                  setTimeout(function() {
+                                    if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                      $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                      $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                    }else{
+                                      $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                      $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                    }
+
+                                  }, 1000);
+                                }
+                                  addVS1Data('TBillEx', JSON.stringify(data));
+                                  templateObject.getFollowedAllObjectPull();
+                              }).catch(function(err) {
+
+                              });
+                            } else {
+                                let getTimeStamp = dataObject[0].timestamp.split(' ');
+                                if (getTimeStamp) {
+                                    if (loggedUserEventFired) {
+                                        if (getTimeStamp[0] != currenctTodayDate) {
+                                          sideBarService.getAllBillExList(initialDataLoad, 0).then(function(data) {
+                                            countObjectTimes++;
+                                            progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                                            $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                                            $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                                            if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                                $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                              }else{
+                                                $('.headerprogressbar').addClass('headerprogressbarShow');
+                                                $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                              }
+
+                                            }else if(Math.round(progressPercentage) == 100){
+                                              setTimeout(function() {
+                                                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                                  $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                                  $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                                }else{
+                                                  $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                                  $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                                }
+
+                                              }, 1000);
+                                            }
+                                              addVS1Data('TBillEx', JSON.stringify(data));
+                                              templateObject.getFollowedAllObjectPull();
+                                          }).catch(function(err) {
+
+                                          });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+                }).catch(function(err) {
+                  sideBarService.getAllBillExList(initialDataLoad, 0).then(function(data) {
+                    countObjectTimes++;
+                    progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                    $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                    $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                    if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                      if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                        $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                      }else{
+                        $('.headerprogressbar').addClass('headerprogressbarShow');
+                        $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                      }
+
+                    }else if(Math.round(progressPercentage) == 100){
+                      setTimeout(function() {
+                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                          $('.headerprogressbar').removeClass('headerprogressbarShow');
+                          $('.headerprogressbar').addClass('headerprogressbarHidden');
+                        }else{
+                          $('.headerprogressbar').removeClass('headerprogressbarShow');
+                          $('.headerprogressbar').addClass('headerprogressbarHidden');
+                        }
+
+                      }, 1000);
+                    }
+                      addVS1Data('TBillEx', JSON.stringify(data));
+                      templateObject.getFollowedAllObjectPull();
+                  }).catch(function(err) {
+
+                  });
+                });
+
+            }
+            setTimeout(function() {
+            if (isBanking) {
+                getVS1Data('TCheque').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllTChequeData();
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tcheque;
+                        if (useData.length > 0) {
+                            if (useData[0].Id) {
+                                templateObject.getAllTChequeData();
+                            }
+                        }
+                    }
+                }).catch(function(err) {
+                    templateObject.getAllTChequeData();
+                });
+
+            }
+          }, 2000);
+        }, 2000);
+
+    }
+
+    //Followed by Purchase Details
+    templateObject.getFollowedPurchaseDetailsPull = function() {
+        setTimeout(function() {
+            if (isPurchases) {
                 getVS1Data('TPurchaseOrderEx').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         sideBarService.getAllPurchaseOrderList(initialDataLoad, 0).then(function(data) {
@@ -2724,9 +2924,11 @@ Template.newsidenav.onRendered(function() {
                             }, 1000);
                           }
                             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                            templateObject.getFollowedAllObjectPull();
+                            //templateObject.getFollowedAllObjectPull();
+                            templateObject.getFollowedBillDetailsPull();
                         }).catch(function(err) {
-                            templateObject.getFollowedAllObjectPull();
+                            //templateObject.getFollowedAllObjectPull();
+                            templateObject.getFollowedBillDetailsPull();
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
@@ -2758,9 +2960,11 @@ Template.newsidenav.onRendered(function() {
                                 }, 1000);
                               }
                                 addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                                templateObject.getFollowedAllObjectPull();
+                                //templateObject.getFollowedAllObjectPull();
+                                templateObject.getFollowedBillDetailsPull();
                             }).catch(function(err) {
-                                templateObject.getFollowedAllObjectPull();
+                                //templateObject.getFollowedAllObjectPull();
+                                templateObject.getFollowedBillDetailsPull();
                             });
                         } else {
                             let getTimeStamp = dataObject[0].timestamp.split(' ');
@@ -2793,9 +2997,11 @@ Template.newsidenav.onRendered(function() {
                                             }, 1000);
                                           }
                                             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                                            templateObject.getFollowedAllObjectPull();
+                                            //templateObject.getFollowedAllObjectPull();
+                                            templateObject.getFollowedBillDetailsPull();
                                         }).catch(function(err) {
-                                            templateObject.getFollowedAllObjectPull();
+                                            //templateObject.getFollowedAllObjectPull();
+                                            templateObject.getFollowedBillDetailsPull();
                                         });
                                     }
                                 }
@@ -2829,65 +3035,16 @@ Template.newsidenav.onRendered(function() {
                         }, 1000);
                       }
                         addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                        templateObject.getFollowedAllObjectPull();
+                        //templateObject.getFollowedAllObjectPull();
+                        templateObject.getFollowedBillDetailsPull();
                     }).catch(function(err) {
-                        templateObject.getFollowedAllObjectPull();
+                        //templateObject.getFollowedAllObjectPull();
+                        templateObject.getFollowedBillDetailsPull();
 
                     });
                 });
 
-                getVS1Data('TBillEx').then(function(dataObject) {
-                    if (dataObject.length == 0) {
-                        templateObject.getAllTBillExData();
-                    } else {
-                        let data = JSON.parse(dataObject[0].data);
-                        let useData = data.tbillex;
-                        if (useData.length > 0) {
-                            if (useData[0].Id) {
-                                templateObject.getAllTBillExData();
-                            } else {
-                                let getTimeStamp = dataObject[0].timestamp.split(' ');
-                                if (getTimeStamp) {
-                                    if (loggedUserEventFired) {
-                                        if (getTimeStamp[0] != currenctTodayDate) {
-                                            templateObject.getAllTBillExData();
-                                        }
-                                    }
-                                }
-                            }
-                        }
 
-
-                    }
-                }).catch(function(err) {
-                    templateObject.getAllTBillExData();
-                });
-                getVS1Data('TCredit').then(function(dataObject) {
-                    if (dataObject.length == 0) {
-                        templateObject.getAllTCreditData();
-                    } else {
-                        let data = JSON.parse(dataObject[0].data);
-                        let useData = data.tcredit;
-                        if (useData.length > 0) {
-                            if (useData[0].Id) {
-                                templateObject.getAllTCreditData();
-                            } else {
-                                let getTimeStamp = dataObject[0].timestamp.split(' ');
-                                if (getTimeStamp) {
-                                    if (loggedUserEventFired) {
-                                        if (getTimeStamp[0] != currenctTodayDate) {
-                                            templateObject.getAllTCreditData();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-
-                    }
-                }).catch(function(err) {
-                    templateObject.getAllTCreditData();
-                });
                 getVS1Data('TpurchaseOrderNonBackOrder').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         templateObject.getAllTpurchaseOrderNonBackOrderData();
@@ -2914,25 +3071,27 @@ Template.newsidenav.onRendered(function() {
                 });
             } else {
                 templateObject.getFollowedAllObjectPull();
-            }
-            if (isBanking) {
-                getVS1Data('TCheque').then(function(dataObject) {
-                    if (dataObject.length == 0) {
-                        templateObject.getAllTChequeData();
-                    } else {
-                        let data = JSON.parse(dataObject[0].data);
-                        let useData = data.tcheque;
-                        if (useData.length > 0) {
-                            if (useData[0].Id) {
-                                templateObject.getAllTChequeData();
+                if (isBanking) {
+                    getVS1Data('TCheque').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            templateObject.getAllTChequeData();
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tcheque;
+                            if (useData.length > 0) {
+                                if (useData[0].Id) {
+                                    templateObject.getAllTChequeData();
+                                }
                             }
                         }
-                    }
-                }).catch(function(err) {
-                    templateObject.getAllTChequeData();
-                });
+                    }).catch(function(err) {
+                        templateObject.getAllTChequeData();
+                    });
 
+                }
+                //templateObject.getFollowedBillDetailsPull();
             }
+
 
         }, 3000);
 
@@ -3070,7 +3229,7 @@ Template.newsidenav.onRendered(function() {
                 });
             }
 
-            if (isAppointmentScheduling) {
+              if (isAppointmentScheduling) {
                 if (isContacts) {
 
                 } else {
@@ -3244,9 +3403,10 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTERPPreferenceExtraData();
                 });
-            } else {
+              }else{
                 templateObject.getFollowedPurchaseDetailsPull();
-            }
+              }
+
         }, 3000);
     }
     /* End Quick Objects */
@@ -3724,7 +3884,7 @@ Template.newsidenav.onRendered(function() {
     if (isAppointmentLaunch) {
         if (isAppointmentScheduling) {
 
-            templateObject.getAllEmployeeData();
+            // templateObject.getAllEmployeeData();
 
             sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
               countObjectTimes++;
@@ -3809,6 +3969,165 @@ Template.newsidenav.onRendered(function() {
             });
         }
         setTimeout(function() {
+          if (isInventory) {
+            getVS1Data('TProductWeb').then(function(dataObject) {
+                if (dataObject.length == 0) {
+                    templateObject.getAllProductServiceData();
+                } else {
+                    let getTimeStamp = dataObject[0].timestamp.split(' ');
+                    if (getTimeStamp) {
+                        if (loggedUserEventFired) {
+                            if (getTimeStamp[0] != currenctTodayDate) {
+                                templateObject.getAllProductServiceData();
+                            }
+                        }
+                    }
+
+                }
+            }).catch(function(err) {
+                templateObject.getAllProductServiceData();
+            });
+
+              getVS1Data('TProductVS1').then(function(dataObject) {
+                  if (dataObject.length == 0) {
+                      sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
+                        countObjectTimes++;
+                        progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                        $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                        $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                        if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                          }else{
+                            $('.headerprogressbar').addClass('headerprogressbarShow');
+                            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                          }
+
+                        }else if(Math.round(progressPercentage) == 100){
+                          setTimeout(function() {
+                            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                              $('.headerprogressbar').removeClass('headerprogressbarShow');
+                              $('.headerprogressbar').addClass('headerprogressbarHidden');
+                            }else{
+                              $('.headerprogressbar').removeClass('headerprogressbarShow');
+                              $('.headerprogressbar').addClass('headerprogressbarHidden');
+                            }
+
+                          }, 1000);
+                        }
+                          addVS1Data('TProductVS1', JSON.stringify(data));
+                          templateObject.getFollowedContactDetailsPull();
+                      }).catch(function(err) {
+                          templateObject.getFollowedContactDetailsPull();
+                      });
+                  } else {
+                      let getTimeStamp = dataObject[0].timestamp.split(' ');
+                      if (getTimeStamp) {
+                          if (loggedUserEventFired) {
+                              if (getTimeStamp[0] != currenctTodayDate) {
+                                  sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
+                                    countObjectTimes++;
+                                    progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                                    $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                                    $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                                    if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                                      if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                        $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                      }else{
+                                        $('.headerprogressbar').addClass('headerprogressbarShow');
+                                        $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                                      }
+
+                                    }else if(Math.round(progressPercentage) == 100){
+                                      setTimeout(function() {
+                                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                                          $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                          $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                        }else{
+                                          $('.headerprogressbar').removeClass('headerprogressbarShow');
+                                          $('.headerprogressbar').addClass('headerprogressbarHidden');
+                                        }
+
+                                      }, 1000);
+                                    }
+                                      addVS1Data('TProductVS1', JSON.stringify(data));
+                                      templateObject.getFollowedContactDetailsPull();
+                                  }).catch(function(err) {
+                                      templateObject.getFollowedContactDetailsPull();
+                                  });
+                              }
+                          }
+                      }
+                  }
+              }).catch(function(err) {
+                  sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
+                    countObjectTimes++;
+                    progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+                    $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+                    $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                    if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+                      if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                        $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                      }else{
+                        $('.headerprogressbar').addClass('headerprogressbarShow');
+                        $('.headerprogressbar').removeClass('headerprogressbarHidden');
+                      }
+
+                    }else if(Math.round(progressPercentage) == 100){
+                      setTimeout(function() {
+                        if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                          $('.headerprogressbar').removeClass('headerprogressbarShow');
+                          $('.headerprogressbar').addClass('headerprogressbarHidden');
+                        }else{
+                          $('.headerprogressbar').removeClass('headerprogressbarShow');
+                          $('.headerprogressbar').addClass('headerprogressbarHidden');
+                        }
+
+                      }, 1000);
+                    }
+                      addVS1Data('TProductVS1', JSON.stringify(data));
+                      templateObject.getFollowedContactDetailsPull();
+                  }).catch(function(err) {
+                      templateObject.getFollowedContactDetailsPull();
+                  });
+              });
+
+              getVS1Data('TProductStocknSalePeriodReport').then(function(dataObject) {
+                  if (dataObject.length == 0) {
+                      templateObject.getAllTProductStocknSalePeriodReportData();
+                  } else {
+                      let getTimeStamp = dataObject[0].timestamp.split(' ');
+                      if (getTimeStamp) {
+                          if (loggedUserEventFired) {
+                              if (getTimeStamp[0] != currenctTodayDate) {
+                                  templateObject.getAllTProductStocknSalePeriodReportData();
+                              }
+                          }
+                      }
+
+                  }
+              }).catch(function(err) {
+                  templateObject.getAllTProductStocknSalePeriodReportData();
+              });
+
+              getVS1Data('TStockTransferEntry').then(function(dataObject) {
+                  if (dataObject.length == 0) {
+                      templateObject.getAllTStockTransferEntryData();
+                  } else {
+                      let getTimeStamp = dataObject[0].timestamp.split(' ');
+                      if (getTimeStamp) {
+                          if (loggedUserEventFired) {
+                              if (getTimeStamp[0] != currenctTodayDate) {
+                                  templateObject.getAllTStockTransferEntryData();
+                              }
+                          }
+                      }
+
+                  }
+              }).catch(function(err) {
+                  templateObject.getAllTProductStocknSalePeriodReportData();
+              });
+          } else {
             sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
               countObjectTimes++;
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
@@ -3835,7 +4154,12 @@ Template.newsidenav.onRendered(function() {
                 }, 1000);
               }
                 addVS1Data('TProductVS1', JSON.stringify(data));
+                templateObject.getFollowedContactDetailsPull();
             }).catch(function(err) {});
+
+          }
+
+
         }, 1000);
     } else {
         if (isAccounts) {

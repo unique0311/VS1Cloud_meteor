@@ -941,6 +941,7 @@ Template.chequelist.events({
         let dataSearchName = $('#tblchequelist_filter input').val();
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getNewChequeByNameOrID(dataSearchName).then(function (data) {
+              $(".btnRefreshCheque").removeClass('btnSearchAlert');
                 let lineItems = [];
                 let lineItemObj = {};
                 if (data.tchequeex.length > 0) {
@@ -970,7 +971,7 @@ Template.chequelist.events({
                         };
 
                         splashArrayInvoiceList.push(dataList);
-                        
+
 
                     }
                     templateObject.datatablerecords.set(splashArrayInvoiceList);
@@ -984,7 +985,7 @@ Template.chequelist.events({
                             $("#tblchequelist > tbody").append(
                                 ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
                                 '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
-                                '<td contenteditable="false" class="colOrderDate" ><span style="display:none;">' + item[x].orderdate + '</span>' + item[x].saledate + '</td>' +
+                                '<td contenteditable="false" class="colOrderDate" ><span style="display:none;">' + item[x].orderdate + '</span>' + item[x].orderdate + '</td>' +
                                 '<td contenteditable="false" class="colChequeID">' + item[x].id + '</td>' +
                                 '<td contenteditable="false" class="colBankAccount" >' + item[x].accountname + '</td>' +
                                 '<td contenteditable="false" class="colPurchaseNo">' + item[x].chequeNumber + '</td>' +
@@ -998,7 +999,7 @@ Template.chequelist.events({
                                 '</tr>');
 
                         }
-                        $('.dataTables_info').html('Showing 1 to ' + data.tinvoiceex.length + ' of ' + data.tinvoiceex.length + ' entries');
+                        $('.dataTables_info').html('Showing 1 to ' + data.tchequeex.length + ' of ' + data.tchequeex.length + ' entries');
 
                     }
 
@@ -1025,55 +1026,7 @@ Template.chequelist.events({
             });
         } else {
 
-            sideBarService.getAllChequeList(initialDataLoad, 0).then(function (data) {
-                let lineItems = [];
-                let lineItemObj = {};
-
-                 for (let i = 0; i < data.tchequeex.length; i++) {
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalAmount) || 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalTax) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalAmountInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalBalance) || 0.00;
-                        var dataList = {
-                            id: data.tchequeex[i].fields.ID || '',
-                            employee: data.tchequeex[i].fields.EmployeeName || '',
-                            accountname: data.tchequeex[i].fields.GLAccountName || '',
-                            sortdate: data.tchequeex[i].fields.OrderDate != '' ? moment(data.tchequeex[i].fields.OrderDate).format("YYYY/MM/DD") : data.tchequeex[i].fields.OrderDate,
-                            orderdate: data.tchequeex[i].fields.OrderDate != '' ? moment(data.tchequeex[i].fields.OrderDate).format("DD/MM/YYYY") : data.tchequeex[i].fields.OrderDate,
-                            suppliername: data.tchequeex[i].fields.SupplierName || '',
-                            chequeNumber: data.tchequeex[i].fields.SupplierInvoiceNumber || '',
-                            totalamountex: totalAmountEx || 0.00,
-                            totaltax: totalTax || 0.00,
-                            totalamount: totalAmount || 0.00,
-                            totalpaid: totalPaid || 0.00,
-                            totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tchequeex[i].fields.OrderStatus || '',
-                            custfield1: '' || '',
-                            custfield2: '' || '',
-                            comments: data.tchequeex[i].fields.Comments || '',
-                        };
-                         if (data.tchequeex[i].fields.Deleted == false) {
-                        splashArrayInvoiceList.push(dataList);
-                    }
-
-                    }
-
-                    $('.fullScreenSpin').css('display', 'none');
-                    if (splashArrayInvoiceList) {
-                        var datatable = $('#tblchequelist').DataTable();
-                        datatable.clear();
-                        datatable.rows.add(splashArrayInvoiceList);
-                        datatable.draw(false);
-
-                    }
-
-                    //}
-                }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
-            });
+            $(".btnRefresh").trigger("click");
         }
     },
     'click .chkDatatable': function(event) {
@@ -1095,19 +1048,16 @@ Template.chequelist.events({
             }
         });
     },
-    'keyup #tblDepositList_filter input': function (event) {
+    'keyup #tblchequelist_filter input': function (event) {
           if($(event.target).val() != ''){
-            $(".btnRefreshDeposits").addClass('btnSearchAlert');
+            $(".btnRefreshCheque").addClass('btnSearchAlert');
           }else{
-            $(".btnRefreshDeposits").removeClass('btnSearchAlert');
+            $(".btnRefreshCheque").removeClass('btnSearchAlert');
           }
           if (event.keyCode == 13) {
-             $(".btnRefreshDeposits").trigger("click");
+             $(".btnRefreshCheque").trigger("click");
           }
         },
-        'click .btnRefreshDeposits':function(event){
-        $(".btnRefresh").trigger("click");
-    },
     'click .resetTable': function(event) {
         var getcurrentCloudDetails = CloudUser.findOne({ _id: Session.get('mycloudLogonID'), clouddatabaseID: Session.get('mycloudLogonDBID') });
         if (getcurrentCloudDetails) {

@@ -47,7 +47,7 @@ Template.vs1shipping.onRendered(function() {
         //document.getElementById("barcodeScanInput").value = decodedText;
         $('.fullScreenSpin').css('display', 'inline-block');
         var barcode = decodedText.toUpperCase();
-        $('#scanBarcodeModal').modal('toggle');
+        $('#scanBarcodeModalShippingOverview').modal('toggle');
         if (barcode != '') {
             if (barcode.length <= 2) {
                 $('.fullScreenSpin').css('display', 'none');
@@ -144,7 +144,7 @@ Template.vs1shipping.onRendered(function() {
     }
 
     var html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader", {
+        "qr-readershippingoverview", {
             fps: 10,
             qrbox: 250,
             rememberLastUsedCamera: true
@@ -157,8 +157,10 @@ Template.vs1shipping.onRendered(function() {
         isMobile = true;
     }
     if (isMobile == true) {
+        setTimeout(function() {
         document.getElementById("scanBarcode").style.display = "none";
-        document.getElementById("mobileBarcodeScan").style.display = "block";
+        document.getElementById("btnMobileBarcodeScan").style.display = "block";
+        }, 500);
     }
 
     function MakeNegative() {

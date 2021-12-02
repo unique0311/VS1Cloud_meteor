@@ -2218,7 +2218,17 @@ Template.stocktransfercard.onRendered(function() {
     if (isMobile != true) {
         setTimeout(function() {
             document.getElementById("scanBarcodeModalHidden").style.display = "none";
+            document.getElementById("scanResult").style.display = "block";
+            document.getElementById("mobileScanResult").style.display = "none";
         }, 500);
+    }
+    // alert(isMobile);
+    if (isMobile == true) {
+      setTimeout(function() {
+        document.getElementById("scanResult").style.display = "none";
+        document.getElementById("mobileScanResult").style.display = "block";
+      }, 500);
+
     }
     setTimeout(function() {
         var html5QrcodeScanner = new Html5QrcodeScanner(
@@ -2232,7 +2242,7 @@ Template.stocktransfercard.onRendered(function() {
 
     function onScanSuccess(decodedText, decodedResult) {
         var barcodeScanner = decodedText.toUpperCase();
-        $('#scanBarcode').modal('toggle');
+        $('#scanBarcodeModal').modal('toggle');
         if (barcodeScanner != '') {
 
             // setTimeout(function() {
@@ -2240,7 +2250,29 @@ Template.stocktransfercard.onRendered(function() {
             // }, 200);
             // templateObject.getAllGlobalSearch(barcodeScanner);
         }
+    };
+
+
+    function onScanSuccessStockTransfer(decodedText, decodedResult) {
+        var barcodeScannerStockTransfer = decodedText.toUpperCase();
+        $('#scanBarcodeModalStockTransfer').modal('toggle');
+        if (barcodeScannerStockTransfer != '') {
+            setTimeout(function() {
+                $('#allocBarcode').val(barcodeScannerStockTransfer).trigger("input");
+            }, 200);
+
+
+        }
     }
+
+
+    var html5QrcodeScannerStockTransfer = new Html5QrcodeScanner(
+        "qr-reader-stocktransfer", {
+            fps: 10,
+            qrbox: 250,
+            rememberLastUsedCamera: true
+        });
+    html5QrcodeScannerStockTransfer.render(onScanSuccessStockTransfer);
 });
 
 Template.stocktransfercard.events({
@@ -3813,13 +3845,6 @@ Template.stocktransfercard.events({
                 $('#deleteLineModal').modal('toggle');
             }
 
-        }
-    },
-    'click .scanProdBarcodePOP': function(event) {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-
-        } else {
-            Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
         }
     },
     'click #tdBarcodeScannerMobile': function(event) {

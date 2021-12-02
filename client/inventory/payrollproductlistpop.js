@@ -583,7 +583,26 @@ Template.payrollproductlistpop.onRendered(function () {
     };
 
     //tempObj.getAllProducts();
+    function onScanSuccessProdModal(decodedText, decodedResult) {
+        var barcodeScannerProdModal = decodedText.toUpperCase();
+        $('#scanBarcodeModalProduct').modal('toggle');
+        if (barcodeScannerProdModal != '') {
+            setTimeout(function() {
+              $('#tblInventoryPayrollService .form-control-sm').val(barcodeScannerProdModal).trigger("input");
+            }, 200);
 
+
+        }
+    }
+
+
+    var html5QrcodeScannerProdModal = new Html5QrcodeScanner(
+        "qr-reader-productmodal", {
+            fps: 10,
+            qrbox: 250,
+            rememberLastUsedCamera: true
+        });
+    html5QrcodeScannerProdModal.render(onScanSuccessProdModal);
 });
 
 Template.payrollproductlistpop.events({
@@ -730,5 +749,15 @@ Template.payrollproductlistpop.events({
       Meteor._reload.reload();
       templateObject.getAllProducts();
 
+  },
+  'click .scanProdBarcodePOP': function(event) {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        $('#scanBarcodeModalProduct').modal('toggle');
+      } else {
+          Bert.alert('<strong>Please Note:</strong> This function is only available on mobile devices!', 'now-dangerorange');
+      }
+  },
+  'click .btnCloseProdModal': function(event) {
+      $('#scanBarcodeModalProduct').modal('toggle');
   }
 });
