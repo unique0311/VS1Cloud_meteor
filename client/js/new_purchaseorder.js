@@ -84,6 +84,17 @@ Template.purchaseordercard.onCreated(() => {
     templateObject.includeBOnShippedQty.set(true);
 });
 Template.purchaseordercard.onRendered(() => {
+    $(window).on('load', function () {
+        var win = $(this); //this = window
+        if (win.width() <= 1024 && win.width() >= 450) {
+            $("#colBalanceDue").addClass("order-12");
+        }
+
+        if (win.width() <= 926) {
+            $("#totalSection").addClass("offset-md-6");
+        }
+
+    });
     let imageData = (localStorage.getItem("Image"));
     if (imageData) {
         $('.uploadedImage').attr('src', imageData);
@@ -152,7 +163,7 @@ Template.purchaseordercard.onRendered(() => {
 
   // }
   //   });
-    
+
     $(document).ready(function() {
         $('#formCheck-one').click(function() {
             if ($(event.target).is(':checked')) {
@@ -601,6 +612,7 @@ Template.purchaseordercard.onRendered(() => {
                             $('#sltTerms').val(data.fields.TermsName);
                             $('#sltDept').val(getDepartmentVal);
                             $('#sltStatus').val(data.fields.OrderStatus);
+                            $('#shipvia').val(data.fields.Shipping);
 
                             templateObject.attachmentCount.set(0);
                             if (data.fields.Attachments) {
@@ -795,6 +807,7 @@ Template.purchaseordercard.onRendered(() => {
                                 $('#sltTerms').val(useData[d].fields.TermsName);
                                 $('#sltDept').val(getDepartmentVal);
                                 $('#sltStatus').val(useData[d].fields.OrderStatus);
+                                $('#shipvia').val(useData[d].fields.Shipping);
 
                                 templateObject.attachmentCount.set(0);
                                 if (useData[d].fields.Attachments) {
@@ -972,6 +985,7 @@ Template.purchaseordercard.onRendered(() => {
                                 $('#sltTerms').val(data.fields.TermsName);
                                 $('#sltDept').val(getDepartmentVal);
                                 $('#sltStatus').val(data.fields.OrderStatus);
+                                $('#shipvia').val(data.fields.Shipping);
 
                                 templateObject.attachmentCount.set(0);
                                 if (data.fields.Attachments) {
@@ -1168,6 +1182,7 @@ Template.purchaseordercard.onRendered(() => {
                         $('#sltTerms').val(data.fields.TermsName);
                         $('#sltDept').val(getDepartmentVal);
                         $('#sltStatus').val(data.fields.OrderStatus);
+                        $('#shipvia').val(data.fields.Shipping);
 
                         templateObject.attachmentCount.set(0);
                         if (data.fields.Attachments) {
@@ -1372,6 +1387,7 @@ Template.purchaseordercard.onRendered(() => {
                 $('#sltTerms').val(data.fields.TermsName);
                 $('#sltDept').val(getDepartmentVal);
                 $('#sltStatus').val(data.fields.OrderStatus);
+                $('#shipvia').val(data.fields.Shipping);
 
                 templateObject.attachmentCount.set(0);
                 if (data.fields.Attachments) {
@@ -1732,6 +1748,8 @@ Template.purchaseordercard.onRendered(() => {
         $('#sltTerms').editableSelect();
         $('#sltDept').editableSelect();
         $('#sltStatus').editableSelect();
+        $('#shipvia').editableSelect();
+
         $('#addRow').on('click', function() {
             var rowData = $('#tblPurchaseOrderLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
@@ -1767,6 +1785,85 @@ Template.purchaseordercard.onRendered(() => {
 
 
 
+    });
+
+    $('#shipvia').editableSelect()
+        .on('click.editable-select', function(e, li) {
+            var $earch = $(this);
+            var offset = $earch.offset();
+            var shipvianame = e.target.value || '';
+            $('#edtShipViaID').val('');
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#shipViaModal').modal('toggle');
+            } else {
+                if (shipvianame.replace(/\s/g, '') != '') {
+                    $('#newShipViaMethodName').text('Edit Ship Via');
+
+                    getVS1Data('TShippingMethod').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getShippingMethodData().then(function(data) {
+                                for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                    if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                        $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                        $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newShipViaModal').modal('toggle');
+                                }, 200);
+                            }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tshippingmethod;
+                            for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                if (useData[i].DeptClassName === deptDataName) {
+                                    $('#edtShipViaID').val(useData[i].Id);
+                                    $('#edtShipVia').val(useData[i].ShippingMethod);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newShipViaModal').modal('toggle');
+                            }, 200);
+                        }
+                    }).catch(function(err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getShippingMethodData().then(function(data) {
+                            for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                    $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                    $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                }
+                            }
+                            setTimeout(function() {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newShipViaModal').modal('toggle');
+                            }, 200);
+                        }).catch(function(err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    });
+                } else {
+                    $('#shipViaModal').modal();
+                    setTimeout(function() {
+                        $('#tblShipViaPopList_filter .form-control-sm').focus();
+                        $('#tblShipViaPopList_filter .form-control-sm').val('');
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblShipViaPopList').DataTable();
+                        datatable.draw();
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                }
+            }
+        });
+
+    $(document).on("click", "#tblShipViaPopList tbody tr", function(e) {
+        $('#shipvia').val($(this).find(".colShipName ").text());
+        $('#shipViaModal').modal('toggle');
     });
 
     $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
@@ -4497,7 +4594,7 @@ Template.purchaseordercard.events({
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
 
-            let departement = $('#sltVia').val();
+            let departement = $('#shipvia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
@@ -5429,7 +5526,7 @@ Template.purchaseordercard.events({
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
 
-            let departement = $('#sltVia').val();
+            let departement = $('#shipvia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
@@ -5705,7 +5802,7 @@ Template.purchaseordercard.events({
                 let poNumber = $('#ponumber').val();
                 let reference = $('#edtRef').val();
 
-                let departement = $('#sltVia').val();
+                let departement = $('#shipvia').val();
                 let shippingAddress = $('#txaShipingInfo').val();
                 let comments = $('#txaComment').val();
                 let pickingInfrmation = $('#txapickmemo').val();
@@ -5993,7 +6090,7 @@ Template.purchaseordercard.events({
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
 
-            let departement = $('#sltVia').val();
+            let departement = $('#shipvia').val();
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
@@ -6434,7 +6531,7 @@ Template.purchaseordercard.events({
                         let poNumber = $('#ponumber').val();
                         let reference = $('#edtRef').val();
 
-                        let departement = $('#sltVia').val();
+                        let departement = $('#shipvia').val();
                         let shippingAddress = $('#txaShipingInfo').val();
                         let comments = $('#txaComment').val();
                         let pickingInfrmation = $('#txapickmemo').val();
@@ -6747,7 +6844,7 @@ Template.purchaseordercard.events({
                                 let poNumber = $('#ponumber').val();
                                 let reference = $('#edtRef').val();
 
-                                let departement = $('#sltVia').val();
+                                let departement = $('#shipvia').val();
                                 let shippingAddress = $('#txaShipingInfo').val();
                                 let comments = $('#txaComment').val();
                                 let pickingInfrmation = $('#txapickmemo').val();
@@ -7067,7 +7164,7 @@ Template.purchaseordercard.events({
                         let poNumber = $('#ponumber').val();
                         let reference = $('#edtRef').val();
 
-                        let departement = $('#sltVia').val();
+                        let departement = $('#shipvia').val();
                         let shippingAddress = $('#txaShipingInfo').val();
                         let comments = $('#txaComment').val();
                         let pickingInfrmation = $('#txapickmemo').val();
@@ -7383,7 +7480,7 @@ Template.purchaseordercard.events({
                     let poNumber = $('#ponumber').val();
                     let reference = $('#edtRef').val();
 
-                    let departement = $('#sltVia').val();
+                    let departement = $('#shipvia').val();
                     let shippingAddress = $('#txaShipingInfo').val();
                     let comments = $('#txaComment').val();
                     let pickingInfrmation = $('#txapickmemo').val();
