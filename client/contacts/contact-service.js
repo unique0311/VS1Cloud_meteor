@@ -102,6 +102,7 @@ export class ContactService extends BaseService {
   getCustomerStatementPrintData(clientID) {
       let options = {
           clientID: clientID,
+          ListType: "Detail",
           // select: "[Active]=true"
       };
       return this.getList(this.ERPObjects.TStatementForCustomer, options);
