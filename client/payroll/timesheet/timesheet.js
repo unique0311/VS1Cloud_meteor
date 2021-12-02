@@ -4157,15 +4157,15 @@ Template.timesheet.onRendered(function () {
                                 templateObject.datatablerecords1.set([]);
                                 templateObject.getAllTimeSheetData();
                                 templateObject.getAllTimeSheetDataClock();
-
-                                setTimeout(function(){
-                                let getTimesheetRecords = templateObject.timesheetrecords.get();
-                                 let getLatestTimesheet = getTimesheetRecords.filter(clkList => {
-                                    return clkList.employee == employeeName;
-                                });
-                                 $('#updateID').val(getLatestTimesheet[getLatestTimesheet.length - 1].id || '');
+                                $('#settingsModal').modal('hide');
+                                // setTimeout(function(){
+                                // let getTimesheetRecords = templateObject.timesheetrecords.get();
+                                //  let getLatestTimesheet = getTimesheetRecords.filter(clkList => {
+                                //     return clkList.employee == employeeName;
+                                // });
+                                //  $('#updateID').val(getLatestTimesheet[getLatestTimesheet.length - 1].id || '');
                                 $('.fullScreenSpin').css('display', 'none');
-                            },1500);
+                            // },1500);
 
                             })
                         }).catch(function (err) {
