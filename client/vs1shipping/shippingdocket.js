@@ -1805,9 +1805,33 @@ Template.shippingdocket.onRendered(function() {
         isMobile = true;
     }
     if (isMobile == true) {
-        document.getElementById("scanBarcode").style.display = "none";
-        document.getElementById("mobileBarcodeScan").style.display = "block";
+      setTimeout(function() {
+        document.getElementById("scanResult").style.display = "none";
+        document.getElementById("btnShippinDocketScan").style.display = "block";
+      }, 500);
+
     }
+
+    function onScanSuccessShipDocket(decodedText, decodedResult) {
+        var barcodeScannerShipDocket = decodedText.toUpperCase() || '';
+        $('#scanBarcodeModalShppingDocket').modal('toggle');
+        if (barcodeScannerShipDocket != '') {
+            setTimeout(function() {
+                $('#allocBarcode').val(barcodeScannerShipDocket).trigger("input");
+            }, 200);
+
+
+        }
+    }
+
+
+    var html5QrcodeScannerShipDocket = new Html5QrcodeScanner(
+        "qr-reader-shippingdocket", {
+            fps: 10,
+            qrbox: 250,
+            rememberLastUsedCamera: true
+        });
+    html5QrcodeScannerShipDocket.render(onScanSuccessShipDocket);
 
 });
 

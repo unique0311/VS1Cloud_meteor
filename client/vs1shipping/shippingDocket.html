@@ -305,7 +305,7 @@
             </div>
         </div>
 
-        <div class="modal fade" role="dialog" tabindex="-1" id="scanBarcodeModal">
+        <div class="modal fade" role="dialog" tabindex="-1" id="scanBarcodeModalShppingDocket">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -314,15 +314,15 @@
                     </div>
                     <div class="modal-body">
                         <style>
-                            #qr-reader>div:first-of-type {
+                            #qr-reader-shippingdocket>div:first-of-type {
                                 display: none !important;
                             }
 
-                            #qr-reader__dashboard_section_swaplink {
+                            #qr-reader-shippingdocket__dashboard_section_swaplink {
                                 display: none !important;
                             }
 
-                            #qr-reader__dashboard_section_csr>div>button:first-of-type {
+                            #qr-reader-shippingdocket__dashboard_section_csr>div>button:first-of-type {
                                 color: #fff !important;
                                 background-color: #00a3d3 !important;
                                 border-color: #00a3d3 !important;
@@ -339,7 +339,7 @@
                             }
                         </style>
                         <!-- <div id="reader" style="width: 100%"></div> -->
-                        <div id="qr-reader" style="width:100%"></div>
+                        <div id="qr-reader-shippingdocket" style="width:100%"></div>
                     </div>
                     <div class="modal-footer"><button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button></div>
                 </div>
@@ -362,7 +362,7 @@
                                     <a class="btn btn-success btnWhite save_new" id="newsnbtn" role="button" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;"><i class="fas fa-search" style="color: #fff !important;"></i></a>
                                 </div>
                                 <a class="btn btn-success btnWhite scan_new"  id="scanResult" name="scanResult" role="button" style="margin-left: 8px;"><i class="fas fa-camera" style="color: #fff !important;"></i></a>
-                                <button type="button" class="btn btn-success" id="mobileBarcodeScan" data-toggle="modal" data-target="#scanBarcodeModal" style="margin-left: 8px; display: none;"><i class="fas fa-camera"></i></button>
+                                <button type="button" class="btn btn-success" id="btnShippinDocketScan" data-toggle="modal" data-target="#scanBarcodeModalShppingDocket" style="margin-left: 8px; display: none;"><i class="fas fa-camera"></i></button>
                                 <a href="#" id="btnsaveallocline" class="save_new" style="display: none;">Save</a>
                             </div>
                         </div>
