@@ -69,6 +69,9 @@ Template.employeecompletedjobs.onRendered(() => {
                         itemBalance.push(sortable[j].jobscompleted);
                     }
 
+                    itemName.reverse();
+                    itemBalance.reverse();
+
                     var ctx = document.getElementById("myChartCustomer").getContext("2d");
                     var myChart = new Chart(ctx, {
                         type: 'horizontalBar',
@@ -205,7 +208,8 @@ Template.employeecompletedjobs.onRendered(() => {
                     itemBalance.push(sortable[j].jobscompleted);
                 }
 
-                
+                 itemName.reverse();
+                 itemBalance.reverse();
 
                 var ctx = document.getElementById("myChartCustomer").getContext("2d");
                 var myChart = new Chart(ctx, {
@@ -337,6 +341,9 @@ Template.employeecompletedjobs.onRendered(() => {
                     itemName.push(sortable[j].name);
                     itemBalance.push(sortable[j].jobscompleted);
                 }
+
+                itemName.reverse();
+                itemBalance.reverse();
 
                 var ctx = document.getElementById("myChartCustomer").getContext("2d");
                 var myChart = new Chart(ctx, {
