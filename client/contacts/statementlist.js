@@ -620,6 +620,7 @@ Template.statementlist.onRendered(function () {
                 };
 
                 templateObject.datatablerecords.set(dataTableList);
+                templateObject.datatablerecords1.set(dataTableList);
 
                 if (templateObject.datatablerecords.get()) {
 
@@ -1412,7 +1413,7 @@ Template.statementlist.events({
             }
         }
         templateObject.datatablerecords.set(statementList);
-        $('.dataTables_info').html('Showing 1 to ' + statementList.length + ' of ' + statementList.length + ' entries');
+        $('.dataTables_info').html('Showing ' + statementList.length + ' of ' + statementList.length + ' entries');
         $('.fullScreenSpin').css('display', 'none');
 
     },
