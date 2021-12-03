@@ -169,7 +169,6 @@ Template.stocktransfercard.onRendered(function() {
             var segsSerial = prodPQALine.split(',');
             let productID = $('#' + id + " .ProductID").text() || '';
             let countSerialBarcode = 0;
-            console.log(segsSerial);
             for (let s = 0; s < segsSerial.length; s++) {
                countSerialBarcode++;
                let scannedCode = "PSN-" + productID + "-" + segsSerial[s];
@@ -338,9 +337,15 @@ Template.stocktransfercard.onRendered(function() {
                             let lineItemObj = {};
                             let lineItemsTable = [];
                             let lineItemTableObj = {};
-
+                            let initialTransferData = 0;
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
+                                  if(data.fields.Lines[i].fields.TransferSerialnos){
+
+                                  }else{
+                                    initialTransferData = data.fields.Lines[i].fields.TransferQty || 0;
+                                  }
+
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: data.fields.Lines[i].fields.ID || '',
@@ -354,6 +359,7 @@ Template.stocktransfercard.onRendered(function() {
                                         department: data.fields.Lines[0].fields.ClassNameTo || defaultDept,
                                         qtyordered: data.fields.Lines[i].fields.AvailableQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.TransferQty || 0,
+                                        initaltransfer: initialTransferData || 0,
                                         qtybo: data.fields.Lines[i].fields.BOQty || 0
 
                                     };
@@ -466,9 +472,14 @@ Template.stocktransfercard.onRendered(function() {
                                 let lineItemObj = {};
                                 let lineItemsTable = [];
                                 let lineItemTableObj = {};
-
+                                let initialTransferData = 0;
                                 if (useData[d].fields.Lines.length) {
                                     for (let i = 0; i < useData[d].fields.Lines.length; i++) {
+                                      if(useData[d].fields.Lines[i].fields.TransferSerialnos){
+
+                                      }else{
+                                        initialTransferData = useData[d].fields.Lines[i].fields.TransferQty || 0;
+                                      }
 
                                         lineItemObj = {
                                             lineID: Random.id(),
@@ -483,6 +494,7 @@ Template.stocktransfercard.onRendered(function() {
                                             department: useData[d].fields.Lines[0].fields.ClassNameTo || defaultDept,
                                             qtyordered: useData[d].fields.Lines[i].fields.AvailableQty || 0,
                                             qtyshipped: useData[d].fields.Lines[i].fields.TransferQty || 0,
+                                            initaltransfer: initialTransferData || 0,
                                             qtybo: useData[d].fields.Lines[i].fields.BOQty || 0
 
                                         };
@@ -490,6 +502,12 @@ Template.stocktransfercard.onRendered(function() {
                                         lineItems.push(lineItemObj);
                                     }
                                 } else {
+                                  if(useData[d].fields.Lines.fields.TransferSerialnos){
+
+                                  }else{
+                                    initialTransferData = useData[d].fields.Lines.fields.TransferQty || 0;
+                                  }
+
                                     lineItemObj = {
                                         lineID: Random.id(),
                                         id: useData[d].fields.Lines.fields.ID || '',
@@ -503,6 +521,7 @@ Template.stocktransfercard.onRendered(function() {
                                         department: useData[d].fields.Lines.fields.ClassNameTo || defaultDept,
                                         qtyordered: useData[d].fields.Lines.fields.AvailableQty || 0,
                                         qtyshipped: useData[d].fields.Lines.fields.TransferQty || 0,
+                                        initaltransfer: initialTransferData || 0,
                                         qtybo: useData[d].fields.Lines.fields.BOQty || 0
 
                                     };
@@ -605,9 +624,14 @@ Template.stocktransfercard.onRendered(function() {
                                 let lineItemObj = {};
                                 let lineItemsTable = [];
                                 let lineItemTableObj = {};
-
+                                let initialTransferData = 0;
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
+                                      if(data.fields.Lines[i].fields.TransferSerialnos){
+
+                                      }else{
+                                        initialTransferData = data.fields.Lines[i].fields.TransferQty || 0;
+                                      }
                                         lineItemObj = {
                                             lineID: Random.id(),
                                             id: data.fields.Lines[i].fields.ID || '',
@@ -621,6 +645,7 @@ Template.stocktransfercard.onRendered(function() {
                                             department: data.fields.Lines[0].fields.ClassNameTo || defaultDept,
                                             qtyordered: data.fields.Lines[i].fields.AvailableQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.TransferQty || 0,
+                                            initaltransfer: initialTransferData || 0,
                                             qtybo: data.fields.Lines[i].fields.BOQty || 0
 
                                         };
@@ -732,9 +757,15 @@ Template.stocktransfercard.onRendered(function() {
                         let lineItemObj = {};
                         let lineItemsTable = [];
                         let lineItemTableObj = {};
-
+                        let initialTransferData = 0;
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
+                              if(data.fields.Lines[i].fields.TransferSerialnos){
+
+                              }else{
+                                initialTransferData = data.fields.Lines[i].fields.TransferQty || 0;
+                              }
+
                                 lineItemObj = {
                                     lineID: Random.id(),
                                     id: data.fields.Lines[i].fields.ID || '',
@@ -748,6 +779,7 @@ Template.stocktransfercard.onRendered(function() {
                                     department: data.fields.Lines[0].fields.ClassNameTo || defaultDept,
                                     qtyordered: data.fields.Lines[i].fields.AvailableQty || 0,
                                     qtyshipped: data.fields.Lines[i].fields.TransferQty || 0,
+                                    initaltransfer: initialTransferData || 0,
                                     qtybo: data.fields.Lines[i].fields.BOQty || 0
 
                                 };
@@ -1031,10 +1063,16 @@ Template.stocktransfercard.onRendered(function() {
         //     }
         // };
         var rowIndex = $('input[name="salesLineRow"]').val();
+        let initialTransfer = $('#' + rowIndex + " #InitTransfer").text()||0;
         var qtyShipped = $('#serailscanlist tbody tr').length;
+        if(initialTransfer != 0){
+          qtyShipped = qtyShipped + parseInt(initialTransfer);
+        }
+
         var qtyOrder = parseInt($('#' + rowIndex + " #Ordered").val());
         // parseInt($('#tblStocktransfer tr:eq(' + rowIndex + ')').find("[id=Ordered]").val());
         var qtyBackOrder = qtyOrder - qtyShipped;
+
         $('#' + rowIndex + " #pqa").text(AllocLineObjDetails);
         $('#' + rowIndex + " #lineID").text(AllocLineObjDetails);
         $('#' + rowIndex + " #UOMQtyShipped").val(qtyShipped);
@@ -2290,7 +2328,8 @@ Template.stocktransfercard.onRendered(function() {
         $('#scanBarcodeModalStockTransfer').modal('toggle');
         if (barcodeScannerStockTransfer != '') {
             setTimeout(function() {
-                $('#allocBarcode').val(barcodeScannerStockTransfer).trigger("input");
+                $('#allocBarcode').val(barcodeScannerStockTransfer);
+                $('#allocBarcode').trigger("input");
             }, 200);
 
 
@@ -3434,12 +3473,14 @@ Template.stocktransfercard.events({
             let tdbarcode = $('#' + lineID + " .lineProductBarCode").html();
             let tddescription = $('#' + lineID + " .lineDescription").html() || '';
             let tdserialNumber = $('#' + lineID + " .pqa").text();
+
             // let tdfinalqty = $('#' + lineID + " .lineFinalQty").val();
             // let tdadjustqty = $('#' + lineID + " .lineAdjustQty").val();
             let tdDepartment = $('#' + lineID + " .lineDepartment").val();
 
             let tdavailqty = $('#' + lineID + " .lineOrdere").val();
             let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
+            let tdInitialTransfer = $('#' + lineID + " .InitTransfer").text()||0;
             if (tdproduct != "") {
 
                 if (tdserialNumber != '') {

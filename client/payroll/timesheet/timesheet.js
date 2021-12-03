@@ -2731,7 +2731,8 @@ Template.timesheet.onRendered(function () {
               $('#scanBarcodeModalClockOff').modal('toggle');
               if (barcodeScannerClockOff != '') {
                   setTimeout(function() {
-                      $('#barcodeScanInput').val(barcodeScannerClockOff).trigger("input");
+                      $('#barcodeScanInput').val(barcodeScannerClockOff);
+                      $('#barcodeScanInput').trigger("input");
                   }, 200);
 
 

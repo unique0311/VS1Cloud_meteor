@@ -647,7 +647,8 @@ Template.employeeproductlistpop.onRendered(function () {
         $('#scanBarcodeModalProduct').modal('toggle');
         if (barcodeScannerProdModal != '') {
             setTimeout(function() {
-              $('#tblInventoryService .form-control-sm').val(barcodeScannerProdModal).trigger("input");
+              $('#tblInventoryService .form-control-sm').val(barcodeScannerProdModal);
+              $('#tblInventoryService .form-control-sm').trigger("input");
             }, 200);
 
 

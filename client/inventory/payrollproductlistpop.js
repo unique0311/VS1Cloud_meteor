@@ -588,7 +588,8 @@ Template.payrollproductlistpop.onRendered(function () {
         $('#scanBarcodeModalProduct').modal('toggle');
         if (barcodeScannerProdModal != '') {
             setTimeout(function() {
-              $('#tblInventoryPayrollService .form-control-sm').val(barcodeScannerProdModal).trigger("input");
+              $('#tblInventoryPayrollService .form-control-sm').val(barcodeScannerProdModal);
+              $('#tblInventoryPayrollService .form-control-sm').trigger("input");
             }, 200);
 
 

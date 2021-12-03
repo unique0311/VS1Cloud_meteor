@@ -466,7 +466,8 @@ Template.productlistpop.onRendered(function () {
         $('#scanBarcodeModalProduct').modal('toggle');
         if (barcodeScannerProdModal != '') {
             setTimeout(function() {
-              $('#tblInventory_filter .form-control-sm').val(barcodeScannerProdModal).trigger("input");
+              $('#tblInventory_filter .form-control-sm').val(barcodeScannerProdModal);
+              $('#tblInventory_filter .form-control-sm').trigger("input");
             }, 200);
 
 

@@ -1817,7 +1817,8 @@ Template.shippingdocket.onRendered(function() {
         $('#scanBarcodeModalShppingDocket').modal('toggle');
         if (barcodeScannerShipDocket != '') {
             setTimeout(function() {
-                $('#allocBarcode').val(barcodeScannerShipDocket).trigger("input");
+                $('#allocBarcode').val(barcodeScannerShipDocket);
+                $('#allocBarcode').trigger("input");
             }, 200);
 
 
