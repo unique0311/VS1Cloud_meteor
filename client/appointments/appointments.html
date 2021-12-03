@@ -180,9 +180,7 @@
                 font-size: 11px !important;
             }
         }
-    </style>
 
-    <style>
         .modal {
             overflow-y: auto;
         }
@@ -206,16 +204,7 @@
                 margin-top: 0px !important;
             }
         }
-    </style>
 
-    <!-- <div id="draggable" class="ui-widget-content">
-<p>Drag me to my target</p>
-</div>
-
-<div id="droppable" class="ui-widget-header">
-<p>Drop here</p>
-</div> -->
-    <style>
         .allocationInnerModal {
             width: 95vw;
             height: 95vh;
@@ -1191,7 +1180,6 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
         {{> addcustomerpop}}
     </div>
 
-
     <div class="modal fade customerListModal" role="dialog" tabindex="-1" id="customerListModal">
         <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
             <div class="modal-content customerListContent">
@@ -1225,7 +1213,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
         }
 
         .sideSearch {
-            width: 200px;
+            width: 100% !important;
             overflow-x: hidden;
             overflow-y: hidden;
         }
@@ -1342,9 +1330,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
         .fc-event.fc-daygrid-event.fc-daygrid-block-event {
             cursor: pointer !important;
         }
-    </style>
 
-    <style>
         .alignColCenter {
             top: 20%;
             left: 20%;
@@ -1353,6 +1339,13 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
         /*Calendar Styling Classes*/
         .calendarWidth100 {
             width: 100%;
+        }
+
+        @media screen and (max-width: 768px) {
+            .newcardb {
+                margin: 0 auto !important;
+                margin-bottom: 16px !important;
+            }
         }
 
         @media screen and (max-width: 1024px) {
@@ -1384,12 +1377,12 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             }
 
             .newcardb {
-                max-height: 300px !important;
-                margin-left: 28px !important;
+                /* max-height: 300px !important; */
+                /* margin-left: 28px !important; */
             }
 
             .colEmployeeList {
-                margin: auto !important;
+                /* margin: auto !important; */
             }
 
             .fc-col-header {
@@ -1425,11 +1418,12 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
             }
 
             .colCalendar {
-                padding: 0em 2.5em;
+                padding: 0em 1.5em;
+                padding-left: 8px;
             }
 
             .newcardb {
-                width: 50% !important;
+                width: 100% !important;
             }
 
             .sideSearch {
@@ -1639,173 +1633,179 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                 padding-left: 0px !important;
             }
         }
+
+        @media screen and (max-width: 1366px) {
+            .fc-toolbar-chunk > * {
+                margin: 8px;
+            }
+        }
     </style>
 
     <script>
-        setTimeout(function() {
-
-            var x = window.matchMedia("(max-width: 1024px)");
-
-            function mediaQuery(x) {
-                if (x.matches) {
-
-                    $("#newcardb").addClass("alignColCenter");
-                }
-            }
-            mediaQuery(x);
-            x.addListener(mediaQuery);
-        }, 10);
-        setTimeout(function() {
-
-            var x = window.matchMedia("(max-width: 812px)");
-
-            function mediaQuery(x) {
-                if (x.matches) {
-
-                    $("#newcardb").addClass("alignColCenter");
-
-                    $("#colCustJobName").removeClass("col-6");
-                    $("#colCustJobName").addClass("col-12");
-                    $("#colMobno").removeClass("col-2");
-                    $("#colMobno").addClass("col-4");
-                    $("#colPhoneno").removeClass("col-2");
-                    $("#colPhoneno").addClass("col-4");
-                    $("#colAppID").removeClass("col-2");
-                    $("#colAppID").addClass("col-4");
-
-                    $("#colStreetAddress").removeClass("col-4");
-                    $("#colStreetAddress").addClass("col-12");
-                    $("#colCityTown").removeClass("col-2");
-                    $("#colCityTown").addClass("col-4");
-                    $("#colState").removeClass("col-2");
-                    $("#colState").addClass("col-4");
-                    $("#colCountry").removeClass("col-2");
-                    $("#colCountry").addClass("col-4");
-                    $("#colZip").removeClass("col-2");
-                    $("#colZip").addClass("col-4");
-
-                    $("#colEmpName").removeClass("col-6");
-                    $("#colEmpName").addClass("col-12");
-                    $("#colStartDate").removeClass("col-3");
-                    $("#colStartDate").addClass("col-6");
-                    $("#colEndDate").removeClass("col-3");
-                    $("#colEndDate").addClass("col-6");
-
-                    $("#colBookedTime").removeClass("col-6");
-                    $("#colBookedTime").addClass("col-12");
-                    $("#colBookedStartTime").removeClass("col-2");
-                    $("#colBookedStartTime").addClass("col-4");
-                    $("#colBookedEndTime").removeClass("col-2");
-                    $("#colBookedEndTime").addClass("col-4");
-                    $("#colBookedHours").removeClass("col-2");
-                    $("#colBookedHours").addClass("col-4");
-
-                    $("#colActualTime").removeClass("col-3");
-                    $("#colActualTime").addClass("col-12");
-                    $("#timeHeader").removeClass("float-right");
-                    $("#timeHeader").addClass("float-left");
-                    $("#colActualStartTime").removeClass("col-2");
-                    $("#colActualStartTime").addClass("col-4");
-                    $("#colActualEndTime").removeClass("col-2");
-                    $("#colActualEndTime").addClass("col-4");
-                    $("#colAppointmentList").removeClass("col-1");
-                    $("#colAppointmentList").addClass("col-2");
-                }
-            }
-            mediaQuery(x);
-            x.addListener(mediaQuery);
-        }, 10);
-        setTimeout(function() {
-
-            var x = window.matchMedia("(max-width: 1024px)");
-
-            function mediaQuery(x) {
-                if (x.matches) {
-
-                    $("#colEmployeeList").removeClass("col-auto");
-                    $("#colEmployeeList").addClass("col-12");
-
-                    $("#colCalendar").removeClass("col");
-                    $("#colCalendar").addClass("col-12");
-
-                }
-            }
-            mediaQuery(x);
-            x.addListener(mediaQuery);
-        }, 10);
-        setTimeout(function() {
-
-            var x = window.matchMedia("(max-width: 420px)");
-
-            function mediaQuery(x) {
-                if (x.matches) {
-
-                    $("#colEmployeeList").removeClass("col-auto");
-                    $("#colEmployeeList").addClass("col-12");
-
-                    $("#colCalendar").removeClass("col");
-                    $("#colCalendar").addClass("col-12");
-
-                    $("#colCustJobName").removeClass("col-6");
-                    $("#colCustJobName").addClass("col-12");
-                    $("#colMobno").removeClass("col-2");
-                    $("#colMobno").addClass("col-4");
-                    $("#colPhoneno").removeClass("col-2");
-                    $("#colPhoneno").addClass("col-4");
-                    $("#colAppID").removeClass("col-2");
-                    $("#colAppID").addClass("col-4");
-
-                    $("#colStreetAddress").removeClass("col-4");
-                    $("#colStreetAddress").addClass("col-12");
-                    $("#colCityTown").removeClass("col-2");
-                    $("#colCityTown").addClass("col-6");
-                    $("#colState").removeClass("col-2");
-                    $("#colState").addClass("col-6");
-                    $("#colCountry").removeClass("col-2");
-                    $("#colCountry").addClass("col-6");
-                    $("#colZip").removeClass("col-2");
-                    $("#colZip").addClass("col-6");
-
-                    $("#colNotesParent").removeClass("col-4");
-                    $("#colNotesParent").addClass("col-12");
-
-                    $("#colBookedTimeParent").removeClass("col-8");
-                    $("#colBookedTimeParent").addClass("col-12");
-                    $("#colBookedTime").removeClass("col-3");
-                    $("#colBookedTime").addClass("col-12");
-                    $("#bookedTimeHeader").removeClass("float-right");
-                    $("#bookedTimeHeader").addClass("float-left");
-                    $("#colBookedStartTime").removeClass("col-3");
-                    $("#colBookedStartTime").addClass("col-4");
-                    $("#colActualEndTime").removeClass("col-3");
-                    $("#colActualEndTime").addClass("col-4");
-                    $("#colBookedHours").removeClass("col-3");
-                    $("#colBookedHours").addClass("col-4");
-                    $("#actualTimeHeader").removeClass("float-right");
-                    $("#actualTimeHeader").addClass("float-left");
-
-                    // $("#colProductService2").removeClass("col-6");
-                    // $("#colProductService2").addClass("col-12");
-                    // $("#colStart").removeClass("col-2");
-                    // $("#colStart").addClass("col-4");
-                    // $("#colOnHold").removeClass("col-2");
-                    // $("#colOnHold").addClass("col-4");
-                    // $("#colStop").removeClass("col-2");
-                    // $("#colStop").addClass("col-4");
-
-                }
-            }
-            mediaQuery(x);
-            x.addListener(mediaQuery);
-        }, 10);
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 1024px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#newcardb").addClass("alignColCenter");
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 812px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#newcardb").addClass("alignColCenter");
+        //
+        //             $("#colCustJobName").removeClass("col-6");
+        //             $("#colCustJobName").addClass("col-12");
+        //             $("#colMobno").removeClass("col-2");
+        //             $("#colMobno").addClass("col-4");
+        //             $("#colPhoneno").removeClass("col-2");
+        //             $("#colPhoneno").addClass("col-4");
+        //             $("#colAppID").removeClass("col-2");
+        //             $("#colAppID").addClass("col-4");
+        //
+        //             $("#colStreetAddress").removeClass("col-4");
+        //             $("#colStreetAddress").addClass("col-12");
+        //             $("#colCityTown").removeClass("col-2");
+        //             $("#colCityTown").addClass("col-4");
+        //             $("#colState").removeClass("col-2");
+        //             $("#colState").addClass("col-4");
+        //             $("#colCountry").removeClass("col-2");
+        //             $("#colCountry").addClass("col-4");
+        //             $("#colZip").removeClass("col-2");
+        //             $("#colZip").addClass("col-4");
+        //
+        //             $("#colEmpName").removeClass("col-6");
+        //             $("#colEmpName").addClass("col-12");
+        //             $("#colStartDate").removeClass("col-3");
+        //             $("#colStartDate").addClass("col-6");
+        //             $("#colEndDate").removeClass("col-3");
+        //             $("#colEndDate").addClass("col-6");
+        //
+        //             $("#colBookedTime").removeClass("col-6");
+        //             $("#colBookedTime").addClass("col-12");
+        //             $("#colBookedStartTime").removeClass("col-2");
+        //             $("#colBookedStartTime").addClass("col-4");
+        //             $("#colBookedEndTime").removeClass("col-2");
+        //             $("#colBookedEndTime").addClass("col-4");
+        //             $("#colBookedHours").removeClass("col-2");
+        //             $("#colBookedHours").addClass("col-4");
+        //
+        //             $("#colActualTime").removeClass("col-3");
+        //             $("#colActualTime").addClass("col-12");
+        //             $("#timeHeader").removeClass("float-right");
+        //             $("#timeHeader").addClass("float-left");
+        //             $("#colActualStartTime").removeClass("col-2");
+        //             $("#colActualStartTime").addClass("col-4");
+        //             $("#colActualEndTime").removeClass("col-2");
+        //             $("#colActualEndTime").addClass("col-4");
+        //             $("#colAppointmentList").removeClass("col-1");
+        //             $("#colAppointmentList").addClass("col-2");
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 1024px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#colEmployeeList").removeClass("col-auto");
+        //             $("#colEmployeeList").addClass("col-12");
+        //
+        //             $("#colCalendar").removeClass("col");
+        //             $("#colCalendar").addClass("col-12");
+        //
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
+        // setTimeout(function() {
+        //
+        //     var x = window.matchMedia("(max-width: 420px)");
+        //
+        //     function mediaQuery(x) {
+        //         if (x.matches) {
+        //
+        //             $("#colEmployeeList").removeClass("col-auto");
+        //             $("#colEmployeeList").addClass("col-12");
+        //
+        //             $("#colCalendar").removeClass("col");
+        //             $("#colCalendar").addClass("col-12");
+        //
+        //             $("#colCustJobName").removeClass("col-6");
+        //             $("#colCustJobName").addClass("col-12");
+        //             $("#colMobno").removeClass("col-2");
+        //             $("#colMobno").addClass("col-4");
+        //             $("#colPhoneno").removeClass("col-2");
+        //             $("#colPhoneno").addClass("col-4");
+        //             $("#colAppID").removeClass("col-2");
+        //             $("#colAppID").addClass("col-4");
+        //
+        //             $("#colStreetAddress").removeClass("col-4");
+        //             $("#colStreetAddress").addClass("col-12");
+        //             $("#colCityTown").removeClass("col-2");
+        //             $("#colCityTown").addClass("col-6");
+        //             $("#colState").removeClass("col-2");
+        //             $("#colState").addClass("col-6");
+        //             $("#colCountry").removeClass("col-2");
+        //             $("#colCountry").addClass("col-6");
+        //             $("#colZip").removeClass("col-2");
+        //             $("#colZip").addClass("col-6");
+        //
+        //             $("#colNotesParent").removeClass("col-4");
+        //             $("#colNotesParent").addClass("col-12");
+        //
+        //             $("#colBookedTimeParent").removeClass("col-8");
+        //             $("#colBookedTimeParent").addClass("col-12");
+        //             $("#colBookedTime").removeClass("col-3");
+        //             $("#colBookedTime").addClass("col-12");
+        //             $("#bookedTimeHeader").removeClass("float-right");
+        //             $("#bookedTimeHeader").addClass("float-left");
+        //             $("#colBookedStartTime").removeClass("col-3");
+        //             $("#colBookedStartTime").addClass("col-4");
+        //             $("#colActualEndTime").removeClass("col-3");
+        //             $("#colActualEndTime").addClass("col-4");
+        //             $("#colBookedHours").removeClass("col-3");
+        //             $("#colBookedHours").addClass("col-4");
+        //             $("#actualTimeHeader").removeClass("float-right");
+        //             $("#actualTimeHeader").addClass("float-left");
+        //
+        //             // $("#colProductService2").removeClass("col-6");
+        //             // $("#colProductService2").addClass("col-12");
+        //             // $("#colStart").removeClass("col-2");
+        //             // $("#colStart").addClass("col-4");
+        //             // $("#colOnHold").removeClass("col-2");
+        //             // $("#colOnHold").addClass("col-4");
+        //             // $("#colStop").removeClass("col-2");
+        //             // $("#colStop").addClass("col-4");
+        //
+        //         }
+        //     }
+        //     mediaQuery(x);
+        //     x.addListener(mediaQuery);
+        // }, 10);
     </script>
 
     <div class="row rowB" id="rowB">
-        <div class="col-auto colEmployeeList" id="colEmployeeList">
+        <div class="col-12 col-lg-2 colEmployeeList" id="colEmployeeList">
             <style>
-                .newcardb {
+                /* .newcardb {
                     width: 150px;
-                }
+                } */
 
                 .cardB {
                     padding: 0px;
@@ -1813,7 +1813,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                 }
 
                 .counter.pull-right {
-                    padding-right: 70px !important;
+                    /* padding-right: 70px !important; */
                 }
 
                 #tblEmployeeSideList {
@@ -1831,8 +1831,8 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                 </div>
                 <div class="card-body text-nowrap cardB">
                     <div class="sideSearch">
-                        <div class="form-group pull-right" style="width: 100%; margin-bottom: 0;">
-                            <input style="width: 130px; margin: 4px;" type="text" class="inputSearch search form-control" placeholder="Search...">
+                        <div class="form-group pull-right" style="width: 95%; margin-bottom: 0; margin-right: 8px;">
+                            <input style="margin: 4px;" type="text" class="inputSearch search form-control" placeholder="Search...">
                         </div>
                         <span class="counter pull-right"></span>
                         <style>
@@ -1893,7 +1893,7 @@ var getInputRadio = goToParent.find("input[id = " + getValue + "]");
                 </div>
             </div>
         </div>
-        <div class="col colCalendar" id="colCalendar">
+        <div class="col-12 col-lg-10 colCalendar" id="colCalendar">
             <style>
                 @media screen and (max-width: 2000px) {
                     .fc-view-harness.fc-view-harness-active {
