@@ -166,6 +166,24 @@ Template.stocktransfercard.onRendered(function() {
             prodPQALine = $('#' + id + " .lineID").text();
             $('input[name="prodID"]').val($('#' + id + " .ProductID").text());
             $('input[name="orderQty"]').val($('#' + id + " .colOrdered").val());
+            var segsSerial = prodPQALine.split(',');
+            let productID = $('#' + id + " .ProductID").text() || '';
+            let countSerialBarcode = 0;
+            console.log(segsSerial);
+            for (let s = 0; s < segsSerial.length; s++) {
+               countSerialBarcode++;
+               let scannedCode = "PSN-" + productID + "-" + segsSerial[s];
+               let htmlAppend = '<tr class="dnd-moved"><td class="form_id">' + countSerialBarcode + '</td><td>' + '' +
+                   '</td><td>' + '</td>' +
+                   '<td>' + '<input type="text" style="text-align: left !important;" name="serialNoBOM" id="serialNoBOM" class="highlightInput " value="' + scannedCode + '" readonly>' + '</td><td class="hiddenColumn"><input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="' + segsSerial[s] + '" readonly></td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>' +
+                   '</tr>';
+               if (segsSerial[s] != '') {
+                   $("#serailscanlist").append(htmlAppend);
+               }
+
+           };
+
+
             // $('input[name="deptID"]').val($tblrow.find(".linedeptid").text());
             let countSerial = 0;
             setTimeout(function() {
@@ -210,7 +228,7 @@ Template.stocktransfercard.onRendered(function() {
 
 
         } else {
-            stockTransferService.getProductClassQuantitys().then(function(data) {
+            stockTransferService.getProductClassQuantitysByDept(productname, deptName).then(function(data) {
                 for (let i = 0; i < data.tproductclassquantity.length; i++) {
                     let dataObj = {};
 
@@ -235,11 +253,25 @@ Template.stocktransfercard.onRendered(function() {
                 var dataListRet = "";
 
                 var productName = $('#' + id + " .lineProductName").val() || '';
-
+                let productID = $('#' + id + " .ProductID").text() || '';
                 prodPQALine = $('#' + id + " .lineID").text();
                 $('input[name="prodID"]').val($('#' + id + " .ProductID").text());
                 $('input[name="orderQty"]').val($('#' + id + " .colOrdered").val());
                 // $('input[name="deptID"]').val($tblrow.find(".linedeptid").text());
+                var segsSerial = prodPQALine.split(',');
+                let countSerialBarcode = 0;
+                for (let s = 0; s < segsSerial.length; s++) {
+                   countSerialBarcode++;
+                   let scannedCode = "PSN-" + productID + "-" + segsSerial[s];
+                   let htmlAppend = '<tr class="dnd-moved"><td class="form_id">' + countSerialBarcode + '</td><td>' + '' +
+                       '</td><td>' + '</td>' +
+                       '<td>' + '<input type="text" style="text-align: left !important;" name="serialNoBOM" id="serialNoBOM" class="highlightInput " value="' + scannedCode + '" readonly>' + '</td><td class="hiddenColumn"><input type="text" style="text-align: left !important;" name="serialNo" id="serialNo" class="highlightInput " value="' + segsSerial[s] + '" readonly></td><td style="width: 1%;"><span class=" removesecondtablebutton"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>' +
+                       '</tr>';
+                   if (segsSerial[s] != '') {
+                       $("#serailscanlist").append(htmlAppend);
+                   }
+
+               };
 
                 let countSerial = 0;
                 setTimeout(function() {
@@ -2510,7 +2542,7 @@ Template.stocktransfercard.events({
     },
     'click .lineProductBarCode, click .lineDescription, click .lineOrdered': function(event) {
         let templateObject = Template.instance();
-        if (FlowRouter.current().queryParams.id) {
+
 
             var $tblrow = $("#tblStocktransfer tbody tr");
             var targetID = $(event.target).closest('tr').attr('id');
@@ -2520,6 +2552,8 @@ Template.stocktransfercard.events({
             var productName = $('#' + targetID + " .lineProductName").val() || '';
             var productID = $('#' + targetID + " .ProductID").text() || '';
             prodPQALine = $('#' + targetID + " .lineID").text();
+            /*
+          if (FlowRouter.current().queryParams.id) {
             $('input[name="prodID"]').val($('#' + targetID + " .ProductID").text());
             $('input[name="orderQty"]').val($('#' + targetID + " .colOrdered").val());
             let countSerial = 0;
@@ -2543,11 +2577,13 @@ Template.stocktransfercard.events({
                 }
 
             }
-            if (productName != '') {
-                templateObject.getProductQty(targetID, productName);
-            }
+
             //templateObject.getProductQty(targetID, productName);
 
+        }
+        */
+        if (productName != '') {
+            templateObject.getProductQty(targetID, productName);
         }
     },
     'click .lineDepartment, keydown .lineDepartment': function(event) {

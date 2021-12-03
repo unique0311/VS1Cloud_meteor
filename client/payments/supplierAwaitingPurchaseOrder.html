@@ -219,6 +219,47 @@
                                 opacity: 1;
                             }
                         </style>
+                        <div class="row no-gutters d-xl-flex align-items-xl-end">
+                            <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
+
+                            </div>
+                            <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end myvarFilterForm">
+                                <div class="dropdown" style="margin: 8px; margin-top: 0px;">
+                                    <style>
+                                        .btn-daterange::after {
+                                            display: none;
+                                        }
+                                    </style>
+                                    <button class="btn dropdown-toggle btn-daterange" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                        <a class="dropdown-item lastMonth"  id="lastMonth" role="presentation" href="#">Last Month</a>
+                                        <a class="dropdown-item lastQuarter"  id="lastQuarter" role="presentation" href="#">Last Quarter</a>
+                                        <a class="dropdown-item last12Months"  id="last12Months" role="presentation" href="#">Last 12 Months</a>
+                                        <a class="dropdown-item ignoreDate"  id="ignoreDate" role="presentation" href="#">Ignore Date</a>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin: 8px; margin-top: 0px; display: inline-flex;">
+                                    <label style="margin-top: 8px; margin-right: 16px;">From</label>
+                                    <div class="input-group date" style="width: 160px;">
+                                        <input type="text" class="form-control" id="dateFrom" name="dateFrom" >
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin: 8px; margin-right: 0px; margin-top: 0px; display: inline-flex;">
+                                    <label style="margin-top: 8px; margin-right: 16px;">To</label>
+                                    <div class="input-group date" style="width: 160px;">
+                                        <input type="text" class="form-control" id="dateTo" name="dateTo" >
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <table id="tblSupplierAwaitingPO" name="tblSupplierAwaitingPO" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblSupplierAwaitingPO">
                             <thead>
                                 <tr class="dnd-moved">

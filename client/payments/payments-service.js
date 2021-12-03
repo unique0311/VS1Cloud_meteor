@@ -139,7 +139,9 @@ export class PaymentsService extends BaseService {
     let options = {
       IgnoreDates:true,
       IncludePOs:true,
-      IncludeBills:true
+      IncludeBills:true,
+      Paid:false,
+      Unpaid:true
     };
     return this.getList(this.ERPObjects.TbillReport, options);
   }

@@ -68,6 +68,14 @@ export class StockTransferService extends BaseService {
       return this.getList(this.ERPObjects.TProductClassQuantity, options);
   }
 
+  getProductClassQuantitysByDept(productname, deptName) {
+      let options = {
+          PropertyList: "ID,AvailableQty,InStockQty,ProductName,DepartmentName",
+          select: "[ProductName]='"+productname+"' and [DepartmentName]='"+deptName+"'"
+      };
+      return this.getList(this.ERPObjects.TProductClassQuantity, options);
+  }
+
   getSerialNumberList() {
       let options = {
           AllocType: "In-Stock"

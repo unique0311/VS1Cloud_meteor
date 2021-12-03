@@ -26,6 +26,36 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
     const tableHeaderList = [];
 
 
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateDay = currentDate.getDate();
+    if ((currentDate.getMonth() + 1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth() + 1);
+    }
+
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
+
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function (error, result) {
         if (error) {
 
@@ -56,7 +86,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
     };
     // $('#tblSupplierAwaitingPO').DataTable();
     templateObject.getAllSupplierPaymentData = function () {
-        getVS1Data('TbillReport').then(function (dataObject) {
+        getVS1Data('TAwaitingSupplierPayment').then(function (dataObject) {
             if (dataObject.length == 0) {
                 paymentService.getAllAwaitingSupplierDetails().then(function (data) {
                     let lineItems = [];
@@ -76,6 +106,9 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         let balance = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
+                        if (data.tbillreport[i].Type == "Credit") {
+                           totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
+                        }
                         let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
                         if (data.tbillreport[i].Balance != 0) {
                             if ((data.tbillreport[i].Type == "Purchase Order") || (data.tbillreport[i].Type == "Bill") || (data.tbillreport[i].Type == "Credit")) {
@@ -151,7 +184,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                                 { "orderable": false, "targets": 0 },
                                 { type: 'date', targets: 1 }
                             ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
                                 {
                                     extend: 'excelHtml5',
@@ -192,7 +225,8 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             colReorder: {
                                 fixedColumnsLeft: 1
                             },
-                            paging: false,
+                            pageLength: initialReportDatatableLoad,
+                            "bLengthChange": false,
                             // "scrollY": "400px",
                             // "scrollCollapse": true,
                             info: true,
@@ -208,7 +242,13 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                                 }, 100);
                             },
                             "fnInitComplete": function () {
-                             $("<button class='btn btn-primary btnRefreshSupplierAwaiting' type='button' id='btnRefreshSupplierAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage) {
+                                  this.fnPageChange('last');
+                              }
+                                $("<button class='btn btn-primary btnRefreshSupplierAwaiting' type='button' id='btnRefreshSupplierAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+
+                                $('.myvarFilterForm').appendTo(".colDateFilter");
 
                          }
 
@@ -281,11 +321,18 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                } else {
+
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
                 let useData = data.tbillreport;
                 let lineItems = [];
                 let lineItemObj = {};
                 let totalPaidCal = 0;
-
                 for (let i = 0; i < useData.length; i++) {
                     if (useData[i].Type == "Credit") {
                         totalPaidCal = useData[i]['Total Amount (Inc)'] + useData[i].Balance;
@@ -299,6 +346,9 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                     let balance = utilityService.modifynegativeCurrencyFormat(useData[i].Balance) || 0.00;
                     let totalPaid = utilityService.modifynegativeCurrencyFormat(useData[i].Balance) || 0.00;
                     let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].Balance) || 0.00;
+                    if (useData[i].Type == "Credit") {
+                      totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)']) || 0.00;
+                    }
                     let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)']) || 0.00;
                     if (useData[i].Balance != 0) {
                         if ((useData[i].Type == "Purchase Order") || (useData[i].Type == "Bill") || (useData[i].Type == "Credit")) {
@@ -374,7 +424,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             { "orderable": false, "targets": 0 },
                             { type: 'date', targets: 1 }
                         ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -415,7 +465,8 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         colReorder: {
                             fixedColumnsLeft: 1
                         },
-                        paging: false,
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
                         // "scrollY": "400px",
                         // "scrollCollapse": true,
                         info: true,
@@ -431,7 +482,13 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             }, 100);
                         },
                          "fnInitComplete": function () {
+                           let urlParametersPage = FlowRouter.current().queryParams.page;
+                           if (urlParametersPage) {
+                               this.fnPageChange('last');
+                           }
                              $("<button class='btn btn-primary btnRefreshSupplierAwaiting' type='button' id='btnRefreshSupplierAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
 
                          }
 
@@ -591,7 +648,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             { "orderable": false, "targets": 0 },
                             { type: 'date', targets: 1 }
                         ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -632,7 +689,8 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         colReorder: {
                             fixedColumnsLeft: 1
                         },
-                        paging: false,
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
                         // "scrollY": "400px",
                         // "scrollCollapse": true,
                         info: true,
@@ -739,10 +797,184 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
         //  FlowRouter.go('/supplierpaymentcard?poid='+ listData);
         // }
     });
+
+    templateObject.getAllFilterPurchasesData = function(fromDate, toDate, ignoreDate) {
+        sideBarService.getAllAwaitingSupplierPayment(fromDate, toDate, ignoreDate).then(function(data) {
+            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/supplierawaitingpurchaseorder?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+            }).catch(function(err) {
+                location.reload();
+            });
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    }
+
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if (urlParametersDateFrom) {
+        if (urlParametersIgnoreDate == true) {
+            $('#dateFrom').attr('readonly', true);
+            $('#dateTo').attr('readonly', true);
+        } else {
+
+            $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+            $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
+        }
+    }
+
 });
 
 Template.supplierawaitingpurchaseorder.events({
+  'change #dateTo': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+      var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
+      let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+      let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+      //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+      var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+      //templateObject.dateAsAt.set(formatDate);
+      if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+      } else {
+          templateObject.getAllFilterPurchasesData(formatDateFrom, formatDateTo, false);
+      }
+
+  },
+  'change #dateFrom': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+      var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+      let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+      let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+      //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+      var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+      //templateObject.dateAsAt.set(formatDate);
+      if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+      } else {
+          templateObject.getAllFilterPurchasesData(formatDateFrom, formatDateTo, false);
+      }
+
+  },
+  'click #lastMonth': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentDate = new Date();
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      let fromDateMonth = (currentDate.getMonth() + 1);
+      let fromDateDay = currentDate.getDate();
+      if ((currentDate.getMonth() + 1) < 10) {
+          fromDateMonth = "0" + (currentDate.getMonth() + 1);
+      }
+      if (currentDate.getDate() < 10) {
+          fromDateDay = "0" + currentDate.getDate();
+      }
+
+      var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+      $("#dateFrom").val(fromDate);
+      $("#dateTo").val(begunDate);
+
+      var currentDate2 = new Date();
+      var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+      let getDateFrom = currentDate2.getFullYear() + "-" + (fromDateMonth) + "-" + fromDateDay;
+      templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
+  },
+  'click #lastQuarter': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentDate = new Date();
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      function getQuarter(d) {
+          d = d || new Date();
+          var m = Math.floor(d.getMonth() / 3) + 2;
+          return m > 4 ? m - 4 : m;
+      }
+
+      var quarterAdjustment = (moment().month() % 3) + 1;
+      var lastQuarterEndDate = moment().subtract({
+          months: quarterAdjustment
+      }).endOf('month');
+      var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+          months: 2
+      }).startOf('month');
+
+      var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+      var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+      $("#dateFrom").val(lastQuarterStartDateFormat);
+      $("#dateTo").val(lastQuarterEndDateFormat);
+
+      let fromDateMonth = getQuarter(currentDate);
+      var quarterMonth = getQuarter(currentDate);
+      let fromDateDay = currentDate.getDate();
+
+      var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+      let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+      templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
+  },
+  'click #last12Months': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentDate = new Date();
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+      let fromDateDay = currentDate.getDate();
+      if ((currentDate.getMonth() + 1) < 10) {
+          fromDateMonth = "0" + (currentDate.getMonth() + 1);
+      }
+      if (currentDate.getDate() < 10) {
+          fromDateDay = "0" + currentDate.getDate();
+      }
+
+      var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+      $("#dateFrom").val(fromDate);
+      $("#dateTo").val(begunDate);
+
+      var currentDate2 = new Date();
+      if ((currentDate2.getMonth() + 1) < 10) {
+          fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+      }
+      if (currentDate2.getDate() < 10) {
+          fromDateDay2 = "0" + currentDate2.getDate();
+      }
+      var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+      let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+      templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
+
+  },
+  'click #ignoreDate': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', true);
+      $('#dateTo').attr('readonly', true);
+      templateObject.getAllFilterPurchasesData('', '', true);
+  },
     'click .chkDatatable': function (event) {
         var columns = $('#tblSupplierAwaitingPO th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
@@ -942,22 +1174,22 @@ Template.supplierawaitingpurchaseorder.events({
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
         let fromDateMonth = (currentBeginDate.getMonth() + 1);
+
         let fromDateDay = currentBeginDate.getDate();
-        if((currentBeginDate.getMonth()+1) < 10){
-            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-        }else{
-            fromDateMonth = (currentBeginDate.getMonth()+1);
+        if ((currentBeginDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+        } else {
+            fromDateMonth = (currentBeginDate.getMonth() + 1);
         }
 
-        if(currentBeginDate.getDate() < 10){
+
+        if (currentBeginDate.getDate() < 10) {
             fromDateDay = "0" + currentBeginDate.getDate();
         }
-        currentBeginDate.setMonth(currentBeginDate.getMonth() - 6);
-        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-
-        let prevMonth11Date = moment(currentBeginDate).format('YYYY-MM-DD');
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function (data) {
-            addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
+        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date,toDate, false).then(function (data) {
+            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function (datareturn) {
                Meteor._reload.reload();
             }).catch(function (err) {
                 Meteor._reload.reload();

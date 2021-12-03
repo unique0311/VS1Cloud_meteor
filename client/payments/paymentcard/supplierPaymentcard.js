@@ -353,7 +353,7 @@ Template.supplierpaymentcard.onRendered(() => {
     };
 
     templateObject.getAllSupplierPaymentData = function() {
-        getVS1Data('TbillReport').then(function(dataObject) {
+        getVS1Data('TAwaitingSupplierPayment').then(function(dataObject) {
             if (dataObject.length == 0) {
                 paymentService.getAllAwaitingSupplierDetails().then(function(data) {
                     let lineItems = [];
@@ -3838,23 +3838,23 @@ Template.supplierpaymentcard.onRendered(() => {
                         let lineItems = [];
                         let lineItemObj = {};
 
-                        let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                        let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
-                        let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                        let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
                         var currentDate = new Date();
                         var begunDate = moment(currentDate).format("DD/MM/YYYY");
                         //if (data.fields.Lines.length) {
                         //for (let i = 0; i < data.fields.Lines.length; i++) {
-                        let amountDue = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                        let amountDue = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscountTotalDiscount).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
-                        let paymentAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                        let paymentAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
-                        let outstandingAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                        let outstandingAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalDiscount).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
                         let originalAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {
@@ -3966,23 +3966,23 @@ Template.supplierpaymentcard.onRendered(() => {
                             let lineItems = [];
                             let lineItemObj = {};
 
-                            let total = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, {
+                            let total = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalDiscount).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
-                            let appliedAmt = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, {
+                            let appliedAmt = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalDiscount).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
                             var currentDate = new Date();
                             var begunDate = moment(currentDate).format("DD/MM/YYYY");
                             //if (useData[d].fields.Lines.length) {
                             //for (let i = 0; i < useData[d].fields.Lines.length; i++) {
-                            let amountDue = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, {
+                            let amountDue = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalDiscount).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
-                            let paymentAmt = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, {
+                            let paymentAmt = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalDiscount).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
-                            let outstandingAmt = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalBalance).toLocaleString(undefined, {
+                            let outstandingAmt = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalDiscount).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
                             let originalAmt = utilityService.modifynegativeCurrencyFormat(useData[d].fields.TotalAmountInc).toLocaleString(undefined, {
@@ -6208,8 +6208,8 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
@@ -6531,8 +6531,8 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
@@ -6849,8 +6849,8 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
@@ -7173,8 +7173,8 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
-                    addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                    addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
@@ -7493,8 +7493,8 @@ Template.supplierpaymentcard.events({
                     }).catch(function(err) {});
 
                     addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate) {
-                            addVS1Data('TbillReport', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                                 window.open('/supplierpayment', '_self');
                             }).catch(function(err) {
                                 window.open('/supplierpayment', '_self');
@@ -7813,8 +7813,8 @@ Template.supplierpaymentcard.events({
                 }).catch(function(err) {});
                 sideBarService.getAllPurchaseOrderList().then(function(dataUpdate) {
                     addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(dataUpdate2) {
-                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function(datareturn) {
+                        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate2) {
+                            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate2)).then(function(datareturn) {
                                 window.open('/supplierpayment', '_self');
                             }).catch(function(err) {
                                 window.open('/supplierpayment', '_self');
@@ -8139,8 +8139,8 @@ Template.supplierpaymentcard.events({
                 }).catch(function(err) {});
                 sideBarService.getAllBillExList().then(function(dataUpdate) {
                     addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        sideBarService.getAllBillExList().then(function(dataUpdate2) {
-                            addVS1Data('TbillReport', JSON.stringify(dataUpdate2)).then(function(datareturn) {
+                        sideBarService.getAllAwaitingSupplierPayment().then(function(dataUpdate2) {
+                            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate2)).then(function(datareturn) {
                                 window.open('/supplierawaitingpurchaseorder', '_self');
                             }).catch(function(err) {
                                 window.open('/supplierawaitingpurchaseorder', '_self');
@@ -8267,6 +8267,7 @@ Template.supplierpaymentcard.events({
 
     'click .btnSelectSuppliers': function(event) {
         const templateObject = Template.instance();
+
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get()
         if (selectedSupplierPayments.length > 0) {
             let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
@@ -8288,6 +8289,7 @@ Template.supplierpaymentcard.events({
                 total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''));
             }
             $('.appliedAmount').text(Currency + total.toFixed(2));
+
         }
         templateObject.selectedAwaitingPayment.set([]);
         $('#supplierPaymentListModal').modal('hide');
@@ -8414,8 +8416,8 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
-                    addVS1Data('TbillReport', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(data) {
+                    addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
             }).catch(function(err) {
@@ -8453,8 +8455,8 @@ Template.supplierpaymentcard.events({
                         addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
                     }).catch(function(err) {});
 
-                    sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
-                        addVS1Data('TbillReport', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
+                    sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(data) {
+                        addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
                     }).catch(function(err) {});
 
                 }).catch(function(err) {

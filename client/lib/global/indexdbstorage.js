@@ -176,6 +176,7 @@ openDb = function (dbName) {
       db.createObjectStore("TStSStrain", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TERPPreference", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TERPPreferenceExtra", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TAwaitingSupplierPayment", { keyPath: "EmployeeEmail" });
 
     }
 

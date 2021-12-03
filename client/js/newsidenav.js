@@ -130,7 +130,7 @@ Template.newsidenav.onCreated(function() {
 });
 Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
-    let allDataToLoad = 47;
+    let allDataToLoad = 48;
     let progressPercentage = 0;
     // $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
     // $('.headerprogressbar').addClass('headerprogressbarShow');
@@ -1603,6 +1603,40 @@ Template.newsidenav.onRendered(function() {
         });
     }
 
+    templateObject.getAllAwaitingSupplierPaymentData = function() {
+
+        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          $(".progressBarInner").text("Awaiting Supplier Payment "+Math.round(progressPercentage)+"%");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
+            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data));
+        }).catch(function(err) {
+
+        });
+    }
+
     templateObject.getAllTChequeData = function() {
         sideBarService.getAllChequeList(initialDataLoad, 0).then(function(data) {
           countObjectTimes++;
@@ -2057,35 +2091,6 @@ Template.newsidenav.onRendered(function() {
     templateObject.getAllTERPPreferenceExtraData = function() {
         sideBarService.getGlobalSettingsExtra().then(function(data) {
           countObjectTimes++;
-          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
-          if (isAppointmentLaunch) {
-              if (isAppointmentScheduling) {
-                   allDataToLoad = 28;
-                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
-                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                   $(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
-                   if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
-                     if($('.headerprogressbar').hasClass("headerprogressbarShow")){
-                       $('.headerprogressbar').removeClass('headerprogressbarHidden');
-                     }else{
-                       $('.headerprogressbar').addClass('headerprogressbarShow');
-                       $('.headerprogressbar').removeClass('headerprogressbarHidden');
-                     }
-
-                   }else if(Math.round(progressPercentage) == 100){
-                     setTimeout(function() {
-                       if($('.headerprogressbar').hasClass("headerprogressbarShow")){
-                         $('.headerprogressbar').removeClass('headerprogressbarShow');
-                         $('.headerprogressbar').addClass('headerprogressbarHidden');
-                       }else{
-                         $('.headerprogressbar').removeClass('headerprogressbarShow');
-                         $('.headerprogressbar').addClass('headerprogressbarHidden');
-                       }
-
-                     }, 1000);
-                   }
-                 }
-            }else{
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
               $(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
@@ -2109,7 +2114,7 @@ Template.newsidenav.onRendered(function() {
 
                 }, 1000);
               }
-          }
+        //  }
 
 
             addVS1Data('TERPPreferenceExtra', JSON.stringify(data));
@@ -2642,6 +2647,14 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getTCustomerPaymentData();
                 });
+
+                getVS1Data('TAwaitingSupplierPayment').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllAwaitingSupplierPaymentData();
+                    } else {}
+                }).catch(function(err) {
+                    templateObject.getAllAwaitingSupplierPaymentData();
+                });
             }
             if (isBanking) {
                 getVS1Data('TBankAccountReport').then(function(dataObject) {
@@ -2826,6 +2839,8 @@ Template.newsidenav.onRendered(function() {
                                           }).catch(function(err) {
 
                                           });
+                                        }else{
+                                          templateObject.getFollowedAllObjectPull();
                                         }
                                     }
                                 }
@@ -3003,6 +3018,8 @@ Template.newsidenav.onRendered(function() {
                                             //templateObject.getFollowedAllObjectPull();
                                             templateObject.getFollowedBillDetailsPull();
                                         });
+                                    }else{
+                                      templateObject.getFollowedBillDetailsPull();
                                     }
                                 }
                             }
@@ -3264,13 +3281,14 @@ Template.newsidenav.onRendered(function() {
                             }, 1000);
                           }
                             addVS1Data('TAppointment', JSON.stringify(data));
-                            //setTimeout(function() {
+
+                            setTimeout(function() {
                             templateObject.getFollowedPurchaseDetailsPull();
-                            //}, 3000);
+                          }, 1000);
                         }).catch(function(err) {
-                            //setTimeout(function() {
+                            setTimeout(function() {
                             templateObject.getFollowedPurchaseDetailsPull();
-                            //}, 3000);
+                          }, 1000);
                         });
 
                     } else {
@@ -3304,14 +3322,19 @@ Template.newsidenav.onRendered(function() {
                                         }, 1000);
                                       }
                                         addVS1Data('TAppointment', JSON.stringify(data));
-                                        //setTimeout(function() {
+                                        setTimeout(function() {
                                         templateObject.getFollowedPurchaseDetailsPull();
-                                        //}, 3000);
+                                      }, 1000);
                                     }).catch(function(err) {
-                                        //setTimeout(function() {
+                                        setTimeout(function() {
                                         templateObject.getFollowedPurchaseDetailsPull();
-                                        //}, 3000);
+                                      }, 1000);
                                     });
+                                }else{
+                                  // alert('hre');
+                                  setTimeout(function() {
+                                  templateObject.getFollowedPurchaseDetailsPull();
+                                }, 1000);
                                 }
                             }
                         }
@@ -3343,16 +3366,15 @@ Template.newsidenav.onRendered(function() {
                         }, 1000);
                       }
                         addVS1Data('TAppointment', JSON.stringify(data));
-                        //setTimeout(function() {
+                        setTimeout(function() {
                         templateObject.getFollowedPurchaseDetailsPull();
-                        //  }, 3000);
+                      }, 1000);
                     }).catch(function(err) {
-                        //setTimeout(function() {
+                        setTimeout(function() {
                         templateObject.getFollowedPurchaseDetailsPull();
-                        //}, 3000);
+                      }, 1000);
                     });
                 });
-
                 getVS1Data('TAppointmentPreferences').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         templateObject.getAllAppointmentPrefData();
@@ -3404,7 +3426,9 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getAllTERPPreferenceExtraData();
                 });
               }else{
+                setTimeout(function() {
                 templateObject.getFollowedPurchaseDetailsPull();
+              }, 1000);
               }
 
         }, 3000);
@@ -3551,6 +3575,8 @@ Template.newsidenav.onRendered(function() {
                                             templateObject.getFollowedQuickDataDetailsPull();
                                             //}, 3000);
                                         });
+                                    }else{
+                                      templateObject.getFollowedQuickDataDetailsPull();
                                     }
                                 }
                             }
@@ -4055,6 +4081,8 @@ Template.newsidenav.onRendered(function() {
                                   }).catch(function(err) {
                                       templateObject.getFollowedContactDetailsPull();
                                   });
+                              }else{
+                                templateObject.getFollowedContactDetailsPull();
                               }
                           }
                       }
@@ -4266,6 +4294,8 @@ Template.newsidenav.onRendered(function() {
                                 }).catch(function(err) {
                                     templateObject.getFollowedContactDetailsPull();
                                 });
+                            }else{
+                              templateObject.getFollowedContactDetailsPull();
                             }
                         }
                     }

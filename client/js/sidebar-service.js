@@ -436,6 +436,31 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TbillReport, options);
   }
 
+  getAllAwaitingSupplierPayment(dateFrom, dateTo, ignoreDate) {
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+        IncludePOs:true,
+        IncludeBills:true,
+        Paid:false,
+        Unpaid:true
+     };
+   }else{
+     options = {
+       IgnoreDates:false,
+       IncludePOs:true,
+       IncludeBills:true,
+       Paid:false,
+       Unpaid:true,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+initialReportLoad+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TbillReport, options);
+  }
+
   getAllBillExList(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
