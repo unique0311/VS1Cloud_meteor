@@ -123,84 +123,84 @@ Template.newcurrencypop.onRendered(function() {
                     }
 
                     $('.fullScreenSpin').css('display', 'none');
-                    setTimeout(function() {
-                        $('#tblCurrencyPopList').DataTable({
-                            columnDefs: [{
-                                    type: 'date',
-                                    targets: 0
-                                },
-                                {
-                                    "orderable": false,
-                                    "targets": -1
-                                }
-                            ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "taxratelist_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Tax Rate List',
-                                filename: "taxratelist_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }],
-                            select: true,
-                            destroy: true,
-                            colReorder: true,
-                            colReorder: {
-                                fixedColumnsRight: 1
-                            },
-                            // bStateSave: true,
-                            // rowId: 0,
-                            paging: false,
-                            "scrollY": "400px",
-                            "scrollCollapse": true,
-                            info: true,
-                            responsive: true,
-                            "order": [
-                                [0, "asc"]
-                            ],
-                            action: function() {
-                                $('#tblCurrencyPopList').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
-                                    MakeNegative();
-                                }, 100);
-                            },
-                            "fnInitComplete": function() {
-                                $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
-                            },
-
-                        }).on('page', function() {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                            let draftRecord = templateObject.datatablerecordscurrencypop.get();
-                            templateObject.datatablerecordscurrencypop.set(draftRecord);
-                        }).on('column-reorder', function() {
-
-                        }).on('length.dt', function(e, settings, len) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        });
-
-                        // $('#tblCurrencyPopList').DataTable().column( 0 ).visible( true );
-                        $('.fullScreenSpin').css('display', 'none');
-                    }, 0);
+                    // setTimeout(function() {
+                    //     $('#tblCurrencyPopList').DataTable({
+                    //         columnDefs: [{
+                    //                 type: 'date',
+                    //                 targets: 0
+                    //             },
+                    //             {
+                    //                 "orderable": false,
+                    //                 "targets": -1
+                    //             }
+                    //         ],
+                    //         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                    //         buttons: [{
+                    //             extend: 'excelHtml5',
+                    //             text: '',
+                    //             download: 'open',
+                    //             className: "btntabletocsv hiddenColumn",
+                    //             filename: "taxratelist_" + moment().format(),
+                    //             orientation: 'portrait',
+                    //             exportOptions: {
+                    //                 columns: ':visible'
+                    //             }
+                    //         }, {
+                    //             extend: 'print',
+                    //             download: 'open',
+                    //             className: "btntabletopdf hiddenColumn",
+                    //             text: '',
+                    //             title: 'Tax Rate List',
+                    //             filename: "taxratelist_" + moment().format(),
+                    //             exportOptions: {
+                    //                 columns: ':visible'
+                    //             }
+                    //         }],
+                    //         select: true,
+                    //         destroy: true,
+                    //         colReorder: true,
+                    //         colReorder: {
+                    //             fixedColumnsRight: 1
+                    //         },
+                    //         // bStateSave: true,
+                    //         // rowId: 0,
+                    //         paging: false,
+                    //         "scrollY": "400px",
+                    //         "scrollCollapse": true,
+                    //         info: true,
+                    //         responsive: true,
+                    //         "order": [
+                    //             [0, "asc"]
+                    //         ],
+                    //         action: function() {
+                    //             $('#tblCurrencyPopList').DataTable().ajax.reload();
+                    //         },
+                    //         "fnDrawCallback": function(oSettings) {
+                    //             setTimeout(function() {
+                    //                 MakeNegative();
+                    //             }, 100);
+                    //         },
+                    //         "fnInitComplete": function() {
+                    //             $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
+                    //         },
+                    //
+                    //     }).on('page', function() {
+                    //         setTimeout(function() {
+                    //             MakeNegative();
+                    //         }, 100);
+                    //         let draftRecord = templateObject.datatablerecordscurrencypop.get();
+                    //         templateObject.datatablerecordscurrencypop.set(draftRecord);
+                    //     }).on('column-reorder', function() {
+                    //
+                    //     }).on('length.dt', function(e, settings, len) {
+                    //         setTimeout(function() {
+                    //             MakeNegative();
+                    //         }, 100);
+                    //     });
+                    //
+                    //     // $('#tblCurrencyPopList').DataTable().column( 0 ).visible( true );
+                    //     $('.fullScreenSpin').css('display', 'none');
+                    // }, 0);
 
                     var columns = $('#tblCurrencyPopList th');
                     let sTible = "";
@@ -270,76 +270,76 @@ Template.newcurrencypop.onRendered(function() {
 
                 $('.fullScreenSpin').css('display', 'none');
                 setTimeout(function() {
-                    $('#tblCurrencyPopList').DataTable({
-                        columnDefs: [
-                            // {type: 'date', targets: 0},
-                            // { "orderable": false, "targets": -1 }
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "taxratelist_" + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Tax Rate List',
-                            filename: "taxratelist_" + moment().format(),
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        colReorder: {
-                            fixedColumnsRight: 1
-                        },
-                        // bStateSave: true,
-                        // rowId: 0,
-                        paging: false,
-                        // "scrollY": "400px",
-                        // "scrollCollapse": true,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        info: true,
-                        responsive: true,
-                        "order": [
-                            [0, "asc"]
-                        ],
-                        action: function() {
-                            $('#tblCurrencyPopList').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
-                        "fnInitComplete": function() {
-                            $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
-                        },
-
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecordscurrencypop.get();
-                        templateObject.datatablerecordscurrencypop.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    });
+                    // $('#tblCurrencyPopList').DataTable({
+                    //     columnDefs: [
+                    //         // {type: 'date', targets: 0},
+                    //         // { "orderable": false, "targets": -1 }
+                    //     ],
+                    //     "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                    //     buttons: [{
+                    //         extend: 'excelHtml5',
+                    //         text: '',
+                    //         download: 'open',
+                    //         className: "btntabletocsv hiddenColumn",
+                    //         filename: "taxratelist_" + moment().format(),
+                    //         orientation: 'portrait',
+                    //         exportOptions: {
+                    //             columns: ':visible'
+                    //         }
+                    //     }, {
+                    //         extend: 'print',
+                    //         download: 'open',
+                    //         className: "btntabletopdf hiddenColumn",
+                    //         text: '',
+                    //         title: 'Tax Rate List',
+                    //         filename: "taxratelist_" + moment().format(),
+                    //         exportOptions: {
+                    //             columns: ':visible'
+                    //         }
+                    //     }],
+                    //     select: true,
+                    //     destroy: true,
+                    //     colReorder: true,
+                    //     colReorder: {
+                    //         fixedColumnsRight: 1
+                    //     },
+                    //     // bStateSave: true,
+                    //     // rowId: 0,
+                    //     paging: false,
+                    //     // "scrollY": "400px",
+                    //     // "scrollCollapse": true,
+                    //     pageLength: initialDatatableLoad,
+                    //     lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                    //     info: true,
+                    //     responsive: true,
+                    //     "order": [
+                    //         [0, "asc"]
+                    //     ],
+                    //     action: function() {
+                    //         $('#tblCurrencyPopList').DataTable().ajax.reload();
+                    //     },
+                    //     "fnDrawCallback": function(oSettings) {
+                    //         setTimeout(function() {
+                    //             MakeNegative();
+                    //         }, 100);
+                    //     },
+                    //     "fnInitComplete": function() {
+                    //         $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
+                    //     },
+                    //
+                    // }).on('page', function() {
+                    //     setTimeout(function() {
+                    //         MakeNegative();
+                    //     }, 100);
+                    //     let draftRecord = templateObject.datatablerecordscurrencypop.get();
+                    //     templateObject.datatablerecordscurrencypop.set(draftRecord);
+                    // }).on('column-reorder', function() {
+                    //
+                    // }).on('length.dt', function(e, settings, len) {
+                    //     setTimeout(function() {
+                    //         MakeNegative();
+                    //     }, 100);
+                    // });
 
                     // $('#tblCurrencyPopList').DataTable().column( 0 ).visible( true );
                     $('.fullScreenSpin').css('display', 'none');
@@ -439,84 +439,84 @@ Template.newcurrencypop.onRendered(function() {
                 }
 
                 $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function() {
-                    $('#tblCurrencyPopList').DataTable({
-                        columnDefs: [{
-                                type: 'date',
-                                targets: 0
-                            },
-                            {
-                                "orderable": false,
-                                "targets": -1
-                            }
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "taxratelist_" + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Tax Rate List',
-                            filename: "taxratelist_" + moment().format(),
-                            exportOptions: {
-                                columns: ':visible'
-                            }
-                        }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        colReorder: {
-                            fixedColumnsRight: 1
-                        },
-                        // bStateSave: true,
-                        // rowId: 0,
-                        paging: false,
-                        "scrollY": "400px",
-                        "scrollCollapse": true,
-                        info: true,
-                        responsive: true,
-                        "order": [
-                            [0, "asc"]
-                        ],
-                        action: function() {
-                            $('#tblCurrencyPopList').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
-                        "fnInitComplete": function() {
-                            $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
-                        },
-
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecordscurrencypop.get();
-                        templateObject.datatablerecordscurrencypop.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    });
-
-                    // $('#tblCurrencyPopList').DataTable().column( 0 ).visible( true );
-                    $('.fullScreenSpin').css('display', 'none');
-                }, 0);
+                // setTimeout(function() {
+                //     $('#tblCurrencyPopList').DataTable({
+                //         columnDefs: [{
+                //                 type: 'date',
+                //                 targets: 0
+                //             },
+                //             {
+                //                 "orderable": false,
+                //                 "targets": -1
+                //             }
+                //         ],
+                //         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                //         buttons: [{
+                //             extend: 'excelHtml5',
+                //             text: '',
+                //             download: 'open',
+                //             className: "btntabletocsv hiddenColumn",
+                //             filename: "taxratelist_" + moment().format(),
+                //             orientation: 'portrait',
+                //             exportOptions: {
+                //                 columns: ':visible'
+                //             }
+                //         }, {
+                //             extend: 'print',
+                //             download: 'open',
+                //             className: "btntabletopdf hiddenColumn",
+                //             text: '',
+                //             title: 'Tax Rate List',
+                //             filename: "taxratelist_" + moment().format(),
+                //             exportOptions: {
+                //                 columns: ':visible'
+                //             }
+                //         }],
+                //         select: true,
+                //         destroy: true,
+                //         colReorder: true,
+                //         colReorder: {
+                //             fixedColumnsRight: 1
+                //         },
+                //         // bStateSave: true,
+                //         // rowId: 0,
+                //         paging: false,
+                //         "scrollY": "400px",
+                //         "scrollCollapse": true,
+                //         info: true,
+                //         responsive: true,
+                //         "order": [
+                //             [0, "asc"]
+                //         ],
+                //         action: function() {
+                //             $('#tblCurrencyPopList').DataTable().ajax.reload();
+                //         },
+                //         "fnDrawCallback": function(oSettings) {
+                //             setTimeout(function() {
+                //                 MakeNegative();
+                //             }, 100);
+                //         },
+                //         "fnInitComplete": function() {
+                //             $("<button class='btn btn-primary btnAddNewCurrency' data-dismiss='modal' data-toggle='modal' data-target='#newCurrencyModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCurrencyPopList_filter");
+                //         },
+                //
+                //     }).on('page', function() {
+                //         setTimeout(function() {
+                //             MakeNegative();
+                //         }, 100);
+                //         let draftRecord = templateObject.datatablerecordscurrencypop.get();
+                //         templateObject.datatablerecordscurrencypop.set(draftRecord);
+                //     }).on('column-reorder', function() {
+                //
+                //     }).on('length.dt', function(e, settings, len) {
+                //         setTimeout(function() {
+                //             MakeNegative();
+                //         }, 100);
+                //     });
+                //
+                //     // $('#tblCurrencyPopList').DataTable().column( 0 ).visible( true );
+                //     $('.fullScreenSpin').css('display', 'none');
+                // }, 0);
 
                 var columns = $('#tblCurrencyPopList th');
                 let sTible = "";

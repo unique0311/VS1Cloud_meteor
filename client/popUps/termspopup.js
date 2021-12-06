@@ -211,6 +211,7 @@ Template.termlistpop.onRendered(function() {
                             },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary btnAddNewTerm' data-dismiss='modal' data-toggle='modal' data-target='#newTermsModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#termsList_filter");
+                                $("<button class='btn btn-primary btnRefreshTerms' type='button' id='btnRefreshTerms' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#termsList_filter");
                             },
 
                         }).on('page', function() {
@@ -403,6 +404,7 @@ Template.termlistpop.onRendered(function() {
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnAddNewTerm' data-dismiss='modal' data-toggle='modal' data-target='#newTermsModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#termsList_filter");
+                            $("<button class='btn btn-primary btnRefreshTerms' type='button' id='btnRefreshTerms' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#termsList_filter");
                         },
 
                     }).on('page', function() {
@@ -590,6 +592,7 @@ Template.termlistpop.onRendered(function() {
                         },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnAddNewTerm' data-dismiss='modal' data-toggle='modal' data-target='#newTermsModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#termsList_filter");
+                            $("<button class='btn btn-primary btnRefreshTerms' type='button' id='btnRefreshTerms' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#termsList_filter");
                         }
 
                     }).on('page', function() {
