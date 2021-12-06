@@ -1177,7 +1177,7 @@ Template.new_invoice.onRendered(() => {
 
                                     $('#edtCustomerName').val(useData[d].fields.CustomerName);
                                     $('#sltTerms').val(useData[d].fields.TermsName);
-                                    $('#sltDept').val(useDate[d].fields.SaleClassName);
+                                    $('#sltDept').val(useData[d].fields.SaleClassName);
                                     $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
                                     $('#sltStatus').val(useData[d].fields.SalesStatus);
                                     templateObject.CleintName.set(useData[d].fields.CustomerName);
@@ -4237,7 +4237,7 @@ Template.new_invoice.onRendered(() => {
                 $(".lineBo", rowData).val("");
                 $(".lineUnitPrice", rowData).val("");
                 $(".lineAmt", rowData).text("");
-                $(".lineTaxCode", rowData).text("");
+                $(".lineTaxCode", rowData).val("");
                 $(".lineTaxAmount", rowData).text("");
                 $(".lineDiscount", rowData).text("");
                 // $(".lineProductName", rowData).attr("prodid", '');
@@ -4366,13 +4366,13 @@ Template.new_invoice.onRendered(() => {
 
                     if (lineTaxRate == "NT") {
                         lineTaxRate = "E";
-                        $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+                        $('#' + selectLineID + " .lineTaxCode").val(lineTaxRate);
                         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                             $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                         }
 
                     } else {
-                        $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+                        $('#' + selectLineID + " .lineTaxCode").val(lineTaxRate);
                         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                             $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
                         }
@@ -4390,7 +4390,7 @@ Template.new_invoice.onRendered(() => {
                         var $tblrow = $(this);
                         var qty = $tblrow.find(".lineQty").val() || 0;
                         var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                        var taxRate = $tblrow.find(".lineTaxCode").text();
+                        var taxRate = $tblrow.find(".lineTaxCode").val();
 
                         var taxrateamount = 0;
                         if (taxcodeList) {
@@ -4511,7 +4511,7 @@ Template.new_invoice.onRendered(() => {
                 let taxGrandTotalPrint = 0;
 
                 $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
-                $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
+                $('#' + selectLineID + " .lineTaxCode").val(lineTaxCode);
                 if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
                     $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
                 }
@@ -4523,7 +4523,7 @@ Template.new_invoice.onRendered(() => {
                     var $tblrow = $(this);
                     var qty = $tblrow.find(".lineQty").val() || 0;
                     var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                    var taxRate = $tblrow.find(".lineTaxCode").text();
+                    var taxRate = $tblrow.find(".lineTaxCode").val();
 
                     var taxrateamount = 0;
                     if (taxcodeList) {
@@ -4724,7 +4724,7 @@ Template.new_invoice.onRendered(() => {
                             var $tblrow = $(this);
                             var qty = $tblrow.find(".lineQty").val() || 0;
                             var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                            var taxRate = $tblrow.find(".lineTaxCode").text();
+                            var taxRate = $tblrow.find(".lineTaxCode").val();
                             if ($tblrow.find(".lineProductName").val() == '') {
                                 $tblrow.find(".colProductName").addClass('boldtablealertsborder');
                             }
@@ -5668,7 +5668,7 @@ Template.new_invoice.onRendered(() => {
                 let tdQty = $('#' + lineID + " .lineQty").val();
                 let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                 let tdlineamt = $('#' + lineID + " .lineAmt").text();
 
                 lineItemObj = {
@@ -6114,7 +6114,8 @@ Template.new_invoice.onRendered(() => {
                                     // $('.dataTables_paginate').css('display', 'none');
                                 },
                                 "fnInitComplete": function () {
-                                    $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                                  $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
+                                  $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                                 }
 
                             });
@@ -6176,7 +6177,8 @@ Template.new_invoice.onRendered(() => {
                                 // $('.dataTables_paginate').css('display', 'none');
                             },
                             "fnInitComplete": function () {
-                                $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                              $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
+                              $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                             }
 
                         });
@@ -6239,7 +6241,8 @@ Template.new_invoice.onRendered(() => {
                                 // $('.dataTables_paginate').css('display', 'none');
                             },
                             "fnInitComplete": function () {
-                                $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                              $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
+                              $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                             }
                         });
 
@@ -6463,7 +6466,7 @@ Template.new_invoice.onRendered(() => {
                             let tdQty = $('#' + lineID + " .lineQty").val();
                             let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                             let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                            let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                            let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                             let tdlineamt = $('#' + lineID + " .lineAmt").text();
 
                             lineItemObj = {
@@ -6541,7 +6544,7 @@ Template.new_invoice.onRendered(() => {
 
                             let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                             let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                            let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                            let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                             let tdlineamt = $('#' + lineID + " .lineAmt").text();
 
                             lineItemObj = {
@@ -7096,7 +7099,7 @@ Template.new_invoice.onRendered(() => {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                var taxRate = $tblrow.find(".lineTaxCode").text();
+                var taxRate = $tblrow.find(".lineTaxCode").val();
 
                 var taxrateamount = 0;
                 if (taxcodeList) {
@@ -7224,7 +7227,7 @@ Template.new_invoice.onRendered(() => {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                var taxRate = $tblrow.find(".lineTaxCode").text();
+                var taxRate = $tblrow.find(".lineTaxCode").val();
 
                 var taxrateamount = 0;
                 if (taxcodeList) {
@@ -7313,7 +7316,7 @@ Template.new_invoice.onRendered(() => {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                var taxRate = $tblrow.find(".lineTaxCode").text();
+                var taxRate = $tblrow.find(".lineTaxCode").val();
 
                 var taxrateamount = 0;
                 if (taxcodeList) {
@@ -7735,11 +7738,133 @@ Template.new_invoice.onRendered(() => {
             var targetID = $(event.target).closest('tr').attr('id');
             $('#selectLineID').val(targetID);
         },
-        'click .lineTaxCode': function (event) {
-            $('#tblInvoiceLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
-            $('#tblInvoiceLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
-            var targetID = $(event.target).closest('tr').attr('id');
-            $('#selectLineID').val(targetID);
+        'click .lineTaxCode, keydown .lineTaxCode': function(event) {
+           var $earch = $(event.currentTarget);
+           var offset = $earch.offset();
+           $('#edtTaxID').val('');
+           $('.taxcodepopheader').text('New Tax Rate');
+           $('#edtTaxID').val('');
+           $('#edtTaxNamePop').val('');
+           $('#edtTaxRatePop').val('');
+           $('#edtTaxDescPop').val('');
+           $('#edtTaxNamePop').attr('readonly', false);
+           let purchaseService = new PurchaseBoardService();
+           var taxRateDataName = $(event.target).val() || '';
+           if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+               $('#taxRateListModal').modal('toggle');
+               var targetID = $(event.target).closest('tr').attr('id');
+               $('#selectLineID').val(targetID);
+               setTimeout(function() {
+                   $('#tblTaxRate_filter .form-control-sm').focus();
+                   $('#tblTaxRate_filter .form-control-sm').val('');
+                   $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+                   var datatable = $('#tblTaxRate').DataTable();
+                   datatable.draw();
+                   $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+               }, 500);
+           } else {
+               if (taxRateDataName.replace(/\s/g, '') != '') {
+
+                   getVS1Data('TTaxcodeVS1').then(function (dataObject) {
+                     if(dataObject.length == 0){
+                       purchaseService.getTaxCodesVS1().then(function (data) {
+                         let lineItems = [];
+                         let lineItemObj = {};
+                         for(let i=0; i<data.ttaxcodevs1.length; i++){
+                           if ((data.ttaxcodevs1[i].CodeName) === taxRateDataName) {
+                             $('#edtTaxNamePop').attr('readonly', true);
+                           let taxRate = (data.ttaxcodevs1[i].Rate * 100).toFixed(2);
+                           var taxRateID = data.ttaxcodevs1[i].Id || '';
+                            var taxRateName = data.ttaxcodevs1[i].CodeName ||'';
+                            var taxRateDesc = data.ttaxcodevs1[i].Description || '';
+                            $('#edtTaxID').val(taxRateID);
+                            $('#edtTaxNamePop').val(taxRateName);
+                            $('#edtTaxRatePop').val(taxRate);
+                            $('#edtTaxDescPop').val(taxRateDesc);
+                            setTimeout(function() {
+                            $('#newTaxRateModal').modal('toggle');
+                            }, 100);
+                          }
+                         }
+
+                       }).catch(function (err) {
+                           // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                           $('.fullScreenSpin').css('display','none');
+                           // Meteor._reload.reload();
+                       });
+                     }else{
+                       let data = JSON.parse(dataObject[0].data);
+                       let useData = data.ttaxcodevs1;
+                       let lineItems = [];
+                       let lineItemObj = {};
+                       $('.taxcodepopheader').text('Edit Tax Rate');
+                       for(let i=0; i<useData.length; i++){
+
+                         if ((useData[i].CodeName) === taxRateDataName) {
+                           $('#edtTaxNamePop').attr('readonly', true);
+                         let taxRate = (useData[i].Rate * 100).toFixed(2);
+                         var taxRateID = useData[i].Id || '';
+                          var taxRateName = useData[i].CodeName ||'';
+                          var taxRateDesc = useData[i].Description || '';
+                          $('#edtTaxID').val(taxRateID);
+                          $('#edtTaxNamePop').val(taxRateName);
+                          $('#edtTaxRatePop').val(taxRate);
+                          $('#edtTaxDescPop').val(taxRateDesc);
+                          //setTimeout(function() {
+                          $('#newTaxRateModal').modal('toggle');
+                          //}, 500);
+                        }
+                       }
+                     }
+                   }).catch(function (err) {
+                     purchaseService.getTaxCodesVS1().then(function (data) {
+                       let lineItems = [];
+                       let lineItemObj = {};
+                       for(let i=0; i<data.ttaxcodevs1.length; i++){
+                         if ((data.ttaxcodevs1[i].CodeName) === taxRateDataName) {
+                           $('#edtTaxNamePop').attr('readonly', true);
+                         let taxRate = (data.ttaxcodevs1[i].Rate * 100).toFixed(2);
+                         var taxRateID = data.ttaxcodevs1[i].Id || '';
+                          var taxRateName = data.ttaxcodevs1[i].CodeName ||'';
+                          var taxRateDesc = data.ttaxcodevs1[i].Description || '';
+                          $('#edtTaxID').val(taxRateID);
+                          $('#edtTaxNamePop').val(taxRateName);
+                          $('#edtTaxRatePop').val(taxRate);
+                          $('#edtTaxDescPop').val(taxRateDesc);
+                          setTimeout(function() {
+                          $('#newTaxRateModal').modal('toggle');
+                          }, 100);
+
+                        }
+                       }
+
+                     }).catch(function (err) {
+                         // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                         $('.fullScreenSpin').css('display','none');
+                         // Meteor._reload.reload();
+                     });
+                   });
+
+               } else {
+                   $('#taxRateListModal').modal('toggle');
+                   var targetID = $(event.target).closest('tr').attr('id');
+                   $('#selectLineID').val(targetID);
+                   setTimeout(function() {
+                       $('#tblTaxRate_filter .form-control-sm').focus();
+                       $('#tblTaxRate_filter .form-control-sm').val('');
+                       $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+                       var datatable = $('#tblTaxRate').DataTable();
+                       datatable.draw();
+                       $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+                   }, 500);
+               }
+
+           }
+
         },
         'click .printConfirm': function (event) {
             $('.fullScreenSpin').css('display', 'inline-block');
@@ -7816,7 +7941,7 @@ Template.new_invoice.onRendered(() => {
                         var $tblrow = $(this);
                         var qty = $tblrow.find(".lineQty").val() || 0;
                         var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                        var taxRate = $tblrow.find(".lineTaxCode").text();
+                        var taxRate = $tblrow.find(".lineTaxCode").val();
 
                         var taxrateamount = 0;
                         if (taxcodeList) {
@@ -7979,7 +8104,7 @@ Template.new_invoice.onRendered(() => {
                     var $tblrow = $(this);
                     var qty = $tblrow.find(".lineQty").val() || 0;
                     var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                    var taxRate = $tblrow.find(".lineTaxCode").text();
+                    var taxRate = $tblrow.find(".lineTaxCode").val();
 
                     var taxrateamount = 0;
                     if (taxcodeList) {
@@ -8080,7 +8205,7 @@ Template.new_invoice.onRendered(() => {
                 $('#' + selectLineID + " .lineCostPrice").val('');
                 $('#' + selectLineID + " .lineSalesLinesCustField1").text('');
                 $('#' + selectLineID + " .lineTaxRate").text('');
-                $('#' + selectLineID + " .lineTaxCode").text('');
+                $('#' + selectLineID + " .lineTaxCode").val('');
                 $('#' + selectLineID + " .lineAmt").text('');
                 $('#' + selectLineID + " .lineTaxAmount").text('');
                 $('#' + selectLineID + " .lineDiscount").text('');
@@ -8143,7 +8268,7 @@ Template.new_invoice.onRendered(() => {
 
                     let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                    let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                    let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                     let tdlineamt = $('#' + lineID + " .lineAmt").text();
 
                     lineItemObj = {
@@ -9149,7 +9274,7 @@ Template.new_invoice.onRendered(() => {
 
                     let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                    let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                    let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                     let tdlineamt = $('#' + lineID + " .lineAmt").text();
 
                     lineItemObj = {
@@ -9755,7 +9880,7 @@ Template.new_invoice.onRendered(() => {
 
                         let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
                         let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
-                        let tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                        let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                         let tdlineamt = $('#' + lineID + " .lineAmt").text();
 
                         lineItemObj = {

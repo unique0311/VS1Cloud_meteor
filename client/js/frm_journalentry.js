@@ -925,7 +925,7 @@ Template.journalentrycard.onRendered(() => {
             $('#' + selectLineID + " .lineCreditInc").val(utilityService.modifynegativeCurrencyFormat(0));
             $('#' + selectLineID + " .lineDebitEx").val(utilityService.modifynegativeCurrencyFormat(0));
             $('#' + selectLineID + " .lineDebitInc").val(utilityService.modifynegativeCurrencyFormat(0));
-            $('#' + selectLineID + " .lineTaxCode").text(lineTaxRate);
+            $('#' + selectLineID + " .lineTaxCode").val(lineTaxRate);
             let lineAmount = 0;
             let subGrandCreditTotal = 0;
             let subGrandDebitTotal = 0;
@@ -934,7 +934,7 @@ Template.journalentrycard.onRendered(() => {
             let subGrandDebitTotalInc = 0;
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
-                var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+                var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
@@ -1006,7 +1006,7 @@ Template.journalentrycard.onRendered(() => {
             let taxGrandTotal = 0;
 
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
-            $('#' + selectLineID + " .lineTaxCode").text(lineTaxCode);
+            $('#' + selectLineID + " .lineTaxCode").val(lineTaxCode);
 
             let lineAmount = 0;
             let subGrandCreditTotal = 0;
@@ -1016,7 +1016,7 @@ Template.journalentrycard.onRendered(() => {
             let subGrandDebitTotalInc = 0;
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
-                var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+                var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
                 var taxrateamount = 0;
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
@@ -1445,7 +1445,8 @@ Template.journalentrycard.onRendered(function() {
                             info: true,
                             responsive: true,
                             "fnInitComplete": function() {
-                                $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                              $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
+                              $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                             }
 
                         });
@@ -1518,7 +1519,8 @@ Template.journalentrycard.onRendered(function() {
                         info: true,
                         responsive: true,
                         "fnInitComplete": function() {
-                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                          $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
+                          $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }
 
                     });
@@ -1597,7 +1599,8 @@ Template.journalentrycard.onRendered(function() {
                         info: true,
                         responsive: true,
                         "fnInitComplete": function() {
-                            $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
+                          $("<button class='btn btn-primary btnAddNewTaxRate' data-dismiss='modal' data-toggle='modal' data-target='#newTaxRateModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblTaxRate_filter");
+                          $("<button class='btn btn-primary btnRefreshTax' type='button' id='btnRefreshTax' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTaxRate_filter");
                         }
 
                     });
@@ -1890,7 +1893,7 @@ Template.journalentrycard.events({
         let subGrandDebitTotalInc = 0;
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -1982,7 +1985,7 @@ Template.journalentrycard.events({
         let subGrandDebitTotalInc = 0;
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -2071,7 +2074,7 @@ Template.journalentrycard.events({
         let subGrandDebitTotalInc = 0;
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -2164,7 +2167,7 @@ Template.journalentrycard.events({
         let subGrandDebitTotalInc = 0;
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -2620,11 +2623,133 @@ Template.journalentrycard.events({
         var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
     },
-    'click .lineTaxCode': function(event) {
-        $('#tblJournalEntryLine tbody tr .lineTaxCode').attr("data-toggle", "modal");
-        $('#tblJournalEntryLine tbody tr .lineTaxCode').attr("data-target", "#taxRateListModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectLineID').val(targetID);
+    'click .lineTaxCode, keydown .lineTaxCode': function(event) {
+       var $earch = $(event.currentTarget);
+       var offset = $earch.offset();
+       $('#edtTaxID').val('');
+       $('.taxcodepopheader').text('New Tax Rate');
+       $('#edtTaxID').val('');
+       $('#edtTaxNamePop').val('');
+       $('#edtTaxRatePop').val('');
+       $('#edtTaxDescPop').val('');
+       $('#edtTaxNamePop').attr('readonly', false);
+       let purchaseService = new PurchaseBoardService();
+       var taxRateDataName = $(event.target).val() || '';
+       if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+           $('#taxRateListModal').modal('toggle');
+           var targetID = $(event.target).closest('tr').attr('id');
+           $('#selectLineID').val(targetID);
+           setTimeout(function() {
+               $('#tblTaxRate_filter .form-control-sm').focus();
+               $('#tblTaxRate_filter .form-control-sm').val('');
+               $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+               var datatable = $('#tblTaxRate').DataTable();
+               datatable.draw();
+               $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+           }, 500);
+       } else {
+           if (taxRateDataName.replace(/\s/g, '') != '') {
+
+               getVS1Data('TTaxcodeVS1').then(function (dataObject) {
+                 if(dataObject.length == 0){
+                   purchaseService.getTaxCodesVS1().then(function (data) {
+                     let lineItems = [];
+                     let lineItemObj = {};
+                     for(let i=0; i<data.ttaxcodevs1.length; i++){
+                       if ((data.ttaxcodevs1[i].CodeName) === taxRateDataName) {
+                         $('#edtTaxNamePop').attr('readonly', true);
+                       let taxRate = (data.ttaxcodevs1[i].Rate * 100).toFixed(2);
+                       var taxRateID = data.ttaxcodevs1[i].Id || '';
+                        var taxRateName = data.ttaxcodevs1[i].CodeName ||'';
+                        var taxRateDesc = data.ttaxcodevs1[i].Description || '';
+                        $('#edtTaxID').val(taxRateID);
+                        $('#edtTaxNamePop').val(taxRateName);
+                        $('#edtTaxRatePop').val(taxRate);
+                        $('#edtTaxDescPop').val(taxRateDesc);
+                        setTimeout(function() {
+                        $('#newTaxRateModal').modal('toggle');
+                        }, 100);
+                      }
+                     }
+
+                   }).catch(function (err) {
+                       // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                       $('.fullScreenSpin').css('display','none');
+                       // Meteor._reload.reload();
+                   });
+                 }else{
+                   let data = JSON.parse(dataObject[0].data);
+                   let useData = data.ttaxcodevs1;
+                   let lineItems = [];
+                   let lineItemObj = {};
+                   $('.taxcodepopheader').text('Edit Tax Rate');
+                   for(let i=0; i<useData.length; i++){
+
+                     if ((useData[i].CodeName) === taxRateDataName) {
+                       $('#edtTaxNamePop').attr('readonly', true);
+                     let taxRate = (useData[i].Rate * 100).toFixed(2);
+                     var taxRateID = useData[i].Id || '';
+                      var taxRateName = useData[i].CodeName ||'';
+                      var taxRateDesc = useData[i].Description || '';
+                      $('#edtTaxID').val(taxRateID);
+                      $('#edtTaxNamePop').val(taxRateName);
+                      $('#edtTaxRatePop').val(taxRate);
+                      $('#edtTaxDescPop').val(taxRateDesc);
+                      //setTimeout(function() {
+                      $('#newTaxRateModal').modal('toggle');
+                      //}, 500);
+                    }
+                   }
+                 }
+               }).catch(function (err) {
+                 purchaseService.getTaxCodesVS1().then(function (data) {
+                   let lineItems = [];
+                   let lineItemObj = {};
+                   for(let i=0; i<data.ttaxcodevs1.length; i++){
+                     if ((data.ttaxcodevs1[i].CodeName) === taxRateDataName) {
+                       $('#edtTaxNamePop').attr('readonly', true);
+                     let taxRate = (data.ttaxcodevs1[i].Rate * 100).toFixed(2);
+                     var taxRateID = data.ttaxcodevs1[i].Id || '';
+                      var taxRateName = data.ttaxcodevs1[i].CodeName ||'';
+                      var taxRateDesc = data.ttaxcodevs1[i].Description || '';
+                      $('#edtTaxID').val(taxRateID);
+                      $('#edtTaxNamePop').val(taxRateName);
+                      $('#edtTaxRatePop').val(taxRate);
+                      $('#edtTaxDescPop').val(taxRateDesc);
+                      setTimeout(function() {
+                      $('#newTaxRateModal').modal('toggle');
+                      }, 100);
+
+                    }
+                   }
+
+                 }).catch(function (err) {
+                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                     $('.fullScreenSpin').css('display','none');
+                     // Meteor._reload.reload();
+                 });
+               });
+
+           } else {
+               $('#taxRateListModal').modal('toggle');
+               var targetID = $(event.target).closest('tr').attr('id');
+               $('#selectLineID').val(targetID);
+               setTimeout(function() {
+                   $('#tblTaxRate_filter .form-control-sm').focus();
+                   $('#tblTaxRate_filter .form-control-sm').val('');
+                   $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+                   var datatable = $('#tblTaxRate').DataTable();
+                   datatable.draw();
+                   $('#tblTaxRate_filter .form-control-sm').trigger("input");
+
+               }, 500);
+           }
+
+       }
+
     },
     'click .printConfirm': function(event) {
         $('#html-2-pdfwrapper').css('display', 'block');
@@ -2916,7 +3041,7 @@ Template.journalentrycard.events({
                     let tddebitex = $('#' + lineID + " .lineDebitInc").val();
                     let erpLineID = $('#' + lineID + " .lineAccountName").attr('lineid');
 
-                    tdtaxCode = tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                    tdtaxCode = tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
 
 
                     if (tdaccount != "") {
@@ -2963,7 +3088,7 @@ Template.journalentrycard.events({
                     let tddebitex = $('#' + lineID + " .lineDebitInc").val();
                     let erpLineID = $('#' + lineID + " .lineAccountName").attr('lineid');
 
-                    tdtaxCode = $('#' + lineID + " .lineTaxCode").text();
+                    tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
 
 
                     if (tdaccount != "") {

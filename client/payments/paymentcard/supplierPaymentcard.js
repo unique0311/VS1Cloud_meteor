@@ -2470,7 +2470,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             //$('#edtSupplierName').editableSelect('add', useData[d].fields.CompanyName);
                             $('#edtSupplierName').val(useData[d].fields.CompanyName);
                             $('#sltDepartment').val(useData[d].fields.DeptClassName);
-                            $('#sltPaymentMethod').val(useDate[d].fields.PaymentMethodName);
+                            $('#sltPaymentMethod').val(useData[d].fields.PaymentMethodName);
 
                             $('#edtSupplierName').attr('readonly', true);
                             $('#edtSupplierName').css('background-color', '#eaecf4');

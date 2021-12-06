@@ -1053,7 +1053,8 @@
                                             <!--                                    <td contenteditable="true" class="lineAmount colAmount" style="text-align: right!important;">{{item.unitPrice}}</td>-->
                                             <!-- <td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td> -->
                                             <td contenteditable="false" class="lineTaxRate colTaxRate hiddenColumn" style="text-align: right!important;cursor: pointer;">{{item.taxRate}}</td>
-                                            <td contenteditable="false" class="lineTaxCode colTaxCode td-input" style="text-align: right!important;cursor: pointer;">{{item.taxCode}}</td>
+                                            <!-- <td contenteditable="false" class="lineTaxCode colTaxCode td-input" style="text-align: right!important;cursor: pointer;">{{item.taxCode}}</td> -->
+                                            <td contenteditable="false" class="colTaxCode"><input class="es-input highlightSelect lineTaxCode" type="search" value="{{item.taxCode}}"></td>
                                             <td contenteditable="false" class="lineTaxAmount colTaxAmount pointer" style=" ">{{item.TaxTotal}}</td>
                                             <td contenteditable="true" class="lineCustomField1 colCustomField1 hiddenColumn">{{item.CustomField1}}</td>
                                             <td contenteditable="true" class="lineCustomField2 colCustomField2 hiddenColumn">{{item.CustomField2}}</td>
@@ -1576,6 +1577,10 @@
         <!-- Modal Tax Rate -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="taxRateListModal">
             {{> taxratelistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTaxRateModal">
+            {{> newtaxratepop}}
         </div>
         <!-- End Modal Tax Rate -->
 

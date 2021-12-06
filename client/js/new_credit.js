@@ -1788,7 +1788,7 @@ Template.creditcard.onRendered(() => {
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var amount = $tblrow.find(".colAmount").val() || 0;
-                var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+                var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
                 var taxrateamount = 0;
                 if (taxcodeList) {
@@ -1899,7 +1899,7 @@ Template.creditcard.onRendered(() => {
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var amount = $tblrow.find(".colAmount").val() || 0;
-                var taxcode = $tblrow.find(".lineTaxCode").text() || '';
+                var taxcode = $tblrow.find(".lineTaxCode").val() || '';
 
                 var taxrateamount = 0;
                 if (taxcodeList) {
@@ -2795,7 +2795,7 @@ Template.creditcard.onRendered(() => {
         $tblrows.each(function(index) {
             var $tblrow = $(this);
             var amount = $tblrow.find(".colAmount").val() || 0;
-            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
             if ($tblrow.find(".lineAccountName").val() == '') {
                 $tblrow.find(".colAccountName").addClass('boldtablealertsborder');
             }
@@ -3550,7 +3550,7 @@ Template.creditcard.events({
 
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
             $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
-            $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").text());
+            $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").val());
         }
 
         let lineAmount = 0;
@@ -3561,7 +3561,7 @@ Template.creditcard.events({
         $tblrows.each(function(index) {
             var $tblrow = $(this);
             var amount = $tblrow.find(".colAmount").val() || "0";
-            var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
@@ -4052,16 +4052,16 @@ Template.creditcard.events({
         $('#selectLineID').val(targetID);
     },
     'click .lineTaxCode, keydown .lineTaxCode': function(event) {
-      var $earch = $(event.currentTarget);
-   var offset = $earch.offset();
-   $('#edtTaxID').val('');
-   $('.taxcodepopheader').text('New Tax Rate');
-   $('#edtTaxID').val('');
-   $('#edtTaxNamePop').val('');
-   $('#edtTaxRatePop').val('');
-   $('#edtTaxDescPop').val('');
-    $('#edtTaxNamePop').attr('readonly', false);
-   let purchaseService = new PurchaseBoardService();
+       var $earch = $(event.currentTarget);
+       var offset = $earch.offset();
+       $('#edtTaxID').val('');
+       $('.taxcodepopheader').text('New Tax Rate');
+       $('#edtTaxID').val('');
+       $('#edtTaxNamePop').val('');
+       $('#edtTaxRatePop').val('');
+       $('#edtTaxDescPop').val('');
+       $('#edtTaxNamePop').attr('readonly', false);
+       let purchaseService = new PurchaseBoardService();
        var taxRateDataName = $(event.target).val() || '';
        if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
            $('#taxRateListModal').modal('toggle');
@@ -4241,7 +4241,7 @@ Template.creditcard.events({
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
                     var amount = $tblrow.find(".colAmount").val() || 0;
-                    var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+                    var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
                     var taxrateamount = 0;
                     if (taxcodeList) {
@@ -4385,7 +4385,7 @@ Template.creditcard.events({
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
                 var price = $tblrow.find(".lineUnitPrice").val() || 0;
-                var taxcode = $tblrow.find(".lineTaxCode").text() || 0;
+                var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
                 var taxrateamount = 0;
                 if (taxcodeList) {

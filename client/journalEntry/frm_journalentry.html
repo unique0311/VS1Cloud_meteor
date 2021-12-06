@@ -571,7 +571,8 @@
                                                     <td contenteditable="false" class="colAccountName"><input class="es-input highlightSelect lineAccountName" type="search" value="{{item.accountname}}" taxCode="{{item.taxCode}}" lineid="{{item.id}}"></td>
                                                     <!-- <td contenteditable="true" class="lineAccountNo colAccountNo">{{item.accountno}}</td> -->
                                                     <td contenteditable="true" class="lineMemo colMemo">{{item.memo}}</td>
-                                                    <td contenteditable="false" class="lineTaxCode colTaxCode" style="text-align: right!important;cursor: pointer;">{{item.taxCode}}</td>
+                                                    <!-- <td contenteditable="false" class="lineTaxCode colTaxCode" style="text-align: right!important;cursor: pointer;">{{item.taxCode}}</td> -->
+                                                    <td contenteditable="false" class="colTaxCode"><input class="es-input highlightSelect lineTaxCode" type="search" value="{{item.taxCode}}"></td>
                                                     <td class="colCreditExCheck" style="text-align: right!important;"><input class="lineCreditEx colCreditEx lineCreditExChange highlightInput" type="text" value="{{item.creditex}}"></td>
                                                     <td class="colCreditIncCheck hiddenColumn" style="text-align: right!important;"><input class="lineCreditInc colCreditInc lineCreditIncChange highlightInput" type="text" value="{{item.creditinc}}">
                                                     </td>
@@ -733,6 +734,9 @@
         <!-- Modal Tax Rate -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="taxRateListModal">
             {{> taxratelistpop}}
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTaxRateModal">
+            {{> newtaxratepop}}
         </div>
         <!-- End Modal Tax Rate -->
     </div>
