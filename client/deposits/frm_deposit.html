@@ -108,35 +108,46 @@
             }
         </style>
 
-        <div class="row" style="padding: 32px; padding-bottom: 0px; background-color: #ededed;">
+        <div class="row" style="padding: 0px 32px; padding-bottom: 0px; background-color: #ededed;">
+            <div class="col-6 col-lg-2 col-md-4">
+                <div class="form-group">
+                    <label>Account</label>
+                    <select type="search" class="form-control" id="sltAccountName" name="sltAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
+                </div>
+            </div>
+            <div class="col-6 col-lg-2 col-md-3">
+                <div class="form-group">
+                    <label>Deposit No.</label>
+                    <input type="text" class="form-control" id="edtEnrtyNo" name="edtEnrtyNo" value="{{record.id}}">
+                </div>
+            </div>
+            <div class="col-6 col-lg-2 col-md-3">
+                <div class="form-group">
+                    <label>Deposit Total</label>
+                    <input type="text" class="form-control depositTotal" id="depositTotal" name="depositTotal" value="{{record.deposittotal}}">
+                </div>
+            </div>
+            <div class="col-6 col-lg-2 col-md-2">
+                <div class="form-group d-xl-flex flex-column justify-content-xl-start">
+                    <label>Date</label>
+                    <div class="input-group date sltDate" style="cursor: pointer;">
+                        <input type="text" class="form-control" id="dtTransDate" name="dtTransDate" value="{{record.transdate}}" style="background-color: #ffffff;height: 38px;">
+                        <div class="input-group-addon" style="">
+                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row" style="padding: 32px; padding-bottom: 0px; background-color: #ededed;">
             <div class="col-2 colAccount" id="colAccount">
                 <div class="form-group d-xl-flex flex-column justify-content-xl-start">
                     <label>Account</label>
                     <select type="search" class="form-control" id="sltAccountName" name="sltAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                        <!-- {{#each item in accountnamerecords}}
-                        {{#if equals item.accountname record.accountname }}
-                        <option value="{{record.accountname}}" selected="">{{record.accountname}}</option>
-                        {{else}}
-                        <option value="{{item.accountname}}">{{item.accountname}}</option>
-                        {{/if}}
-                        {{/each}} -->
                     </select>
                 </div>
             </div>
-            <!-- <div class="col-1 colArea" id="colArea">
-<div class="form-group d-xl-flex flex-column justify-content-xl-start">
-<label>Area</label>
-<select class="form-control sltArea" style="cursor: pointer;" id="sltAreaCode" name="sltAreaCode">
-{{#each item in arearecords}}
-{{#if equals item.areacode record.areacode }}
-<option value="{{record.areacode}}" selected="">{{record.areacode}}</option>
-{{else}}
-<option value="{{item.areacode}}">{{item.areacode}}</option>
-{{/if}}
-{{/each}}
-</select>
-</div>
-</div> -->
             <div class="col-1 colDepNo" id="colDepNo">
                 <div class="form-group d-xl-flex flex-column justify-content-xl-start">
                     <label>Deposit No.</label>
@@ -160,10 +171,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- <div class="row" style="padding: 32px; padding-top: 0px; background-color: #ededed;">
-
-</div> -->
+        </div> -->
 
         <div class="row no-gutters">
             <div class="col">
@@ -519,7 +527,8 @@
                                         <tr class="dnd-moved" id="{{item.lineID}}">
                                             <!-- <td contenteditable="false" class="colAccount lineAccountName" lineid="{{item.id}}">{{item.accountname}}</td> -->
                                             <td contenteditable="false" class="colAccount"><input class="es-input highlightSelect lineAccountName" type="search" value="{{item.accountname}}" ></td>
-                                            <td contenteditable="false" class="colPaymentMethod td-input">{{item.paymentmethod}}</td>
+                                            <!-- <td contenteditable="false" class="colPaymentMethod td-input">{{item.paymentmethod}}</td> -->
+                                            <td contenteditable="false" class="colPaymentMethod"><input class="es-input highlightSelect linePaymentMethod" type="search" value="{{item.paymentmethod}}" ></td>
                                             <td contenteditable="true" class="colReference">{{item.memo}}</td>
                                             <td contenteditable="false" class="colCompany lineCompany td-input">{{item.companyname}}</td>
                                             <td style="text-align: right!important;"><input class="colAmount highlightInput" type="text" value="{{item.lineamount}}"></td>
@@ -664,9 +673,16 @@
         </div>
         <!-- End AccountList -->
 
+        <div class="modal fade" role="dialog" tabindex="-1" id="paymentMethodModal">
+            {{> paymentmethodpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newPaymentMethodModal">
+            {{> newpaymentmethodpop}}
+        </div>
 
         <!-- Modal Payment Method -modal -->
-        <div class="modal fade" role="dialog" tabindex="-1" id="paymentMethodModal">
+        <!-- <div class="modal fade" role="dialog" tabindex="-1" id="paymentMethodModal">
             <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -680,11 +696,8 @@
                                 <table id="tblpaymentmethodList" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblpaymentmethodList">
                                     <thead>
                                         <tr class="dnd-moved">
-                                            <!-- <th class="th colPayMethodID hiddenColumn">PayMethod #</th> -->
                                             <th class="th colNamePaymentMethod">Name</th>
                                             <th class="th colIsCreditCard" style="width:100px">Is Credit card</th>
-                                            <!-- <th class="th colStatus" style="width:50px">Active</th> -->
-                                            <!-- <th class="th colDelete" style="width:20px;"></th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -699,7 +712,6 @@
                                                 <div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-{{itempaymentlist.id}}"><label class="custom-control-label chkBox" for="iscreditcard-{{itempaymentlist.id}}"></label></div>
                                                 {{/if}}
                                             </td>
-                                            <!-- <td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td> -->
                                         </tr>
                                         {{/each}}
                                         {{/if}}
@@ -713,7 +725,7 @@
                         <button class="btn btn-primary" type="button" style="background-color: #00A3D3; border-color: #00A3D3;">Select</button></div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- End Payment Method -->
 
         <!-- Modal Customer List -->

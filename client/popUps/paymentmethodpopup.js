@@ -207,6 +207,11 @@ Template.paymentmethodpop.onRendered(function() {
                             "order": [
                                 [0, "asc"]
                             ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [
+                                [initialDatatableLoad, -1],
+                                [initialDatatableLoad, "All"]
+                            ],
                             // "aaSorting": [[1,'desc']],
                             action: function() {
                                 $('#paymentmethodList').DataTable().ajax.reload();
@@ -386,6 +391,11 @@ Template.paymentmethodpop.onRendered(function() {
                         "order": [
                             [0, "asc"]
                         ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
+                        ],
                         // "aaSorting": [[1,'desc']],
                         action: function() {
                             $('#paymentmethodList').DataTable().ajax.reload();
@@ -558,6 +568,11 @@ Template.paymentmethodpop.onRendered(function() {
                         responsive: true,
                         "order": [
                             [0, "asc"]
+                        ],
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [
+                            [initialDatatableLoad, -1],
+                            [initialDatatableLoad, "All"]
                         ],
                         // "aaSorting": [[1,'desc']],
                         action: function() {

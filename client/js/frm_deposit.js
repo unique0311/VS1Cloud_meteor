@@ -1377,16 +1377,16 @@ Template.depositcard.onRendered(()=>{
         }
     });
 
-    $(document).on("click", "#tblpaymentmethodList tbody tr", function(e) {
+    $(document).on("click", "#paymentmethodList tbody tr", function(e) {
         let selectPaymentLineID = $('#selectPaymentMethodLineID').val();
 
         var table = $(this);
         let utilityService = new UtilityService();
 
         if(selectPaymentLineID){
-            let linePaymentMethod = table.find(".colNamePaymentMethod").text();
+            let linePaymentMethod = table.find(".colName").text();
 
-            $('#'+selectPaymentLineID+" .colPaymentMethod").text(linePaymentMethod);
+            $('#'+selectPaymentLineID+" .linePaymentMethod").val(linePaymentMethod);
             $('#paymentMethodModal').modal('toggle');
 
         }
