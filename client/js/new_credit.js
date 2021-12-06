@@ -3195,10 +3195,7 @@ Template.creditcard.onRendered(function() {
                             paging: true,
                             "aaSorting": [],
                             "orderMulti": true,
-                            columnDefs: [{
-                                    orderable: false,
-                                    targets: 0
-                                },
+                            columnDefs: [
                                 {
                                     className: "taxName",
                                     "targets": [1]
@@ -3274,10 +3271,7 @@ Template.creditcard.onRendered(function() {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [{
-                                orderable: false,
-                                targets: 0
-                            },
+                        columnDefs: [
                             {
                                 className: "taxName",
                                 "targets": [1]
@@ -3354,10 +3348,7 @@ Template.creditcard.onRendered(function() {
                         paging: true,
                         "aaSorting": [],
                         "orderMulti": true,
-                        columnDefs: [{
-                                orderable: false,
-                                targets: 0
-                            },
+                        columnDefs: [
                             {
                                 className: "taxName",
                                 "targets": [1]
