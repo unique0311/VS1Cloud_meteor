@@ -517,6 +517,10 @@ export class SalesBoardService extends BaseService {
     return this.POST(this.ERPObjects.TLeadStatusType,data);
   }
 
+  saveShipVia(data){
+    return this.POST(this.ERPObjects.TShippingMethod,data);
+  }
+
   getAllLeadStatus() {
     let options = {
       PropertyList: "ID,TypeName",

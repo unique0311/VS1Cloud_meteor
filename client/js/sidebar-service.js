@@ -752,6 +752,15 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TTaxcodeVS1, options);
   }
 
+  getTaxRateVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        PropertyList: "ID,CodeName,Description,LocationCategoryDesc,Rate,RegionName,Active",
+        select: '[CodeName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TTaxcodeVS1, options);
+  }
+
   getDepartment() {
     let options = {
       PropertyList: "ID,GlobalRef,KeyValue,DeptClassGroup,DeptClassName,Description,SiteCode,Active",

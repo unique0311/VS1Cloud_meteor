@@ -689,6 +689,10 @@ Template.newtaxratepop.events({
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
                     });
+                    var selectLineID = $('#selectLineID').val();
+                    if (selectLineID) {
+                      $('#' + selectLineID + " .lineTaxCode").val(taxName);
+                    }
                 }).catch(function(err) {
                     swal({
                         title: 'Oooops...',
@@ -736,6 +740,10 @@ Template.newtaxratepop.events({
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
                     });
+                    var selectLineID = $('#selectLineID').val();
+                    if (selectLineID) {
+                      $('#' + selectLineID + " .lineTaxCode").val(taxName);
+                    }
                 }).catch(function(err) {
                     swal({
                         title: 'Oooops...',
@@ -784,6 +792,10 @@ Template.newtaxratepop.events({
                     $('#newTaxRateModal').modal('toggle');
                     $('.fullScreenSpin').css('display', 'none');
                 });
+                var selectLineID = $('#selectLineID').val();
+                if (selectLineID) {
+                  $('#' + selectLineID + " .lineTaxCode").val(taxName);
+                }
             }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
