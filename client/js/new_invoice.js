@@ -1,4 +1,5 @@
 import { SalesBoardService } from './sales-service';
+import {PurchaseBoardService} from './purchase-service';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../js/core-service';
 import { DashBoardService} from "../Dashboard/dashboard-service";
