@@ -1654,6 +1654,9 @@ Template.creditcard.onRendered(() => {
             } else {
                 if (shipvianame.replace(/\s/g, '') != '') {
                     $('#newShipViaMethodName').text('Edit Ship Via');
+                    setTimeout(function() {
+                        $('#edtShipVia').attr('readonly', true);
+                    }, 100);
 
                     getVS1Data('TShippingMethod').then(function(dataObject) {
                         if (dataObject.length == 0) {
@@ -1697,6 +1700,7 @@ Template.creditcard.onRendered(() => {
                             }
                             setTimeout(function() {
                                 $('.fullScreenSpin').css('display', 'none');
+                                $('#edtShipVia').attr('readonly', false);
                                 $('#newShipViaModal').modal('toggle');
                             }, 200);
                         }).catch(function(err) {

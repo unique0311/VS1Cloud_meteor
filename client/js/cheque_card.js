@@ -1594,6 +1594,9 @@ Template.chequecard.onRendered(() => {
             } else {
                 if (shipvianame.replace(/\s/g, '') != '') {
                     $('#newShipViaMethodName').text('Edit Ship Via');
+                    setTimeout(function() {
+                        $('#edtShipVia').attr('readonly', true);
+                    }, 100);
 
                     getVS1Data('TShippingMethod').then(function(dataObject) {
                         if (dataObject.length == 0) {
@@ -1616,7 +1619,7 @@ Template.chequecard.onRendered(() => {
                             let data = JSON.parse(dataObject[0].data);
                             let useData = data.tshippingmethod;
                             for (let i = 0; i < data.tshippingmethod.length; i++) {
-                                if (useData[i].DeptClassName === deptDataName) {
+                                if (useData[i].ShippingMethod === shipvianame) {
                                     $('#edtShipViaID').val(useData[i].Id);
                                     $('#edtShipVia').val(useData[i].ShippingMethod);
                                 }
@@ -1637,6 +1640,7 @@ Template.chequecard.onRendered(() => {
                             }
                             setTimeout(function() {
                                 $('.fullScreenSpin').css('display', 'none');
+                                $('#edtShipVia').attr('readonly', false);
                                 $('#newShipViaModal').modal('toggle');
                             }, 200);
                         }).catch(function(err) {

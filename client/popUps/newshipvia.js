@@ -28,7 +28,7 @@ Template.newshipvia.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let clientService = new SalesBoardService()
         let shipViaData = $('#edtShipVia').val() || '';
-        let shipViaID = $('#edtShipViaID').val()||0;
+        let shipViaID = $('#edtShipViaID').val() || 0;
         let leadData = '';
         if (shipViaID == "") {
             leadData = {
@@ -50,7 +50,7 @@ Template.newshipvia.events({
         if (shipViaData != "") {
             clientService.saveShipVia(leadData).then(function(objDetails) {
                 sideBarService.getShippingMethodData().then(function(dataUpdate) {
-                    $('#shipvia').val(status);
+                    $('#shipvia').val(shipViaData);
                     $('#newShipViaModal').modal('toggle');
                     $('.fullScreenSpin').css('display', 'none');
                     addVS1Data('TShippingMethod', JSON.stringify(dataUpdate)).then(function(datareturn) {
