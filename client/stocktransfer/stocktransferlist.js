@@ -191,7 +191,7 @@ Template.stocktransferlist.onRendered(function() {
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [[ 0, "desc" ]],
+                            "order": [[ 1, "desc" ],[ 0, "desc" ]],
                             // "aaSorting": [[1,'desc']],
                             action: function () {
                                 $('#tblStockTransferList').DataTable().ajax.reload();
@@ -259,11 +259,17 @@ Template.stocktransferlist.onRendered(function() {
             }else{
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tstocktransferentry;
-
                 let lineItems = [];
                 let lineItemObj = {};
                 for(let i=0; i<useData.length; i++){
-
+                  // let totalTransferQty = 0;
+                  // if (useData[i].fields.Lines.length) {
+                  //     for (let l = 0; l < useData[i].fields.Lines.length; l++) {
+                  //       totalTransferQty = useData[i].fields.Lines[l].fields.TransferQty||0;
+                  //     }
+                  // }else{
+                  //   totalTransferQty = useData[i].fields.Lines.fields.TransferQty||0;
+                  // }
                     //let totalCostEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalCostEx)|| 0.00;
                     var dataList = {
                         id: useData[i].fields.ID || '',
@@ -272,7 +278,7 @@ Template.stocktransferlist.onRendered(function() {
                         creationdate: useData[i].fields.CreationDate !=''? moment(useData[i].fields.CreationDate).format("DD/MM/YYYY"): useData[i].fields.CreationDate,
                         adjustmentdate: useData[i].fields.DateTransferred !=''? moment(useData[i].fields.DateTransferred).format("DD/MM/YYYY"): useData[i].fields.DateTransferred,
                         accountname: useData[i].fields.AccountName || '',
-                        //totalcostex: totalCostEx || 0.00,
+                        //totaltrans: totalTransferQty || 0,
                         custfield1: '',
                         custfield2: '',
                         transferdept: useData[i].fields.TransferFromClassName || '',
@@ -280,6 +286,7 @@ Template.stocktransferlist.onRendered(function() {
                         processed: useData[i].fields.Processed
                     };
                     dataTableList.push(dataList);
+
                 }
 
                 templateObject.datatablerecords.set(dataTableList);
@@ -386,7 +393,7 @@ Template.stocktransferlist.onRendered(function() {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "desc" ]],
+                        "order": [[ 1, "desc" ],[ 0, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblStockTransferList').DataTable().ajax.reload();
@@ -670,7 +677,7 @@ Template.stocktransferlist.onRendered(function() {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "desc" ]],
+                        "order": [[ 1, "desc" ],[ 0, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblStockTransferList').DataTable().ajax.reload();

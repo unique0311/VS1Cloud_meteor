@@ -15,6 +15,7 @@ export class ProductService extends BaseService {
       let options = {
         SearchType: "'"+searchType+"'",
         SearchName: "'"+searchName+"'",
+        IgnoreDates:true,
         QuerySearchMode: "'smSearchEngineLike'"
         //LimitCount:'"'+initialReportLoad+'"'
       };

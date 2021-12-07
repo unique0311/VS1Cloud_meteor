@@ -29,6 +29,12 @@ Template.inventorylist.onCreated(function(){
   templateObject.productdeptrecords = new ReactiveVar();
   templateObject.proddeptIDrecords = new ReactiveVar();
   templateObject.selectedFile = new ReactiveVar();
+
+  templateObject.includeStockTransfer = new ReactiveVar();
+  templateObject.includeStockTransfer.set(false);
+
+  templateObject.includeStockAdjustment = new ReactiveVar();
+  templateObject.includeStockAdjustment.set(false);
 });
 
 Template.inventorylist.onRendered(function() {
@@ -60,6 +66,16 @@ Template.inventorylist.onRendered(function() {
   var splashArray = new Array();
   var splashArrayProd = new Array();
   var splashArrayProdDept = new Array();
+
+  let isStockTransfer = Session.get('CloudStockTransferModule');
+  let isStockAdjustment = Session.get('CloudStockAdjustmentModule');
+  if (isStockTransfer) {
+      templateObject.includeStockTransfer.set(true);
+  }
+
+  if (isStockAdjustment) {
+      templateObject.includeStockAdjustment.set(true);
+  }
   Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInventory', function(error, result){
   if(error){
 
@@ -1293,6 +1309,12 @@ Template.inventorylist.helpers({
   },
   loggedCompany: () => {
     return localStorage.getItem('mySession') || '';
+ },
+ includeStockTransfer: () => {
+     return Template.instance().includeStockTransfer.get();
+ },
+ includeStockAdjustment: () => {
+     return Template.instance().includeStockAdjustment.get();
  }
   });
 

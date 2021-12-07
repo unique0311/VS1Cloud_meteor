@@ -181,8 +181,12 @@ style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close
                         </div>
                     </div>
                 </div>
+                {{#if includeStockAdjustment}}
                 <button class="btn btn-primary btnStockAdjustment" id="btnStockAdjustment" type="button" style="margin: 16px;"><i class="fas fa-wrench" style="padding-right: 5px;"></i>Stock Adjustments</button>
+                {{/if}}
+                {{#if includeStockTransfer}}
                 <button class="btn btn-primary btnStockTrans" id="btnStockTrans" type="button" style="margin: 16px;"><i class="fas fa-exchange-alt" style="padding-right: 5px;"></i>Stock Transfers</button>
+                {{/if}}
             </div>
             <div class="col">
                 <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>

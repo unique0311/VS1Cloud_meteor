@@ -209,11 +209,15 @@
                         input[type=number]::-webkit-outer-spin-button {
                             opacity: 1;
                         }
+                        .colTransferNo {
+                            width: 8% !important;
+                        }
 
                     </style>
                     <table id="tblStockTransferList" style="width:100%;" class="dataTable table table-striped table-bordered tblStockTransferList">
                         <thead>
                             <tr class="dnd-moved">
+                                <th class="th colTransferNo">Transfer No.</th>
                                 <th class="th colSortDate hiddenColumn">id</th>
                                 <th class="th colCreationDate" style="width:105px;">Creation Date</th>
                                 <th class="th colTransferDept" style="width:200px;">Transfer From Dept</th>
@@ -231,6 +235,7 @@
                             {{#if datatablerecords}}
                             {{#each item in datatablerecords}}
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                <td contenteditable="false" class="colTransferNo">{{item.id}}</td>
                                 <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
                                 <td contenteditable="false" class="colCreationDate" ><span style="display:none;">{{item.sortdate}}</span>{{item.creationdate}}</td>
                                 <td contenteditable="false" class="colTransferDept">{{item.transferdept}}</td>

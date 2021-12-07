@@ -79,16 +79,28 @@ Template.shippingdocket.onRendered(function() {
 
             if (tdproduct != "") {
 
-                lineItemObjForm = {
-                    type: "TInvoiceLine",
-                    fields: {
-                        ProductName: tdproduct || '',
-                        ProductDescription: tddescription || '',
-                        ID: parseInt(tdLineID) || 0,
-                        PQA: JSON.parse(tdLinePQA) || '',
-                        UOMQtyShipped: parseFloat(tdUOMQtyShipped) || 0
-                    }
-                };
+                if (tdLinePQA != "") {
+                    lineItemObjForm = {
+                        type: "TInvoiceLine",
+                        fields: {
+                          ProductName: tdproduct || '',
+                          ProductDescription: tddescription || '',
+                          ID: parseInt(tdLineID) || 0,
+                          PQA: JSON.parse(tdLinePQA) || '',
+                          UOMQtyShipped: parseFloat(tdUOMQtyShipped) || 0
+                        }
+                    };
+
+                } else {
+                    lineItemObjForm = {
+                        type: "TInvoiceLine",
+                        fields: {
+                            ProductName: tdproduct || '',
+                            ProductDescription: tddescription || '',
+                            ID: parseInt(tdLineID) || 0,
+                        }
+                    };
+                }
 
 
                 //lineItemsForm.push(lineItemObjForm);
@@ -1877,12 +1889,12 @@ Template.shippingdocket.events({
     },
     'click .btnprintDockets': function(e) {
 
-        let invoiceID = parseInt($("#SalesId").val());
+        let shipID = parseInt($("#SalesId").val()) || '';
         let templateObject = Template.instance();
         let isInvoice = templateObject.includeInvoiceAttachment.get();
         let isShippingDocket = templateObject.includeDocketAttachment.get();
 
-        if (invoiceID) {
+        if (shipID != '') {
             if ((isInvoice) && (isShippingDocket)) {
                 let templateObject = Template.instance();
                 let printType = "InvoiceANDDeliveryDocket";
