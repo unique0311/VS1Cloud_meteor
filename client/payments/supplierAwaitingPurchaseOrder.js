@@ -1248,6 +1248,8 @@ Template.supplierawaitingpurchaseorder.events({
     'click .btnSuppPayment': function () {
         const templateObject = Template.instance();
         var datacomb = '';
+        let allData = [];
+        let allDataObj = {};
         let selectClient = templateObject.selectedAwaitingPayment.get();
 
           if (selectClient.length === 0) {
@@ -1284,6 +1286,7 @@ Template.supplierawaitingpurchaseorder.events({
 
 
                            groupName = selectClient[x].clientname;
+
                             if (!groups[groupName]) {
                                 groups[groupName] = [];
                             }
@@ -1316,8 +1319,8 @@ Template.supplierawaitingpurchaseorder.events({
 
                 }
 
-                    _.map(groups, function (datacomb, key) {
 
+                  _.map(groups, function (datacomb, key) {
                     if (datacomb.length > 1) {
 
                     var resultSelect = [];
@@ -1327,7 +1330,6 @@ Template.supplierawaitingpurchaseorder.events({
                     var resultCredit = [];
 
                      for (let y = 0; y < datacomb.length; y++) {
-
                         if(datacomb[y].customername == key){
                             if (datacomb[y].type === "Purchase Order") {
                                 resultPO.push(datacomb[y].ids);
@@ -1338,7 +1340,14 @@ Template.supplierawaitingpurchaseorder.events({
                             }
                         }
                      }
-                     window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
+                     allDataObj = {
+                        po:resultPO,
+                        bill: resultBill,
+                        credit: resultCredit
+                     }
+
+                     allData.push(allDataObj);
+                     //window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
 
                     }else{
                     var result = [];
@@ -1353,12 +1362,24 @@ Template.supplierawaitingpurchaseorder.events({
                             } else if (datacomb[0].type === "Credit") {
                                 resultCredit.push(datacomb[0].ids);
                          }
-                          window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
-                        }
+                         allDataObj = {
+                        po:resultPO,
+                        bill: resultBill,
+                        credit: resultCredit
+                     }
+
+                     allData.push(allDataObj);
+                         // window.open('/supplierpaymentcard?selectsupppo=' + resultPO + '&selectsuppbill=' + resultBill + '&selectsuppcredit=' + resultCredit);
+                    }
+
                     }
 
 
                  });
+                let url = '/supplierpaymentcard?selectsupppo=' + allData[0].po + '&selectsuppbill=' + allData[0].bill + '&selectsuppcredit=' + allData[0].credit;
+                allData.shift();
+                Session.setPersistent('supplierpayments', JSON.stringify(allData));
+                window.open(url,'_self');
 
             }
         }

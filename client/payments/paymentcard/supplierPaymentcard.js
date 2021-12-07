@@ -5585,7 +5585,6 @@ Template.supplierpaymentcard.events({
     'click .btnSave': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
-
         let paymentService = new PaymentsService();
         let customer = $("#edtSupplierName").val();
         let paymentAmt = $("#edtPaymentAmount").val();
@@ -5623,6 +5622,7 @@ Template.supplierpaymentcard.events({
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         var url = FlowRouter.current().path;
+        let newURL = '/paymentoverview?success=true';
         if ((url.indexOf('?id=') > 0)) {
             var getsale_id = url.split('?id=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
@@ -5659,7 +5659,6 @@ Template.supplierpaymentcard.events({
             }
             paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
-
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
@@ -7590,6 +7589,15 @@ Template.supplierpaymentcard.events({
 
             paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
+                let allData = JSON.parse(Session.get('supplierpayments'));
+                if(allData.length > 0) {
+                    newURL = '/supplierpaymentcard?selectsupppo=' + allData[0].po + '&selectsuppbill=' + allData[0].bill + '&selectsuppcredit=' + allData[0].credit;
+                    allData.shift();
+                    Session.setPersistent('supplierpayments', JSON.stringify(allData));
+                } else {
+                    newURL = '/paymentoverview?success=true';
+                    Session.setPersistent('supplierpayments', JSON.stringify(allData));
+                }
                 // Start End Send Email
                 $('#html-2-pdfwrapper').css('display', 'block');
                 $('.pdfCustomerName').html($('#edtSupplierEmail').val());
@@ -7708,8 +7716,10 @@ Template.supplierpaymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            //window.open('/supplierawaitingpurchaseorder', '_self');
-                                        } else if (result.dismiss === 'cancel') {}
+                                            window.open(url,'_self');
+                                        } else if (result.dismiss === 'cancel') {
+                                           window.open(url,'_self');
+                                        }
                                     });
 
                                     $('.fullScreenSpin').css('display', 'none');
@@ -7738,8 +7748,10 @@ Template.supplierpaymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            //window.open('/supplierawaitingpurchaseorder', '_self');
-                                        } else if (result.dismiss === 'cancel') {}
+                                            window.open(url,'_self');
+                                        } else if (result.dismiss === 'cancel') {
+                                            window.open(url,'_self');
+                                        }
                                     });
 
                                     $('.fullScreenSpin').css('display', 'none');
@@ -7767,8 +7779,10 @@ Template.supplierpaymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            //window.open('/supplierawaitingpurchaseorder', '_self');
-                                        } else if (result.dismiss === 'cancel') {}
+                                            window.open(url,'_self');
+                                        } else if (result.dismiss === 'cancel') {
+                                            window.open(url,'_self');
+                                        }
                                     });
 
                                     $('.fullScreenSpin').css('display', 'none');
@@ -7776,7 +7790,7 @@ Template.supplierpaymentcard.events({
                             });
 
                         } else {
-                            //  window.open('/supplierawaitingpurchaseorder', '_self');
+                           // window.open(url,'_self');
                         };
                     };
                 }
@@ -7808,6 +7822,7 @@ Template.supplierpaymentcard.events({
                     }
 
                 };
+
                 sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
@@ -7815,20 +7830,21 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate2) {
                             addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate2)).then(function(datareturn) {
-                                window.open('/supplierpayment', '_self');
+                                window.open(newURL,'_self');
                             }).catch(function(err) {
-                                window.open('/supplierpayment', '_self');
+                                window.open(newURL,'_self');
                             });
                         }).catch(function(err) {
-                            window.open('/supplierpayment', '_self');
+                            window.open(newURL,'_self');
                         });
                     }).catch(function(err) {
-                        window.open('/supplierpayment', '_self');
+                        window.open(newURL,'_self');
                     });
                 }).catch(function(err) {
-                    window.open('/supplierpayment', '_self');
+                    window.open(newURL,'_self');
                 });
             }).catch(function(err) {
+                console.log(newURL);
                 //window.open('/paymentoverview','_self');
                 swal({
                     title: 'Oooops...',
