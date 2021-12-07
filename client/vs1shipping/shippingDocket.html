@@ -92,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="background-color: #ededed; padding: 8px 32px 0px 32px;">
+        <div class="row" style="background-color: #ededed; padding: 8px 32px 16px 32px;">
             <div class="col-12 col-lg-3">
                 <div class="form-group billaddressfield fieldwidth" id="fieldwidth"><label>Shipping Address</label>
                     <textarea class="form-control" rows="5" id="txaShipingInfo" name="txaShipingInfo" style="height: 124px;">{{shippingrecord.shipto}}</textarea>
@@ -100,7 +100,7 @@
             </div>
             <div class="col-12 col-lg-3">
                 <div class="row">
-                    <div class="col-6 col-lg-6">
+                    <div class="col-6">
                         <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY">
                             <label>Shipping Date</label>
                             <div class="input-group date" style="cursor: pointer;">
@@ -125,7 +125,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-6 col-lg-6">
+                    <div class="col-6">
                         <div class="form-group">
                             <label>Invoice No</label>
                             <input class="form-control" type="text" id="invnumber" name="invnumber" value="{{shippingrecord.id}}">
@@ -138,22 +138,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col-6 col-lg-3">
+                <div class="form-group"><label style="color:#858796;">Comments</label>
+                    <textarea class="form-control" rows="5" id="shipcomments" name="shipcomments" style="height: 124px;">{{shippingrecord.comments}}</textarea>
+                </div>
+            </div>
         </div>
-        <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
+        <!-- <div class="row" style="background-color: #ededed; padding: 0px 16px 16px 16px;">
             <div class="col-12 mb-2">
                 <a class="btn btn-link" style="margin-left: 16px;" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-notes" href="#collapse-notes" role="button">+ Comments</a>
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <div class="collapse" id="collapse-notes" style="margin: 16px; margin-top: 8px;">
                             <div class="form-group"><label style="color:#858796;">Comments</label>
-                                <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments">{{shippingrecord.comments}}</textarea>
+                                <textarea class="form-control" rows="3" id="shipcomments" name="shipcomments" style="height: 124px;">{{shippingrecord.comments}}</textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
+        </div> -->
 
         <div class="row" style="margin: 0px 32px; margin-top: 16px;">
             <div class="table-responsive">
