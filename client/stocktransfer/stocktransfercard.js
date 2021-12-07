@@ -2821,11 +2821,13 @@ Template.stocktransfercard.events({
         $('#html-2-pdfwrapper').css('display', 'block');
         $('.pdfCustomerName').html($('#sltAccountName').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val());
-        $('#printcomment').html($('#txaNotes').val().replace(/[\r\n]/g, "<br />"));
+        $('#printcomment').html($('#txtNotes').val().replace(/[\r\n]/g, "<br />"));
         exportSalesToPdf();
     },
     'click .btnProcess': function(event) {
+         if ($('.chkEmailCopy').is(':checked')) {
         $('#html-2-pdfwrapper').css('display', 'block');
+    }
         let templateObject = Template.instance();
         //let customername = $('#edtCustomerName').val() || '';
         // let shippingaddress = $('#txaShipingInfo').val() || '';
@@ -3128,7 +3130,9 @@ Template.stocktransfercard.events({
 
     },
     'click .btnHold': function(event) {
+        if ($('.chkEmailCopy').is(':checked')) {
         $('#html-2-pdfwrapper').css('display', 'block');
+    }
         let templateObject = Template.instance();
         //let customername = $('#edtCustomerName').val() || '';
         //let shippingaddress = $('#txaShipingInfo').val() || '';
@@ -3449,7 +3453,9 @@ Template.stocktransfercard.events({
 
     },
     'click .btnSave': function(event) {
+          if ($('.chkEmailCopy').is(':checked')) {
         $('#html-2-pdfwrapper').css('display', 'block');
+    }
         let templateObject = Template.instance();
         //let customername = $('#edtCustomerName').val() || '';
         //let shippingaddress = $('#txaShipingInfo').val() || '';
