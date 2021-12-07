@@ -4866,6 +4866,7 @@ Template.supplierpaymentcard.onRendered(() => {
         //     });
         // }
     } else if ((url.indexOf('?selectsupppo') > 0) && (url.indexOf('&selectsuppbill') > 0) && (url.indexOf('&selectsuppcredit') > 0)) {
+        $('.fullScreenSpin').css('display', 'inline-block');
         var getpo_id = url.split('?selectsupppo=');
         var getbill_id = url.split('&selectsuppbill=');
         var getcredit_id = url.split('&selectsuppcredit=');
@@ -4879,7 +4880,7 @@ Template.supplierpaymentcard.onRendered(() => {
                 currentPOID = parseInt(arr[i]);
                 if (!isNaN(currentPOID)) {
                     paymentService.getOnePurchaseOrderPayment(currentPOID).then(function(data) {
-
+                        $('.fullScreenSpin').css('display', 'none');
                         let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
@@ -7526,7 +7527,7 @@ Template.supplierpaymentcard.events({
         } else if ((url.indexOf('?selectsupppo') > 0) && (url.indexOf('&selectsuppbill') > 0) && (url.indexOf('&selectsuppcredit') > 0)) {
             var getsale_id = url.split('?selectsupppo=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
-
+            let allData = JSON.parse(Session.get('supplierpayments'));
             $('.tblSupplierPaymentcard > tbody > tr').each(function() {
 
                 var lineID = this.id;
@@ -7589,7 +7590,6 @@ Template.supplierpaymentcard.events({
 
             paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
-                let allData = JSON.parse(Session.get('supplierpayments'));
                 if(allData.length > 0) {
                     newURL = '/supplierpaymentcard?selectsupppo=' + allData[0].po + '&selectsuppbill=' + allData[0].bill + '&selectsuppcredit=' + allData[0].credit;
                     allData.shift();
@@ -7844,7 +7844,14 @@ Template.supplierpaymentcard.events({
                     window.open(newURL,'_self');
                 });
             }).catch(function(err) {
-                console.log(newURL);
+                if(allData.length > 0) {
+                    newURL = '/supplierpaymentcard?selectsupppo=' + allData[0].po + '&selectsuppbill=' + allData[0].bill + '&selectsuppcredit=' + allData[0].credit;
+                    allData.shift();
+                    Session.setPersistent('supplierpayments', JSON.stringify(allData));
+                } else {
+                    newURL = '/paymentoverview?success=true';
+                    Session.setPersistent('supplierpayments', JSON.stringify(allData));
+                }
                 //window.open('/paymentoverview','_self');
                 swal({
                     title: 'Oooops...',
@@ -7854,8 +7861,10 @@ Template.supplierpaymentcard.events({
                     confirmButtonText: 'Try Again'
                 }).then((result) => {
                     if (result.value) {
-                        // Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {}
+                        window.open(newURL,'_self');
+                    } else if (result.dismiss === 'cancel') {
+                        window.open(newURL,'_self');
+                    }
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
