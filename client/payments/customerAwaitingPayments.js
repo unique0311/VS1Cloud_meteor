@@ -937,6 +937,8 @@ Template.customerawaitingpayments.events({
         event.preventDefault();
         const templateObject = Template.instance();
         var datacomb = '';
+        let allData = [];
+        let allDataObj = {};
         let selectClient = templateObject.selectedAwaitingPayment.get();
         if (selectClient.length === 0) {
             swal('Please select Customer to pay for!', '', 'info');
@@ -1007,19 +1009,33 @@ Template.customerawaitingpayments.events({
                      for (let y = 0; y < datacomb.length; y++) {
 
                         if(datacomb[y].customername == key){
-                            resultSelect.push(datacomb[y].ids)
+                            resultSelect.push(datacomb[y].ids.toString())
                         }
                      }
-                    window.open('/paymentcard?selectcust=' + resultSelect.toString());
+
+                      allDataObj = {
+                        selectCust:resultSelect.toString(),
+                     }
+
+                     allData.push(allDataObj);
+                   // window.open('/paymentcard?selectcust=' + resultSelect.toString());
 
                     }else{
                         if(datacomb[0].customername == key){
-                        window.open('/paymentcard?selectcust=' + datacomb[0].ids);
+                             allDataObj = {
+                                selectCust:datacomb[0].ids.toString(),
+                          }
+                            allData.push(allDataObj);
+                       // window.open('/paymentcard?selectcust=' + datacomb[0].ids);
                         }
                     }
 
 
                  });
+                let url = '/paymentcard?selectcust=' + allData[0].selectCust
+                allData.shift();
+                Session.setPersistent('customerpayments', JSON.stringify(allData));
+                window.open(url,'_self');
             }
         }
 

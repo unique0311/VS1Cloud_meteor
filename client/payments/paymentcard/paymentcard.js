@@ -5778,6 +5778,12 @@ Template.paymentcard.events({
         } else if (url.indexOf('?selectcust=') > 0) {
             var getsale_id = url.split('?selectcust=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
+            let getPayments = Session.get('customerpayments');
+            if(getPayments.length > 0) {
+                let allData = JSON.parse(Session.get('customerpayments'));
+            } else {
+                allData = [];
+            }
             if (getsale_id[1]) {
                 // currentSalesID = parseInt(currentSalesID);
                 $('.tblPaymentcard > tbody > tr').each(function() {
@@ -5825,6 +5831,15 @@ Template.paymentcard.events({
 
                     paymentService.saveDepositData(objDetails).then(function(data) {
                         var customerID = $('#edtCustomerEmail').attr('customerid');
+                        if(allData.length > 0) {
+                            newURL = '/paymentcard?selectcust=' + allData[0].selectCust;
+                            allData.shift();
+                            Session.setPersistent('customerpayments', JSON.stringify(allData));
+                        } else {
+                            newURL = '/paymentoverview?success=true';
+                            Session.setPersistent('customerpayments', []);
+                        }
+
                         // Send Email
                         $('#html-2-pdfwrapper').css('display', 'block');
                         $('.pdfCustomerName').html($('#edtCustomerName').val());
@@ -5919,9 +5934,11 @@ Template.paymentcard.events({
                                         attachments: attachment
                                     }, function(error, result) {
                                         if (error && error.error === "error") {
-                                            FlowRouter.go('/paymentoverview?success=true');
+                                            window.open(url,'_self');
 
-                                        } else {}
+                                        } else {
+                                            window.open(url,'_self');
+                                        }
                                     });
 
                                     Meteor.call('sendEmail', {
@@ -5944,8 +5961,10 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    FlowRouter.go('/paymentoverview?success=true');
-                                                } else if (result.dismiss === 'cancel') {}
+                                                    window.open(url,'_self');
+                                                } else if (result.dismiss === 'cancel') {
+                                                    window.open(url,'_self');
+                                                }
                                             });
 
                                             $('.fullScreenSpin').css('display', 'none');
@@ -5974,8 +5993,10 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    FlowRouter.go('/paymentoverview?success=true');
-                                                } else if (result.dismiss === 'cancel') {}
+                                                    window.open(url,'_self');
+                                                } else if (result.dismiss === 'cancel') {
+                                                    window.open(url,'_self');
+                                                }
                                             });
 
                                             $('.fullScreenSpin').css('display', 'none');
@@ -5992,7 +6013,7 @@ Template.paymentcard.events({
                                         attachments: attachment
                                     }, function(error, result) {
                                         if (error && error.error === "error") {
-                                            FlowRouter.go('/paymentoverview?success=true');
+                                            window.open(url,'_self');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display', 'none');
                                             swal({
@@ -6003,8 +6024,10 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    FlowRouter.go('/paymentoverview?success=true');
-                                                } else if (result.dismiss === 'cancel') {}
+                                                    window.open(url,'_self');
+                                                } else if (result.dismiss === 'cancel') {
+                                                    window.open(url,'_self');
+                                                }
                                             });
 
                                             $('.fullScreenSpin').css('display', 'none');
@@ -6012,7 +6035,7 @@ Template.paymentcard.events({
                                     });
 
                                 } else {
-                                    FlowRouter.go('/paymentoverview?success=true');
+                                  window.open(url,'_self');
                                 };
                             };
 
@@ -6051,6 +6074,14 @@ Template.paymentcard.events({
                         // FlowRouter.go('/paymentoverview?success=true');
                     }).catch(function(err) {
                         // FlowRouter.go('/paymentoverview?success=true');
+                        if(allData.length > 0) {
+                            newURL = '/paymentcard?selectcust=' + allData[0].selectCust;
+                            allData.shift();
+                            Session.setPersistent('customerpayments', JSON.stringify(allData));
+                        } else {
+                            newURL = '/paymentoverview?success=true';
+                            Session.setPersistent('customerpayments', []);
+                        }
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -6059,8 +6090,10 @@ Template.paymentcard.events({
                             confirmButtonText: 'Try Again'
                         }).then((result) => {
                             if (result.value) {
-                                //Meteor._reload.reload();
-                            } else if (result.dismiss === 'cancel') {}
+                                window.open(newURL,'_self');
+                            } else if (result.dismiss === 'cancel') {
+                                window.open(newURL,'_self');
+                            }
                         });
                         $('.fullScreenSpin').css('display', 'none');
                     });
@@ -6087,6 +6120,14 @@ Template.paymentcard.events({
                     };
 
                     paymentService.saveDepositData(objDetails).then(function(data) {
+                      if(allData.length > 0) {
+                            newURL = '/paymentcard?selectcust=' + allData[0].selectCust;
+                            allData.shift();
+                            Session.setPersistent('customerpayments', JSON.stringify(allData));
+                        } else {
+                            newURL = '/paymentoverview?success=true';
+                            Session.setPersistent('customerpayments', []);
+                        }
                         var customerID = $('#edtCustomerEmail').attr('customerid');
                         // Send Email
                         $('#html-2-pdfwrapper').css('display', 'block');
@@ -6182,9 +6223,11 @@ Template.paymentcard.events({
                                         attachments: attachment
                                     }, function(error, result) {
                                         if (error && error.error === "error") {
-                                            FlowRouter.go('/paymentoverview?success=true');
+                                            window.open(newURL,'_self');
 
-                                        } else {}
+                                        } else {
+                                             window.open(newURL,'_self');
+                                        }
                                     });
 
                                     Meteor.call('sendEmail', {
@@ -6196,7 +6239,7 @@ Template.paymentcard.events({
                                         attachments: attachment
                                     }, function(error, result) {
                                         if (error && error.error === "error") {
-                                            FlowRouter.go('/paymentoverview?success=true');
+                                             window.open(newURL,'_self');
                                         } else {
                                             $('#html-2-pdfwrapper').css('display', 'none');
                                             swal({
@@ -6207,8 +6250,10 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    FlowRouter.go('/paymentoverview?success=true');
-                                                } else if (result.dismiss === 'cancel') {}
+                                                     window.open(newURL,'_self');
+                                                } else if (result.dismiss === 'cancel') {
+                                                     window.open(newURL,'_self');
+                                                }
                                             });
 
                                             $('.fullScreenSpin').css('display', 'none');
@@ -6225,7 +6270,7 @@ Template.paymentcard.events({
                                         attachments: attachment
                                     }, function(error, result) {
                                         if (error && error.error === "error") {
-                                            FlowRouter.go('/paymentoverview?success=true');
+                                            window.open(url,'_self');
 
                                         } else {
                                             $('#html-2-pdfwrapper').css('display', 'none');
@@ -6237,8 +6282,10 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    FlowRouter.go('/paymentoverview?success=true');
-                                                } else if (result.dismiss === 'cancel') {}
+                                                     window.open(newURL,'_self');
+                                                } else if (result.dismiss === 'cancel') {
+                                                     window.open(newURL,'_self');
+                                                }
                                             });
 
                                             $('.fullScreenSpin').css('display', 'none');
@@ -6266,8 +6313,10 @@ Template.paymentcard.events({
                                                 confirmButtonText: 'OK'
                                             }).then((result) => {
                                                 if (result.value) {
-                                                    FlowRouter.go('/paymentoverview?success=true');
-                                                } else if (result.dismiss === 'cancel') {}
+                                                     window.open(newURL,'_self');
+                                                } else if (result.dismiss === 'cancel') {
+                                                     window.open(newURL,'_self');
+                                                }
                                             });
 
                                             $('.fullScreenSpin').css('display', 'none');
@@ -6275,7 +6324,7 @@ Template.paymentcard.events({
                                     });
 
                                 } else {
-                                    FlowRouter.go('/paymentoverview?success=true');
+                                     window.open(newURL,'_self');
                                 };
                             };
 
@@ -6314,6 +6363,14 @@ Template.paymentcard.events({
                         // FlowRouter.go('/paymentoverview?success=true');
                     }).catch(function(err) {
                         // FlowRouter.go('/paymentoverview?success=true');
+                      if(allData.length > 0) {
+                            newURL = '/paymentcard?selectcust=' + allData[0].selectCust;
+                            allData.shift();
+                            Session.setPersistent('customerpayments', JSON.stringify(allData));
+                        } else {
+                            newURL = '/paymentoverview?success=true';
+                            Session.setPersistent('customerpayments', []);
+                        }
                         swal({
                             title: 'Oooops...',
                             text: err,
@@ -6322,8 +6379,10 @@ Template.paymentcard.events({
                             confirmButtonText: 'Try Again'
                         }).then((result) => {
                             if (result.value) {
-                                //Meteor._reload.reload();
-                            } else if (result.dismiss === 'cancel') {}
+                                window.open(newURL,'_self');
+                            } else if (result.dismiss === 'cancel') {
+                                window.open(newURL,'_self');
+                            }
                         });
                         $('.fullScreenSpin').css('display', 'none');
                     });

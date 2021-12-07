@@ -7736,7 +7736,7 @@ Template.supplierpaymentcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                                     window.open(newURL,'_self');
 
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
@@ -7748,9 +7748,9 @@ Template.supplierpaymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            window.open(url,'_self');
+                                            window.open(newURL,'_self');
                                         } else if (result.dismiss === 'cancel') {
-                                            window.open(url,'_self');
+                                            window.open(newURL,'_self');
                                         }
                                     });
 
@@ -7779,9 +7779,9 @@ Template.supplierpaymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            window.open(url,'_self');
+                                            window.open(newURL,'_self');
                                         } else if (result.dismiss === 'cancel') {
-                                            window.open(url,'_self');
+                                             window.open(newURL,'_self');
                                         }
                                     });
 
@@ -7790,7 +7790,7 @@ Template.supplierpaymentcard.events({
                             });
 
                         } else {
-                           // window.open(url,'_self');
+                            window.open(newURL,'_self');
                         };
                     };
                 }
@@ -7852,6 +7852,7 @@ Template.supplierpaymentcard.events({
                     newURL = '/paymentoverview?success=true';
                     Session.setPersistent('supplierpayments', JSON.stringify(allData));
                 }
+
                 //window.open('/paymentoverview','_self');
                 swal({
                     title: 'Oooops...',
