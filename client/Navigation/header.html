@@ -29,13 +29,15 @@
             align-items: center;
             padding: 0 .75rem;
         }
-        .isProcessedColumn{
-          background-color: #1cc88a !important;
-          color:#fff;
+
+        .isProcessedColumn {
+            background-color: #1cc88a !important;
+            color: #fff;
         }
-        .isOnHoldColumn{
-          background-color: #f6c23e !important;
-          color:#fff;
+
+        .isOnHoldColumn {
+            background-color: #f6c23e !important;
+            color: #fff;
         }
     </style>
 
@@ -61,9 +63,10 @@
             .supportLi {
                 display: none;
             }
+
             .modal-globalsearch {
-              max-width: 98vw !important;
-              height: 98vh !important;
+                max-width: 98vw !important;
+                height: 98vh !important;
             }
         }
     </style>
@@ -81,18 +84,58 @@
             <button class="btn btn-link d-md rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars" style="color: #00A3D3;"></i></button>
 
             <style>
-                .alerts-border {
-                    border: 1px solid;
-                    border-color: #00a3d3;
+                @-webkit-keyframes alerts-border {
+                    from,
+                    to {
+                        border-color: #00a3d3;
+                    }
 
-                    animation: blink 3s infinite;
-                }
-
-                @keyframes blink {
                     50% {
-                        border-color: #ededed;
+                        border-color: #1cc88a;
+                        border: 1px solid #1cc88a;
+                        box-shadow: 0 0 10px #1cc88a;
                     }
                 }
+                @keyframes alerts-border {
+                    from,
+                    to {
+                        border-color: #00a3d3;
+                    }
+
+                    50% {
+                        border-color: #1cc88a;
+                        border: 1px solid #1cc88a;
+                        box-shadow: 0 0 10px #1cc88a;
+                    }
+                }
+                .alerts-border {
+                    border: 1px solid #00a3d3;
+                    animation: alerts-border 2s infinite !important;
+                }
+
+                /* @-webkit-keyframes blinker {
+                    from,
+                    to {
+                        color: #6e707e;
+                    }
+                    50% {
+                        color: #1cc88a;
+                    }
+                }
+
+                @keyframes blinker {
+                    from,
+                    to {
+                        color: #6e707e;
+                    }
+                    50% {
+                        color: #1cc88a;
+                    }
+                }
+                .txtGlobalSearch::placeholder {
+                    color: #6e707e;
+                    animation: blinker 2s infinite !important;
+                } */
 
                 .boldtablealertsborder {
                     /* border: 2px solid; */
@@ -112,7 +155,8 @@
                 <div class="input-group">
                     <input class="bg-light form-control border-2 small txtGlobalSearch alerts-border" type="text" placeholder="Search all ...">
                     <div class="input-group-append">
-                        <button class="btn btn-primary py-0 btnGlobalSearch" type="button" style="background-color: rgb(0,163,211); border-color: rgb(0,163,211);border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem; height:34px;"><i class="fas fa-search"></i></button>
+                        <button class="btn btn-primary py-0 btnGlobalSearch" type="button" style="background-color: rgb(0,163,211); border-color: rgb(0,163,211);border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem; height:34px;"><i
+                                class="fas fa-search"></i></button>
                     </div>
                     <a class="btn btn-primary scanBarcodeHeadTop" href="" id="scanBarcodeHeadTop" role="button" style="margin-left: 8px; height:34px;padding-top:4px;"><i class="fas fa-camera"></i></a>
                     <button type="button" class="btn btn-primary" id="mobileBarcodeScan" data-toggle="modal" data-target="#scanBarcodeModalHeader" style="margin-left: 8px;height:34px; display: none;"><i class="fas fa-camera"></i></button>
@@ -130,7 +174,8 @@
                         <div class="input-group">
                             <input class="bg-light form-control border-0 small txtGlobalSearchMobile alerts-border" type="text" placeholder="Search all ..." style="text-align: left !important;">
                             <div class="input-group-append">
-                                <button class="btn btn-primary py-0 btnGlobalSearchMobile" type="button" style="background-color: #00A3D3; border-color: #00A3D3;border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;height:34px;"><i class="fas fa-search"></i></button>
+                                <button class="btn btn-primary py-0 btnGlobalSearchMobile" type="button" style="background-color: #00A3D3; border-color: #00A3D3;border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;height:34px;"><i
+                                        class="fas fa-search"></i></button>
                             </div>
                             <a class="btn btn-primary scanBarcodeHeadTop2" href="" id="scanBarcodeHeadTop2" role="button" style="margin-left: 8px; height:34px;padding-top:4px;height:34px;"><i class="fas fa-camera"></i></a>
                             <button type="button" class="btn btn-primary" id="mobileBarcodeScan2" data-toggle="modal" data-target="#scanBarcodeModalHeader" style="margin-left: 8px; display: none;height:34px;"><i class="fas fa-camera"></i></button>
@@ -212,6 +257,7 @@
             height: 0px;
             transition: height 0.15s ease-out;
         }
+
         .headerprogressbarShow {
             height: 35px;
             transition: height 0.25s ease-out;
@@ -291,11 +337,12 @@
     </div>
 
     <div class="modal fade" role="dialog" tabindex="-1" id="searchPOP">
-         <div class="modal-dialog modal-lg modal-dialog-scrollable modal-globalsearch" role="document" style="max-width: 75vw;">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-globalsearch" role="document" style="max-width: 75vw;">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 style="">
-                        <div style="float: left;">Global Search List</div> <a role="button" data-toggle="modal" href="#helpGlobalSearch" class="helpGlobalSearch" style="float: right;"><label class="lblplay">Help</label><i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+                        <div style="float: left;">Global Search List</div> <a role="button" data-toggle="modal" href="#helpGlobalSearch" class="helpGlobalSearch" style="float: right;"><label class="lblplay">Help</label><i
+                                class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
                     </h4><button type="button" class="close btnCloseModal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body" style="background-color: #ededed;">
@@ -349,12 +396,16 @@
                             .searchIDth {
                                 width: 10% !important;
                             }
+
                             .colStatusth {
-                                width: 5% !important;s
+                                width: 5% !important;
+                                s
                             }
+
                             .globalRefTh {
                                 width: 20% !important;
                             }
+
                             /* .nameTh {
                                 width: 15% !important;
                             } */
