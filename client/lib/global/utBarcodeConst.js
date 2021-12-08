@@ -11,12 +11,24 @@
   Barcode_Prefix_PQACOMB      = 'PCOMB';
   Barcode_Prefix_BXR          = 'BXR'; //Barcode x ref -> tblBarcodexRef
   Barcode_Prefix_SLBatch      = 'SLB';
-  Barcode_Prefix_Customer     = 'C';
-  Barcode_Prefix_PurchaseOrder = 'P';
+  Barcode_Prefix_Customer     = 'CUS';
+  Barcode_Prefix_PurchaseOrder = 'PO';
   Barcode_Prefix_PurchaseLine = 'PL';
   Barcode_Prefix_Proctree     = 'PT';
   Barcode_Prefix_DeptClass    = 'DEPT';
   Barcode_Prefix_StockTransfer    = 'ST';
+  Barcode_Prefix_StockAdjust  = 'SA';
+  Barcode_Prefix_Invoice = 'IN';
+  Barcode_Prefix_SalesOrder = 'SO';
+  Barcode_Prefix_Quote = 'QU';
+  Barcode_Prefix_Refund = 'RE';
+  Barcode_Prefix_Payment = 'PA';
+  Barcode_Prefix_Bill = 'BI';
+  Barcode_Prefix_Journal = 'JO';
+  Barcode_Prefix_TimeSheet = 'TS';
+  Barcode_Prefix_Supplier = 'SUP';
+  Barcode_Prefix_Product = 'PRO';
+  Barcode_Prefix_Account = 'ACC';
 
  licenceIPAddress = "login.vs1cloud.com"; //165.228.147.127
   //Global Declaration
