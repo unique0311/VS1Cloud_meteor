@@ -1364,6 +1364,15 @@ authenticatedRoutes.route('/payrollrules', {
     }
 });
 
+authenticatedRoutes.route('/emailsettings', {
+    name: 'emailsettings',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'emailsettings'
+        });
+    }
+});
+
 authenticatedRoutes.route('/subscriptionSettings', {
     name: 'subscriptionSettings',
     action() {

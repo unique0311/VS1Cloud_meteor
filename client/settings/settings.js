@@ -68,6 +68,9 @@ Template.settings.events({
 },
 'click .btnPayrollSettings' : function(event){
  FlowRouter.go('/payrollrules');
+},
+'click .btnEmailSettings' : function(event){
+ FlowRouter.go('/emailsettings');
 }
 
 

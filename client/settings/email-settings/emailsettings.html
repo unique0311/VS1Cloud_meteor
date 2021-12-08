@@ -1,0 +1,731 @@
+<template name="emailsettings">
+    <div class="container-fluid">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <h3 class="text-dark mb-4">Email Settings
+            <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
+            <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+
+            <!-- Start Help View Modal -->
+            <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding-bottom: 8px;">
+                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                            <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=22" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                            <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                            <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                        </div>
+                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Help View Modal -->
+        </h3>
+        <div class="row mb-3">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <p class="text-primary m-0 font-weight-bold">Automated Email Settings</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-body p-3 rounded">
+                                    <div class="row">
+                                        <div class="col-12" style="padding: 0px;">
+                                            <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px; margin-top: 0px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <style>
+                                            .hiddenColumn {
+                                                display: none;
+                                            }
+
+                                            .showColumn {
+                                                display: table-cell;
+                                                padding: .75rem;
+                                                vertical-align: top;
+                                            }
+
+                                            .s-input {
+                                                padding-right: 20px !important;
+                                                background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAICAYAAADJEc7MAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAG2YAABzjgAA4DIAAIM2AAB5CAAAxgwAADT6AAAgbL5TJ5gAAABGSURBVHjaYvz//z8DOYCJgUzA0tnZidPK8vJyRpw24pLEpwnuVHRFhDQxMDAwMPz//x+OOzo6/iPz8WFGuocqAAAA//8DAD/sORHYg7kaAAAAAElFTkSuQmCC) right center no-repeat;
+                                            }
+                                        </style>
+                                        <style>
+                                            .arrow {
+                                                cursor: default !important;
+                                            }
+
+                                            .colTransType {
+                                                width: 30% !important;
+                                            }
+
+                                            .colFrequency {
+                                                width: 20% !important;
+                                            }
+
+                                            .colSend {
+                                                width: 20% !important;
+                                            }
+
+                                            .colRecipients {
+                                                width: 30% !important;
+                                            }
+                                        </style>
+                                        <table id="tblAutomatedEmails" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayRollRulesList">
+                                            <thead>
+                                                <tr class="dnd-moved">
+                                                    <th class="th colTransType" style="width: 30% !important;">Transaction Type</th>
+                                                    <th class="th colFrequency" style="width: 20% !important;">Frequency</th>
+                                                    <th class="th colSend" style="width: 20% !important;">Send</th>
+                                                    <th class="th colRecipients" style="width: 30% !important;">Recipients</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                                    <td contenteditable="false" class="arrow">Quotes</td>
+                                                    <td contenteditable="false" class="colFrequency s-input" id="edtFrequency"></td>
+                                                    <td contenteditable="false" class="colSend s-input" id="edtBasedOn"></td>
+                                                    <td contenteditable="false" class=" s-input"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="modal fade" id="frequencyModal" tabindex="-1" role="dialog" aria-labelledby="frequencyModal" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="frequencyLabel">Frequency</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <style>
+                                                            @media screen and (max-width: 450px) {
+                                                                .dateTimePickerMobile {
+                                                                    width: 100% !important;
+                                                                }
+
+                                                                .colSettings {
+                                                                    margin-top: 16px;
+                                                                }
+                                                            }
+                                                        </style>
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-3">
+                                                                <h5 style="margin-bottom: 8px;">Frequency</h5>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="frequencyRadio" id="frequencyMonthly" checked>
+                                                                    <label class="form-check-label" for="frequencyMonthly">
+                                                                        Monthly
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="frequencyRadio" id="frequencyWeekly">
+                                                                    <label class="form-check-label" for="frequencyWeekly">
+                                                                        Weekly
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="frequencyRadio" id="frequencyDaily">
+                                                                    <label class="form-check-label" for="frequencyDaily">
+                                                                        Daily
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="frequencyRadio" id="frequencyOnetimeonly">
+                                                                    <label class="form-check-label" for="frequencyOnetimeonly">
+                                                                        One Time Only
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="frequencyRadio" id="frequencyOnevent">
+                                                                    <label class="form-check-label" for="frequencyOnevent">
+                                                                        On Event
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-9 monthlySettings colSettings" id="monthlySettings" style="display: ;">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h5 style="margin-bottom: 8px;">Settings</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <div class="form-check" style="margin-top: 2px;">
+                                                                            <input class="form-check-input" type="radio" name="settingsMonthlyRadio" id="settingsMonthlyEvery" checked>
+                                                                            <label class="form-check-label" for="settingsMonthlyEvery">
+                                                                                Every
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-9" style="display: inline-flex;">
+                                                                        <div class="form-group" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <select class="form-control pointer settingsMonthlyEveryOccurence" id="sltDayOccurence" name="sltDayOccurence" style="height: 30px !important; padding: 2px 6px;">
+                                                                                <option value="first">First</option>
+                                                                                <option value="second">Second</option>
+                                                                                <option value="third">Third</option>
+                                                                                <option value="fourth">Fourth</option>
+                                                                                <option value="last">Last</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group" style="margin-bottom: 0px !important; width: 48%;">
+                                                                            <select class="form-control pointer settingsMonthlyDayOfWeek" id="sltDayOfWeek" name="sltDayOfWeek" style="height: 30px !important; padding: 2px 6px;">
+                                                                                <option value="monday">Monday</option>
+                                                                                <option value="tuesday">Tuesday</option>
+                                                                                <option value="wednesday">Wednesday</option>
+                                                                                <option value="thursday">Thursday</option>
+                                                                                <option value="friday">Friday</option>
+                                                                                <option value="saturday">Saturday</option>
+                                                                                <option value="sunday">Sunday</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <div class="form-check" style="margin-top: 2px;">
+                                                                            <input class="form-check-input" type="radio" name="settingsMonthlyRadio" id="settingsMonthlyDay">
+                                                                            <label class="form-check-label" for="settingsMonthlyDay">
+                                                                                Day
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-9" style="display: inline-flex;">
+                                                                        <style type="text/css">
+                                                                            div.dropdown-menu.open {
+                                                                                max-height: 10px !important;
+                                                                                overflow: hidden;
+                                                                            }
+
+                                                                            ul.dropdown-menu.inner {
+                                                                                max-height: 10px !important;
+                                                                                overflow-y: auto;
+                                                                            }
+                                                                        </style>
+                                                                        <div class="form-group" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <select class="form-control pointer settingsMonthlySpecDay" id="sltDay" name="sltDay" style="height: 30px !important; padding: 2px 6px;" disabled>
+                                                                                <option value="day1">1</option>
+                                                                                <option value="day2">2</option>
+                                                                                <option value="day3">3</option>
+                                                                                <option value="day4">4</option>
+                                                                                <option value="day5">5</option>
+                                                                                <option value="day6">6</option>
+                                                                                <option value="day7">7</option>
+                                                                                <option value="day8">8</option>
+                                                                                <option value="day9">9</option>
+                                                                                <option value="day10">10</option>
+                                                                                <option value="day11">11</option>
+                                                                                <option value="day12">12</option>
+                                                                                <option value="day13">13</option>
+                                                                                <option value="day14">14</option>
+                                                                                <option value="day15">15</option>
+                                                                                <option value="day16">16</option>
+                                                                                <option value="day17">17</option>
+                                                                                <option value="day18">18</option>
+                                                                                <option value="day19">19</option>
+                                                                                <option value="day20">20</option>
+                                                                                <option value="day21">21</option>
+                                                                                <option value="day22">22</option>
+                                                                                <option value="day23">23</option>
+                                                                                <option value="day24">24</option>
+                                                                                <option value="day25">25</option>
+                                                                                <option value="day26">26</option>
+                                                                                <option value="day27">27</option>
+                                                                                <option value="day28">28</option>
+                                                                                <option value="day29">29</option>
+                                                                                <option value="day30">30</option>
+                                                                                <option value="day31">31</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Of Month(s)
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        <div class="row">
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-january" value="january" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-january">January</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-february" value="february" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-february">February</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-march" value="march" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-march">March</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-april" value="april" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-april">April</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-may" value="may" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-may">May</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-june" value="june" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-june">June</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-july" value="july" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-july">July</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-august" value="august" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-august">August</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-september" value="september" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-september">September</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-october" value="october" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-october">October</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-november" value="november" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-november">November</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-december" value="december" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-december">December</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Time
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="time" class="form-control" id="edtMonthlyStartTime" name="edtMonthlyStartTime" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Date
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="date" class="form-control" id="edtMonthlyStartDate" name="edtMonthlyStartDate" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-9 weeklySettings colSettings" id="weeklySettings" style="display: none;">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h5 style="margin-bottom: 8px;">Settings</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Select Days
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        <div class="row">
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-monday" value="monday" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-monday">Monday</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-tuesday" value="tuesday" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-tuesday">Tuesday</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-wednesday" value="wednesday" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-wednesday">Wednesday</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-thursday" value="thursday" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-thursday">Thursday</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-friday" value="friday" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-friday">Friday</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-saturday" value="saturday" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-saturday">Saturday</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-4">
+                                                                                <div class="custom-control custom-checkbox chkBox pointer">
+                                                                                    <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-sunday" value="sunday" checked>
+                                                                                    <label class="custom-control-label chkBox pointer" for="formCheck-sunday">Sunday</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Every
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="input-group mb-3 dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="number" class="form-control weeklyEveryXWeeks" id="weeklyEveryXWeeks" name="weeklyEveryXWeeks" aria-describedby="basic-addon2"
+                                                                                style="height: 30px !important; padding: 2px 6px;">
+                                                                            <div class="input-group-append">
+                                                                                <span class="input-group-text" id="basic-addon2" style="height: 30px !important; padding: 2px 6px;">Weeks</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Time
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="time" class="form-control" id="edtWeeklyStartTime" name="edtWeeklyStartTime" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Date
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="date" class="form-control" id="edtWeeklyStartDate" name="edtWeeklyStartDate" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-9 dailySettings colSettings" id="dailySettings" style="display: none;">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h5 style="margin-bottom: 8px;">Settings</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-6 col-lg-3">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio" name="dailyRadio" id="dailyEveryDay" checked>
+                                                                            <label class="form-check-label" for="dailyEveryDay">
+                                                                                Every Day
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3 col-lg-3">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio" name="dailyRadio" id="dailyWeekdays">
+                                                                            <label class="form-check-label" for="dailyWeekdays">
+                                                                                Weekdays
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3 col-lg-3">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio" name="dailyRadio" id="dailyEvery">
+                                                                            <label class="form-check-label" for="dailyEvery">
+                                                                                Every
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="input-group mb-3 dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="number" class="form-control dailyEveryXDays" id="dailyEveryXDays" name="dailyEveryXDays" aria-describedby="basic-addon2"
+                                                                                style="height: 30px !important; padding: 2px 6px;" disabled>
+                                                                            <div class="input-group-append">
+                                                                                <span class="input-group-text" id="basic-addon2" style="height: 30px !important; padding: 2px 6px;">Days</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Time
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="time" class="form-control" id="edtDailyStartTime" name="edtDailyStartTime" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Date
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="date" class="form-control" id="edtDailyStartDate" name="edtDailyStartDate" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-9 oneTimeOnlySettings colSettings" id="oneTimeOnlySettings" style="display: none;">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h5 style="margin-bottom: 8px;">Settings</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Time
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="time" class="form-control" id="edtOneTimeOnlyTime" name="edtOneTimeOnlyTime" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-3">
+                                                                        <label class="form-check-label" for="" style="margin-top: 2px;">
+                                                                            Start Date
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-6 col-lg-9">
+                                                                        <div class="form-group dateTimePickerMobile" style="margin-bottom: 0px !important; width: 48%; margin-right: 3%;">
+                                                                            <input type="date" class="form-control" id="edtOneTimeOnlyDate" name="edtOneTimeOnlyDate" style="height: 30px !important; padding: 2px 6px;">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-9 onEventSettings colSettings" id="onEventSettings" style="display: none;">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <h5 style="margin-bottom: 8px;">Settings</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-12 col-lg-3">
+                                                                        <div class="form-check" style="margin-top: 2px;">
+                                                                            <input class="form-check-input" type="radio" name="settingsOnEvents" id="settingsOnLogon" checked>
+                                                                            <label class="form-check-label" for="settingsOnLogon">
+                                                                                On Logon
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-bottom: 8px;">
+                                                                    <div class="col-12 col-lg-3">
+                                                                        <div class="form-check" style="margin-top: 2px;">
+                                                                            <input class="form-check-input" type="radio" name="settingsOnEvents" id="settingsOnLogout">
+                                                                            <label class="form-check-label" for="settingsOnLogout">
+                                                                                On Logout
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success btnSaveFrequency"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="basedOnModal" tabindex="-1" role="dialog" aria-labelledby="basedOnModal" aria-hidden="true">
+                                            <div class="modal-dialog modal modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="basedOnLabel">Based On</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-5">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnPrint" checked>
+                                                                    <label class="form-check-label" for="basedOnPrint">
+                                                                        On Print
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-5">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnSave">
+                                                                    <label class="form-check-label" for="basedOnSave">
+                                                                        On Save
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-5">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnTransactionDate">
+                                                                    <label class="form-check-label" for="basedOnTransactionDate">
+                                                                        On Transaction Date
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-5">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnDueDate">
+                                                                    <label class="form-check-label" for="basedOnDueDate">
+                                                                        Due Date
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-6 col-lg-5">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnDate">
+                                                                    <label class="form-check-label" for="basedOnDate">
+                                                                        Date
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-lg-7">
+                                                                <div class="form-group" style="margin-bottom: 0px !important;">
+                                                                    <input type="time" class="form-control" id="edtBasedOnDate" name="edtBasedOnDate" style="height: 30px !important; padding: 2px 6px;" disabled>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success btnSaveBasedOn"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row no-gutters">
+                                    <div class="col">
+                                        <button class="btn btn-secondary float-right btnBack" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+                                        <button class="btn btn-success float-right btnSaveDefaultTax" type="button" style="margin: 16px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="title-header">Tax Rate</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                    <!-- <iframe width="640" height="360" src="https://erphelpes.com/vs1videos/taxratelist.mp4" frameborder="0" allowfullscreen=""></iframe> -->
+                    <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/comingsoon.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Help Video Modal -->
+
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModalAdd">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="title-header">New Tax Rate</h4>
+                    <button type="button" class="close closeAdd" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                    <!-- <iframe width="640" height="360" src="https://erphelpes.com/vs1videos/taxrate.mp4" frameborder="0" allowfullscreen=""></iframe> -->
+                    <video id="myVideoAdd" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/comingsoon.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Help Video Modal -->
+    <script>
+        modalDraggable();
+    </script>
+</template>
