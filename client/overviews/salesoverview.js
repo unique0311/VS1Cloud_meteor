@@ -1190,8 +1190,7 @@ Template.salesoverview.events({
                 }
             }
         }
-
-        //Meteor._reload.reload();
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn': function(event) {
         let columData = $(event.target).text();
