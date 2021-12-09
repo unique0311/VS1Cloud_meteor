@@ -75,6 +75,16 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
 
+  getNewInvoiceBoByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ClientName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.BackOrderSalesList, options);
+  }
+
+
 
   getNewQuoteByNameOrID(dataSearchName) {
     let options = '';

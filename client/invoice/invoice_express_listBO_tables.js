@@ -808,8 +808,115 @@ Template.invoicelistBO.events({
           }
 
         },
-        'click .btnRefreshInvoiceListBO':function(event){
-        $(".btnRefresh").trigger("click");
+    'click .btnRefreshInvoiceListBO':function(event){
+         let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let tableProductList;
+        const dataTableList = [];
+        var splashArrayInvoiceList = new Array();
+        const lineExtaSellItems = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataSearchName = $('#tblInvoicelistBO_filter input').val();
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getNewInvoiceBoByNameOrID(dataSearchName).then(function (data) {
+                $(".btnRefreshInvoiceListBO").removeClass('btnSearchAlert');
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.BackOrderSalesList.length > 0) {
+                    for (let i = 0; i < data.BackOrderSalesList.length; i++) {
+                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
+                        // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalBalance) || 0.00;
+                        var dataList = {
+                           id: data.BackOrderSalesList[i].SaleID || '',
+                            employee:data.BackOrderSalesList[i].SaleEnteredBy || '',
+                            sortdate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("YYYY/MM/DD"): data.BackOrderSalesList[i].SaleDate,
+                            saledate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].SaleDate,
+                            duedate: data.BackOrderSalesList[i].DueDate !=''? moment(data.BackOrderSalesList[i].DueDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].DueDate,
+                            customername: data.BackOrderSalesList[i].CustomerPrintName || '',
+                            totalamountex: totalAmountEx || 0.00,
+                            totaltax: totalTax || 0.00,
+                            totalamount: totalAmount || 0.00,
+                            totalpaid: totalPaid || 0.00,
+                            totaloustanding: totalOutstanding || 0.00,
+                            department: data.BackOrderSalesList[i].Department || '',
+                            custfield1: data.BackOrderSalesList[i].UOM || '',
+                            custfield2: data.BackOrderSalesList[i].SaleTerms || '',
+                            comments: data.BackOrderSalesList[i].SaleComments || '',
+                            qtybackorder: data.BackOrderSalesList[i].QtyBackOrder || '',
+                            product: data.BackOrderSalesList[i].ProductPrintName || '',
+
+                        };
+
+                        //if(data.tinvoiceex[i].fields.Deleted == false){
+                        //splashArrayInvoiceList.push(dataList);
+                        dataTableList.push(dataList);
+                        //}
+
+
+                        //}
+                    }
+                    templateObject.datatablerecords.set(dataTableList);
+
+                    let item = templateObject.datatablerecords.get();
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (dataTableList) {
+                        var datatable = $('#tblInvoicelistBO').DataTable();
+                        $("#tblInvoicelistBO > tbody").empty();
+                        for (let x = 0; x < item.length; x++) {
+                            $("#tblInvoicelistBO > tbody").append(
+                                ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
+                                '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
+                                '<td contenteditable="false" class="colSaleDate" ><span style="display:none;">' + item[x].sortdate + '</span>' + item[x].saledate + '</td>' +
+                                '<td contenteditable="false" class="colSalesNo">' + item[x].id + '</td>' +
+                                '<td contenteditable="false" class="colDueDate" >' + item[x].duedate + '</td>' +
+                                '<td contenteditable="false" class="colCustomer">' + item[x].customername + '</td>' +
+                                '<td contenteditable="false" class="colAmountEx" style="text-align: right!important;">' + item[x].totalamountex + '</td>' +
+                                '<td contenteditable="false" class="colTax" style="text-align: right!important;">' + item[x].totaltax + '</td>' +
+                                '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
+                                '<td contenteditable="false" class="colProduct" style="text-align: right!important;">' + item[x].product + '</td>' +
+                                '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].qtybackorder + '</td>' +
+                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].department + '</td>' +
+                                '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
+                                '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
+                                '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +
+                                '<td contenteditable="false" class="colComments">' + item[x].comments + '</td>' +
+                                '</tr>');
+
+                        }
+                        $('.dataTables_info').html('Showing 1 to ' + data.tinvoiceex.length + ' of ' + data.tinvoiceex.length + ' entries');
+
+                    }
+
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+
+                    swal({
+                        title: 'Question',
+                        text: "Invoice does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            FlowRouter.go('/invoicecard');
+                        } else if (result.dismiss === 'cancel') {
+                            //$('#productListModal').modal('toggle');
+                        }
+                    });
+                }
+            }).catch(function (err) {
+                
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+
+          $(".btnRefresh").trigger("click");
+        }
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
