@@ -1109,6 +1109,22 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Paid</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="totalPaidAmt" name="totalPaidAmt">{{invoicerecord.totalPaid}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Due</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="totalBalanceDue" name="totalBalanceDue">{{invoicerecord.balanceDue}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-12" style="padding: 0px;">
                                 <hr style="border-top: 3px solid #696969;" />
                                 <p style="display:none;" id="totalBalanceDue" name="totalBalanceDue">{{invoicerecord.balanceDue}}</p>
