@@ -4072,6 +4072,7 @@ Template.paymentcard.events({
         Session.setPersistent('bankaccount', bankAccount);
         Session.setPersistent('department', department);
         var url = FlowRouter.current().path;
+        console.log(url);
         if (url.indexOf('?soid=') > 0) {
             var getsale_id = url.split('?soid=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
@@ -5777,10 +5778,11 @@ Template.paymentcard.events({
             });
         } else if (url.indexOf('?selectcust=') > 0) {
             var getsale_id = url.split('?selectcust=');
+            let allData = "";
             var currentSalesID = getsale_id[getsale_id.length - 1];
-            let getPayments = Session.get('customerpayments');
+            let getPayments = JSON.parse(Session.get('customerpayments')) || [];
             if(getPayments.length > 0) {
-                let allData = JSON.parse(Session.get('customerpayments'));
+                allData = getPayments;
             } else {
                 allData = [];
             }
