@@ -33,7 +33,7 @@
  licenceIPAddress = "login.vs1cloud.com"; //165.228.147.127
   //Global Declaration
   /* VS1 SandBox Details */
-  URLRequest = 'https://'; //non ssl server
+  URLRequest = 'http://'; //non ssl server
   checkSSLPorts = '4433'; //Non SSL Port
   vs1loggedDatatbase = 'vs1_sandbox_license'; //SandBox databaseName
 
