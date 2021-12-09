@@ -1556,6 +1556,72 @@ Template.header.onRendered(function() {
 });
 
 Template.header.events({
+    'click .btnCloseProgess': function() {
+        $('.headerprogressbar').removeClass('headerprogressbarShow');
+        $('.headerprogressbar').addClass('headerprogressbarHidden');
+    },
+    'click .btnLoad': function() {
+        //alert("CLICKED");
+
+        setTimeout(function() {
+            $("#process1").removeClass("hideProcess");
+        }, 2000);
+        setTimeout(function() {
+            $("#process2").removeClass("hideProcess");
+        }, 4000);
+        setTimeout(function() {
+            $("#process3").removeClass("hideProcess");
+        }, 6000);
+        setTimeout(function() {
+            $("#process4").removeClass("hideProcess");
+        }, 8000);
+        setTimeout(function() {
+            $("#process5").removeClass("hideProcess");
+        }, 10000);
+        setTimeout(function() {
+            $("#process1").addClass("hideProcess");
+            $("#process6").removeClass("hideProcess");
+        }, 12000);
+        setTimeout(function() {
+            $("#process2").addClass("hideProcess");
+            $("#process7").removeClass("hideProcess");
+        }, 14000);
+        setTimeout(function() {
+            $("#process3").addClass("hideProcess");
+            $("#process8").removeClass("hideProcess");
+        }, 16000);
+        setTimeout(function() {
+            $("#process4").addClass("hideProcess");
+            $("#process9").removeClass("hideProcess");
+        }, 18000);
+        setTimeout(function() {
+            $("#process5").addClass("hideProcess");
+            $("#process10").removeClass("hideProcess");
+        }, 20000);
+        setTimeout(function() {
+            $("#process6").addClass("hideProcess");
+            $("#process11").removeClass("hideProcess");
+        }, 22000);
+        setTimeout(function() {
+            $("#process7").addClass("hideProcess");
+        }, 24000);
+        setTimeout(function() {
+            $("#process8").addClass("hideProcess");
+        }, 26000);
+        setTimeout(function() {
+            $("#process9").addClass("hideProcess");
+        }, 28000);
+        setTimeout(function() {
+            $("#process10").addClass("hideProcess");
+        }, 30000);
+        setTimeout(function() {
+            $("#process11").addClass("hideProcess");
+        }, 32000);
+        setTimeout(function() {
+            $("#checkmarkwrapper").removeClass("hide");
+        }, 33000);
+
+    },
     'click .btnGlobalSearch': function(event) {
         let templateObject = Template.instance();
         var searchData = $('.txtGlobalSearch').val().toLowerCase();
