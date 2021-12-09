@@ -394,9 +394,9 @@ Template.vs1login.onRendered(function () {
                         lineItemslevel.push(lineItemObjlevel);
 
                     }
-                    if (!isDashboardLicence) {
+                    //if (!isDashboardLicence) {
                         isDashboard = false;
-                    }
+                    //}
 
                     if (!isFixedAssetsLicence) {
                         isFixedAssets = false;
@@ -1074,6 +1074,7 @@ Template.vs1login.onRendered(function () {
             $("#email").focus();
             e.preventDefault();
         } else {
+            Session.setPersistent('VS1AdminUserName', userLoginEmail);
             Meteor.call('readMethodLog', userLoginEmail, hashUserLoginPassword, function (error, result) {
                 if (error) {
 

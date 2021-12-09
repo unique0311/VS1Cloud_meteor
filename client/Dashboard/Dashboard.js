@@ -4,15 +4,24 @@ import {DashBoardService} from './dashboard-service';
 import 'gauge-chart';
 Template.dashboard.onCreated(function () {
     this.loggedDb = new ReactiveVar("");
+    const templateObject = Template.instance();
+    templateObject.includeDashboard = new ReactiveVar();
+    templateObject.includeDashboard.set(false);
 });
 
 Template.dashboard.onRendered(function () {
-
-
+  let templateObject = Template.instance();
+  let isDashboard = Session.get('CloudDashboardModule');
+  if (isDashboard) {
+      templateObject.includeDashboard.set(true);
+  }
 });
 
 
 Template.dashboard.helpers({
+    includeDashboard: () => {
+        return Template.instance().includeDashboard.get();
+    },
     loggedDb: function() {
         return Template.instance().loggedDb.get();
     },
