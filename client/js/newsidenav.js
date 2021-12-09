@@ -2881,6 +2881,7 @@ Template.newsidenav.onRendered(function() {
           $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
           $(".progressBarInner").text(""+Math.round(100)+"%");
           $('.checkmarkwrapper').removeClass("hide");
+          $('.process').addClass('killProgressBar');
           setTimeout(function() {
           $('.headerprogressbar').removeClass('headerprogressbarShow');
           $('.headerprogressbar').addClass('headerprogressbarHidden');
