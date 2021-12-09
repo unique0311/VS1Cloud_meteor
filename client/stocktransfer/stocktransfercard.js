@@ -2828,7 +2828,7 @@ Template.stocktransfercard.events({
     'click .printConfirm': function(event) {
       $('.fullScreenSpin').css('display', 'inline-block');
         $('#html-2-pdfwrapper').css('display', 'block');
-        $('.pdfCustomerName').html($('#sltAccountName').val());
+        $('.pdfCustomerName').html($('#sltDepartment').val());
         $('.pdfCustomerAddress').html($('#txabillingAddress').val());
         $('#printcomment').html($('#txtNotes').val().replace(/[\r\n]/g, "<br />"));
         let isReadyToSave  = false;
@@ -2847,19 +2847,7 @@ Template.stocktransfercard.events({
             let tdtransferqty = $('#' + lineID + " .lineUOMQtyShipped").val();
             if (tdproduct != "") {
               if(segsSerialLenght.length == tdtransferqty){
-                    lineItemObjForm = {
-                        type: "TSTELinesFlat",
-                        fields: {
-                            ProductName: tdproduct || '',
-                            AccountName: 'Inventory Asset',
-                            TransferQty: parseFloat(tdtransferqty) || 0,
-                            ClassNameTo: tdDepartment || defaultDept,
-                            TransferSerialnos: tdserialNumber || '',
-                            PartBarcode: tdbarcode || '',
-                        }
-                    };
 
-                splashLineArray.push(lineItemObjForm);
                 isReadyToSave = true;
               }else{
                 isReadyToSave = false;
