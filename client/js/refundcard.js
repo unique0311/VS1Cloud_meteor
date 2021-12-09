@@ -5656,7 +5656,7 @@ Template.refundcard.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'click .btnResetGridSettings': function(event) {
         var getcurrentCloudDetails = CloudUser.findOne({
