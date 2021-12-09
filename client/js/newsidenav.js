@@ -750,7 +750,8 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Accounts "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Accounts ");
 
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
@@ -785,7 +786,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Products "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Products "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Products ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -817,7 +820,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Non-Inventory Products "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Non-Inventory Products "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Non-Inventory Products ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -849,7 +854,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Customers "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Customers "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Customers ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -883,7 +890,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Suppliers "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Suppliers "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Suppliers ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -916,7 +925,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Tax Code "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Tax Code "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Tax Code ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -950,7 +961,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Terms "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Terms "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Terms ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -983,7 +996,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Departments "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Departments "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Departments ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1016,7 +1031,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Currency "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Currency "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Currency ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1049,7 +1066,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Countries "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Countries "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Countries ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1081,7 +1100,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Payment Method "+valeur+"%");
+          //$(".progressBarInner").text("Payment Method "+valeur+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Payment Method ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1113,7 +1134,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Client Type "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Client Type "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Client Type ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1145,7 +1168,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Lead Status Type "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Lead Status Type "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Lead Status Type ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1178,7 +1203,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Shipping Method "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Shipping Method "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Shipping Method ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1211,7 +1238,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Account Type "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Account Type "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Account Type ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1244,7 +1273,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Contacts ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1277,7 +1308,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Employee "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Employee "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Employee ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1310,7 +1343,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Journal Entry Lines "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Journal Entry Lines "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Journal Entry Lines ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1344,7 +1379,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Bank Account Report ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1385,7 +1422,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Invoice ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1418,7 +1457,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Refund Sale "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Refund Sale "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Refund Sale ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1450,7 +1491,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text(" Invoice Back Order "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text(" Invoice Back Order "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Invoice Back Order ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1482,7 +1525,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Sales Order "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Sales Order "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Sales Order ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1532,7 +1577,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Purchase Order ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1575,7 +1622,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Bill Report "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Bill Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Bill Report ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1609,7 +1658,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Awaiting Supplier Payment "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Awaiting Supplier Payment "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Awaiting Supplier Payment ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1642,7 +1693,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Cheque "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Cheque "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Cheque ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1691,7 +1744,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Product Stock & Sale Period Report "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Product Stock & Sale Period Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Product Stock & Sale Period Report ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1723,7 +1778,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("App User "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("App User "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("App User ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1756,7 +1813,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Job "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Job "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Job ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1790,7 +1849,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Stock Adjust Entry "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Stock Adjust Entry "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Stock Adjust Entry ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1826,7 +1887,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Stock Transfer Entry "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Stock Transfer Entry "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Stock Transfer Enrty ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1861,7 +1924,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Quote "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Quote "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Quote ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1912,7 +1977,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Bill ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1944,7 +2011,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Credit "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Credit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Credit ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1995,7 +2064,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Sales List "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Sales List "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Sales List ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2028,7 +2099,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Appointment ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2060,7 +2133,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("ERP Preference "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("ERP Preference "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("ERP Preference ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2093,7 +2168,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-              $(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
+              //$(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
+              $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+              $(".progressName").text("ERP Preference Extra ");
               if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                 if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                   $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2128,7 +2205,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Appointment Preferences "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Appointment Preferences "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Appointment Preferences ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2161,7 +2240,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Payment List "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Payment List "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Payment List ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2194,7 +2275,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("AR Report "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("AR Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("AR Report ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2227,7 +2310,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("AP Report "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("AP Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("AP Report ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2259,7 +2344,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Customer Payment "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Customer Payment "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Customer Payment ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2292,7 +2379,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Supplier Payment "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Supplier Payment "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Supplier Payment ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2324,7 +2413,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Statement List "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Statement List "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Statement List ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2356,7 +2447,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Bank Deposit ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2393,7 +2486,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          $(".progressBarInner").text("Timesheets "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Timesheets "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Timesheets ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2692,7 +2787,8 @@ Template.newsidenav.onRendered(function() {
           setTimeout(function() {
           $('.headerprogressbar').removeClass('headerprogressbarShow');
           $('.headerprogressbar').addClass('headerprogressbarHidden');
-          }, 500);
+          $('.headerprogressbar').addClass('killProgressBar');
+        }, 5000);
         }, 60000);
 
     }
@@ -2743,7 +2839,9 @@ Template.newsidenav.onRendered(function() {
                         countObjectTimes++;
                         progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                         $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                        $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                        //$(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                        $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                        $(".progressName").text("Bill ");
                         if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                           if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                             $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2778,7 +2876,9 @@ Template.newsidenav.onRendered(function() {
                                 countObjectTimes++;
                                 progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                 $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                                //$(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                                $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                                $(".progressName").text("Bill ");
                                 if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                   if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                     $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2813,7 +2913,9 @@ Template.newsidenav.onRendered(function() {
                                             countObjectTimes++;
                                             progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                             $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                            $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                                            //$(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                                            $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                                            $(".progressName").text("Bill ");
                                             if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                               if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                                 $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2854,7 +2956,9 @@ Template.newsidenav.onRendered(function() {
                     countObjectTimes++;
                     progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                     $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                    $(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                    //$(".progressBarInner").text("Bill "+Math.round(progressPercentage)+"%");
+                    $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                    $(".progressName").text("Bill ");
                     if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                       if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                         $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2917,7 +3021,9 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                          //$(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                          $(".progressName").text("Purchase Order ");
                           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2953,7 +3059,9 @@ Template.newsidenav.onRendered(function() {
                               countObjectTimes++;
                               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                              $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                              //$(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                              $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                              $(".progressName").text("Purchase Order ");
                               if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                 if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                   $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2990,7 +3098,9 @@ Template.newsidenav.onRendered(function() {
                                           countObjectTimes++;
                                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                          $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                                          //$(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                                          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                                          $(".progressName").text("Purchase Order ");
                                           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3030,7 +3140,9 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                      //$(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                      $(".progressName").text("Purchase Order ");
                       if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                         if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                           $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3259,7 +3371,9 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                          //$(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                          $(".progressName").text("Appointment ");
                           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3300,7 +3414,9 @@ Template.newsidenav.onRendered(function() {
                                       countObjectTimes++;
                                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                      $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                                      //$(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                                      $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                                      $(".progressName").text("Appointment ");
                                       if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                         if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                           $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3344,7 +3460,9 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                      //$(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                      $(".progressName").text("Appointment ");
                       if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                         if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                           $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3471,7 +3589,9 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                          //$(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                          $(".progressName").text("Invoice ");
                           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3505,7 +3625,9 @@ Template.newsidenav.onRendered(function() {
                               countObjectTimes++;
                               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                              $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                              //$(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                              $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                              $(".progressName").text("Invoice ");
                               if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                 if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                   $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3545,7 +3667,9 @@ Template.newsidenav.onRendered(function() {
                                           countObjectTimes++;
                                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                          $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                                          //$(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                                          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                                          $(".progressName").text("Invoice ");
                                           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3588,7 +3712,9 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                      //$(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                      $(".progressName").text("Invoice ");
                       if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                         if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                           $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3769,7 +3895,9 @@ Template.newsidenav.onRendered(function() {
                           countObjectTimes++;
                           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                          $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+                          //$(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+                          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                          $(".progressName").text("Contacts ");
                           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3803,7 +3931,9 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+                      //$(".progressBarInner").text("Contacts "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                      $(".progressName").text("Contacts ");
                       if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                         if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                           $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -3916,7 +4046,9 @@ Template.newsidenav.onRendered(function() {
               countObjectTimes++;
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-              $(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+              //$(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
+              $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+              $(".progressName").text("Appointment ");
               if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                 if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                   $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -4020,7 +4152,9 @@ Template.newsidenav.onRendered(function() {
                         countObjectTimes++;
                         progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                         $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                        $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                        //$(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                        $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                        $(".progressName").text("Product ");
                         if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                           if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                             $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -4055,7 +4189,9 @@ Template.newsidenav.onRendered(function() {
                                     countObjectTimes++;
                                     progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                     $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                    $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                                    //$(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                                    $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                                    $(".progressName").text("Product ");
                                     if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                       if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                         $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -4092,7 +4228,9 @@ Template.newsidenav.onRendered(function() {
                     countObjectTimes++;
                     progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                     $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                    $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                    //$(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                    $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                    $(".progressName").text("Product ");
                     if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                       if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                         $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -4160,7 +4298,9 @@ Template.newsidenav.onRendered(function() {
               countObjectTimes++;
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-              $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+              //$(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+              $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+              $(".progressName").text("Product ");
               if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                 if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                   $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -4233,7 +4373,9 @@ Template.newsidenav.onRendered(function() {
                       countObjectTimes++;
                       progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                       $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                      $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                      //$(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                      $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                      $(".progressName").text("Product ");
                       if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                         if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                           $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -4268,7 +4410,9 @@ Template.newsidenav.onRendered(function() {
                                   countObjectTimes++;
                                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                                  $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                                  //$(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                                  $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                                  $(".progressName").text("Product ");
                                   if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                                     if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                                       $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -4305,7 +4449,9 @@ Template.newsidenav.onRendered(function() {
                   countObjectTimes++;
                   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
                   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-                  $(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                  //$(".progressBarInner").text("Product "+Math.round(progressPercentage)+"%");
+                  $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+                  $(".progressName").text("Product ");
                   if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                     if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                       $('.headerprogressbar').removeClass('headerprogressbarHidden');
