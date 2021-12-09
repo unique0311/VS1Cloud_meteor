@@ -817,8 +817,113 @@ Template.salesorderslist.events({
           }
 
         },
-        'click .btnRefreshSOList':function(event){
-        $(".btnRefresh").trigger("click");
+    'click .btnRefreshSOList':function(event){
+         let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let tableProductList;
+        const dataTableList = [];
+        var splashArrayInvoiceList = new Array();
+        const lineExtaSellItems = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataSearchName = $('#tblSalesOrderlist_filter input').val();
+        console.log(dataSearchName);
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getNewSalesOrderByNameOrID(dataSearchName).then(function (data) {
+                $(".btnRefreshSOList_filter").removeClass('btnSearchAlert');
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.tsalesorderex.length > 0) {
+                    for (let i = 0; i < data.tsalesorderex.length; i++) {
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmount) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalTax) || 0.00;
+                        // Currency+''+data.tsalesorderex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalBalance) || 0.00;
+                        var dataList = {
+                            id: data.tsalesorderex[i].fields.ID || '',
+                            employee: data.tsalesorderex[i].fields.EmployeeName || '',
+                            sortdate: data.tsalesorderex[i].fields.SaleDate != '' ? moment(data.tsalesorderex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tsalesorderex[i].fields.SaleDate,
+                            saledate: data.tsalesorderex[i].fields.SaleDate != '' ? moment(data.tsalesorderex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tsalesorderex[i].fields.SaleDate,
+                            duedate: data.tsalesorderex[i].fields.DueDate != '' ? moment(data.tsalesorderex[i].fields.DueDate).format("DD/MM/YYYY") : data.tsalesorderex[i].fields.DueDate,
+                            customername: data.tsalesorderex[i].fields.CustomerName || '',
+                            totalamountex: totalAmountEx || 0.00,
+                            totaltax: totalTax || 0.00,
+                            totalamount: totalAmount || 0.00,
+                            totalpaid: totalPaid || 0.00,
+                            totaloustanding: totalOutstanding || 0.00,
+                            salestatus: data.tsalesorderex[i].fields.SalesStatus || '',
+                            custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
+                            custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
+                            comments: data.tsalesorderex[i].fields.Comments || '',
+                            // shipdate:data.tsalesorderex[i].fields.ShipDate !=''? moment(data.tsalesorderex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.ShipDate,
+
+                        };
+
+                        //if(data.tsalesorderex[i].fields.Deleted == false){
+                        //splashArrayInvoiceList.push(dataList);
+                        dataTableList.push(dataList);
+                        //}
+
+
+                        //}
+                    }
+                    templateObject.datatablerecords.set(dataTableList);
+
+                    let item = templateObject.datatablerecords.get();
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (dataTableList) {
+                        var datatable = $('#tblquotelist').DataTable();
+                        $("#tblSalesOrderlist > tbody").empty();
+                        for (let x = 0; x < item.length; x++) {
+                            $("#tblSalesOrderlist > tbody").append(
+                                ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
+                                '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
+                                '<td contenteditable="false" class="colSaleDate" ><span style="display:none;">' + item[x].sortdate + '</span>' + item[x].saledate + '</td>' +
+                                '<td contenteditable="false" class="colSalesNo">' + item[x].id + '</td>' +
+                                '<td contenteditable="false" class="colDueDate" >' + item[x].duedate + '</td>' +
+                                '<td contenteditable="false" class="colCustomer">' + item[x].customername + '</td>' +
+                                '<td contenteditable="false" class="colAmountEx" style="text-align: right!important;">' + item[x].totalamountex + '</td>' +
+                                '<td contenteditable="false" class="colTax" style="text-align: right!important;">' + item[x].totaltax + '</td>' +
+                                '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
+                                // '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
+                                // '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].totaloustanding + '</td>' +
+                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].salestatus + '</td>' +
+                                '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
+                                '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
+                                '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +
+                                '<td contenteditable="false" class="colComments">' + item[x].comments + '</td>' +
+                                '</tr>');
+
+                        }
+                        $('.dataTables_info').html('Showing 1 to ' + data.tsalesorderex.length + ' of ' + data.tsalesorderex.length + ' entries');
+
+                    }
+
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+
+                    swal({
+                        title: 'Question',
+                        text: "Sales Order does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            FlowRouter.go('/salesordercard');
+                        } else if (result.dismiss === 'cancel') {
+                            //$('#productListModal').modal('toggle');
+                        }
+                    });
+                }
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+          $(".btnRefresh").trigger("click");
+        }
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
