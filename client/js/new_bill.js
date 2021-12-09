@@ -1098,7 +1098,6 @@ Template.billcard.onRendered(() => {
                     }
 
                 }).catch(function(err) {
-                  console.log(err);
                     purchaseService.getOneBillData(currentBill).then(function(data) {
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];

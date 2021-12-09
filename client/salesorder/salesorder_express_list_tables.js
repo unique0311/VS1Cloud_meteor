@@ -826,7 +826,6 @@ Template.salesorderslist.events({
         const lineExtaSellItems = [];
         $('.fullScreenSpin').css('display', 'inline-block');
         let dataSearchName = $('#tblSalesOrderlist_filter input').val();
-        console.log(dataSearchName);
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getNewSalesOrderByNameOrID(dataSearchName).then(function (data) {
                 $(".btnRefreshSOList_filter").removeClass('btnSearchAlert');

@@ -887,7 +887,7 @@ Template.invoicelistBO.events({
                                 '</tr>');
 
                         }
-                        $('.dataTables_info').html('Showing 1 to ' + data.tinvoiceex.length + ' of ' + data.tinvoiceex.length + ' entries');
+                        $('.dataTables_info').html('Showing 1 to ' + data.BackOrderSalesList.length + ' of ' + data.BackOrderSalesList.length + ' entries');
 
                     }
 
@@ -910,7 +910,7 @@ Template.invoicelistBO.events({
                     });
                 }
             }).catch(function (err) {
-                
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {

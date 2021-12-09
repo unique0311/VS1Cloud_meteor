@@ -552,7 +552,7 @@ Template.header.onRendered(function() {
                     let dataTableListDupp = [];
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Stock Transfer") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
+                            dataSelectID = segs[1] || data.tglobalsearchreport[i].TransId || '';
                             if(dataSelectID != ''){
                               window.open('/stocktransfercard?id=' + dataSelectID, '_self');
                             }

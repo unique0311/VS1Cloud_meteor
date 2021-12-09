@@ -4072,7 +4072,6 @@ Template.paymentcard.events({
         Session.setPersistent('bankaccount', bankAccount);
         Session.setPersistent('department', department);
         var url = FlowRouter.current().path;
-        console.log(url);
         if (url.indexOf('?soid=') > 0) {
             var getsale_id = url.split('?soid=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
