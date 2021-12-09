@@ -1729,6 +1729,7 @@ Template.newproductpop.events({
 
                       $('#' + selectLineID + " .colUnitPrice").trigger("change");
                       $('#newProductModal').modal('toggle');
+                      $('.fullScreenSpin').css('display','none');
                   }
               }else if (currentLoc == "/purchaseordercard") {
                   var selectLineID = $('#selectLineID').val();
@@ -1791,6 +1792,7 @@ Template.newproductpop.events({
                       }
                       $('#' + selectLineID + " .colUnitPrice").trigger("change");
                       $('#newProductModal').modal('toggle');
+                      $('.fullScreenSpin').css('display','none');
                   }
               } else {
                   sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
@@ -1811,6 +1813,7 @@ Template.newproductpop.events({
               });
             }).catch(function (err) {
               $('#newProductModal').modal('toggle');
+              $('.fullScreenSpin').css('display','none');
                 //$('.loginSpinner').css('display','none');
 
             });
@@ -1942,6 +1945,7 @@ Template.newproductpop.events({
 
                               $('#' + selectLineID + " .colUnitPrice").trigger("change");
                               $('#newProductModal').modal('toggle');
+                              $('.fullScreenSpin').css('display','none');
                           }
                       }else if (currentLoc == "/purchaseordercard") {
                           var selectLineID = $('#selectLineID').val();
@@ -1985,6 +1989,7 @@ Template.newproductpop.events({
                               }
                               $('#' + selectLineID + " .colUnitPrice").trigger("change");
                               $('#newProductModal').modal('toggle');
+                              $('.fullScreenSpin').css('display','none');
                           }
                       } else {
                           sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
@@ -2003,6 +2008,7 @@ Template.newproductpop.events({
                       }).catch(function (err) {});
                     }).catch(function (err) {
                       $('#newProductModal').modal('toggle');
+                      $('.fullScreenSpin').css('display','none');
                         //$('.loginSpinner').css('display','none');
 
                     });
@@ -2131,6 +2137,7 @@ Template.newproductpop.events({
 
                               $('#' + selectLineID + " .colUnitPrice").trigger("change");
                               $('#newProductModal').modal('toggle');
+                              $('.fullScreenSpin').css('display','none');
                           }
                       }else if (currentLoc == "/purchaseordercard") {
                           var selectLineID = $('#selectLineID').val();
@@ -2174,6 +2181,7 @@ Template.newproductpop.events({
                               }
                               $('#' + selectLineID + " .colUnitPrice").trigger("change");
                               $('#newProductModal').modal('toggle');
+                              $('.fullScreenSpin').css('display','none');
                           }
                       } else {
                           sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
@@ -2192,6 +2200,7 @@ Template.newproductpop.events({
                       }).catch(function (err) {});
                     }).catch(function (err) {
                       $('#newProductModal').modal('toggle');
+                      $('.fullScreenSpin').css('display','none');
                         //$('.loginSpinner').css('display','none');
 
                     });
@@ -2323,6 +2332,7 @@ Template.newproductpop.events({
 
                           $('#' + selectLineID + " .colUnitPrice").trigger("change");
                           $('#newProductModal').modal('toggle');
+                          $('.fullScreenSpin').css('display','none');
                       }
                   }else if (currentLoc == "/purchaseordercard") {
                       var selectLineID = $('#selectLineID').val();
@@ -2366,6 +2376,7 @@ Template.newproductpop.events({
                           }
                           $('#' + selectLineID + " .colUnitPrice").trigger("change");
                           $('#newProductModal').modal('toggle');
+                          $('.fullScreenSpin').css('display','none');
                       }
                   } else {
                       sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
@@ -2384,6 +2395,7 @@ Template.newproductpop.events({
                   }).catch(function (err) {});
                 }).catch(function (err) {
                   $('#newProductModal').modal('toggle');
+                  $('.fullScreenSpin').css('display','none');
                     //$('.loginSpinner').css('display','none');
 
                 });
