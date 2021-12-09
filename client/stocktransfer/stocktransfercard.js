@@ -544,7 +544,7 @@ Template.stocktransfercard.onRendered(function() {
                                 };
 
                                 let getDepartmentVal = useData[d].fields.Lines[0].fields.TransferFromClassName || defaultDept;
-                                $('.shippingHeader').html('Edit Stock Transfer #' + useData[d].fields.ID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a> ');
+                                $('.shippingHeader').html('Edit Stock Transfer #' + useData[d].fields.ID + ' <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;"> Help<i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 5px;"></i></a> ');
                                 setTimeout(function() {
                                     $('#sltDepartment').val(record.department);
                                     $('#edtCustomerName').val(useData[d].fields.Lines[0].fields.CustomerName);

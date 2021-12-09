@@ -551,8 +551,8 @@
             <div class="printID" id="{{stocktransferrecord.id}}" style="display: none;">{{stocktransferrecord.id}}</div>
             <!-- Start PDF -->
             <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; display: none; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
-                <div style="display: flex; height: 70mm;">
-                    <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
+                <div style="display: flex; height: 50mm;">
+                    <div style="margin: 0px; padding: 16px; width: 110mm; max-width: 110mm;">
                         <div style="display: flex;">
                             <div style="max-width: 60mm; max-height: 30mm;">
                                 <img src="assets/img/VS1.png" class="uploadedImage" style="max-height: 30mm; max-width: 200px;margin-bottom: 8px;">
@@ -571,29 +571,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="font-size: 14px;">
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: bold;">Transfer From</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerName">{{stocktransferrecord.department}}</p>
-                        </div>
                     </div>
-                    <div style="margin: 0px; padding: 16px; border: none !important; width: 70mm; max-width: 70mm;">
-                        <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Stock Transfer<br>{{stocktransferrecord.id}}</h4>
+                    <div style="margin: 0px; padding: 16px; border: none !important; width: 90mm; max-width: 90mm;">
+                        <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Stock Transfer {{stocktransferrecord.id}}</h4>
                         <div style="display: flex; width: 100%;">
                             <div style="width: 50%; padding-right: 16px;font-weight: bold;">
                                 <label style="margin-bottom: 0px; color: rgb(0 0 0); width: 100%;">Date:</label>
                                 <label class="pdfPONumber" style="margin-bottom: 0px; color: rgb(0 0 0); width: 100%;">Entry No:</label>
                                 <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">To Account</label>
+                                <label class="" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">Transfer From</label>
                             </div>
                             <div style="width: 50%; padding-left: 16px;">
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{stocktransferrecord.transdate}}.</p>
                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{stocktransferrecord.id}}.</p>
                                 <p class="accountname" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{stocktransferrecord.accountname}}.</p>
+                                <p class="pdfCustomerName" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">{{stocktransferrecord.department}}.</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div style="height: 160mm;">
+                <div style="height: 180mm;">
                     <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
                         <table id="tblStockTransferLinePrint" class="stock_print" style="width: 200mm; max-width: 200mm; margin: auto;">
                             <thead style="color: rgb(251,251,251);">
