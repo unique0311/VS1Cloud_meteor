@@ -408,7 +408,7 @@ Template.customerlistpop.onRendered(function () {
                             $('.fullScreenSpin').css('display', 'none');
                               //if(settings.fnRecordsDisplay() > 150){
                               //  $('.paginate_button.page-item.next').addClass('disabled');
-                              // 
+                              //
                               //}else{
                               // sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
                               //     for (let i = 0; i < data.tcustomervs1.length; i++) {
@@ -903,7 +903,7 @@ Template.customerlistpop.onRendered(function () {
                         splashArrayCustomerList = [];
                         if (dataLenght == -1) {
                           if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                           
+
                           }else{
                             if (customerSearch.replace(/\s/g, '') != '') {
                               $('.fullScreenSpin').css('display', 'inline-block');
@@ -1504,7 +1504,7 @@ Template.customerlistpop.onRendered(function () {
                         $('.fullScreenSpin').css('display', 'none');
                           //if(settings.fnRecordsDisplay() > 150){
                           //  $('.paginate_button.page-item.next').addClass('disabled');
-                          // 
+                          //
                           //}else{
                           // sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
                           //     for (let i = 0; i < data.tcustomervs1.length; i++) {
@@ -2022,7 +2022,7 @@ Template.customerlistpop.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn': function (event) {
         let columData = $(event.target).text();

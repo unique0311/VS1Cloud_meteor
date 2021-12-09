@@ -1089,7 +1089,7 @@ Template.refundlist.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn': function (event) {
         let columData = $(event.target).text();

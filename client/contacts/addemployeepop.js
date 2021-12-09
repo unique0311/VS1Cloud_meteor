@@ -3248,7 +3248,7 @@ Template.addemployeepop.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
         //Meteor._reload.reload();
     },
     'keyup #cloudEmpEmailAddress': function (event) {

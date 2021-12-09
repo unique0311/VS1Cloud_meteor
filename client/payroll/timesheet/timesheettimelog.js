@@ -919,8 +919,8 @@ Template.timesheettimelog.onRendered(function () {
                             } else if (result.dismiss === 'cancel') {}
                         });
                     });
-        
-        }); 
+
+        });
 
          $(".exportbtn").click(function(){
             $('.fullScreenSpin').css('display', 'inline-block');
@@ -1158,7 +1158,7 @@ Template.timesheettimelog.onRendered(function () {
                     }
                 }
             }
-
+            $('#myModal2').modal('toggle');
             //Meteor._reload.reload();
         },
         'blur .divcolumn': function (event) {

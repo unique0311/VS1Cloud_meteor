@@ -3222,7 +3222,7 @@ Template.timesheet.onRendered(function () {
                             }
                         }
                     }
-
+                    $('#myModal2').modal('toggle');
                     //Meteor._reload.reload();
                 },
                 'blur .divcolumn': function (event) {

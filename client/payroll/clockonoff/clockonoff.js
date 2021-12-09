@@ -536,7 +536,7 @@ Template.employeetimeclock.events({
     if (endTime > startTime) {
       document.getElementById('txtBookedHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
     } else {
-      
+
     }
   },
   'click .resetTable': function (event) {
@@ -625,14 +625,14 @@ Template.employeetimeclock.events({
         }
       }
     }
-
+    $('#myModal2').modal('toggle');
     //Meteor._reload.reload();
   },
   'blur .divcolumn': function (event) {
     let columData = $(event.target).text();
 
     let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-    
+
     var datable = $('#tblTimeSheet').DataTable();
     var title = datable.column(columnDatanIndex).header();
     $(title).html(columData);
@@ -785,7 +785,7 @@ Template.employeetimeclock.events({
 
   },
   'click .btnAddNewAccounts': function () {
-    
+
     $('#add-account-title').text('Add New Account');
     $('#edtAccountID').val('');
     $('#sltAccountType').val('');
