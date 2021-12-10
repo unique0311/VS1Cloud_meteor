@@ -780,7 +780,7 @@ Template.newsidenav.onRendered(function() {
 
             //localStorage.setItem('VS1AccountList', JSON.stringify(data) || '');
             addVS1Data('TAccountVS1', JSON.stringify(data));
-            $("<span class='process'>Accounts Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Accounts Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
 
         }).catch(function(err) {
 
@@ -817,7 +817,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TProductVS1', JSON.stringify(data));
-            $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -853,7 +853,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TProductWeb', JSON.stringify(data));
-            $("<span class='process'>Non-Inventory Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Non-Inventory Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -890,7 +890,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1CustomerList', JSON.stringify(data) || '');
             addVS1Data('TCustomerVS1', JSON.stringify(data));
-            $("<span class='process'>Customers Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Customers Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -928,7 +928,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1SupplierList', JSON.stringify(data) || '');
             addVS1Data('TSupplierVS1', JSON.stringify(data));
-            $("<span class='process'>Suppliers Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Suppliers Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -965,7 +965,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TaxCodeList', JSON.stringify(data) || '');
             addVS1Data('TTaxcodeVS1', JSON.stringify(data));
-            $("<span class='process'>Tax Codes Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Tax Codes Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1003,7 +1003,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TermsList', JSON.stringify(data) || '');
             addVS1Data('TTermsVS1', JSON.stringify(data));
-            $("<span class='process'>Terms Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Terms Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1040,7 +1040,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1DepartmentList', JSON.stringify(data) || '');
             addVS1Data('TDeptClass', JSON.stringify(data));
-            $("<span class='process'>Departments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Departments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1077,7 +1077,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1CurrencyList', JSON.stringify(data) || '');
             addVS1Data('TCurrency', JSON.stringify(data));
-            $("<span class='process'>Currencies Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Currencies Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1113,7 +1113,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TCountries', JSON.stringify(data));
-            $("<span class='process'>Countries Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Countries Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1149,7 +1149,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TPaymentMethod', JSON.stringify(data));
-            $("<span class='process'>Payment Methods Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Payment Methods Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1185,7 +1185,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TClientType', JSON.stringify(data));
-            $("<span class='process'>Client Types Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Client Types Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1222,7 +1222,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1LeadStatusList', JSON.stringify(data) || '');
             addVS1Data('TLeadStatusType', JSON.stringify(data));
-            $("<span class='process'>Statuses Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Statuses Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1259,7 +1259,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1ShippingMethodList', JSON.stringify(data) || '');
             addVS1Data('TShippingMethod', JSON.stringify(data));
-            $("<span class='process'>Shipping Methods Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Shipping Methods Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1296,7 +1296,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
             addVS1Data('TAccountType', JSON.stringify(data));
-            $("<span class='process'>Account Types Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Account Types Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1333,7 +1333,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1ERPCombinedContactsList', JSON.stringify(data) || '');
             addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
-            $("<span class='process'>Contacts Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Contacts Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1370,7 +1370,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1EmployeeList', JSON.stringify(data) || '');
             addVS1Data('TEmployee', JSON.stringify(data));
-            $("<span class='process'>Employees Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Employees Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1407,7 +1407,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1JournalEntryLineList', JSON.stringify(data) || '');
             addVS1Data('TJournalEntryLines', JSON.stringify(data));
-            $("<span class='process'>Journal Entries Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Journal Entries Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1445,7 +1445,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
             addVS1Data('TBankAccountReport', JSON.stringify(data));
-            $("<span class='process'>Bank Account Reports Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Bank Account Reports Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1490,7 +1490,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
             addVS1Data('TInvoiceEx', JSON.stringify(data));
-            $("<span class='process'>Invoices Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Invoices Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1526,7 +1526,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TRefundSale', JSON.stringify(data));
-            $("<span class='process'>Refund Sales Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Refund Sales Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1562,7 +1562,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TInvoiceBackOrder',JSON.stringify(data));
-            $("<span class='process'>Invoice Back Orders Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Invoice Back Orders Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1598,7 +1598,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TSalesOrderEx', JSON.stringify(data));
-            $("<span class='process'>Sales Orders Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Sales Orders Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1653,7 +1653,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TPurchaseOrderList', JSON.stringify(data) || '');
             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-            $("<span class='process'>Purchase Orders Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Purchase Orders Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1700,7 +1700,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
             addVS1Data('TbillReport', JSON.stringify(data));
-            $("<span class='process'>Bill Reports Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Bill Reports Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1738,7 +1738,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TbillReport', JSON.stringify(data) || '');
             addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data));
-            $("<span class='process'>Awaiting Supplier Payments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Awaiting Supplier Payments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1775,7 +1775,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TChequeList', JSON.stringify(data) || '');
             addVS1Data('TCheque', JSON.stringify(data));
-            $("<span class='process'>Cheques Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Cheques Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1827,7 +1827,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TProductStocknSalePeriodReport', JSON.stringify(data));
-            $("<span class='process'>Product Stock & Sales Reports Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Product Stock & Sales Reports Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1864,7 +1864,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TAppUserList', JSON.stringify(data) || '');
             addVS1Data('TAppUser', JSON.stringify(data));
-            $("<span class='process'>App User Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>App User Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1901,7 +1901,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TJobVS1List', JSON.stringify(data) || '');
             addVS1Data('TJobVS1', JSON.stringify(data));
-            $("<span class='process'>Jobs Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Jobs Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1938,7 +1938,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TStockAdjustEntry', JSON.stringify(data));
-            $("<span class='process'>Stock Adjustment Entries Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Stock Adjustment Entries Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1978,7 +1978,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TStockTransferEntry', JSON.stringify(data));
-            $("<span class='process'>Stock Transfer Entries Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Stock Transfer Entries Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2018,7 +2018,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TQuoteList', JSON.stringify(data) || '');
             addVS1Data('TQuote', JSON.stringify(data));
-            $("<span class='process'>Quotes Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Quotes Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2072,7 +2072,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TBillEx', JSON.stringify(data));
-            $("<span class='process'>Bills Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2108,7 +2108,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TCredit', JSON.stringify(data));
-            $("<span class='process'>Credits Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Credits Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2164,7 +2164,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
             addVS1Data('TSalesList', JSON.stringify(data));
-            $("<span class='process'>Sales List Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Sales List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2200,7 +2200,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TAppointment', JSON.stringify(data));
-            $("<span class='process'>Appointments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2236,7 +2236,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TERPPreference', JSON.stringify(data));
-            $("<span class='process'>ERP Preferences Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>ERP Preferences Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2276,7 +2276,7 @@ Template.newsidenav.onRendered(function() {
 
 
             addVS1Data('TERPPreferenceExtra', JSON.stringify(data));
-            $("<span class='process'>Extra ERP Preferences Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Extra ERP Preferences Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2312,7 +2312,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TAppointmentPreferences', JSON.stringify(data));
-            $("<span class='process'>Appointment Preferences Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Appointment Preferences Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2349,7 +2349,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TPaymentList', JSON.stringify(data));
-            $("<span class='process'>Payment List Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Payment List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2386,7 +2386,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TARReport', JSON.stringify(data));
-            $("<span class='process'>AR Report Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>AR Report Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2423,7 +2423,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TAPReport', JSON.stringify(data));
-            $("<span class='process'>AP Report Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>AP Report Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2459,7 +2459,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TCustomerPayment', JSON.stringify(data));
-            $("<span class='process'>Customer Payments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Customer Payments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2496,7 +2496,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TSupplierPayment', JSON.stringify(data));
-            $("<span class='process'>Supplier Payments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Supplier Payments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2532,7 +2532,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TStatementList', JSON.stringify(data));
-            $("<span class='process'>Statement List Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Statement List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2572,7 +2572,7 @@ Template.newsidenav.onRendered(function() {
             }).catch(function(err) {
 
             });
-            $("<span class='process'>Bank Deposits Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Bank Deposits Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2609,7 +2609,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TTimeSheet', JSON.stringify(data));
-            $("<span class='process'>Timesheets Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Timesheets Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2976,7 +2976,7 @@ Template.newsidenav.onRendered(function() {
                           }, 1000);
                         }
                           addVS1Data('TBillEx', JSON.stringify(data));
-                          $("<span class='process'>Bills Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                          $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                           templateObject.getFollowedAllObjectPull();
                       }).catch(function(err) {
 
@@ -3015,7 +3015,7 @@ Template.newsidenav.onRendered(function() {
                                   }, 1000);
                                 }
                                   addVS1Data('TBillEx', JSON.stringify(data));
-                                  $("<span class='process'>Bills Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                  $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                   templateObject.getFollowedAllObjectPull();
                               }).catch(function(err) {
 
@@ -3054,7 +3054,7 @@ Template.newsidenav.onRendered(function() {
                                               }, 1000);
                                             }
                                               addVS1Data('TBillEx', JSON.stringify(data));
-                                              $("<span class='process'>Bills Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                              $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                               templateObject.getFollowedAllObjectPull();
                                           }).catch(function(err) {
 
@@ -3099,7 +3099,7 @@ Template.newsidenav.onRendered(function() {
                       }, 1000);
                     }
                       addVS1Data('TBillEx', JSON.stringify(data));
-                      $("<span class='process'>Bills Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                      $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                       templateObject.getFollowedAllObjectPull();
                   }).catch(function(err) {
 
@@ -3176,7 +3176,7 @@ Template.newsidenav.onRendered(function() {
                             }, 1000);
                           }
                             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                            $("<span class='process'>Purchase Orders Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                            $("<span class='process'>Purchase Orders Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                             //templateObject.getFollowedAllObjectPull();
                             templateObject.getFollowedBillDetailsPull();
                         }).catch(function(err) {
@@ -3216,7 +3216,7 @@ Template.newsidenav.onRendered(function() {
                                 }, 1000);
                               }
                                 addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                                $("<span class='process'>Purchase Order Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                $("<span class='process'>Purchase Order Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                 //templateObject.getFollowedAllObjectPull();
                                 templateObject.getFollowedBillDetailsPull();
                             }).catch(function(err) {
@@ -3257,7 +3257,7 @@ Template.newsidenav.onRendered(function() {
                                             }, 1000);
                                           }
                                             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                                            $("<span class='process'>Purchase Order Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                            $("<span class='process'>Purchase Order Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                             //templateObject.getFollowedAllObjectPull();
                                             templateObject.getFollowedBillDetailsPull();
                                         }).catch(function(err) {
@@ -3301,7 +3301,7 @@ Template.newsidenav.onRendered(function() {
                         }, 1000);
                       }
                         addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
-                        $("<span class='process'>Purchase Order Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                        $("<span class='process'>Purchase Order Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                         //templateObject.getFollowedAllObjectPull();
                         templateObject.getFollowedBillDetailsPull();
                     }).catch(function(err) {
@@ -3544,7 +3544,7 @@ Template.newsidenav.onRendered(function() {
                             }, 1000);
                           }
                             addVS1Data('TAppointment', JSON.stringify(data));
-                            $("<span class='process'>Appointments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                            $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
 
                             setTimeout(function() {
                             templateObject.getFollowedPurchaseDetailsPull();
@@ -3589,7 +3589,7 @@ Template.newsidenav.onRendered(function() {
                                         }, 1000);
                                       }
                                         addVS1Data('TAppointment', JSON.stringify(data));
-                                        $("<span class='process'>Appointments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                        $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                         setTimeout(function() {
                                         templateObject.getFollowedPurchaseDetailsPull();
                                       }, 1000);
@@ -3636,7 +3636,7 @@ Template.newsidenav.onRendered(function() {
                         }, 1000);
                       }
                         addVS1Data('TAppointment', JSON.stringify(data));
-                        $("<span class='process'>Appointments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                        $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                         setTimeout(function() {
                         templateObject.getFollowedPurchaseDetailsPull();
                       }, 1000);
@@ -3767,7 +3767,7 @@ Template.newsidenav.onRendered(function() {
                             }, 1000);
                           }
                             addVS1Data('TInvoiceEx', JSON.stringify(data));
-                            $("<span class='process'>Invoices Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                            $("<span class='process'>Invoices Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                             templateObject.getFollowedQuickDataDetailsPull();
                         }).catch(function(err) {
                             templateObject.getFollowedQuickDataDetailsPull();
@@ -3805,7 +3805,7 @@ Template.newsidenav.onRendered(function() {
                                 }, 1000);
                               }
                                 addVS1Data('TInvoiceEx', JSON.stringify(data));
-                                $("<span class='process'>Invoices Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                $("<span class='process'>Invoices Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                 //setTimeout(function() {
                                 templateObject.getFollowedQuickDataDetailsPull();
                                 //}, 3000);
@@ -3849,7 +3849,7 @@ Template.newsidenav.onRendered(function() {
                                             }, 1000);
                                           }
                                             addVS1Data('TInvoiceEx', JSON.stringify(data));
-                                            $("<span class='process'>Invoices Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                            $("<span class='process'>Invoices Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                             //setTimeout(function() {
                                             templateObject.getFollowedQuickDataDetailsPull();
                                             //  }, 3000);
@@ -3896,7 +3896,7 @@ Template.newsidenav.onRendered(function() {
                         }, 1000);
                       }
                         addVS1Data('TInvoiceEx', JSON.stringify(data));
-                        $("<span class='process'>Invoices Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                        $("<span class='process'>Invoices Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                         //setTimeout(function() {
                         templateObject.getFollowedQuickDataDetailsPull();
                         //}, 3000);
@@ -4081,7 +4081,7 @@ Template.newsidenav.onRendered(function() {
                             }, 1000);
                           }
                             addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
-                            $("<span class='process'>Contacts Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                            $("<span class='process'>Contacts Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                             templateObject.getFollowedSalesDetailsPull();
                         }).catch(function(err) {
                             templateObject.getFollowedSalesDetailsPull();
@@ -4119,7 +4119,7 @@ Template.newsidenav.onRendered(function() {
                         }, 1000);
                       }
                         addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
-                        $("<span class='process'>Contacts Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                        $("<span class='process'>Contacts Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                         templateObject.getFollowedSalesDetailsPull();
                     }).catch(function(err) {
                         templateObject.getFollowedSalesDetailsPull();
@@ -4236,7 +4236,7 @@ Template.newsidenav.onRendered(function() {
                 }, 1000);
               }
                 addVS1Data('TAppointment', JSON.stringify(data));
-                $("<span class='process'>Appointments Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
             }).catch(function(err) {
 
             });
@@ -4343,7 +4343,7 @@ Template.newsidenav.onRendered(function() {
                           }, 1000);
                         }
                           addVS1Data('TProductVS1', JSON.stringify(data));
-                          $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                          $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                           templateObject.getFollowedContactDetailsPull();
                       }).catch(function(err) {
                           templateObject.getFollowedContactDetailsPull();
@@ -4382,7 +4382,7 @@ Template.newsidenav.onRendered(function() {
                                       }, 1000);
                                     }
                                       addVS1Data('TProductVS1', JSON.stringify(data));
-                                      $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                      $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                       templateObject.getFollowedContactDetailsPull();
                                   }).catch(function(err) {
                                       templateObject.getFollowedContactDetailsPull();
@@ -4423,7 +4423,7 @@ Template.newsidenav.onRendered(function() {
                       }, 1000);
                     }
                       addVS1Data('TProductVS1', JSON.stringify(data));
-                      $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                      $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                       templateObject.getFollowedContactDetailsPull();
                   }).catch(function(err) {
                       templateObject.getFollowedContactDetailsPull();
@@ -4495,7 +4495,7 @@ Template.newsidenav.onRendered(function() {
                 }, 1000);
               }
                 addVS1Data('TProductVS1', JSON.stringify(data));
-                $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                 templateObject.getFollowedContactDetailsPull();
             }).catch(function(err) {});
 
@@ -4572,7 +4572,7 @@ Template.newsidenav.onRendered(function() {
                         }, 1000);
                       }
                         addVS1Data('TProductVS1', JSON.stringify(data));
-                        $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                        $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                         templateObject.getFollowedContactDetailsPull();
                     }).catch(function(err) {
                         templateObject.getFollowedContactDetailsPull();
@@ -4611,7 +4611,7 @@ Template.newsidenav.onRendered(function() {
                                     }, 1000);
                                   }
                                     addVS1Data('TProductVS1', JSON.stringify(data));
-                                    $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                                    $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                     templateObject.getFollowedContactDetailsPull();
                                 }).catch(function(err) {
                                     templateObject.getFollowedContactDetailsPull();
@@ -4652,7 +4652,7 @@ Template.newsidenav.onRendered(function() {
                     }, 1000);
                   }
                     addVS1Data('TProductVS1', JSON.stringify(data));
-                    $("<span class='process'>Products Loaded <i class='fas fa-check'></i><br></span>").insertAfter(".processContainerAnchor");
+                    $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                     templateObject.getFollowedContactDetailsPull();
                 }).catch(function(err) {
                     templateObject.getFollowedContactDetailsPull();
