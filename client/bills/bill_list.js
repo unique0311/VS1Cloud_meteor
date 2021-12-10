@@ -790,7 +790,6 @@ Template.billlist.events({
 
 
                     }
-                    console.log(dataTableList);
                     templateObject.datatablerecords.set(dataTableList);
                     let item = templateObject.datatablerecords.get();
                     $('.fullScreenSpin').css('display', 'none');
