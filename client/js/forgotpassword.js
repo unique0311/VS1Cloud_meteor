@@ -13,6 +13,12 @@ Template.forgotpassword.onCreated(function(){
   const templateObject = Template.instance();
 });
 
+Template.forgotpassword.onRendered(function () {
+  setTimeout(function(){
+  $("#email").val(localStorage.getItem('usremail') || '');
+  console.log(localStorage.getItem('usremail'));
+},500);
+});
 
 Template.forgotpassword.events({
   'click #reset-button':function(){

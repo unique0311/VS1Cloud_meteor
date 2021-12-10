@@ -105,6 +105,25 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TSalesOrderEx, options);
   }
 
+   getNewPoByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[ClientName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
+  }
+
+
+   getNewBillByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[SupplierName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TBillEx, options);
+  }
+
   getAllJobssDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
