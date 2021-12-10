@@ -892,7 +892,7 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_Account) {
-                productService.getGlobalSearchReportByType(segs[1], "Account").then(function(data) {
+                productService.getGlobalSearchAccount(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -900,16 +900,22 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Account") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/accountsoverview?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    console.log(data.taccountvs1.length);
+                    if(data.taccountvs1.length > 0){
+                      window.open('/accountsoverview?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
+                    // for (let i = 0; i < data.tglobalsearchreport.length; i++) {
+                    //     if (data.tglobalsearchreport[i].Type === "Account") {
+                    //         dataSelectID = data.tglobalsearchreport[i].TransId || '';
+                    //         if(dataSelectID != ''){
+                    //           window.open('/accountsoverview?id=' + dataSelectID, '_self');
+                    //         }
+                    //     } else {
+                    //       $('.fullScreenSpin').css('display', 'none');
+                    //     }
+                    // }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');

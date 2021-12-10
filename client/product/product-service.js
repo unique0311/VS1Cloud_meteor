@@ -22,6 +22,13 @@ export class ProductService extends BaseService {
       return this.getList(this.ERPObjects.TGlobalSearchReport, options);
   }
 
+  getGlobalSearchAccount(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Active]=true",
+      };
+      return this.getList(this.ERPObjects.TAccountVS1, options);
+  }
+
     getRecentTransactions() {
         let options = {
             PropertyList: "ProductID,ProductName,ProductID,ProductDescription,TransactionType,Total Profit (Inc),UnitOfMeasure,SaleDate,TransactionNo,Qty,Line Cost (Ex),Total Amount (Ex)",
