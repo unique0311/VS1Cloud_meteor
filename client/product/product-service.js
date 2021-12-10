@@ -29,6 +29,85 @@ export class ProductService extends BaseService {
       return this.getList(this.ERPObjects.TAccountVS1, options);
   }
 
+  getGlobalSearchProduct(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Active]=true",
+      };
+      return this.getList(this.ERPObjects.TProductVS1, options);
+  }
+
+  getGlobalSearchSupplier(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Active]=true",
+      };
+      return this.getList(this.ERPObjects.TSupplierVS1, options);
+  }
+
+  getGlobalSearchCustomer(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Active]=true",
+      };
+      return this.getList(this.ERPObjects.TCustomerVS1, options);
+  }
+
+  getGlobalSearchTimeSheet(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Active]=true",
+      };
+      return this.getList(this.ERPObjects.TTimeSheet, options);
+  }
+
+  getGlobalSearchJournalEntry(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TJournalEntry, options);
+  }
+
+  getGlobalSearchPO(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
+  }
+
+  getGlobalSearchBill(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TBillEx, options);
+  }
+
+  getGlobalSearchPayment(searchName){
+      let options = {
+        IgnoreDates:true,
+        select: "[PaymentID]='"+searchName+"' and [Deleted]=false",
+        PaymentID:"'"+searchName+"'"
+      };
+      return this.getList(this.ERPObjects.TPaymentList, options);
+  }
+
+  getGlobalSearchRefund(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TRefundSale, options);
+  }
+
+  getGlobalSearchEmployee(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Active]=true",
+      };
+      return this.getList(this.ERPObjects.TEmployee, options);
+  }
+
+  getGlobalSearchStockAdjust(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TStockAdjustEntry, options);
+  }
+
     getRecentTransactions() {
         let options = {
             PropertyList: "ProductID,ProductName,ProductID,ProductDescription,TransactionType,Total Profit (Inc),UnitOfMeasure,SaleDate,TransactionNo,Qty,Line Cost (Ex),Total Amount (Ex)",

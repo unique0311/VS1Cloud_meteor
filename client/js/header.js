@@ -565,7 +565,8 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_StockAdjust) {
-                productService.getGlobalSearchReportByType(segs[1], "Stock Adjustment").then(function(data) {
+
+                productService.getGlobalSearchStockAdjust(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -573,22 +574,19 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Stock Adjustment") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/stockadjustmentcard?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.tstockadjustentry.length > 0){
+                        window.open('/stockadjustmentcard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_Employee) {
-                productService.getGlobalSearchReportByType(segs[1], "Employee").then(function(data) {
+
+                productService.getGlobalSearchEmployee(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -596,15 +594,11 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Employee") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/employeescard?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.temployee.length > 0){
+                        window.open('/employeescard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
@@ -622,7 +616,7 @@ Template.header.onRendered(function() {
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Invoice") {
                             dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
+                            if(dataSelectID != '' && dataSelectID == segs[1]){
                               window.open('/invoicecard?id=' + dataSelectID, '_self');
                             }
                         } else {
@@ -645,7 +639,7 @@ Template.header.onRendered(function() {
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Sales Order") {
                             dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
+                            if(dataSelectID != '' && dataSelectID == segs[1]){
                               window.open('/salesordercard?id=' + dataSelectID, '_self');
                             }
                         } else {
@@ -668,8 +662,10 @@ Template.header.onRendered(function() {
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Quote") {
                             dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
+                            if(dataSelectID != '' && dataSelectID == segs[1]){
                               window.open('/quotecard?id=' + dataSelectID, '_self');
+                            }else{
+                              $('.fullScreenSpin').css('display', 'none');
                             }
                         } else {
                           $('.fullScreenSpin').css('display', 'none');
@@ -679,8 +675,10 @@ Template.header.onRendered(function() {
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
+
             }else if (segs[0] == Barcode_Prefix_Refund) {
-                productService.getGlobalSearchReportByType(segs[1], "Refund").then(function(data) {
+
+                productService.getGlobalSearchRefund(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -688,22 +686,18 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Refund") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/refundcard?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.trefundsale.length > 0){
+                        window.open('/refundcard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_Payment) {
-                productService.getGlobalSearchReportByType(segs[1], "Payment").then(function(data) {
+                /*productService.getGlobalSearchReportByType(segs[1], "General Ledger").then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -729,9 +723,9 @@ Template.header.onRendered(function() {
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
-                });
-            }else if (segs[0] == Barcode_Prefix_Bill) {
-                productService.getGlobalSearchReportByType(segs[1], "Bill").then(function(data) {
+                }); */
+
+                productService.getGlobalSearchPayment(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -739,22 +733,48 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Bill") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/billcard?id=' + dataSelectID, '_self');
+                    dataSelectID = segs[1] || '';
+                    if(data.tpaymentlist.length > 0){
+                          for(let i=0; i<data.tpaymentlist.length; i++){
+                            if(data.tpaymentlist[i].TYPE =="Customer Payment" && data.tpaymentlist[i].PaymentID ==dataSelectID){
+                                window.open('/paymentcard?id=' + dataSelectID, '_self');
+                            }else if(data.tpaymentlist[i].TYPE =="Supplier Payment" && data.tpaymentlist[i].PaymentID ==dataSelectID){
+                                window.open('/supplierpaymentcard?id=' + dataSelectID, '_self');
+                            }else{
+                               window.open('/paymentoverview', '_self');
                             }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                          }
+
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
+                    }
+
+                }).catch(function(err) {
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+            }else if (segs[0] == Barcode_Prefix_Bill) {
+
+                productService.getGlobalSearchBill(segs[1]).then(function(data) {
+                    let dataSelectID = '';
+                    let isProcessed = '';
+                    var splashArrayList = new Array();
+                    var splashArrayListDupp = new Array();
+                    $('.fullScreenSpin').css('display', 'none');
+                    let dataTableList = [];
+                    let dataTableListDupp = [];
+                    dataSelectID = segs[1] || '';
+                    if(data.tbillex.length > 0){
+                        window.open('/billcard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_PurchaseOrder) {
-                productService.getGlobalSearchReportByType(segs[1], "Purchase Order").then(function(data) {
+
+                productService.getGlobalSearchPO(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -762,22 +782,19 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "PO" || data.tglobalsearchreport[i].Type === "Purchase Order") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/purchaseordercard?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.tpurchaseorderex.length > 0){
+                        window.open('/purchaseordercard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
-            }else if (segs[0] == Barcode_Prefix_StockTransfer) {
-                productService.getGlobalSearchReportByType(segs[1], "Journal").then(function(data) {
+            }else if (segs[0] == Barcode_Prefix_Journal) {
+
+                productService.getGlobalSearchJournalEntry(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -785,22 +802,18 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Journal") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/journalentrycard?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.tjournalentry.length > 0){
+                        window.open('/journalentrycard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_TimeSheet) {
-                productService.getGlobalSearchReportByType(segs[1], "Time Sheet").then(function(data) {
+                productService.getGlobalSearchTimeSheet(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -808,22 +821,19 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Time Sheet") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/timesheet?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.ttimesheet.length > 0){
+                        window.open('/timesheet?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_Customer) {
-                productService.getGlobalSearchReportByType(segs[1], "Client").then(function(data) {
+
+                productService.getGlobalSearchCustomer(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -831,22 +841,18 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Customer") {
-                            dataSelectID = data.tglobalsearchreport[i].ID || '';
-                            if(dataSelectID != ''){
-                              window.open('/customerscard?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.tcustomervs1.length > 0){
+                        window.open('/customerscard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_Supplier) {
-                productService.getGlobalSearchReportByType(segs[1], "Client").then(function(data) {
+                productService.getGlobalSearchSupplier(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -854,22 +860,18 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Supplier") {
-                            dataSelectID = data.tglobalsearchreport[i].ID || '';
-                            if(dataSelectID != ''){
-                              window.open('/supplierscard?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.tsuppliervs1.length > 0){
+                        window.open('/supplierscard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
             }else if (segs[0] == Barcode_Prefix_Product) {
-                productService.getGlobalSearchReportByType(segs[1], "Product").then(function(data) {
+                productService.getGlobalSearchProduct(segs[1]).then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
                     var splashArrayList = new Array();
@@ -877,15 +879,11 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                        if (data.tglobalsearchreport[i].Type === "Product") {
-                            dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                            if(dataSelectID != ''){
-                              window.open('/productview?id=' + dataSelectID, '_self');
-                            }
-                        } else {
-                          $('.fullScreenSpin').css('display', 'none');
-                        }
+                    dataSelectID = segs[1] || '';
+                    if(data.tproductvs1.length > 0){
+                        window.open('/productview?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
                     }
 
                 }).catch(function(err) {
@@ -900,22 +898,12 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
-                    console.log(data.taccountvs1.length);
+                    dataSelectID = segs[1] || '';
                     if(data.taccountvs1.length > 0){
                       window.open('/accountsoverview?id=' + dataSelectID, '_self');
                     }else{
                       $('.fullScreenSpin').css('display', 'none');
                     }
-                    // for (let i = 0; i < data.tglobalsearchreport.length; i++) {
-                    //     if (data.tglobalsearchreport[i].Type === "Account") {
-                    //         dataSelectID = data.tglobalsearchreport[i].TransId || '';
-                    //         if(dataSelectID != ''){
-                    //           window.open('/accountsoverview?id=' + dataSelectID, '_self');
-                    //         }
-                    //     } else {
-                    //       $('.fullScreenSpin').css('display', 'none');
-                    //     }
-                    // }
 
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
