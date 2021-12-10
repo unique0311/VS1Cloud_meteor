@@ -132,9 +132,7 @@ Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
     let allDataToLoad = 48;
     let progressPercentage = 0;
-    // $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-    // $('.headerprogressbar').addClass('headerprogressbarShow');
-    // $('.headerprogressbar').removeClass('headerprogressbarHidden');
+
     let templateObject = Template.instance();
 
     let employeeLoggedUserAccess = Session.get('ERPSolidCurrentUSerAccess');
@@ -661,6 +659,11 @@ Template.newsidenav.onRendered(function() {
 
     let isGreenTrack = Session.get('isGreenTrack');
     let loggedUserEventFired = Session.get('LoggedUserEventFired');
+    if(loggedUserEventFired){
+    $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+    $('.headerprogressbar').addClass('headerprogressbarShow');
+    $('.headerprogressbar').removeClass('headerprogressbarHidden');
+   }
     if (isGreenTrack) {
         $(".navbar").css("background-color", "#00a969");
 
@@ -2875,6 +2878,17 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getAllTTransactionListReportData();
                 });
             }
+            if(progressPercentage == 0){
+              $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
+              $(".progressBarInner").text(""+Math.round(100)+"%");
+              $('.checkmarkwrapper').removeClass("hide");
+              $('.process').addClass('killProgressBar');
+              setTimeout(function() {
+              $('.headerprogressbar').removeClass('headerprogressbarShow');
+              $('.headerprogressbar').addClass('headerprogressbarHidden');
+              $('.headerprogressbar').addClass('killProgressBar');
+             }, 5000);
+            }
         }, 3000);
 
         setTimeout(function() {
@@ -3100,14 +3114,24 @@ Template.newsidenav.onRendered(function() {
                         templateObject.getAllTChequeData();
                     } else {
                         let data = JSON.parse(dataObject[0].data);
-                        let useData = data.tcheque;
+                        let useData = data.tchequeex;
                         if (useData.length > 0) {
                             if (useData[0].Id) {
                                 templateObject.getAllTChequeData();
+                            }else{
+                              let getTimeStamp = dataObject[0].timestamp.split(' ');
+                              if (getTimeStamp) {
+                                  if (loggedUserEventFired) {
+                                      if (getTimeStamp[0] != currenctTodayDate) {
+                                          templateObject.getAllTChequeData();
+                                      }
+                                  }
+                              }
                             }
                         }
                     }
                 }).catch(function(err) {
+                  console.log(err);
                     templateObject.getAllTChequeData();
                 });
 
@@ -3320,14 +3344,24 @@ Template.newsidenav.onRendered(function() {
                             templateObject.getAllTChequeData();
                         } else {
                             let data = JSON.parse(dataObject[0].data);
-                            let useData = data.tcheque;
+                            let useData = data.tchequeex;
                             if (useData.length > 0) {
                                 if (useData[0].Id) {
                                     templateObject.getAllTChequeData();
+                                }else{
+                                  let getTimeStamp = dataObject[0].timestamp.split(' ');
+                                  if (getTimeStamp) {
+                                      if (loggedUserEventFired) {
+                                          if (getTimeStamp[0] != currenctTodayDate) {
+                                              templateObject.getAllTChequeData();
+                                          }
+                                      }
+                                  }
                                 }
                             }
                         }
                     }).catch(function(err) {
+                      console.log(err);
                         templateObject.getAllTChequeData();
                     });
 
@@ -3565,7 +3599,6 @@ Template.newsidenav.onRendered(function() {
                                       }, 1000);
                                     });
                                 }else{
-                                  // alert('hre');
                                   setTimeout(function() {
                                   templateObject.getFollowedPurchaseDetailsPull();
                                 }, 1000);
