@@ -822,14 +822,14 @@ Template.billlist.events({
                     $('.fullScreenSpin').css('display', 'none');
                     swal({
                         title: 'Question',
-                        text: "Purchase does not exist, would you like to create it?",
+                        text: "Bill does not exist, would you like to create it?",
                         type: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Yes',
                         cancelButtonText: 'No'
                     }).then((result) => {
                         if (result.value) {
-                            FlowRouter.go('/purchaseordercard');
+                            FlowRouter.go('/billcard');
                         } else if (result.dismiss === 'cancel') {
                             //$('#productListModal').modal('toggle');
                         }

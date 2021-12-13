@@ -109,7 +109,7 @@ export class SideBarService extends BaseService {
     let options = '';
        options = {
         ListType: "Detail",
-        select: '[ClientName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'"'
+        select: '[ClientName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'" AND [Deleted]=false'
        };
     return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
   }
@@ -119,9 +119,18 @@ export class SideBarService extends BaseService {
     let options = '';
        options = {
         ListType: "Detail",
-        select: '[SupplierName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'"'
+        select: '[SupplierName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'" AND [Deleted]=false'
        };
     return this.getList(this.ERPObjects.TBillEx, options);
+  }
+
+   getNewCreditByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[SupplierName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'" AND [Deleted]=false'
+       };
+    return this.getList(this.ERPObjects.TCredit, options);
   }
 
   getAllJobssDataVS1(limitcount, limitfrom) {
