@@ -3735,7 +3735,8 @@ Template.customerscard.events({
 
         } else {
             let custdupID = 0;
-            let checkCustData = await contactService.getCheckCustomersData(company);
+            let checkCustData = await contactService.getCheckCustomersData(company)||'';
+            if(checkCustData != ''){
             if (checkCustData.tcustomer.length) {
                 custdupID = checkCustData.tcustomer[0].Id;
                 objDetails = {
@@ -3823,6 +3824,49 @@ Template.customerscard.events({
                     }
                 };
             };
+          }else{
+            objDetails = {
+                type: "TCustomerEx",
+                fields: {
+                    Title: title,
+                    ClientName: company,
+                    FirstName: firstname,
+                    CUSTFLD10: middlename,
+                    LastName: lastname,
+                    PublishOnVS1: true,
+                    Email: email,
+                    Phone: phone,
+                    Mobile: mobile,
+                    SkypeName: skype,
+                    Faxnumber: fax,
+                    ClientTypeName: customerType,
+                    Street: streetAddress,
+                    Street2: city,
+                    Suburb: city,
+                    State: state,
+                    PostCode: postalcode,
+                    Country: country,
+                    BillStreet: bstreetAddress,
+                    BillStreet2: bcity,
+                    BillState: bstate,
+                    BillPostCode: bzipcode,
+                    Billcountry: bcountry,
+                    IsSupplier:isSupplier,
+                    Notes: notes,
+                    URL: website,
+                    PaymentMethodName: sltPaymentMethodName,
+                    TermsName: sltTermsName,
+                    ShippingMethodName: sltShippingMethodName,
+                    TaxCodeName: sltTaxCodeName,
+                    Attachments: uploadedItems,
+                    CUSTFLD1: custField1,
+                    CUSTFLD2: custField2,
+                    CUSTFLD3: custField3,
+                    CUSTFLD4: custField4,
+                    Discount:parseFloat(permanentDiscount)||0
+                }
+            };
+          }
 
 
         }
