@@ -748,7 +748,97 @@ Template.supplierpayment.events({
           }
         },
         'click .btnRefreshSupplierPayment':function(event){
-        $(".btnRefresh").trigger("click");
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let tableProductList;
+        const dataTableList = [];
+        var splashArrayInvoiceList = new Array();
+        const lineExtaSellItems = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataSearchName = $('#tblSupplierPayment_filter input').val();
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getNewSupplierPaymentByNameOrID(dataSearchName).then(function (data) {
+                $(".btnRefreshSupplierPayment").removeClass('btnSearchAlert');
+                let lineItems = [];
+
+            if (data.tsupplierpayment.length > 0) {
+                for (let i = 0; i < data.tsupplierpayment.length; i++) {
+                  let amount = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Amount)|| 0.00;
+                  let applied = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Applied) || 0.00;
+                  // Currency+''+data.tsupplierpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let balance = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Balance)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.TotalPaid)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.TotalBalance)|| 0.00;
+                  var dataList = {
+                      id: data.tsupplierpayment[i].fields.ID || '',
+                      sortdate: data.tsupplierpayment[i].fields.PaymentDate !=''? moment(data.tsupplierpayment[i].fields.PaymentDate).format("YYYY/MM/DD"): data.tsupplierpayment[i].fields.PaymentDate,
+                      paymentdate: data.tsupplierpayment[i].fields.PaymentDate !=''? moment(data.tsupplierpayment[i].fields.PaymentDate).format("DD/MM/YYYY"): data.tsupplierpayment[i].fields.PaymentDate,
+                      customername: data.tsupplierpayment[i].fields.CompanyName || '',
+                      paymentamount: amount || 0.00,
+                      applied: applied || 0.00,
+                      balance: balance || 0.00,
+                      bankaccount: data.tsupplierpayment[i].fields.AccountName || '',
+                      department: data.tsupplierpayment[i].fields.DeptClassName || '',
+                      refno: data.tsupplierpayment[i].fields.ReferenceNo || '',
+                      paymentmethod: data.tsupplierpayment[i].fields.PaymentMethodName || '',
+                      notes: data.tsupplierpayment[i].fields.Notes || ''
+              
+                }
+                dataTableList.push(dataList);
+            }
+                    templateObject.datatablerecords.set(dataTableList);
+
+                    let item = templateObject.datatablerecords.get();
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (dataTableList) {
+                        var datatable = $('#tblSupplierPayment').DataTable();
+                        $("#tblSupplierPayment > tbody").empty();
+                        for (let x = 0; x < item.length; x++) {
+                            $("#tblSupplierPayment > tbody").append(
+                                ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
+                                '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
+                                '<td contenteditable="false" class="colPaymentDate" ><span style="display:none;">' + item[x].sortdate + '</span>' + item[x].paymentdate + '</td>' +
+                                '<td contenteditable="false" class="colPaymentNo">' + item[x].id + '</td>' +
+                                '<td contenteditable="false" class="colReceiptNo" >' + item[x].refno + '</td>' +
+                                '<td contenteditable="false" class="colPaymentAmount">' + item[x].paymentamount + '</td>' +
+                                '<td contenteditable="false" class="colCustomerName">' + item[x].customername + '</td>' +
+                                '<td contenteditable="false" class="colBankAccount">' + item[x].bankaccount + '</td>' +
+                                '<td contenteditable="false" class="colDepartment">' + item[x].department + '</td>' +
+                                '<td contenteditable="false" class="colRefNo hiddenColumn">' + item[x].refno + '</td>' +
+                                '<td contenteditable="false" class="colPaymentMethod hiddenColumn">' + item[x].paymentmethod + '</td>' +
+                                '<td contenteditable="false" class="colNotes">' + item[x].notes + '</td>' +
+                                '</tr>');
+
+                        }
+                        $('.dataTables_info').html('Showing ' + data.tsupplierpayment.length + ' of ' + data.tsupplierpayment.length + ' entries');
+
+                    }
+
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+
+                    swal({
+                        title: 'Question',
+                        text: "Payment does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            FlowRouter.go('/supplierawaitingpurchaseorder');
+                        } else if (result.dismiss === 'cancel') {
+                            //$('#productListModal').modal('toggle');
+                        }
+                    });
+                }
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+
+          $(".btnRefresh").trigger("click");
+        }
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
