@@ -780,8 +780,105 @@ Template.customerpayment.events({
              $(".btnRefreshCustomerPayment").trigger("click");
           }
         },
-        'click .btnRefreshCustomerPayment':function(event){
-        $(".btnRefresh").trigger("click");
+    'click .btnRefreshCustomerPayment':function(event){
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let tableProductList;
+        const dataTableList = [];
+        var splashArrayInvoiceList = new Array();
+        const lineExtaSellItems = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataSearchName = $('#tblCustomerPayment_filter input').val();
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getNewCustomerPaymentByNameOrID(dataSearchName).then(function (data) {
+                $(".btnRefreshCustomerPayment").removeClass('btnSearchAlert');
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.tcustomerpayment.length > 0) {
+                for (let i = 0; i < data.tcustomerpayment.length; i++) {
+                    let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Amount)|| 0.00;
+                  let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Applied) || 0.00;
+                  // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Balance)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalPaid)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalBalance)|| 0.00;
+                  var dataList = {
+                      id: data.tcustomerpayment[i].fields.ID || '',
+                      sortdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("YYYY/MM/DD"): data.tcustomerpayment[i].fields.PaymentDate,
+                      paymentdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("DD/MM/YYYY"): data.tcustomerpayment[i].fields.PaymentDate,
+                      customername: data.tcustomerpayment[i].fields.CompanyName || '',
+                      paymentamount: amount || 0.00,
+                      applied: applied || 0.00,
+                      balance: balance || 0.00,
+                      bankaccount: data.tcustomerpayment[i].fields.AccountName || '',
+                      department: data.tcustomerpayment[i].fields.DeptClassName || '',
+                      refno: data.tcustomerpayment[i].fields.ReferenceNo || '',
+                      paymentmethod: data.tcustomerpayment[i].fields.PaymentMethodName || '',
+                      notes: data.tcustomerpayment[i].fields.Notes || ''
+                    };
+
+                        //if(data.tinvoiceex[i].fields.Deleted == false){
+                        //splashArrayInvoiceList.push(dataList);
+                        dataTableList.push(dataList);
+                        //}
+
+
+                        //}
+                    }
+                    console.log(dataTableList);
+                    templateObject.datatablerecords.set(dataTableList);
+
+                    let item = templateObject.datatablerecords.get();
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (dataTableList) {
+                        var datatable = $('#tblCustomerPayment').DataTable();
+                        $("#tblCustomerPayment > tbody").empty();
+                        for (let x = 0; x < item.length; x++) {
+                            $("#tblCustomerPayment > tbody").append(
+                                ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
+                                '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
+                                '<td contenteditable="false" class="colPaymentDate" ><span style="display:none;">' + item[x].sortdate + '</span>' + item[x].paymentdate + '</td>' +
+                                '<td contenteditable="false" class="colPaymentNo">' + item[x].id + '</td>' +
+                                '<td contenteditable="false" class="colReceiptNo" >' + item[x].refno + '</td>' +
+                                '<td contenteditable="false" class="colPaymentAmount">' + item[x].paymentamount + '</td>' +
+                                '<td contenteditable="false" class="colCustomerName">' + item[x].customername + '</td>' +
+                                '<td contenteditable="false" class="colBankAccount">' + item[x].bankaccount + '</td>' +
+                                '<td contenteditable="false" class="colDepartment">' + item[x].department + '</td>' +
+                                '<td contenteditable="false" class="colRefNo hiddenColumn">' + item[x].refno + '</td>' +
+                                '<td contenteditable="false" class="colPaymentMethod hiddenColumn">' + item[x].paymentmethod + '</td>' +
+                                '<td contenteditable="false" class="colNotes">' + item[x].notes + '</td>' +
+                                '</tr>');
+
+                        }
+                        $('.dataTables_info').html('Showing ' + data.tcustomerpayment.length + ' of ' + data.tcustomerpayment.length + ' entries');
+
+                    }
+
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+
+                    swal({
+                        title: 'Question',
+                        text: "Payment does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            FlowRouter.go('/customerawaitingpayments');
+                        } else if (result.dismiss === 'cancel') {
+                            //$('#productListModal').modal('toggle');
+                        }
+                    });
+                }
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+
+          $(".btnRefresh").trigger("click");
+        }
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});

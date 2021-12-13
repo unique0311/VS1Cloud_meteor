@@ -133,6 +133,15 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TCredit, options);
   }
 
+  getNewCustomerPaymentByNameOrID(dataSearchName) {
+    let options = '';
+       options = {
+        ListType: "Detail",
+        select: '[CompanyName] f7like "'+dataSearchName+'" OR [ID] f7like "'+dataSearchName+'" AND [Deleted]=false'
+       };
+    return this.getList(this.ERPObjects.TCustomerPayment, options);
+  }
+
   getAllJobssDataVS1(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
