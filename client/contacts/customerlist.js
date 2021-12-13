@@ -849,8 +849,102 @@ Template.customerlist.events({
              $(".btnRefreshCustomers").trigger("click");
           }
         },
-        'click .btnRefreshCustomers':function(event){
-        $(".btnRefresh").trigger("click");
+    'click .btnRefreshCustomers':function(event){
+        let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let tableProductList;
+        const dataTableList = [];
+        var splashArrayInvoiceList = new Array();
+        const lineExtaSellItems = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataSearchName = $('#tblCustomerlist_filter input').val();
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getNewCustomerByNameOrID(dataSearchName).then(function (data) {
+                $(".btnRefreshCustomers").removeClass('btnSearchAlert');
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.tcustomervs1.length > 0) {
+                    for (let i = 0; i < data.tcustomervs1.length; i++) {
+                        let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance)|| 0.00;
+                        let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                        let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance)|| 0.00;
+                        let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit)|| 0.00;
+                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance)|| 0.00;
+                        var dataList = {
+                            id: data.tcustomervs1[i].fields.ID || '',
+                            company: data.tcustomervs1[i].fields.Companyname || '',
+                            contactname:data.tcustomervs1[i].fields.ContactName || '',
+                            phone: data.tcustomervs1[i].fields.Phone || '',
+                            arbalance: arBalance || 0.00,
+                            creditbalance: creditBalance || 0.00,
+                            balance: balance || 0.00,
+                            creditlimit: creditLimit || 0.00,
+                            salesorderbalance: salesOrderBalance || 0.00,
+                            email: data.tcustomervs1[i].fields.Email || '',
+                            job: data.tcustomervs1[i].fields.JobName || '',
+                            accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                            clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                            jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                            notes: data.tcustomervs1[i].fields.Notes || '',
+                            country: data.tcustomervs1[i].fields.Country || ''
+                        }
+                         dataTableList.push(dataList);
+                    }
+                   
+                    templateObject.datatablerecords.set(dataTableList);
+
+                    let item = templateObject.datatablerecords.get();
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (dataTableList) {
+                        var datatable = $('#tblCustomerlist').DataTable();
+                        $("#tblCustomerlist > tbody").empty();
+                        for (let x = 0; x < item.length; x++) {
+                            $("#tblCustomerlist > tbody").append(
+                                ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
+                                '<td contenteditable="false" class="colCompany">' + item[x].company + '</td>' +
+                                '<td contenteditable="false" class="colJob" >' + item[x].job + '</td>' +
+                                '<td contenteditable="false" class="colPhone">' + item[x].phone + '</td>' +
+                                '<td contenteditable="false" class="colARBalance" >' + item[x].arbalance + '</td>' +
+                                '<td contenteditable="false" class="colCreditBalance">' + item[x].creditbalance + '</td>' +
+                                '<td contenteditable="false" class="colBalance">' + item[x].balance + '</td>' +
+                                '<td contenteditable="false" class="colCreditLimit">' + item[x].creditlimit + '</td>' +
+                                '<td contenteditable="false" class="colSalesOrderBalance">' + item[x].salesorderbalance + '</td>' +
+                                '<td contenteditable="false" class="colCountry">' + item[x].country + '</td>' +
+                                '<td contenteditable="false" class="colEmail">' + item[x].email + '</td>' +
+                                '<td contenteditable="false" class="colAccountNo hiddenColumn">' + item[x].accountno + '</td>' +
+                                '<td contenteditable="false" class="colClientNo hiddenColumn">' + item[x].clientno + '</td>' +
+                                '<td contenteditable="false" class="colJobTitle hiddenColumn">' + item[x].jobtitle + '</td>' +
+                                '<td contenteditable="false" class="colNotes">' + item[x].notes + '</td>' +
+                                '</tr>');
+
+                        }
+                        $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+
+                    }
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+                    swal({
+                        title: 'Question',
+                        text: "Customer does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            FlowRouter.go('/customerscard');
+                        } else if (result.dismiss === 'cancel') {
+                            //$('#productListModal').modal('toggle');
+                        }
+                    });
+                }
+            
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+          $(".btnRefresh").trigger("click");
+        }
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
