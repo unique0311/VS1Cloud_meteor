@@ -5777,14 +5777,20 @@ Template.paymentcard.events({
             });
         } else if (url.indexOf('?selectcust=') > 0) {
             var getsale_id = url.split('?selectcust=');
-            let allData = "";
+            let allData = [];
+            let checkData = [];
             var currentSalesID = getsale_id[getsale_id.length - 1];
-            let getPayments = JSON.parse(Session.get('customerpayments')) || [];
+            checkData = Session.get('customerpayments') || [];
+            if(checkData.length > 0){
+            let getPayments = JSON.parse(Session.get('customerpayments') || []);
             if(getPayments.length > 0) {
                 allData = getPayments;
             } else {
                 allData = [];
             }
+        } else {
+            allData = [];
+        }
             if (getsale_id[1]) {
                 // currentSalesID = parseInt(currentSalesID);
                 $('.tblPaymentcard > tbody > tr').each(function() {

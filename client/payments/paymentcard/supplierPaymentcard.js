@@ -7527,7 +7527,20 @@ Template.supplierpaymentcard.events({
         } else if ((url.indexOf('?selectsupppo') > 0) && (url.indexOf('&selectsuppbill') > 0) && (url.indexOf('&selectsuppcredit') > 0)) {
             var getsale_id = url.split('?selectsupppo=');
             var currentSalesID = getsale_id[getsale_id.length - 1];
-            let allData = JSON.parse(Session.get('supplierpayments'));
+            let checkData = [];
+            let allData = [];
+
+           checkData = Session.get('supplierpayments') || [];
+            if(checkData.length > 0){
+            let getPayments = JSON.parse(Session.get('supplierpayments') || []);
+            if(getPayments.length > 0) {
+                allData = getPayments;
+            } else {
+                allData = [];
+            }
+        } else {
+            allData = [];
+        }
             $('.tblSupplierPaymentcard > tbody > tr').each(function() {
 
                 var lineID = this.id;
