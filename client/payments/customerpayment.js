@@ -825,7 +825,6 @@ Template.customerpayment.events({
 
                         //}
                     }
-                    console.log(dataTableList);
                     templateObject.datatablerecords.set(dataTableList);
 
                     let item = templateObject.datatablerecords.get();
