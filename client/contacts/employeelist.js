@@ -625,9 +625,100 @@ Template.employeelist.events({
           if (event.keyCode == 13) {
              $(".btnRefreshEmployees").trigger("click");
           }
-        },
-        'click .btnRefreshEmployees':function(event){
-        $(".btnRefresh").trigger("click");
+      },
+
+    'click .btnRefreshEmployees':function(event){
+         let templateObject = Template.instance();
+        let utilityService = new UtilityService();
+        let tableProductList;
+        const dataTableList = [];
+        var splashArrayInvoiceList = new Array();
+        const lineExtaSellItems = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        let dataSearchName = $('#tblEmployeelist_filter input').val();
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getNewEmployeeByNameOrID(dataSearchName).then(function (data) {
+                $(".btnRefreshEmployees").removeClass('btnSearchAlert');
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.temployee.length > 0) {
+                    for(let i=0; i<data.temployee.length; i++){
+                    var dataList = {
+                        id: data.temployee[i].fields.ID || '',
+                        employeeno: data.temployee[i].fields.EmployeeNo || '',
+                        employeename:data.temployee[i].fields.EmployeeName || '',
+                        firstname: data.temployee[i].fields.FirstName || '',
+                        lastname: data.temployee[i].fields.LastName || '',
+                        phone: data.temployee[i].fields.Phone || '',
+                        mobile: data.temployee[i].fields.Mobile || '',
+                        email: data.temployee[i].fields.Email || '',
+                        address: data.temployee[i].fields.Street || '',
+                        country: data.temployee[i].fields.Country || '',
+                        department: data.temployee[i].fields.DefaultClassName || '',
+                        custFld1: data.temployee[i].fields.CustFld1 || '',
+                        custFld2: data.temployee[i].fields.CustFld2 || '',
+                        custFld3: data.temployee[i].fields.CustFld3 || '',
+                        custFld4: data.temployee[i].fields.CustFld4 || ''
+                    };
+
+                    if(data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != ''){
+                        dataTableList.push(dataList);
+                    }
+                    //}
+                }
+                   
+                    templateObject.datatablerecords.set(dataTableList);
+
+                    let item = templateObject.datatablerecords.get();
+                    $('.fullScreenSpin').css('display', 'none');
+                    if (dataTableList) {
+                        var datatable = $('#tblEmployeelist').DataTable();
+                        $("#tblEmployeelist > tbody").empty();
+                        for (let x = 0; x < item.length; x++) {
+                            $("#tblEmployeelist > tbody").append(
+                                ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
+                                '<td contenteditable="false" class="colEmployeeID">' + item[x].id + '</td>' +
+                                '<td contenteditable="false" class="colEmployeeName" >' + item[x].employeename + '</td>' +
+                                '<td contenteditable="false" class="colFirstName">' + item[x].firstname + '</td>' +
+                                '<td contenteditable="false" class="colLastName" >' + item[x].lastname + '</td>' +
+                                '<td contenteditable="false" class="colPhone">' + item[x].phone + '</td>' +
+                                '<td contenteditable="false" class="colMobile">' + item[x].mobile + '</td>' +
+                                '<td contenteditable="false" class="colEmail">' + item[x].email + '</td>' +
+                                '<td contenteditable="false" class="colDepartment">' + item[x].department + '</td>' +
+                                '<td contenteditable="false" class="colCountry hiddenColumn">' + item[x].country + '</td>' +
+                                '<td contenteditable="false" class="colCustFld1 hiddenColumn">' + item[x].custFld1 + '</td>' +
+                                '<td contenteditable="false" class="colCustFld2 hiddenColumn">' + item[x].custFld2 + '</td>' +
+                                '<td contenteditable="false" class="colAddress">' + item[x].address + '</td>' +
+                                '</tr>');
+
+                        }
+                        $('.dataTables_info').html('Showing 1 to ' + data.temployee.length + ' of ' + data.temployee.length + ' entries');
+
+                    }
+                } else {
+                    $('.fullScreenSpin').css('display', 'none');
+                    swal({
+                        title: 'Question',
+                        text: "Employee does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            FlowRouter.go('/employeescard');
+                        } else if (result.dismiss === 'cancel') {
+                            //$('#productListModal').modal('toggle');
+                        }
+                    });
+                }
+            
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+          $(".btnRefresh").trigger("click");
+        }
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
