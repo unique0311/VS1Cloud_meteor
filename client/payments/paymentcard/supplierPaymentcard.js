@@ -8214,6 +8214,7 @@ Template.supplierpaymentcard.events({
 
     },
     'click #tblSupplierPaymentcard tr .colTransNo': function(event) {
+        if($('#addRow').prop('disabled') == false) {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $(".chkBox").prop("checked", false);
@@ -8254,6 +8255,7 @@ Template.supplierpaymentcard.events({
         templateObject.datatablerecords.set(paymentDataList);
         $('#supplierPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
+    }
     },
     'click .chkPaymentCard': function() {
         var listData = $(this).closest('tr').attr('id');

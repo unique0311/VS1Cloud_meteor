@@ -6406,6 +6406,7 @@ Template.paymentcard.events({
         // }
     },
     'click #tblPaymentcard tr .colTransNo': function(event) {
+    if($('#addRow').prop('disabled') == false) {
         let templateObject = Template.instance();
         $(".chkBox").prop("checked", false);
         let paymentList = [];
@@ -6435,6 +6436,7 @@ Template.paymentcard.events({
         templateObject.datatablerecords.set(paymentDataList);
         $('#customerPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
+    } 
     },
     'click .chkPaymentCard': function() {
         var listData = $(this).closest('tr').attr('id');
