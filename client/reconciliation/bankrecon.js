@@ -2177,7 +2177,8 @@ Template.bankrecon.events({
                 reconpayid: $('#vs1reconpayid_' + checkboxIDdepLine).text(),
                 depositLineID: depositLineIDDep || 0
             }
-            var reconamounttrimdep = (($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
+            var reconamounttrimdep = ($('#vs1reconamount_' + checkboxIDdepLine).text()).replace(/[^0-9.-]+/g, "")||0;
+            //(($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
             selectedTransAmountdep = selectedTransAmountdep + parseFloat(reconamounttrimdep);
             selectedtransactionsdep.push(transactionObj);
         });
@@ -2220,7 +2221,8 @@ Template.bankrecon.events({
                 reconpayid: $('#vs1reconpayidwith_' + checkboxIDwithLine).text(),
                 depositLineID: depositLineIDWith || 0
             }
-            var reconamounttrim = (($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
+            var reconamounttrim = ($('#vs1reconamountwith_' + checkboxIDwithLine).text()).replace(/[^0-9.-]+/g, "")||0;
+            //(($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
             selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(reconamounttrim);
             selectedtransactionswith.push(transactionObj);
         });
@@ -2261,7 +2263,8 @@ Template.bankrecon.events({
                     reconpayid: $('#vs1reconpayid_' + checkboxIDdepLine).text(),
                     depositLineID: depositLineIDDepAll || 0
                 }
-                var reconamounttrimdep = (($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
+                var reconamounttrimdep = ($('#vs1reconamount_' + checkboxIDdepLine).text()).replace(/[^0-9.-]+/g, "")||0;
+                //(($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
                 selectedTransAmountdep = selectedTransAmountdep + parseFloat(reconamounttrimdep);
                 selectedtransactionsdep.push(transactionObj);
             });
@@ -2302,7 +2305,8 @@ Template.bankrecon.events({
                     reconpayid: $('#vs1reconpayid_' + checkboxIDdepLine).text(),
                     depositLineID: depositLineIDDepAll || 0
                 }
-                var reconamounttrimdep = (($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');
+                var reconamounttrimdep = ($('#vs1reconamount_' + checkboxIDdepLine).text()).replace(/[^0-9.-]+/g, "")||0;
+                //(($('#vs1reconamount_' + checkboxIDdepLine).text()).substring(1)).replace(',', '');//
                 selectedTransAmountdep = selectedTransAmountdep + parseFloat(reconamounttrimdep);
                 selectedtransactionsdep.push(transactionObj);
             });
@@ -2345,7 +2349,8 @@ Template.bankrecon.events({
                     reconpayid: $('#vs1reconpayidwith_' + checkboxIDwithLine).text(),
                     depositLineID: depositLineIDAll || 0
                 }
-                var reconamounttrim = (($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
+                var reconamounttrim = ($('#vs1reconamountwith_' + checkboxIDwithLine).text()).replace(/[^0-9.-]+/g, "")||0;
+                //(($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
                 selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(reconamounttrim);
                 selectedtransactionswith.push(transactionObj);
 
@@ -2390,7 +2395,8 @@ Template.bankrecon.events({
                     reconpayid: $('#vs1reconpayidwith_' + checkboxIDwithLine).text(),
                     depositLineID: depositLineIDwith || 0
                 }
-                var reconamounttrim = (($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
+                var reconamounttrim = ($('#vs1reconamountwith_' + checkboxIDwithLine).text()).replace(/[^0-9.-]+/g, "")||0;
+                //(($('#vs1reconamountwith_' + checkboxIDwithLine).text()).substring(1)).replace(',', '');
                 selectedTransAmountwidth = selectedTransAmountwidth + parseFloat(reconamounttrim);
                 selectedtransactionswith.push(transactionObj);
             });
