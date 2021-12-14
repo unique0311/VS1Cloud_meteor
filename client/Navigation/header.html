@@ -75,6 +75,9 @@
             .mobileSearchBar {
                 display: none;
             }
+            .btnSearchGuide {
+                display: none;
+            }
         }
     </style>
     <!-- Mobile Search Header END -->
@@ -85,6 +88,7 @@
 
             <style>
                 @-webkit-keyframes alerts-border {
+
                     from,
                     to {
                         border-color: #00a3d3;
@@ -96,7 +100,9 @@
                         box-shadow: 0 0 10px #1cc88a;
                     }
                 }
+
                 @keyframes alerts-border {
+
                     from,
                     to {
                         border-color: #00a3d3;
@@ -108,6 +114,7 @@
                         box-shadow: 0 0 10px #1cc88a;
                     }
                 }
+
                 .alerts-border {
                     border: 1px solid #00a3d3;
                     animation: alerts-border 2s infinite !important;
@@ -160,6 +167,7 @@
                     </div>
                     <a class="btn btn-primary scanBarcodeHeadTop" href="" id="scanBarcodeHeadTop" role="button" style="margin-left: 8px; height:34px;padding-top:4px;"><i class="fas fa-camera"></i></a>
                     <button type="button" class="btn btn-primary" id="mobileBarcodeScan" data-toggle="modal" data-target="#scanBarcodeModalHeader" style="margin-left: 8px;height:34px; display: none;"><i class="fas fa-camera"></i></button>
+                    <button type="button" class="btn btn-primary" id="btnSearchGuide" data-toggle="modal" data-target="#searchGuideModal" style="margin-left: 8px;height:34px;padding-top: 4px;"><i class="far fa-question-circle"></i></button>
                 </div>
             </form>
 
@@ -197,6 +205,10 @@
                             <a class="nav-link" href="https://sos.splashtop.com" target="_blank" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid;width: 47%; float: right;">Get <img class="img-support"
                                     src="images/phone-support.png" style="width: 25px!important;padding: 2px;"> Support</a>
                         {{/if}}
+
+                        <button type="button" class="nav-link" data-toggle="modal" data-target="#searchGuideModal" style="color:#00a3d3; border-style: solid; border-radius: 25px;border: 2px solid; width: 47%; float: left; margin-top: 8px;background-color: #fff;">
+                            <i class="far fa-question-circle" style="margin-right: 5px;"></i> Search Guide
+                        </button>
                     </div>
                 </li>
                 {{#if isCloudTrueERP}}
@@ -312,14 +324,15 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Loading Your Information To Your Device</h5>
+                        <h5 class="modal-title"><span class="headerprogressLabel">Loading Your Information To Your Device</span></h5>
                         <i class="fas fa-spinner fa-pulse" style="font-size: 16px; margin-top: 6px;"></i>
                     </div>
                     <div class="modal-body" style="padding-top: 0px;">
                         <div class="row" style="margin-bottom: 32px;">
                             <div class="col-12" style="margin-bottom: 16px; padding: 0px;">
                                 <div class="progress progress-striped active" style="height: 35px; margin-left: -4px; margin-right: -4px; border-radius: 0px;">
-                                    <div class="loadingbar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="font-size: 20px; font-weight: 500;"><span class="progressBarInner"></span></div>
+                                    <div class="loadingbar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="font-size: 20px; font-weight: 500;"><span
+                                            class="progressBarInner"></span></div>
                                 </div>
                             </div>
                             <!-- <div class="col-12" style="text-align: center;font-size: 23px;font-weight: 700;margin-bottom: 8px; color: #1cc88a;">
@@ -380,6 +393,7 @@
                                 .hide {
                                     display: none !important;
                                 }
+
                                 .checkmarkwrapper {
                                     display: flex;
                                     justify-content: center;
@@ -456,6 +470,80 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="searchGuideModal">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Search Guide</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>In order to improve the efficiency of your searches, please feel free to use the codes listed below:</p>
+                    <div class="row">
+                        <style>
+                            .shorthandSearchli {
+                                border-bottom: 1px solid #858796;
+                                margin-bottom: 4px;
+                            }
+
+                            .shorthandCode {
+                                color: #00a3d3;
+                            }
+                        </style>
+                        <div class="col-6" style="padding-right: 0px;">
+                            <ul class="" style="list-style-type: none; padding-left: 0px;">
+                                <li class="shorthandSearchli">Account</li>
+                                <li class="shorthandSearchli">Bill</li>
+                                <li class="shorthandSearchli">Check </li>
+                                <li class="shorthandSearchli">Customer</li>
+                                <li class="shorthandSearchli">Employee</li>
+                                <li class="shorthandSearchli">Invoice</li>
+                                <li class="shorthandSearchli">Journal</li>
+                                <li class="shorthandSearchli">Payment</li>
+                                <li class="shorthandSearchli">Product</li>
+                                <li class="shorthandSearchli">Purchase Order</li>
+                                <li class="shorthandSearchli">Quote </li>
+                                <li class="shorthandSearchli">Refund</li>
+                                <li class="shorthandSearchli">Sales Order</li>
+                                <li class="shorthandSearchli">Shipping</li>
+                                <li class="shorthandSearchli">Stock Adjustment</li>
+                                <li class="shorthandSearchli">Stock Transfer</li>
+                                <li class="shorthandSearchli">Supplier</li>
+                                <li class="shorthandSearchli">Time Sheet</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-6" style="padding-left: 0px;">
+                            <ul class="" style="list-style-type: none; padding-left: 0px;">
+                                <li class="shorthandSearchli shorthandCode">ACC</li>
+                                <li class="shorthandSearchli shorthandCode">BI</li>
+                                <li class="shorthandSearchli shorthandCode">CH</li>
+                                <li class="shorthandSearchli shorthandCode">CUS</li>
+                                <li class="shorthandSearchli shorthandCode">EMP</li>
+                                <li class="shorthandSearchli shorthandCode">IN</li>
+                                <li class="shorthandSearchli shorthandCode">JO</li>
+                                <li class="shorthandSearchli shorthandCode">PA</li>
+                                <li class="shorthandSearchli shorthandCode">PRO</li>
+                                <li class="shorthandSearchli shorthandCode">PO</li>
+                                <li class="shorthandSearchli shorthandCode">QU</li>
+                                <li class="shorthandSearchli shorthandCode">RE</li>
+                                <li class="shorthandSearchli shorthandCode">SO</li>
+                                <li class="shorthandSearchli shorthandCode">SH</li>
+                                <li class="shorthandSearchli shorthandCode">SA</li>
+                                <li class="shorthandSearchli shorthandCode">ST</li>
+                                <li class="shorthandSearchli shorthandCode">SUP</li>
+                                <li class="shorthandSearchli shorthandCode">TS</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p>In order to use these codes, simply type their shorthand followed by a dash and the relevant ID of the associated item.</p>
+                    <p>For example, to quickly search for a specific Product with an ID of 00123, you would simply type in "PRO-00123".</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button></div>
             </div>
         </div>
     </div>
