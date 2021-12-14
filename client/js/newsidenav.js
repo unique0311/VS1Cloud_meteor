@@ -2912,6 +2912,7 @@ Template.newsidenav.onRendered(function() {
             }
             if(progressPercentage == 0){
               $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
+              $(".headerprogressLabel").text("All Your Information Loaded");
               $(".progressBarInner").text(""+Math.round(100)+"%");
               $('.checkmarkwrapper').removeClass("hide");
               $('.process').addClass('killProgressBar');
