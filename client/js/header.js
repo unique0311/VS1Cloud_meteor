@@ -604,7 +604,7 @@ Template.header.onRendered(function() {
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
-            }else if (segs[0] == Barcode_Prefix_Invoice) {
+            }else if (segs[0] == Barcode_Prefix_Invoice || segs[0] == Barcode_Prefix_Invoice2) {
                 productService.getGlobalSearchReportByType(segs[1], "Invoice").then(function(data) {
                     let dataSelectID = '';
                     let isProcessed = '';
@@ -741,7 +741,7 @@ Template.header.onRendered(function() {
                             }else if(data.tpaymentlist[i].TYPE =="Supplier Payment" && data.tpaymentlist[i].PaymentID ==dataSelectID){
                                 window.open('/supplierpaymentcard?id=' + dataSelectID, '_self');
                             }else{
-                               window.open('/paymentoverview', '_self');
+                               //window.open('/paymentoverview', '_self');
                             }
                           }
 

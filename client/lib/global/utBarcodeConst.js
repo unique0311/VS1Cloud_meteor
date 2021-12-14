@@ -19,6 +19,7 @@
   Barcode_Prefix_StockTransfer    = 'ST';
   Barcode_Prefix_StockAdjust  = 'SA';
   Barcode_Prefix_Invoice = 'IN';
+  Barcode_Prefix_Invoice2 = 'INV';
   Barcode_Prefix_SalesOrder = 'SO';
   Barcode_Prefix_Quote = 'QU';
   Barcode_Prefix_Refund = 'RE';
@@ -29,6 +30,8 @@
   Barcode_Prefix_Supplier = 'SUP';
   Barcode_Prefix_Product = 'PRO';
   Barcode_Prefix_Account = 'ACC';
+  Barcode_Prefix_Check = 'CH';
+  Barcode_Prefix_Check = 'SH';
 
  licenceIPAddress = "login.vs1cloud.com"; //165.228.147.127
   //Global Declaration

@@ -82,7 +82,7 @@ export class ProductService extends BaseService {
       let options = {
         IgnoreDates:true,
         select: "[PaymentID]='"+searchName+"' and [Deleted]=false",
-        PaymentID:"'"+searchName+"'"
+        // PaymentID:"'"+searchName+"'"
       };
       return this.getList(this.ERPObjects.TPaymentList, options);
   }
