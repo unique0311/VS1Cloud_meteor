@@ -2503,7 +2503,7 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getTStatementListData = function() {
-        sideBarService.getAllCustomerStatementData().then(function(data) {
+        sideBarService.getAllCustomerStatementData(prevMonth11Date, toDate, false).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);

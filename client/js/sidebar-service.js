@@ -1157,8 +1157,22 @@ getCustomersDataByName(dataSearchName) {
       return this.getList(this.ERPObjects.TClientType, options);
   }
 
-  getAllCustomerStatementData() {
-      return this.getList(this.ERPObjects.TStatementList);
+  getAllCustomerStatementData(dateFrom, dateTo, ignoreDate) {
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates: true
+     };
+    }else{
+     options = {
+       IgnoreDates: false,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+initialReportLoad+'"'
+    };
+    }
+    return this.getList(this.ERPObjects.TStatementList, options);
+    //return this.getList(this.ERPObjects.TStatementList);
   }
 
   getGlobalSettings(){

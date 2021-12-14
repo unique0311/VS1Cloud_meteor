@@ -14,10 +14,16 @@ Template.forgotpassword.onCreated(function(){
 });
 
 Template.forgotpassword.onRendered(function () {
-  setTimeout(function(){
-  $("#email").val(localStorage.getItem('usremail') || '');
-  console.log(localStorage.getItem('usremail'));
-},500);
+  let getEmailData = '';
+
+  if (FlowRouter.current().queryParams.checktoken) {
+     getEmailData = FlowRouter.current().queryParams.checktoken || '';
+      $("#email").val(getEmailData);
+  }else{
+    setTimeout(function(){
+    $("#email").val(localStorage.getItem('usremail') || '');
+    },500);
+  }
 });
 
 Template.forgotpassword.events({
@@ -68,16 +74,27 @@ Template.forgotpassword.events({
                  Bert.alert('<strong>WARNING:</strong>' + error, 'warning');
                  event.preventDefault();
              } else {
-               setTimeout(function () {
-                 $('.fullScreenSpin').css('display','none');
-               window.open('/','_self');
-             }, 100);
+               $('.fullScreenSpin').css('display', 'none');
+               swal({
+                   title: 'SUCCESS',
+                   text: "Reset Email Sent To : " + mailTo,
+                   type: 'success',
+                   showCancelButton: false,
+                   confirmButtonText: 'OK'
+               }).then((result) => {
+                 setTimeout(function () {
+                   $('.fullScreenSpin').css('display','none');
+                 window.open('/','_self');
+                  }, 100);
+               });
+
+
              }
          });
        }else{
 
          $('.fullScreenSpin').css('display','inline-block');
-         Bert.alert('<strong>Error:</strong> Invalid Email, Email Not Found Please Try Again!', 'danger');
+         Bert.alert('<strong>Error:</strong> Invalid Email, Email Not Found Please Try Again!', 'now-danger');
          Meteor.call('sendEmail', {
              from: "VS1 Cloud <info@vs1cloud.com>",
              to: mailTo,

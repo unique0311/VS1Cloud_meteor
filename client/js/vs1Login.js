@@ -1085,7 +1085,11 @@ Template.vs1login.onRendered(function () {
                         if (regUserDetails.length === 0) {
                             times++;
                             if (times > 2) {
-                                window.open('/forgotpassword', '_self');
+                                if(userLoginEmail != ''){
+                                  window.open('/forgotpassword?checktoken=' + userLoginEmail + '', '_self');
+                                }else{
+                                  window.open('/forgotpassword', '_self');
+                                }
                             } else {}
 
                             swal('Oops...', 'Your email or password is incorrect, please try again!', 'error');
@@ -1290,7 +1294,11 @@ Template.vs1login.onRendered(function () {
                     } else {
                         times++;
                         if (times > 2) {
-                            window.open('/forgotpassword', '_self');
+                            if(userLoginEmail != ''){
+                              window.open('/forgotpassword?checktoken=' + userLoginEmail + '', '_self');
+                            }else{
+                              window.open('/forgotpassword', '_self');
+                            }
                         } else {}
 
                         swal('Oops...', 'Your email or password is incorrect, please try again!', 'error');
@@ -4564,8 +4572,9 @@ Template.vs1login.onRendered(function () {
           });
             $('.fullScreenSpin').css('display', 'none');
         }
-
+        if(userLoginEmail != ''){
         FlowRouter.go('/?emailakey='+userLoginEmail+'&passkey='+passwordSecret+'');
+        }
 
 
         // let userLoginEmail = $("#email").val();
@@ -4645,7 +4654,15 @@ Template.vs1login.onRendered(function () {
 
 
     });
+    $(".forgotPassword").click(function (e) {
+      let employeeEmail = $("#email").val()||'';
+        if(employeeEmail != ''){
+          window.open('/forgotpassword?checktoken=' + employeeEmail + '', '_self');
+        }else{
+          window.open('/forgotpassword', '_self');
+        }
 
+    });
     $(".toggle-password").click(function () {
         $(this).toggleClass("fa-eye fa-eye-slash");
         var passwordSecret = $("#erppassword");

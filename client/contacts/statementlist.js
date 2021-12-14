@@ -374,11 +374,28 @@ Template.statementlist.onRendered(function () {
         })
     }
     templateObject.getStatements = function () {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if((currentBeginDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
         getVS1Data('TStatementList').then(function (dataObject) {
             if (dataObject.length == 0) {
-                contactService.getAllCustomerStatementData().then(function (data) {
+                sideBarService.getAllCustomerStatementData(prevMonth11Date,toDate, false).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
+                    addVS1Data('TStatementList', JSON.stringify(data));
                     for (let i = 0; i < data.tstatementlist.length; i++) {
 
                         // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
@@ -580,6 +597,15 @@ Template.statementlist.onRendered(function () {
                 $('.fullScreenSpin').css('display', 'none');
                 let lineItems = [];
                 let lineItemObj = {};
+                if(data.Params.IgnoreDates == true){
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                }else{
+
+                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                }
+
                 for (let i = 0; i < useData.length; i++) {
 
                     // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
@@ -773,9 +799,10 @@ Template.statementlist.onRendered(function () {
 
             }
         }).catch(function (err) {
-            contactService.getAllCustomerStatementData().then(function (data) {
+            sideBarService.getAllCustomerStatementData(prevMonth11Date,toDate, false).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
+                addVS1Data('TStatementList', JSON.stringify(data));
                 for (let i = 0; i < data.tstatementlist.length; i++) {
 
                     // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
@@ -1026,6 +1053,37 @@ Template.statementlist.onRendered(function () {
             }
             fr.readAsDataURL(file);
         })
+    };
+
+    templateObject.getAllFilterStatementData = function (fromDate,toDate, ignoreDate) {
+      sideBarService.getAllCustomerStatementData(fromDate,toDate, ignoreDate).then(function(data) {
+
+              addVS1Data('TStatementList',JSON.stringify(data)).then(function (datareturn) {
+                  window.open('/statementlist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
+              }).catch(function (err) {
+                location.reload();
+              });
+
+        }).catch(function (err) {
+            templateObject.datatablerecords.set('');
+            $('.fullScreenSpin').css('display','none');
+        });
+    }
+
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    console.log(urlParametersIgnoreDate);
+
+      if(urlParametersIgnoreDate == true){
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        console.log(urlParametersIgnoreDate);
+      }else{
+        if(urlParametersDateFrom){
+        $("#dateFrom").val(urlParametersDateFrom !=''? moment(urlParametersDateFrom).format("DD/MM/YYYY"): urlParametersDateFrom);
+        $("#dateTo").val(urlParametersDateTo !=''? moment(urlParametersDateTo).format("DD/MM/YYYY"): urlParametersDateTo);
+       }
     }
 
 });
@@ -1227,8 +1285,23 @@ Template.statementlist.events({
 
     },
     'click .btnRefresh': function () {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if((currentBeginDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
         $('.fullScreenSpin').css('display', 'inline-block');
-        sideBarService.getAllCustomerStatementData().then(function (data) {
+        sideBarService.getAllCustomerStatementData(prevMonth11Date,toDate, false).then(function (data) {
             addVS1Data('TStatementList', JSON.stringify(data)).then(function (datareturn) {
                 window.open('/statementlist', '_self');
             }).catch(function (err) {
@@ -1237,6 +1310,153 @@ Template.statementlist.events({
         }).catch(function (err) {
             window.open('/statementlist', '_self');
         });
+    },
+    'change #dateTo': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+          templateObject.getAllFilterStatementData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterStatementData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = (currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = currentDate2.getFullYear() + "-" + (fromDateMonth) + "-" + fromDateDay;
+        templateObject.getAllFilterStatementData(getDateFrom,getLoadDate, false);
+    },
+    'click #lastQuarter': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterStatementData(getDateFrom,getLoadDate, false);
+    },
+    'click #last12Months': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth()+1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterStatementData(getDateFrom,getLoadDate, false);
+
+    },
+    'click #ignoreDate': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterStatementData('', '', true);
     },
     'click .chkBoxAll': function () {
         if ($(event.target).is(':checked')) {
@@ -1397,44 +1617,6 @@ Template.statementlist.events({
         } else {
             $('.fullScreenSpin').css('display', 'none');
         }
-    },
-     'change #dateTo': function () {
-        let templateObject = Template.instance();
-        $('.fullScreenSpin').css('display', 'inline-block');
-        let statementListData = templateObject.datatablerecords1.get();
-        let statementList = [];
-        //templateObject.datatablerecords.set('');
-        let startDate = new Date($("#dateFrom").datepicker("getDate"));
-        let endDate = new Date($("#dateTo").datepicker("getDate"));
-        for (let x = 0; x < statementListData.length; x++) {
-            let date = new Date(statementListData[x].dateFrom);
-            if (date >= startDate && date <= endDate) {
-                statementList.push(statementListData[x]);
-            }
-        }
-        templateObject.datatablerecords.set(statementList);
-        $('.dataTables_info').html('Showing ' + statementList.length + ' of ' + statementList.length + ' entries');
-        $('.fullScreenSpin').css('display', 'none');
-
-    },
-    'change #dateFrom': function () {
-        let templateObject = Template.instance();
-        $('.fullScreenSpin').css('display', 'inline-block');
-        let statementListData = templateObject.datatablerecords1.get();
-        let statementList = [];
-        //templateObject.datatablerecords.set('');
-        let startDate = new Date($("#dateFrom").datepicker("getDate"));
-        let endDate = new Date($("#dateTo").datepicker("getDate"));
-        for (let x = 0; x < statementListData.length; x++) {
-            let date = new Date(statementListData[x].dateFrom);
-            if (date >= startDate && date <= endDate) {
-                statementList.push(statementListData[x]);
-            }
-        }
-        templateObject.datatablerecords.set(statementList);
-        $('.dataTables_info').html('Showing 1 to ' + statementList.length + ' of ' + statementList.length + ' entries');
-        $('.fullScreenSpin').css('display', 'none');
-
     },
     'click .printConfirm ': async function (event) {
         $('.fullScreenSpin').css('display', 'block');
