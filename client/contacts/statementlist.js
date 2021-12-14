@@ -389,7 +389,624 @@ Template.statementlist.onRendered(function () {
       }
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+      let getURL = location.href;
 
+        if(getURL.indexOf('name') > 0) {
+            let convertURL = new URL(location.href);
+            let customer = convertURL.searchParams.get("name");
+             getVS1Data('TStatementList').then(function (dataObject) {
+            if (dataObject.length == 0) {
+                sideBarService.getAllCustomerStatementData(prevMonth11Date,toDate, false).then(function (data) {
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    addVS1Data('TStatementList', JSON.stringify(data));
+                    for (let i = 0; i < data.tstatementlist.length; i++) {
+                        if(data.tstatementlist[i].Customername == customer) {
+                        // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
+                        // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
+                        let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementlist[i].amount) || 0.00;
+                        // let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditLimit)|| 0.00;
+                        // let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].SalesOrderBalance)|| 0.00;
+                        var dataList = {
+                            id: data.tstatementlist[i].ClientID || '',
+                            lineid: Random.id() || '',
+                            company: data.tstatementlist[i].Customername || '',
+                            contactname: data.tstatementlist[i].Customername || '',
+                            phone: '' || '',
+                            dateFrom: data.Params.DateFrom,
+                            dateTo: data.Params.DateTo.split(' ')[0],
+                            //arbalance: arBalance || 0.00,
+                            //creditbalance: creditBalance || 0.00,
+                            balance: balance || 0.00,
+                            //creditlimit: creditLimit || 0.00,
+                            //salesorderbalance: salesOrderBalance || 0.00,
+                            //email: data.tstatementforcustomer[i].Email || '',
+                            //accountno: data.tstatementforcustomer[i].AccountNo || '',
+                            jobname: data.tstatementlist[i].Jobname || '',
+                            //jobtitle: data.tstatementforcustomer[i].JobTitle || '',
+                            notes: ''
+                            //country: data.tstatementforcustomer[i].Country || ''
+                        };
+
+                        dataTableList.push(dataList);
+                    }
+                        //}
+                    }
+
+                    function MakeNegative() {
+                        $('td').each(function () {
+                            if ($(this).text().indexOf('-' + Currency) >= 0)
+                                $(this).addClass('text-danger')
+                        });
+                    };
+                    templateObject.datatablerecords.set(dataTableList);
+                    templateObject.datatablerecords1.set(dataTableList);
+
+                    if (templateObject.datatablerecords.get()) {
+
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                            if (error) {}
+                            else {
+                                if (result) {
+                                    for (let i = 0; i < result.customFields.length; i++) {
+                                        let customcolumn = result.customFields;
+                                        let columData = customcolumn[i].label;
+                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                        let hiddenColumn = customcolumn[i].hidden;
+                                        let columnClass = columHeaderUpdate.split('.')[1];
+                                        let columnWidth = customcolumn[i].width;
+                                        let columnindex = customcolumn[i].index + 1;
+
+                                        if (hiddenColumn == true) {
+
+                                            $("." + columnClass + "").addClass('hiddenColumn');
+                                            $("." + columnClass + "").removeClass('showColumn');
+                                        } else if (hiddenColumn == false) {
+                                            $("." + columnClass + "").removeClass('hiddenColumn');
+                                            $("." + columnClass + "").addClass('showColumn');
+                                        }
+
+                                    }
+                                }
+
+                            }
+                        });
+
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    }
+
+                    $('.fullScreenSpin').css('display', 'none');
+                    setTimeout(function () {
+                        $('#tblCustomerlist').DataTable({
+                            //   columnDefs: [
+                            //     {orderable: false, targets: 0},
+                            //     { targets: 0, className: "text-center"}
+                            // ],
+                            "columnDefs": [{
+                                    "orderable": false,
+                                    "targets": 0
+                                }
+                            ],
+
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: '',
+                                    download: 'open',
+                                    className: "btntabletocsv hiddenColumn",
+                                    filename: "statementlist_" + moment().format(),
+                                    orientation: 'portrait',
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }, {
+                                    extend: 'print',
+                                    download: 'open',
+                                    className: "btntabletopdf hiddenColumn",
+                                    text: '',
+                                    title: 'Statement List',
+                                    filename: "statementlist_" + moment().format(),
+                                    exportOptions: {
+                                        columns: ':visible'
+                                    }
+                                }
+                            ],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            colReorder: {
+                                fixedColumnsLeft: 1
+                            },
+                            // columnDefs: [
+                            //    { orderable: false, targets: 0 }
+                            // ],
+                            // bStateSave: true,
+                            // rowId: 0,
+                            pageLength: initialReportDatatableLoad,
+                            "bLengthChange": false,
+                            lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [
+                                [1, "desc"]
+                            ],
+                            action: function () {
+                                $('#tblCustomerlist').DataTable().ajax.reload();
+                            },
+                            "fnDrawCallback": function (oSettings) {
+                                setTimeout(function () {
+                                    MakeNegative();
+                                }, 100);
+                            },
+
+                        }).on('page', function () {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                            let draftRecord = templateObject.datatablerecords.get();
+                            templateObject.datatablerecords.set(draftRecord);
+                        }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        });
+
+                        // $('#tblCustomerlist').DataTable().column( 0 ).visible( true );
+                        $('.fullScreenSpin').css('display', 'none');
+                    }, 0);
+
+                    var columns = $('#tblCustomerlist th');
+                    let sTible = "";
+                    let sWidth = "";
+                    let sIndex = "";
+                    let sVisible = "";
+                    let columVisible = false;
+                    let sClass = "";
+                    $.each(columns, function (i, v) {
+                        if (v.hidden == false) {
+                            columVisible = true;
+                        }
+                        if ((v.className.includes("hiddenColumn"))) {
+                            columVisible = false;
+                        }
+                        sWidth = v.style.width.replace('px', "");
+
+                        let datatablerecordObj = {
+                            sTitle: v.innerText || '',
+                            sWidth: sWidth || '',
+                            sIndex: v.cellIndex || '',
+                            sVisible: columVisible || false,
+                            sClass: v.className || ''
+                        };
+                        tableHeaderList.push(datatablerecordObj);
+                    });
+                    templateObject.tableheaderrecords.set(tableHeaderList);
+                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                    $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
+                        var listData = $(this).closest('tr').attr('id');
+                        if (listData) {
+                            FlowRouter.go('/customerscard?id=' + listData);
+                        }
+                    });
+
+                }).catch(function (err) {
+                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    $('.fullScreenSpin').css('display', 'none');
+                    // Meteor._reload.reload();
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tstatementlist;
+                $('.fullScreenSpin').css('display', 'none');
+                let lineItems = [];
+                let lineItemObj = {};
+                if(data.Params.IgnoreDates == true){
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                }else{
+
+                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                }
+
+                for (let i = 0; i < useData.length; i++) {
+                    if(useData[i].Customername == customer) {
+                    // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
+                    // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
+                    let balance = utilityService.modifynegativeCurrencyFormat(useData[i].amount) || 0.00;
+                    // let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditLimit)|| 0.00;
+                    // let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].SalesOrderBalance)|| 0.00;
+                    var dataList = {
+                        id: useData[i].ClientID || '',
+                        lineid: Random.id() || '',
+                        company: useData[i].Customername || '',
+                        contactname: useData[i].Customername || '',
+                        phone: '' || '',
+                        dateFrom: data.Params.DateFrom,
+                        dateTo: data.Params.DateTo.split('')[0],
+                        //arbalance: arBalance || 0.00,
+                        //creditbalance: creditBalance || 0.00,
+                        balance: balance || 0.00,
+                        //creditlimit: creditLimit || 0.00,
+                        //salesorderbalance: salesOrderBalance || 0.00,
+                        //email: data.tstatementforcustomer[i].Email || '',
+                        //accountno: data.tstatementforcustomer[i].AccountNo || '',
+                        jobname: useData[i].Jobname || '',
+                        //jobtitle: data.tstatementforcustomer[i].JobTitle || '',
+                        notes: ''
+                        //country: data.tstatementforcustomer[i].Country || ''
+                    };
+
+                    dataTableList.push(dataList);
+                }
+                    //}
+                }
+
+                function MakeNegative() {
+                    $('td').each(function () {
+                        if ($(this).text().indexOf('-' + Currency) >= 0)
+                            $(this).addClass('text-danger')
+                    });
+                };
+
+                templateObject.datatablerecords.set(dataTableList);
+                templateObject.datatablerecords1.set(dataTableList);
+
+                if (templateObject.datatablerecords.get()) {
+
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                        if (error) {}
+                        else {
+                            if (result) {
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if (hiddenColumn == true) {
+
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+
+                    setTimeout(function () {
+                        MakeNegative();
+                    }, 100);
+                }
+
+                $('.fullScreenSpin').css('display', 'none');
+                setTimeout(function () {
+                    $('#tblCustomerlist').DataTable({
+                        //   columnDefs: [
+                        //     {orderable: false, targets: 0},
+                        //     { targets: 0, className: "text-center"}
+                        // ],
+                        "columnDefs": [{
+                                "orderable": false,
+                                "targets": 0
+                            }
+                        ],
+
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [{
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "statementlist_" + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Statement List',
+                                filename: "statementlist_" + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }
+                        ],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsLeft: 1
+                        },
+                        // columnDefs: [
+                        //    { orderable: false, targets: 0 }
+                        // ],
+                        // bStateSave: true,
+                        // rowId: 0,
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
+                        lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [
+                            [1, "desc"]
+                        ],
+                        action: function () {
+                            $('#tblCustomerlist').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+                    }).on('page', function () {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    });
+
+                    // $('#tblCustomerlist').DataTable().column( 0 ).visible( true );
+                    $('.fullScreenSpin').css('display', 'none');
+                }, 0);
+
+                var columns = $('#tblCustomerlist th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function (i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
+                    }
+                    if ((v.className.includes("hiddenColumn"))) {
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    if (listData) {
+                        FlowRouter.go('/customerscard?id=' + listData);
+                    }
+                });
+
+            }
+        }).catch(function (err) {
+            sideBarService.getAllCustomerStatementData(prevMonth11Date,toDate, false).then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                addVS1Data('TStatementList', JSON.stringify(data));
+                for (let i = 0; i < data.tstatementlist.length; i++) {
+                    if(data.tstatementlist[i].Customername == customer) {
+                    // let arBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].ARBalance)|| 0.00;
+                    // let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditBalance) || 0.00;
+                    let balance = utilityService.modifynegativeCurrencyFormat(data.tstatementlist[i].amount) || 0.00;
+                    // let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].CreditLimit)|| 0.00;
+                    // let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].SalesOrderBalance)|| 0.00;
+                    var dataList = {
+                        id: data.tstatementlist[i].ClientID || '',
+                        lineid: Random.id() || '',
+                        company: data.tstatementlist[i].Customername || '',
+                        contactname: data.tstatementlist[i].Customername || '',
+                        phone: '' || '',
+                        //arbalance: arBalance || 0.00,
+                        //creditbalance: creditBalance || 0.00,
+                        balance: balance || 0.00,
+                        //creditlimit: creditLimit || 0.00,
+                        //salesorderbalance: salesOrderBalance || 0.00,
+                        //email: data.tstatementforcustomer[i].Email || '',
+                        //accountno: data.tstatementforcustomer[i].AccountNo || '',
+                        jobname: data.tstatementlist[i].Jobname || '',
+                        //jobtitle: data.tstatementforcustomer[i].JobTitle || '',
+                        notes: ''
+                        //country: data.tstatementforcustomer[i].Country || ''
+                    };
+
+                    dataTableList.push(dataList);
+                }
+                    //}
+                }
+
+                function MakeNegative() {
+                    $('td').each(function () {
+                        if ($(this).text().indexOf('-' + Currency) >= 0)
+                            $(this).addClass('text-danger')
+                    });
+                };
+
+                templateObject.datatablerecords.set(dataTableList);
+
+                if (templateObject.datatablerecords.get()) {
+
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                        if (error) {}
+                        else {
+                            if (result) {
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if (hiddenColumn == true) {
+
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+
+                    setTimeout(function () {
+                        MakeNegative();
+                    }, 100);
+                }
+
+                $('.fullScreenSpin').css('display', 'none');
+                setTimeout(function () {
+                    $('#tblCustomerlist').DataTable({
+                        //   columnDefs: [
+                        //     {orderable: false, targets: 0},
+                        //     { targets: 0, className: "text-center"}
+                        // ],
+                        "columnDefs": [{
+                                "orderable": false,
+                                "targets": 0
+                            }
+                        ],
+
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [{
+                                extend: 'excelHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "statementlist_" + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Statement List',
+                                filename: "statementlist_" + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }
+                        ],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        colReorder: {
+                            fixedColumnsLeft: 1
+                        },
+                        // columnDefs: [
+                        //    { orderable: false, targets: 0 }
+                        // ],
+                        // bStateSave: true,
+                        // rowId: 0,
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
+                        lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "order": [
+                            [1, "desc"]
+                        ],
+                        action: function () {
+                            $('#tblCustomerlist').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+
+                    }).on('page', function () {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
+                    });
+
+                    // $('#tblCustomerlist').DataTable().column( 0 ).visible( true );
+                    $('.fullScreenSpin').css('display', 'none');
+                }, 0);
+
+                var columns = $('#tblCustomerlist th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function (i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
+                    }
+                    if ((v.className.includes("hiddenColumn"))) {
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblCustomerlist tbody').on('click', 'tr .colCompany, tr .colJob, tr .colPhone, tr .colBalance, tr .colNotes', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    if (listData) {
+                        FlowRouter.go('/customerscard?id=' + listData);
+                    }
+                });
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                $('.fullScreenSpin').css('display', 'none');
+                // Meteor._reload.reload();
+            });
+        });
+
+
+        } else {
         getVS1Data('TStatementList').then(function (dataObject) {
             if (dataObject.length == 0) {
                 sideBarService.getAllCustomerStatementData(prevMonth11Date,toDate, false).then(function (data) {
@@ -998,6 +1615,9 @@ Template.statementlist.onRendered(function () {
             });
         });
 
+        }
+      
+
     }
 
     templateObject.getStatements();
@@ -1073,12 +1693,10 @@ Template.statementlist.onRendered(function () {
     let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
     let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
     let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-    console.log(urlParametersIgnoreDate);
 
       if(urlParametersIgnoreDate == true){
         $('#dateFrom').attr('readonly', true);
         $('#dateTo').attr('readonly', true);
-        console.log(urlParametersIgnoreDate);
       }else{
         if(urlParametersDateFrom){
         $("#dateFrom").val(urlParametersDateFrom !=''? moment(urlParametersDateFrom).format("DD/MM/YYYY"): urlParametersDateFrom);

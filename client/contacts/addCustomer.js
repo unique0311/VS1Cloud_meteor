@@ -3396,10 +3396,20 @@ Template.customerscard.onRendered(function () {
 });
 Template.customerscard.events({
     'click .tblJoblist tbody tr': function (event) {
-
         var listData = $(event.target).closest('tr').attr('id');
         if (listData) {
             window.open('/customerscard?jobid=' + listData, '_self');
+        }
+    },
+    'click .openBalance': function (event) {
+        let customerName = $('#edtCustomerCompany').val() || $('#edtJobCustomerCompany').val() || '';
+        if(customerName != "") {
+            if(customerName.indexOf('^') > 0) {
+              customerName = customerName.split('^')[0]
+            } 
+            window.open('/statementlist?name='+customerName, '_self');
+        } else {
+            window.open('/agedreceivables','_self');
         }
     },
     'click #customerShipping-1': function (event) {
