@@ -31,7 +31,7 @@
   Barcode_Prefix_Product = 'PRO';
   Barcode_Prefix_Account = 'ACC';
   Barcode_Prefix_Check = 'CH';
-  Barcode_Prefix_Check = 'SH';
+  Barcode_Prefix_Shipping = 'SH';
 
  licenceIPAddress = "login.vs1cloud.com"; //165.228.147.127
   //Global Declaration

@@ -108,6 +108,20 @@ export class ProductService extends BaseService {
       return this.getList(this.ERPObjects.TStockAdjustEntry, options);
   }
 
+  getGlobalSearchCheck(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TChequeEx, options);
+  }
+
+  getGlobalSearchShipping(searchName){
+      let options = {
+        select: "[ID]='"+searchName+"' and [Deleted]=false",
+      };
+      return this.getList(this.ERPObjects.TInvoice, options);
+  }
+
     getRecentTransactions() {
         let options = {
             PropertyList: "ProductID,ProductName,ProductID,ProductDescription,TransactionType,Total Profit (Inc),UnitOfMeasure,SaleDate,TransactionNo,Qty,Line Cost (Ex),Total Amount (Ex)",

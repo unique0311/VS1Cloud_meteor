@@ -908,6 +908,44 @@ Template.header.onRendered(function() {
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
+            }else if (segs[0] == Barcode_Prefix_Check) {
+                productService.getGlobalSearchCheck(segs[1]).then(function(data) {
+                    let dataSelectID = '';
+                    let isProcessed = '';
+                    var splashArrayList = new Array();
+                    var splashArrayListDupp = new Array();
+                    $('.fullScreenSpin').css('display', 'none');
+                    let dataTableList = [];
+                    let dataTableListDupp = [];
+                    dataSelectID = segs[1] || '';
+                    if(data.tchequeex.length > 0){
+                      window.open('/chequecard?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
+                    }
+
+                }).catch(function(err) {
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+            }else if (segs[0] == Barcode_Prefix_Shipping) {
+                productService.getGlobalSearchShipping(segs[1]).then(function(data) {
+                    let dataSelectID = '';
+                    let isProcessed = '';
+                    var splashArrayList = new Array();
+                    var splashArrayListDupp = new Array();
+                    $('.fullScreenSpin').css('display', 'none');
+                    let dataTableList = [];
+                    let dataTableListDupp = [];
+                    dataSelectID = segs[1] || '';
+                    if(data.tinvoice.length > 0){
+                      window.open('/shippingdocket?id=' + dataSelectID, '_self');
+                    }else{
+                      $('.fullScreenSpin').css('display', 'none');
+                    }
+
+                }).catch(function(err) {
+                    $('.fullScreenSpin').css('display', 'none');
+                });
             } else {
                 productService.getGlobalSearchReport(searchName).then(function(data) {
                     let dataSelectID = '';
