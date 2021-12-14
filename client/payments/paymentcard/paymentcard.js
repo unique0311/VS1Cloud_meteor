@@ -6485,7 +6485,101 @@ Template.paymentcard.events({
         });
         templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
     },
+    'click .chkBoxAll': function () {
+        var listData = $(this).closest('tr').attr('id');
+        var selectedClient = $(event.target).closest("tr").find(".colCustomerName").text();
+        const templateObject = Template.instance();
+        const selectedAwaitingPayment = [];
+        const selectedAwaitingPayment2 = [];
+        const selectedAwaitingPayment3 = [];
+        if ($(event.target).is(':checked')) {
+            $(".chkBox").prop("checked", true);
+             $('.chkPaymentCard:checkbox:checked').each(function() {
+            //$('.parentClass:not(span)').method
+            var chkIdLine = $(this).closest('tr').attr('id');
+            var date = $(this).closest("tr").find('.colPaymentDate').text();
+            var receiptNo = $(this).closest("tr").find('.colReceiptNo').text();
+            var orderNo = $(this).closest("tr").find('.colPONumber').text();
+            var paymentAmount = $(this).closest("tr").find('.colPaymentAmount').text();
+            var originalAmount = $(this).closest("tr").find('.colApplied').text();
+            var outstandingAmount = $(this).closest("tr").find('.colBalance').text();
+            var supplierName = $(this).closest("tr").find('.colSupplierName').text();
+            var comments = $(this).closest("tr").find('.colNotes').text();
+            var type = $(this).closest("tr").find('.colTypePayment').text();
+            let paymentTransObj = {
+                awaitingId: chkIdLine,
+                date: date,
+                receiptNo: receiptNo,
+                orderNo: orderNo,
+                paymentAmount: outstandingAmount,
+                originalAmount: originalAmount,
+                outstandingAmount: outstandingAmount,
+                supplierName: supplierName,
+                comments: comments,
+                type: type
+            };
 
+            if (selectedAwaitingPayment.length > 0) {
+                var checkClient = selectedAwaitingPayment.filter(slctdAwtngPyment => {
+                    return slctdAwtngPyment.supplierName == $('#colSupplierName' + chkIdLine).text();
+                });
+
+                if (checkClient.length > 0) {
+                    selectedAwaitingPayment.push(paymentTransObj);
+                } else {
+                    swal('', 'You have selected multiple Suppliers,  a separate payment will be created for each', 'info');
+                    $(this).prop("checked", false);
+                }
+            } else {
+                selectedAwaitingPayment.push(paymentTransObj);
+            }
+        });
+        templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
+        } else {
+            $(".chkBox").prop("checked", false);
+             $('.chkPaymentCard:checkbox:checked').each(function() {
+            //$('.parentClass:not(span)').method
+            var chkIdLine = $(this).closest('tr').attr('id');
+            var date = $(this).closest("tr").find('.colPaymentDate').text();
+            var receiptNo = $(this).closest("tr").find('.colReceiptNo').text();
+            var orderNo = $(this).closest("tr").find('.colPONumber').text();
+            var paymentAmount = $(this).closest("tr").find('.colPaymentAmount').text();
+            var originalAmount = $(this).closest("tr").find('.colApplied').text();
+            var outstandingAmount = $(this).closest("tr").find('.colBalance').text();
+            var supplierName = $(this).closest("tr").find('.colSupplierName').text();
+            var comments = $(this).closest("tr").find('.colNotes').text();
+            var type = $(this).closest("tr").find('.colTypePayment').text();
+            let paymentTransObj = {
+                awaitingId: chkIdLine,
+                date: date,
+                receiptNo: receiptNo,
+                orderNo: orderNo,
+                paymentAmount: outstandingAmount,
+                originalAmount: originalAmount,
+                outstandingAmount: outstandingAmount,
+                supplierName: supplierName,
+                comments: comments,
+                type: type
+            };
+
+            if (selectedAwaitingPayment.length > 0) {
+                var checkClient = selectedAwaitingPayment.filter(slctdAwtngPyment => {
+                    return slctdAwtngPyment.supplierName == $('#colSupplierName' + chkIdLine).text();
+                });
+
+                if (checkClient.length > 0) {
+                    selectedAwaitingPayment.push(paymentTransObj);
+                } else {
+                    swal('', 'You have selected multiple Suppliers,  a separate payment will be created for each', 'info');
+                    $(this).prop("checked", false);
+                }
+            } else {
+                selectedAwaitingPayment.push(paymentTransObj);
+            }
+        });
+        templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
+        }
+    },
     'click .btnSelectSuppliers': function(event) {
         const templateObject = Template.instance();
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get();
@@ -6506,7 +6600,7 @@ Template.paymentcard.events({
                 rowData.attr('id', selectedSupplierPayments[x].awaitingId);
                 rowData.attr('name', selectedSupplierPayments[x].awaitingId);
                 $("#tblPaymentcard tbody").append(rowData);
-                total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace('$', '').replace(',', ''))
+                total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace(/[^0-9.-]+/g, "")) || 0;
                 $('.appliedAmount').text(Currency + total.toFixed(2));
             }
         }
