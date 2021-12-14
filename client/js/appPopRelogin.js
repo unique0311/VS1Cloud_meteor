@@ -18,6 +18,12 @@ Template.appAlertPage.onRendered(function(){
     e.preventDefault();
   });
 
+  $("#erppassword").keyup(function (e) {
+      if (e.keyCode == 13) {
+          $("#resubmitLogin").trigger("click");
+      }
+  });
+
   $(".btnLogOut").click(function(e){
     window.open('/', '_self');
   });
