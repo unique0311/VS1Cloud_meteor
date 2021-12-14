@@ -398,7 +398,9 @@ Template.billcard.onRendered(() => {
                             paymentmethod: data.tsupplierpayment[i].fields.PaymentMethodName || '',
                             notes: data.tsupplierpayment[i].fields.Notes || ''
                         };
+                        if(data.tsupplierpayment[i].fields.Lines != null){
                         dataTableList.push(dataList);
+                       }
                     }
                     templateObject.datatablerecords.set(dataTableList);
                 }).catch(function(err) {
@@ -433,7 +435,10 @@ Template.billcard.onRendered(() => {
                         paymentmethod: useData[i].fields.PaymentMethodName || '',
                         notes: useData[i].fields.Notes || ''
                     };
-                    dataTableList.push(dataList);
+                    if(useData[i].fields.Lines != null){
+                      dataTableList.push(dataList);
+                    }
+
                 }
                 templateObject.datatablerecords.set(dataTableList);
 
@@ -466,7 +471,9 @@ Template.billcard.onRendered(() => {
                         paymentmethod: data.tsupplierpayment[i].fields.PaymentMethodName || '',
                         notes: data.tsupplierpayment[i].fields.Notes || ''
                     };
+                    if(data.tsupplierpayment[i].fields.Lines != null){
                     dataTableList.push(dataList);
+                  }
                 }
                 templateObject.datatablerecords.set(dataTableList);
             }).catch(function(err) {
@@ -5850,7 +5857,7 @@ Template.billcard.events({
     },
     'click #btnViewPayment': function() {
         let templateObject = Template.instance();
-        let paymentData = templateObject.datatablerecords.get();
+        let paymentData = templateObject.datatablerecords.get()||'';
         let paymentID = "";
         var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');

@@ -130,7 +130,7 @@ Template.newsidenav.onCreated(function() {
 });
 Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
-    let allDataToLoad = 48;
+    let allDataToLoad = 49;
     let progressPercentage = 0;
 
     let templateObject = Template.instance();
@@ -1660,12 +1660,40 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllTReconcilationData = function() {
-        // sideBarService.getAllReconcilationList().then(function(data) {
-        //     //localStorage.setItem('VS1TReconcilationList', JSON.stringify(data) || '');
-        //     addVS1Data('TReconciliation',JSON.stringify(data));
-        // }).catch(function(err) {
-        //
-        // });
+
+        sideBarService.getAllReconcilationList(initialDataLoad, 0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Purchase Order "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Reconciliation ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TReconciliation', JSON.stringify(data));
+            $("<span class='process'>Reconciliations Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
     }
 
     templateObject.getAllTbillReportData = function() {
@@ -2721,6 +2749,8 @@ Template.newsidenav.onRendered(function() {
                             if (useData[0].Id) {
                                 templateObject.getAllTReconcilationData();
                             }
+                        }else{
+                          templateObject.getAllTReconcilationData();
                         }
                     }
                 }).catch(function(err) {
@@ -2748,6 +2778,8 @@ Template.newsidenav.onRendered(function() {
                                     }
                                 }
                             }
+                        }else{
+                          templateObject.getAllTStockAdjustEntryData();
                         }
                     }
                 }).catch(function(err) {
@@ -2929,6 +2961,8 @@ Template.newsidenav.onRendered(function() {
                                   }
                               }
                           }
+                      }else{
+                        templateObject.getAllTCreditData();
                       }
 
 
@@ -2944,7 +2978,6 @@ Template.newsidenav.onRendered(function() {
                 }).catch(function(err) {
                     templateObject.getAllTbillReportData();
                 });
-
                 getVS1Data('TBillEx').then(function(dataObject) {
                     if (dataObject.length == 0) {
                       sideBarService.getAllBillExList(initialDataLoad, 0).then(function(data) {
@@ -2979,10 +3012,11 @@ Template.newsidenav.onRendered(function() {
                           $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                           templateObject.getFollowedAllObjectPull();
                       }).catch(function(err) {
-
+                          templateObject.getFollowedAllObjectPull();
                       });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
+
                         let useData = data.tbillex;
                         if (useData.length > 0) {
                             if (useData[0].Id) {
@@ -3065,6 +3099,8 @@ Template.newsidenav.onRendered(function() {
                                     }
                                 }
                             }
+                        }else{
+                          templateObject.getFollowedAllObjectPull();
                         }
 
 
@@ -3102,7 +3138,7 @@ Template.newsidenav.onRendered(function() {
                       $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                       templateObject.getFollowedAllObjectPull();
                   }).catch(function(err) {
-
+                    templateObject.getFollowedAllObjectPull();
                   });
                 });
 
@@ -3128,10 +3164,11 @@ Template.newsidenav.onRendered(function() {
                                   }
                               }
                             }
+                        }else{
+                          templateObject.getAllTChequeData();
                         }
                     }
                 }).catch(function(err) {
-                  console.log(err);
                     templateObject.getAllTChequeData();
                 });
 
@@ -3358,10 +3395,11 @@ Template.newsidenav.onRendered(function() {
                                       }
                                   }
                                 }
+                            }else{
+                              templateObject.getAllTChequeData();
                             }
                         }
                     }).catch(function(err) {
-                      console.log(err);
                         templateObject.getAllTChequeData();
                     });
 
@@ -3981,6 +4019,8 @@ Template.newsidenav.onRendered(function() {
                                     }
                                 }
                             }
+                        }else{
+                            templateObject.getAllTQuoteData();
                         }
 
 
