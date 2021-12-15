@@ -472,7 +472,7 @@ Template.payrolloverview.onRendered(function () {
                             lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
                             info: true,
                             responsive: true,
-                            "order": [[0, "asc"]],
+                            "order": [[1, "asc"]],
                             action: function () {
                                 $('#tblEmployeelist').DataTable().ajax.reload();
                             },
@@ -641,7 +641,7 @@ Template.payrolloverview.onRendered(function () {
                         lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
                         info: true,
                         responsive: true,
-                        "order": [[0, "asc"]],
+                        "order": [[1, "asc"]],
                         action: function () {
                             $('#tblEmployeelist').DataTable().ajax.reload();
                         },

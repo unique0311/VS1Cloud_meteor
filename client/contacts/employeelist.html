@@ -266,7 +266,7 @@
                                 <tr class="dnd-moved">
 
                                     <!-- <th class="th colEmployeeNo" style="width:80px;">Emp #</th> -->
-                                    <th class="th colEmployeeID" style="width:3%;">ID</th>
+                                    <th class="th colEmployeeNo hiddenColumn" style="width:3%;">Emp #</th>
                                     <th class="th colEmployeeName" style="width:150px;">Employee Name</th>
                                     <th class="th colFirstName" style="width:85px;">First Name</th>
                                     <th class="th colLastName" style="width:85px;">Last Name</th>
@@ -287,7 +287,7 @@
                                 {{#each item in datatablerecords}}
                                 <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                     <!-- <td contenteditable="false" class="colEmployeeNo" >{{item.id}}</td> -->
-                                    <td contenteditable="false" class="colEmployeeID" >{{item.id}}</td>
+                                    <td contenteditable="false" class="colEmployeeNo hiddenColumn" >{{item.id}}</td>
                                     <td contenteditable="false" class="colEmployeeName" >{{item.employeename}}</td>
                                     <td contenteditable="false" class="colFirstName">{{item.firstname}}</td>
                                     <td contenteditable="false" class="colLastName">{{item.lastname}}</td>
