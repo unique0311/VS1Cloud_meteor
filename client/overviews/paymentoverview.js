@@ -171,6 +171,7 @@ Template.paymentoverview.onRendered(function() {
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+    if ((!localStorage.getItem('VS1OutstandingInvoiceAmt_dash'))&&(!localStorage.getItem('VS1OutstandingInvoiceQty_dash'))) {
     getVS1Data('TSalesList').then(function (dataObject) {
         if(dataObject.length == 0){
             sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
@@ -263,6 +264,22 @@ Template.paymentoverview.onRendered(function() {
           $('.custOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
       });
     });
+  }else{
+    let itemsOverduePaymentcount = localStorage.getItem('VS1OverDueInvoiceQty_dash')||0;
+    let totAmountOverDue = localStorage.getItem('VS1OverDueInvoiceAmt_dash')||0;
+
+    let itemsAwaitingPaymentcount = localStorage.getItem('VS1OutstandingInvoiceQty_dash')||0;
+    let totAmount = localStorage.getItem('VS1OutstandingInvoiceAmt_dash')||0;
+
+
+    $('#custAwaiting').text(itemsAwaitingPaymentcount);
+    $('#custOverdue').text(itemsOverduePaymentcount);
+    $('.custAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
+    $('.custOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
+
+  }
+
+  if ((!localStorage.getItem('VS1OverDuePayablesAmt_dash'))&&(!localStorage.getItem('VS1OverDuePayablesQty_dash'))) {
     getVS1Data('TAPReport').then(function (dataObject) {
         if(dataObject.length == 0){
             paymentService.getOverviewAPDetails().then(function (data) {
@@ -358,6 +375,22 @@ Template.paymentoverview.onRendered(function() {
             // templateObject.awaitingpaymentCount.set(itemsAwaitingPaymentcount.length);
         });
     });
+
+  }else{
+
+    let itemsSuppOverduePaymentcount = localStorage.getItem('VS1OverDuePayablesQty_dash')||0;
+    let supptotAmountOverDue = localStorage.getItem('VS1OverDuePayablesAmt_dash')||0;
+
+    let itemsSuppAwaitingPaymentcount = localStorage.getItem('VS1OutstandingPayablesQty_dash')||0;
+    let supptotAmount = localStorage.getItem('VS1OutstandingPayablesAmt_dash')||0;
+
+    $('#suppAwaiting').text(itemsSuppAwaitingPaymentcount);
+    $('#suppOverdue').text(itemsSuppOverduePaymentcount);
+
+    $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(supptotAmount));
+    $('.suppOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(supptotAmountOverDue));
+
+  }
 
 
 
@@ -1351,15 +1384,15 @@ Template.paymentoverview.events({
 
 
 
-        sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
-            addVS1Data('TSalesList',JSON.stringify(data)).then(function (datareturn) {
-
-            }).catch(function (err) {
-
-            });
-        }).catch(function(err) {
-
-        });
+        // sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
+        //     addVS1Data('TSalesList',JSON.stringify(data)).then(function (datareturn) {
+        //
+        //     }).catch(function (err) {
+        //
+        //     });
+        // }).catch(function(err) {
+        //
+        // });
     },
     'change #dateTo': function () {
         let templateObject = Template.instance();

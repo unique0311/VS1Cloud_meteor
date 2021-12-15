@@ -1649,13 +1649,15 @@ Template.creditcard.onRendered(() => {
             var offset = $earch.offset();
             var shipvianame = e.target.value || '';
             $('#edtShipViaID').val('');
+            $('#newShipViaMethodName').text('Add Ship Via');
+            $('#edtShipVia').attr('readonly', false);
             if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                 $('#shipViaModal').modal('toggle');
             } else {
                 if (shipvianame.replace(/\s/g, '') != '') {
                     $('#newShipViaMethodName').text('Edit Ship Via');
                     setTimeout(function() {
-                        $('#edtShipVia').attr('readonly', true);
+                        // $('#edtShipVia').attr('readonly', true);
                     }, 100);
 
                     getVS1Data('TShippingMethod').then(function(dataObject) {
@@ -1721,14 +1723,27 @@ Template.creditcard.onRendered(() => {
             }
         });
 
+
     $(document).on("click", "#tblShipViaPopList tbody tr", function(e) {
         $('#shipvia').val($(this).find(".colShipName ").text());
         $('#shipViaModal').modal('toggle');
+
+        $('#tblShipViaPopList_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshVia').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
     $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
         $('#sltCurrency').val($(this).find(".colCode").text());
         $('#currencyModal').modal('toggle');
+
+        $('#tblCurrencyPopList_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshCurrency').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
     $(document).on("click", "#departmentList tbody tr", function(e) {
@@ -1744,6 +1759,12 @@ Template.creditcard.onRendered(() => {
     $(document).on("click", "#tblStatusPopList tbody tr", function(e) {
         $('#sltStatus').val($(this).find(".colStatusName").text());
         $('#statusPopModal').modal('toggle');
+
+        $('#tblStatusPopList_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshStatus').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
     $(document).on("click", "#tblAccount tbody tr", function(e) {

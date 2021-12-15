@@ -4619,9 +4619,15 @@ Template.new_invoice.onRendered(() => {
             }
         });
 
-        $(document).on("click", "#tblCurrencyPopList tbody tr", function (e) {
+        $(document).on("click", "#tblCurrencyPopList tbody tr", function(e) {
             $('#sltCurrency').val($(this).find(".colCode").text());
             $('#currencyModal').modal('toggle');
+
+            $('#tblCurrencyPopList_filter .form-control-sm').val('');
+            setTimeout(function () {
+                $('.btnRefreshCurrency').trigger('click');
+                $('.fullScreenSpin').css('display', 'none');
+            }, 1000);
         });
 
         $(document).on("click", "#departmentList tbody tr", function (e) {
@@ -4634,9 +4640,15 @@ Template.new_invoice.onRendered(() => {
             $('#termsListModal').modal('toggle');
         });
 
-        $(document).on("click", "#tblStatusPopList tbody tr", function (e) {
+        $(document).on("click", "#tblStatusPopList tbody tr", function(e) {
             $('#sltStatus').val($(this).find(".colStatusName").text());
             $('#statusPopModal').modal('toggle');
+
+            $('#tblStatusPopList_filter .form-control-sm').val('');
+            setTimeout(function () {
+                $('.btnRefreshStatus').trigger('click');
+                $('.fullScreenSpin').css('display', 'none');
+            }, 1000);
         });
 
         /* On click Customer List */
@@ -5815,10 +5827,8 @@ Template.new_invoice.onRendered(() => {
                                     }
                                 ],
                                 colReorder: true,
-                                lengthMenu: [
-                                    [25, -1],
-                                    [25, "All"]
-                                ],
+                                pageLength: initialDatatableLoad,
+                                lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                                 info: true,
                                 responsive: true,
                                 "fnDrawCallback": function (oSettings) {
@@ -6029,10 +6039,8 @@ Template.new_invoice.onRendered(() => {
                             ],
                             colReorder: true,
 
-                            lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
-                            ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "order": [
@@ -6105,10 +6113,8 @@ Template.new_invoice.onRendered(() => {
                                 ],
                                 colReorder: true,
 
-                                lengthMenu: [
-                                    [25, -1],
-                                    [25, "All"]
-                                ],
+                                pageLength: initialDatatableLoad,
+                                lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                                 info: true,
                                 responsive: true,
                                 "fnDrawCallback": function (oSettings) {
@@ -6168,10 +6174,8 @@ Template.new_invoice.onRendered(() => {
                             ],
                             colReorder: true,
 
-                            lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
-                            ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "fnDrawCallback": function (oSettings) {
@@ -6232,10 +6236,8 @@ Template.new_invoice.onRendered(() => {
                             ],
                             colReorder: true,
 
-                            lengthMenu: [
-                                [25, -1],
-                                [25, "All"]
-                            ],
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
                             "fnDrawCallback": function (oSettings) {

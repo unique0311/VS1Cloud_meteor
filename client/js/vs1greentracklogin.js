@@ -1413,6 +1413,11 @@ $("#erplogin-button").click(function(e){
           localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
           localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
 
+          localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+          localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+          localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+          localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
           localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
 
@@ -1447,6 +1452,11 @@ $("#erplogin-button").click(function(e){
             localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
             localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
             localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+            localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+            localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+            localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+            localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
             localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -1949,6 +1959,11 @@ $("#erplogin-button").click(function(e){
     localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
     localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
 
+    localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+    localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+    localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+    localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
     localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
 
@@ -1983,6 +1998,11 @@ $("#erplogin-button").click(function(e){
     localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
     localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
     localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+    localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+    localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+    localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+    localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
     localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -2399,6 +2419,11 @@ $("#erplogin-button").click(function(e){
         localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
         localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
 
+        localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+        localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+        localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+        localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
         localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
 
@@ -2433,6 +2458,11 @@ $("#erplogin-button").click(function(e){
           localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
           localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
           localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+          localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+          localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+          localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+          localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
           localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -2945,6 +2975,11 @@ $("#erplogin-button").click(function(e){
     localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
     localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
 
+    localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+    localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+    localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+    localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
     localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
 
@@ -2979,6 +3014,11 @@ $("#erplogin-button").click(function(e){
       localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
       localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
       localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+      localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+      localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+      localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+      localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
       localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -3502,6 +3542,11 @@ $("#erplogin-button").click(function(e){
         localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT||Currency+'0');
         localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY||0);
 
+        localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+        localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+        localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+        localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
         localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
 
@@ -3536,6 +3581,11 @@ $("#erplogin-button").click(function(e){
           localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
           localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
           localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+          localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+          localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+          localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+          localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
           localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 

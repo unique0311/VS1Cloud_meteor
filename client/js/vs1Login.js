@@ -1812,6 +1812,11 @@ Template.vs1login.onRendered(function () {
                                                         localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT || Currency + '0');
                                                         localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY || 0);
 
+                                                        localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+                                                        localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+                                                        localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+                                                        localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
                                                         localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
                                                         localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx || 0);
@@ -1846,6 +1851,11 @@ Template.vs1login.onRendered(function () {
                                                         localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
                                                         localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
                                                         localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+                                                        localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+                                                        localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+                                                        localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+                                                        localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
                                                         localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -1892,8 +1902,8 @@ Template.vs1login.onRendered(function () {
                                                     .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                                     .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                                     .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                    $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                     swal({
                                                         title: 'Awaiting Email Validation',
                                                         html: true,
@@ -2436,6 +2446,12 @@ Template.vs1login.onRendered(function () {
                                     localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT || Currency + '0');
                                     localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY || 0);
 
+                                    localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+                                    localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+                                    localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+                                    localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
+
                                     localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
                                     localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx || 0);
@@ -2470,6 +2486,11 @@ Template.vs1login.onRendered(function () {
                                     localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
                                     localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
                                     localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+                                    localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+                                    localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+                                    localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+                                    localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
                                     localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -2926,6 +2947,12 @@ Template.vs1login.onRendered(function () {
                                                     localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT || Currency + '0');
                                                     localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY || 0);
 
+                                                    localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+                                                    localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+                                                    localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+                                                    localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
+
                                                     localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
                                                     localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx || 0);
@@ -2960,6 +2987,11 @@ Template.vs1login.onRendered(function () {
                                                     localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
                                                     localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
                                                     localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+                                                    localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+                                                    localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+                                                    localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+                                                    localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
                                                     localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -3006,8 +3038,8 @@ Template.vs1login.onRendered(function () {
                                                 .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                                 .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                                 .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                                $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                                 swal({
                                                     title: 'Awaiting Email Validation',
                                                     html: true,
@@ -3616,6 +3648,11 @@ Template.vs1login.onRendered(function () {
                                                 localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT || Currency + '0');
                                                 localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY || 0);
 
+                                                localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+                                                localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+                                                localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+                                                localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
                                                 localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
                                                 localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx || 0);
@@ -3650,6 +3687,11 @@ Template.vs1login.onRendered(function () {
                                                 localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
                                                 localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
                                                 localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+                                                localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+                                                localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+                                                localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+                                                localStorage.setItem('VS1OverDuePayablesQty_dash', '');
 
                                                 localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -3696,8 +3738,8 @@ Template.vs1login.onRendered(function () {
                                             .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                             .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                             .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                            $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                             swal({
                                                 title: 'Awaiting Email Validation',
                                                 html: true,
@@ -4268,6 +4310,11 @@ Template.vs1login.onRendered(function () {
                                             localStorage.setItem('VS1OutstandingPayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_AMOUNT || Currency + '0');
                                             localStorage.setItem('VS1OutstandingPayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_PAYABLES_QUANTITY || 0);
 
+                                            localStorage.setItem('VS1OutstandingInvoiceAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_AMOUNT || Currency + '0');
+                                            localStorage.setItem('VS1OutstandingInvoiceQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OUTSTANDING_INVOICES_QUANTITY || 0);
+                                            localStorage.setItem('VS1OverDuePayablesAmt_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_AMOUNT || Currency + '0');
+                                            localStorage.setItem('VS1OverDuePayablesQty_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.OVERDUE_PAYABLES_QUANTITY || 0);
+
                                             localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
                                             localStorage.setItem('VS1ProfitandLoss_netIncomeEx_dash', dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TVS1_Dashboard_summary.fields.PnL_NetIncomeEx || 0);
@@ -4302,6 +4349,13 @@ Template.vs1login.onRendered(function () {
                                             localStorage.setItem('VS1OverDueInvoiceQty_dash', '');
                                             localStorage.setItem('VS1OutstandingPayablesAmt_dash', '');
                                             localStorage.setItem('VS1OutstandingPayablesQty_dash', '');
+
+                                            localStorage.setItem('VS1OutstandingInvoiceAmt_dash', '');
+                                            localStorage.setItem('VS1OutstandingInvoiceQty_dash', '');
+                                            localStorage.setItem('VS1OverDuePayablesAmt_dash', '');
+                                            localStorage.setItem('VS1OverDuePayablesQty_dash', '');
+
+
 
                                             localStorage.setItem('VS1MonthlyProfitandLoss_dash', '');
 
@@ -4348,8 +4402,8 @@ Template.vs1login.onRendered(function () {
                                         .replace('%23', "#").replace('%24', "$").replace('%25', "%").replace('%26', "&").replace('%27', "'")
                                         .replace('%28', "(").replace('%29', ")").replace('%2A', "*").replace('%2B', "+")
                                         .replace('%2C', ",").replace('%2D', "-").replace('%2E', ".").replace('%2F', "/"));
-                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
-                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/sandboxcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginkey").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
+                                        $(".addloginActive").attr("href", 'https://www.depot.vs1cloud.com/vs1activation/prodcheck.php?checktoken=' + userLoginEmail + '');
                                         swal({
                                             title: 'Awaiting Email Validation',
                                             html: true,

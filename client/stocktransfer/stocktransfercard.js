@@ -1231,11 +1231,16 @@ Template.stocktransfercard.onRendered(function() {
             var offset = $earch.offset();
             var shipvianame = e.target.value || '';
             $('#edtShipViaID').val('');
+            $('#newShipViaMethodName').text('Add Ship Via');
+            $('#edtShipVia').attr('readonly', false);
             if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                 $('#shipViaModal').modal('toggle');
             } else {
                 if (shipvianame.replace(/\s/g, '') != '') {
                     $('#newShipViaMethodName').text('Edit Ship Via');
+                    setTimeout(function() {
+                        // $('#edtShipVia').attr('readonly', true);
+                    }, 100);
 
                     getVS1Data('TShippingMethod').then(function(dataObject) {
                         if (dataObject.length == 0) {
@@ -1258,7 +1263,7 @@ Template.stocktransfercard.onRendered(function() {
                             let data = JSON.parse(dataObject[0].data);
                             let useData = data.tshippingmethod;
                             for (let i = 0; i < data.tshippingmethod.length; i++) {
-                                if (useData[i].DeptClassName === deptDataName) {
+                                if (useData[i].ShippingMethod === shipvianame) {
                                     $('#edtShipViaID').val(useData[i].Id);
                                     $('#edtShipVia').val(useData[i].ShippingMethod);
                                 }
@@ -1279,6 +1284,7 @@ Template.stocktransfercard.onRendered(function() {
                             }
                             setTimeout(function() {
                                 $('.fullScreenSpin').css('display', 'none');
+                                $('#edtShipVia').attr('readonly', false);
                                 $('#newShipViaModal').modal('toggle');
                             }, 200);
                         }).catch(function(err) {
@@ -1383,6 +1389,12 @@ Template.stocktransfercard.onRendered(function() {
     $(document).on("click", "#tblShipViaPopList tbody tr", function(e) {
         $('#shipvia').val($(this).find(".colShipName ").text());
         $('#shipViaModal').modal('toggle');
+
+        $('#tblShipViaPopList_filter .form-control-sm').val('');
+        setTimeout(function () {
+            $('.btnRefreshVia').trigger('click');
+            $('.fullScreenSpin').css('display', 'none');
+        }, 1000);
     });
 
     $(document).on("click", "#departmentList tbody tr", function(e) {
