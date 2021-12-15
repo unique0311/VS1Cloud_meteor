@@ -146,6 +146,7 @@ var splashArrayProductList = new Array();
            departmentData = 'All';
             for(let i=0; i<data.tproductvs1.length; i++){
               var dataList = [
+                data.tproductvs1[i].fields.ID || '',
                 data.tproductvs1[i].fields.ProductName || '-',
                 data.tproductvs1[i].fields.SalesDescription || '',
                 data.tproductvs1[i].fields.BARCODE || '',
@@ -157,7 +158,6 @@ var splashArrayProductList = new Array();
                 data.tproductvs1[i].fields.PurchaseDescription || '',
                 data.tproductvs1[i].fields.CUSTFLD1 || '',
                 data.tproductvs1[i].fields.CUSTFLD2 || '',
-                data.tproductvs1[i].fields.ID || ''
                 // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
             ];
             splashArrayProductList.push(dataList);
@@ -217,37 +217,37 @@ var splashArrayProductList = new Array();
                     destroy: true,
                     columnDefs: [
                         {
-                            className: "colProductName",
+                            className: "colProductID hiddenColumn",
                             "targets": [0]
                         }, {
-                            className: "colSalesDescription",
+                            className: "colProductName",
                             "targets": [1]
                         }, {
-                            className: "colBarcode",
+                            className: "colSalesDescription",
                             "targets": [2]
                         }, {
-                            className: "colDepartment",
+                            className: "colBarcode",
                             "targets": [3]
                         }, {
-                            className: "colCostPrice text-right",
+                            className: "colDepartment",
                             "targets": [4]
                         }, {
-                            className: "colSalePrice text-right",
+                            className: "colCostPrice text-right",
                             "targets": [5]
                         }, {
-                            className: "colQuantity text-right",
+                            className: "colSalePrice text-right",
                             "targets": [6]
                         }, {
-                            className: "colPurchaseDescription hiddenColumn",
+                            className: "colQuantity text-right",
                             "targets": [7]
                         }, {
-                            className: "colProdCustField1 hiddenColumn",
+                            className: "colPurchaseDescription hiddenColumn",
                             "targets": [8]
                         }, {
-                            className: "colProdCustField2 hiddenColumn",
+                            className: "colProdCustField1 hiddenColumn",
                             "targets": [9]
                         }, {
-                            className: "colProductID hiddenColumn",
+                            className: "colProdCustField2 hiddenColumn",
                             "targets": [10]
                         }
                     ],
@@ -284,7 +284,7 @@ var splashArrayProductList = new Array();
                     lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
                     info: true,
                     responsive: true,
-                    "order": [[ 0, "asc" ]],
+                    "order": [[ 1, "asc" ]],
                     action: function () {
                         $('#tblInventory').DataTable().ajax.reload();
                         let draftRecord = templateObject.datatablerecords.get();
@@ -315,6 +315,7 @@ var splashArrayProductList = new Array();
                                   for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                      var dataListDupp = [
+                                       dataObjectnew.tproductvs1[i].fields.ID || '',
                                        dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                        dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
                                        dataObjectnew.tproductvs1[i].fields.BARCODE || '',
@@ -326,7 +327,6 @@ var splashArrayProductList = new Array();
                                        dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                                        dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                                        dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
-                                       dataObjectnew.tproductvs1[i].fields.ID || ''
                                    ];
                                    splashArrayProductList.push(dataListDupp);
 
@@ -403,6 +403,7 @@ let deptStatus = '';
   for(let i=0; i<data.tproductvs1.length; i++){
 
      var dataList = [
+       data.tproductvs1[i].fields.ID || '',
        data.tproductvs1[i].fields.ProductName || '-',
        data.tproductvs1[i].fields.SalesDescription || '',
        data.tproductvs1[i].fields.BARCODE || '',
@@ -410,11 +411,9 @@ let deptStatus = '';
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
        data.tproductvs1[i].fields.TotalQtyInStock,
-
        data.tproductvs1[i].fields.PurchaseDescription || '',
        data.tproductvs1[i].fields.CUSTFLD1 || '',
        data.tproductvs1[i].fields.CUSTFLD2 || '',
-       data.tproductvs1[i].fields.ID || ''
        // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
    ];
    splashArrayProductList.push(dataList);
@@ -474,38 +473,38 @@ setTimeout(function () {
           select: true,
           destroy: true,
           columnDefs: [
-              {
-                  className: "colProductName",
+             {
+                  className: "colProductID hiddenColumn",
                   "targets": [0]
               }, {
-                  className: "colSalesDescription",
+                  className: "colProductName",
                   "targets": [1]
               }, {
-                  className: "colBarcode",
+                  className: "colSalesDescription",
                   "targets": [2]
               }, {
-                  className: "colDepartment",
+                  className: "colBarcode",
                   "targets": [3]
               }, {
-                  className: "colCostPrice text-right",
+                  className: "colDepartment",
                   "targets": [4]
               }, {
-                  className: "colSalePrice text-right",
+                  className: "colCostPrice text-right",
                   "targets": [5]
               }, {
-                  className: "colQuantity text-right",
+                  className: "colSalePrice text-right",
                   "targets": [6]
               }, {
-                  className: "colPurchaseDescription hiddenColumn",
+                  className: "colQuantity text-right",
                   "targets": [7]
               }, {
-                  className: "colProdCustField1 hiddenColumn",
+                  className: "colPurchaseDescription hiddenColumn",
                   "targets": [8]
               }, {
-                  className: "colProdCustField2 hiddenColumn",
+                  className: "colProdCustField1 hiddenColumn",
                   "targets": [9]
               }, {
-                  className: "colProductID hiddenColumn",
+                  className: "colProdCustField2 hiddenColumn",
                   "targets": [10]
               }
           ],
@@ -542,7 +541,7 @@ setTimeout(function () {
           lengthMenu: [ [initialBaseDataLoad, -1], [initialBaseDataLoad, "All"] ],
           info: true,
           responsive: true,
-          "order": [[ 0, "asc" ]],
+          "order": [[ 1, "asc" ]],
           action: function () {
               $('#tblInventory').DataTable().ajax.reload();
               let draftRecord = templateObject.datatablerecords.get();
@@ -573,6 +572,7 @@ setTimeout(function () {
                         for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                            var dataListDupp = [
+                            dataObjectnew.tproductvs1[i].fields.ID || '',
                              dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                              dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
                              dataObjectnew.tproductvs1[i].fields.BARCODE || '',
@@ -584,7 +584,6 @@ setTimeout(function () {
                              dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                              dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                              dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
-                             dataObjectnew.tproductvs1[i].fields.ID || ''
                          ];
                          splashArrayProductList.push(dataListDupp);
 
@@ -657,6 +656,7 @@ setTimeout(function () {
          departmentData = 'All';
           for(let i=0; i<data.tproductvs1.length; i++){
             var dataList = [
+              data.tproductvs1[i].fields.ID || '',
               data.tproductvs1[i].fields.ProductName || '-',
               data.tproductvs1[i].fields.SalesDescription || '',
               data.tproductvs1[i].fields.BARCODE || '',
@@ -668,7 +668,6 @@ setTimeout(function () {
               data.tproductvs1[i].fields.PurchaseDescription || '',
               data.tproductvs1[i].fields.CUSTFLD1 || '',
               data.tproductvs1[i].fields.CUSTFLD2 || '',
-              data.tproductvs1[i].fields.ID || ''
               // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
           ];
           splashArrayProductList.push(dataList);
@@ -727,40 +726,40 @@ setTimeout(function () {
                   select: true,
                   destroy: true,
                   columnDefs: [
-                      {
-                          className: "colProductName",
-                          "targets": [0]
-                      }, {
-                          className: "colSalesDescription",
-                          "targets": [1]
-                      }, {
-                          className: "colBarcode",
-                          "targets": [2]
-                      }, {
-                          className: "colDepartment",
-                          "targets": [3]
-                      }, {
-                          className: "colCostPrice text-right",
-                          "targets": [4]
-                      }, {
-                          className: "colSalePrice text-right",
-                          "targets": [5]
-                      }, {
-                          className: "colQuantity text-right",
-                          "targets": [6]
-                      }, {
-                          className: "colPurchaseDescription hiddenColumn",
-                          "targets": [7]
-                      }, {
-                          className: "colProdCustField1 hiddenColumn",
-                          "targets": [8]
-                      }, {
-                          className: "colProdCustField2 hiddenColumn",
-                          "targets": [9]
-                      }, {
-                          className: "colProductID hiddenColumn",
-                          "targets": [10]
-                      }
+                     {
+                        className: "colProductID hiddenColumn",
+                        "targets": [0]
+                    }, {
+                        className: "colProductName",
+                        "targets": [1]
+                    }, {
+                        className: "colSalesDescription",
+                        "targets": [2]
+                    }, {
+                        className: "colBarcode",
+                        "targets": [3]
+                    }, {
+                        className: "colDepartment",
+                        "targets": [4]
+                    }, {
+                        className: "colCostPrice text-right",
+                        "targets": [5]
+                    }, {
+                        className: "colSalePrice text-right",
+                        "targets": [6]
+                    }, {
+                        className: "colQuantity text-right",
+                        "targets": [7]
+                    }, {
+                        className: "colPurchaseDescription hiddenColumn",
+                        "targets": [8]
+                    }, {
+                        className: "colProdCustField1 hiddenColumn",
+                        "targets": [9]
+                    }, {
+                        className: "colProdCustField2 hiddenColumn",
+                        "targets": [10]
+                    }
                   ],
                   colReorder: true,
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -826,6 +825,7 @@ setTimeout(function () {
                                 for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                    var dataListDupp = [
+                                    dataObjectnew.tproductvs1[i].fields.ID || '',
                                      dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                      dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
                                      dataObjectnew.tproductvs1[i].fields.BARCODE || '',
@@ -837,7 +837,7 @@ setTimeout(function () {
                                      dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                                      dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                                      dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
-                                     dataObjectnew.tproductvs1[i].fields.ID || ''
+                                     
                                  ];
                                  splashArrayProductList.push(dataListDupp);
 

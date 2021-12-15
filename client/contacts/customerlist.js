@@ -192,7 +192,7 @@ Template.customerlist.onRendered(function() {
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [[ 0, "asc" ]],
+                            "order": [[ 1, "asc" ]],
                             action: function () {
                                 $('#tblCustomerlist').DataTable().ajax.reload();
                             },
@@ -413,7 +413,7 @@ Template.customerlist.onRendered(function() {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "asc" ]],
+                        "order": [[ 1, "asc" ]],
                         action: function () {
                             $('#tblCustomerlist').DataTable().ajax.reload();
                         },

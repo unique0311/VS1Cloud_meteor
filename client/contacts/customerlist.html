@@ -269,6 +269,7 @@
                         <table id="tblCustomerlist" name="tblCustomerlist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblCustomerlist">
                             <thead>
                                 <tr class="dnd-moved">
+                                    <th class="th colCustomerID hiddenColumn" style="width:3%;">#ID</th>
                                     <th class="th colCompany" style="width:200px;">Company</th>
                                     <th class="th colJob" style="width:200px;">Job</th>
                                     <th class="th colPhone" style="width:95px;">Phone</th>
@@ -278,7 +279,6 @@
                                     <th class="th colCreditLimit" style="width:80px;">Credit Limit</th>
                                     <th class="th colSalesOrderBalance" style="width:80px;">Order Balance</th>
                                     <th class="th colCountry" style="width:100px;">Country</th>
-
                                     <th class="th colEmail hiddenColumn">Email</th>
                                     <th class="th colAccountNo hiddenColumn">Account No</th>
                                     <th class="th colClientNo hiddenColumn">Custom Field 1</th>
@@ -290,6 +290,7 @@
                                 {{#if datatablerecords}}
                                 {{#each item in datatablerecords}}
                                 <tr class="dnd-moved" id="{{item.id}}" isjob="{{item.job}}" style="cursor: pointer;">
+                                    <td contenteditable="false" class="colCustomerID hiddenColumn" >{{item.id}}</td>
                                     <td contenteditable="false" class="colCompany" >{{item.company}}</td>
                                     <td contenteditable="false" class="colJob">{{item.job}}</td>
                                     <td contenteditable="false" class="colPhone">{{item.phone}}</td>

@@ -258,6 +258,7 @@
                         <table id="tblSupplierlist" name="tblSupplierlist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblSupplierlist">
                             <thead>
                                 <tr class="dnd-moved">
+                                    <th class="th colSupplierID hiddenColumn" style="width:3%">#ID</th>
                                     <th class="th colCompany" style="width:200px;">Company</th>
                                     <th class="th colPhone" style="width:95px;">Phone</th>
                                     <th class="th colARBalance" style="width:80px;">AP Balance</th>
@@ -277,8 +278,8 @@
                                 {{#if datatablerecords}}
                                 {{#each item in datatablerecords}}
                                 <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                    <td contenteditable="false" class="colSupplierID hiddenColumn" >{{item.id}}</td>
                                     <td contenteditable="false" class="colCompany" >{{item.company}}</td>
-
                                     <td contenteditable="false" class="colPhone">{{item.phone}}</td>
                                     <td contenteditable="false" class="colARBalance" style="text-align: right!important;">{{item.arbalance}}</td>
                                     <td contenteditable="false" class="colCreditBalance" style="text-align: right!important;">{{item.creditbalance}}</td>

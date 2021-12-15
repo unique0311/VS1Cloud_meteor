@@ -183,6 +183,7 @@
                     <table id="tblStockAdjustOverview" style="width:100%;" class="dataTable table table-striped table-bordered tblStockAdjustOverview">
                         <thead>
                             <tr class="dnd-moved">
+                                <th class="th colStockAdjID hiddenColumn" style="width: 3%;">#ID</th>
                                 <th class="th colSortDate hiddenColumn">id</th>
                                 <th class="th colCreationDate" style="width:105px;">Creation Date</th>
                                 <th class="th colAccountName" style="width:200px;">Account Name</th>
@@ -201,6 +202,7 @@
                             {{#if datatablerecords}}
                             {{#each item in datatablerecords}}
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                <td contenteditable="false" class="colStockAdjID hiddenColumn">{{item.id}}</td>
                                 <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
                                 <td contenteditable="false" class="colCreationDate" ><span style="display:none;">{{item.sortdate}}</span>{{item.creationdate}}</td>
                                 <td contenteditable="false" class="colAccountName">{{item.accountname}}</td>

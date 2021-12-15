@@ -185,7 +185,7 @@ Template.supplierlist.onRendered(function() {
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [[ 0, "asc" ]],
+                            "order": [[ 1, "asc" ]],
                             action: function () {
                                 $('#tblSupplierlist').DataTable().ajax.reload();
                             },
@@ -373,7 +373,7 @@ Template.supplierlist.onRendered(function() {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[ 0, "asc" ]],
+                        "order": [[ 1, "asc" ]],
                         action: function () {
                             $('#tblSupplierlist').DataTable().ajax.reload();
                         },
