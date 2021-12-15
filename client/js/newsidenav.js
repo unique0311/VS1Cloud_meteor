@@ -2920,7 +2920,7 @@ Template.newsidenav.onRendered(function() {
               $('.headerprogressbar').removeClass('headerprogressbarShow');
               $('.headerprogressbar').addClass('headerprogressbarHidden');
               $('.headerprogressbar').addClass('killProgressBar');
-            }, 2000);
+            }, 3000);
             }
         }, 3000);
 
