@@ -1721,6 +1721,14 @@ Template.billcard.onRendered(() => {
             $('#edtShipVia').attr('readonly', false);
             if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                 $('#shipViaModal').modal('toggle');
+                setTimeout(function() {
+                    $('#tblShipViaPopList_filter .form-control-sm').focus();
+                    $('#tblShipViaPopList_filter .form-control-sm').val('');
+                    $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblShipViaPopList').DataTable();
+                    datatable.draw();
+                    $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                }, 500);
             } else {
                 if (shipvianame.replace(/\s/g, '') != '') {
                     $('#newShipViaMethodName').text('Edit Ship Via');

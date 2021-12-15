@@ -38,6 +38,7 @@ Template.shipviapop.onRendered(function() {
     $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let taxRateService = new TaxRateService();
+    var splashArrayShipViaList = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
     const deptrecords = [];
@@ -82,11 +83,39 @@ Template.shipviapop.onRendered(function() {
                             shippingmethod: data.tshippingmethod[i].ShippingMethod || ' ',
                             id: data.tshippingmethod[i].Id || ' '
                         };
-
+                        var dataList = [
+                        	data.tshippingmethod[i].ShippingMethod || ' '
+                        ];
+                        splashArrayShipViaList.push(dataList);
                         viarecords.push(viarecordObj);
                         templateObject.shipviarecords.set(viarecords);
 
                     }
+                    setTimeout(function() {
+                        $('#tblShipViaPopList').DataTable({
+                            data: splashArrayShipViaList,
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            paging: true,
+                            "aaSorting": [],
+                            "orderMulti": true,
+                            columnDefs: [
+                                { className: "colShipName", "targets": [0] }
+                            ],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "fnInitComplete": function () {
+                                $("<button class='btn btn-primary btnAddNewShipVia' data-dismiss='modal' data-toggle='modal' data-target='#newShipViaModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblShipViaPopList_filter");
+                                $("<button class='btn btn-primary btnRefreshVia' type='button' id='btnRefreshVia' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipViaPopList_filter");
+                            },
+
+                        });
+                        $('.fullScreenSpin').css('display', 'none');
+                    }, 10);
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
@@ -97,580 +126,94 @@ Template.shipviapop.onRendered(function() {
                         shippingmethod: useData[i].ShippingMethod || ' ',
                         id: useData[i].ID || ' '
                     };
-
+                    var dataList = [
+                      data.tshippingmethod[i].ShippingMethod || ' '
+                    ];
+                    splashArrayShipViaList.push(dataList);
                     viarecords.push(viarecordObj);
 
                     templateObject.shipviarecords.set(viarecords);
 
                 }
+
+                $('.fullScreenSpin').css('display', 'none');
+                setTimeout(function() {
+                    $('#tblShipViaPopList').DataTable({
+                        data: splashArrayShipViaList,
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        paging: true,
+                        "aaSorting": [],
+                        "orderMulti": true,
+                        columnDefs: [
+                            { className: "colShipName", "targets": [0] }
+                        ],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        info: true,
+                        responsive: true,
+                        "fnInitComplete": function () {
+                            $("<button class='btn btn-primary btnAddNewShipVia' data-dismiss='modal' data-toggle='modal' data-target='#newShipViaModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblShipViaPopList_filter");
+                            $("<button class='btn btn-primary btnRefreshVia' type='button' id='btnRefreshVia' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipViaPopList_filter");
+                        },
+
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                }, 10);
+
 
             }
         }).catch(function(err) {
 
-            sideBarService.getShippingMethodData().then(function(data) {
-              addVS1Data('TShippingMethod',JSON.stringify(data));
+          sideBarService.getShippingMethodData().then(function(data) {
+            addVS1Data('TShippingMethod',JSON.stringify(data));
+              for (let i in data.tshippingmethod) {
 
-                for (let i in data.tshippingmethod) {
+                  let viarecordObj = {
+                      shippingmethod: data.tshippingmethod[i].ShippingMethod || ' ',
+                      id: data.tshippingmethod[i].Id || ' '
+                  };
+                  var dataList = [
+                    data.tshippingmethod[i].ShippingMethod || ' '
+                  ];
+                  splashArrayShipViaList.push(dataList);
+                  viarecords.push(viarecordObj);
+                  templateObject.shipviarecords.set(viarecords);
 
-                    let viarecordObj = {
-                        shippingmethod: data.tshippingmethod[i].ShippingMethod || ' ',
-                        id: data.tshippingmethod[i].Id || ' '
-                    };
+              }
+              setTimeout(function() {
+                  $('#tblShipViaPopList').DataTable({
+                      data: splashArrayShipViaList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      paging: true,
+                      "aaSorting": [],
+                      "orderMulti": true,
+                      columnDefs: [
+                          { className: "colShipName", "targets": [0] }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewShipVia' data-dismiss='modal' data-toggle='modal' data-target='#newShipViaModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblShipViaPopList_filter");
+                          $("<button class='btn btn-primary btnRefreshVia' type='button' id='btnRefreshVia' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipViaPopList_filter");
+                      },
 
-                    viarecords.push(viarecordObj);
-                    templateObject.shipviarecords.set(viarecords);
-
-                }
-            });
+                  });
+                  $('.fullScreenSpin').css('display', 'none');
+              }, 10);
+          });
         });
 
     }
     templateObject.getShpVias();
 
-    templateObject.getTaxRates = function() {
-        getVS1Data('TLeadStatusType').then(function(dataObject) {
-            if (dataObject.length == 0) {
-                taxRateService.getAllLeadStatus().then(function(data) {
-                    let lineItems = [];
-                    let lineItemObj = {};
-                    let setISCOD = false;
-                    for (let i = 0; i < data.tleadstatustype.length; i++) {
-                        // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
-                        var dataList = {
-                            id: data.tleadstatustype[i].Id || '',
-                            typename: data.tleadstatustype[i].TypeName || '',
-                            description: data.tleadstatustype[i].Description || data.tleadstatustype[i].TypeName
-                        };
-
-                        dataTableList.push(dataList);
-                        //}
-                    }
-
-
-                    templateObject.datatablerecords.set(dataTableList);
-
-                    if (templateObject.datatablerecords.get()) {
-
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblShipViaPopList', function(error, result) {
-                            if (error) {
-
-                            } else {
-                                if (result) {
-                                    for (let i = 0; i < result.customFields.length; i++) {
-                                        let customcolumn = result.customFields;
-                                        let columData = customcolumn[i].label;
-                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                        let hiddenColumn = customcolumn[i].hidden;
-                                        let columnClass = columHeaderUpdate.split('.')[1];
-                                        let columnWidth = customcolumn[i].width;
-                                        let columnindex = customcolumn[i].index + 1;
-
-                                        if (hiddenColumn == true) {
-
-                                            $("." + columnClass + "").addClass('hiddenColumn');
-                                            $("." + columnClass + "").removeClass('showColumn');
-                                        } else if (hiddenColumn == false) {
-                                            $("." + columnClass + "").removeClass('hiddenColumn');
-                                            $("." + columnClass + "").addClass('showColumn');
-                                        }
-
-                                    }
-                                }
-
-                            }
-                        });
-
-
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    }
-
-                    $('.fullScreenSpin').css('display', 'none');
-                    setTimeout(function() {
-                        $('#tblShipViaPopList').DataTable({
-                            columnDefs: [{
-                                "orderable": false,
-                                "targets": -1
-                            }],
-                            select: true,
-                            destroy: true,
-                            colReorder: true,
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                    extend: 'csvHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "tblShipViaPopList_" + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                }, {
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Term List',
-                                    filename: "tblShipViaPopList_" + moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'excelHtml5',
-                                    title: '',
-                                    download: 'open',
-                                    className: "btntabletoexcel hiddenColumn",
-                                    filename: "tblShipViaPopList_" + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                    // ,
-                                    // customize: function ( win ) {
-                                    //   $(win.document.body).children("h1:first").remove();
-                                    // }
-
-                                }
-                            ],
-                            // bStateSave: true,
-                            // rowId: 0,
-                            paging: false,
-                            // "scrollY": "400px",
-                            // "scrollCollapse": true,
-                            info: true,
-                            responsive: true,
-                            "order": [
-                                [0, "asc"]
-                            ],
-                            // "aaSorting": [[1,'desc']],
-                            action: function() {
-                                $('#tblShipViaPopList').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
-                                    MakeNegative();
-                                }, 100);
-                            },
-                            "fnInitComplete": function () {
-                                $("<button class='btn btn-primary btnAddNewShipVia' data-dismiss='modal' data-toggle='modal' data-target='#newShipViaModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblShipViaPopList_filter");
-                                $("<button class='btn btn-primary btnRefreshVia' type='button' id='btnRefreshVia' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipViaPopList_filter");
-                            },
-
-                        }).on('page', function() {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                            let draftRecord = templateObject.datatablerecords.get();
-                            templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function() {
-
-                        }).on('length.dt', function(e, settings, len) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        });
-                        $('.fullScreenSpin').css('display', 'none');
-                    }, 10);
-
-
-                    var columns = $('#tblShipViaPopList th');
-                    let sTible = "";
-                    let sWidth = "";
-                    let sIndex = "";
-                    let sVisible = "";
-                    let columVisible = false;
-                    let sClass = "";
-                    $.each(columns, function(i, v) {
-                        if (v.hidden == false) {
-                            columVisible = true;
-                        }
-                        if ((v.className.includes("hiddenColumn"))) {
-                            columVisible = false;
-                        }
-                        sWidth = v.style.width.replace('px', "");
-
-                        let datatablerecordObj = {
-                            sTitle: v.innerText || '',
-                            sWidth: sWidth || '',
-                            sIndex: v.cellIndex || '',
-                            sVisible: columVisible || false,
-                            sClass: v.className || ''
-                        };
-                        tableHeaderList.push(datatablerecordObj);
-                    });
-                    templateObject.tableheaderrecords.set(tableHeaderList);
-                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-                }).catch(function(err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                    $('.fullScreenSpin').css('display', 'none');
-                    // Meteor._reload.reload();
-                });
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tleadstatustype;
-                let lineItems = [];
-                let lineItemObj = {};
-                let setISCOD = false;
-                for (let i = 0; i < useData.length; i++) {
-                    // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
-                    var dataList = {
-                        id: useData[i].Id || '',
-                        typename: useData[i].TypeName || '',
-                        description: useData[i].Description || useData[i].TypeName
-                    };
-
-                    dataTableList.push(dataList);
-                    //}
-                }
-
-
-                templateObject.datatablerecords.set(dataTableList);
-
-                if (templateObject.datatablerecords.get()) {
-
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblShipViaPopList', function(error, result) {
-                        if (error) {
-
-                        } else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if (hiddenColumn == true) {
-
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-
-
-                    setTimeout(function() {
-                        MakeNegative();
-                    }, 100);
-                }
-
-                $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function() {
-                    $('#tblShipViaPopList').DataTable({
-                        columnDefs: [{
-                            "orderable": false,
-                            "targets": -1
-                        }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "tblShipViaPopList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Term List',
-                                filename: "tblShipViaPopList_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "tblShipViaPopList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                                // ,
-                                // customize: function ( win ) {
-                                //   $(win.document.body).children("h1:first").remove();
-                                // }
-
-                            }
-                        ],
-                        // bStateSave: true,
-                        // rowId: 0,
-                        paging: false,
-                        // "scrollY": "400px",
-                        // "scrollCollapse": true,
-                        info: true,
-                        responsive: true,
-                        "order": [
-                            [0, "asc"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#tblShipViaPopList').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
-                        "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnAddNewShipVia' data-dismiss='modal' data-toggle='modal' data-target='#newShipViaModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblShipViaPopList_filter");
-                            $("<button class='btn btn-primary btnRefreshVia' type='button' id='btnRefreshVia' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipViaPopList_filter");
-                        },
-
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    });
-                    $('.fullScreenSpin').css('display', 'none');
-                }, 10);
-
-
-                var columns = $('#tblShipViaPopList th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function(i, v) {
-                    if (v.hidden == false) {
-                        columVisible = true;
-                    }
-                    if ((v.className.includes("hiddenColumn"))) {
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
-
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-            }
-        }).catch(function(err) {
-            taxRateService.getAllLeadStatus().then(function(data) {
-                let lineItems = [];
-                let lineItemObj = {};
-                let setISCOD = false;
-                for (let i = 0; i < data.tleadstatustype.length; i++) {
-                    // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
-                    var dataList = {
-                        id: data.tleadstatustype[i].Id || '',
-                        typename: data.tleadstatustype[i].TypeName || '',
-                        description: data.tleadstatustype[i].Description || data.tleadstatustype[i].TypeName
-                    };
-
-                    dataTableList.push(dataList);
-                    //}
-                }
-
-
-                templateObject.datatablerecords.set(dataTableList);
-
-                if (templateObject.datatablerecords.get()) {
-
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblShipViaPopList', function(error, result) {
-                        if (error) {
-
-                        } else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if (hiddenColumn == true) {
-
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-
-
-                    setTimeout(function() {
-                        MakeNegative();
-                    }, 100);
-                }
-
-                $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function() {
-                    $('#tblShipViaPopList').DataTable({
-                        columnDefs: [{
-                            "orderable": false,
-                            "targets": -1
-                        }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "tblShipViaPopList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Term List',
-                                filename: "tblShipViaPopList_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "tblShipViaPopList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                                // ,
-                                // customize: function ( win ) {
-                                //   $(win.document.body).children("h1:first").remove();
-                                // }
-
-                            }
-                        ],
-                        // bStateSave: true,
-                        // rowId: 0,
-                        paging: false,
-                        // "scrollY": "400px",
-                        // "scrollCollapse": true,
-                        info: true,
-                        responsive: true,
-                        "order": [
-                            [0, "asc"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#tblShipViaPopList').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
-                        "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnAddNewShipVia' data-dismiss='modal' data-toggle='modal' data-target='#newShipViaModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblShipViaPopList_filter");
-                            $("<button class='btn btn-primary btnRefreshVia' type='button' id='btnRefreshVia' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblShipViaPopList_filter");
-                        },
-
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    });
-                    $('.fullScreenSpin').css('display', 'none');
-                }, 10);
-
-
-                var columns = $('#tblShipViaPopList th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function(i, v) {
-                    if (v.hidden == false) {
-                        columVisible = true;
-                    }
-                    if ((v.className.includes("hiddenColumn"))) {
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
-
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-            }).catch(function(err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
-            });
-        });
-
-    }
-
-    templateObject.getTaxRates();
 
     $(document).on('click', '.table-remove', function() {
         event.stopPropagation();
@@ -802,6 +345,87 @@ Template.shipviapop.events({
     },
     'click #btnNewInvoice': function(event) {
         // FlowRouter.go('/invoicecard');
+    },
+    'click .btnRefreshVia': function (event) {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        const customerList = [];
+        const clientList = [];
+        let salesOrderTable;
+        var splashArray = new Array();
+        var splashArrayShipViaList = new Array();
+        const dataTableList = [];
+        const tableHeaderList = [];
+        let sideBarService = new SideBarService();
+        let taxRateService = new TaxRateService();
+        let dataSearchName = $('#tblShipViaPopList_filter input').val();
+        var currentLoc = FlowRouter.current().route.path;
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getShippingMethodByName(dataSearchName).then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.tshippingmethod.length > 0) {
+                  for (let i = 0; i < data.tshippingmethod.length; i++) {
+                      var dataList = [
+                          data.tshippingmethod[i].ShippingMethod || ' '
+                        ];
+
+                      splashArrayShipViaList.push(dataList);
+                  }
+
+                    var datatable = $('#tblShipViaPopList').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(splashArrayShipViaList);
+                    datatable.draw(false);
+
+                    $('.fullScreenSpin').css('display', 'none');
+                } else {
+
+                    $('.fullScreenSpin').css('display', 'none');
+                     $('#shipViaModal').modal('toggle');
+                    swal({
+                        title: 'Question',
+                        text: "Ship Via does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#newShipViaModal').modal('toggle');
+                            $('#edtShipVia').val(dataSearchName);
+                        } else if (result.dismiss === 'cancel') {
+                            $('#newShipViaModal').modal('toggle');
+                        }
+                    });
+
+                }
+
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+          sideBarService.getShippingMethodData().then(function(data) {
+
+                  let records = [];
+                  let inventoryData = [];
+                  for (let i = 0; i < data.tshippingmethod.length; i++) {
+                    var dataList = [
+                  data.tshippingmethod[i].ShippingMethod || ' '
+                ];
+                splashArrayShipViaList.push(dataList);
+
+                  }
+        var datatable = $('#tblShipViaPopList').DataTable();
+              datatable.clear();
+              datatable.rows.add(splashArrayShipViaList);
+              datatable.draw(false);
+
+              $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
     },
     'click .chkDatatable': function(event) {
         var columns = $('#tblShipViaPopList th');

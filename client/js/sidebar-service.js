@@ -866,6 +866,15 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TTaxcodeVS1, options);
   }
 
+  getShippingMethodByName(dataSearchName) {
+    let options = '';
+       options = {
+        PropertyList: "ID,ShippingMethod",
+        select: '[ShippingMethod] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TShippingMethod, options);
+  }
+
   getDepartment() {
     let options = {
       PropertyList: "ID,GlobalRef,KeyValue,DeptClassGroup,DeptClassName,Description,SiteCode,Active",
