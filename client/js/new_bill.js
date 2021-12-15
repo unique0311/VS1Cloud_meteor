@@ -648,6 +648,28 @@ Template.billcard.onRendered(() => {
                                         }
                                     }
                                 }
+
+                                 if (data.fields.IsPaid === true) {
+                                            $('#edtSupplierName').attr('readonly', true);
+                                            $('#btnViewPayment').removeAttr('disabled', 'disabled');
+                                            $('#addRow').attr('disabled', 'disabled');
+                                            $('#edtSupplierName').css('background-color', '#eaecf4');
+                                            $('.btnSave').attr('disabled', 'disabled');
+                                            $('#btnBack').removeAttr('disabled', 'disabled');
+                                            $('.printConfirm').removeAttr('disabled', 'disabled');
+                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                                var $tblrow = $(this);
+                                                $tblrow.find("td").attr('contenteditable', false);
+                                                //$tblrow.find("td").removeClass("lineProductName");
+                                                $tblrow.find("td").removeClass("lineTaxAmount");
+                                                $tblrow.find("td").removeClass("lineTaxCode");
+
+                                                $tblrow.find("td").attr('readonly', true);
+                                                $tblrow.find("td").attr('disabled', 'disabled');
+                                                $tblrow.find("td").css('background-color', '#eaecf4');
+                                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            });
+                                        }
                             }, 100);
                             templateObject.billrecord.set(billrecord);
                             templateObject.selectedCurrency.set(billrecord.currency);
@@ -843,6 +865,30 @@ Template.billcard.onRendered(() => {
                                             }
                                         }
                                     }
+
+
+                                    if (useData[d].fields.IsPaid === true) {
+                                            $('#edtSupplierName').attr('readonly', true);
+                                            $('#btnViewPayment').removeAttr('disabled', 'disabled');
+                                            $('#addRow').attr('disabled', 'disabled');
+                                            $('#edtSupplierName').css('background-color', '#eaecf4');
+                                            $('.btnSave').attr('disabled', 'disabled');
+                                            $('#btnBack').removeAttr('disabled', 'disabled');
+                                            $('.printConfirm').removeAttr('disabled', 'disabled');
+                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                                var $tblrow = $(this);
+                                                $tblrow.find("td").attr('contenteditable', false);
+                                                //$tblrow.find("td").removeClass("lineProductName");
+                                                $tblrow.find("td").removeClass("lineTaxAmount");
+                                                $tblrow.find("td").removeClass("lineTaxCode");
+
+                                                $tblrow.find("td").attr('readonly', true);
+                                                $tblrow.find("td").attr('disabled', 'disabled');
+                                                $tblrow.find("td").css('background-color', '#eaecf4');
+                                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            });
+                                        }
+
                                 }, 100);
                                 templateObject.billrecord.set(billrecord);
 
@@ -1254,6 +1300,28 @@ Template.billcard.onRendered(() => {
                                     }
                                 }
                             }
+
+                             if (data.fields.IsPaid === true) {
+                                            $('#edtSupplierName').attr('readonly', true);
+                                            $('#btnViewPayment').removeAttr('disabled', 'disabled');
+                                            $('#addRow').attr('disabled', 'disabled');
+                                            $('#edtSupplierName').css('background-color', '#eaecf4');
+                                            $('.btnSave').attr('disabled', 'disabled');
+                                            $('#btnBack').removeAttr('disabled', 'disabled');
+                                            $('.printConfirm').removeAttr('disabled', 'disabled');
+                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                                var $tblrow = $(this);
+                                                $tblrow.find("td").attr('contenteditable', false);
+                                                //$tblrow.find("td").removeClass("lineProductName");
+                                                $tblrow.find("td").removeClass("lineTaxAmount");
+                                                $tblrow.find("td").removeClass("lineTaxCode");
+
+                                                $tblrow.find("td").attr('readonly', true);
+                                                $tblrow.find("td").attr('disabled', 'disabled');
+                                                $tblrow.find("td").css('background-color', '#eaecf4');
+                                                $tblrow.find("td .table-remove").removeClass("btnRemove");
+                                            });
+                                        }
                         }, 100);
                         templateObject.billrecord.set(billrecord);
 

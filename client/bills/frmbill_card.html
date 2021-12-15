@@ -314,6 +314,12 @@
                             <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103);">BALANCE DUE</p>
                             <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{billrecord.balanceDue}}</p>
                         </div>
+                         {{#if equals billrecord.ispaid true}}
+                        <div class="colPaid float-right" style="display: none; margin-right: 24px;">
+                            <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Paid</p>
+                            <input class="form-control form-control ispaidInv" type="hidden" value="true">
+                        </div>
+                         {{/if}}
                         {{#if equals billrecord.ispaid false }}
                             <button class="btn btn-primary float-right" type="button" style="width: 150px;margin: 16px; margin-left: 0px; margin-right: 24px;" id="btnPayment" name="btnPayment">Payment</button>
                         {{else}}
@@ -1011,6 +1017,9 @@
                                     -ms-transform: rotate(180deg);
                                     transform: rotate(180deg);
                                 }
+                                .colPaid {
+                                    display: block !important;
+                                 }
 
                                 .colAmount {
                                     cursor: pointer;
