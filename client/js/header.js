@@ -95,7 +95,6 @@ Template.header.onRendered(function() {
     let sidePanelToggle = Session.get('sidePanelToggle');
 
     var dontOpenSearchGuide = localStorage.getItem('dontopensearchguide')||'false';
-    console.log(dontOpenSearchGuide);
     setTimeout(function() {
     if(dontOpenSearchGuide == 'true' || dontOpenSearchGuide == true){
       $(".chkOpenByDefault").prop("checked", true);

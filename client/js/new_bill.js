@@ -1131,7 +1131,6 @@ Template.billcard.onRendered(() => {
                                     });
                                 }
                             }).catch(function(err) {
-                              console.log(err);
                                 swal({
                                     title: 'Oooops...',
                                     text: err,
