@@ -318,7 +318,14 @@
                     <div class="col-12 col-xl-2">
                         <div class="text-right" style="font-size: 14px;min-width: 175px;margin: 16px; margin-right: 24px;">
                             <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103);">BALANCE DUE</p>
-                            <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{creditrecord.balanceDue}}</p>
+                            {{#if equals creditrecord.ispaid true}}
+                                <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Paid</p>
+                                <input class="form-control form-control ispaidInv" type="hidden" value="true">
+                            {{else}}
+                                <input class="form-control form-control ispaidInv" type="hidden" value="false">
+                                <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{creditrecord.balanceDue}}</p>
+                            {{/if}}
+                            <!-- <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{creditrecord.balanceDue}}</p> -->
                         </div>
                     </div>
                 </div>

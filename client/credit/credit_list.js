@@ -851,7 +851,7 @@ Template.creditlist.events({
                     });
                 }
             }).catch(function (err) {
-                
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -939,7 +939,7 @@ Template.creditlist.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn' : function(event){
         let columData = $(event.target).text();

@@ -33,6 +33,7 @@ Template.paymentmethodpop.onRendered(function() {
     $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let taxRateService = new TaxRateService();
+    var splashArrayPaymentMethodList = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
     const deptrecords = [];
@@ -105,6 +106,18 @@ Template.paymentmethodpop.onRendered(function() {
                             iscreditcard: data.tpaymentmethodvs1[i].IsCreditCard || 'false',
                         };
 
+                        let getIsCreditCard = '';
+                        if(data.tpaymentmethodvs1[i].IsCreditCard){
+                          getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id" checked><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                        }else{
+                          getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id"><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                        }
+                        var dataList = [
+                          data.tpaymentmethodvs1[i].PaymentMethodName || '',
+                          getIsCreditCard
+                        ];
+                        splashArrayPaymentMethodList.push(dataList);
+
                         dataTableList.push(dataList);
                         //}
                     }
@@ -151,93 +164,28 @@ Template.paymentmethodpop.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     setTimeout(function() {
                         $('#paymentmethodList').DataTable({
-                            columnDefs: [{
-                                "orderable": false,
-                                "targets": -1
-                            }],
+                            data: splashArrayPaymentMethodList,
+
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            paging: true,
+                            "aaSorting": [],
+                            "orderMulti": true,
+                            columnDefs: [
+                                { className: "colName colNamePopUp pointer", "targets": [0] },
+                                { className: "colIsCreditCard colCreditCardPopUp text-center", "targets": [1] }
+                            ],
                             select: true,
                             destroy: true,
                             colReorder: true,
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                    extend: 'csvHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "paymentmethodList_" + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                }, {
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Payment Method List',
-                                    filename: "paymentmethodList_" + moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'excelHtml5',
-                                    title: '',
-                                    download: 'open',
-                                    className: "btntabletoexcel hiddenColumn",
-                                    filename: "paymentmethodList_" + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                    // ,
-                                    // customize: function ( win ) {
-                                    //   $(win.document.body).children("h1:first").remove();
-                                    // }
-
-                                }
-                            ],
-                            // bStateSave: true,
-                            // rowId: 0,
-                            paging: false,
-                            // "scrollY": "400px",
-                            // "scrollCollapse": true,
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [
-                                [0, "asc"]
-                            ],
-                            pageLength: initialDatatableLoad,
-                            lengthMenu: [
-                                [initialDatatableLoad, -1],
-                                [initialDatatableLoad, "All"]
-                            ],
-                            // "aaSorting": [[1,'desc']],
-                            action: function() {
-                                $('#paymentmethodList').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
-                                    MakeNegative();
-                                }, 100);
-                            },
                             "fnInitComplete": function () {
-                                $("<button class='btn btn-primary btnAddNewPaymentMethod' data-dismiss='modal' data-toggle='modal' data-target='#newPaymentMethodModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#paymentmethodList_filter");
-                                $("<button class='btn btn-primary btnRefreshPaymentMethod' type='button' id='btnRefreshPaymentMethod' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#paymentmethodList_filter");
+                              $("<button class='btn btn-primary btnAddNewPaymentMethod' data-dismiss='modal' data-toggle='modal' data-target='#newPaymentMethodModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#paymentmethodList_filter");
+                              $("<button class='btn btn-primary btnRefreshPaymentMethod' type='button' id='btnRefreshPaymentMethod' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#paymentmethodList_filter");
                             }
 
-                        }).on('page', function() {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                            let draftRecord = templateObject.datatablerecords.get();
-                            templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function() {
-
-                        }).on('length.dt', function(e, settings, len) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
                         });
                         $('.fullScreenSpin').css('display', 'none');
                     }, 10);
@@ -288,6 +236,17 @@ Template.paymentmethodpop.onRendered(function() {
                         paymentmethodname: useData[i].fields.PaymentMethodName || '',
                         iscreditcard: useData[i].fields.IsCreditCard || 'false',
                     };
+                    let getIsCreditCard = '';
+                    if(useData[i].fields.IsCreditCard){
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-useData[i].fields.ID" checked><label class="custom-control-label chkBox"for="iscreditcard-useData[i].fields.ID"></label></div>';
+                    }else{
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-useData[i].fields.ID"><label class="custom-control-label chkBox"for="iscreditcard-useData[i].fields.ID"></label></div>';
+                    }
+                    var dataList = [
+                      useData[i].fields.PaymentMethodName || '',
+                      getIsCreditCard
+                    ];
+                    splashArrayPaymentMethodList.push(dataList);
 
                     dataTableList.push(dataList);
                     //}
@@ -336,92 +295,27 @@ Template.paymentmethodpop.onRendered(function() {
                 $('.fullScreenSpin').css('display', 'none');
                 setTimeout(function() {
                     $('#paymentmethodList').DataTable({
-                        columnDefs: [{
-                            "orderable": false,
-                            "targets": -1
-                        }],
+                        data: splashArrayPaymentMethodList,
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        paging: true,
+                        "aaSorting": [],
+                        "orderMulti": true,
+                        columnDefs: [
+                            { className: "colName colNamePopUp pointer", "targets": [0] },
+                            { className: "colIsCreditCard colCreditCardPopUp text-center", "targets": [1] }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "paymentmethodList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Payment Method List',
-                                filename: "paymentmethodList_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "paymentmethodList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                                // ,
-                                // customize: function ( win ) {
-                                //   $(win.document.body).children("h1:first").remove();
-                                // }
-
-                            }
-                        ],
-                        // bStateSave: true,
-                        // rowId: 0,
-                        // paging: false,
-                        // "scrollY": "400px",
-                        // "scrollCollapse": true,
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [
-                            [0, "asc"]
-                        ],
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [
-                            [initialDatatableLoad, -1],
-                            [initialDatatableLoad, "All"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#paymentmethodList').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
                         "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnAddNewPaymentMethod' data-dismiss='modal' data-toggle='modal' data-target='#newPaymentMethodModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#paymentmethodList_filter");
+                          $("<button class='btn btn-primary btnAddNewPaymentMethod' data-dismiss='modal' data-toggle='modal' data-target='#newPaymentMethodModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#paymentmethodList_filter");
+                          $("<button class='btn btn-primary btnRefreshPaymentMethod' type='button' id='btnRefreshPaymentMethod' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#paymentmethodList_filter");
                         }
 
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 }, 10);
@@ -468,6 +362,18 @@ Template.paymentmethodpop.onRendered(function() {
                         iscreditcard: data.tpaymentmethodvs1[i].IsCreditCard || 'false',
                     };
 
+                    let getIsCreditCard = '';
+                    if(data.tpaymentmethodvs1[i].IsCreditCard){
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id" checked><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                    }else{
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id"><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                    }
+                    var dataList = [
+                      data.tpaymentmethodvs1[i].PaymentMethodName || '',
+                      getIsCreditCard
+                    ];
+                    splashArrayPaymentMethodList.push(dataList);
+
                     dataTableList.push(dataList);
                     //}
                 }
@@ -514,92 +420,27 @@ Template.paymentmethodpop.onRendered(function() {
                 $('.fullScreenSpin').css('display', 'none');
                 setTimeout(function() {
                     $('#paymentmethodList').DataTable({
-                        columnDefs: [{
-                            "orderable": false,
-                            "targets": -1
-                        }],
+                        data: splashArrayPaymentMethodList,
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        paging: true,
+                        "aaSorting": [],
+                        "orderMulti": true,
+                        columnDefs: [
+                            { className: "colName colNamePopUp pointer", "targets": [0] },
+                            { className: "colIsCreditCard colCreditCardPopUp text-center", "targets": [1] }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "paymentmethodList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Payment Method List',
-                                filename: "paymentmethodList_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "paymentmethodList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                                // ,
-                                // customize: function ( win ) {
-                                //   $(win.document.body).children("h1:first").remove();
-                                // }
-
-                            }
-                        ],
-                        // bStateSave: true,
-                        // rowId: 0,
-                        paging: false,
-                        // "scrollY": "400px",
-                        // "scrollCollapse": true,
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [
-                            [0, "asc"]
-                        ],
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [
-                            [initialDatatableLoad, -1],
-                            [initialDatatableLoad, "All"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#paymentmethodList').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
                         "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnAddNewPaymentMethod' data-dismiss='modal' data-toggle='modal' data-target='#newPaymentMethodModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#paymentmethodList_filter");
+                          $("<button class='btn btn-primary btnAddNewPaymentMethod' data-dismiss='modal' data-toggle='modal' data-target='#newPaymentMethodModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#paymentmethodList_filter");
+                          $("<button class='btn btn-primary btnRefreshPaymentMethod' type='button' id='btnRefreshPaymentMethod' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#paymentmethodList_filter");
                         }
 
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {
-
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 }, 10);
@@ -1032,6 +873,105 @@ Template.paymentmethodpop.events({
         }).catch(function(err) {
             location.reload(true);
         });
+    },
+    'click .btnRefreshPaymentMethod': function (event) {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        const customerList = [];
+        const clientList = [];
+        let salesOrderTable;
+        var splashArray = new Array();
+        var splashArrayPaymentMethodList = new Array();
+        const dataTableList = [];
+        const tableHeaderList = [];
+        let sideBarService = new SideBarService();
+        let taxRateService = new TaxRateService();
+        let dataSearchName = $('#paymentmethodList_filter input').val();
+        var currentLoc = FlowRouter.current().route.path;
+        if (dataSearchName.replace(/\s/g, '') != '') {
+            sideBarService.getPaymentMethodVS1ByName(dataSearchName).then(function (data) {
+                let lineItems = [];
+                let lineItemObj = {};
+                if (data.tpaymentmethodvs1.length > 0) {
+                  for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                    let getIsCreditCard = '';
+                    if(data.tpaymentmethodvs1[i].IsCreditCard){
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id" checked><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                    }else{
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id"><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                    }
+                    var dataList = [
+                      data.tpaymentmethodvs1[i].PaymentMethodName || '',
+                      getIsCreditCard
+                    ];
+                splashArrayPaymentMethodList.push(dataList);
+                  }
+
+                    var datatable = $('#paymentmethodList').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(splashArrayPaymentMethodList);
+                    datatable.draw(false);
+
+                    $('.fullScreenSpin').css('display', 'none');
+                } else {
+
+                    $('.fullScreenSpin').css('display', 'none');
+                     $('#shipViaModal').modal('toggle');
+                    swal({
+                        title: 'Question',
+                        text: "Payment Method does not exist, would you like to create it?",
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#newPaymentMethodModal').modal('toggle');
+                            $('#edtName').val(dataSearchName);
+                        } else if (result.dismiss === 'cancel') {
+                            $('#newPaymentMethodModal').modal('toggle');
+                        }
+                    });
+
+                }
+
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+          sideBarService.getPaymentMethodVS1().then(function(data) {
+
+                  let records = [];
+                  let inventoryData = [];
+                  for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                    let getIsCreditCard = '';
+                    if(data.tpaymentmethodvs1[i].IsCreditCard){
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id" checked><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                    }else{
+                      getIsCreditCard = '<div class="custom-control custom-checkbox chkBox"><input class="custom-control-input chkBox" type="checkbox" id="iscreditcard-data.tpaymentmethodvs1[i].Id"><label class="custom-control-label chkBox"for="iscreditcard-data.tpaymentmethodvs1[i].Id"></label></div>';
+                    }
+                    var dataList = [
+                      data.tpaymentmethodvs1[i].PaymentMethodName || '',
+                      getIsCreditCard
+                    ];
+                splashArrayPaymentMethodList.push(dataList);
+
+                  }
+        var datatable = $('#paymentmethodList').DataTable();
+              datatable.clear();
+              datatable.rows.add(splashArrayPaymentMethodList);
+              datatable.draw(false);
+
+              $('.fullScreenSpin').css('display', 'none');
+              }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
+    },
+    'keyup #paymentmethodList_filter input': function (event) {
+      if (event.keyCode == 13) {
+         $(".btnRefreshPaymentMethod").trigger("click");
+      }
     },
     'click .btnDeletePaymentMethod': function() {
         let taxRateService = new TaxRateService();

@@ -272,7 +272,7 @@ Template.depositlist.onRendered(function() {
             }else{
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tvs1bankdeposit;
-                
+
                 $('.fullScreenSpin').css('display','none');
                 let lineItems = [];
                 let lineItemObj = {};
@@ -902,7 +902,7 @@ Template.depositlist.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
         //Meteor._reload.reload();
     },
     'blur .divcolumn' : function(event){

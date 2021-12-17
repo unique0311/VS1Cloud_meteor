@@ -492,6 +492,7 @@
 
                             .shorthandCode {
                                 color: #00a3d3;
+                                cursor: pointer;
                             }
                         </style>
                         <div class="col-6" style="padding-right: 0px;">
@@ -519,31 +520,37 @@
 
                         <div class="col-6" style="padding-left: 0px;">
                             <ul class="" style="list-style-type: none; padding-left: 0px;">
-                                <li class="shorthandSearchli shorthandCode">ACC</li>
-                                <li class="shorthandSearchli shorthandCode">BI</li>
-                                <li class="shorthandSearchli shorthandCode">CH</li>
-                                <li class="shorthandSearchli shorthandCode">CUS</li>
-                                <li class="shorthandSearchli shorthandCode">EMP</li>
-                                <li class="shorthandSearchli shorthandCode">IN</li>
-                                <li class="shorthandSearchli shorthandCode">JO</li>
-                                <li class="shorthandSearchli shorthandCode">PA</li>
-                                <li class="shorthandSearchli shorthandCode">PRO</li>
-                                <li class="shorthandSearchli shorthandCode">PO</li>
-                                <li class="shorthandSearchli shorthandCode">QU</li>
-                                <li class="shorthandSearchli shorthandCode">RE</li>
-                                <li class="shorthandSearchli shorthandCode">SO</li>
-                                <li class="shorthandSearchli shorthandCode">SH</li>
-                                <li class="shorthandSearchli shorthandCode">SA</li>
-                                <li class="shorthandSearchli shorthandCode">ST</li>
-                                <li class="shorthandSearchli shorthandCode">SUP</li>
-                                <li class="shorthandSearchli shorthandCode">TS</li>
+                                <li class="shorthandSearchli shorthandCode">ACC-04</li>
+                                <li class="shorthandSearchli shorthandCode">BI-64</li>
+                                <li class="shorthandSearchli shorthandCode">CH-84</li>
+                                <li class="shorthandSearchli shorthandCode">CUS-60</li>
+                                <li class="shorthandSearchli shorthandCode">EMP-03</li>
+                                <li class="shorthandSearchli shorthandCode">IN-34</li>
+                                <li class="shorthandSearchli shorthandCode">JO-67</li>
+                                <li class="shorthandSearchli shorthandCode">PA-49</li>
+                                <li class="shorthandSearchli shorthandCode">PRO-2</li>
+                                <li class="shorthandSearchli shorthandCode">PO-65</li>
+                                <li class="shorthandSearchli shorthandCode">QU-24</li>
+                                <li class="shorthandSearchli shorthandCode">RE-90</li>
+                                <li class="shorthandSearchli shorthandCode">SO-23</li>
+                                <li class="shorthandSearchli shorthandCode">SH-82</li>
+                                <li class="shorthandSearchli shorthandCode">SA-56</li>
+                                <li class="shorthandSearchli shorthandCode">ST-55</li>
+                                <li class="shorthandSearchli shorthandCode">SUP-72</li>
+                                <li class="shorthandSearchli shorthandCode">TS-87</li>
                             </ul>
                         </div>
                     </div>
-                    <p>In order to use these codes, simply type their shorthand followed by a dash and the relevant ID of the associated item.</p>
-                    <p>For example, to quickly search for a specific Product with an ID of 00123, you would simply type in "PRO-00123".</p>
+                    <!-- <p>In order to use these codes, simply type their shorthand followed by a dash and the relevant ID of the associated item.</p>
+                    <p>For example, to quickly search for a specific Product with an ID of 00123, you would simply type in "PRO-00123".</p> -->
                 </div>
-                <div class="modal-footer"><button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button></div>
+                <div class="modal-footer">
+                  <!-- <div id="close_helpbutton"><a href="#" id="close_help">Don't open by default<img src="icons/closehelp.PNG" class=""></a></div> -->
+                  <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input chkOpenByDefault" id="chkOpenByDefault">
+                      <label style="width: 275px;" class="custom-control-label" for="chkOpenByDefault">Don't open by default</label>
+                  </div>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal" style="margin: -1rem 0rem -1rem auto;">Close</button></div>
             </div>
         </div>
     </div>

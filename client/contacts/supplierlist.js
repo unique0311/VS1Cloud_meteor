@@ -812,7 +812,7 @@ Template.supplierlist.events({
                         dataTableList.push(dataList);
                     //}
                 }
-                   
+
                     templateObject.datatablerecords.set(dataTableList);
 
                     let item = templateObject.datatablerecords.get();
@@ -859,7 +859,7 @@ Template.supplierlist.events({
                         }
                     });
                 }
-            
+
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -946,7 +946,7 @@ Template.supplierlist.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn' : function(event){
         let columData = $(event.target).text();

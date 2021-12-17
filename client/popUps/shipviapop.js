@@ -427,6 +427,11 @@ Template.shipviapop.events({
             });
         }
     },
+    'keyup #tblShipViaPopList_filter input': function (event) {
+      if (event.keyCode == 13) {
+         $(".btnRefreshVia").trigger("click");
+      }
+    },
     'click .chkDatatable': function(event) {
         var columns = $('#tblShipViaPopList th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();

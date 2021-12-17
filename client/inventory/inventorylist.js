@@ -876,7 +876,7 @@ setTimeout(function () {
                                      dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                                      dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                                      dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
-                                     
+
                                  ];
                                  splashArrayProductList.push(dataListDupp);
 
@@ -1467,7 +1467,7 @@ Template.inventorylist.helpers({
             }
           }
 
-
+          $('#myModal2').modal('toggle');
         },
         'blur .divcolumn' : function(event){
           let columData = $(event.target).text();

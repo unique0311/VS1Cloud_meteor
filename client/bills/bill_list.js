@@ -836,7 +836,7 @@ Template.billlist.events({
                     });
                 }
             }).catch(function (err) {
-                
+
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -924,7 +924,7 @@ Template.billlist.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn' : function(event){
         let columData = $(event.target).text();

@@ -890,7 +890,7 @@ Template.customerlist.events({
                         }
                          dataTableList.push(dataList);
                     }
-                   
+
                     templateObject.datatablerecords.set(dataTableList);
 
                     let item = templateObject.datatablerecords.get();
@@ -938,7 +938,7 @@ Template.customerlist.events({
                         }
                     });
                 }
-            
+
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -1024,7 +1024,7 @@ Template.customerlist.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn' : function(event){
         let columData = $(event.target).text();

@@ -1159,6 +1159,23 @@ getCustomersDataByName(dataSearchName) {
       return this.getList(this.ERPObjects.TPaymentMethodVS1, options);
   }
 
+  getPaymentMethodVS1() {
+      let options = {
+          PropertyList: "ID,IsCreditCard,PaymentMethodName,Active",
+          select: "[Active]=true",
+      };
+      return this.getList(this.ERPObjects.TPaymentMethodVS1, options);
+  }
+
+  getPaymentMethodVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        PropertyList: "ID,IsCreditCard,PaymentMethodName,Active",
+        select: '[PaymentMethodName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TPaymentMethodVS1, options);
+  }
+
   getClientTypeData() {
       let options = {
           ListType: "Detail",

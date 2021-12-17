@@ -2295,7 +2295,7 @@ Template.supplierscard.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
         //Meteor._reload.reload();
     },
     'blur .divcolumn' : function(event){

@@ -530,6 +530,7 @@ Template.creditcard.onRendered(() => {
                                 saleCustField1: data.fields.SaleLineRef,
                                 saleCustField2: data.fields.SalesComments,
                                 totalPaid: totalPaidAmount,
+                                ispaid: data.fields.IsPaid,
                                 department: department || defaultDept
                             };
 
@@ -753,6 +754,7 @@ Template.creditcard.onRendered(() => {
                                     saleCustField1: useData[d].fields.SaleLineRef,
                                     saleCustField2: useData[d].fields.SalesComments,
                                     totalPaid: totalPaidAmount,
+                                    ispaid: useData[d].fields.IsPaid,
                                     department: useData[d].fields.Lines[0].fields.LineClassName || defaultDept
                                 };
 
@@ -976,6 +978,7 @@ Template.creditcard.onRendered(() => {
                                     saleCustField1: data.fields.SaleLineRef,
                                     saleCustField2: data.fields.SalesComments,
                                     totalPaid: totalPaidAmount,
+                                    ispaid: data.fields.IsPaid,
                                     department: department || defaultDept
                                 };
 
@@ -1215,6 +1218,7 @@ Template.creditcard.onRendered(() => {
                             saleCustField1: data.fields.SaleLineRef,
                             saleCustField2: data.fields.SalesComments,
                             totalPaid: totalPaidAmount,
+                            ispaid: data.fields.IsPaid,
                             department: department || defaultDept
                         };
 
@@ -1390,7 +1394,8 @@ Template.creditcard.onRendered(() => {
             balanceDue: Currency + '' + 0.00,
             saleCustField1: '',
             saleCustField2: '',
-            totalPaid: Currency + '' + 0.00
+            totalPaid: Currency + '' + 0.00,
+            ispaid: false
         };
 
         $('#edtSupplierName').val('');

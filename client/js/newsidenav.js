@@ -663,7 +663,117 @@ Template.newsidenav.onRendered(function() {
     $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
     $('.headerprogressbar').addClass('headerprogressbarShow');
     $('.headerprogressbar').removeClass('headerprogressbarHidden');
-   }
+    getVS1Data('TAppUser').then(function(dataObject) {
+        if (dataObject.length == 0) {
+          sideBarService.getCurrentLoggedUser().then(function(data) {
+            countObjectTimes++;
+            progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+            $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+            //$(".progressBarInner").text("App User "+Math.round(progressPercentage)+"%");
+            $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+            $(".progressName").text("App User ");
+            if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').addClass('headerprogressbarShow');
+                $('.headerprogressbar').removeClass('headerprogressbarHidden');
+              }
+
+            }else if(Math.round(progressPercentage) == 100){
+                $('.checkmarkwrapper').removeClass("hide");
+              setTimeout(function() {
+                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                  $('.headerprogressbar').removeClass('headerprogressbarShow');
+                  $('.headerprogressbar').addClass('headerprogressbarHidden');
+                }else{
+                  $('.headerprogressbar').removeClass('headerprogressbarShow');
+                  $('.headerprogressbar').addClass('headerprogressbarHidden');
+                }
+
+              }, 1000);
+            }
+              //localStorage.setItem('VS1TAppUserList', JSON.stringify(data) || '');
+              addVS1Data('TAppUser', JSON.stringify(data));
+              $("<span class='process'>App User Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+          }).catch(function(err) {
+            $('.process').addClass('killProgressBar');
+          });
+        } else {
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if (getTimeStamp) {
+                if (loggedUserEventFired) {
+                    if (getTimeStamp[0] != currenctTodayDate) {
+                        sideBarService.getCurrentLoggedUser().then(function(data) {
+                          addVS1Data('TAppUser', JSON.stringify(data));
+                        }).catch(function(err) {
+                          $('.process').addClass('killProgressBar');
+                        });
+                        $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
+                        $(".headerprogressLabel").text("All Your Information Loaded");
+                        $(".progressBarInner").text(""+Math.round(100)+"%");
+                        $('.checkmarkwrapper').removeClass("hide");
+                        $('.process').addClass('killProgressBar');
+                        setTimeout(function() {
+                        $('.headerprogressbar').removeClass('headerprogressbarShow');
+                        $('.headerprogressbar').addClass('headerprogressbarHidden');
+                        $('.headerprogressbar').addClass('killProgressBar');
+                       }, 3000);
+                    }else{
+                      $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
+                      $(".headerprogressLabel").text("All Your Information Loaded");
+                      $(".progressBarInner").text(""+Math.round(100)+"%");
+                      $('.checkmarkwrapper').removeClass("hide");
+                      $('.process').addClass('killProgressBar');
+                      setTimeout(function() {
+                      $('.headerprogressbar').removeClass('headerprogressbarShow');
+                      $('.headerprogressbar').addClass('headerprogressbarHidden');
+                      $('.headerprogressbar').addClass('killProgressBar');
+                     }, 3000);
+                    }
+                }
+            }
+        }
+    }).catch(function(err) {
+      sideBarService.getCurrentLoggedUser().then(function(data) {
+        countObjectTimes++;
+        progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+        $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+        //$(".progressBarInner").text("App User "+Math.round(progressPercentage)+"%");
+        $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+        $(".progressName").text("App User ");
+        if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+          }else{
+            $('.headerprogressbar').addClass('headerprogressbarShow');
+            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+          }
+
+        }else if(Math.round(progressPercentage) == 100){
+            $('.checkmarkwrapper').removeClass("hide");
+          setTimeout(function() {
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarShow');
+              $('.headerprogressbar').addClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').removeClass('headerprogressbarShow');
+              $('.headerprogressbar').addClass('headerprogressbarHidden');
+            }
+
+          }, 1000);
+        }
+          //localStorage.setItem('VS1TAppUserList', JSON.stringify(data) || '');
+          addVS1Data('TAppUser', JSON.stringify(data));
+          $("<span class='process'>App User Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+      }).catch(function(err) {
+        $('.process').addClass('killProgressBar');
+      });
+    });
+    }
+
+
+
     if (isGreenTrack) {
         $(".navbar").css("background-color", "#00a969");
 
@@ -2596,11 +2706,11 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TVS1BankDeposit', JSON.stringify(data)).then(function(datareturn) {
-
+              $("<span class='process'>Bank Deposits Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
             }).catch(function(err) {
 
             });
-            $("<span class='process'>Bank Deposits Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+
         }).catch(function(err) {
 
         });
@@ -3053,7 +3163,7 @@ Template.newsidenav.onRendered(function() {
                                   $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                   templateObject.getFollowedAllObjectPull();
                               }).catch(function(err) {
-
+                                templateObject.getFollowedAllObjectPull();
                               });
                             } else {
                                 let getTimeStamp = dataObject[0].timestamp.split(' ');
@@ -3092,7 +3202,7 @@ Template.newsidenav.onRendered(function() {
                                               $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                               templateObject.getFollowedAllObjectPull();
                                           }).catch(function(err) {
-
+                                            templateObject.getFollowedAllObjectPull();
                                           });
                                         }else{
                                           templateObject.getFollowedAllObjectPull();
@@ -3526,24 +3636,6 @@ Template.newsidenav.onRendered(function() {
                     templateObject.getAllAccountTypeData();
                 });
             }
-            if (isContacts) {
-                getVS1Data('TAppUser').then(function(dataObject) {
-                    if (dataObject.length == 0) {
-                        templateObject.getAllAppUserData();
-                    } else {
-                        let getTimeStamp = dataObject[0].timestamp.split(' ');
-                        if (getTimeStamp) {
-                            if (loggedUserEventFired) {
-                                if (getTimeStamp[0] != currenctTodayDate) {
-                                    templateObject.getAllAppUserData();
-                                }
-                            }
-                        }
-                    }
-                }).catch(function(err) {
-                    templateObject.getAllAppUserData();
-                });
-            }
 
               if (isAppointmentScheduling) {
                 if (isContacts) {
@@ -3699,7 +3791,7 @@ Template.newsidenav.onRendered(function() {
                         }
                     }
                 }).catch(function(err) {
-
+                  templateObject.getAllAppointmentPrefData();
                 });
 
                 getVS1Data('TERPPreference').then(function(dataObject) {
@@ -4296,7 +4388,7 @@ Template.newsidenav.onRendered(function() {
                     }
                 }
             }).catch(function(err) {
-
+              templateObject.getAllAppointmentPrefData();
             });
 
             getVS1Data('TERPPreference').then(function(dataObject) {
@@ -4538,7 +4630,9 @@ Template.newsidenav.onRendered(function() {
                 addVS1Data('TProductVS1', JSON.stringify(data));
                 $("<span class='process'>Products Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                 templateObject.getFollowedContactDetailsPull();
-            }).catch(function(err) {});
+            }).catch(function(err) {
+              templateObject.getFollowedContactDetailsPull();
+            });
 
           }
 

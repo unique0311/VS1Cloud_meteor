@@ -751,7 +751,7 @@ Template.depositcard.onRendered(()=>{
 
     }
 
-    templateObject.getPaymentMetod();
+    // templateObject.getPaymentMetod();
 
     setTimeout(function () {
 
@@ -813,6 +813,8 @@ Template.depositcard.onRendered(()=>{
                       $(".btnDelete").prop("disabled", true);
                       $(".btnSave").prop("disabled", true);
                       $("#form :input").prop("disabled", true);
+                      $(".btn-light").prop("disabled", false);
+                      $(".close").prop("disabled", false);
                     }
 
 
@@ -934,6 +936,8 @@ Template.depositcard.onRendered(()=>{
                 $(".btnDelete").prop("disabled", true);
                 $(".btnSave").prop("disabled", true);
                 $("#form :input").prop("disabled", true);
+                $(".btn-light").prop("disabled", false);
+                $(".close").prop("disabled", false);
               }
 
 
@@ -1031,6 +1035,8 @@ Template.depositcard.onRendered(()=>{
                         $(".btnDelete").prop("disabled", true);
                         $(".btnSave").prop("disabled", true);
                         $("#form :input").prop("disabled", true);
+                        $(".btn-light").prop("disabled", false);
+                        $(".close").prop("disabled", false);
                       }
 
 
@@ -1147,6 +1153,8 @@ Template.depositcard.onRendered(()=>{
                     $(".btnDelete").prop("disabled", true);
                     $(".btnSave").prop("disabled", true);
                     $("#form :input").prop("disabled", true);
+                    $(".btn-light").prop("disabled", false);
+                    $(".close").prop("disabled", false);
                   }
 
 
@@ -2306,7 +2314,7 @@ Template.depositcard.events({
                   $('#tblAccount_filter .form-control-sm').val('');
                   $('#tblAccount_filter .form-control-sm').trigger("input");
 
-                  var datatable = $('#tblInventory').DataTable();
+                  var datatable = $('#tblAccount').DataTable();
                   datatable.draw();
                   $('#tblAccount_filter .form-control-sm').trigger("input");
 
@@ -2681,7 +2689,7 @@ Template.depositcard.events({
                     $('#tblAccount_filter .form-control-sm').val('');
                     $('#tblAccount_filter .form-control-sm').trigger("input");
 
-                    var datatable = $('#tblInventory').DataTable();
+                    var datatable = $('#tblAccount').DataTable();
                     datatable.draw();
                     $('#tblAccount_filter .form-control-sm').trigger("input");
 
@@ -3590,15 +3598,125 @@ Template.depositcard.events({
             $('#tblCustomerlist_filter .form-control-sm').focus();
         }, 500);
     },
-    'click .colPaymentMethod': function(event) {
-        $('#tblDepositEntryLine tbody tr .colPaymentMethod').attr("data-toggle", "modal");
-        $('#tblDepositEntryLine tbody tr .colPaymentMethod').attr("data-target", "#paymentMethodModal");
-        var targetID = $(event.target).closest('tr').attr('id');
-        $('#selectPaymentMethodLineID').val(targetID);
+    'click .linePaymentMethod, keydown .linePaymentMethod': function(event) {
+        // $('#tblDepositEntryLine tbody tr .colPaymentMethod').attr("data-toggle", "modal");
+        // $('#tblDepositEntryLine tbody tr .colPaymentMethod').attr("data-target", "#paymentMethodModal");
+        // var targetID = $(event.target).closest('tr').attr('id');
+        // $('#selectPaymentMethodLineID').val(targetID);
+        //
+        // setTimeout(function() {
+        //     $('#tblpaymentmethodList_filter .form-control-sm').focus();
+        // }, 500);
+        var $earch = $(event.currentTarget);
+        var offset = $earch.offset();
 
-        setTimeout(function() {
-            $('#tblpaymentmethodList_filter .form-control-sm').focus();
-        }, 500);
+        let customername = $('#edtCustomerName').val();
+        const templateObject = Template.instance();
+        $("#selectPaymentMethodLineID").val('');
+        $('#edtPaymentMethodID').val('');
+
+            var paymentDataName = $(event.target).val() || '';
+            if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
+                $('#paymentMethodModal').modal('toggle');
+                var targetID = $(event.target).closest('tr').attr('id');
+                $('#selectPaymentMethodLineID').val(targetID);
+                setTimeout(function () {
+                    $('#paymentmethodList_filter .form-control-sm').focus();
+                    $('#paymentmethodList_filter .form-control-sm').val('');
+                    $('#paymentmethodList_filter .form-control-sm').trigger("input");
+
+                    var datatable = $('#paymentmethodList').DataTable();
+                    datatable.draw();
+                    $('#paymentmethodList_filter .form-control-sm').trigger("input");
+
+                }, 500);
+            } else {
+                // var productDataID = $(event.target).attr('prodid').replace(/\s/g, '') || '';
+                if (paymentDataName.replace(/\s/g, '') != '') {
+                  var targetID = $(event.target).closest('tr').attr('id');
+                  $('#selectPaymentMethodLineID').val(targetID);
+
+                  $('#paymentMethodHeader').text('Edit Payment Method');
+
+                  getVS1Data('TPaymentMethod').then(function(dataObject) {
+                      if (dataObject.length == 0) {
+                          $('.fullScreenSpin').css('display', 'inline-block');
+                          sideBarService.getPaymentMethodDataVS1().then(function(data) {
+                              for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                                  if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                      $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                      $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                      if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                          $('#isformcreditcard').prop('checked', true);
+                                      } else {
+                                          $('#isformcreditcard').prop('checked', false);
+                                      }
+                                  }
+                              }
+                              setTimeout(function() {
+                                  $('.fullScreenSpin').css('display', 'none');
+                                  $('#newPaymentMethodModal').modal('toggle');
+                              }, 200);
+                          });
+                      } else {
+                          let data = JSON.parse(dataObject[0].data);
+                          let useData = data.tpaymentmethodvs1;
+
+                          for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                              if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                  $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                  $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                  if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                      $('#isformcreditcard').prop('checked', true);
+                                  } else {
+                                      $('#isformcreditcard').prop('checked', false);
+                                  }
+                              }
+                          }
+                          setTimeout(function() {
+                              $('.fullScreenSpin').css('display', 'none');
+                              $('#newPaymentMethodModal').modal('toggle');
+                          }, 200);
+                      }
+                  }).catch(function(err) {
+                      $('.fullScreenSpin').css('display', 'inline-block');
+                      sideBarService.getPaymentMethodDataVS1().then(function(data) {
+                          for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
+                              if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
+                                  $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
+                                  $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                  if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
+                                      $('#isformcreditcard').prop('checked', true);
+                                  } else {
+                                      $('#isformcreditcard').prop('checked', false);
+                                  }
+                              }
+                          }
+                          setTimeout(function() {
+                              $('.fullScreenSpin').css('display', 'none');
+                              $('#newPaymentMethodModal').modal('toggle');
+                          }, 200);
+                      });
+                  });
+
+                } else {
+                    $('#paymentMethodModal').modal('toggle');
+                    var targetID = $(event.target).closest('tr').attr('id');
+                    $('#selectPaymentMethodLineID').val(targetID);
+                    setTimeout(function () {
+                        $('#paymentmethodList_filter .form-control-sm').focus();
+                        $('#paymentmethodList_filter .form-control-sm').val('');
+                        $('#paymentmethodList_filter .form-control-sm').trigger("input");
+
+                        var datatable = $('#paymentmethodList').DataTable();
+                        datatable.draw();
+                        $('#paymentmethodList_filter .form-control-sm').trigger("input");
+
+                    }, 500);
+                }
+
+            }
+
     },
     'change .colAmount': function(event) {
       let utilityService = new UtilityService();

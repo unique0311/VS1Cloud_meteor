@@ -666,7 +666,7 @@ Template.employeelist.events({
                     }
                     //}
                 }
-                   
+
                     templateObject.datatablerecords.set(dataTableList);
 
                     let item = templateObject.datatablerecords.get();
@@ -712,7 +712,7 @@ Template.employeelist.events({
                         }
                     });
                 }
-            
+
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -799,7 +799,7 @@ Template.employeelist.events({
                 }
             }
         }
-
+        $('#myModal2').modal('toggle');
     },
     'blur .divcolumn' : function(event){
         let columData = $(event.target).text();
