@@ -9821,18 +9821,20 @@ Template.new_invoice.onRendered(() => {
             var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentInvoice = getso_id[getso_id.length - 1];
-            for (let x = 0; x < paymentData.length; x++) {
-                if (paymentData[x].lines.length > 1) {
-                    for (let y = 0; y < paymentData[x].lines.length; y++) {
-                        if (paymentData[x].lines[y].fields.InvoiceId == currentInvoice) {
+            for(let x = 0; x < paymentData.length; x++) {
+                if(paymentData[x].lines != null && paymentData[x].lines != "") {
+                    if (paymentData[x].lines.length > 1) {
+                        for(let y = 0; y < paymentData[x].lines.length; y++) {
+                            if (paymentData[x].lines[y].fields.InvoiceId == currentInvoice) {
+                                paymentID = paymentData[x].id;
+                                window.open('/paymentcard?id=' + paymentID, '_self');
+                            }
+                        }
+                    } else {
+                        if(paymentData[x].lines[0].fields.InvoiceId == currentInvoice) {
                             paymentID = paymentData[x].id;
                             window.open('/paymentcard?id=' + paymentID, '_self');
                         }
-                    }
-                } else {
-                    if (paymentData[x].lines[0].fields.InvoiceId == currentInvoice) {
-                        paymentID = paymentData[x].id;
-                        window.open('/paymentcard?id=' + paymentID, '_self');
                     }
                 }
             }

@@ -7919,20 +7919,23 @@ Template.purchaseordercard.events({
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         for(let x=0; x < paymentData.length; x++){
-            if(paymentData[x].lines.length > 1){
-                for(let y = 0; y < paymentData[x].lines.length; y++) {
-                    if(paymentData[x].lines[y].fields.POID == currentInvoice) {
+            console.log(paymentData[x].lines);
+            if(paymentData[x].lines != null && paymentData[x].lines != "") {
+                if(paymentData[x].lines.length > 1){
+                    for(let y = 0; y < paymentData[x].lines.length; y++) {
+                        if(paymentData[x].lines[y].fields.POID == currentInvoice) {
+                            paymentID = paymentData[x].id;
+                            window.open('/supplierpaymentcard?id=' + paymentID, '_self');
+                        }
+                    }
+                } else {
+                    if(paymentData[x].lines.fields.POID == currentInvoice) {
                         paymentID = paymentData[x].id;
-                       window.open('/supplierpaymentcard?id=' + paymentID, '_self');
+                        window.open('/supplierpaymentcard?id=' + paymentID, '_self');
                     }
                 }
-            } else {
-                if(paymentData[x].lines.fields.POID == currentInvoice) {
-                        paymentID = paymentData[x].id;
-                       window.open('/supplierpaymentcard?id=' + paymentID, '_self');
-                }
-            }
-        }
+           }
+       }
     },
     'click .chkEmailCopy': function(event) {
         $('#edtSupplierEmail').val($('#edtSupplierEmail').val().replace(/\s/g, ''));
