@@ -115,6 +115,17 @@ Template.header.onRendered(function() {
     }
 
 
+    $(document).ready(function() {
+        $('.btnClose').on('click', function (event) {
+            $('#searchGuideModal').modal('hide');
+            if(isMobile == true) {
+                $('.txtGlobalSearchMobile').focus(); 
+            } else {
+                $('.txtGlobalSearch').focus();
+            }
+        });
+
+});
 
     $("#scanBarcodeHeadTop").click(function() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -1628,12 +1639,12 @@ Template.header.events({
       }
     },
     'click .shorthandCode': function() {
-        let getData = $(event.target).text()||'';
-        if(getData != ''){
-          $('.txtGlobalSearch').val(getData);
-          $('.txtGlobalSearchMobile').val(getData);
-          $('#searchGuideModal').modal('toggle');
-        }
+        // let getData = $(event.target).text()||'';
+        // if(getData != ''){
+        //   $('.txtGlobalSearch').val(getData);
+        //   $('.txtGlobalSearchMobile').val(getData);
+        //   $('#searchGuideModal').modal('toggle');
+        // }
     },
     'click .btnLoad': function() {
         //alert("CLICKED");
