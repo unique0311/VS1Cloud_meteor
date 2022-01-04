@@ -7305,9 +7305,8 @@ Template.appointments.events({
 
 
         //we then get index of the week in resource view so that we can use it to query the previous week
-        
         let index = weeksOfThisMonth.map(function (e) {
-            return selectedWeekEnd == e.end;
+            return  e.end;
         }).indexOf(selectedWeekEnd);
 
         if (index === 0) {
