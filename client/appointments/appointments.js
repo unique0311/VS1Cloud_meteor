@@ -1390,7 +1390,6 @@ Template.appointments.onRendered(function () {
             results[results.length - 1].start = results[results.length - 1].dates[0];
             results[results.length - 1].end = results[results.length - 1].dates[6];
         }
-
         return results;
     }
 
@@ -7289,6 +7288,7 @@ Template.appointments.events({
         let seeOwnAppointments = Session.get('CloudAppointmentSeeOwnAppointmentsOnly') || false;
         //get current week monday date to use it to search week in month
         let weekDate = moment($('.saturday').attr('id')).format("YYYY/MM/DD");
+        let weekendStartListener = "";
 
         //get weeks of the month from a template object
         weeksOfThisMonth = templateObject.weeksOfMonth.get();
@@ -7303,10 +7303,13 @@ Template.appointments.events({
             selectedWeekEnd = getSelectedWeek[1].end;
         }
 
+
         //we then get index of the week in resource view so that we can use it to query the previous week
+        
         let index = weeksOfThisMonth.map(function (e) {
-            return e.end;
+            return selectedWeekEnd == e.end;
         }).indexOf(selectedWeekEnd);
+
         if (index === 0) {
             $('.btnPrev').attr('disabled', 'disabled');
         } else {
@@ -7317,15 +7320,20 @@ Template.appointments.events({
                 dayOfWeek = '0' + dayOfWeek;
             }
             let dayPrev = [];
-
             let getDate = new Date();
+            if((getDate.getMonth() - 1) == -1 && dayOfWeek != 1) {
+                weekendStartListener = moment((getDate.getFullYear() -1) + '-' + "12" + '-' + dayOfWeek).format('YYYY-MM-DD');
+            } else {
+                weekendStartListener = moment(getDate.getFullYear() + '-' + ("0" + (getDate.getMonth() + 1)).slice(-2) + '-' + dayOfWeek).format('YYYY-MM-DD');
+            }
+
             let weekendStart = moment(getDate.getFullYear() + '-' + ("0" + (getDate.getMonth() + 1)).slice(-2) + '-' + dayOfWeek).format('YYYY-MM-DD');
-            let weekendStartListener = moment(getDate.getFullYear() + '-' + ("0" + (getDate.getMonth())).slice(-2) + '-' + dayOfWeek).format('YYYY-MM-DD');
             let startWeek = new Date(weekendStart);
             if (index == 1 && moment(weekendStart).format("DD") != "01") {
                 startWeek = new Date(weekendStartListener);
             }
             let weekendEnd = moment(getDate.getFullYear() + '-' + ("0" + (getDate.getMonth() + 1)).slice(-2) + '-' + dayOfWeekEnd).format('YYYY-MM-DD');
+
             for (let i = 0; i <= weeksOfThisMonth[index - 1].dates.length; i++) {
                 if (index == 1 && moment(weekendStart).format("DD") != "01") {
                     for (let t = 0; t < weeksOfThisMonth[index - 1].dates.length; t++) {
@@ -7507,7 +7515,6 @@ Template.appointments.events({
             $('#here_table').empty().append('<div class="table-responsive table-bordered"><table id="allocationTable" class="table table-bordered allocationTable">');
             $('#here_table table').append('<thead> <tr style="background-color: #EDEDED;">');
             $('#here_table thead tr').append('<th class="employeeName"></th>');
-
             for (let w = 0; w < daysOfTheWeek.length; w++) {
                 if (daysOfTheWeek[w] === "Sunday") {
                     if ($('#showSunday').is(":checked")) {
@@ -7669,7 +7676,6 @@ Template.appointments.events({
             $('.thursday').attr('id', dayPrev[4]);
             $('.friday').attr('id', dayPrev[5]);
             $('.saturday').attr('id', dayPrev[6]);
-
             $(".dateMon").text(moment(dayPrev[1]).format("MM/DD"));
             $(".dateTue").text(moment(dayPrev[2]).format("MM/DD"));
             $(".dateWed").text(moment(dayPrev[3]).format("MM/DD"));
@@ -7677,7 +7683,11 @@ Template.appointments.events({
             $(".dateFri").text(moment(dayPrev[5]).format("MM/DD"));
             $(".dateSat").text(moment(dayPrev[6]).format("MM/DD"));
             $(".dateSun").text(moment(dayPrev[0]).format("MM/DD"));
-            $(".allocationHeaderDate h2").text(moment().format('MMM') + ' ' + moment(dayPrev[1]).format('DD') + ' - ' + moment(dayPrev[5]).format('DD') + ', ' + moment().format('YYYY'));
+            if((getDate.getMonth() - 1) == -1 && dayOfWeek != 1 && index == 0) {
+                $(".allocationHeaderDate h2").text(Jan + ' ' + moment(dayPrev[1]).format('DD') + ' - ' + moment(dayPrev[5]).format('DD') + ', ' + moment().format('YYYY'));
+            } else {
+                $(".allocationHeaderDate h2").text(moment().format('MMM') + ' ' + moment(dayPrev[1]).format('DD') + ' - ' + moment(dayPrev[5]).format('DD') + ', ' + moment().format('YYYY'));
+            }
 
             let day = moment().format('dddd');
             let resourceDate = $('thead tr th.' + day.toLowerCase()).attr('id');
