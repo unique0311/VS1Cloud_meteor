@@ -878,7 +878,7 @@
                     </div>
                     <div class="row">
                         <div class="col-4" style="padding: 0px;">
-                            <p class="lead">Nett</p>
+                            <p class="lead">Net</p>
                         </div>
                         <div class="col-8" style="padding: 0px;">
                             <p class="lead" id="subtotal_nett" name="subtotal_nett">{{quoterecord.Total}}</p>
@@ -901,7 +901,7 @@
                         <div class="col-12" style="padding: 0px;">
                             <hr style="border-top: 3px solid #696969;" />
                         </div>
-                    </div>
+                    </div>                  
                     <div class="row">
                         <div class="col-4" style="padding: 0px;">
                             <p class="lead leadTotal">TOTAL</p>
@@ -910,6 +910,22 @@
                             <p class="lead leadTotal" id="grandTotal" name="grandTotal">{{quoterecord.Total}}</p>
                         </div>
                     </div>
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Paid</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="totalPaidAmt" name="totalPaidAmt">{{quoterecord.totalPaid}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Due</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="totalBalanceDue" name="totalBalanceDue">{{quoterecord.balanceDue}}</p>
+                            </div>
+                        </div>                      
                     <div class="row">
                         <div class="col-12" style="padding: 0px;">
                             <hr style="border-top: 3px solid #696969;" />
