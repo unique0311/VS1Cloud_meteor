@@ -29,26 +29,17 @@ Template.payrollrules.onRendered(function() {
     var countryService = new CountryService();
     let countries = [];
 
-    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'currencyLists', function(error, result) {
-        if (error) {
-
-        } else {
-            if (result) {
-                for (let i = 0; i < result.customFields.length; i++) {
-                    let customcolumn = result.customFields;
-                    let columData = customcolumn[i].label;
-                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                    let hiddenColumn = customcolumn[i].hidden;
-                    let columnClass = columHeaderUpdate.split('.')[1];
-                    let columnWidth = customcolumn[i].width;
-
-                    $("th." + columnClass + "").html(columData);
-                    $("th." + columnClass + "").css('width', "" + columnWidth + "px");
-
-                }
-            }
-
-        }
+    $("#date-input,#edtStartDate,#edtFirstPaymentDate,#edtHolidayDate").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
     });
 
     function MakeNegative() {
@@ -56,6 +47,152 @@ Template.payrollrules.onRendered(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+    setTimeout(function() {
+        $('#tblHolidays').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblPayCalendars').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    setTimeout(function() {
+        $('#tblPayCalendars').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblPayCalendars').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
 
     setTimeout(function() {
         $('#tblPayRollRulesList').DataTable({
@@ -104,7 +241,372 @@ Template.payrollrules.onRendered(function() {
                 [0, "asc"]
             ],
             action: function() {
-                $('#currencyLists').DataTable().ajax.reload();
+                $('#tblPayRollRulesList').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    setTimeout(function() {
+        $('#tblSuperannuation').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblSuperannuation').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    setTimeout(function() {
+        $('#tblEarnings').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblEarnings').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    setTimeout(function() {
+        $('#tblDeductions').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblDeductions').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    setTimeout(function() {
+        $('#tblReimbursements').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblReimbursements').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    setTimeout(function() {
+        $('#tblLeave').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblLeave').DataTable().ajax.reload();
             },
             "fnDrawCallback": function(oSettings) {
                 setTimeout(function() {
@@ -140,6 +642,30 @@ Template.payrollrules.onRendered(function() {
 });
 
 Template.payrollrules.events({
+    'click #btnEarnings': function() {
+        document.getElementById("earnings").style.display = "block";
+        document.getElementById("deductions").style.display = "none";
+        document.getElementById("reimbursements").style.display = "none";
+        document.getElementById("leave").style.display = "none";
+    },
+    'click #btnDeductions': function() {
+        document.getElementById("earnings").style.display = "none";
+        document.getElementById("deductions").style.display = "block";
+        document.getElementById("reimbursements").style.display = "none";
+        document.getElementById("leave").style.display = "none";
+    },
+    'click #btnReiumbursement': function() {
+        document.getElementById("earnings").style.display = "none";
+        document.getElementById("deductions").style.display = "none";
+        document.getElementById("reimbursements").style.display = "block";
+        document.getElementById("leave").style.display = "none";
+    },
+    'click #btnLeave': function() {
+        document.getElementById("earnings").style.display = "none";
+        document.getElementById("deductions").style.display = "none";
+        document.getElementById("reimbursements").style.display = "none";
+        document.getElementById("leave").style.display = "block";
+    },
     'click .btnRefresh': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         location.reload(true);
