@@ -611,7 +611,20 @@ var myChart = new Chart(ctx, {
 }
   });
 
+ Template.expenseschart.events({
+  'click #expenseshide': function () {
+    if($("#showexpenseschat").hasClass('showexpensechat')) {
+       $("#expenseshide").text("Show");
+       $('#showexpenseschat').addClass('hideexpensechat');
+       $('#showexpenseschat').removeClass('showexpensechat');
+    } else if($("#showexpenseschat").hasClass('hideexpensechat')) {
+       $("#expenseshide").text("Hide");
+       $('#showexpenseschat').addClass('showexpensechat');
+       $('#showexpenseschat').removeClass('hideprofitchat');
+    }
+  }
 
+})
   Template.expenseschart.helpers({
     dateAsAt: () =>{
         return Template.instance().dateAsAt.get() || '-';

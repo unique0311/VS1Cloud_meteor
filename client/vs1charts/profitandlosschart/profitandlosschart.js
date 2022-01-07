@@ -308,6 +308,22 @@ Template.profitandlosschart.onRendered(()=>{
     }
 
   });
+
+  Template.profitandlosschart.events({
+  'click #profitloss1hide': function () {
+    if($("#profitlosschat").hasClass('showprofitchat')) {
+       $("#profitloss1hide").text("Show");
+       $('#profitlosschat').addClass('hideprofitchat');
+       $('#profitlosschat').removeClass('showprofitchat');
+    } else if($("#profitlosschat").hasClass('hideprofitchat')) {
+       $("#profitloss1hide").text("Hide");
+       $('#profitlosschat').addClass('showprofitchat');
+       $('#profitlosschat').removeClass('hideprofitchat');
+    }
+  }
+
+})
+
   Template.profitandlosschart.helpers({
     dateAsAt: () =>{
         return Template.instance().dateAsAt.get() || '-';

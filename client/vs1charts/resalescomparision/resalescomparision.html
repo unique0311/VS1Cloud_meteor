@@ -1,4 +1,13 @@
 <template name="resalescomparision">
+    <style type="text/css">
+    .hideresalechat{
+      display: none;
+    }
+
+    .showresalechat{
+      display: block;
+    }
+  </style>
   <div class="col-lg-7 col-xl-8 col-lg-6 col-xl-6">
       <div class="card shadow mb-4">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -6,7 +15,8 @@
               <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
                   <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
                       role="menu">
-                      <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" role="presentation" href="#">&nbsp;More Details</a>
+                      <p class="text-center dropdown-header"></p><a class="dropdown-item" role="presentation" href="#">&nbsp;More Details</a>
+                      <a id="resalehide" class="dropdown-item" role="presentation" href="#">&nbsp;Hide</a>
                       <!-- <a class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a> -->
                       <!-- <div class="dropdown-divider"></div> -->
                       <!-- <a class="dropdown-item" role="presentation" href="#">&nbsp;Something else here</a> -->
@@ -14,7 +24,7 @@
               </div>
           </div>
           <div class="card-body">
-              <div class="chart-area">
+              <div class="chart-area showresalechat" id="showresaleschat">
                 <canvas id="myChartCustomer" name="myChartCustomer"></canvas>
                 <!-- <canvas data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Rasheed&quot;,&quot;Josef&quot;,&quot;Bruno&quot;,&quot;Dene&quot;,&quot;Shanika&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;backgroundColor&quot;:&quot;#f6c23e&quot;,&quot;borderColor&quot;:&quot;rgba(78,115,223,0)&quot;,&quot;data&quot;:[&quot;10000&quot;,&quot;9000&quot;,&quot;8000&quot;,&quot;15000&quot;,&quot;10000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}]}}}"></canvas> -->
               </div>

@@ -846,6 +846,21 @@ Template.quotedinvoicedamounts.onRendered(() => {
     }
 });
 
+Template.quotedinvoicedamounts.events({
+  'click #hidesales1': function () {
+    if($("#showsales1chat").hasClass('showquotechat')) {
+       $("#hidesales1").text("Show");
+       $('#showsales1chat').addClass('hidequotechat');
+       $('#showsales1chat').removeClass('showquotechat');
+    } else if($("#showsales1chat").hasClass('hidequotechat')) {
+       $("#hidesales1").text("Hide");
+       $('#showsales1chat').addClass('showquotechat');
+       $('#showsales1chat').removeClass('hidequotechat');
+    }
+  }
+
+})
+
 Template.quotedinvoicedamounts.helpers({
     dateAsAt: () => {
         return Template.instance().dateAsAt.get() || '-';

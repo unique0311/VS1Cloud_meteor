@@ -457,6 +457,21 @@ Template.monthlyearnings.onRendered(() => {
 
 });
 
+Template.monthlyearnings.events({
+  'click #hideearnings': function () {
+    if($("#showearningschat").hasClass('showearningschat')) {
+       $("#hideearnings").text("Show");
+       $('#showearningschat').addClass('hideearningschat');
+       $('#showearningschat').removeClass('showearningschat');
+    } else if($("#showearningschat").hasClass('hideearningschat')) {
+       $("#hideearnings").text("Hide");
+       $('#showearningschat').addClass('showearningschat');
+       $('#showearningschat').removeClass('hideearningschat');
+    }
+  }
+
+})
+
 Template.monthlyearnings.helpers({
     dateAsAt: () => {
         return Template.instance().dateAsAt.get() || '-';

@@ -603,6 +603,20 @@ Template.monthlyprofitandloss.onRendered(()=>{
 
   });
 
+Template.monthlyprofitandloss.events({
+  'click #profitlosshide': function () {
+    if($("#profitchat").hasClass('showchat')) {
+       $("#profitlosshide").text("Show");
+       $('#profitchat').addClass('hidechat');
+       $('#profitchat').removeClass('showchat');
+    } else if($("#profitchat").hasClass('hidechat')) {
+       $("#profitlosshide").text("Hide");
+       $('#profitchat').addClass('showchat');
+       $('#profitchat').removeClass('hidechat');
+    }
+  }
+
+})
 
   Template.monthlyprofitandloss.helpers({
     dateAsAt: () =>{

@@ -280,7 +280,21 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
 }
 
   });
+  
+  Template.resalescomparision.events({
+  'click #resalehide': function () {
+    if($("#showresaleschat").hasClass('showresalechat')) {
+       $("#resalehide").text("Show");
+       $('#showresaleschat').addClass('hideresalechat');
+       $('#showresaleschat').removeClass('showresalechat');
+    } else if($("#showresaleschat").hasClass('hideresalechat')) {
+       $("#resalehide").text("Hide");
+       $('#showresaleschat').addClass('showresalechat');
+       $('#showresaleschat').removeClass('hideresalechat');
+    }
+  }
 
+})
 
   Template.resalescomparision.helpers({
     dateAsAt: () =>{
