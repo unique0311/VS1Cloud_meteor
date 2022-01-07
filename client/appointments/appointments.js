@@ -1064,18 +1064,18 @@ Template.appointments.onRendered(function () {
                     document.getElementById("customer").value = result[0].accountname;
                     document.getElementById("phone").value = result[0].phone;
                     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
-                    document.getElementById("state").value = result[0].state;
-                    document.getElementById("address").value = result[0].street;
+                    document.getElementById("state").value = result[0].state || '';
+                    document.getElementById("address").value = result[0].street || '';
                     if (Session.get('CloudAppointmentNotes') == true) {
-                        document.getElementById("txtNotes").value = result[0].notes;
+                        document.getElementById("txtNotes").value = result[0].notes || '';
                     }
                     document.getElementById("suburb").value = result[0].suburb;
                     document.getElementById("zip").value = result[0].zip;
                     document.getElementById("country").value = result[0].country;
-                    if (result[0].street != '' && result[0].state != '' && result[0].country != '' && result[0].suburb != '') {
+                    // if (result[0].street != '' && result[0].state != '' && result[0].country != '' && result[0].suburb != '') {
                         googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
                         $("#googleLink").attr("href", googleLink).attr('target', '_blank');
-                    }
+                    // }
 
                     document.getElementById("product-list").value = result[0].product || '';
 
