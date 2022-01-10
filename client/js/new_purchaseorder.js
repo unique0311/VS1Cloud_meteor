@@ -641,7 +641,7 @@ Template.purchaseordercard.onRendered(() => {
                                             $('.btnSave').attr('disabled', 'disabled');
                                             $('#btnBack').removeAttr('disabled', 'disabled');
                                             $('.printConfirm').removeAttr('disabled', 'disabled');
-                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                            $('.tblPurchaseOrderLine tbody tr').each(function () {
                                                 var $tblrow = $(this);
                                                 $tblrow.find("td").attr('contenteditable', false);
                                                 //$tblrow.find("td").removeClass("lineProductName");
@@ -858,7 +858,7 @@ Template.purchaseordercard.onRendered(() => {
                                             $('.btnSave').attr('disabled', 'disabled');
                                             $('#btnBack').removeAttr('disabled', 'disabled');
                                             $('.printConfirm').removeAttr('disabled', 'disabled');
-                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                            $('.tblPurchaseOrderLine tbody tr').each(function () {
                                                 var $tblrow = $(this);
                                                 $tblrow.find("td").attr('contenteditable', false);
                                                 //$tblrow.find("td").removeClass("lineProductName");
@@ -1255,7 +1255,7 @@ Template.purchaseordercard.onRendered(() => {
                                             $('.btnSave').attr('disabled', 'disabled');
                                             $('#btnBack').removeAttr('disabled', 'disabled');
                                             $('.printConfirm').removeAttr('disabled', 'disabled');
-                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                            $('.tblPurchaseOrderLine tbody tr').each(function () {
                                                 var $tblrow = $(this);
                                                 $tblrow.find("td").attr('contenteditable', false);
                                                 //$tblrow.find("td").removeClass("lineProductName");

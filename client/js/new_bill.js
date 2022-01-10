@@ -627,7 +627,7 @@ Template.billcard.onRendered(() => {
                             $('#edtSupplierName').val(data.fields.SupplierName);
                             templateObject.CleintName.set(data.fields.SupplierName);
                             $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                            $('#sltTerms').val(data.fields.TermsName);
+                            $('#sltTermsBill').val(data.fields.TermsName);
                             $('#sltDept').val(getDepartmentVal);
                             $('#sltStatus').val(data.fields.OrderStatus);
                             $('#shipvia').val(data.fields.Shipping);
@@ -657,7 +657,7 @@ Template.billcard.onRendered(() => {
                                             $('.btnSave').attr('disabled', 'disabled');
                                             $('#btnBack').removeAttr('disabled', 'disabled');
                                             $('.printConfirm').removeAttr('disabled', 'disabled');
-                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                            $('.tblBillLine tbody tr').each(function () {
                                                 var $tblrow = $(this);
                                                 $tblrow.find("td").attr('contenteditable', false);
                                                 //$tblrow.find("td").removeClass("lineProductName");
@@ -841,9 +841,9 @@ Template.billcard.onRendered(() => {
                                 };
 
                                 $('#edtSupplierName').val(useData[d].fields.SupplierName);
-                                $('#sltTerms').val(useData[d].fields.TermsName);
-                                $('#sltDept').val(useData[d].fields.LineClassName);
-                                $('#sltStatus').val(useData[d].fields.SalesStatus);
+                                $('#sltTermsBill').val(useData[d].fields.TermsName);
+                                $('#sltDept').val(useData[d].fields.Lines[0].fields.LineClassName);
+                                $('#sltStatus').val(useData[d].fields.OrderStatus);
                                 templateObject.CleintName.set(useData[d].fields.SupplierName);
                                 $('#sltCurrency').val(useData[d].fields.ForeignExchangeCode);
                                 $('#shipvia').val(useData[d].fields.Shipping);
@@ -875,7 +875,7 @@ Template.billcard.onRendered(() => {
                                             $('.btnSave').attr('disabled', 'disabled');
                                             $('#btnBack').removeAttr('disabled', 'disabled');
                                             $('.printConfirm').removeAttr('disabled', 'disabled');
-                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                            $('.tblBillLine tbody tr').each(function () {
                                                 var $tblrow = $(this);
                                                 $tblrow.find("td").attr('contenteditable', false);
                                                 //$tblrow.find("td").removeClass("lineProductName");
@@ -1063,7 +1063,7 @@ Template.billcard.onRendered(() => {
                                 $('#edtSupplierName').val(data.fields.SupplierName);
                                 templateObject.CleintName.set(data.fields.SupplierName);
                                 $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                                $('#sltTerms').val(data.fields.TermsName);
+                                $('#sltTermsBill').val(data.fields.TermsName);
                                 $('#sltDept').val(getDepartmentVal);
                                 $('#sltStatus').val(data.fields.OrderStatus);
                                 $('#shipvia').val(data.fields.Shipping);
@@ -1278,7 +1278,7 @@ Template.billcard.onRendered(() => {
                         $('#edtSupplierName').val(data.fields.SupplierName);
                         templateObject.CleintName.set(data.fields.SupplierName);
                         $('#sltCurrency').val(data.fields.ForeignExchangeCode);
-                        $('#sltTerms').val(data.fields.TermsName);
+                        $('#sltTermsBill').val(data.fields.TermsName);
                         $('#sltDept').val(getDepartmentVal);
                         $('#sltStatus').val(data.fields.OrderStatus);
                         $('#shipvia').val(data.fields.Shipping);
@@ -1309,7 +1309,7 @@ Template.billcard.onRendered(() => {
                                             $('.btnSave').attr('disabled', 'disabled');
                                             $('#btnBack').removeAttr('disabled', 'disabled');
                                             $('.printConfirm').removeAttr('disabled', 'disabled');
-                                            $('.tblInvoiceLine tbody tr').each(function () {
+                                            $('.tblBillLine tbody tr').each(function () {
                                                 var $tblrow = $(this);
                                                 $tblrow.find("td").attr('contenteditable', false);
                                                 //$tblrow.find("td").removeClass("lineProductName");
@@ -1661,7 +1661,7 @@ Template.billcard.onRendered(() => {
 
     }
     templateObject.getShpVias();
-    templateObject.getTerms();
+    //templateObject.getTerms();
     templateObject.getDepartments();
 
 
@@ -1669,7 +1669,7 @@ Template.billcard.onRendered(() => {
     $(document).ready(function() {
         $('#edtSupplierName').editableSelect();
         $('#sltCurrency').editableSelect();
-        $('#sltTerms').editableSelect();
+        $('#sltTermsBill').editableSelect();
         $('#sltDept').editableSelect();
         $('#sltStatus').editableSelect();
         $('#shipvia').editableSelect();
@@ -2086,7 +2086,7 @@ Template.billcard.onRendered(() => {
     });
 
     $(document).on("click", "#termsList tbody tr", function(e) {
-        $('#sltTerms').val($(this).find(".colTermName").text());
+        $('#sltTermsBill').val($(this).find(".colTermName").text());
         $('#termsListModal').modal('toggle');
     });
 
@@ -2101,7 +2101,7 @@ Template.billcard.onRendered(() => {
         }, 1000);
     });
 
-    $('#sltTerms').editableSelect()
+    $('#sltTermsBill').editableSelect()
         .on('click.editable-select', function(e, li) {
             var $earch = $(this);
             var offset = $earch.offset();
@@ -2567,7 +2567,7 @@ Template.billcard.onRendered(() => {
                             $('#sedtCountry').val(popSupplierCountry);
                             $('#txaNotes').val(popSuppliernotes);
                             $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                            $('#sltTerms').val(popSupplierterms);
+                            $('#sltTermsBill').val(popSupplierterms);
                             $('#suppAccountNo').val(popSupplieraccountnumber);
                             $('#edtCustomeField1').val(popSuppliercustfield1);
                             $('#edtCustomeField2').val(popSuppliercustfield2);
@@ -2662,7 +2662,7 @@ Template.billcard.onRendered(() => {
                                 $('#sedtCountry').val(popSupplierCountry);
                                 $('#txaNotes').val(popSuppliernotes);
                                 $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                                $('#sltTerms').val(popSupplierterms);
+                                $('#sltTermsBill').val(popSupplierterms);
                                 $('#suppAccountNo').val(popSupplieraccountnumber);
                                 $('#edtCustomeField1').val(popSuppliercustfield1);
                                 $('#edtCustomeField2').val(popSuppliercustfield2);
@@ -2750,7 +2750,7 @@ Template.billcard.onRendered(() => {
                                 $('#sedtCountry').val(popSupplierCountry);
                                 $('#txaNotes').val(popSuppliernotes);
                                 $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                                $('#sltTerms').val(popSupplierterms);
+                                $('#sltTermsBill').val(popSupplierterms);
                                 $('#suppAccountNo').val(popSupplieraccountnumber);
                                 $('#edtCustomeField1').val(popSuppliercustfield1);
                                 $('#edtCustomeField2').val(popSuppliercustfield2);
@@ -2841,7 +2841,7 @@ Template.billcard.onRendered(() => {
                         $('#sedtCountry').val(popSupplierCountry);
                         $('#txaNotes').val(popSuppliernotes);
                         $('#sltPreferedPayment').val(popSupplierpreferedpayment);
-                        $('#sltTerms').val(popSupplierterms);
+                        $('#sltTermsBill').val(popSupplierterms);
                         $('#suppAccountNo').val(popSupplieraccountnumber);
                         $('#edtCustomeField1').val(popSuppliercustfield1);
                         $('#edtCustomeField2').val(popSuppliercustfield2);
@@ -2908,7 +2908,7 @@ Template.billcard.onRendered(() => {
         $('#pdfSupplierAddress').html(postalAddress);
         $('.pdfSupplierAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
-        $('#sltTerms').val(tableSupplier.find(".colSupplierTermName").text() || purchaseDefaultTerms);
+        $('#sltTermsBill').val(tableSupplier.find(".colSupplierTermName").text() || purchaseDefaultTerms);
         $('#supplierListModal').modal('toggle');
 
         let lineAmount = 0;
@@ -4814,7 +4814,7 @@ Template.billcard.events({
         let templateObject = Template.instance();
         let suppliername = $('#edtSupplierName');
         let purchaseService = new PurchaseBoardService();
-        let termname = $('#sltTerms').val() || '';
+        let termname = $('#sltTermsBill').val() || '';
         if (termname === '') {
             swal('Terms has not been selected!', '', 'warning');
             event.preventDefault();
@@ -5690,7 +5690,7 @@ Template.billcard.events({
             let templateObject = Template.instance();
             let suppliername = $('#edtSupplierName');
             let purchaseService = new PurchaseBoardService();
-            let termname = $('#sltTerms').val() || '';
+            let termname = $('#sltTermsBill').val() || '';
             if (termname === '') {
                 swal('Terms has not been selected!', '', 'warning');
                 event.preventDefault();

@@ -657,6 +657,13 @@ Template.paymentmethodpop.events({
     'click #btnNewInvoice': function(event) {
         // FlowRouter.go('/invoicecard');
     },
+    'click .btnAddNewPaymentMethod': function (event) {
+          $('#isformcreditcard').prop('checked', false);
+          $('#edtName').val('');
+        setTimeout(function () {
+          $('#edtName').focus();
+        }, 1000);
+    },
     'click .feeOnTopInput': function(event) {
         if ($(event.target).is(':checked')) {
             $('.feeInPriceInput').attr('checked', false);
@@ -916,7 +923,7 @@ Template.paymentmethodpop.events({
                 } else {
 
                     $('.fullScreenSpin').css('display', 'none');
-                     $('#shipViaModal').modal('toggle');
+                     $('#paymentMethodModal').modal('toggle');
                     swal({
                         title: 'Question',
                         text: "Payment Method does not exist, would you like to create it?",

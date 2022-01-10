@@ -407,7 +407,9 @@ Template.bankrecon.onRendered(function() {
                         let objData = {
                             Id: data.treconciliation[k].Id,
                             AccountName: data.treconciliation[k].AccountName,
-                            CloseBalance: data.treconciliation[k].CloseBalance
+                            CloseBalance: data.treconciliation[k].CloseBalance||0,
+                            OpenBalance: data.treconciliation[k].OpenBalance||0,
+                            OnHold: data.treconciliation[k].OnHold
                         }
 
                         dataArray.push(objData);
@@ -425,9 +427,14 @@ Template.bankrecon.onRendered(function() {
                 if (dataArray.length === 0) {
                     openBal = 0;
                 } else {
-
                     for (let j in dataArray) {
+
+                      if(dataArray[dataArray.length - 1].OnHold == true){
+                        openBal = dataArray[dataArray.length - 1].OpenBalance;
+                      }else{
                         openBal = dataArray[dataArray.length - 1].CloseBalance;
+                      }
+
                     }
                 }
                 $('.openingbalance').val(utilityService.modifynegativeCurrencyFormat(openBal) || 0);

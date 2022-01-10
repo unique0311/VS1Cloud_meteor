@@ -3610,11 +3610,11 @@ Template.depositcard.events({
         var $earch = $(event.currentTarget);
         var offset = $earch.offset();
 
-        let customername = $('#edtCustomerName').val();
+        // let customername = $('#edtCustomerName').val();
         const templateObject = Template.instance();
         $("#selectPaymentMethodLineID").val('');
         $('#edtPaymentMethodID').val('');
-
+        $('#paymentMethodHeader').text('New Payment Method');
             var paymentDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
                 $('#paymentMethodModal').modal('toggle');
