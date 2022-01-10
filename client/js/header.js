@@ -1746,6 +1746,9 @@ Template.header.events({
 
 
     },
+    'click #btnSearchGuide': function(event) {
+         $('#searchGuideModal').modal('toggle');
+    },
     'click .txtGlobalSearchMobile': function(event) {
       var dontOpenSearchGuide = localStorage.getItem('dontopensearchguide')||false;
       if(dontOpenSearchGuide){
