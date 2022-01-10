@@ -1190,10 +1190,10 @@ value="{{record.tfn}}"></div> -->
                                             </div>
                                         </div>
                                         <div class="tab-pane border rounded-0" role="tabpanel" id="tab-6" style="border-color: #ededed #00a3d3 #00a3d3 #00a3d3 !important;">
-                                            <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start" style="margin: 12px;">
-                                                <div class="col d-xl-flex align-items-xl-end">
+                                            <div class="row" style="margin: 12px;">
+                                                <div class="col-md-2 col-6" style="padding: 0px;">
                                                     <div class="form-group d-xl-flex flex-column align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Payment Method</label>
-                                                        <select class="form-control preferredPaymentMethodSelect" style="width: 260px; cursor: pointer;" id="sltPreferedPayment" name="sltPreferedPayment">
+                                                        <select class="form-control preferredPaymentMethodSelect" style="cursor: pointer;" id="sltPreferedPayment" name="sltPreferedPayment">
                                                             {{#each item in preferedPaymentList}}
                                                                 {{#if equals item record.preferedpayment }}
                                                                     <option value="{{record.preferedpayment}}" selected="">{{record.preferedpayment}}</option>
@@ -1203,8 +1203,10 @@ value="{{record.tfn}}"></div> -->
                                                             {{/each}}
                                                         </select>
                                                     </div>
-                                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Terms</label>
-                                                        <select class="form-control termsSelect" style="width: 260px; cursor: pointer;" id="sltTerms" name="sltTerms">
+                                                </div>
+                                                <div class="col-md-2 col-6" style="padding: 0px;">
+                                                    <!-- <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Terms</label>
+                                                        <select class="form-control termsSelect" style="cursor: pointer;" id="sltTerms" name="sltTerms">
                                                             {{record.terms}}
                                                             {{#each item in termsList}}
                                                                 {{#if equals item record.terms }}
@@ -1214,10 +1216,15 @@ value="{{record.tfn}}"></div> -->
                                                                 {{/if}}
                                                             {{/each}}
                                                         </select>
+                                                    </div> -->
+                                                    <div class="form-group" style="margin: 4px;"><label>Terms</label>
+                                                        <select type="search" class="form-control" id="sltTerms" name="sltTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                        </select>
                                                     </div>
-
+                                                </div>
+                                                <div class="col-md-2 col-6" style="padding: 0px;">
                                                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Customer Type</label>
-                                                        <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltCustomerType" name="sltCustomerType">
+                                                        <select class="form-control customerTypeSelect" style="cursor: pointer;" id="sltCustomerType" name="sltCustomerType">
 
                                                             {{#each itemclient in clienttypeList}}
                                                                 {{#if equals item record.clienttype }}
@@ -1230,23 +1237,10 @@ value="{{record.tfn}}"></div> -->
                                                         </select>
 
                                                     </div>
-
+                                                </div>
+                                                <div class="col-md-2 col-6" style="padding: 0px;">
                                                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">% Discount</label>
                                                         <input type="text" class="form-control pointer" id="edtCustomerCardDiscount" name="edtCustomerCardDiscount" value="{{record.discount}}">
-                                                    </div>
-                                                </div>
-                                                {{> clienttypemodal}}
-                                                <div class="col d-xl-flex align-items-xl-end" style="display:none!important;">
-                                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Delivery Method</label>
-                                                        <select class="form-control" style="width: 260px; cursor: pointer;" id="sltDeliveryMethod" name="sltDeliveryMethod">
-                                                            {{#each item in deliveryMethodList}}
-                                                                {{#if equals item record.deliverymethod }}
-                                                                    <option value="{{record.deliverymethod}}" selected="">{{record.deliverymethod}}</option>
-                                                                {{else}}
-                                                                    <option value="{{item}}">{{item}}</option>
-                                                                {{/if}}
-                                                            {{/each}}
-                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1538,6 +1532,13 @@ value="{{record.tfn}}"></div> -->
                                     <button class="btn btn-secondary btnBack" type="button" style="min-width: 90px;"><i class="fa fa-close" style="margin: 4px;"></i>Cancel</button>
                                 </div>
 
+                            </div>
+                            <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
+                                {{> termlistpop}}
+                            </div>
+
+                            <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
+                                {{> newtermspop}}
                             </div>
                             <div class="modal fade" role="dialog" tabindex="-1" id="deleteCustomerModal">
                                 <div class="modal-dialog" role="document">
