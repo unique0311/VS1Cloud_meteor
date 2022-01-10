@@ -823,18 +823,19 @@ Template.newpaymentmethodpop.events({
                 };
 
                 taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
-                    sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
-                        addVS1Data('TPaymentMethod', JSON.stringify(dataReload)).then(function(datareturn) {
-                            $('#newPaymentMethodModal').modal('toggle');
-                            $('.fullScreenSpin').css('display', 'none');
-                        }).catch(function(err) {
-                            $('#newPaymentMethodModal').modal('toggle');
-                            $('.fullScreenSpin').css('display', 'none');
-                        });
-                    }).catch(function(err) {
-                        $('#newPaymentMethodModal').modal('toggle');
-                        $('.fullScreenSpin').css('display', 'none');
-                    });
+                  sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
+                      addVS1Data('TPaymentMethod', JSON.stringify(dataReload)).then(function(datareturn) {
+                          $('.linePaymentMethod').val(paymentName);
+                          $('#newPaymentMethodModal').modal('toggle');
+                          $('.fullScreenSpin').css('display', 'none');
+                      }).catch(function(err) {
+                          $('#newPaymentMethodModal').modal('toggle');
+                          $('.fullScreenSpin').css('display', 'none');
+                      });
+                  }).catch(function(err) {
+                      $('#newPaymentMethodModal').modal('toggle');
+                      $('.fullScreenSpin').css('display', 'none');
+                  });
                 }).catch(function(err) {
                     swal({
                         title: 'Oooops...',
@@ -909,18 +910,19 @@ Template.newpaymentmethodpop.events({
             };
 
             taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
-                sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
-                    addVS1Data('TPaymentMethod', JSON.stringify(dataReload)).then(function(datareturn) {
-                        $('#newPaymentMethodModal').modal('toggle');
-                        $('.fullScreenSpin').css('display', 'none');
-                    }).catch(function(err) {
-                        $('#newPaymentMethodModal').modal('toggle');
-                        $('.fullScreenSpin').css('display', 'none');
-                    });
-                }).catch(function(err) {
-                    $('#newPaymentMethodModal').modal('toggle');
-                    $('.fullScreenSpin').css('display', 'none');
-                });
+              sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
+                  addVS1Data('TPaymentMethod', JSON.stringify(dataReload)).then(function(datareturn) {
+                      $('.linePaymentMethod').val(paymentName);
+                      $('#newPaymentMethodModal').modal('toggle');
+                      $('.fullScreenSpin').css('display', 'none');
+                  }).catch(function(err) {
+                      $('#newPaymentMethodModal').modal('toggle');
+                      $('.fullScreenSpin').css('display', 'none');
+                  });
+              }).catch(function(err) {
+                  $('#newPaymentMethodModal').modal('toggle');
+                  $('.fullScreenSpin').css('display', 'none');
+              });
             }).catch(function(err) {
                 swal({
                     title: 'Oooops...',
