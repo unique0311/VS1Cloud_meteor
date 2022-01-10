@@ -53,45 +53,130 @@
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="organisation" role="tabpanel" aria-labelledby="organisation-tab">
                                     <div class="row">
-                                        <div class="col-12 mb-4">
-                                            <h4>Organisation</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
-                                                <label for="edtRateName">Bank Account</label>
-                                                <input type="text" class="form-control" id="">
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-12 mb-4">
+                                                    <h4>Organisation</h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">Bank Account</label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">PAYG Liability Account</label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">Wages Expense Account</label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">Wages Payable Account</label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">Superannuation Liability Account</label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">Superannuation Expense Account</label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
-                                                <label for="edtRateName">PAYG Liability Account</label>
-                                                <input type="text" class="form-control" id="">
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <div class="col-12 mb-4">
+                                                    <h4>Company Logo</h4>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
-                                                <label for="edtRateName">Wages Expense Account</label>
-                                                <input type="text" class="form-control" id="">
+                                            <div class="row">
+                                                <style>
+                                                    .imgTextArea {
+                                                        border: 1px solid #d1d3e2;
+                                                        border-radius: 0.35rem;
+                                                        padding: 16px;
+                                                        height: 160px;
+                                                    }
+                                                </style>
+                                                <div class="col-12 mb-4">
+                                                    <div class="imgTextArea">
+                                                        <img class="imageUpload img-fluid" id="uploadedImage" data-toggle="modal" data-target="#myModal" src="assets/img/VS1.png" width="160" height="160">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mb-2">
+                                                    <button class="btn btn-primary float-rights" type="button" id="changeLogo" data-toggle="modal" data-target="#myModal"><i class="fa fa-cloud-upload" style="margin-right: 8px;"></i>Upload Logo</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
-                                                <label for="edtRateName">Wages Payable Account</label>
-                                                <input type="text" class="form-control" id="">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
-                                                <label for="edtRateName">Superannuation Liability Account</label>
-                                                <input type="text" class="form-control" id="">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <div class="form-group">
-                                                <label for="edtRateName">Superannuation Expense Account</label>
-                                                <input type="text" class="form-control" id="">
+                                            <div class="modal fade" role="dialog" tabindex="-1" id="myModal">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Upload logo</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row no-gutters d-xl-flex flex-row justify-content-xl-start align-items-xl-start">
+                                                                <p class="maximums">The maximum file size is 1MB. For best results, upload the largest logo you have, at
+                                                                    least 140 pixels on its shortest side.</p>
+
+                                                            </div>
+                                                            <hr>
+
+                                                            <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start align-items-xl-start">
+                                                                <p style="margin-bottom: 0px;font-weight: bold;">Choose a file to upload</p>
+                                                                <p style="margin-left: 16px;margin-bottom: 0px;margin-top: 4px;">Save your updated template and you're ready to go.</p>
+
+                                                                <div class="divTable" id="file-display">
+                                                                </div>
+                                                                <label for="FileName" class="browseBtn"></label>
+                                                                <label for="exampleFormControlFile1" class="Choose_file">No file selected</label>
+                                                                <input type="file" name="fileInput" id="fileInput" style="display:none;" accept="image/*">
+                                                                <style>
+                                                                    #row1 {
+                                                                        display: flex;
+                                                                        flex-direction: row;
+                                                                        justify-content: space-around;
+                                                                    }
+
+                                                                    #column1 {
+                                                                        display: flex;
+                                                                    }
+
+
+                                                                    #column2 {
+                                                                        display: flex;
+                                                                        flex-direction: column;
+                                                                        margin: 16px;
+                                                                        padding: .375rem .75rem;
+                                                                    }
+                                                                </style>
+                                                                <div id="row1">
+                                                                    <div id="column1"></div><button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;"><i class="fa fa-cloud-upload"
+                                                                            style="margin-right: 5px;"></i>Browse</button>
+                                                                    <div class="file-name" id="column2"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer"><button class="btn btn-primary btnImport" data-dismiss="modal" type="button" id="uploadImg" disabled><i class="fas fa-file-import"
+                                                                    style="margin-right: 5px;"></i>Upload</button>
+                                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -101,6 +186,55 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-8">
+                                            <div class="row">
+                                                <div class="col-12 mb-4">
+                                                    <h4>Payroll Tracking</h4>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">Employee Group <span><span style="font-weight: 200;">(optional)</span></span></label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="edtRateName">Timesheet Categories <span><span style="font-weight: 200;">(optional)</span></span></label>
+                                                        <input type="text" class="form-control" id="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <div class="col-12 mb-4">
+                                                    <h4>Payslip Options</h4>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-12 mb-3">
+                                                    <div class="custom-control custom-switch">
+                                                        <input class="custom-control-input" type="checkbox" value="swtShowAnnualSalary" id="swtShowAnnualSalary" name="swtShowAnnualSalary" style="cursor: pointer;">
+                                                        <label class="custom-control-label" for="swtShowAnnualSalary" style="cursor: pointer;">Show Annual Salary</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="custom-control custom-switch">
+                                                        <input class="custom-control-input" type="checkbox" value="swtShowEmploymentBasis" id="swtShowEmploymentBasis" name="swtShowEmploymentBasis" style="cursor: pointer;">
+                                                        <label class="custom-control-label" for="swtShowEmploymentBasis" style="cursor: pointer;">Show Employment Basis</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 mb-3">
+                                            <hr />
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
                                         <div class="col-12 mb-4">
                                             <h4>Payroll Tracking</h4>
                                         </div>
@@ -147,86 +281,8 @@
                                         <div class="col-12 mb-3">
                                             <hr />
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 mb-4">
-                                            <h4>Company Logo</h4>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <style>
-                                            .imgTextArea {
-                                                border: 1px solid #d1d3e2;
-                                                border-radius: 0.35rem;
-                                                padding: 16px;
-                                                height: 200px;
-                                            }
-                                        </style>
-                                        <div class="col-12 col-md-6 mb-4">
-                                            <div class="imgTextArea">
-                                                <img class="imageUpload img-fluid" id="uploadedImage" data-toggle="modal" data-target="#myModal" src="assets/img/VS1.png" width="160" height="160">
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary" type="button" id="changeLogo" data-toggle="modal" data-target="#myModal"><i class="fa fa-cloud-upload" style="margin-right: 8px;"></i>Upload Logo</button>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade" role="dialog" tabindex="-1" id="myModal">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Upload logo</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row no-gutters d-xl-flex flex-row justify-content-xl-start align-items-xl-start">
-                                                        <p class="maximums">The maximum file size is 1MB. For best results, upload the largest logo you have, at
-                                                            least 140 pixels on its shortest side.</p>
+                                    </div> -->
 
-                                                    </div>
-                                                    <hr>
-
-                                                    <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start align-items-xl-start">
-                                                        <p style="margin-bottom: 0px;font-weight: bold;">Choose a file to upload</p>
-                                                        <p style="margin-left: 16px;margin-bottom: 0px;margin-top: 4px;">Save your updated template and you're ready to go.</p>
-
-                                                        <div class="divTable" id="file-display">
-                                                        </div>
-                                                        <label for="FileName" class="browseBtn"></label>
-                                                        <label for="exampleFormControlFile1" class="Choose_file">No file selected</label>
-                                                        <input type="file" name="fileInput" id="fileInput" style="display:none;" accept="image/*">
-                                                        <style>
-                                                            #row1 {
-                                                                display: flex;
-                                                                flex-direction: row;
-                                                                justify-content: space-around;
-                                                            }
-
-                                                            #column1 {
-                                                                display: flex;
-                                                            }
-
-
-                                                            #column2 {
-                                                                display: flex;
-                                                                flex-direction: column;
-                                                                margin: 16px;
-                                                                padding: .375rem .75rem;
-                                                            }
-                                                        </style>
-                                                        <div id="row1">
-                                                            <div id="column1"></div><button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;"><i class="fa fa-cloud-upload"
-                                                                    style="margin-right: 5px;"></i>Browse</button>
-                                                            <div class="file-name" id="column2"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer"><button class="btn btn-primary btnImport" data-dismiss="modal" type="button" id="uploadImg" disabled><i class="fas fa-file-import"
-                                                            style="margin-right: 5px;"></i>Upload</button>
-                                                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="calendars" role="tabpanel" aria-labelledby="calendars-tab">
                                     <div class="row">
