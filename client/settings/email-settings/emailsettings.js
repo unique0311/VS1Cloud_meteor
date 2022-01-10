@@ -88,8 +88,8 @@ Template.emailsettings.onRendered(function() {
                 fixedColumnsRight: 1
             },
             lengthMenu: [
-                [25, -1],
-                [25, "All"]
+                [50, -1],
+                [50, "All"]
             ],
             // bStateSave: true,
             // rowId: 0,
