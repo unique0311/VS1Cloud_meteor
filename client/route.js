@@ -666,6 +666,15 @@ authenticatedRoutes.route('/profitlossreport', {
     }
 });
 
+authenticatedRoutes.route('/newprofitandloss', {
+    name: 'newprofitandloss',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'newprofitandloss'
+        });
+    }
+});
+
 authenticatedRoutes.route('/taxsummaryreport', {
     name: 'taxsummaryreport',
     action() {
