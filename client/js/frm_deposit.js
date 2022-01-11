@@ -1317,7 +1317,7 @@ Template.depositcard.onRendered(()=>{
             var rowData = $('#tblDepositEntryLine tbody>tr:last').clone(true);
             let tokenid = Random.id();
             $(".lineAccountName", rowData).val("");
-            $(".colPaymentMethod", rowData).text("");
+            $(".linePaymentMethod", rowData).val("");
             $(".colReference", rowData).text("");
             $(".lineCompany", rowData).text("");
             $(".colAmount", rowData).val("");
@@ -2947,7 +2947,7 @@ Template.depositcard.events({
             this.click;
 
             $('#'+selectLineID+" .lineAccountName").val('');
-            $('#'+selectLineID+" .colPaymentMethod").text('');
+            $('#'+selectLineID+" .linePaymentMethod").val('');
 
             $('#'+selectLineID+" .colReference").text('');
             $('#'+selectLineID+" .colCompany").text('');
@@ -3008,7 +3008,7 @@ Template.depositcard.events({
                         $('#tblDepositEntryLine > tbody > tr').each(function(){
                             var lineID = this.id;
                             let tdaccount = $('#'+lineID+" .lineAccountName").val() || $('#sltAccountName').val();
-                            let tdpaymentmethod = $('#'+lineID+" .colPaymentMethod").text();
+                            let tdpaymentmethod = $('#'+lineID+" .linePaymentMethod").val();
                             let tddmemo = $('#'+lineID+" .colReference").text();
                             let tdcompany = $('#'+lineID+" .colCompany").text();
                             let tdamount = $('#'+lineID+" .colAmount").val();
@@ -3056,7 +3056,7 @@ Template.depositcard.events({
                       $('#tblDepositEntryLine > tbody > tr').each(function(){
                           var lineID = this.id;
                           let tdaccount = $('#'+lineID+" .lineAccountName").val() || $('#sltAccountName').val();
-                          let tdpaymentmethod = $('#'+lineID+" .colPaymentMethod").text();
+                          let tdpaymentmethod = $('#'+lineID+" .linePaymentMethod").val();
                           let tddmemo = $('#'+lineID+" .colReference").text();
                           let tdcompany = $('#'+lineID+" .colCompany").text();
                           let tdamount = $('#'+lineID+" .colAmount").val();
@@ -3146,7 +3146,7 @@ Template.depositcard.events({
                 $('#tblDepositEntryLine > tbody > tr').each(function(){
                     var lineID = this.id;
                     let tdaccount = $('#'+lineID+" .lineAccountName").val() || $('#sltAccountName').val();
-                    let tdpaymentmethod = $('#'+lineID+" .colPaymentMethod").text();
+                    let tdpaymentmethod = $('#'+lineID+" .linePaymentMethod").val();
                     let tddmemo = $('#'+lineID+" .colReference").text();
                     let tdcompany = $('#'+lineID+" .colCompany").text();
                     let tdamount = $('#'+lineID+" .colAmount").val();
@@ -3194,7 +3194,7 @@ Template.depositcard.events({
               $('#tblDepositEntryLine > tbody > tr').each(function(){
                   var lineID = this.id;
                   let tdaccount = $('#'+lineID+" .lineAccountName").val() || $('#sltAccountName').val();
-                  let tdpaymentmethod = $('#'+lineID+" .colPaymentMethod").text();
+                  let tdpaymentmethod = $('#'+lineID+" .linePaymentMethod").val();
                   let tddmemo = $('#'+lineID+" .colReference").text();
                   let tdcompany = $('#'+lineID+" .colCompany").text();
                   let tdamount = $('#'+lineID+" .colAmount").val();
