@@ -325,7 +325,7 @@ Template.addsupplierpop.onRendered(function () {
             templateObject.records.set(lineItemObj);
 
             setTimeout(function () {
-                $('#sltTerms').val(templateObject.defaultpurchaseterm.get()||'');
+                $('#sltTermsSuppPOP').val(templateObject.defaultpurchaseterm.get()||'');
 
             }, 2000);
             $('.fullScreenSpin').css('display','none');
@@ -579,7 +579,7 @@ Template.addsupplierpop.events({
             bcountry =  $('#bcountry').val()||'';
         }
         let sltPaymentMethodName =  $('#sltPreferedPayment').val()||'';
-        let sltTermsName =  $('#sltTerms').val()||'';
+        let sltTermsName =  $('#sltTermsSuppPOP').val()||'';
         let sltShippingMethodName =  '';
         let notes =  $('#txaNotes').val()||'';
         let suppaccountno =  $('#suppAccountNo').val()||'';
@@ -764,7 +764,7 @@ Template.addsupplierpop.events({
                    $('.purchasesmodule #pdfCustomerAddress').html(postalAddress);
                    $('.purchasesmodule .pdfCustomerAddress').text(postalAddress);
                    $('.purchasesmodule #txaShipingInfo').val(postalAddress);
-                   $('.purchasesmodule #sltTerms').val(sltTermsName);
+                   $('.purchasesmodule #sltTermsSuppPOP').val(sltTermsName);
                }else if ( currentLoc == "/chequecard") {
                    $('.purchasesmodule #edtSupplierName').val(company);
                    $('.purchasesmodule #edtSupplierEmail').val(email);
