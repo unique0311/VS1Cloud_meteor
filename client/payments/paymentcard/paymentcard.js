@@ -1141,7 +1141,7 @@ Template.paymentcard.onRendered(() => {
                                 for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
                                     if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
                                         $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
-                                        $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                        $('#edtPaymentMethodName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
                                         if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
                                             $('#isformcreditcard').prop('checked', true);
                                         } else {
@@ -1161,7 +1161,7 @@ Template.paymentcard.onRendered(() => {
                             for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
                                 if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
                                     $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
-                                    $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                    $('#edtPaymentMethodName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
                                     if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
                                         $('#isformcreditcard').prop('checked', true);
                                     } else {
@@ -1180,7 +1180,7 @@ Template.paymentcard.onRendered(() => {
                             for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
                                 if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
                                     $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
-                                    $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                    $('#edtPaymentMethodName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
                                     if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
                                         $('#isformcreditcard').prop('checked', true);
                                     } else {
@@ -6436,7 +6436,7 @@ Template.paymentcard.events({
         templateObject.datatablerecords.set(paymentDataList);
         $('#customerPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
-    } 
+    }
     },
     'click .chkPaymentCard': function() {
         var listData = $(this).closest('tr').attr('id');

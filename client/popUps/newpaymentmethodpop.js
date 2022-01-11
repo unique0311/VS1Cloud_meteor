@@ -793,7 +793,7 @@ Template.newpaymentmethodpop.events({
         let taxRateService = new TaxRateService();
 
         let paymentMethodID = $('#edtPaymentMethodID').val();
-        let paymentName = $('#edtName').val();
+        let paymentName = $('#edtPaymentMethodName').val();
         let isCreditCard = false;
         if ($('#isformcreditcard').is(':checked')) {
             isCreditCard = true;

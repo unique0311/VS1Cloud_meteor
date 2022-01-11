@@ -1023,7 +1023,10 @@
 <td contenteditable="true" class="lineCostPrice colCostPrice hiddenColumn" style="text-align: right!important;">{{item.lineCost}}</td>
 -->
                                             <td><input class="lineUnitPrice colUnitPrice highlightInput" type="text" value="{{item.unitPrice}}"></td>
-                                            <td contenteditable="false" class="colCustomerJob td-input" style="cursor: pointer;">{{item.customerJob}}</td>
+                                            <!-- <td contenteditable="false" class="colCustomerJob td-input" style="cursor: pointer;">{{item.customerJob}}</td> -->
+                                            <td contenteditable="false" class="colCustomerJob">
+                                              <input class="es-input highlightSelect lineCustomerJob" type="search" value="{{item.customerJob}}">
+                                            </td>
                                             <td class="hiddenColumn"><input class="lineCostPrice colCostPrice highlightInput" type="text" value="{{item.lineCost}}"></td>
 
                                             <td contenteditable="true" class="lineCustomField1 colCustomField1 hiddenColumn">{{item.CustomField1}}</td>

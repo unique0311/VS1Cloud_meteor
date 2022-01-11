@@ -1633,7 +1633,7 @@ Template.supplierpaymentcard.onRendered(() => {
                                 for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
                                     if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
                                         $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
-                                        $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                        $('#edtPaymentMethodName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
                                         if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
                                             $('#isformcreditcard').prop('checked', true);
                                         } else {
@@ -1653,7 +1653,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
                                 if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
                                     $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
-                                    $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                    $('#edtPaymentMethodName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
                                     if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
                                         $('#isformcreditcard').prop('checked', true);
                                     } else {
@@ -1672,7 +1672,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             for (let i = 0; i < data.tpaymentmethodvs1.length; i++) {
                                 if (data.tpaymentmethodvs1[i].fields.PaymentMethodName === paymentDataName) {
                                     $('#edtPaymentMethodID').val(data.tpaymentmethodvs1[i].fields.ID);
-                                    $('#edtName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
+                                    $('#edtPaymentMethodName').val(data.tpaymentmethodvs1[i].fields.PaymentMethodName);
                                     if (data.tpaymentmethodvs1[i].fields.IsCreditCard === true) {
                                         $('#isformcreditcard').prop('checked', true);
                                     } else {

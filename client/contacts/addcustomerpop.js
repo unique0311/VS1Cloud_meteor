@@ -1022,8 +1022,8 @@ Template.addcustomerpop.events({
                     $('.salesmodule #txaShipingInfo').val(postalAddress);
                     $('.salesmodule #sltTerms').val(sltTermsName);
                 }else if (currentLoc == "/billcard" || currentLoc == "/purchaseordercard") {
-                    var selectLineID = $('#selectLineID').val();
-                    $('#' + selectLineID + " .colCustomerJob").text(company);
+                    var selectLineID = $('#customerSelectLineID').val();
+                    $('#' + selectLineID + " .lineCustomerJob").val(company);
 
                 }else if (currentLoc == "/payrolloverview" ) {
                       $("#sltJob").text(company);

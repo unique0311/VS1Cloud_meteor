@@ -747,7 +747,7 @@ if(listData){
    }
 
    $('#edtPaymentMethodID').val(paymentMethodID);
-   $('#edtName').val(paymentMethodName);
+   $('#edtPaymentMethodName').val(paymentMethodName);
 
    if(isCreditcard == true){
      templateObject.includeCreditCard.set(true);
@@ -1007,7 +1007,7 @@ Template.paymentmethodSettings.events({
     let taxRateService = new TaxRateService();
     let paymentMethodID = $('#edtPaymentMethodID').val();
     //let headerDept = $('#sltDepartment').val();
-    let paymentName = $('#edtName').val();
+    let paymentName = $('#edtPaymentMethodName').val();
     let isCreditCard = false;
     let siteCode = $('#edtSiteCode').val();
 
@@ -1151,7 +1151,7 @@ Template.paymentmethodSettings.events({
     let templateObject = Template.instance();
       $('#add-paymentmethod-title').text('Add New Payment Method');
       $('#edtPaymentMethodID').val('');
-      $('#edtName').val('');
+      $('#edtPaymentMethodName').val('');
       templateObject.includeCreditCard.set(false);
   },
   'click .btnBack':function(event){
