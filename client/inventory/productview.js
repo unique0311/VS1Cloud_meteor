@@ -2329,9 +2329,11 @@ Template.productview.onRendered(function () {
         let salestaxcode = '';
         let productrecord = '';
         setTimeout(function () {
-            $("#sltsalesacount").val("Sales")
-            $("#sltcogsaccount").val("Cost of Goods Sold")
-        }, 600);
+            $("#sltsalesacount").val("Sales");
+            $("#sltcogsaccount").val("Cost of Goods Sold");
+            $("#sltinventoryacount").val("Inventory Asset");
+            $("#sltCustomerType").val("Default");
+        }, 1000);
         productrecord = {
             id: '',
             productname: '',
