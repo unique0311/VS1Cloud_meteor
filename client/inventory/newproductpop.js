@@ -2625,57 +2625,6 @@ Template.newproductpop.events({
     'click .addClientType': function (event) {
             $('#myModalClientType').modal();
     },
-    'click .btnSaveDept': function () {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        let contactService = new ProductService();
-
-        //let headerDept = $('#sltDepartment').val();
-        let custType = $('#edtDeptName').val();
-        let typeDesc = $('#txaDescription').val() || '';
-        if (custType === '') {
-            swal('Client Type name cannot be blank!', '', 'warning');
-
-            e.preventDefault();
-        } else {
-            let objDetails = {
-                type: "TClientType",
-                fields: {
-                    TypeName: custType,
-                    TypeDescription: typeDesc,
-                }
-            }
-            contactService.saveClientTypeData(objDetails).then(function (objDetails) {
-                  sideBarService.getClientTypeData().then(function(dataReload) {
-                    addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
-                        Meteor._reload.reload();
-                    }).catch(function (err) {
-                        Meteor._reload.reload();
-                    });
-                }).catch(function (err) {
-                    Meteor._reload.reload();
-                });
-               // Meteor._reload.reload();
-            }).catch(function (err) {
-
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                        // Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                });
-
-            });
-        }
-
-
-    },
     'click .addRowLine': function () {
 
       var itemDataClone = $('.itemExtraSellRow:first');

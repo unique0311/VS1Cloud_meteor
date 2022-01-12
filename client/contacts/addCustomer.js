@@ -3947,6 +3947,8 @@ Template.customerscard.onRendered(() => {
               $('#selectLineID').val('sltCustomerType');
               var clientTypeDataName = e.target.value || '';
               $('#edtClientTypeID').val('');
+              $('#edtClientTypeName').val('');
+              $('#txaDescription').val('');
               $('#add-clienttype-title').text('Add Customer Type');
               if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                   $('#clienttypeListModal').modal('toggle');
@@ -4022,6 +4024,8 @@ Template.customerscard.onRendered(() => {
               $('#selectLineID').val('sltJobCustomerType');
               var clientTypeDataName = e.target.value || '';
               $('#edtClientTypeID').val('');
+              $('#edtClientTypeName').val('');
+              $('#txaDescription').val('');
               $('#add-clienttype-title').text('Add Customer Type');
               if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                   $('#clienttypeListModal').modal('toggle');

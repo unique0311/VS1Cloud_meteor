@@ -659,9 +659,9 @@ Template.paymentmethodpop.events({
     },
     'click .btnAddNewPaymentMethod': function (event) {
           $('#isformcreditcard').prop('checked', false);
-          $('#edtName').val('');
+          $('#edtPaymentMethodName').val('');
         setTimeout(function () {
-          $('#edtName').focus();
+          $('#edtPaymentMethodName').focus();
         }, 1000);
     },
     'click .feeOnTopInput': function(event) {
@@ -934,7 +934,7 @@ Template.paymentmethodpop.events({
                     }).then((result) => {
                         if (result.value) {
                             $('#newPaymentMethodModal').modal('toggle');
-                            $('#edtName').val(dataSearchName);
+                            $('#edtPaymentMethodName').val(dataSearchName);
                         } else if (result.dismiss === 'cancel') {
                             $('#newPaymentMethodModal').modal('toggle');
                         }
@@ -1170,7 +1170,7 @@ Template.paymentmethodpop.events({
         let templateObject = Template.instance();
         $('#add-paymentmethod-title').text('Add New Payment Method');
         $('#edtPaymentMethodID').val('');
-        $('#edtName').val('');
+        $('#edtPaymentMethodName').val('');
         templateObject.includeCreditCard.set(false);
     },
     'click .btnBack': function(event) {

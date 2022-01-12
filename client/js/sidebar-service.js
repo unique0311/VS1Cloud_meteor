@@ -1176,6 +1176,15 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TPaymentMethodVS1, options);
   }
 
+  getClientTypeDataByName(dataSearchName) {
+    let options = '';
+       options = {
+        PropertyList: "ID,TypeDescription,TypeName,Active",
+        select: '[TypeName] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TClientType, options);
+  }
+
   getClientTypeData() {
       let options = {
           ListType: "Detail",

@@ -28,6 +28,7 @@ Template.clienttypepopup.onRendered(function() {
     const tableHeaderList = [];
     const deptrecords = [];
     let deptprodlineItems = [];
+    var splashArrayClientTypeList = new Array();
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'clienttypeList', function(error, result) {
         if (error) {
 
@@ -66,15 +67,22 @@ Template.clienttypepopup.onRendered(function() {
                     for (let i = 0; i < data.tclienttype.length; i++) {
 
                         // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
-                        var dataList = {
-                            id: data.tclienttype[i].Id || '',
-                            typeName: data.tclienttype[i].TypeName || '-',
-                            description: data.tclienttype[i].TypeDescription || '-',
-                            status: data.tclienttype[i].Active || 'false',
+                        // var dataList = {
+                        //     id: data.tclienttype[i].Id || '',
+                        //     typeName: data.tclienttype[i].TypeName || '-',
+                        //     description: data.tclienttype[i].TypeDescription || '-',
+                        //     status: data.tclienttype[i].Active || 'false',
+                        //
+                        // };
 
-                        };
-
-                        dataTableList.push(dataList);
+                        //dataTableList.push(dataList);
+                        var dataList = [
+                          data.tclienttype[i].Id || '',
+                          data.tclienttype[i].TypeName || '',
+                          data.tclienttype[i].TypeDescription || '',
+                          '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                        ];
+                        splashArrayClientTypeList.push(dataList);
                         //}
                     }
 
@@ -109,7 +117,7 @@ Template.clienttypepopup.onRendered(function() {
                                     download: 'open',
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
-                                    title: 'Term List',
+                                    title: 'Client Type',
                                     filename: "clienttypeList_" + moment().format(),
                                     exportOptions: {
                                         columns: ':visible'
@@ -153,7 +161,7 @@ Template.clienttypepopup.onRendered(function() {
                             },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary btnAddNewClientType' data-dismiss='modal' data-toggle='modal' data-target='#myModalClientType' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#clienttypeList_filter");
-                                $("<button class='btn btn-primary btnRefreshTerms' type='button' id='btnRefreshTerms' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
+                                $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
                             },
 
                         }).on('page', function() {
@@ -188,14 +196,22 @@ Template.clienttypepopup.onRendered(function() {
 
                 for (let i = 0; i < useData.length; i++) {
                     // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
-                    var dataList = {
-                        id: useData[i].fields.ID || '',
-                        typeName: useData[i].fields.TypeName || '-',
-                        description: useData[i].fields.TypeDescription || '-',
-                        status: useData[i].fields.Active || 'false',
-                    };
+                    // var dataList = {
+                    //     id: useData[i].fields.ID || '',
+                    //     typeName: useData[i].fields.TypeName || '-',
+                    //     description: useData[i].fields.TypeDescription || '-',
+                    //     status: useData[i].fields.Active || 'false',
+                    // };
 
-                    dataTableList.push(dataList);
+                    var dataList = [
+                      useData[i].fields.ID || '',
+                      useData[i].fields.TypeName || '',
+                      useData[i].fields.TypeDescription || '',
+                      '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                    ];
+                    splashArrayClientTypeList.push(dataList);
+
+                    //dataTableList.push(dataList);
                     //}
                 }
 
@@ -206,74 +222,27 @@ Template.clienttypepopup.onRendered(function() {
                 $('.fullScreenSpin').css('display', 'none');
                 setTimeout(function() {
                     $('#clienttypeList').DataTable({
-                        columnDefs: [{
-                            "orderable": false,
-                            "targets": -1
-                        }],
+                        data: splashArrayClientTypeList,
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        paging: true,
+                        "aaSorting": [],
+                        "orderMulti": true,
+                        columnDefs: [
+                            { className: "colClientTypeID hiddenColumn", "targets": [0] },
+                            { className: "colClientTypeName pointer", "targets": [1] },
+                            { className: "colDescription", "targets": [2] },
+                            { className: "colDelete", "targets": [3] }
+                        ],
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "clienttypeList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Term List',
-                                filename: "clienttypeList_" + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "clienttypeList_" + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                                // ,
-                                // customize: function ( win ) {
-                                //   $(win.document.body).children("h1:first").remove();
-                                // }
-
-                            }
-                        ],
-                        // bStateSave: true,
-                        // rowId: 0,
-                        paging: false,
-                        // "scrollY": "400px",
-                        // "scrollCollapse": true,
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [
-                            [0, "asc"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#clienttypeList').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnAddNewClientType' data-dismiss='modal' data-toggle='modal' data-target='#myModalClientType' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#clienttypeList_filter");
-                            $("<button class='btn btn-primary btnRefreshTerms' type='button' id='btnRefreshTerms' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
+                            $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
                         },
 
                     }).on('page', function() {
@@ -304,15 +273,22 @@ Template.clienttypepopup.onRendered(function() {
               for (let i = 0; i < data.tclienttype.length; i++) {
 
                   // let taxRate = (data.tdeptclass[i].fields.Rate * 100).toFixed(2) + '%';
-                  var dataList = {
-                      id: data.tclienttype[i].Id || '',
-                      typeName: data.tclienttype[i].TypeName || '-',
-                      description: data.tclienttype[i].TypeDescription || '-',
-                      status: data.tclienttype[i].Active || 'false',
+                  // var dataList = {
+                  //     id: data.tclienttype[i].Id || '',
+                  //     typeName: data.tclienttype[i].TypeName || '-',
+                  //     description: data.tclienttype[i].TypeDescription || '-',
+                  //     status: data.tclienttype[i].Active || 'false',
+                  //
+                  // };
 
-                  };
-
-                  dataTableList.push(dataList);
+                  //dataTableList.push(dataList);
+                  var dataList = [
+                    data.tclienttype[i].Id || '',
+                    data.tclienttype[i].TypeName || '',
+                    data.tclienttype[i].TypeDescription || '',
+                    '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                  ];
+                  splashArrayClientTypeList.push(dataList);
                   //}
               }
 
@@ -347,7 +323,7 @@ Template.clienttypepopup.onRendered(function() {
                               download: 'open',
                               className: "btntabletopdf hiddenColumn",
                               text: '',
-                              title: 'Term List',
+                              title: 'Client Type',
                               filename: "clienttypeList_" + moment().format(),
                               exportOptions: {
                                   columns: ':visible'
@@ -391,7 +367,7 @@ Template.clienttypepopup.onRendered(function() {
                       },
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewClientType' data-dismiss='modal' data-toggle='modal' data-target='#myModalClientType' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#clienttypeList_filter");
-                          $("<button class='btn btn-primary btnRefreshTerms' type='button' id='btnRefreshTerms' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
+                          $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
                       },
 
                   }).on('page', function() {
@@ -411,6 +387,7 @@ Template.clienttypepopup.onRendered(function() {
               }, 10);
 
 
+
               templateObject.tableheaderrecords.set(tableHeaderList);
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
@@ -427,10 +404,9 @@ Template.clienttypepopup.onRendered(function() {
 
     $(document).on('click', '.colDelete.table-remove', function() {
         event.stopPropagation();
-        event.stopPropagation();
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').find('.colClientTypeID').text()||''; // table row ID
         $('#selectDeleteLineID').val(targetID);
-        $('#deleteLineModal').modal('toggle');
+        $('#deleteClientTypeLineModal').modal('toggle');
         // if ($('.clienttypeList tbody>tr').length > 1) {
         // // if(confirm("Are you sure you want to delete this row?")) {
         // this.click;
@@ -441,118 +417,105 @@ Template.clienttypepopup.onRendered(function() {
         // }
     });
 
-    $('#clienttypeList tbody').on('click', 'tr .colName, tr .colIsDays, tr .colIsEOM, tr .colDescription, tr .colIsCOD, tr .colIsEOMPlus, tr .colCustomerDef, tr .colSupplierDef', function() {
-        var listData = $(this).closest('tr').attr('id');
-        var is7days = false;
-        var is30days = false;
-        var isEOM = false;
-        var isEOMPlus = false;
-        var isSalesDefault = false;
-        var isPurchaseDefault = false;
-        if (listData) {
-            $('#add-terms-title').text('Edit Term ');
-            //$('#isformcreditcard').removeAttr('checked');
-            if (listData !== '') {
-                listData = Number(listData);
-                //taxRateService.getOneTerms(listData).then(function (data) {
 
-                var termsID = listData || '';
-                var termsName = $(event.target).closest("tr").find(".colName").text() || '';
-                var description = $(event.target).closest("tr").find(".colDescription").text() || '';
-                var days = $(event.target).closest("tr").find(".colIsDays").text() || 0;
-                //let isDays = data.fields.IsDays || '';
-                if ($(event.target).closest("tr").find(".colIsEOM .chkBox").is(':checked')) {
-                    isEOM = true;
-                }
-
-                if ($(event.target).closest("tr").find(".colIsEOMPlus .chkBox").is(':checked')) {
-                    isEOMPlus = true;
-                }
-
-                if ($(event.target).closest("tr").find(".colCustomerDef .chkBox").is(':checked')) {
-                    isSalesDefault = true;
-                }
-
-                if ($(event.target).closest("tr").find(".colSupplierDef .chkBox").is(':checked')) {
-                    isPurchaseDefault = true;
-                }
-
-                if (isEOM == true || isEOMPlus == true) {
-                    isDays = false;
-                } else {
-                    isDays = true;
-                }
-
-
-                $('#edtTermsID').val(termsID);
-                $('#edtName').val(termsName);
-                $('#edtName').prop('readonly', true);
-                $('#edtDesc').val(description);
-                $('#edtDays').val(days);
-
-
-                // if((isDays == true) && (days == 7)){
-                //   templateObject.include7Days.set(true);
-                // }else{
-                //   templateObject.include7Days.set(false);
-                // }
-                if ((isDays == true) && (days == 0)) {
-                    templateObject.includeCOD.set(true);
-                } else {
-                    templateObject.includeCOD.set(false);
-                }
-
-                if ((isDays == true) && (days == 30)) {
-                    templateObject.include30Days.set(true);
-                } else {
-                    templateObject.include30Days.set(false);
-                }
-
-                if (isEOM == true) {
-                    templateObject.includeEOM.set(true);
-                } else {
-                    templateObject.includeEOM.set(false);
-                }
-
-                if (isEOMPlus == true) {
-                    templateObject.includeEOMPlus.set(true);
-                } else {
-                    templateObject.includeEOMPlus.set(false);
-                }
-
-
-                if (isSalesDefault == true) {
-                    templateObject.includeSalesDefault.set(true);
-                } else {
-                    templateObject.includeSalesDefault.set(false);
-                }
-
-                if (isPurchaseDefault == true) {
-                    templateObject.includePurchaseDefault.set(true);
-                } else {
-                    templateObject.includePurchaseDefault.set(false);
-                }
-
-                //});
-
-
-                $(this).closest('tr').attr('data-target', '#myModal');
-                $(this).closest('tr').attr('data-toggle', 'modal');
-
-            }
-
-        }
-
-    });
 });
 
 
 Template.clienttypepopup.events({
 
-    'click .btnAddNewTerm': function (event) {
+    'click .btnAddNewClientType': function (event) {
+        $('#edtClientTypeName').val('');
+        $('#txaDescription').val('');
         setTimeout(function () {
-          $('#edtName').focus();
+          $('#edtClientTypeName').focus();
         }, 1000);
+    },
+    'click .btnRefreshClientType': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      const customerList = [];
+      const clientList = [];
+      let salesOrderTable;
+      var splashArray = new Array();
+      var splashArrayClientTypeList = new Array();
+      const dataTableList = [];
+      const tableHeaderList = [];
+      let sideBarService = new SideBarService();
+      let taxRateService = new TaxRateService();
+      let dataSearchName = $('#clienttypeList_filter input').val();
+      var currentLoc = FlowRouter.current().route.path;
+      if (dataSearchName.replace(/\s/g, '') != '') {
+          sideBarService.getClientTypeDataByName(dataSearchName).then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+              if (data.tclienttype.length > 0) {
+                for (let i = 0; i < data.tclienttype.length; i++) {
+                  var dataList = [
+                    data.tclienttype[i].Id || '',
+                    data.tclienttype[i].TypeName || '',
+                    data.tclienttype[i].TypeDescription || '',
+                    '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                  ];
+              splashArrayClientTypeList.push(dataList);
+                }
+
+                  var datatable = $('#clienttypeList').DataTable();
+                  datatable.clear();
+                  datatable.rows.add(splashArrayPaymentMethodList);
+                  datatable.draw(false);
+
+                  $('.fullScreenSpin').css('display', 'none');
+              } else {
+
+                  $('.fullScreenSpin').css('display', 'none');
+                   $('#clienttypeListModal').modal('toggle');
+                  swal({
+                      title: 'Question',
+                      text: "Client Type does not exist, would you like to create it?",
+                      type: 'question',
+                      showCancelButton: true,
+                      confirmButtonText: 'Yes',
+                      cancelButtonText: 'No'
+                  }).then((result) => {
+                      if (result.value) {
+                          $('#myModalClientType').modal('toggle');
+                          $('#edtClientTypeName').val(dataSearchName);
+                      } else if (result.dismiss === 'cancel') {
+                          $('#myModalClientType').modal('toggle');
+                      }
+                  });
+
+              }
+
+          }).catch(function (err) {
+              $('.fullScreenSpin').css('display', 'none');
+          });
+      } else {
+        sideBarService.getClientTypeData().then(function(data) {
+
+                let records = [];
+                let inventoryData = [];
+                for (let i = 0; i < data.tclienttype.length; i++) {
+                  var dataList = [
+                    data.tclienttype[i].fields.ID || '',
+                    data.tclienttype[i].fields.TypeName || '',
+                    data.tclienttype[i].fields.TypeDescription || '',
+                    '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                  ];
+              splashArrayClientTypeList.push(dataList);
+
+                }
+      var datatable = $('#clienttypeList').DataTable();
+            datatable.clear();
+            datatable.rows.add(splashArrayPaymentMethodList);
+            datatable.draw(false);
+
+            $('.fullScreenSpin').css('display', 'none');
+            }).catch(function (err) {
+              $('.fullScreenSpin').css('display', 'none');
+          });
+      }
+
     },
     'click .btnDeleteDClientType': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -789,279 +752,9 @@ Template.clienttypepopup.events({
         $('.fullScreenSpin').css('display', 'none');
 
     },
-    'click .btnRefresh': function() {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        sideBarService.getTermsVS1().then(function(dataReload) {
-            addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                location.reload(true);
-            }).catch(function(err) {
-                location.reload(true);
-            });
-        }).catch(function(err) {
-            location.reload(true);
-        });
-    },
-    'click .btnDeleteTerms': function() {
-        let taxRateService = new TaxRateService();
-        let termsId = $('#selectDeleteLineID').val();
-
-
-        let objDetails = {
-            type: "TTerms",
-            fields: {
-                Id: parseInt(termsId),
-                Active: false
-            }
-        };
-
-        taxRateService.saveTerms(objDetails).then(function(objDetails) {
-            sideBarService.getTermsVS1().then(function(dataReload) {
-                addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                    Meteor._reload.reload();
-                }).catch(function(err) {
-                    Meteor._reload.reload();
-                });
-            }).catch(function(err) {
-                Meteor._reload.reload();
-            });
-        }).catch(function(err) {
-            swal({
-                title: 'Oooops...',
-                text: err,
-                type: 'error',
-                showCancelButton: false,
-                confirmButtonText: 'Try Again'
-            }).then((result) => {
-                if (result.value) {
-                    Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {
-
-                }
-            });
-            $('.fullScreenSpin').css('display', 'none');
-        });
-
-    },
-    'click .btnSaveTerms': function() {
-        $('.fullScreenSpin').css('display', 'inline-block');
-        let taxRateService = new TaxRateService();
-        let termsID = $('#edtTermsID').val();
-        let termsName = $('#edtName').val();
-        let description = $('#edtDesc').val();
-        let termdays = $('#edtDays').val();
-
-        let isDays = false;
-        let is30days = false;
-        let isEOM = false;
-        let isEOMPlus = false;
-        let days = 0;
-
-        let isSalesdefault = false;
-        let isPurchasedefault = false;
-        if (termdays.replace(/\s/g, '') != "") {
-            isDays = true;
-        } else {
-            isDays = false;
-        }
-
-        if ($('#isEOM').is(':checked')) {
-            isEOM = true;
-        } else {
-            isEOM = false;
-        }
-
-        if ($('#isEOMPlus').is(':checked')) {
-            isEOMPlus = true;
-        } else {
-            isEOMPlus = false;
-        }
-
-        if ($('#chkCustomerDef').is(':checked')) {
-            isSalesdefault = true;
-        } else {
-            isSalesdefault = false;
-        }
-
-        if ($('#chkSupplierDef').is(':checked')) {
-            isPurchasedefault = true;
-        } else {
-            isPurchasedefault = false;
-        }
-
-        let objDetails = '';
-        if (termsName === '') {
-            $('.fullScreenSpin').css('display', 'none');
-            Bert.alert('<strong>WARNING:</strong> Term Name cannot be blank!', 'warning');
-            e.preventDefault();
-        }
-
-        if (termsID == "") {
-            taxRateService.checkTermByName(termsName).then(function(data) {
-                termsID = data.tterms[0].Id;
-                objDetails = {
-                    type: "TTerms",
-                    fields: {
-                        ID: parseInt(termsID),
-                        Active: true,
-                        //TermsName: termsName,
-                        Description: description,
-                        IsDays: isDays,
-                        IsEOM: isEOM,
-                        IsEOMPlus: isEOMPlus,
-                        isPurchasedefault: isPurchasedefault,
-                        isSalesdefault: isSalesdefault,
-                        Days: termdays || 0,
-                        PublishOnVS1: true
-                    }
-                };
-
-                taxRateService.saveTerms(objDetails).then(function(objDetails) {
-                    sideBarService.getTermsVS1().then(function(dataReload) {
-                        addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                            Meteor._reload.reload();
-                        }).catch(function(err) {
-                            Meteor._reload.reload();
-                        });
-                    }).catch(function(err) {
-                        Meteor._reload.reload();
-                    });
-                }).catch(function(err) {
-                    swal({
-                        title: 'Oooops...',
-                        text: err,
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {
-                            Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
-                    });
-                    $('.fullScreenSpin').css('display', 'none');
-                });
-            }).catch(function(err) {
-                objDetails = {
-                    type: "TTerms",
-                    fields: {
-                        Active: true,
-                        TermsName: termsName,
-                        Description: description,
-                        IsDays: isDays,
-                        IsEOM: isEOM,
-                        IsEOMPlus: isEOMPlus,
-                        Days: termdays || 0,
-                        PublishOnVS1: true
-                    }
-                };
-
-                taxRateService.saveTerms(objDetails).then(function(objDetails) {
-                    sideBarService.getTermsVS1().then(function(dataReload) {
-                        addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                            Meteor._reload.reload();
-                        }).catch(function(err) {
-                            Meteor._reload.reload();
-                        });
-                    }).catch(function(err) {
-                        Meteor._reload.reload();
-                    });
-                }).catch(function(err) {
-                    swal({
-                        title: 'Oooops...',
-                        text: err,
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'Try Again'
-                    }).then((result) => {
-                        if (result.value) {
-                            Meteor._reload.reload();
-                        } else if (result.dismiss === 'cancel') {
-
-                        }
-                    });
-                    $('.fullScreenSpin').css('display', 'none');
-                });
-            });
-
-        } else {
-            objDetails = {
-                type: "TTerms",
-                fields: {
-                    ID: parseInt(termsID),
-                    TermsName: termsName,
-                    Description: description,
-                    IsDays: isDays,
-                    IsEOM: isEOM,
-                    isPurchasedefault: isPurchasedefault,
-                    isSalesdefault: isSalesdefault,
-                    IsEOMPlus: isEOMPlus,
-                    Days: termdays || 0,
-                    PublishOnVS1: true
-                }
-            };
-
-            taxRateService.saveTerms(objDetails).then(function(objDetails) {
-                sideBarService.getTermsVS1().then(function(dataReload) {
-                    addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                        Meteor._reload.reload();
-                    }).catch(function(err) {
-                        Meteor._reload.reload();
-                    });
-                }).catch(function(err) {
-                    Meteor._reload.reload();
-                });
-            }).catch(function(err) {
-                swal({
-                    title: 'Oooops...',
-                    text: err,
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonText: 'Try Again'
-                }).then((result) => {
-                    if (result.value) {
-                        Meteor._reload.reload();
-                    } else if (result.dismiss === 'cancel') {
-
-                    }
-                });
-                $('.fullScreenSpin').css('display', 'none');
-            });
-        }
-
-
-
-
-    },
-    'click .btnAddTerms': function() {
-        let templateObject = Template.instance();
-        $('#add-terms-title').text('Add New Term ');
-        $('#edtTermsID').val('');
-        $('#edtName').val('');
-        $('#edtName').prop('readonly', false);
-        $('#edtDesc').val('');
-        $('#edtDays').val('');
-
-        templateObject.include7Days.set(false);
-        templateObject.includeCOD.set(false);
-        templateObject.include30Days.set(false);
-        templateObject.includeEOM.set(false);
-        templateObject.includeEOMPlus.set(false);
-    },
     'click .btnBack': function(event) {
         event.preventDefault();
         history.back(1);
-    },
-    'click .chkTerms': function(event) {
-        var $box = $(event.target);
-
-        if ($box.is(":checked")) {
-            var group = "input:checkbox[name='" + $box.attr("name") + "']";
-            $(group).prop("checked", false);
-            $box.prop("checked", true);
-        } else {
-            $box.prop("checked", false);
-        }
     },
     'keydown #edtDays': function(event) {
         if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||

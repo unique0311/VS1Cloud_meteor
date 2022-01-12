@@ -16,7 +16,8 @@
 
 
                         </style>
-                        <div class="modal fade" role="dialog" tabindex="-1" id="deleteLineModal">
+
+                        <div class="modal fade" role="dialog" tabindex="-1" id="deleteClientTypeLineModal">
                           <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                   <input type="hidden" style="width: 100%; display:none;" id="selectDeleteLineID" name="selectDeleteLineID"  readonly>
@@ -36,11 +37,10 @@
                               </div>
                           </div>
                         </div>
-
                         <table id="clienttypeList" style="width:100%" class="dataTable table table-hover table-striped table-bordered clienttypeList">
                           <thead>
                               <tr class="dnd-moved">
-                                  <!-- <th class="th colDeptID" style="width:50px">Dept #</th> -->
+                                  <th class="th colClientTypeID hiddenColumn" style="width:50px">Dept #</th>
                                   <!-- <th class="th colHeadDept" style="width:100px;">Header Department</th> -->
                                   <th class="th colClientTypeName">Type Name</th>
                                   <!-- <th class="th colStatus" style="width:50px">Active</th> -->
@@ -50,19 +50,18 @@
                               </tr>
                           </thead>
                           <tbody>
-                              {{#if datatablerecords}}
+                              <!-- {{#if datatablerecords}}
                               {{#each item in datatablerecords}}
                               <tr class="dnd-moved" id="{{item.id}}"  style="cursor: default;">
-                                  <!-- <td contenteditable="false" class="colDeptID">{{item.id}}</td> -->
-                                  <!-- <td contenteditable="false" class="colHeadDept">{{item.headDept}}</td> -->
+
                                   <td contenteditable="false" class="colClientTypeName">{{item.typeName}}</td>
-                                  <!-- <td contenteditable="false" class="colStatus">{{item.status}}</td> -->
+
                                   <td contenteditable="false" class="colDescription">{{item.description}}</td>
-                                  <!-- <td contenteditable="false" class="colSiteCode hiddenColumn">{{item.sitecode}}</td> -->
+
                                   <td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>
                               </tr>
                               {{/each}}
-                              {{/if}}
+                              {{/if}} -->
                           </tbody>
 
                         </table>
@@ -74,6 +73,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- {{> clienttypemodal}} -->
 </template>
