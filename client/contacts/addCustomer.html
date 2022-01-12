@@ -604,7 +604,7 @@
                                         <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start" style="margin: 12px;">
                                             <div class="col d-xl-flex align-items-xl-end">
                                                 <div class="form-group d-xl-flex flex-column align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Payment Method</label>
-                                                    <select class="form-control" style="width: 260px;" id="sltJobPreferedPayment" name="sltJobPreferedPayment">
+                                                    <!-- <select class="form-control" style="width: 260px;" id="sltJobPreferedPayment" name="sltJobPreferedPayment">
                                                         {{#each item in preferedPaymentList}}
                                                             {{#if equals item record.preferedpayment }}
                                                                 <option value="{{record.jobpreferedpayment}}" selected="">{{record.jobpreferedpayment}}</option>
@@ -612,10 +612,12 @@
                                                                 <option value="{{item}}">{{item}}</option>
                                                             {{/if}}
                                                         {{/each}}
+                                                    </select> -->
+                                                    <select type="search" class="form-control" id="sltJobPreferedPayment" name="sltJobPreferedPayment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                     </select>
                                                 </div>
                                                 <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Terms</label>
-                                                    <select class="form-control" style="width: 260px;" id="sltJobTerms" name="sltJobTerms">
+                                                    <!-- <select class="form-control" style="width: 260px;" id="sltJobTerms" name="sltJobTerms">
                                                         {{#each item in termsList}}
                                                             {{#if equals item record.terms }}
                                                                 <option value="{{record.jobterms}}" selected="">{{record.jobterms}}</option>
@@ -623,11 +625,13 @@
                                                                 <option value="{{item}}">{{item}}</option>
                                                             {{/if}}
                                                         {{/each}}
+                                                    </select> -->
+                                                    <select type="search" class="form-control" id="sltJobTerms" name="sltJobTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                     </select>
                                                 </div>
 
                                                 <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Customer Type</label>
-                                                    <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltJobCustomerType" name="sltJobCustomerType">
+                                                    <!-- <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltJobCustomerType" name="sltJobCustomerType">
 
                                                         {{#each itemclientJob in clienttypeList}}
                                                             {{#if equals itemclientJob record.clienttype }}
@@ -637,6 +641,8 @@
                                                             {{/if}}
                                                         {{/each}}
 
+                                                    </select> -->
+                                                    <select type="search" class="form-control" id="sltJobCustomerType" name="sltJobCustomerType" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                     </select>
 
                                                 </div>
@@ -645,7 +651,7 @@
                                                     <input type="text" class="form-control pointer" id="edtJobCustomerCardDiscount" name="edtJobCustomerCardDiscount" value="{{record.jobdiscount}}">
                                                 </div>
                                             </div>
-                                            {{> clienttypemodal}}
+                                            <!-- {{> clienttypemodal}} -->
                                             <div class="col d-xl-flex align-items-xl-end" style="display:none!important;">
                                                 <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Delivery Method</label>
                                                     <select class="form-control" style="width: 260px;" id="sltJobDeliveryMethod" name="sltJobDeliveryMethod">
@@ -1193,7 +1199,7 @@ value="{{record.tfn}}"></div> -->
                                             <div class="row" style="margin: 12px;">
                                                 <div class="col-md-2 col-6" style="padding: 0px;">
                                                     <div class="form-group d-xl-flex flex-column align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Payment Method</label>
-                                                        <select class="form-control preferredPaymentMethodSelect" style="cursor: pointer;" id="sltPreferedPayment" name="sltPreferedPayment">
+                                                        <!-- <select class="form-control preferredPaymentMethodSelect" style="cursor: pointer;" id="sltPreferedPayment" name="sltPreferedPayment">
                                                             {{#each item in preferedPaymentList}}
                                                                 {{#if equals item record.preferedpayment }}
                                                                     <option value="{{record.preferedpayment}}" selected="">{{record.preferedpayment}}</option>
@@ -1201,6 +1207,8 @@ value="{{record.tfn}}"></div> -->
                                                                     <option value="{{item}}">{{item}}</option>
                                                                 {{/if}}
                                                             {{/each}}
+                                                        </select> -->
+                                                        <select type="search" class="form-control preferredPaymentMethodSelect" id="sltPreferedPayment" name="sltPreferedPayment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -1225,7 +1233,7 @@ value="{{record.tfn}}"></div> -->
                                                 </div>
                                                 <div class="col-md-2 col-6" style="padding: 0px;">
                                                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Customer Type</label>
-                                                        <select class="form-control customerTypeSelect" style="cursor: pointer;" id="sltCustomerType" name="sltCustomerType">
+                                                        <!-- <select class="form-control customerTypeSelect" style="cursor: pointer;" id="sltCustomerType" name="sltCustomerType">
 
                                                             {{#each itemclient in clienttypeList}}
                                                                 {{#if equals itemclient record.clienttype }}
@@ -1235,6 +1243,8 @@ value="{{record.tfn}}"></div> -->
                                                                 {{/if}}
                                                             {{/each}}
 
+                                                        </select> -->
+                                                        <select type="search" class="form-control" id="sltCustomerType" name="sltCustomerType" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                         </select>
 
                                                     </div>
@@ -1534,13 +1544,7 @@ value="{{record.tfn}}"></div> -->
                                 </div>
 
                             </div>
-                            <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
-                                {{> termlistpop}}
-                            </div>
 
-                            <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
-                                {{> newtermspop}}
-                            </div>
                             <div class="modal fade" role="dialog" tabindex="-1" id="deleteCustomerModal">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -1997,7 +2001,7 @@ value="{{record.tfn}}"></div> -->
                                                                 <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start" style="margin: 12px;">
                                                                     <div class="col d-xl-flex align-items-xl-end">
                                                                         <div class="form-group d-xl-flex flex-column align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Payment Method</label>
-                                                                            <select class="form-control" style="width: 260px;" id="sltJobPreferedPayment" name="sltJobPreferedPayment">
+                                                                            <!-- <select class="form-control" style="width: 260px;" id="sltJobPreferedPayment" name="sltJobPreferedPayment">
                                                                                 {{#each item in preferedPaymentList}}
                                                                                     {{#if equals item record.preferedpayment }}
                                                                                         <option value="{{record.jobpreferedpayment}}" selected="">{{record.jobpreferedpayment}}</option>
@@ -2005,10 +2009,13 @@ value="{{record.tfn}}"></div> -->
                                                                                         <option value="{{item}}">{{item}}</option>
                                                                                     {{/if}}
                                                                                 {{/each}}
+                                                                            </select> -->
+
+                                                                            <select type="search" class="form-control" id="sltJobPreferedPayment" name="sltJobPreferedPayment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Terms</label>
-                                                                            <select class="form-control" style="width: 260px;" id="sltJobTerms" name="sltJobTerms">
+                                                                            <!-- <select class="form-control" style="width: 260px;" id="sltJobTerms" name="sltJobTerms">
                                                                                 {{#each item in termsList}}
                                                                                     {{#if equals item record.terms }}
                                                                                         <option value="{{record.jobterms}}" selected="">{{record.jobterms}}</option>
@@ -2016,11 +2023,14 @@ value="{{record.tfn}}"></div> -->
                                                                                         <option value="{{item}}">{{item}}</option>
                                                                                     {{/if}}
                                                                                 {{/each}}
+                                                                            </select> -->
+
+                                                                            <select type="search" class="form-control" id="sltJobTerms" name="sltJobTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                                             </select>
                                                                         </div>
 
                                                                         <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Customer Type</label>
-                                                                            <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltJobCustomerType" name="sltJobCustomerType">
+                                                                            <!-- <select class="form-control customerTypeSelect" style="width: 260px; cursor: pointer;" id="sltJobCustomerType" name="sltJobCustomerType">
 
                                                                                 {{#each jobitemclient in clienttypeList}}
                                                                                     {{#if equals jobitemclient record.clienttype }}
@@ -2030,15 +2040,16 @@ value="{{record.tfn}}"></div> -->
                                                                                     {{/if}}
                                                                                 {{/each}}
 
+                                                                            </select> -->
+                                                                            <select type="search" class="form-control" id="sltJobCustomerType" name="sltJobCustomerType" style="background-color:rgb(255, 255, 255); cursor: pointer;">
                                                                             </select>
-
                                                                         </div>
 
                                                                         <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">% Discount</label>
                                                                             <input type="text" class="form-control pointer" id="edtJobCustomerCardDiscount" name="edtJobCustomerCardDiscount" value="{{record.jobdiscount}}">
                                                                         </div>
                                                                     </div>
-                                                                    {{> clienttypemodal}}
+                                                                    <!-- {{> clienttypemodal}} -->
                                                                     <div class="col d-xl-flex align-items-xl-end" style="display:none!important;">
                                                                         <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Delivery Method</label>
                                                                             <select class="form-control" style="width: 260px;" id="sltJobDeliveryMethod" name="sltJobDeliveryMethod">
@@ -2598,6 +2609,28 @@ style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="paymentMethodModal">
+        {{> paymentmethodpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newPaymentMethodModal">
+        {{> newpaymentmethodpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
+        {{> termlistpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
+        {{> newtermspop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="clienttypeListModal">
+        {{> clienttypepopup}}
+    </div>
+
     {{> clienttypemodal}}
     <!-- End Help Video Modal -->
     <script>

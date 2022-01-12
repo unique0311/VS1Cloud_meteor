@@ -117,8 +117,12 @@ export class TaxRateService extends BaseService {
     saveAccount(data){
         return this.POST(this.ERPObjects.TAccount, data);
     }
-    saveTaxRate(data){
-        return this.POST(this.ERPObjects.TTaxCode, data);
+    saveClientTypeData(data){
+        return this.POST(this.ERPObjects.TClientType, data);
+    }
+
+    saveAccount(data){
+        return this.POST(this.ERPObjects.TAccount, data);
     }
 
     saveDepartment(data){
