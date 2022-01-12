@@ -915,14 +915,14 @@
                                                 <div id="autoUpdateJob" style="display: none;">
                                                     <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Tax
                                                             Code</label>
-                                                        <select class="form-control" style="width: 260px;" id="sltJobTaxCode" name="sltJobTaxCode">
-                                                            {{#each item in taxCodeList}}
+                                                        <select type="search" class="form-control" style="width: 260px; background-color:rgb(255, 255, 255); cursor: pointer;" id="sltJobTaxCode" name="sltJobTaxCode">
+                                                            <!-- {{#each item in taxCodeList}}
                                                                 {{#if equals item record.jobtaxcode }}
                                                                     <option value="{{record.jobtaxcode}}" selected="">{{record.jobtaxcode}}</option>
                                                                 {{else}}
                                                                     <option value="{{item}}">{{item}}</option>
                                                                 {{/if}}
-                                                            {{/each}}
+                                                            {{/each}} -->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -1169,10 +1169,10 @@ value="{{record.tfn}}"></div> -->
                                                                     </div>
                                                                     <div class="form-group flex-grow-1" style="margin: 4px;">
                                                                         <label>Country</label>
-                                                                        <select class="form-control" id="sedtCountry" name="sedtCountry" style="cursor: pointer;">
+                                                                        <select class="form-control" id="bedtCountry" name="bedtCountry" style="cursor: pointer;">
                                                                             {{#each item in countryList}}
-                                                                                {{#if equals item record.scountry }}
-                                                                                    <option value="{{record.scountry}}" selected="">{{record.scountry}}</option>
+                                                                                {{#if equals item record.bcountry }}
+                                                                                    <option value="{{record.bcountry}}" selected="">{{record.bcountry}}</option>
                                                                                 {{else}}
                                                                                     <option value="{{item}}">{{item}}</option>
                                                                                 {{/if}}
@@ -1519,14 +1519,14 @@ value="{{record.tfn}}"></div> -->
                                                     <div id="autoUpdate" style="display: none;">
                                                         <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Tax
                                                                 Code</label>
-                                                            <select class="form-control taxCodeSelect" style="width: 260px; cursor: pointer;" id="sltTaxCode" name="sltTaxCode">
-                                                                {{#each item in taxCodeList}}
+                                                            <select type="search" class="form-control taxCodeSelect" style="width: 260px; background-color:rgb(255, 255, 255); cursor: pointer;" id="sltTaxCode" name="sltTaxCode">
+                                                                <!-- {{#each item in taxCodeList}}
                                                                     {{#if equals item record.taxcode }}
                                                                         <option value="{{record.taxcode}}" selected="">{{record.taxcode}}</option>
                                                                     {{else}}
                                                                         <option value="{{item}}">{{item}}</option>
                                                                     {{/if}}
-                                                                {{/each}}
+                                                                {{/each}} -->
                                                             </select>
                                                         </div>
                                                     </div>
@@ -2303,14 +2303,14 @@ value="{{record.tfn}}"></div> -->
                                                                         <div id="autoUpdateJob" style="display: none;">
                                                                             <div class="form-group d-flex d-sm-flex d-xl-flex flex-column flex-grow-1 align-items-start align-items-sm-start align-items-xl-start" style="margin: 4px;"><label
                                                                                     class="text-nowrap">Tax Code</label>
-                                                                                <select class="form-control" style="width: 260px;" id="sltJobTaxCode" name="sltJobTaxCode">
-                                                                                    {{#each item in taxCodeList}}
+                                                                                <select type="search" class="form-control" style="width: 260px; background-color:rgb(255, 255, 255); cursor: pointer;" id="sltJobTaxCode" name="sltJobTaxCode">
+                                                                                    <!-- {{#each item in taxCodeList}}
                                                                                         {{#if equals item record.taxcode }}
                                                                                             <option value="{{record.jobtaxcode}}" selected="">{{record.jobtaxcode}}</option>
                                                                                         {{else}}
                                                                                             <option value="{{item}}">{{item}}</option>
                                                                                         {{/if}}
-                                                                                    {{/each}}
+                                                                                    {{/each}} -->
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -2632,6 +2632,13 @@ style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close
     </div>
 
     {{> clienttypemodal}}
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="taxRateListModal">
+        {{> taxratelistpop}}
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="newTaxRateModal">
+        {{> newtaxratepop}}
+    </div>
     <!-- End Help Video Modal -->
     <script>
         modalDraggable();
