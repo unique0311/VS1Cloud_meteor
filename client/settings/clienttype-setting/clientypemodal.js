@@ -27,10 +27,11 @@ Template.clienttypemodal.events({
     },
     'click .btnSaveClientType': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
+        var url = FlowRouter.current().path;
         let contactService = new ContactService();
         let objDetails ={};
         //let headerDept = $('#sltDepartment').val();
-        let custType = $('#edtClientTypeName').val();
+        let custType = $('#edtClientTypeName').val() || '';
         let typeDesc = $('#txaDescription').val() || '';
         let id = $('#typeID').val() || '';
         if (custType === '') {
@@ -70,11 +71,29 @@ Template.clienttypemodal.events({
             contactService.saveClientTypeData(objDetails).then(function (objDetails) {
                 sideBarService.getClientTypeData().then(function (dataReload) {
                     addVS1Data('TClientType', JSON.stringify(dataReload)).then(function (datareturn) {
+                        if(url.includes("/productview")) {
+                            $('#sltCustomerType').val(custType); 
+                            $('#myModalClientType').modal('toggle');
+                            $('.fullScreenSpin').css('display', 'none');
+                            return false;
+                         }
                         Meteor._reload.reload();
                     }).catch(function (err) {
+                         if(url.includes("/productview")) {
+                            $('#sltCustomerType').val(custType); 
+                            $('#myModalClientType').modal('toggle');
+                            $('.fullScreenSpin').css('display', 'none');
+                            return false;
+                         }
                         Meteor._reload.reload();
                     });
                 }).catch(function (err) {
+                     if(url.includes("/productview")) {
+                            $('#sltCustomerType').val(custType); 
+                            $('#myModalClientType').modal('toggle');
+                            $('.fullScreenSpin').css('display', 'none');
+                            return false;
+                         }
                     Meteor._reload.reload();
                 });
                 // Meteor._reload.reload();

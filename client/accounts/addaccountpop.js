@@ -252,12 +252,13 @@ Template.addaccountpop.onRendered(function () {
 
 Template.addaccountpop.events({
     'click .btnSaveAccountPOP': function () {
+        var url = FlowRouter.current().path;
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         let accountService = new AccountService();
         let organisationService = new OrganisationService();
         let forTransaction = false;
-
+        let accSelected = $('#accSelected').val();
         if ($('#showOnTransactions').is(':checked')) {
             forTransaction = true;
         }
@@ -342,32 +343,141 @@ Template.addaccountpop.events({
                            localStorage.setItem('vs1companyBankRoutingNo', routingNo);
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                    window.open('/accountsoverview', '_self');
+                                if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
+                                window.open('/accountsoverview', '_self');
                             }).catch(function (err) {
+                              if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
                                 window.open('/accountsoverview', '_self');
                             });
                         }).catch(function (err) {
+                            if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
                             window.open('/accountsoverview', '_self');
                         });
                     }).catch(function (err) {
                       sideBarService.getAccountListVS1().then(function (dataReload) {
                           addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                          if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
                               window.open('/accountsoverview', '_self');
                           }).catch(function (err) {
+                            if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
                               window.open('/accountsoverview', '_self');
                           });
                       }).catch(function (err) {
+                                if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
+
                           window.open('/accountsoverview', '_self');
                       });
                     });
                     } else {
                         sideBarService.getAccountListVS1().then(function (dataReload) {
                             addVS1Data('TAccountVS1', JSON.stringify(dataReload)).then(function (datareturn) {
+                               if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
                                 window.open('/accountsoverview', '_self');
                             }).catch(function (err) {
+                               if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
                                 window.open('/accountsoverview', '_self');
                             });
                         }).catch(function (err) {
+                           if(url.includes("/productview")) {
+                                    if (accSelected == "cogs") {
+                                        $('#sltcogsaccount').val(accountname);
+                                    } else if (accSelected == "sales") {
+                                        $('#sltsalesacount').val(accountname);
+                                    } else if (accSelected == "inventory") {
+                                        $('#sltinventoryacount').val(accountname);
+                                    }
+                                     $('#addAccountModal').modal('toggle');
+                                     $('.fullScreenSpin').css('display', 'none');
+                                    return false;
+                                }
                             window.open('/accountsoverview', '_self');
                         });
                     }

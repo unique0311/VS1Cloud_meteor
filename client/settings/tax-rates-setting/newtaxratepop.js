@@ -9,6 +9,7 @@ import {
 } from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
+let taxSelected = "";
 Template.newtaxratepop.onCreated(function() {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
@@ -648,6 +649,7 @@ Template.newtaxratepop.events({
     'click .btnSaveTaxRate': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let taxRateService = new TaxRateService();
+        let taxSelected = $('#taxSelected').val();
         let taxtID = $('#edtTaxID').val();
         let taxName = $('#edtTaxNamePop').val();
         let taxDesc = $('#edtTaxDescPop').val();
@@ -676,16 +678,34 @@ Template.newtaxratepop.events({
                 taxRateService.saveTaxRate(objDetails).then(function(objDetails) {
                     sideBarService.getTaxRateVS1().then(function(dataReload) {
                         addVS1Data('TTaxcodeVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                            // Meteor._reload.reload();
+                             if(url.includes("/productview")) {
+                                    if (taxSelected == "sales") {
+                                        $('#slttaxcodesales').val(taxName);
+                                    } else if (taxSelected == "purchase") {
+                                        $('#slttaxcodepurchase').val(taxName);
+                                    } 
+                            }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function(err) {
-                            // Meteor._reload.reload();
+                            if(url.includes("/productview")) {
+                                    if (taxSelected == "sales") {
+                                        $('#slttaxcodesales').val(taxName);
+                                    } else if (taxSelected == "purchase") {
+                                        $('#slttaxcodepurchase').val(taxName);
+                                    } 
+                            }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         });
                     }).catch(function(err) {
-                        // Meteor._reload.reload();
+                        if(url.includes("/productview")) {
+                                    if (taxSelected == "sales") {
+                                        $('#slttaxcodesales').val(taxName);
+                                    } else if (taxSelected == "purchase") {
+                                        $('#slttaxcodepurchase').val(taxName);
+                                    } 
+                            }
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
                     });
@@ -727,16 +747,34 @@ Template.newtaxratepop.events({
                 taxRateService.saveTaxRate(objDetails).then(function(objDetails) {
                     sideBarService.getTaxRateVS1().then(function(dataReload) {
                         addVS1Data('TTaxcodeVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                            // Meteor._reload.reload();
+                            if(url.includes("/productview")) {
+                                    if (taxSelected == "sales") {
+                                        $('#slttaxcodesales').val(taxName);
+                                    } else if (taxSelected == "purchase") {
+                                        $('#slttaxcodepurchase').val(taxName);
+                                    } 
+                            }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function(err) {
-                            // Meteor._reload.reload();
+                            if(url.includes("/productview")) {
+                                    if (taxSelected == "sales") {
+                                        $('#slttaxcodesales').val(taxName);
+                                    } else if (taxSelected == "purchase") {
+                                        $('#slttaxcodepurchase').val(taxName);
+                                    } 
+                            }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         });
                     }).catch(function(err) {
-                        // Meteor._reload.reload();
+                        if(url.includes("/productview")) {
+                                if (taxSelected == "sales") {
+                                    $('#slttaxcodesales').val(taxName);
+                                } else if (taxSelected == "purchase") {
+                                    $('#slttaxcodepurchase').val(taxName);
+                                } 
+                        }
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
                     });
@@ -779,7 +817,13 @@ Template.newtaxratepop.events({
             taxRateService.saveTaxRate(objDetails).then(function(objDetails) {
                 sideBarService.getTaxRateVS1().then(function(dataReload) {
                     addVS1Data('TTaxcodeVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-                        // Meteor._reload.reload();
+                        if(url.includes("/productview")) {
+                            if (taxSelected == "sales") {
+                                $('#slttaxcodesales').val(taxName);
+                            } else if (taxSelected == "purchase") {
+                                $('#slttaxcodepurchase').val(taxName);
+                            } 
+                            }
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
                     }).catch(function(err) {
@@ -788,7 +832,13 @@ Template.newtaxratepop.events({
                         $('.fullScreenSpin').css('display', 'none');
                     });
                 }).catch(function(err) {
-                    // Meteor._reload.reload();
+                    if(url.includes("/productview")) {
+                            if (taxSelected == "sales") {
+                                $('#slttaxcodesales').val(taxName);
+                            } else if (taxSelected == "purchase") {
+                                $('#slttaxcodepurchase').val(taxName);
+                            } 
+                    }
                     $('#newTaxRateModal').modal('toggle');
                     $('.fullScreenSpin').css('display', 'none');
                 });

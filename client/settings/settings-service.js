@@ -64,12 +64,16 @@ export class TaxRateService extends BaseService {
        return this.getList(this.ERPObjects.TTaxCode, options);
      }
 
-     checkTaxRateByName(codeName){
+    saveTaxRate(data){
+         return this.POST(this.ERPObjects.TTaxCode, data);
+    }
+
+    checkTaxRateByName(codeName){
          let options = {
              select: "[CodeName]='"+codeName+"'"
          };
          return this.getList(this.ERPObjects.TTaxCode, options);
-     }
+    }
 
      checkTermByName(termName){
          let options = {
