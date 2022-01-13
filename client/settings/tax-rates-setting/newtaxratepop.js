@@ -685,6 +685,10 @@ Template.newtaxratepop.events({
                                         $('#slttaxcodepurchase').val(taxName);
                                     } 
                             }
+
+                             if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
+                            }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function(err) {
@@ -694,6 +698,10 @@ Template.newtaxratepop.events({
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } 
+                            }
+
+                             if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
                             }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
@@ -705,6 +713,9 @@ Template.newtaxratepop.events({
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } 
+                            }
+                             if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
                             }
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
@@ -754,6 +765,9 @@ Template.newtaxratepop.events({
                                         $('#slttaxcodepurchase').val(taxName);
                                     } 
                             }
+                             if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
+                            }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function(err) {
@@ -763,6 +777,9 @@ Template.newtaxratepop.events({
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } 
+                            }
+                             if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
                             }
                             $('#newTaxRateModal').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
@@ -775,6 +792,9 @@ Template.newtaxratepop.events({
                                     $('#slttaxcodepurchase').val(taxName);
                                 } 
                         }
+                         if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
+                            }
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
                     });
@@ -824,6 +844,9 @@ Template.newtaxratepop.events({
                                 $('#slttaxcodepurchase').val(taxName);
                             } 
                             }
+                             if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
+                            }
                         $('#newTaxRateModal').modal('toggle');
                         $('.fullScreenSpin').css('display', 'none');
                     }).catch(function(err) {
@@ -839,6 +862,9 @@ Template.newtaxratepop.events({
                                 $('#slttaxcodepurchase').val(taxName);
                             } 
                     }
+                     if(url.includes("/accountsoverview")) {
+                                $('#sltTaxCode').val(taxName);
+                            }
                     $('#newTaxRateModal').modal('toggle');
                     $('.fullScreenSpin').css('display', 'none');
                 });

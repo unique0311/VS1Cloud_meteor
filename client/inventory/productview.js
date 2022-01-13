@@ -219,6 +219,7 @@ Template.productview.onRendered(function () {
                                     let lineItemObj = {};
                                     for (let i = 0; i < data.tclienttype.length; i++) {
                                         if ((data.tclienttype[i].TypeName) === custTypeDataName) {
+                                            $('#edtClientTypeName').attr('readonly', true);
                                             let typeName = data.tclienttype[i].TypeName;
                                             var clientTypeID = data.tclienttype[i].ID || '';
                                             var taxRateName = data.tclienttype[i].CodeName || '';
@@ -246,6 +247,7 @@ Template.productview.onRendered(function () {
                                 $('#add-clienttype-title').text('Edit Customer Type');
                                 for (let i = 0; i < useData.length; i++) {
                                     if ((useData[i].fields.TypeName) === custTypeDataName) {
+                                        $('#edtClientTypeName').attr('readonly', true);
                                         let typeName = useData[i].fields.TypeName;
                                         var clientTypeID = useData[i].fields.ID || '';
                                         var taxRateName = useData[i].fields.CodeName || '';
@@ -414,7 +416,7 @@ Template.productview.onRendered(function () {
                                     let lineItemObj = {};
                                     for (let i = 0; i < data.taccountvs1.length; i++) {
                                         if ((data.ttaxcodevs1[i].AccountName) === cogsAccountDataName) {
-                                            // $('#edtTaxNamePop').attr('readonly', true);
+                                            $('#edtAccountName').attr('readonly', true);
                                             let taxCode = data.taccountvs1[i].TaxCode;
                                             var accountID = data.taccountvs1[i].ID || '';
                                             var acountName = data.taccountvs1[i].AccountName || '';
@@ -443,9 +445,9 @@ Template.productview.onRendered(function () {
                                 let useData = data.taccountvs1;
                                 let lineItems = [];
                                 let lineItemObj = {};
-                                $('.taxcodepopheader').text('Edit Account Details');
                                 for (let i = 0; i < useData.length; i++) {
                                     if ((useData[i].fields.AccountName) === cogsAccountDataName) {
+                                        $('#edtAccountName').attr('readonly', true);
                                         let taxCode = useData[i].fields.TaxCode;
                                         var accountID = useData[i].fields.ID || '';
                                         var acountName = useData[i].fields.AccountName || '';
@@ -522,8 +524,8 @@ Template.productview.onRendered(function () {
                                     let lineItems = [];
                                     let lineItemObj = {};
                                     for (let i = 0; i < data.taccountvs1.length; i++) {
-                                        if ((data.ttaxcodevs1[i].AccountName) === cogsAccountDataName) {
-                                            // $('#edtTaxNamePop').attr('readonly', true);
+                                        if ((data.taccountvs1[i].AccountName) === cogsAccountDataName) {
+                                            $('#edtAccountName').attr('readonly', true);
                                             let taxCode = data.taccountvs1[i].TaxCode;
                                             var accountID = data.taccountvs1[i].ID || '';
                                             var acountName = data.taccountvs1[i].AccountName || '';
@@ -555,6 +557,7 @@ Template.productview.onRendered(function () {
                                 $('#add-account-title').text('Edit Account Details');
                                 for (let i = 0; i < useData.length; i++) {
                                     if ((useData[i].fields.AccountName) === cogsAccountDataName) {
+                                        $('#edtAccountName').attr('readonly', true);
                                         let taxCode = useData[i].fields.TaxCode;
                                         var accountID = useData[i].fields.ID || '';
                                         var acountName = useData[i].fields.AccountName || '';
@@ -577,8 +580,8 @@ Template.productview.onRendered(function () {
                                 let lineItems = [];
                                 let lineItemObj = {};
                                 for (let i = 0; i < data.taccountvs1.length; i++) {
-                                    if ((data.ttaxcodevs1[i].CodeName) === taxRateDataName) {
-                                        $('#edtTaxNamePop').attr('readonly', true);
+                                    if ((data.taccountvs1[i].CodeName) === taxRateDataName) {
+                                        $('#edtAccountName').attr('readonly', true);
                                         let taxCode = data.taccountvs1[i].TaxCode;
                                         var accountID = data.taccountvs1[i].ID || '';
                                         var acountName = data.taccountvs1[i].AccountName || '';
@@ -592,7 +595,7 @@ Template.productview.onRendered(function () {
                                         $('#sltTaxCode').val(taxCode);
                                         $('#txaAccountDescription').val(accountDesc);
                                         setTimeout(function () {
-                                            $('#newTaxRateModal').modal('toggle');
+                                            $('#addAccountModal').modal('toggle');
                                         }, 100);
 
                                     }
@@ -617,7 +620,6 @@ Template.productview.onRendered(function () {
                 $('#accSelected').val(accSelected);
                 var $earch = $(this);
                 var offset = $earch.offset();
-                var taxRateDataName = e.target.value || '';
                 var salesAccountDataName = e.target.value || '';
                 var accountType = "INC";
                 if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
@@ -633,8 +635,8 @@ Template.productview.onRendered(function () {
                                         let lineItems = [];
                                         let lineItemObj = {};
                                         for (let i = 0; i < data.taccountvs1.length; i++) {
-                                            if ((data.ttaxcodevs1[i].AccountName) === salesAccountDataName) {
-                                                // $('#edtTaxNamePop').attr('readonly', true);
+                                            if ((data.taccountvs1[i].AccountName) === salesAccountDataName) {
+                                                $('#edtAccountName').attr('readonly', true);
                                                 let taxCode = data.taccountvs1[i].TaxCode;
                                                 var accountID = data.taccountvs1[i].ID || '';
                                                 var acountName = data.taccountvs1[i].AccountName || '';
@@ -663,9 +665,10 @@ Template.productview.onRendered(function () {
                                     let useData = data.taccountvs1;
                                     let lineItems = [];
                                     let lineItemObj = {};
-                                    $('.taxcodepopheader').text('Edit Tax Rate');
+                                   $('#add-account-title').text('Edit Account Details');;
                                     for (let i = 0; i < useData.length; i++) {
                                         if ((useData[i].fields.AccountName) === salesAccountDataName) {
+                                            $('#edtAccountName').attr('readonly', true);
                                             let taxCode = useData[i].fields.TaxCode;
                                             var accountID = useData[i].fields.ID || '';
                                             var acountName = useData[i].fields.AccountName || '';
@@ -688,8 +691,8 @@ Template.productview.onRendered(function () {
                                     let lineItems = [];
                                     let lineItemObj = {};
                                     for (let i = 0; i < data.taccountvs1.length; i++) {
-                                        if ((data.ttaxcodevs1[i].AccountName) === salesAccountDataName) {
-                                            $('#edtTaxNamePop').attr('readonly', true);
+                                        if ((data.taccountvs1[i].AccountName) === salesAccountDataName) {
+                                            $('#add-account-title').text('Edit Account Details');
                                             let taxCode = data.taccountvs1[i].TaxCode;
                                             var accountID = data.taccountvs1[i].ID || '';
                                             var acountName = data.taccountvs1[i].AccountName || '';
@@ -703,7 +706,7 @@ Template.productview.onRendered(function () {
                                             $('#sltTaxCode').val(taxCode);
                                             $('#txaAccountDescription').val(accountDesc);
                                             setTimeout(function () {
-                                                $('#newTaxRateModal').modal('toggle');
+                                                $('#addAccountModal').modal('toggle');
                                             }, 100);
 
                                         }

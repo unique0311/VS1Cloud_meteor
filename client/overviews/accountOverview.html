@@ -96,11 +96,13 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <div class="form-group" style="margin: 4px;"><label>Tax Code</label>
-                                                    <select class="form-control pointer" id="sltTaxCode" name="sltTaxCode">
+                                                     <select type="search" class="form-control" id="sltTaxCode" name="sltTaxCode" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                     </select>
+                                                    <!-- select class="form-control pointer" id="sltTaxCode" name="sltTaxCode">
                                                         {{#each item in taxraterecords}}
                                                         <option value="{{item.codename}}">{{item.codename}}</option>
                                                         {{/each}}
-                                                    </select>
+                                                    </select> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -510,7 +512,13 @@
                 </div>
             </div>
         </div>
+            <div class="modal fade" role="dialog" tabindex="-1" id="taxRateListModal">
+        {{> taxratelistpop}}
+    </div>
 
+     <div class="modal fade" role="dialog" tabindex="-1" id="newTaxRateModal">
+       {{> newtaxratepop}}
+     </div>
         <!-- Start Help Video Modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
             <div class="modal-dialog" role="document" style="max-width: 670px!important;">
