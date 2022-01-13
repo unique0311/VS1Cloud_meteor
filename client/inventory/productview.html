@@ -658,7 +658,7 @@ $('#chkSellPrice').removeAttr("disabled");
     <div class="modal fade" role="dialog" tabindex="-1" id="taxRateListModal">
         {{> taxratelistpop}}
     </div>
-    
+
      <div class="modal fade" role="dialog" tabindex="-1" id="accountListModal">
 <!--        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="max-width: 90vw;">
         <div class="modal-content">
@@ -713,11 +713,7 @@ $('#chkSellPrice').removeAttr("disabled");
      {{> accountlistpop}}
      </div>
 
-      <div class="modal fade" role="dialog" tabindex="-1" id="newTaxRateModal">
-       {{> newtaxratepop}}
-     </div>
-
-    <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal" style="">
         {{> addaccountpop}}
     </div>
 
@@ -727,6 +723,11 @@ $('#chkSellPrice').removeAttr("disabled");
 
 
         {{> clienttypemodal}}
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTaxRateModal" style="">
+         {{> newtaxratepop}}
+       </div>
+
 
 
     <!-- Product Customer Type Modal -->
