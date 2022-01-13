@@ -1131,20 +1131,62 @@
                             padding-right: 2.5rem;
                         }
                     }
+                    @media screen and (max-width: 450px) {
+                        .desktopButtons {
+                            display: none;
+                        }
+                        .mobileButtons {
+                            display: flex !important;
+                        }
+                    }                    
                 </style>
 
                 <div class="row align-items-end" style="margin: 16px;">
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-5">
-                        <button class="btn btn-primary" type="button" id="addRow" style="margin-bottom: 40px;">+ Add New Entry</button>
+                    <div class="col-12 col-lg-8 col-xl-10" style="rpadding-right: 24px;">
+                        <div class="row">
+                            <button class="btn btn-primary" type="button" id="addRow" style="margin-bottom: 36px; margin-left: 16px;">+ Add New Entry</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group"><label>Comments</label>
+                                    <textarea class="form-control" rows="6" id="txaComment" name="txaComment">{{billrecord.comments}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group"><label>Picking Instructions</label>
+                                    <textarea class="form-control" rows="6" id="txapickmemo" name="txapickmemo">{{billrecord.pickmemo}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center desktopButtons">
+                            <button class="btn btn-success btnSave btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                                <i class="fa fa-save" style="padding-right: 8px;"></i>Save
+                            </button>
+
+                            <button class="btn btn-primary printConfirm btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                                <i class="fa fa-print" style="padding-right: 8px;"></i>Print
+                            </button>
+
+                            <a class="btn btn-primary btn_Attachment btnFooter" role="button" style="margin: 16px;margin-top: 0px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" name="btn_Attachment">
+                                {{#if attachmentCount}}<span id="attachment-count">{{attachmentCount}}</span>{{/if}} <i class="fa fa-paperclip" style="padding-right: 8px;"></i>Add Attachments
+                            </a>
+
+                            <button class="btn btn-secondary btnBack btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                                <i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel
+                            </button>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12 col-md-6 col-lg-4 col-xl-5">
+                        <button class="btn btn-primary" type="button" id="addRow" style="margin-bottom: 120px;">+ Add New Entry</button>
                         <div class="form-group"><label>Comments</label>
-                            <textarea class="form-control" rows="4" id="txaComment" name="txaComment">{{billrecord.comments}}</textarea>
+                            <textarea class="form-control" rows="4" id="txaComment" name="txaComment">{{invoicerecord.comments}}</textarea>
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-lg-4 col-xl-5 colComments">
                         <div class="form-group"><label>Picking Instructions</label>
-                            <textarea class="form-control" rows="4" id="txapickmemo" name="txapickmemo">{{billrecord.pickmemo}}</textarea>
+                            <textarea class="form-control" rows="4" id="txapickmemo" name="txapickmemo">{{invoicerecord.pickmemo}}</textarea>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-12 col-md-6 col-lg-4 col-xl-2" id="totalSection" style="padding-right: 1.5rem; padding-left: 1.5rem;">
                         <div class="row">
                             <div class="col-4" style="padding: 0px;">
@@ -1169,10 +1211,10 @@
                         </div>
                         <div class="row">
                             <div class="col-4" style="padding: 0px;">
-                                <p class="lead leadTotal">Total</p>
+                                <p class="lead leadTotal">TOTAL</p>
                             </div>
                             <div class="col-8" style="padding: 0px;">
-                                <p  class="lead leadTotal" id="grandTotal" name="grandTotal">{{billrecord.Total}}</p>
+                                <p class="lead leadTotal" id="grandTotal" name="grandTotal">{{billrecord.Total}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -1204,68 +1246,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="row justify-content-center mobileButtons" style="display: none;">
+                    <button class="btn btn-success btnSave btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                        <i class="fa fa-save" style="padding-right: 8px;"></i>Save
+                    </button>
 
-                <!-- <div class="d-xl-flex align-items-xl-start" style="padding-left: 16px; padding-right: 16px">
-                    <div class="flex-grow-1">
-                        <div class="d-xl-flex justify-content-xl-center">
-                            <div align="left" style="width:100%;">
-                                <button class="btn btn-primary" type="button" id="addRow" style="margin: 16px;">+ Add New Entry</button>
-                            </div>
-                        </div>
-                        <div class="d-xl-flex align-items-xl-start">
-                            <div class="flex-grow-1" style="margin: 16px;">
-                                <div class="form-group"><label>Comments</label>
-                                    <textarea class="form-control" rows="4" id="txaComment" name="txaComment">{{billrecord.comments}}</textarea>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1" style="margin: 16px;">
-                                <div class="form-group"><label>Picking Instructions</label>
-                                    <textarea class="form-control" rows="4" id="txapickmemo" name="txapickmemo">{{billrecord.pickmemo}}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="margin: 16px;">
-                        <div style="float: right;">
-                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;">Subtotal</p>
-                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Tax</p>
-                                </div>
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="padding-left: 20px;">
-                                    <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="subtotal_total" name="subtotal_total">{{billrecord.SubTotal}}</p>
-                                    <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;" id="subtotal_tax" name="subtotal_tax">{{billrecord.TotalTax}}</p>
-                                </div>
-                            </div>
-                            <hr style=" border-top: 3px solid #696969;" />
-                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
-                                <p class="lead" style="font-size: 25px; color: #696969; font-weight: 800; margin: 0px;">TOTAL</p>
-                                <p class="lead" style="font-size: 25px; color: #696969; font-weight: 800; padding-left: 20px; margin: 0px;" id="grandTotal" name="grandTotal">{{billrecord.Total}}</p>
-                            </div>
-                            <hr style=" border-top: 3px solid #696969;" />
-                            <div class="d-flex d-xl-flex flex-row justify-content-xl-end align-items-xl-center">
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end">
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Paid Amount</p>
-                                    </div>
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; margin: 0px; font-weight: 500; color: #696969;">Balance Due</p>
-                                    </div>
-                                </div>
-                                <div class="d-xl-flex flex-column justify-content-xl-end align-items-xl-end" style="  padding-left: 20px;">
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="totalPaidAmt" name="totalPaidAmt">{{billrecord.totalPaid}}</p>
-                                    </div>
-                                    <div>
-                                        <p class="lead" style="font-size: 25px; font-weight: 500; margin: 0px; color: #696969;" id="totalBalanceDue" name="totalBalanceDue">{{billrecord.balanceDue}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="btn btn-primary printConfirm btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                        <i class="fa fa-print" style="padding-right: 8px;"></i>Print
+                    </button>
 
-                </div> -->
+                    <a class="btn btn-primary btn_Attachment btnFooter" role="button" style="margin: 16px;margin-top: 0px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" name="btn_Attachment">
+                        {{#if attachmentCount}}<span id="attachment-count">{{attachmentCount}}</span>{{/if}} <i class="fa fa-paperclip" style="padding-right: 8px;"></i>Add Attachments
+                    </a>
 
+                    <button class="btn btn-secondary btnBack btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
+                        <i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel
+                    </button>
+                </div>
+                <div class="printID" style="display: none;"></div>
                 <style>
                     @media screen and (max-width: 450px) {
                         .btnFooter {
@@ -1292,8 +1290,7 @@
                         }
                     }
                 </style>
-                <div class="printID" style="display: none;"></div>
-                <div class="row justify-content-center">
+                <!-- <div class="row justify-content-center">
                     <button class="btn btn-success btnSave btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
                         <i class="fa fa-save" style="padding-right: 8px;"></i>Save
                     </button>
@@ -1309,17 +1306,6 @@
                     <button class="btn btn-secondary btnBack btnFooter" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
                         <i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel
                     </button>
-                </div>
-
-                <!-- <div class="d-xl-flex justify-content-xl-center">
-                    <div class="printID" style="display: none;"></div>
-                    <button class="btn btn-success btnSave" type="button" style="margin: 16px;margin-top: 0px;width: 100px;">
-                        <i class="fa fa-save" style="padding-right: 8px;"></i>Save</button>
-                    <button class="btn btn-primary printConfirm" type="button" style="margin: 16px;margin-top: 0px;width: 100px;"><i class="fa fa-print" style="padding-right: 8px;"></i>Print</button>
-                    <a class="btn btn-primary" role="button" style="margin: 16px;margin-top: 0px;" data-toggle="modal" href="#myModalAttachment" id="btn_Attachment" name="btn_Attachment">
-                        {{#if attachmentCount}}<span id="attachment-count">{{attachmentCount}}</span>{{/if}} <i class="fa fa-paperclip" style="padding-right: 8px;"></i>Add Attachments
-                    </a>
-                    <button class="btn btn-secondary btnBack" type="button" style="margin: 16px;margin-top: 0px;width: 100px;"><i class="fa fa-remove" style="padding-right: 8px;"></i>Cancel</button>
                 </div> -->
             </form>
 
