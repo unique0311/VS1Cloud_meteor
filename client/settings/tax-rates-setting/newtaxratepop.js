@@ -683,7 +683,9 @@ Template.newtaxratepop.events({
                                         $('#slttaxcodesales').val(taxName);
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
-                                    } 
+                                    } else {
+                                $('#sltTaxCode').val(taxName);
+                            }
                             }
 
                              if(url.includes("/accountsoverview")) {
@@ -697,7 +699,9 @@ Template.newtaxratepop.events({
                                         $('#slttaxcodesales').val(taxName);
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
-                                    } 
+                                    } else {
+                                $('#sltTaxCode').val(taxName);
+                            }
                             }
 
                              if(url.includes("/accountsoverview")) {
@@ -712,7 +716,9 @@ Template.newtaxratepop.events({
                                         $('#slttaxcodesales').val(taxName);
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
-                                    } 
+                                    } else {
+                                $('#sltTaxCode').val(taxName);
+                            }
                             }
                              if(url.includes("/accountsoverview")) {
                                 $('#sltTaxCode').val(taxName);
@@ -763,7 +769,9 @@ Template.newtaxratepop.events({
                                         $('#slttaxcodesales').val(taxName);
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
-                                    } 
+                                    } else {
+                                $('#sltTaxCode').val(taxName);
+                            }
                             }
                              if(url.includes("/accountsoverview")) {
                                 $('#sltTaxCode').val(taxName);
@@ -776,7 +784,9 @@ Template.newtaxratepop.events({
                                         $('#slttaxcodesales').val(taxName);
                                     } else if (taxSelected == "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
-                                    } 
+                                    } else {
+                                $('#sltTaxCode').val(taxName);
+                            }
                             }
                              if(url.includes("/accountsoverview")) {
                                 $('#sltTaxCode').val(taxName);
@@ -790,7 +800,9 @@ Template.newtaxratepop.events({
                                     $('#slttaxcodesales').val(taxName);
                                 } else if (taxSelected == "purchase") {
                                     $('#slttaxcodepurchase').val(taxName);
-                                } 
+                                } else {
+                                $('#sltTaxCode').val(taxName);
+                            }
                         }
                          if(url.includes("/accountsoverview")) {
                                 $('#sltTaxCode').val(taxName);
@@ -842,9 +854,12 @@ Template.newtaxratepop.events({
                                 $('#slttaxcodesales').val(taxName);
                             } else if (taxSelected == "purchase") {
                                 $('#slttaxcodepurchase').val(taxName);
-                            } 
+                            } else {
+                                $('#sltTaxCode').val(taxName);
                             }
-                             if(url.includes("/accountsoverview")) {
+                            }
+                            
+                            if(url.includes("/accountsoverview")) {
                                 $('#sltTaxCode').val(taxName);
                             }
                         $('#newTaxRateModal').modal('toggle');
@@ -860,7 +875,9 @@ Template.newtaxratepop.events({
                                 $('#slttaxcodesales').val(taxName);
                             } else if (taxSelected == "purchase") {
                                 $('#slttaxcodepurchase').val(taxName);
-                            } 
+                            } else {
+                                $('#sltTaxCode').val(taxName);
+                            }
                     }
                      if(url.includes("/accountsoverview")) {
                                 $('#sltTaxCode').val(taxName);
