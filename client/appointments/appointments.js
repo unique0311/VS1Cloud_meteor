@@ -616,18 +616,17 @@ Template.appointments.onRendered(function () {
                     document.getElementById("customer").value = result[0].accountname;
                     document.getElementById("phone").value = result[0].phone;
                     document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
-                    document.getElementById("state").value = result[0].state;
-                    document.getElementById("address").value = result[0].street;
+                    document.getElementById("state").value = result[0].state || '';
+                    document.getElementById("address").value = result[0].street || '';
                     if (Session.get('CloudAppointmentNotes') == true) {
                         document.getElementById("txtNotes").value = result[0].notes;
                     }
-                    document.getElementById("suburb").value = result[0].suburb;
-                    document.getElementById("zip").value = result[0].zip;
-                    document.getElementById("country").value = result[0].country;
-                    if (result[0].street != '' && result[0].state != '' && result[0].country != '' && result[0].suburb != '') {
+                    document.getElementById("suburb").value = result[0].suburb || '';
+                    document.getElementById("zip").value = result[0].zip || '';
+                    document.getElementById("country").value = result[0].country || '';
                         googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
                         $("#googleLink").attr("href", googleLink).attr('target', '_blank');
-                    }
+                
                     document.getElementById("product-list").value = result[0].product || '';
                     // if (result[0].product.replace(/\s/g, '') != "") {
                     //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
@@ -5792,6 +5791,7 @@ Template.appointments.onRendered(function () {
                         $("#tActualEndTime").prop("disabled", false);
                         $("#txtActualHoursSpent").prop("disabled", false);
                         var hours = '0';
+                        let googleLink = "";
                         var id = info.event.id;
                         var appointmentData = appointmentList;
 
@@ -5845,6 +5845,9 @@ Template.appointments.onRendered(function () {
                             document.getElementById("suburb").value = result[0].suburb;
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
+
+                              googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
+                              $("#googleLink").attr("href", googleLink).attr('target', '_blank');
                             //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
                             document.getElementById("product-list").value = result[0].product || '';
                             document.getElementById("employee_name").value = result[0].employeename;
@@ -6494,14 +6497,17 @@ Template.appointments.events({
             document.getElementById("customer").value = result[0].accountname;
             document.getElementById("phone").value = result[0].phone;
             document.getElementById("mobile").value = result[0].mobile || result[0].phone || '';
-            document.getElementById("state").value = result[0].state;
-            document.getElementById("address").value = result[0].street;
+            document.getElementById("state").value = result[0].state || ''
+            document.getElementById("address").value = result[0].street || ''
             if (Session.get('CloudAppointmentNotes') == true) {
                 document.getElementById("txtNotes").value = result[0].notes;
             }
-            document.getElementById("suburb").value = result[0].suburb;
-            document.getElementById("zip").value = result[0].zip;
-            document.getElementById("country").value = result[0].country;
+            document.getElementById("suburb").value = result[0].suburb || ''
+            document.getElementById("zip").value = result[0].zip || ''
+            document.getElementById("country").value = result[0].country || '';
+
+             googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
+            $("#googleLink").attr("href", googleLink).attr('target', '_blank');
             document.getElementById("product-list").value = result[0].product || '';
             //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
             document.getElementById("employee_name").value = result[0].employeename;
