@@ -559,7 +559,7 @@ Template.appointments.onRendered(function () {
                 $("#tActualStartTime").prop("disabled", false);
                 $("#tActualEndTime").prop("disabled", false);
                 $("#txtActualHoursSpent").prop("disabled", false);
-                let googleLink = "";
+               
                 var hours = '0';
                 var id = info.event.id;
                 var appointmentData = templateObject.appointmentrecords.get();
@@ -624,8 +624,7 @@ Template.appointments.onRendered(function () {
                     document.getElementById("suburb").value = result[0].suburb || '';
                     document.getElementById("zip").value = result[0].zip || '';
                     document.getElementById("country").value = result[0].country || '';
-                        googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
-                        $("#googleLink").attr("href", googleLink).attr('target', '_blank');
+                        
                 
                     document.getElementById("product-list").value = result[0].product || '';
                     // if (result[0].product.replace(/\s/g, '') != "") {
@@ -986,7 +985,6 @@ Template.appointments.onRendered(function () {
                 $("#tActualStartTime").prop("disabled", false);
                 $("#tActualEndTime").prop("disabled", false);
                 $("#txtActualHoursSpent").prop("disabled", false);
-                let googleLink = "";
                 var hours = '0';
                 var id = info.event.id;
                 let getAllEmployeeData = templateObject.employeerecords.get() || '';
@@ -1072,9 +1070,7 @@ Template.appointments.onRendered(function () {
                     document.getElementById("zip").value = result[0].zip;
                     document.getElementById("country").value = result[0].country;
                     // if (result[0].street != '' && result[0].state != '' && result[0].country != '' && result[0].suburb != '') {
-                        googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
-                        $("#googleLink").attr("href", googleLink).attr('target', '_blank');
-                    // }
+                                // }
 
                     document.getElementById("product-list").value = result[0].product || '';
 
@@ -2238,7 +2234,6 @@ Template.appointments.onRendered(function () {
                         $("#tActualStartTime").prop("disabled", false);
                         $("#tActualEndTime").prop("disabled", false);
                         $("#txtActualHoursSpent").prop("disabled", false);
-                        let googleLink = "";
                         var hours = '0';
                         var appointmentData = appointmentList;
 
@@ -2286,10 +2281,7 @@ Template.appointments.onRendered(function () {
                             document.getElementById("suburb").value = result[0].suburb;
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
-                            if (result[0].street != '' && result[0].state != '' && result[0].country != '' && result[0].suburb != '') {
-                                googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
-                                $("#googleLink").attr("href", googleLink).attr('target', '_blank');
-                            }
+                           
 
                             document.getElementById("product-list").value = result[0].product || '';
                             // if (result[0].product.replace(/\s/g, '') != "") {
@@ -3133,7 +3125,6 @@ Template.appointments.onRendered(function () {
                     $("#tActualStartTime").prop("disabled", false);
                     $("#tActualEndTime").prop("disabled", false);
                     $("#txtActualHoursSpent").prop("disabled", false);
-                    let googleLink = "";
                     var hours = '0';
                     var appointmentData = appointmentList;
 
@@ -3181,10 +3172,7 @@ Template.appointments.onRendered(function () {
                         document.getElementById("suburb").value = result[0].suburb;
                         document.getElementById("zip").value = result[0].zip;
                         document.getElementById("country").value = result[0].country;
-                        if (result[0].street != '' && result[0].state != '' && result[0].country != '' && result[0].suburb != '') {
-                            googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
-                            $("#googleLink").attr("href", googleLink).attr('target', '_blank');
-                        }
+
                         document.getElementById("product-list").value = result[0].product || '';
                         // if (result[0].product.replace(/\s/g, '') != "") {
                         //
@@ -3746,7 +3734,6 @@ Template.appointments.onRendered(function () {
                     $("#tActualStartTime").prop("disabled", false);
                     $("#tActualEndTime").prop("disabled", false);
                     $("#txtActualHoursSpent").prop("disabled", false);
-                    let googleLink = "";
                     var hours = '0';
                     var appointmentData = appointmentList;
 
@@ -3794,10 +3781,6 @@ Template.appointments.onRendered(function () {
                         document.getElementById("suburb").value = result[0].suburb;
                         document.getElementById("zip").value = result[0].zip;
                         document.getElementById("country").value = result[0].country;
-                        if (result[0].street != '' && result[0].state != '' && result[0].country != '' && result[0].suburb != '') {
-                            googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
-                            $("#googleLink").attr("href", googleLink).attr('target', '_blank');
-                        }
                         document.getElementById("product-list").value = result[0].product || '';
                         // if (result[0].product.replace(/\s/g, '') != "") {
                         //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
@@ -5791,7 +5774,6 @@ Template.appointments.onRendered(function () {
                         $("#tActualEndTime").prop("disabled", false);
                         $("#txtActualHoursSpent").prop("disabled", false);
                         var hours = '0';
-                        let googleLink = "";
                         var id = info.event.id;
                         var appointmentData = appointmentList;
 
@@ -5846,8 +5828,7 @@ Template.appointments.onRendered(function () {
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
 
-                              googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
-                              $("#googleLink").attr("href", googleLink).attr('target', '_blank');
+                              
                             //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
                             document.getElementById("product-list").value = result[0].product || '';
                             document.getElementById("employee_name").value = result[0].employeename;
@@ -6296,6 +6277,14 @@ Template.appointments.events({
     //                 });
 
     // },
+    'click #googleLink': function () {
+        let street = $('#address').val() || '';
+        let state = $('#state').val() || '';
+        let country = $('#country').val() || '';
+        let zip = $('#zip').val() || '';
+        googleLink = "https://maps.google.com/?q=" + street + "," + state + "," + country + ',' + zip;
+        $("#googleLink").attr("href", googleLink).attr('target', '_blank');
+    },
     'click #deleteAll': function () {
         var erpGet = erpDb();
         swal({
@@ -6506,8 +6495,7 @@ Template.appointments.events({
             document.getElementById("zip").value = result[0].zip || ''
             document.getElementById("country").value = result[0].country || '';
 
-             googleLink = "https://maps.google.com/?q=" + result[0].street + "," + result[0].state + "," + result[0].country + ',' + result[0].zip;
-            $("#googleLink").attr("href", googleLink).attr('target', '_blank');
+            
             document.getElementById("product-list").value = result[0].product || '';
             //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
             document.getElementById("employee_name").value = result[0].employeename;
