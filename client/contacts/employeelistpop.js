@@ -109,32 +109,20 @@ Template.employeelistpop.onRendered(function () {
 
                         dataTableList.push(dataList);
                         var dataListEmployee = [
-                            data.temployee[i].fields.ClientName || '-',
-                            data.temployee[i].fields.JobName || '',
+                            data.temployee[i].fields.EmployeeName || '-',
+                            data.temployee[i].fields.FirstName || '',
+                            data.temployee[i].fields.LastName || '',
                             data.temployee[i].fields.Phone || '',
-                            arBalance || 0.00,
-                            creditBalance || 0.00,
-                            balance || 0.00,
-                            creditLimit || 0.00,
-                            salesOrderBalance || 0.00,
+                            data.temployee[i].fields.Mobile || '',
+                            data.temployee[i].fields.Email || '',
+                            data.temployee[i].fields.DefaultClassName || '',
                             data.temployee[i].fields.Country || '',
                             data.temployee[i].fields.State || '',
                             data.temployee[i].fields.Street2 || '',
                             data.temployee[i].fields.Street || '',
                             data.temployee[i].fields.Postcode || '',
-                            data.temployee[i].fields.Email || '',
-                            data.temployee[i].fields.AccountNo || '',
-                            data.temployee[i].fields.ClientNo || '',
-                            data.temployee[i].fields.JobTitle || '',
-                            data.temployee[i].fields.Notes || '',
-                            data.temployee[i].fields.ID || '',
-                            data.temployee[i].fields.ClientTypeName || 'Default',
-                            data.temployee[i].fields.Discount || 0,
-                            data.temployee[i].fields.TermsName || '',
-                            data.temployee[i].fields.FirstName || '',
-                            data.temployee[i].fields.LastName || ''
+                            data.temployee[i].fields.ID || ''
                         ];
-
                         splashArrayEmployeeList.push(dataListEmployee);
                         //}
                     }
@@ -191,77 +179,44 @@ Template.employeelistpop.onRendered(function () {
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             columnDefs: [
                                 {
-                                    className: "colCompany",
+                                    className: "colEmployeeName",
                                     "targets": [0]
                                 }, {
-                                    className: "colJob",
+                                    className: "colFirstName",
                                     "targets": [1]
                                 }, {
-                                    className: "colPhone",
+                                    className: "colLastName",
                                     "targets": [2]
                                 }, {
-                                    className: "colARBalance hiddenColumn text-right",
+                                    className: "colPhone",
                                     "targets": [3]
                                 }, {
-                                    className: "colCreditBalance hiddenColumn text-right",
+                                    className: "colMobile",
                                     "targets": [4]
                                 }, {
-                                    className: "colBalance text-right",
+                                    className: "colEmail ",
                                     "targets": [5]
                                 }, {
-                                    className: "colCreditLimit hiddenColumn text-right",
+                                    className: "colDepartment",
                                     "targets": [6]
                                 }, {
-                                    className: "colSalesOrderBalance text-right",
+                                    className: "colCountry",
                                     "targets": [7]
                                 }, {
-                                    className: "colCountry",
+                                    className: "colState hiddenColumn",
                                     "targets": [8]
                                 }, {
-                                    className: "colState hiddenColumn",
+                                    className: "colCity hiddenColumn",
                                     "targets": [9]
                                 }, {
-                                    className: "colCity hiddenColumn",
+                                    className: "colStreetAddress hiddenColumn",
                                     "targets": [10]
                                 }, {
-                                    className: "colStreetAddress hiddenColumn",
+                                    className: "colZipCode hiddenColumn",
                                     "targets": [11]
                                 }, {
-                                    className: "colZipCode hiddenColumn",
-                                    "targets": [12]
-                                }, {
-                                    className: "colEmail hiddenColumn",
-                                    "targets": [13]
-                                }, {
-                                    className: "colAccountNo hiddenColumn",
-                                    "targets": [14]
-                                }, {
-                                    className: "colClientNo hiddenColumn",
-                                    "targets": [15]
-                                }, {
-                                    className: "colJobTitle hiddenColumn",
-                                    "targets": [16]
-                                }, {
-                                    className: "colNotes",
-                                    "targets": [17]
-                                }, {
                                     className: "colID hiddenColumn",
-                                    "targets": [18]
-                                }, {
-                                    className: "colEmployeeType hiddenColumn",
-                                    "targets": [19]
-                                }, {
-                                    className: "colEmployeeDiscount hiddenColumn",
-                                    "targets": [20]
-                                }, {
-                                    className: "colEmployeeTermName hiddenColumn",
-                                    "targets": [21]
-                                }, {
-                                    className: "colEmployeeFirstName hiddenColumn",
-                                    "targets": [22]
-                                }, {
-                                    className: "colEmployeeLastName hiddenColumn",
-                                    "targets": [23]
+                                    "targets": [12]
                                 }
                             ],
                             select: true,
@@ -335,30 +290,19 @@ Template.employeelistpop.onRendered(function () {
 
                                                         dataTableList.push(dataList);
                                                         var dataListEmployeeDupp = [
-                                                            dataObjectnew.temployee[j].fields.ClientName || '-',
-                                                            dataObjectnew.temployee[j].fields.JobName || '',
+                                                            dataObjectnew.temployee[j].fields.EmployeeName || '-',
+                                                            dataObjectnew.temployee[j].fields.FirstName || '',
+                                                            dataObjectnew.temployee[j].fields.LastName || '',
                                                             dataObjectnew.temployee[j].fields.Phone || '',
-                                                            arBalance || 0.00,
-                                                            creditBalance || 0.00,
-                                                            balance || 0.00,
-                                                            creditLimit || 0.00,
-                                                            salesOrderBalance || 0.00,
+                                                            dataObjectnew.temployee[j].fields.Mobile || '',
+                                                            dataObjectnew.temployee[j].fields.Email || '',
+                                                            dataObjectnew.temployee[j].fields.DefaultClassName || '',
                                                             dataObjectnew.temployee[j].fields.Country || '',
                                                             dataObjectnew.temployee[j].fields.State || '',
                                                             dataObjectnew.temployee[j].fields.Street2 || '',
                                                             dataObjectnew.temployee[j].fields.Street || '',
                                                             dataObjectnew.temployee[j].fields.Postcode || '',
-                                                            dataObjectnew.temployee[j].fields.Email || '',
-                                                            dataObjectnew.temployee[j].fields.AccountNo || '',
-                                                            dataObjectnew.temployee[j].fields.ClientNo || '',
-                                                            dataObjectnew.temployee[j].fields.JobTitle || '',
-                                                            dataObjectnew.temployee[j].fields.Notes || '',
-                                                            dataObjectnew.temployee[j].fields.ID || '',
-                                                            dataObjectnew.temployee[j].fields.ClientTypeName || 'Default',
-                                                            dataObjectnew.temployee[j].fields.Discount || 0,
-                                                            dataObjectnew.temployee[j].fields.TermsName || '',
-                                                            dataObjectnew.temployee[j].fields.FirstName || '',
-                                                            dataObjectnew.temployee[j].fields.LastName || ''
+                                                            dataObjectnew.temployee[j].fields.ID || ''
                                                         ];
 
                                                         splashArrayEmployeeList.push(dataListEmployeeDupp);
@@ -386,9 +330,14 @@ Template.employeelistpop.onRendered(function () {
                                     MakeNegative();
                                 }, 100);
                             },
-                            "fnInitComplete": function () {
+                            "fnInitComplete": function (oSettings) {
                                 $("<button class='btn btn-primary btnAddNewEmployee' data-dismiss='modal' data-toggle='modal' data-target='#addEmployeeModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEmployeelist_filter");
                                 $("<button class='btn btn-primary btnRefreshEmployee' type='button' id='btnRefreshEmployee' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEmployeelist_filter");
+
+                                let urlParametersPage = FlowRouter.current().queryParams.page;
+                                if (urlParametersPage) {
+                                    this.fnPageChange('last');
+                                }
 
                             }
 
@@ -401,123 +350,126 @@ Template.employeelistpop.onRendered(function () {
                         }).on('column-reorder', function () {
 
                         }).on('length.dt', function (e, settings, len) {
-                          //$('.fullScreenSpin').css('display', 'inline-block');
-                          let dataLenght = settings._iDisplayLength;
-                          splashArrayEmployeeList = [];
-                          if (dataLenght == -1) {
-                            $('.fullScreenSpin').css('display', 'none');
-                              //if(settings.fnRecordsDisplay() > 150){
-                              //  $('.paginate_button.page-item.next').addClass('disabled');
-                              //  $('.fullScreenSpin').css('display','none');
-                              //}else{
-                              // sideBarService.getAllEmployeesDataVS1('All', 1).then(function (data) {
-                              //     for (let i = 0; i < data.temployee.length; i++) {
-                              //         let arBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.ARBalance) || 0.00;
-                              //         let creditBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditBalance) || 0.00;
-                              //         let balance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.Balance) || 0.00;
-                              //         let creditLimit = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditLimit) || 0.00;
-                              //         let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.SalesOrderBalance) || 0.00;
-                              //         var dataList = {
-                              //             id: data.temployee[i].fields.ID || '',
-                              //             clientName: data.temployee[i].fields.ClientName || '',
-                              //             company: data.temployee[i].fields.Companyname || '',
-                              //             contactname: data.temployee[i].fields.ContactName || '',
-                              //             phone: data.temployee[i].fields.Phone || '',
-                              //             arbalance: arBalance || 0.00,
-                              //             creditbalance: creditBalance || 0.00,
-                              //             balance: balance || 0.00,
-                              //             creditlimit: creditLimit || 0.00,
-                              //             salesorderbalance: salesOrderBalance || 0.00,
-                              //             email: data.temployee[i].fields.Email || '',
-                              //             job: data.temployee[i].fields.JobName || '',
-                              //             accountno: data.temployee[i].fields.AccountNo || '',
-                              //             clientno: data.temployee[i].fields.ClientNo || '',
-                              //             jobtitle: data.temployee[i].fields.JobTitle || '',
-                              //             notes: data.temployee[i].fields.Notes || '',
-                              //             state: data.temployee[i].fields.State || '',
-                              //             country: data.temployee[i].fields.Country || '',
-                              //             street: data.temployee[i].fields.Street || ' ',
-                              //             street2: data.temployee[i].fields.Street2 || ' ',
-                              //             street3: data.temployee[i].fields.Street3 || ' ',
-                              //             suburb: data.temployee[i].fields.Suburb || ' ',
-                              //             postcode: data.temployee[i].fields.Postcode || ' '
-                              //         };
-                              //
-                              //         dataTableList.push(dataList);
-                              //         var dataListEmployee = [
-                              //             data.temployee[i].fields.ClientName || '-',
-                              //             data.temployee[i].fields.JobName || '',
-                              //             data.temployee[i].fields.Phone || '',
-                              //             arBalance || 0.00,
-                              //             creditBalance || 0.00,
-                              //             balance || 0.00,
-                              //             creditLimit || 0.00,
-                              //             salesOrderBalance || 0.00,
-                              //             data.temployee[i].fields.Country || '',
-                              //             data.temployee[i].fields.State || '',
-                              //             data.temployee[i].fields.Street2 || '',
-                              //             data.temployee[i].fields.Street || '',
-                              //             data.temployee[i].fields.Postcode || '',
-                              //             data.temployee[i].fields.Email || '',
-                              //             data.temployee[i].fields.AccountNo || '',
-                              //             data.temployee[i].fields.ClientNo || '',
-                              //             data.temployee[i].fields.JobTitle || '',
-                              //             data.temployee[i].fields.Notes || '',
-                              //             data.temployee[i].fields.ID || '',
-                              //             data.temployee[i].fields.ClientTypeName || 'Default',
-                              //             data.temployee[i].fields.Discount || 0,
-                              //             data.temployee[i].fields.TermsName || '',
-                              //             data.temployee[i].fields.FirstName || '',
-                              //             data.temployee[i].fields.LastName || ''
-                              //         ];
-                              //
-                              //         splashArrayEmployeeList.push(dataListEmployee);
-                              //
-                              //         //}
-                              //     }
-                              //
-                              //     function MakeNegative() {
-                              //         $('td').each(function () {
-                              //             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
-                              //         });
-                              //     };
-                              //
-                              //     templateObject.custdatatablerecords.set(dataTableList);
-                              //     var datatable = $('#tblEmployeelist').DataTable();
-                              //     datatable.clear();
-                              //     datatable.rows.add(splashArrayEmployeeList);
-                              //     datatable.draw(false);
-                              //
-                              //     $('.fullScreenSpin').css('display', 'none');
-                              //     $('.dataTables_info').html('Showing 1 to ' + data.temployee.length + ' of ' + data.temployee.length + ' entries');
-                              //     $('.fullScreenSpin').css('display', 'none');
-                              //     // addVS1Data('TEmployee',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              //
-                              //     // $('.fullScreenSpin').css('display','none');
-                              //     // }).catch(function (err) {
-                              //     // $('.fullScreenSpin').css('display','none');
-                              //     // });
-                              // }).catch(function (err) {
-                              //     $('.fullScreenSpin').css('display', 'none');
-                              // });
-                              //}
-                          } else {
-                              if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                                  $('.fullScreenSpin').css('display', 'none');
-                              } else {
-                                  sideBarService.getAllEmployeesDataVS1(dataLenght, 0).then(function (dataNonBo) {
 
-                                      addVS1Data('TEmployee', JSON.stringify(dataNonBo)).then(function (datareturn) {
-                                          templateObject.resetData(dataNonBo);
+                            let dataLenght = settings._iDisplayLength;
+                            let employeeSearch = $('#tblEmployeelist_filter input').val();
+                            splashArrayEmployeeList = [];
+                            if (dataLenght == -1) {
+                              if(settings.fnRecordsDisplay() > initialDatatableLoad){
+                                $('.fullScreenSpin').css('display','none');
+                              }else{
+                                if (employeeSearch.replace(/\s/g, '') != '') {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  sideBarService.getAllEmployeesDataVS1ByName(employeeSearch).then(function (data) {
+                                      let lineItems = [];
+                                      let lineItemObj = {};
+                                      if (data.temployee.length > 0) {
+                                          for (let i = 0; i < data.temployee.length; i++) {
+                                              let arBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.ARBalance) || 0.00;
+                                              let creditBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditBalance) || 0.00;
+                                              let balance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.Balance) || 0.00;
+                                              let creditLimit = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditLimit) || 0.00;
+                                              let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.SalesOrderBalance) || 0.00;
+                                              var dataList = {
+                                                  id: data.temployee[i].fields.ID || '',
+                                                  clientName: data.temployee[i].fields.ClientName || '',
+                                                  company: data.temployee[i].fields.Companyname || '',
+                                                  contactname: data.temployee[i].fields.ContactName || '',
+                                                  phone: data.temployee[i].fields.Phone || '',
+                                                  arbalance: arBalance || 0.00,
+                                                  creditbalance: creditBalance || 0.00,
+                                                  balance: balance || 0.00,
+                                                  creditlimit: creditLimit || 0.00,
+                                                  salesorderbalance: salesOrderBalance || 0.00,
+                                                  email: data.temployee[i].fields.Email || '',
+                                                  job: data.temployee[i].fields.JobName || '',
+                                                  accountno: data.temployee[i].fields.AccountNo || '',
+                                                  clientno: data.temployee[i].fields.ClientNo || '',
+                                                  jobtitle: data.temployee[i].fields.JobTitle || '',
+                                                  notes: data.temployee[i].fields.Notes || '',
+                                                  state: data.temployee[i].fields.State || '',
+                                                  country: data.temployee[i].fields.Country || '',
+                                                  street: data.temployee[i].fields.Street || ' ',
+                                                  street2: data.temployee[i].fields.Street2 || ' ',
+                                                  street3: data.temployee[i].fields.Street3 || ' ',
+                                                  suburb: data.temployee[i].fields.Suburb || ' ',
+                                                  postcode: data.temployee[i].fields.Postcode || ' '
+                                              };
+
+                                              dataTableList.push(dataList);
+                                              var dataListEmployee = [
+                                                  data.temployee[i].fields.EmployeeName || '-',
+                                                  data.temployee[i].fields.FirstName || '',
+                                                  data.temployee[i].fields.LastName || '',
+                                                  data.temployee[i].fields.Phone || '',
+                                                  data.temployee[i].fields.Mobile || '',
+                                                  data.temployee[i].fields.Email || '',
+                                                  data.temployee[i].fields.DefaultClassName || '',
+                                                  data.temployee[i].fields.Country || '',
+                                                  data.temployee[i].fields.State || '',
+                                                  data.temployee[i].fields.Street2 || '',
+                                                  data.temployee[i].fields.Street || '',
+                                                  data.temployee[i].fields.Postcode || '',
+                                                  data.temployee[i].fields.ID || ''
+                                              ];
+                                              splashArrayEmployeeList.push(dataListEmployee);
+                                              //}
+                                          }
+                                          var datatable = $('#tblEmployeelist').DataTable();
+                                          datatable.clear();
+                                          datatable.rows.add(splashArrayEmployeeList);
+                                          datatable.draw(false);
+
                                           $('.fullScreenSpin').css('display', 'none');
-                                      }).catch(function (err) {
+                                      } else {
+
                                           $('.fullScreenSpin').css('display', 'none');
-                                      });
+                                          $('#employeeListModal').modal('toggle');
+                                          swal({
+                                              title: 'Question',
+                                              text: "Employee does not exist, would you like to create it?",
+                                              type: 'question',
+                                              showCancelButton: true,
+                                              confirmButtonText: 'Yes',
+                                              cancelButtonText: 'No'
+                                          }).then((result) => {
+                                              if (result.value) {
+                                                  $('#addEmployeeModal').modal('toggle');
+                                                  $('#edtEmployeeCompany').val(dataSearchName);
+                                              } else if (result.dismiss === 'cancel') {
+                                                  $('#employeeListModal').modal('toggle');
+                                              }
+                                          });
+
+                                      }
+
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
+                                }else{
+                                  $('.fullScreenSpin').css('display', 'none');
+
+                                }
+
                               }
-                          }
+
+                            } else {
+                                if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                } else {
+                                    sideBarService.getAllEmployeesDataVS1(dataLenght, 0).then(function (dataNonBo) {
+
+                                        addVS1Data('TEmployee', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                            templateObject.resetData(dataNonBo);
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        }).catch(function (err) {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        });
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }
+                            }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -526,6 +478,7 @@ Template.employeelistpop.onRendered(function () {
                         // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
                         //$('.fullScreenSpin').css('display','none');
                     }, 0);
+
 
                     var columns = $('#tblEmployeelist th');
                     let sTible = "";
@@ -659,22 +612,22 @@ Template.employeelistpop.onRendered(function () {
                                 className: "colDepartment",
                                 "targets": [6]
                             }, {
-                                className: "colAddress",
+                                className: "colCountry",
                                 "targets": [7]
                             }, {
-                                className: "colCountry hiddenColumn",
+                                className: "colState hiddenColumn",
                                 "targets": [8]
                             }, {
-                                className: "colState hiddenColumn",
+                                className: "colCity hiddenColumn",
                                 "targets": [9]
                             }, {
-                                className: "colCity hiddenColumn",
+                                className: "colStreetAddress hiddenColumn",
                                 "targets": [10]
                             }, {
-                                className: "colStreetAddress hiddenColumn",
+                                className: "colZipCode hiddenColumn",
                                 "targets": [11]
                             }, {
-                                className: "colZipCode hiddenColumn",
+                                className: "colID hiddenColumn",
                                 "targets": [12]
                             }
                         ],
@@ -748,32 +701,24 @@ Template.employeelistpop.onRendered(function () {
                                                     };
 
                                                     dataTableList.push(dataList);
+
+
                                                     var dataListEmployeeDupp = [
-                                                        dataObjectnew.temployee[j].fields.ClientName || '-',
-                                                        dataObjectnew.temployee[j].fields.JobName || '',
+                                                        dataObjectnew.temployee[j].fields.EmployeeName || '-',
+                                                        dataObjectnew.temployee[j].fields.FirstName || '',
+                                                        dataObjectnew.temployee[j].fields.LastName || '',
                                                         dataObjectnew.temployee[j].fields.Phone || '',
-                                                        arBalance || 0.00,
-                                                        creditBalance || 0.00,
-                                                        balance || 0.00,
-                                                        creditLimit || 0.00,
-                                                        salesOrderBalance || 0.00,
+                                                        dataObjectnew.temployee[j].fields.Mobile || '',
+                                                        dataObjectnew.temployee[j].fields.Email || '',
+                                                        dataObjectnew.temployee[j].fields.DefaultClassName || '',
                                                         dataObjectnew.temployee[j].fields.Country || '',
                                                         dataObjectnew.temployee[j].fields.State || '',
                                                         dataObjectnew.temployee[j].fields.Street2 || '',
                                                         dataObjectnew.temployee[j].fields.Street || '',
                                                         dataObjectnew.temployee[j].fields.Postcode || '',
-                                                        dataObjectnew.temployee[j].fields.Email || '',
-                                                        dataObjectnew.temployee[j].fields.AccountNo || '',
-                                                        dataObjectnew.temployee[j].fields.ClientNo || '',
-                                                        dataObjectnew.temployee[j].fields.JobTitle || '',
-                                                        dataObjectnew.temployee[j].fields.Notes || '',
-                                                        dataObjectnew.temployee[j].fields.ID || '',
-                                                        dataObjectnew.temployee[j].fields.ClientTypeName || 'Default',
-                                                        dataObjectnew.temployee[j].fields.Discount || 0,
-                                                        dataObjectnew.temployee[j].fields.TermsName || '',
-                                                        dataObjectnew.temployee[j].fields.FirstName || '',
-                                                        dataObjectnew.temployee[j].fields.LastName || ''
+                                                        dataObjectnew.temployee[j].fields.ID || ''
                                                     ];
+
 
                                                     splashArrayEmployeeList.push(dataListEmployeeDupp);
                                                     //}
@@ -867,31 +812,22 @@ Template.employeelistpop.onRendered(function () {
                                           };
 
                                           dataTableList.push(dataList);
+
+
                                           var dataListEmployee = [
-                                              data.temployee[i].fields.ClientName || '-',
-                                              data.temployee[i].fields.JobName || '',
+                                              data.temployee[i].fields.EmployeeName || '-',
+                                              data.temployee[i].fields.FirstName || '',
+                                              data.temployee[i].fields.LastName || '',
                                               data.temployee[i].fields.Phone || '',
-                                              arBalance || 0.00,
-                                              creditBalance || 0.00,
-                                              balance || 0.00,
-                                              creditLimit || 0.00,
-                                              salesOrderBalance || 0.00,
+                                              data.temployee[i].fields.Mobile || '',
+                                              data.temployee[i].fields.Email || '',
+                                              data.temployee[i].fields.DefaultClassName || '',
                                               data.temployee[i].fields.Country || '',
                                               data.temployee[i].fields.State || '',
                                               data.temployee[i].fields.Street2 || '',
                                               data.temployee[i].fields.Street || '',
                                               data.temployee[i].fields.Postcode || '',
-                                              data.temployee[i].fields.Email || '',
-                                              data.temployee[i].fields.AccountNo || '',
-                                              data.temployee[i].fields.ClientNo || '',
-                                              data.temployee[i].fields.JobTitle || '',
-                                              data.temployee[i].fields.Notes || '',
-                                              data.temployee[i].fields.ID || '',
-                                              data.temployee[i].fields.ClientTypeName || 'Default',
-                                              data.temployee[i].fields.Discount || 0,
-                                              data.temployee[i].fields.TermsName || '',
-                                              data.temployee[i].fields.FirstName || '',
-                                              data.temployee[i].fields.LastName || ''
+                                              data.temployee[i].fields.ID || ''
                                           ];
 
                                           splashArrayEmployeeList.push(dataListEmployee);
@@ -989,7 +925,7 @@ Template.employeelistpop.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }
         }).catch(function (err) {
-
+          console.log(err);
             sideBarService.getAllEmployeesDataVS1(initialBaseDataLoad, 0).then(function (data) {
                 addVS1Data('TEmployee', JSON.stringify(data));
                 let lineItems = [];
@@ -1030,30 +966,19 @@ Template.employeelistpop.onRendered(function () {
 
                     dataTableList.push(dataList);
                     var dataListEmployee = [
-                        data.temployee[i].fields.ClientName || '-',
-                        data.temployee[i].fields.JobName || '',
+                        data.temployee[i].fields.EmployeeName || '-',
+                        data.temployee[i].fields.FirstName || '',
+                        data.temployee[i].fields.LastName || '',
                         data.temployee[i].fields.Phone || '',
-                        arBalance || 0.00,
-                        creditBalance || 0.00,
-                        balance || 0.00,
-                        creditLimit || 0.00,
-                        salesOrderBalance || 0.00,
+                        data.temployee[i].fields.Mobile || '',
+                        data.temployee[i].fields.Email || '',
+                        data.temployee[i].fields.DefaultClassName || '',
                         data.temployee[i].fields.Country || '',
                         data.temployee[i].fields.State || '',
                         data.temployee[i].fields.Street2 || '',
                         data.temployee[i].fields.Street || '',
                         data.temployee[i].fields.Postcode || '',
-                        data.temployee[i].fields.Email || '',
-                        data.temployee[i].fields.AccountNo || '',
-                        data.temployee[i].fields.ClientNo || '',
-                        data.temployee[i].fields.JobTitle || '',
-                        data.temployee[i].fields.Notes || '',
-                        data.temployee[i].fields.ID || '',
-                        data.temployee[i].fields.ClientTypeName || 'Default',
-                        data.temployee[i].fields.Discount || 0,
-                        data.temployee[i].fields.TermsName || '',
-                        data.temployee[i].fields.FirstName || '',
-                        data.temployee[i].fields.LastName || ''
+                        data.temployee[i].fields.ID || ''
                     ];
 
                     splashArrayEmployeeList.push(dataListEmployee);
@@ -1120,77 +1045,44 @@ Template.employeelistpop.onRendered(function () {
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         columnDefs: [
                             {
-                                className: "colCompany",
+                                className: "colEmployeeName",
                                 "targets": [0]
                             }, {
-                                className: "colJob",
+                                className: "colFirstName",
                                 "targets": [1]
                             }, {
-                                className: "colPhone",
+                                className: "colLastName",
                                 "targets": [2]
                             }, {
-                                className: "colARBalance hiddenColumn text-right",
+                                className: "colPhone",
                                 "targets": [3]
                             }, {
-                                className: "colCreditBalance hiddenColumn text-right",
+                                className: "colMobile",
                                 "targets": [4]
                             }, {
-                                className: "colBalance text-right",
+                                className: "colEmail ",
                                 "targets": [5]
                             }, {
-                                className: "colCreditLimit hiddenColumn text-right",
+                                className: "colDepartment",
                                 "targets": [6]
                             }, {
-                                className: "colSalesOrderBalance text-right",
+                                className: "colCountry",
                                 "targets": [7]
                             }, {
-                                className: "colCountry",
+                                className: "colState hiddenColumn",
                                 "targets": [8]
                             }, {
-                                className: "colState hiddenColumn",
+                                className: "colCity hiddenColumn",
                                 "targets": [9]
                             }, {
-                                className: "colCity hiddenColumn",
+                                className: "colStreetAddress hiddenColumn",
                                 "targets": [10]
                             }, {
-                                className: "colStreetAddress hiddenColumn",
+                                className: "colZipCode hiddenColumn",
                                 "targets": [11]
                             }, {
-                                className: "colZipCode hiddenColumn",
-                                "targets": [12]
-                            }, {
-                                className: "colEmail hiddenColumn",
-                                "targets": [13]
-                            }, {
-                                className: "colAccountNo hiddenColumn",
-                                "targets": [14]
-                            }, {
-                                className: "colClientNo hiddenColumn",
-                                "targets": [15]
-                            }, {
-                                className: "colJobTitle hiddenColumn",
-                                "targets": [16]
-                            }, {
-                                className: "colNotes",
-                                "targets": [17]
-                            }, {
                                 className: "colID hiddenColumn",
-                                "targets": [18]
-                            }, {
-                                className: "colEmployeeType hiddenColumn",
-                                "targets": [19]
-                            }, {
-                                className: "colEmployeeDiscount hiddenColumn",
-                                "targets": [20]
-                            }, {
-                                className: "colEmployeeTermName hiddenColumn",
-                                "targets": [21]
-                            }, {
-                                className: "colEmployeeFirstName hiddenColumn",
-                                "targets": [22]
-                            }, {
-                                className: "colEmployeeLastName hiddenColumn",
-                                "targets": [23]
+                                "targets": [12]
                             }
                         ],
                         select: true,
@@ -1264,30 +1156,19 @@ Template.employeelistpop.onRendered(function () {
 
                                                     dataTableList.push(dataList);
                                                     var dataListEmployeeDupp = [
-                                                        dataObjectnew.temployee[j].fields.ClientName || '-',
-                                                        dataObjectnew.temployee[j].fields.JobName || '',
+                                                        dataObjectnew.temployee[j].fields.EmployeeName || '-',
+                                                        dataObjectnew.temployee[j].fields.FirstName || '',
+                                                        dataObjectnew.temployee[j].fields.LastName || '',
                                                         dataObjectnew.temployee[j].fields.Phone || '',
-                                                        arBalance || 0.00,
-                                                        creditBalance || 0.00,
-                                                        balance || 0.00,
-                                                        creditLimit || 0.00,
-                                                        salesOrderBalance || 0.00,
+                                                        dataObjectnew.temployee[j].fields.Mobile || '',
+                                                        dataObjectnew.temployee[j].fields.Email || '',
+                                                        dataObjectnew.temployee[j].fields.DefaultClassName || '',
                                                         dataObjectnew.temployee[j].fields.Country || '',
                                                         dataObjectnew.temployee[j].fields.State || '',
                                                         dataObjectnew.temployee[j].fields.Street2 || '',
                                                         dataObjectnew.temployee[j].fields.Street || '',
                                                         dataObjectnew.temployee[j].fields.Postcode || '',
-                                                        dataObjectnew.temployee[j].fields.Email || '',
-                                                        dataObjectnew.temployee[j].fields.AccountNo || '',
-                                                        dataObjectnew.temployee[j].fields.ClientNo || '',
-                                                        dataObjectnew.temployee[j].fields.JobTitle || '',
-                                                        dataObjectnew.temployee[j].fields.Notes || '',
-                                                        dataObjectnew.temployee[j].fields.ID || '',
-                                                        dataObjectnew.temployee[j].fields.ClientTypeName || 'Default',
-                                                        dataObjectnew.temployee[j].fields.Discount || 0,
-                                                        dataObjectnew.temployee[j].fields.TermsName || '',
-                                                        dataObjectnew.temployee[j].fields.FirstName || '',
-                                                        dataObjectnew.temployee[j].fields.LastName || ''
+                                                        dataObjectnew.temployee[j].fields.ID || ''
                                                     ];
 
                                                     splashArrayEmployeeList.push(dataListEmployeeDupp);
@@ -1315,10 +1196,14 @@ Template.employeelistpop.onRendered(function () {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
-
+                        "fnInitComplete": function (oSettings) {
                             $("<button class='btn btn-primary btnAddNewEmployee' data-dismiss='modal' data-toggle='modal' data-target='#addEmployeeModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEmployeelist_filter");
                             $("<button class='btn btn-primary btnRefreshEmployee' type='button' id='btnRefreshEmployee' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEmployeelist_filter");
+
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
 
                         }
 
@@ -1331,124 +1216,126 @@ Template.employeelistpop.onRendered(function () {
                     }).on('column-reorder', function () {
 
                     }).on('length.dt', function (e, settings, len) {
-                      $('.fullScreenSpin').css('display', 'inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      splashArrayEmployeeList = [];
 
-                      if (dataLenght == -1) {
-                        $('.fullScreenSpin').css('display', 'none');
-                          //if(settings.fnRecordsDisplay() > 150){
-                          //  $('.paginate_button.page-item.next').addClass('disabled');
-                          //  $('.fullScreenSpin').css('display','none');
-                          //}else{
-                          // sideBarService.getAllEmployeesDataVS1('All', 1).then(function (data) {
-                          //     for (let i = 0; i < data.temployee.length; i++) {
-                          //         let arBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.ARBalance) || 0.00;
-                          //         let creditBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditBalance) || 0.00;
-                          //         let balance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.Balance) || 0.00;
-                          //         let creditLimit = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditLimit) || 0.00;
-                          //         let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.SalesOrderBalance) || 0.00;
-                          //         var dataList = {
-                          //             id: data.temployee[i].fields.ID || '',
-                          //             clientName: data.temployee[i].fields.ClientName || '',
-                          //             company: data.temployee[i].fields.Companyname || '',
-                          //             contactname: data.temployee[i].fields.ContactName || '',
-                          //             phone: data.temployee[i].fields.Phone || '',
-                          //             arbalance: arBalance || 0.00,
-                          //             creditbalance: creditBalance || 0.00,
-                          //             balance: balance || 0.00,
-                          //             creditlimit: creditLimit || 0.00,
-                          //             salesorderbalance: salesOrderBalance || 0.00,
-                          //             email: data.temployee[i].fields.Email || '',
-                          //             job: data.temployee[i].fields.JobName || '',
-                          //             accountno: data.temployee[i].fields.AccountNo || '',
-                          //             clientno: data.temployee[i].fields.ClientNo || '',
-                          //             jobtitle: data.temployee[i].fields.JobTitle || '',
-                          //             notes: data.temployee[i].fields.Notes || '',
-                          //             state: data.temployee[i].fields.State || '',
-                          //             country: data.temployee[i].fields.Country || '',
-                          //             street: data.temployee[i].fields.Street || ' ',
-                          //             street2: data.temployee[i].fields.Street2 || ' ',
-                          //             street3: data.temployee[i].fields.Street3 || ' ',
-                          //             suburb: data.temployee[i].fields.Suburb || ' ',
-                          //             postcode: data.temployee[i].fields.Postcode || ' '
-                          //         };
-                          //
-                          //         dataTableList.push(dataList);
-                          //         var dataListEmployee = [
-                          //             data.temployee[i].fields.ClientName || '-',
-                          //             data.temployee[i].fields.JobName || '',
-                          //             data.temployee[i].fields.Phone || '',
-                          //             arBalance || 0.00,
-                          //             creditBalance || 0.00,
-                          //             balance || 0.00,
-                          //             creditLimit || 0.00,
-                          //             salesOrderBalance || 0.00,
-                          //             data.temployee[i].fields.Country || '',
-                          //             data.temployee[i].fields.State || '',
-                          //             data.temployee[i].fields.Street2 || '',
-                          //             data.temployee[i].fields.Street || '',
-                          //             data.temployee[i].fields.Postcode || '',
-                          //             data.temployee[i].fields.Email || '',
-                          //             data.temployee[i].fields.AccountNo || '',
-                          //             data.temployee[i].fields.ClientNo || '',
-                          //             data.temployee[i].fields.JobTitle || '',
-                          //             data.temployee[i].fields.Notes || '',
-                          //             data.temployee[i].fields.ID || '',
-                          //             data.temployee[i].fields.ClientTypeName || 'Default',
-                          //             data.temployee[i].fields.Discount || 0,
-                          //             data.temployee[i].fields.TermsName || '',
-                          //             data.temployee[i].fields.FirstName || '',
-                          //             data.temployee[i].fields.LastName || ''
-                          //         ];
-                          //
-                          //         splashArrayEmployeeList.push(dataListEmployee);
-                          //
-                          //         //}
-                          //     }
-                          //
-                          //     function MakeNegative() {
-                          //         $('td').each(function () {
-                          //             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
-                          //         });
-                          //     };
-                          //
-                          //     templateObject.custdatatablerecords.set(dataTableList);
-                          //     var datatable = $('#tblEmployeelist').DataTable();
-                          //     datatable.clear();
-                          //     datatable.rows.add(splashArrayEmployeeList);
-                          //     datatable.draw(false);
-                          //
-                          //     $('.fullScreenSpin').css('display', 'none');
-                          //     $('.dataTables_info').html('Showing 1 to ' + data.temployee.length + ' of ' + data.temployee.length + ' entries');
-                          //     $('.fullScreenSpin').css('display', 'none');
-                          //     // addVS1Data('TEmployee',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                          //     //   templateObject.resetData(dataNonBo);
-                          //     // $('.fullScreenSpin').css('display','none');
-                          //     // }).catch(function (err) {
-                          //     // $('.fullScreenSpin').css('display','none');
-                          //     // });
-                          // }).catch(function (err) {
-                          //     $('.fullScreenSpin').css('display', 'none');
-                          // });
-                          //}
-                      } else {
-                          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                              $('.fullScreenSpin').css('display', 'none');
-                          } else {
-                              sideBarService.getAllEmployeesDataVS1(dataLenght, 0).then(function (dataNonBo) {
+                        let dataLenght = settings._iDisplayLength;
+                        let employeeSearch = $('#tblEmployeelist_filter input').val();
+                        splashArrayEmployeeList = [];
+                        if (dataLenght == -1) {
+                          if(settings.fnRecordsDisplay() > initialDatatableLoad){
+                            $('.fullScreenSpin').css('display','none');
+                          }else{
+                            if (employeeSearch.replace(/\s/g, '') != '') {
+                              $('.fullScreenSpin').css('display', 'inline-block');
+                              sideBarService.getAllEmployeesDataVS1ByName(employeeSearch).then(function (data) {
+                                  let lineItems = [];
+                                  let lineItemObj = {};
+                                  if (data.temployee.length > 0) {
+                                      for (let i = 0; i < data.temployee.length; i++) {
+                                          let arBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.ARBalance) || 0.00;
+                                          let creditBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditBalance) || 0.00;
+                                          let balance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.Balance) || 0.00;
+                                          let creditLimit = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.CreditLimit) || 0.00;
+                                          let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.temployee[i].fields.SalesOrderBalance) || 0.00;
+                                          var dataList = {
+                                              id: data.temployee[i].fields.ID || '',
+                                              clientName: data.temployee[i].fields.ClientName || '',
+                                              company: data.temployee[i].fields.Companyname || '',
+                                              contactname: data.temployee[i].fields.ContactName || '',
+                                              phone: data.temployee[i].fields.Phone || '',
+                                              arbalance: arBalance || 0.00,
+                                              creditbalance: creditBalance || 0.00,
+                                              balance: balance || 0.00,
+                                              creditlimit: creditLimit || 0.00,
+                                              salesorderbalance: salesOrderBalance || 0.00,
+                                              email: data.temployee[i].fields.Email || '',
+                                              job: data.temployee[i].fields.JobName || '',
+                                              accountno: data.temployee[i].fields.AccountNo || '',
+                                              clientno: data.temployee[i].fields.ClientNo || '',
+                                              jobtitle: data.temployee[i].fields.JobTitle || '',
+                                              notes: data.temployee[i].fields.Notes || '',
+                                              state: data.temployee[i].fields.State || '',
+                                              country: data.temployee[i].fields.Country || '',
+                                              street: data.temployee[i].fields.Street || ' ',
+                                              street2: data.temployee[i].fields.Street2 || ' ',
+                                              street3: data.temployee[i].fields.Street3 || ' ',
+                                              suburb: data.temployee[i].fields.Suburb || ' ',
+                                              postcode: data.temployee[i].fields.Postcode || ' '
+                                          };
 
-                                  addVS1Data('TEmployee', JSON.stringify(dataNonBo)).then(function (datareturn) {
-                                      templateObject.resetData(dataNonBo);
+                                          dataTableList.push(dataList);
+                                          var dataListEmployee = [
+                                              data.temployee[i].fields.EmployeeName || '-',
+                                              data.temployee[i].fields.FirstName || '',
+                                              data.temployee[i].fields.LastName || '',
+                                              data.temployee[i].fields.Phone || '',
+                                              data.temployee[i].fields.Mobile || '',
+                                              data.temployee[i].fields.Email || '',
+                                              data.temployee[i].fields.DefaultClassName || '',
+                                              data.temployee[i].fields.Country || '',
+                                              data.temployee[i].fields.State || '',
+                                              data.temployee[i].fields.Street2 || '',
+                                              data.temployee[i].fields.Street || '',
+                                              data.temployee[i].fields.Postcode || '',
+                                              data.temployee[i].fields.ID || ''
+                                          ];
+                                          splashArrayEmployeeList.push(dataListEmployee);
+                                          //}
+                                      }
+                                      var datatable = $('#tblEmployeelist').DataTable();
+                                      datatable.clear();
+                                      datatable.rows.add(splashArrayEmployeeList);
+                                      datatable.draw(false);
+
                                       $('.fullScreenSpin').css('display', 'none');
-                                  }).catch(function (err) {
+                                  } else {
+
                                       $('.fullScreenSpin').css('display', 'none');
-                                  });
+                                      $('#employeeListModal').modal('toggle');
+                                      swal({
+                                          title: 'Question',
+                                          text: "Employee does not exist, would you like to create it?",
+                                          type: 'question',
+                                          showCancelButton: true,
+                                          confirmButtonText: 'Yes',
+                                          cancelButtonText: 'No'
+                                      }).then((result) => {
+                                          if (result.value) {
+                                              $('#addEmployeeModal').modal('toggle');
+                                              $('#edtEmployeeCompany').val(dataSearchName);
+                                          } else if (result.dismiss === 'cancel') {
+                                              $('#employeeListModal').modal('toggle');
+                                          }
+                                      });
+
+                                  }
+
                               }).catch(function (err) {
                                   $('.fullScreenSpin').css('display', 'none');
                               });
+                            }else{
+                              $('.fullScreenSpin').css('display', 'none');
+
+                            }
+
                           }
-                      }
+
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getAllEmployeesDataVS1(dataLenght, 0).then(function (dataNonBo) {
+
+                                    addVS1Data('TEmployee', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -1457,6 +1344,7 @@ Template.employeelistpop.onRendered(function () {
                     // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
                     //$('.fullScreenSpin').css('display','none');
                 }, 0);
+
 
                 var columns = $('#tblEmployeelist th');
                 let sTible = "";
@@ -1567,32 +1455,20 @@ Template.employeelistpop.events({
 
                         dataTableList.push(dataList);
                         var dataListEmployee = [
-                            data.temployee[i].fields.ClientName || '-',
-                            data.temployee[i].fields.JobName || '',
+                            data.temployee[i].fields.EmployeeName || '-',
+                            data.temployee[i].fields.FirstName || '',
+                            data.temployee[i].fields.LastName || '',
                             data.temployee[i].fields.Phone || '',
-                            arBalance || 0.00,
-                            creditBalance || 0.00,
-                            balance || 0.00,
-                            creditLimit || 0.00,
-                            salesOrderBalance || 0.00,
+                            data.temployee[i].fields.Mobile || '',
+                            data.temployee[i].fields.Email || '',
+                            data.temployee[i].fields.DefaultClassName || '',
                             data.temployee[i].fields.Country || '',
                             data.temployee[i].fields.State || '',
                             data.temployee[i].fields.Street2 || '',
                             data.temployee[i].fields.Street || '',
                             data.temployee[i].fields.Postcode || '',
-                            data.temployee[i].fields.Email || '',
-                            data.temployee[i].fields.AccountNo || '',
-                            data.temployee[i].fields.ClientNo || '',
-                            data.temployee[i].fields.JobTitle || '',
-                            data.temployee[i].fields.Notes || '',
-                            data.temployee[i].fields.ID || '',
-                            data.temployee[i].fields.ClientTypeName || 'Default',
-                            data.temployee[i].fields.Discount || 0,
-                            data.temployee[i].fields.TermsName || '',
-                            data.temployee[i].fields.FirstName || '',
-                            data.temployee[i].fields.LastName || ''
+                            data.temployee[i].fields.ID || ''
                         ];
-
                         splashArrayEmployeeList.push(dataListEmployee);
                         //}
                     }
@@ -1665,32 +1541,20 @@ Template.employeelistpop.events({
 
                     dataTableList.push(dataList);
                     var dataListEmployee = [
-                        data.temployee[i].fields.ClientName || '-',
-                        data.temployee[i].fields.JobName || '',
+                        data.temployee[i].fields.EmployeeName || '-',
+                        data.temployee[i].fields.FirstName || '',
+                        data.temployee[i].fields.LastName || '',
                         data.temployee[i].fields.Phone || '',
-                        arBalance || 0.00,
-                        creditBalance || 0.00,
-                        balance || 0.00,
-                        creditLimit || 0.00,
-                        salesOrderBalance || 0.00,
+                        data.temployee[i].fields.Mobile || '',
+                        data.temployee[i].fields.Email || '',
+                        data.temployee[i].fields.DefaultClassName || '',
                         data.temployee[i].fields.Country || '',
                         data.temployee[i].fields.State || '',
                         data.temployee[i].fields.Street2 || '',
                         data.temployee[i].fields.Street || '',
                         data.temployee[i].fields.Postcode || '',
-                        data.temployee[i].fields.Email || '',
-                        data.temployee[i].fields.AccountNo || '',
-                        data.temployee[i].fields.ClientNo || '',
-                        data.temployee[i].fields.JobTitle || '',
-                        data.temployee[i].fields.Notes || '',
-                        data.temployee[i].fields.ID || '',
-                        data.temployee[i].fields.ClientTypeName || 'Default',
-                        data.temployee[i].fields.Discount || 0,
-                        data.temployee[i].fields.TermsName || '',
-                        data.temployee[i].fields.FirstName || '',
-                        data.temployee[i].fields.LastName || ''
+                        data.temployee[i].fields.ID || ''
                     ];
-
                     splashArrayEmployeeList.push(dataListEmployee);
 
                     // var employeerecordObj = {

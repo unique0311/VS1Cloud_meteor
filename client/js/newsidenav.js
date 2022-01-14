@@ -130,7 +130,7 @@ Template.newsidenav.onCreated(function() {
 });
 Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
-    let allDataToLoad = 49;
+    let allDataToLoad = 51;
     let progressPercentage = 0;
 
     let templateObject = Template.instance();
@@ -1407,6 +1407,80 @@ Template.newsidenav.onRendered(function() {
             //localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
             addVS1Data('TAccountType', JSON.stringify(data));
             $("<span class='process'>Account Types Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+    }
+
+    templateObject.getAllERPFormData = function() {
+        sideBarService.getCloudTERPForm().then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Account Type "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("ERP Forms ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            //localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
+            addVS1Data('TERPForm', JSON.stringify(data));
+            $("<span class='process'>ERP Forms Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+    }
+
+    templateObject.getAllEmployeeFormAccessDetailData = function() {
+        sideBarService.getEmpFormAccessDetail().then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Account Type "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Employee Access Forms ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            //localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
+            addVS1Data('TEmployeeFormAccessDetail', JSON.stringify(data));
+            $("<span class='process'>Employee Access Forms Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -3637,6 +3711,24 @@ Template.newsidenav.onRendered(function() {
                 });
             }
 
+            if (isSettings) {
+                getVS1Data('TERPForm').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllERPFormData();
+                    } else {}
+                }).catch(function(err) {
+                    templateObject.getAllERPFormData();
+                });
+
+                getVS1Data('TEmployeeFormAccessDetail').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllEmployeeFormAccessDetailData();
+                    } else {}
+                }).catch(function(err) {
+                    templateObject.getAllEmployeeFormAccessDetailData();
+                });
+            }
+
               if (isAppointmentScheduling) {
                 if (isContacts) {
 
@@ -4339,7 +4431,10 @@ Template.newsidenav.onRendered(function() {
         if (isAppointmentScheduling) {
 
             // templateObject.getAllEmployeeData();
-
+            let getTimeStamp = dataObject[0].timestamp.split(' ');
+            if (getTimeStamp) {
+                if (loggedUserEventFired) {
+                    if (getTimeStamp[0] != currenctTodayDate) {
             sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
               countObjectTimes++;
               progressPercentage = (countObjectTimes * 100) / allDataToLoad;
@@ -4373,6 +4468,9 @@ Template.newsidenav.onRendered(function() {
             }).catch(function(err) {
 
             });
+                }
+              }
+            };
 
             getVS1Data('TAppointmentPreferences').then(function(dataObject) {
                 if (dataObject.length == 0) {
