@@ -226,8 +226,24 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
     }
     // templateObject.getAllProductData();
     templateObject.getDepartments();
-
-});
+    
+//Dragable items in edit layout screen 
+        //This works now: break at your own peril
+    $( ".sortableAccountParent" ).sortable({
+        revert: true
+    });
+    $( ".sortableAccount" ).sortable({
+        revert: true,
+        handle:".avoid"
+    });
+    $( ".draggable" ).draggable({
+        connectToSortable: ".sortableAccount",
+        helper: "none",
+        revert: "true"
+        });
+//    $( "ul, li" ).disableSelection();
+    //Dragable items in edit layout screen end
+}); 
 
 
 Template.newprofitandloss.events({
@@ -525,6 +541,12 @@ Template.newprofitandloss.events({
         $('td:nth-child(6)').show();
         $('td:nth-child(7)').show();
     },
+    
+    //custom selection period number
+    'click .btnSaveCustomComparison':function(event){
+        
+    },
+    // period selector end
     'click .lytAccountToggle': function(event){
 
             $('.lytAccountToggle').each(function(){
@@ -538,7 +560,18 @@ Template.newprofitandloss.events({
             });
         
 
-    }
+    },
+        'click .btnMoveAccount':function(event){
+        $('.lytAccountToggle').each(function(){
+            if ($('.lytAccountToggle').is(':checked')) {
+                    $('#nplMoveAccountScreen').modal('show');
+                }
+            else  if ($('.lytAccountToggle').not(':checked')){
+                    $('#nplNoSelection').modal('show');
+                }
+            });
+        }
+    
     });
 
 Template.newprofitandloss.helpers({
