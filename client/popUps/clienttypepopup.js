@@ -94,71 +94,25 @@ Template.clienttypepopup.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     setTimeout(function() {
                         $('#clienttypeList').DataTable({
-                            columnDefs: [{
-                                "orderable": false,
-                                "targets": -1
-                            }],
+                            data: splashArrayClientTypeList,
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            paging: true,
+                            "aaSorting": [],
+                            "orderMulti": true,
+                            columnDefs: [
+                                {"orderable": false,  "targets": -1},
+                                { className: "colClientTypeID hiddenColumn", "targets": [0] },
+                                { className: "colClientTypeName pointer", "targets": [1] },
+                                { className: "colDescription", "targets": [2] },
+                                { className: "colDeleteCustomerType", "targets": [3] }
+                            ],
                             select: true,
                             destroy: true,
                             colReorder: true,
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                    extend: 'csvHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "clienttypeList_" + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                }, {
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Client Type',
-                                    filename: "clienttypeList_" + moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                },
-                                {
-                                    extend: 'excelHtml5',
-                                    title: '',
-                                    download: 'open',
-                                    className: "btntabletoexcel hiddenColumn",
-                                    filename: "clienttypeList_" + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: ':visible'
-                                    }
-                                    // ,
-                                    // customize: function ( win ) {
-                                    //   $(win.document.body).children("h1:first").remove();
-                                    // }
-
-                                }
-                            ],
-                            // bStateSave: true,
-                            // rowId: 0,
-                            paging: false,
-                            // "scrollY": "400px",
-                            // "scrollCollapse": true,
+                            pageLength: initialDatatableLoad,
+                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [
-                                [0, "asc"]
-                            ],
-                            // "aaSorting": [[1,'desc']],
-                            action: function() {
-                                $('#clienttypeList').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
-                                    MakeNegative();
-                                }, 100);
-                            },
                             "fnInitComplete": function () {
                                 $("<button class='btn btn-primary btnAddNewClientType' data-dismiss='modal' data-toggle='modal' data-target='#myModalClientType' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#clienttypeList_filter");
                                 $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
@@ -228,10 +182,11 @@ Template.clienttypepopup.onRendered(function() {
                         "aaSorting": [],
                         "orderMulti": true,
                         columnDefs: [
+                            {"orderable": false,  "targets": -1},
                             { className: "colClientTypeID hiddenColumn", "targets": [0] },
                             { className: "colClientTypeName pointer", "targets": [1] },
                             { className: "colDescription", "targets": [2] },
-                            { className: "colDelete", "targets": [3] }
+                            { className: "colDeleteCustomerType", "targets": [3] }
                         ],
                         select: true,
                         destroy: true,
@@ -300,71 +255,25 @@ Template.clienttypepopup.onRendered(function() {
               $('.fullScreenSpin').css('display', 'none');
               setTimeout(function() {
                   $('#clienttypeList').DataTable({
-                      columnDefs: [{
-                          "orderable": false,
-                          "targets": -1
-                      }],
+                      data: splashArrayClientTypeList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      paging: true,
+                      "aaSorting": [],
+                      "orderMulti": true,
+                      columnDefs: [
+                          {"orderable": false,  "targets": -1},
+                          { className: "colClientTypeID hiddenColumn", "targets": [0] },
+                          { className: "colClientTypeName pointer", "targets": [1] },
+                          { className: "colDescription", "targets": [2] },
+                          { className: "colDeleteCustomerType", "targets": [3] }
+                      ],
                       select: true,
                       destroy: true,
                       colReorder: true,
-                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                      buttons: [{
-                              extend: 'csvHtml5',
-                              text: '',
-                              download: 'open',
-                              className: "btntabletocsv hiddenColumn",
-                              filename: "clienttypeList_" + moment().format(),
-                              orientation: 'portrait',
-                              exportOptions: {
-                                  columns: ':visible'
-                              }
-                          }, {
-                              extend: 'print',
-                              download: 'open',
-                              className: "btntabletopdf hiddenColumn",
-                              text: '',
-                              title: 'Client Type',
-                              filename: "clienttypeList_" + moment().format(),
-                              exportOptions: {
-                                  columns: ':visible'
-                              }
-                          },
-                          {
-                              extend: 'excelHtml5',
-                              title: '',
-                              download: 'open',
-                              className: "btntabletoexcel hiddenColumn",
-                              filename: "clienttypeList_" + moment().format(),
-                              orientation: 'portrait',
-                              exportOptions: {
-                                  columns: ':visible'
-                              }
-                              // ,
-                              // customize: function ( win ) {
-                              //   $(win.document.body).children("h1:first").remove();
-                              // }
-
-                          }
-                      ],
-                      // bStateSave: true,
-                      // rowId: 0,
-                      paging: false,
-                      // "scrollY": "400px",
-                      // "scrollCollapse": true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                       info: true,
                       responsive: true,
-                      "order": [
-                          [0, "asc"]
-                      ],
-                      // "aaSorting": [[1,'desc']],
-                      action: function() {
-                          $('#clienttypeList').DataTable().ajax.reload();
-                      },
-                      "fnDrawCallback": function(oSettings) {
-                          setTimeout(function() {
-                              MakeNegative();
-                          }, 100);
-                      },
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewClientType' data-dismiss='modal' data-toggle='modal' data-target='#myModalClientType' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#clienttypeList_filter");
                           $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#clienttypeList_filter");
@@ -402,7 +311,7 @@ Template.clienttypepopup.onRendered(function() {
 
     templateObject.getClientTypeData();
 
-    $(document).on('click', '.colDelete.table-remove', function() {
+    $(document).on('click', '.colDeleteCustomerType.table-remove', function() {
         event.stopPropagation();
         var targetID = $(event.target).closest('tr').find('.colClientTypeID').text()||''; // table row ID
         $('#selectDeleteLineID').val(targetID);
