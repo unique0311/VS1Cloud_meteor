@@ -135,6 +135,9 @@ Template.vs1login.onRendered(function () {
     localStorage.setItem('VS1TERPFormList', '');
     localStorage.setItem('vs1LoggedEmployeeImages_dash', '');
 
+    localStorage.removeItem('VS1FormAccessDetail');
+    localStorage.setItem('VS1FormAccessDetail', '');
+
     Session.setPersistent('ERPCurrency', '$');
 
     Session.setPersistent('ERPDefaultDepartment', '');
@@ -1779,6 +1782,8 @@ Template.vs1login.onRendered(function () {
                                                     Session.setPersistent('mycloudLogonUsername', ERPuserName);
                                                     Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
 
+                                                    localStorage.setItem('VS1FormAccessDetail', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.items)||'');
+
                                                     Session.setPersistent('myerpPassword', userLoginPassword);
                                                     Session.setPersistent('mySessionEmployee', ERPuserName);
 
@@ -2413,6 +2418,8 @@ Template.vs1login.onRendered(function () {
                                 Session.setPersistent('mycloudLogonUsername', ERPuserName);
                                 Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
 
+                                localStorage.setItem('VS1FormAccessDetail', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.items)||'');
+
                                 Session.setPersistent('myerpPassword', userLoginPassword);
                                 Session.setPersistent('mySessionEmployee', ERPuserName);
 
@@ -2913,6 +2920,8 @@ Template.vs1login.onRendered(function () {
                                                 dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                                                 Session.setPersistent('mycloudLogonUsername', ERPuserName);
                                                 Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
+
+                                                localStorage.setItem('VS1FormAccessDetail', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.items)||'');
 
                                                 Session.setPersistent('myerpPassword', userLoginPassword);
                                                 Session.setPersistent('mySessionEmployee', ERPuserName);
@@ -3615,6 +3624,8 @@ Template.vs1login.onRendered(function () {
                                             Session.setPersistent('mycloudLogonUsername', ERPuserName);
                                             Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
 
+                                            localStorage.setItem('VS1FormAccessDetail', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.items)||'');
+
                                             Session.setPersistent('myerpPassword', userLoginPassword);
                                             Session.setPersistent('mySessionEmployee', ERPuserName);
 
@@ -4276,6 +4287,8 @@ Template.vs1login.onRendered(function () {
                                         dataReturnRes.ProcessLog.VS1UserName = userLoginEmail;
                                         Session.setPersistent('mycloudLogonUsername', ERPuserName);
                                         Session.setPersistent('mycloudLogonUserEmail', ERPuserName);
+
+                                        localStorage.setItem('VS1FormAccessDetail', JSON.stringify(dataReturnRes.ProcessLog.ClientDetails.ProcessLog.TUser.TEmployeeFormAccessDetail.items)||'');
 
                                         Session.setPersistent('myerpPassword', userLoginPassword);
                                         Session.setPersistent('mySessionEmployee', ERPuserName);

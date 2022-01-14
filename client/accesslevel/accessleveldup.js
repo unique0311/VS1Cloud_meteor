@@ -7,6 +7,12 @@ import 'jquery-ui-dist/jquery-ui.css';
 import '../lib/global/erp-objects';
 import {UtilityService} from "../utility-service";
 import {AccountService} from "../accounts/account-service";
+
+import 'jquery-editable-select';
+import { SideBarService } from '../js/sidebar-service';
+import '../lib/global/indexdbstorage.js';
+let sideBarService = new SideBarService();
+
 const _ = require('lodash');
 let addNewEmployeesList = [];
 
@@ -77,7 +83,10 @@ Template.accessleveldup.onRendered(function(){
         });
     }
 
-    accesslevelService.getCloudTERPForm().then(function(data){
+    getVS1Data('TERPForm').then(function (dataObject) {
+      if(dataObject.length == 0){
+        accesslevelService.getCloudTERPForm().then(function(data){
+          addVS1Data('TERPForm', JSON.stringify(data));
         let lineItemsForm = [];
         let lineItemObjForm = {};
         let isSidePanelFormID = '';
@@ -118,6 +127,92 @@ Template.accessleveldup.onRendered(function(){
         getTableData('All');
 
     });
+      }else{
+        let data = JSON.parse(dataObject[0].data);
+        let useData = data.terpform;
+        let lineItemsForm = [];
+        let lineItemObjForm = {};
+        let isSidePanelFormID = '';
+        let isTopPanelFormID = '';
+        let itemData = data.terpform.sort(function (a, b) {
+
+          if (a.Description.toLowerCase() == 'NA') {
+            return 1;
+          }
+          else if (b.Description.toLowerCase() == 'NA') {
+            return -1;
+          }
+          return (a.Description.toLowerCase() > b.Description.toLowerCase()) ? 1 : -1;
+        });
+
+        for(let i=0; i<itemData.length; i++){
+            lineItemObjForm = {
+                lineID: itemData[i].Id || '',
+                description: itemData[i].Description || '',
+                skingroup: itemData[i].SkinsGroup || ''
+
+            };
+
+            if(itemData[i].Description === "Side Panel Menu"){
+                isSidePanelFormID = itemData[i].Id;
+                Session.setPersistent('CloudSidePanelMenuFormID', isSidePanelFormID);
+            }
+            if(itemData[i].Description === "Top Panel Menu"){
+                isTopPanelFormID = itemData[i].Id;
+                Session.setPersistent('CloudTopPanelMenuFormID', isTopPanelFormID);
+            }
+            lineItemsForm.push(lineItemObjForm);
+            splashArray.push(lineItemObjForm);
+            templateObject.erpAccessLevelRecord.set(lineItemsForm);
+
+        }
+
+        getTableData('All');
+      }
+    }).catch(function (err) {
+      accesslevelService.getCloudTERPForm().then(function(data){
+        addVS1Data('TERPForm', JSON.stringify(data));
+      let lineItemsForm = [];
+      let lineItemObjForm = {};
+      let isSidePanelFormID = '';
+      let isTopPanelFormID = '';
+      let itemData = data.terpform.sort(function (a, b) {
+
+        if (a.Description.toLowerCase() == 'NA') {
+          return 1;
+        }
+        else if (b.Description.toLowerCase() == 'NA') {
+          return -1;
+        }
+        return (a.Description.toLowerCase() > b.Description.toLowerCase()) ? 1 : -1;
+      });
+
+      for(let i=0; i<itemData.length; i++){
+          lineItemObjForm = {
+              lineID: itemData[i].Id || '',
+              description: itemData[i].Description || '',
+              skingroup: itemData[i].SkinsGroup || ''
+
+          };
+
+          if(itemData[i].Description === "Side Panel Menu"){
+              isSidePanelFormID = itemData[i].Id;
+              Session.setPersistent('CloudSidePanelMenuFormID', isSidePanelFormID);
+          }
+          if(itemData[i].Description === "Top Panel Menu"){
+              isTopPanelFormID = itemData[i].Id;
+              Session.setPersistent('CloudTopPanelMenuFormID', isTopPanelFormID);
+          }
+          lineItemsForm.push(lineItemObjForm);
+          splashArray.push(lineItemObjForm);
+          templateObject.erpAccessLevelRecord.set(lineItemsForm);
+
+      }
+
+      getTableData('All');
+
+  });
+    });
     if (!localStorage.getItem('VS1TERPFormList')) {
 
     }else{
@@ -149,23 +244,28 @@ Template.accessleveldup.onRendered(function(){
 
             templateObject.employeerecords.set(employeeList);
             if(templateObject.employeerecords.get()){
-                if(FlowRouter.current().queryParams.empuser){
-                    $([document.documentElement, document.body]).animate({
-                        scrollTop: $(".employeeModules").offset().top
-                    }, 2000);
-                    let empToSelect = FlowRouter.current().queryParams.empuser;
-                    setTimeout(function () {
-                        $('select[name="sltEmployeeName"] option[value="'+empToSelect+'"]').prop('selected', true);
-                    }, 100);
 
-                }
             }
 
 
         });
     };
 
-    templateObject.getAllEmployees();
+    if(FlowRouter.current().queryParams.empuser){
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $(".employeeModules").offset().top
+        }, 2000);
+        let empToSelect = FlowRouter.current().queryParams.empuser;
+        let empToSelectID = FlowRouter.current().queryParams.empuserid;
+        setTimeout(function () {
+            // $('select[name="sltEmployeeName"] option[value="'+empToSelect+'"]').prop('selected', true);
+            $('#sltEmployeeName').val(empToSelect);
+            $('#mytag').val(empToSelectID);
+        }, 100);
+
+    }
+
+    //templateObject.getAllEmployees();
 
     function getTableData(employeeID){
 
@@ -382,7 +482,9 @@ Template.accessleveldup.onRendered(function(){
                 templateObject.accesslevelrecord.set(lineItemslevel);
             }
             let loggedEmpID = Session.get('mySessionEmployeeLoggedID');
-            accesslevelService.getEmpFormAccessDetail(loggedEmpID).then(function(data){
+            getVS1Data('TEmployeeFormAccessDetail').then(function (dataObject) {
+              if(dataObject.length == 0){
+                accesslevelService.getEmpFormAccessDetail(loggedEmpID).then(function(data){
                 let lineItemslevel = [];
                 let lineItemObjlevel = {};
                 var groups = {};
@@ -905,6 +1007,1064 @@ Template.accessleveldup.onRendered(function(){
 
                 templateObject.employeeformaccessrecord.set(lineItemslevel);
                 $('.fullScreenSpin').css('display','none');
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+
+              });
+              }else{
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.temployeeformaccessdetail;
+                let lineItemslevel = [];
+                let lineItemObjlevel = {};
+                var groups = {};
+
+                let formClass = '';
+                let formClassHidden = '';
+                var groupName = '';
+
+                let isPayrollClockOnOff = false;
+                let isPayrollTimeSheet = false;
+                if(splashArray.length > 0){
+                    $.grep(splashArray, function(n) {
+
+                      if((n.skingroup === "Accounts") && (n.description === "Accounts")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Appointments") && (n.description === "Appointments")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Employee") && (n.description === "Settings")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "General") && (n.description === "Settings")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Inventory") && (n.description === "Inventory")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Manufacturing") && (n.description === "Manufacturing")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Payments") && (n.description === "Payments")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Purchases") && (n.description === "Purchases")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Sales") && (n.description === "Sales")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Payroll") && (n.description === "Payroll")){
+                          formClassHidden = 'hiddenRow';
+                      }else if((n.skingroup === "Shipping") && (n.description === "Shipping")){
+                          formClassHidden = 'hiddenRow';
+                      }else{
+                        formClassHidden = '';
+                      }
+
+
+                        lineItemObjlevel = {
+                            accessID: '' || '',
+                            formID: n.lineID || '',
+                            lineID: n.lineID || '',
+                            skingroup: n.skingroup || '',
+                            accessLevel: '' || '',
+                            accessLevelname: '' || '',
+                            description: n.description || '',
+                            formName: '' || '',
+                            formClass: formClass || '',
+                            formClassHidden: formClassHidden || ''
+                        };
+                        if((n.description != "Fixed Assets") || (n.skingroup != "Fixed Assets")){
+                            if((n.description != "TrueERP Mobile Data Export")){
+
+                                groupName = n.skingroup;
+                                if (!groups[groupName]) {
+                                    groups[groupName] = [];
+                                }
+
+                                for (let i = 0; i < data.temployeeformaccessdetail.length; i++) {
+
+
+                                    if(data.temployeeformaccessdetail[i].fields.FormId === n.lineID){
+
+                                        if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (!isAccountsLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (isAccountsLicence)){
+                                            formClass = '';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (!isAppointmentSchedulingLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (isAppointmentSchedulingLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (!isContactsLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (isContactsLicence)){
+                                            formClass = '';
+                                        }
+
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (!isDashboardLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (isDashboardLicence)){
+                                            formClass = '';
+                                        }
+
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (!isExpenseClaimsLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (isExpenseClaimsLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (!isFixedAssetsLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (isFixedAssetsLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (!isInventoryLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (isInventoryLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (!isMainLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (isMainLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (!isManufacturingLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (isManufacturingLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (!isPaymentsLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (isPaymentsLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (!isPurchasesLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (isPurchasesLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (!isReportsLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (isReportsLicence)){
+                                            formClass = '';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (!isSalesLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (isSalesLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (!isSettingsLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (isSettingsLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (!isShippingLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (isShippingLicence)){
+                                            formClass = '';
+                                        }
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (!isStockTakeLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (isStockTakeLicence)){
+                                            formClass = '';
+                                        }
+
+                                        else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (!isStockTransferLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
+                                            formClass = '';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                            formClass = 'inactiveLicence';
+                                        }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                            formClass = '';
+                                        }else{
+                                            formClass = '';
+                                        }
+
+                                        if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Accounts") && (data.temployeeformaccessdetail[i].fields.Description === "Accounts")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Appointments") && (data.temployeeformaccessdetail[i].fields.Description === "Appointments")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Employee") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "General") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Inventory") && (data.temployeeformaccessdetail[i].fields.Description === "Inventory")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                                setTimeout(function () {
+                                                $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                                },500);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Manufacturing") && (data.temployeeformaccessdetail[i].fields.Description === "Manufacturing")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payments") && (data.temployeeformaccessdetail[i].fields.Description === "Payments")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Purchases") && (data.temployeeformaccessdetail[i].fields.Description === "Purchases")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Sales") && (data.temployeeformaccessdetail[i].fields.Description === "Sales")){
+                                            formClassHidden = 'hiddenRow';
+                                            if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                        }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                        }else{
+                                          formClassHidden = '';
+                                        }
+
+                                        lineItemObjlevel = {
+                                            accessID: data.temployeeformaccessdetail[i].fields.ID || '',
+                                            formID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                            lineID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                            skingroup : data.temployeeformaccessdetail[i].fields.SkinsGroup || '',
+                                            accessLevel: data.temployeeformaccessdetail[i].fields.AccessLevel || '',
+                                            accessLevelname: data.temployeeformaccessdetail[i].fields.AccessLevelName || '',
+                                            description: data.temployeeformaccessdetail[i].fields.Description || '',
+                                            formName: data.temployeeformaccessdetail[i].fields.FormName || '',
+                                            formClass: formClass || '',
+                                            formClassHidden: formClassHidden || ''
+                                        };
+
+                                        groupName = data.temployeeformaccessdetail[i].fields.SkinsGroup;
+                                        if (!groups[groupName]) {
+                                            groups[groupName] = [];
+                                        }
+
+                                    }
+
+
+                                }
+
+
+                                groups[groupName].sort(function(a, b){
+                                    if (a.description == 'NA') {
+                                        return 1;
+                                    }
+                                    else if (b.description == 'NA') {
+                                        return -1;
+                                    }
+                                    return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
+                                });
+
+                                groups[groupName].push(lineItemObjlevel);
+
+                                splashArrayAccess.push(lineItemObjlevel);
+                                lineItemslevel.push(lineItemObjlevel);
+                                recordsaccess.push(lineItemObjlevel);
+                                templateObject.recordsaccess.set(lineItemObjlevel);
+                                templateObject.accessgrouprecord.set(groups);
+
+                            }
+                        }
+                    });
+                }else{
+                    for (let i = 0; i < data.temployeeformaccessdetail.length; i++) {
+                        if((data.temployeeformaccessdetail[i].fields.Description != "Fixed Assets") || (data.temployeeformaccessdetail[i].fields.SkinsGroup != "Fixed Assets")){
+                            if((data.temployeeformaccessdetail[i].fields.Description != "TrueERP Mobile Data Export")){
+
+                                if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (!isAccountsLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (isAccountsLicence)){
+                                    formClass = '';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (!isAppointmentSchedulingLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (isAppointmentSchedulingLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (!isContactsLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (isContactsLicence)){
+                                    formClass = '';
+                                }
+
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (!isDashboardLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (isDashboardLicence)){
+                                    formClass = '';
+                                }
+
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (!isExpenseClaimsLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (isExpenseClaimsLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (!isFixedAssetsLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (isFixedAssetsLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (!isInventoryLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (isInventoryLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (!isMainLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (isMainLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (!isManufacturingLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (isManufacturingLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (!isPaymentsLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (isPaymentsLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (!isPurchasesLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (isPurchasesLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (!isReportsLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (isReportsLicence)){
+                                    formClass = '';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (!isSalesLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (isSalesLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (!isSettingsLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (isSettingsLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (!isShippingLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (isShippingLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (!isStockTakeLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (isStockTakeLicence)){
+                                    formClass = '';
+                                }
+                                else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (!isStockTransferLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
+                                    formClass = '';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                    formClass = 'inactiveLicence';
+                                }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                    formClass = '';
+                                }else{
+                                    formClass = '';
+                                }
+
+                                if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Accounts") && (data.temployeeformaccessdetail[i].fields.Description === "Accounts")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Appointments") && (data.temployeeformaccessdetail[i].fields.Description === "Appointments")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Employee") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "General") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Inventory") && (data.temployeeformaccessdetail[i].fields.Description === "Inventory")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                        setTimeout(function () {
+                                        $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                        },500);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Manufacturing") && (data.temployeeformaccessdetail[i].fields.Description === "Manufacturing")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payments") && (data.temployeeformaccessdetail[i].fields.Description === "Payments")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Purchases") && (data.temployeeformaccessdetail[i].fields.Description === "Purchases")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Sales") && (data.temployeeformaccessdetail[i].fields.Description === "Sales")){
+                                    formClassHidden = 'hiddenRow';
+                                    if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                                }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                                }else{
+                                  formClassHidden = '';
+                                }
+
+                                lineItemObjlevel = {
+                                    accessID: data.temployeeformaccessdetail[i].fields.ID || '',
+                                    formID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                    lineID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                    skingroup : data.temployeeformaccessdetail[i].fields.SkinsGroup || '',
+                                    accessLevel: data.temployeeformaccessdetail[i].fields.AccessLevel || '',
+                                    accessLevelname: data.temployeeformaccessdetail[i].fields.AccessLevelName || '',
+                                    description: data.temployeeformaccessdetail[i].fields.Description || '',
+                                    formName: data.temployeeformaccessdetail[i].fields.FormName || '',
+                                    formClass: formClass || '',
+                                    formClassHidden: formClassHidden || ''
+                                };
+
+
+
+                                var groupName = data.temployeeformaccessdetail[i].fields.SkinsGroup;
+                                if (!groups[groupName]) {
+                                    groups[groupName] = [];
+                                }
+
+
+                                groups[groupName].sort(function(a, b){
+                                    if (a.description == 'NA') {
+                                        return 1;
+                                    }
+                                    else if (b.description == 'NA') {
+                                        return -1;
+                                    }
+                                    return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
+                                });
+
+                                groups[groupName].push(lineItemObjlevel);
+
+
+                                splashArrayAccess.push(lineItemObjlevel);
+                                lineItemslevel.push(lineItemObjlevel);
+                                recordsaccess.push(lineItemObjlevel);
+                                templateObject.recordsaccess.set(lineItemObjlevel);
+                            }
+                        }
+                    }
+
+                    templateObject.accessgrouprecord.set(groups);
+                }
+
+
+                // let loggedEmpID = Session.get('mySessionEmployeeLoggedID');
+                if((employeeID == loggedEmpID) && (loggedEmpID !== null)){
+                    localStorage.setItem('VS1AccessLevelList', JSON.stringify(splashArrayAccess));
+                    templateObject.accesslevelrecord.set(lineItemslevel);
+                }else{
+                    templateObject.accesslevelrecord.set(lineItemslevel);
+                }
+
+                templateObject.employeeformaccessrecord.set(lineItemslevel);
+                $('.fullScreenSpin').css('display','none');
+              }
+            }).catch(function (err) {
+              accesslevelService.getEmpFormAccessDetail(loggedEmpID).then(function(data){
+              let lineItemslevel = [];
+              let lineItemObjlevel = {};
+              var groups = {};
+
+              let formClass = '';
+              let formClassHidden = '';
+              var groupName = '';
+
+              let isPayrollClockOnOff = false;
+              let isPayrollTimeSheet = false;
+              if(splashArray.length > 0){
+                  $.grep(splashArray, function(n) {
+
+                    if((n.skingroup === "Accounts") && (n.description === "Accounts")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Appointments") && (n.description === "Appointments")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Employee") && (n.description === "Settings")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "General") && (n.description === "Settings")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Inventory") && (n.description === "Inventory")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Manufacturing") && (n.description === "Manufacturing")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Payments") && (n.description === "Payments")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Purchases") && (n.description === "Purchases")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Sales") && (n.description === "Sales")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Payroll") && (n.description === "Payroll")){
+                        formClassHidden = 'hiddenRow';
+                    }else if((n.skingroup === "Shipping") && (n.description === "Shipping")){
+                        formClassHidden = 'hiddenRow';
+                    }else{
+                      formClassHidden = '';
+                    }
+
+
+                      lineItemObjlevel = {
+                          accessID: '' || '',
+                          formID: n.lineID || '',
+                          lineID: n.lineID || '',
+                          skingroup: n.skingroup || '',
+                          accessLevel: '' || '',
+                          accessLevelname: '' || '',
+                          description: n.description || '',
+                          formName: '' || '',
+                          formClass: formClass || '',
+                          formClassHidden: formClassHidden || ''
+                      };
+                      if((n.description != "Fixed Assets") || (n.skingroup != "Fixed Assets")){
+                          if((n.description != "TrueERP Mobile Data Export")){
+
+                              groupName = n.skingroup;
+                              if (!groups[groupName]) {
+                                  groups[groupName] = [];
+                              }
+
+                              for (let i = 0; i < data.temployeeformaccessdetail.length; i++) {
+
+
+                                  if(data.temployeeformaccessdetail[i].fields.FormId === n.lineID){
+
+                                      if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (!isAccountsLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (isAccountsLicence)){
+                                          formClass = '';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (!isAppointmentSchedulingLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (isAppointmentSchedulingLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (!isContactsLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (isContactsLicence)){
+                                          formClass = '';
+                                      }
+
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (!isDashboardLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (isDashboardLicence)){
+                                          formClass = '';
+                                      }
+
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (!isExpenseClaimsLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (isExpenseClaimsLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (!isFixedAssetsLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (isFixedAssetsLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (!isInventoryLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (isInventoryLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (!isMainLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (isMainLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (!isManufacturingLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (isManufacturingLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (!isPaymentsLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (isPaymentsLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (!isPurchasesLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (isPurchasesLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (!isReportsLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (isReportsLicence)){
+                                          formClass = '';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (!isSalesLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (isSalesLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (!isSettingsLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (isSettingsLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (!isShippingLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (isShippingLicence)){
+                                          formClass = '';
+                                      }
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (!isStockTakeLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (isStockTakeLicence)){
+                                          formClass = '';
+                                      }
+
+                                      else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (!isStockTransferLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
+                                          formClass = '';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                          formClass = 'inactiveLicence';
+                                      }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                          formClass = '';
+                                      }else{
+                                          formClass = '';
+                                      }
+
+                                      if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Accounts") && (data.temployeeformaccessdetail[i].fields.Description === "Accounts")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Appointments") && (data.temployeeformaccessdetail[i].fields.Description === "Appointments")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Employee") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "General") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Inventory") && (data.temployeeformaccessdetail[i].fields.Description === "Inventory")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                              setTimeout(function () {
+                                              $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                              },500);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Manufacturing") && (data.temployeeformaccessdetail[i].fields.Description === "Manufacturing")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payments") && (data.temployeeformaccessdetail[i].fields.Description === "Payments")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Purchases") && (data.temployeeformaccessdetail[i].fields.Description === "Purchases")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Sales") && (data.temployeeformaccessdetail[i].fields.Description === "Sales")){
+                                          formClassHidden = 'hiddenRow';
+                                          if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                            setTimeout(function () {
+                                            $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                            },500);
+                                          }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                        formClassHidden = 'hiddenRow';
+                                        if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                          setTimeout(function () {
+                                          $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                          },500);
+                                        }
+                                      }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                        formClassHidden = 'hiddenRow';
+                                        if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                          setTimeout(function () {
+                                          $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                          },500);
+                                        }
+                                      }else{
+                                        formClassHidden = '';
+                                      }
+
+                                      lineItemObjlevel = {
+                                          accessID: data.temployeeformaccessdetail[i].fields.ID || '',
+                                          formID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                          lineID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                          skingroup : data.temployeeformaccessdetail[i].fields.SkinsGroup || '',
+                                          accessLevel: data.temployeeformaccessdetail[i].fields.AccessLevel || '',
+                                          accessLevelname: data.temployeeformaccessdetail[i].fields.AccessLevelName || '',
+                                          description: data.temployeeformaccessdetail[i].fields.Description || '',
+                                          formName: data.temployeeformaccessdetail[i].fields.FormName || '',
+                                          formClass: formClass || '',
+                                          formClassHidden: formClassHidden || ''
+                                      };
+
+                                      groupName = data.temployeeformaccessdetail[i].fields.SkinsGroup;
+                                      if (!groups[groupName]) {
+                                          groups[groupName] = [];
+                                      }
+
+                                  }
+
+
+                              }
+
+
+                              groups[groupName].sort(function(a, b){
+                                  if (a.description == 'NA') {
+                                      return 1;
+                                  }
+                                  else if (b.description == 'NA') {
+                                      return -1;
+                                  }
+                                  return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
+                              });
+
+                              groups[groupName].push(lineItemObjlevel);
+
+                              splashArrayAccess.push(lineItemObjlevel);
+                              lineItemslevel.push(lineItemObjlevel);
+                              recordsaccess.push(lineItemObjlevel);
+                              templateObject.recordsaccess.set(lineItemObjlevel);
+                              templateObject.accessgrouprecord.set(groups);
+
+                          }
+                      }
+                  });
+              }else{
+                  for (let i = 0; i < data.temployeeformaccessdetail.length; i++) {
+                      if((data.temployeeformaccessdetail[i].fields.Description != "Fixed Assets") || (data.temployeeformaccessdetail[i].fields.SkinsGroup != "Fixed Assets")){
+                          if((data.temployeeformaccessdetail[i].fields.Description != "TrueERP Mobile Data Export")){
+
+                              if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (!isAccountsLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Accounts") && (isAccountsLicence)){
+                                  formClass = '';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (!isAppointmentSchedulingLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Appointments") && (isAppointmentSchedulingLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (!isContactsLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Contacts") && (isContactsLicence)){
+                                  formClass = '';
+                              }
+
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (!isDashboardLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Dashboard") && (isDashboardLicence)){
+                                  formClass = '';
+                              }
+
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (!isExpenseClaimsLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Expense Claims") && (isExpenseClaimsLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (!isFixedAssetsLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Fixed Assets") && (isFixedAssetsLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (!isInventoryLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Inventory" || data.temployeeformaccessdetail[i].fields.Description === "Inventory Tracking") && (isInventoryLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (!isMainLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Main") && (isMainLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (!isManufacturingLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Manufacturing") && (isManufacturingLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (!isPaymentsLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Payments") && (isPaymentsLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (!isPurchasesLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Purchases") && (isPurchasesLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (!isReportsLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Reports") && (isReportsLicence)){
+                                  formClass = '';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (!isSalesLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Sales") && (isSalesLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (!isSettingsLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Settings") && (isSettingsLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (!isShippingLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Shipping") && (isShippingLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (!isStockTakeLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Take") && (isStockTakeLicence)){
+                                  formClass = '';
+                              }
+                              else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (!isStockTransferLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Stock Transfer") && (isStockTransferLicence)){
+                                  formClass = '';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (!isPayrollLicence)){
+                                  formClass = 'inactiveLicence';
+                              }else if((data.temployeeformaccessdetail[i].fields.Description === "Payroll") && (isPayrollLicence)){
+                                  formClass = '';
+                              }else{
+                                  formClass = '';
+                              }
+
+                              if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Accounts") && (data.temployeeformaccessdetail[i].fields.Description === "Accounts")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Appointments") && (data.temployeeformaccessdetail[i].fields.Description === "Appointments")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Employee") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "General") && (data.temployeeformaccessdetail[i].fields.Description === "Settings")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Inventory") && (data.temployeeformaccessdetail[i].fields.Description === "Inventory")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                      setTimeout(function () {
+                                      $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                      },500);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Manufacturing") && (data.temployeeformaccessdetail[i].fields.Description === "Manufacturing")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payments") && (data.temployeeformaccessdetail[i].fields.Description === "Payments")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Purchases") && (data.temployeeformaccessdetail[i].fields.Description === "Purchases")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Sales") && (data.temployeeformaccessdetail[i].fields.Description === "Sales")){
+                                  formClassHidden = 'hiddenRow';
+                                  if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                    setTimeout(function () {
+                                    $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                    },500);
+                                  }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Payroll") && (data.temployeeformaccessdetail[i].fields.Description === "Payroll")){
+                                formClassHidden = 'hiddenRow';
+                                if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                  setTimeout(function () {
+                                  $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                  },500);
+                                }
+                              }else if((data.temployeeformaccessdetail[i].fields.SkinsGroup === "Shipping") && (data.temployeeformaccessdetail[i].fields.Description === "Shipping")){
+                                formClassHidden = 'hiddenRow';
+                                if(data.temployeeformaccessdetail[i].fields.AccessLevel == 6){
+                                  setTimeout(function () {
+                                  $('#formCheck-' + data.temployeeformaccessdetail[i].fields.SkinsGroup + '').prop("checked", false);
+                                  },500);
+                                }
+                              }else{
+                                formClassHidden = '';
+                              }
+
+                              lineItemObjlevel = {
+                                  accessID: data.temployeeformaccessdetail[i].fields.ID || '',
+                                  formID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                  lineID: data.temployeeformaccessdetail[i].fields.FormId || '',
+                                  skingroup : data.temployeeformaccessdetail[i].fields.SkinsGroup || '',
+                                  accessLevel: data.temployeeformaccessdetail[i].fields.AccessLevel || '',
+                                  accessLevelname: data.temployeeformaccessdetail[i].fields.AccessLevelName || '',
+                                  description: data.temployeeformaccessdetail[i].fields.Description || '',
+                                  formName: data.temployeeformaccessdetail[i].fields.FormName || '',
+                                  formClass: formClass || '',
+                                  formClassHidden: formClassHidden || ''
+                              };
+
+
+
+                              var groupName = data.temployeeformaccessdetail[i].fields.SkinsGroup;
+                              if (!groups[groupName]) {
+                                  groups[groupName] = [];
+                              }
+
+
+                              groups[groupName].sort(function(a, b){
+                                  if (a.description == 'NA') {
+                                      return 1;
+                                  }
+                                  else if (b.description == 'NA') {
+                                      return -1;
+                                  }
+                                  return (a.description.toUpperCase() > b.description.toUpperCase()) ? 1 : -1;
+                              });
+
+                              groups[groupName].push(lineItemObjlevel);
+
+
+                              splashArrayAccess.push(lineItemObjlevel);
+                              lineItemslevel.push(lineItemObjlevel);
+                              recordsaccess.push(lineItemObjlevel);
+                              templateObject.recordsaccess.set(lineItemObjlevel);
+                          }
+                      }
+                  }
+
+                  templateObject.accessgrouprecord.set(groups);
+              }
+
+
+              // let loggedEmpID = Session.get('mySessionEmployeeLoggedID');
+              if((employeeID == loggedEmpID) && (loggedEmpID !== null)){
+                  localStorage.setItem('VS1AccessLevelList', JSON.stringify(splashArrayAccess));
+                  templateObject.accesslevelrecord.set(lineItemslevel);
+              }else{
+                  templateObject.accesslevelrecord.set(lineItemslevel);
+              }
+
+              templateObject.employeeformaccessrecord.set(lineItemslevel);
+              $('.fullScreenSpin').css('display','none');
+          }).catch(function (err) {
+              $('.fullScreenSpin').css('display', 'none');
+
+              });
             });
             $('.fullScreenSpin').css('display','none');
         }else{
@@ -1431,19 +2591,483 @@ Template.accessleveldup.onRendered(function(){
 
                 templateObject.employeeformaccessrecord.set(lineItemslevel);
                 $('.fullScreenSpin').css('display','none');
+            }).catch(function (err) {
+                $('.fullScreenSpin').css('display', 'none');
+
             });
         }
 
     }
 
-    $("#sltEmployeeName").change(function(event){
+    // $("#sltEmployeeName").change(function(event){
+    //
+    //     $('.fullScreenSpin').css('display','inline-block');
+    //     let employeeName = $(event.target).val();
+    //     let employeeID = $('option:selected', event.target).attr('mytag');
+    //
+    //
+    //     if(employeeID){
+    //         templateObject.accessgrouprecord.set('');
+    //         getTableData(employeeID);
+    //
+    //     }else{
+    //         getTableData('All');
+    //     }
+    //
+    //     $('.employeeNameHead span').text(employeeName);
+    // });
 
-        $('.fullScreenSpin').css('display','inline-block');
-        let employeeName = $(event.target).val();
-        let employeeID = $('option:selected', event.target).attr('mytag');
+    $(document).ready(function() {
+        $('#sltEmployeeName').editableSelect();
+        $("#sltEmployeeName").val('All');
+        $('#mytag').val(0);
+    });
 
+    $('#sltEmployeeName').editableSelect()
+    .on('click.editable-select', function (e, li) {
+        var $earch = $(this);
+        var offset = $earch.offset();
+        $('#edtEmployeePOPID').val('');
+        //$('#edtCustomerCompany').attr('readonly', false);
+        var employeeDataName = e.target.value || '';
+        if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+            $('#employeeListPOPModal').modal();
+            setTimeout(function () {
+                $('#tblEmployeelist_filter .form-control-sm').focus();
+                $('#tblEmployeelist_filter .form-control-sm').val('');
+                $('#tblEmployeelist_filter .form-control-sm').trigger("input");
+                var datatable = $('#tblEmployeelist').DataTable();
+                //datatable.clear();
+                //datatable.rows.add(splashArrayCustomerList);
+                datatable.draw();
+                $('#tblEmployeelist_filter .form-control-sm').trigger("input");
+                //$('#tblEmployeelist').dataTable().fnFilter(' ').draw(false);
+            }, 500);
+        } else {
+            if (employeeDataName.replace(/\s/g, '') != '') {
+                //FlowRouter.go('/customerscard?name=' + e.target.value);
+              if (employeeDataName.replace(/\s/g, '') != 'All') {
+                $('#edtEmployeePOPID').val('');
+                getVS1Data('TEmployee').then(function (dataObject) {
+                    if (dataObject.length == 0) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                        sideBarService.getOneCustomerDataExByName(employeeDataName).then(function (data) {
+                            $('.fullScreenSpin').css('display', 'none');
+                            let lineItems = [];
+                            $('#add-customer-title').text('Edit Customer');
+                            let popCustomerID = data.tcustomer[0].fields.ID || '';
+                            let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                            let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                            let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                            let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                            let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                            let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                            let popCustomertfn = '' || '';
+                            let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                            let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                            let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                            let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                            let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                            let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                            let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                            let popCustomerState = data.tcustomer[0].fields.State || '';
+                            let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                            let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                            let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                            let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                            let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                            let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                            let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                            let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                            let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                            let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                            let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                            let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                            let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                            let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                            let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                            let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                            let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                            let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                            let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                            let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                            let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                            let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                            //$('#edtCustomerCompany').attr('readonly', true);
+                            $('#edtCustomerCompany').val(popCustomerName);
+                            $('#edtEmployeePOPID').val(popCustomerID);
+                            $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                            $('#edtTitle').val(popCustomerTitle);
+                            $('#edtFirstName').val(popCustomerFirstName);
+                            $('#edtMiddleName').val(popCustomerMiddleName);
+                            $('#edtLastName').val(popCustomerLastName);
+                            $('#edtCustomerPhone').val(popCustomerPhone);
+                            $('#edtCustomerMobile').val(popCustomerMobile);
+                            $('#edtCustomerFax').val(popCustomerFaxnumber);
+                            $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                            $('#edtCustomerWebsite').val(popCustomerURL);
+                            $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                            $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                            $('#edtCustomerShippingState').val(popCustomerState);
+                            $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                            $('#sedtCountry').val(popCustomerCountry);
+                            $('#txaNotes').val(popCustomernotes);
+                            $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                            $('#sltTermsPOP').val(popCustomerterms);
+                            $('#sltCustomerType').val(popCustomerType);
+                            $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                            $('#edtCustomeField1').val(popCustomercustfield1);
+                            $('#edtCustomeField2').val(popCustomercustfield2);
+                            $('#edtCustomeField3').val(popCustomercustfield3);
+                            $('#edtCustomeField4').val(popCustomercustfield4);
+
+                            $('#sltTaxCode').val(popCustomerTaxCode);
+
+                            if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                                (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                                (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                                $('#chkSameAsShipping2').attr("checked", "checked");
+                            }
+
+                            if (data.tcustomer[0].fields.IsSupplier == true) {
+                                // $('#isformcontractor')
+                                $('#chkSameAsSupplier').attr("checked", "checked");
+                            } else {
+                                $('#chkSameAsSupplier').removeAttr("checked");
+                            }
+
+                            setTimeout(function () {
+                                $('#addEmployeeModal').modal('show');
+                            }, 200);
+                        }).catch(function (err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    } else {
+                        let data = JSON.parse(dataObject[0].data);
+                        let useData = data.tcustomervs1;
+
+                        var added = false;
+                        for (let i = 0; i < data.tcustomervs1.length; i++) {
+                            if (data.tcustomervs1[i].fields.ClientName === employeeDataName) {
+                                let lineItems = [];
+                                added = true;
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#add-customer-title').text('Edit Customer');
+                                let popCustomerID = data.tcustomervs1[i].fields.ID || '';
+                                let popCustomerName = data.tcustomervs1[i].fields.ClientName || '';
+                                let popCustomerEmail = data.tcustomervs1[i].fields.Email || '';
+                                let popCustomerTitle = data.tcustomervs1[i].fields.Title || '';
+                                let popCustomerFirstName = data.tcustomervs1[i].fields.FirstName || '';
+                                let popCustomerMiddleName = data.tcustomervs1[i].fields.CUSTFLD10 || '';
+                                let popCustomerLastName = data.tcustomervs1[i].fields.LastName || '';
+                                let popCustomertfn = '' || '';
+                                let popCustomerPhone = data.tcustomervs1[i].fields.Phone || '';
+                                let popCustomerMobile = data.tcustomervs1[i].fields.Mobile || '';
+                                let popCustomerFaxnumber = data.tcustomervs1[i].fields.Faxnumber || '';
+                                let popCustomerSkypeName = data.tcustomervs1[i].fields.SkypeName || '';
+                                let popCustomerURL = data.tcustomervs1[i].fields.URL || '';
+                                let popCustomerStreet = data.tcustomervs1[i].fields.Street || '';
+                                let popCustomerStreet2 = data.tcustomervs1[i].fields.Street2 || '';
+                                let popCustomerState = data.tcustomervs1[i].fields.State || '';
+                                let popCustomerPostcode = data.tcustomervs1[i].fields.Postcode || '';
+                                let popCustomerCountry = data.tcustomervs1[i].fields.Country || LoggedCountry;
+                                let popCustomerbillingaddress = data.tcustomervs1[i].fields.BillStreet || '';
+                                let popCustomerbcity = data.tcustomervs1[i].fields.BillStreet2 || '';
+                                let popCustomerbstate = data.tcustomervs1[i].fields.BillState || '';
+                                let popCustomerbpostalcode = data.tcustomervs1[i].fields.BillPostcode || '';
+                                let popCustomerbcountry = data.tcustomervs1[i].fields.Billcountry || LoggedCountry;
+                                let popCustomercustfield1 = data.tcustomervs1[i].fields.CUSTFLD1 || '';
+                                let popCustomercustfield2 = data.tcustomervs1[i].fields.CUSTFLD2 || '';
+                                let popCustomercustfield3 = data.tcustomervs1[i].fields.CUSTFLD3 || '';
+                                let popCustomercustfield4 = data.tcustomervs1[i].fields.CUSTFLD4 || '';
+                                let popCustomernotes = data.tcustomervs1[i].fields.Notes || '';
+                                let popCustomerpreferedpayment = data.tcustomervs1[i].fields.PaymentMethodName || '';
+                                let popCustomerterms = data.tcustomervs1[i].fields.TermsName || '';
+                                let popCustomerdeliverymethod = data.tcustomervs1[i].fields.ShippingMethodName || '';
+                                let popCustomeraccountnumber = data.tcustomervs1[i].fields.ClientNo || '';
+                                let popCustomerisContractor = data.tcustomervs1[i].fields.Contractor || false;
+                                let popCustomerissupplier = data.tcustomervs1[i].fields.IsSupplier || false;
+                                let popCustomeriscustomer = data.tcustomervs1[i].fields.IsCustomer || false;
+                                let popCustomerTaxCode = data.tcustomervs1[i].fields.TaxCodeName || '';
+                                let popCustomerDiscount = data.tcustomervs1[i].fields.Discount || 0;
+                                let popCustomerType = data.tcustomervs1[i].fields.ClientTypeName || '';
+                                //$('#edtCustomerCompany').attr('readonly', true);
+                                $('#edtCustomerCompany').val(popCustomerName);
+                                $('#edtEmployeePOPID').val(popCustomerID);
+                                $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                                $('#edtTitle').val(popCustomerTitle);
+                                $('#edtFirstName').val(popCustomerFirstName);
+                                $('#edtMiddleName').val(popCustomerMiddleName);
+                                $('#edtLastName').val(popCustomerLastName);
+                                $('#edtCustomerPhone').val(popCustomerPhone);
+                                $('#edtCustomerMobile').val(popCustomerMobile);
+                                $('#edtCustomerFax').val(popCustomerFaxnumber);
+                                $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                                $('#edtCustomerWebsite').val(popCustomerURL);
+                                $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                                $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                                $('#edtCustomerShippingState').val(popCustomerState);
+                                $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                                $('#sedtCountry').val(popCustomerCountry);
+                                $('#txaNotes').val(popCustomernotes);
+                                $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                                $('#sltTermsPOP').val(popCustomerterms);
+                                $('#sltCustomerType').val(popCustomerType);
+                                $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                                $('#edtCustomeField1').val(popCustomercustfield1);
+                                $('#edtCustomeField2').val(popCustomercustfield2);
+                                $('#edtCustomeField3').val(popCustomercustfield3);
+                                $('#edtCustomeField4').val(popCustomercustfield4);
+
+                                $('#sltTaxCode').val(popCustomerTaxCode);
+
+                                if ((data.tcustomervs1[i].fields.Street == data.tcustomervs1[i].fields.BillStreet) && (data.tcustomervs1[i].fields.Street2 == data.tcustomervs1[i].fields.BillStreet2) &&
+                                    (data.tcustomervs1[i].fields.State == data.tcustomervs1[i].fields.BillState) && (data.tcustomervs1[i].fields.Postcode == data.tcustomervs1[i].fields.BillPostcode) &&
+                                    (data.tcustomervs1[i].fields.Country == data.tcustomervs1[i].fields.Billcountry)) {
+                                    $('#chkSameAsShipping2').attr("checked", "checked");
+                                }
+
+                                if (data.tcustomervs1[i].fields.IsSupplier == true) {
+                                    // $('#isformcontractor')
+                                    $('#chkSameAsSupplier').attr("checked", "checked");
+                                } else {
+                                    $('#chkSameAsSupplier').removeAttr("checked");
+                                }
+
+                                setTimeout(function () {
+                                    $('#addEmployeeModal').modal('show');
+                                }, 200);
+
+                            }
+                        }
+                        if (!added) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getOneCustomerDataExByName(employeeDataName).then(function (data) {
+                                $('.fullScreenSpin').css('display', 'none');
+                                let lineItems = [];
+                                $('#add-customer-title').text('Edit Customer');
+                                let popCustomerID = data.tcustomer[0].fields.ID || '';
+                                let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                                let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                                let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                                let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                                let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                                let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                                let popCustomertfn = '' || '';
+                                let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                                let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                                let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                                let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                                let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                                let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                                let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                                let popCustomerState = data.tcustomer[0].fields.State || '';
+                                let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                                let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                                let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                                let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                                let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                                let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                                let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                                let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                                let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                                let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                                let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                                let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                                let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                                let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                                let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                                let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                                let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                                let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                                let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                                let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                                let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                                let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                                //$('#edtCustomerCompany').attr('readonly', true);
+                                $('#edtCustomerCompany').val(popCustomerName);
+                                $('#edtEmployeePOPID').val(popCustomerID);
+                                $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                                $('#edtTitle').val(popCustomerTitle);
+                                $('#edtFirstName').val(popCustomerFirstName);
+                                $('#edtMiddleName').val(popCustomerMiddleName);
+                                $('#edtLastName').val(popCustomerLastName);
+                                $('#edtCustomerPhone').val(popCustomerPhone);
+                                $('#edtCustomerMobile').val(popCustomerMobile);
+                                $('#edtCustomerFax').val(popCustomerFaxnumber);
+                                $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                                $('#edtCustomerWebsite').val(popCustomerURL);
+                                $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                                $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                                $('#edtCustomerShippingState').val(popCustomerState);
+                                $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                                $('#sedtCountry').val(popCustomerCountry);
+                                $('#txaNotes').val(popCustomernotes);
+                                $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                                $('#sltTermsPOP').val(popCustomerterms);
+                                $('#sltCustomerType').val(popCustomerType);
+                                $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                                $('#edtCustomeField1').val(popCustomercustfield1);
+                                $('#edtCustomeField2').val(popCustomercustfield2);
+                                $('#edtCustomeField3').val(popCustomercustfield3);
+                                $('#edtCustomeField4').val(popCustomercustfield4);
+
+                                $('#sltTaxCode').val(popCustomerTaxCode);
+
+                                if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                                    (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                                    (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                                    $('#chkSameAsShipping2').attr("checked", "checked");
+                                }
+
+                                if (data.tcustomer[0].fields.IsSupplier == true) {
+                                    // $('#isformcontractor')
+                                    $('#chkSameAsSupplier').attr("checked", "checked");
+                                } else {
+                                    $('#chkSameAsSupplier').removeAttr("checked");
+                                }
+
+                                setTimeout(function () {
+                                    $('#addEmployeeModal').modal('show');
+                                }, 200);
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                }).catch(function (err) {
+                    sideBarService.getOneCustomerDataExByName(employeeDataName).then(function (data) {
+                        $('.fullScreenSpin').css('display', 'none');
+                        let lineItems = [];
+                        $('#add-customer-title').text('Edit Customer');
+                        let popCustomerID = data.tcustomer[0].fields.ID || '';
+                        let popCustomerName = data.tcustomer[0].fields.ClientName || '';
+                        let popCustomerEmail = data.tcustomer[0].fields.Email || '';
+                        let popCustomerTitle = data.tcustomer[0].fields.Title || '';
+                        let popCustomerFirstName = data.tcustomer[0].fields.FirstName || '';
+                        let popCustomerMiddleName = data.tcustomer[0].fields.CUSTFLD10 || '';
+                        let popCustomerLastName = data.tcustomer[0].fields.LastName || '';
+                        let popCustomertfn = '' || '';
+                        let popCustomerPhone = data.tcustomer[0].fields.Phone || '';
+                        let popCustomerMobile = data.tcustomer[0].fields.Mobile || '';
+                        let popCustomerFaxnumber = data.tcustomer[0].fields.Faxnumber || '';
+                        let popCustomerSkypeName = data.tcustomer[0].fields.SkypeName || '';
+                        let popCustomerURL = data.tcustomer[0].fields.URL || '';
+                        let popCustomerStreet = data.tcustomer[0].fields.Street || '';
+                        let popCustomerStreet2 = data.tcustomer[0].fields.Street2 || '';
+                        let popCustomerState = data.tcustomer[0].fields.State || '';
+                        let popCustomerPostcode = data.tcustomer[0].fields.Postcode || '';
+                        let popCustomerCountry = data.tcustomer[0].fields.Country || LoggedCountry;
+                        let popCustomerbillingaddress = data.tcustomer[0].fields.BillStreet || '';
+                        let popCustomerbcity = data.tcustomer[0].fields.BillStreet2 || '';
+                        let popCustomerbstate = data.tcustomer[0].fields.BillState || '';
+                        let popCustomerbpostalcode = data.tcustomer[0].fields.BillPostcode || '';
+                        let popCustomerbcountry = data.tcustomer[0].fields.Billcountry || LoggedCountry;
+                        let popCustomercustfield1 = data.tcustomer[0].fields.CUSTFLD1 || '';
+                        let popCustomercustfield2 = data.tcustomer[0].fields.CUSTFLD2 || '';
+                        let popCustomercustfield3 = data.tcustomer[0].fields.CUSTFLD3 || '';
+                        let popCustomercustfield4 = data.tcustomer[0].fields.CUSTFLD4 || '';
+                        let popCustomernotes = data.tcustomer[0].fields.Notes || '';
+                        let popCustomerpreferedpayment = data.tcustomer[0].fields.PaymentMethodName || '';
+                        let popCustomerterms = data.tcustomer[0].fields.TermsName || '';
+                        let popCustomerdeliverymethod = data.tcustomer[0].fields.ShippingMethodName || '';
+                        let popCustomeraccountnumber = data.tcustomer[0].fields.ClientNo || '';
+                        let popCustomerisContractor = data.tcustomer[0].fields.Contractor || false;
+                        let popCustomerissupplier = data.tcustomer[0].fields.IsSupplier || false;
+                        let popCustomeriscustomer = data.tcustomer[0].fields.IsCustomer || false;
+                        let popCustomerTaxCode = data.tcustomer[0].fields.TaxCodeName || '';
+                        let popCustomerDiscount = data.tcustomer[0].fields.Discount || 0;
+                        let popCustomerType = data.tcustomer[0].fields.ClientTypeName || '';
+                        //$('#edtCustomerCompany').attr('readonly', true);
+                        $('#edtCustomerCompany').val(popCustomerName);
+                        $('#edtEmployeePOPID').val(popCustomerID);
+                        $('#edtCustomerPOPEmail').val(popCustomerEmail);
+                        $('#edtTitle').val(popCustomerTitle);
+                        $('#edtFirstName').val(popCustomerFirstName);
+                        $('#edtMiddleName').val(popCustomerMiddleName);
+                        $('#edtLastName').val(popCustomerLastName);
+                        $('#edtCustomerPhone').val(popCustomerPhone);
+                        $('#edtCustomerMobile').val(popCustomerMobile);
+                        $('#edtCustomerFax').val(popCustomerFaxnumber);
+                        $('#edtCustomerSkypeID').val(popCustomerSkypeName);
+                        $('#edtCustomerWebsite').val(popCustomerURL);
+                        $('#edtCustomerShippingAddress').val(popCustomerStreet);
+                        $('#edtCustomerShippingCity').val(popCustomerStreet2);
+                        $('#edtCustomerShippingState').val(popCustomerState);
+                        $('#edtCustomerShippingZIP').val(popCustomerPostcode);
+                        $('#sedtCountry').val(popCustomerCountry);
+                        $('#txaNotes').val(popCustomernotes);
+                        $('#sltPreferedPayment').val(popCustomerpreferedpayment);
+                        $('#sltTermsPOP').val(popCustomerterms);
+                        $('#sltCustomerType').val(popCustomerType);
+                        $('#edtCustomerCardDiscount').val(popCustomerDiscount);
+                        $('#edtCustomeField1').val(popCustomercustfield1);
+                        $('#edtCustomeField2').val(popCustomercustfield2);
+                        $('#edtCustomeField3').val(popCustomercustfield3);
+                        $('#edtCustomeField4').val(popCustomercustfield4);
+
+                        $('#sltTaxCode').val(popCustomerTaxCode);
+
+                        if ((data.tcustomer[0].fields.Street == data.tcustomer[0].fields.BillStreet) && (data.tcustomer[0].fields.Street2 == data.tcustomer[0].fields.BillStreet2) &&
+                            (data.tcustomer[0].fields.State == data.tcustomer[0].fields.BillState) && (data.tcustomer[0].fields.Postcode == data.tcustomer[0].fields.BillPostcode) &&
+                            (data.tcustomer[0].fields.Country == data.tcustomer[0].fields.Billcountry)) {
+                            $('#chkSameAsShipping2').attr("checked", "checked");
+                        }
+
+                        if (data.tcustomer[0].fields.IsSupplier == true) {
+                            // $('#isformcontractor')
+                            $('#chkSameAsSupplier').attr("checked", "checked");
+                        } else {
+                            $('#chkSameAsSupplier').removeAttr("checked");
+                        }
+
+                        setTimeout(function () {
+                            $('#addEmployeeModal').modal('show');
+                        }, 200);
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    });
+                });
+              }else{
+                $('#employeeListPOPModal').modal();
+                setTimeout(function () {
+                    $('#tblEmployeelist_filter .form-control-sm').focus();
+                    $('#tblEmployeelist_filter .form-control-sm').val('');
+                    $('#tblEmployeelist_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblEmployeelist').DataTable();
+                    //datatable.clear();
+                    //datatable.rows.add(splashArrayCustomerList);
+                    datatable.draw();
+                    $('#tblEmployeelist_filter .form-control-sm').trigger("input");
+                    //$('#tblEmployeelist').dataTable().fnFilter(' ').draw(false);
+                }, 500);
+              }
+            } else {
+                $('#employeeListPOPModal').modal();
+                setTimeout(function () {
+                    $('#tblEmployeelist_filter .form-control-sm').focus();
+                    $('#tblEmployeelist_filter .form-control-sm').val('');
+                    $('#tblEmployeelist_filter .form-control-sm').trigger("input");
+                    var datatable = $('#tblEmployeelist').DataTable();
+                    //datatable.clear();
+                    //datatable.rows.add(splashArrayCustomerList);
+                    datatable.draw();
+                    $('#tblEmployeelist_filter .form-control-sm').trigger("input");
+                    //$('#tblEmployeelist').dataTable().fnFilter(' ').draw(false);
+                }, 500);
+            }
+        }
+
+    });
+
+    $(document).on("click", "#tblEmployeelist tbody tr", function (e) {
+        let employeeName = $(this).find(".colEmployeeName").text() || '';
+        let employeeID = $(this).find(".colID").text() || '';
+        $('#sltEmployeeName').val(employeeName);
+        $('#mytag').val(employeeID);
 
         if(employeeID){
+          $('.fullScreenSpin').css('display','inline-block');
             templateObject.accessgrouprecord.set('');
             getTableData(employeeID);
 
@@ -1452,6 +3076,9 @@ Template.accessleveldup.onRendered(function(){
         }
 
         $('.employeeNameHead span').text(employeeName);
+
+        // $('#tblEmployeelist').val(employeeName);
+        $('#employeeListPOPModal').modal('toggle');
     });
 
 });
@@ -1745,8 +3372,9 @@ Template.accessleveldup.events({
         let templateObject = Template.instance();
         let accesslevelService = new AccessLevelService();
 
-        let empInputValue = templateObject.$("#sltEmployeeName").val();
+        let empInputValue = templateObject.$("#sltEmployeeName").val()||'';
         var erpGet = erpDb();
+        if(empInputValue != ''){
         if(empInputValue === "All"){
             let lineItemsFormAccess = [];
             let lineItemObjFormAccess = {};
@@ -1782,15 +3410,15 @@ Template.accessleveldup.events({
             let objDetailsAccess = {
                 Name: "VS1_EmployeeAccess",
                 Params: {
-                    VS1EmployeeAccessList:lineItemsFormAccess
-                    // VS1EmployeeAccessList:
-                    // [
-                    //     {
-                    //         EmployeeId:0,
-                    //         formID:0,
-                    //         Access:1
-                    //     }
-                    // ]
+                    // VS1EmployeeAccessList:lineItemsFormAccess
+                    VS1EmployeeAccessList:
+                    [
+                        {
+                            EmployeeId:0,
+                            formID:0,
+                            Access:1
+                        }
+                    ]
                 }
             };
 
@@ -1899,7 +3527,7 @@ Template.accessleveldup.events({
             /*Test End HERE*/
         }else{
 
-            let employeeID = $("#sltEmployeeName").find('option:selected').attr('mytag');
+            let employeeID = $("#mytag").val()||'';
 
 
             var loggedEmpName = localStorage.getItem('mySession');
@@ -2082,6 +3710,12 @@ Template.accessleveldup.events({
             }, 5000);
 
         }
+        }else{
+          $('.fullScreenSpin').css('display','none');
+          swal('Employee has not been selected!', '', 'warning');
+          event.preventDefault();
+
+        }
     },
     'click .btnTopGlobalSaveUpdate-Ras': function () {
         swal({
@@ -2106,7 +3740,7 @@ Template.accessleveldup.events({
         let empInputValue = templateObject.$("#sltEmployeeName").val();
 
 
-        let employeeID = $("#sltEmployeeName").find('option:selected').attr('mytag');
+        let employeeID = $("#mytag").val()||'';
 
 
         var loggedEmpName = localStorage.getItem('mySession');
@@ -2570,6 +4204,10 @@ Template.accessleveldup.events({
     'click .btnBack':function(event){
         event.preventDefault();
         history.back(1);
+    },
+    'click .btnSelectAllEmployee':function(event){
+         $('#sltEmployeeName').val('All');
+         $('#employeeListPOPModal').modal('toggle');
     },
     'click .btnAddVS1User':function(event){
         swal({

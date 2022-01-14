@@ -3234,6 +3234,38 @@ Template.employeescard.events({
                                 success: function (response) {
                                     let response2 = JSON.parse(response);
                                     if (response2 != null) {
+                                      //Give Full Access To new User created
+                                      let objDetailsAccess = {
+                                          Name: "VS1_EmployeeAccess",
+                                          Params: {
+                                              VS1EmployeeAccessList:
+                                              [
+                                                  {
+                                                      EmployeeId:parseInt(employeeSaveID) || 0,
+                                                      formID:0,
+                                                      Access:1
+                                                  }
+                                              ]
+                                          }
+                                      };
+
+                                      var oPostAccessLevel = new XMLHttpRequest();
+                                      var erpGetAccessLevel = erpDb();
+                                      oPostAccessLevel.open("POST",URLRequest + erpGetAccessLevel.ERPIPAddress + ':' + erpGetAccessLevel.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_EmployeeAccess"', true);
+                                      oPostAccessLevel.setRequestHeader("database",erpGetAccessLevel.ERPDatabase);
+                                      oPostAccessLevel.setRequestHeader("username",erpGetAccessLevel.ERPUsername);
+                                      oPostAccessLevel.setRequestHeader("password",erpGetAccessLevel.ERPPassword);
+                                      oPostAccessLevel.setRequestHeader("Accept", "application/json");
+                                      oPostAccessLevel.setRequestHeader("Accept", "application/html");
+                                      oPostAccessLevel.setRequestHeader("Content-type", "application/json");
+                                      var myStringAccess = '"JsonIn"'+':'+JSON.stringify(objDetailsAccess);
+                                      oPostAccessLevel.send(myStringAccess);
+                                      oPostAccessLevel.onreadystatechange = function() {
+                                          if(oPostAccessLevel.readyState == 4 && oPostAccessLevel.status == 200) {
+
+                                          }
+                                      };
+
                                         swal({
                                             title: 'User details successfully added',
                                             text: '',
@@ -3243,7 +3275,7 @@ Template.employeescard.events({
                                         }).then((result) => {
                                             if (result.value) {
                                                 let employeeName = $('#edtCustomerCompany').val() || '';
-                                                window.open('/accesslevel?empuser=' + employeeName, '_self');
+                                                window.open('/accesslevel?empuser=' + employeeName+'&empuserid='+employeeSaveID, '_self');
 
                                             } else {
                                                 FlowRouter.go('/employeelist?success=true');
@@ -3459,6 +3491,7 @@ Template.employeescard.events({
 
                 $('.fullScreenSpin').css('display', 'none');
                 var myArrResponse = JSON.parse(oPost.responseText);
+                console.log(myArrResponse);
                 if (myArrResponse.ProcessLog.ResponseStatus != "OK") {
                     // swal('Ooops...', myArrResponse.ProcessLog.Error, 'error');
                     swal({
@@ -3483,6 +3516,38 @@ Template.employeescard.events({
                         }
                     });
                 } else {
+                  //Give Full Access To new User created
+                  let objDetailsAccess = {
+                      Name: "VS1_EmployeeAccess",
+                      Params: {
+                          VS1EmployeeAccessList:
+                          [
+                              {
+                                  EmployeeId:parseInt(employeeSaveID) || 0,
+                                  formID:0,
+                                  Access:1
+                              }
+                          ]
+                      }
+                  };
+
+                  var oPostAccessLevel = new XMLHttpRequest();
+                  var erpGetAccessLevel = erpDb();
+                  oPostAccessLevel.open("POST",URLRequest + erpGetAccessLevel.ERPIPAddress + ':' + erpGetAccessLevel.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name="VS1_EmployeeAccess"', true);
+                  oPostAccessLevel.setRequestHeader("database",erpGetAccessLevel.ERPDatabase);
+                  oPostAccessLevel.setRequestHeader("username",erpGetAccessLevel.ERPUsername);
+                  oPostAccessLevel.setRequestHeader("password",erpGetAccessLevel.ERPPassword);
+                  oPostAccessLevel.setRequestHeader("Accept", "application/json");
+                  oPostAccessLevel.setRequestHeader("Accept", "application/html");
+                  oPostAccessLevel.setRequestHeader("Content-type", "application/json");
+                  var myStringAccess = '"JsonIn"'+':'+JSON.stringify(objDetailsAccess);
+                  oPostAccessLevel.send(myStringAccess);
+                  oPostAccessLevel.onreadystatechange = function() {
+                      if(oPostAccessLevel.readyState == 4 && oPostAccessLevel.status == 200) {
+
+                      }
+                  };
+
                     swal({
                         title: 'User details successfully added',
                         text: '',
@@ -3492,7 +3557,8 @@ Template.employeescard.events({
                     }).then((result) => {
                         if (result.value) {
                             let employeeName = $('#edtCustomerCompany').val() || '';
-                            window.open('/accesslevel?empuser=' + employeeName, '_self');
+                            //window.open('/accesslevel?empuser=' + employeeName, '_self');
+                            window.open('/accesslevel?empuser=' + employeeName+'&empuserid='+employeeSaveID, '_self');
 
                         } else {
                             sideBarService.getAllEmployees(25, 0).then(function (dataReload) {

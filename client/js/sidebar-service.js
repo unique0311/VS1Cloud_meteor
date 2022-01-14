@@ -1313,4 +1313,20 @@ getNewRefundByNameOrID(dataSearchName) {
   return this.getList(this.ERPObjects.TRefundSale, options);
 }
 
+getCloudTERPForm() {
+    let options = {
+        PropertyList: "Description,TabGroupName,SkinsGroup",
+        select: "[TabGroup]=26 and [AccessLevels]=true"
+    };
+    return this.getList(this.ERPObjects.TERPForm, options);
+}
+
+getEmpFormAccessDetail() {
+    let options = {
+        ListType: "Detail",
+        select: "[TabGroup]=26 and [EmployeeId]='"+Session.get('mySessionEmployeeLoggedID')+"'",
+    };
+    return this.getList(this.ERPObjects.TEmployeeFormAccessDetail, options);
+}
+
 }
