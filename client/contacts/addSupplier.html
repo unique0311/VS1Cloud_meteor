@@ -506,7 +506,9 @@
                                                             <div class="row no-gutters d-xl-flex flex-column justify-content-xl-start" style="margin: 12px;">
                                                                 <div class="col d-xl-flex align-items-xl-end">
                                                                     <div class="form-group d-xl-flex flex-column align-items-xl-start" style="margin: 4px;"><label class="text-nowrap">Preferred Payment Method</label>
-                                                                        <select class="form-control" style="width: 260px; cursor: pointer;" id="sltPreferedPayment" name="sltPreferedPayment">
+                                                                         <select type="search" class="form-control" id="sltPreferedPayment" name="sltPreferedPayment" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                                        </select>
+                                                                        <!-- <select class="form-control" style="width: 260px; cursor: pointer;" id="sltPreferedPayment" name="sltPreferedPayment">
                                                                             {{#each item in preferedPaymentList}}
                                                                             {{#if equals item record.preferedpayment }}
                                                                             <option value="{{record.preferedpayment}}" selected="">{{record.preferedpayment}}</option>
@@ -514,10 +516,12 @@
                                                                             <option value="{{item}}">{{item}}</option>
                                                                             {{/if}}
                                                                             {{/each}}
-                                                                        </select>
+                                                                        </select> -->
                                                                     </div>
                                                                     <div class="form-group d-xl-flex flex-column justify-content-xl-start" style="margin: 4px;"><label class="text-nowrap">Terms</label>
-                                                                        <select class="form-control" style="width: 260px; cursor: pointer;" id="sltTerms" name="sltTerms">
+                                                                        <select type="search" class="form-control" id="sltTerms" name="sltTerms" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                                        </select>
+                                                                        <!-- <select class="form-control" style="width: 260px; cursor: pointer;" id="sltTerms" name="sltTerms">
                                                                             {{#each item in termsList}}
                                                                             {{#if equals item record.terms }}
                                                                             <option value="{{record.terms}}" selected="">{{record.terms}}</option>
@@ -525,7 +529,7 @@
                                                                             <option value="{{item}}">{{item}}</option>
                                                                             {{/if}}
                                                                             {{/each}}
-                                                                        </select></div>
+                                                                        </select> --></div>
 
                                                                 </div>
                                                                 <div class="col d-xl-flex align-items-xl-end">
@@ -816,6 +820,22 @@
                                                 </div>
 
                                             </div>
+                                            <div class="modal fade" role="dialog" tabindex="-1" id="termsListModal">
+            {{> termlistpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newTermsModal">
+            {{> newtermspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="paymentMethodModal">
+            {{> paymentmethodpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newPaymentMethodModal">
+            {{> newpaymentmethodpop}}
+        </div>
+
                                             <div class="modal fade" role="dialog" tabindex="-1" id="deleteSupplierModal">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
