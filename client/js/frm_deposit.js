@@ -1350,12 +1350,12 @@ Template.depositcard.onRendered(()=>{
 
 
             $('#'+selectLineID+" .lineAccountName").val(lineProductName);
-            $('#productListModal').modal('toggle');
+            $('#accountListModal').modal('toggle');
 
               $(".colAccount").removeClass('boldtablealertsborder');
         }else{
           let accountname = table.find(".productName").text();
-          $('#productListModal').modal('toggle');
+          $('#accountListModal').modal('toggle');
           $('#sltAccountName').val(accountname);
           if($tblrows.find(".lineAccountName").val() == ''){
               $tblrows.find(".colAccount").addClass('boldtablealertsborder');
@@ -1475,7 +1475,7 @@ Template.depositcard.onRendered(()=>{
 
       if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
          $('#selectLineID').val('');
-        $('#productListModal').modal();
+        $('#accountListModal').modal();
         setTimeout(function () {
             $('#tblAccount_filter .form-control-sm').focus();
             $('#tblAccount_filter .form-control-sm').val('');
@@ -1834,7 +1834,7 @@ Template.depositcard.onRendered(()=>{
            $('#addAccountModal').modal('toggle');
          }else{
            $('#selectLineID').val('');
-           $('#productListModal').modal();
+           $('#accountListModal').modal();
            setTimeout(function () {
              $('#tblAccount_filter .form-control-sm').focus();
              $('#tblAccount_filter .form-control-sm').val('');
@@ -2306,7 +2306,7 @@ Template.depositcard.events({
         } else {
             var accountDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
-              $('#productListModal').modal('toggle');
+              $('#accountListModal').modal('toggle');
               var targetID = $(event.target).closest('tr').attr('id');
               $('#selectLineID').val(targetID);
               setTimeout(function() {
@@ -2681,7 +2681,7 @@ Template.depositcard.events({
                 $('#addAccountModal').modal('toggle');
 
             } else {
-                $('#productListModal').modal('toggle');
+                $('#accountListModal').modal('toggle');
                 var targetID = $(event.target).closest('tr').attr('id');
                 $('#selectLineID').val(targetID);
                 setTimeout(function() {
@@ -2700,7 +2700,7 @@ Template.depositcard.events({
         }
 
     },
-    'click #productListModal #refreshpagelist':function(){
+    'click #accountListModal #refreshpagelist':function(){
 
         Meteor._reload.reload();
 

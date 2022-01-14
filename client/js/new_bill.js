@@ -1849,7 +1849,7 @@ Template.billcard.onRendered(() => {
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxRate);
             }
 
-            $('#productListModal').modal('toggle');
+            $('#accountListModal').modal('toggle');
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var amount = $tblrow.find(".colAmountExChange").val() || "0";
@@ -3956,7 +3956,7 @@ Template.billcard.events({
         } else {
             var accountDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
-                $('#productListModal').modal('toggle');
+                $('#accountListModal').modal('toggle');
                 var targetID = $(event.target).closest('tr').attr('id');
                 $('#selectLineID').val(targetID);
                 setTimeout(function() {
@@ -4331,7 +4331,7 @@ Template.billcard.events({
                     $('#addAccountModal').modal('toggle');
 
                 } else {
-                    $('#productListModal').modal('toggle');
+                    $('#accountListModal').modal('toggle');
                     var targetID = $(event.target).closest('tr').attr('id');
                     $('#selectLineID').val(targetID);
                     setTimeout(function() {
@@ -4349,7 +4349,7 @@ Template.billcard.events({
             }
         }
     },
-    'click #productListModal #refreshpagelist': function() {
+    'click #accountListModal #refreshpagelist': function() {
 
         Meteor._reload.reload();
 

@@ -1822,7 +1822,7 @@ Template.creditcard.onRendered(() => {
 
 
 
-            $('#productListModal').modal('toggle');
+            $('#accountListModal').modal('toggle');
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var amount = $tblrow.find(".colAmount").val() || 0;
@@ -3695,7 +3695,7 @@ Template.creditcard.events({
         } else {
             var accountDataName = $(event.target).val() || '';
             if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
-                $('#productListModal').modal('toggle');
+                $('#accountListModal').modal('toggle');
                 var targetID = $(event.target).closest('tr').attr('id');
                 $('#selectLineID').val(targetID);
                 setTimeout(function() {
@@ -4057,7 +4057,7 @@ Template.creditcard.events({
                     });
                     $('#addAccountModal').modal('toggle');
                 } else {
-                    $('#productListModal').modal('toggle');
+                    $('#accountListModal').modal('toggle');
                     var targetID = $(event.target).closest('tr').attr('id');
                     $('#selectLineID').val(targetID);
                     setTimeout(function() {
@@ -4075,7 +4075,7 @@ Template.creditcard.events({
             }
         }
     },
-    'click #productListModal #refreshpagelist': function() {
+    'click #accountListModal #refreshpagelist': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         localStorage.setItem('VS1PurchaseAccountList', '');
         let templateObject = Template.instance();

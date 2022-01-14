@@ -424,7 +424,7 @@ Template.employeelistpop.onRendered(function () {
                                       } else {
 
                                           $('.fullScreenSpin').css('display', 'none');
-                                          $('#employeeListModal').modal('toggle');
+                                          $('#employeeListPOPModal').modal('toggle');
                                           swal({
                                               title: 'Question',
                                               text: "Employee does not exist, would you like to create it?",
@@ -437,7 +437,7 @@ Template.employeelistpop.onRendered(function () {
                                                   $('#addEmployeeModal').modal('toggle');
                                                   $('#edtEmployeeCompany').val(dataSearchName);
                                               } else if (result.dismiss === 'cancel') {
-                                                  $('#employeeListModal').modal('toggle');
+                                                  $('#employeeListPOPModal').modal('toggle');
                                               }
                                           });
 
@@ -842,7 +842,7 @@ Template.employeelistpop.onRendered(function () {
                                   } else {
 
                                       $('.fullScreenSpin').css('display', 'none');
-                                      $('#employeeListModal').modal('toggle');
+                                      $('#employeeListPOPModal').modal('toggle');
                                       swal({
                                           title: 'Question',
                                           text: "Employee does not exist, would you like to create it?",
@@ -855,7 +855,7 @@ Template.employeelistpop.onRendered(function () {
                                               $('#addEmployeeModal').modal('toggle');
                                               $('#edtEmployeeCompany').val(dataSearchName);
                                           } else if (result.dismiss === 'cancel') {
-                                              $('#employeeListModal').modal('toggle');
+                                              $('#employeeListPOPModal').modal('toggle');
                                           }
                                       });
 
@@ -1290,7 +1290,7 @@ Template.employeelistpop.onRendered(function () {
                                   } else {
 
                                       $('.fullScreenSpin').css('display', 'none');
-                                      $('#employeeListModal').modal('toggle');
+                                      $('#employeeListPOPModal').modal('toggle');
                                       swal({
                                           title: 'Question',
                                           text: "Employee does not exist, would you like to create it?",
@@ -1303,7 +1303,7 @@ Template.employeelistpop.onRendered(function () {
                                               $('#addEmployeeModal').modal('toggle');
                                               $('#edtEmployeeCompany').val(dataSearchName);
                                           } else if (result.dismiss === 'cancel') {
-                                              $('#employeeListModal').modal('toggle');
+                                              $('#employeeListPOPModal').modal('toggle');
                                           }
                                       });
 
@@ -1481,7 +1481,7 @@ Template.employeelistpop.events({
                 } else {
 
                     $('.fullScreenSpin').css('display', 'none');
-                    $('#employeeListModal').modal('toggle');
+                    $('#employeeListPOPModal').modal('toggle');
                     swal({
                         title: 'Question',
                         text: "Employee does not exist, would you like to create it?",
@@ -1494,7 +1494,7 @@ Template.employeelistpop.events({
                             $('#addEmployeeModal').modal('toggle');
                             $('#edtEmployeeCompany').val(dataSearchName);
                         } else if (result.dismiss === 'cancel') {
-                            $('#employeeListModal').modal('toggle');
+                            $('#employeeListPOPModal').modal('toggle');
                         }
                     });
 

@@ -1745,7 +1745,7 @@ Template.chequecard.onRendered(() => {
 
 
 
-            $('#productListModal').modal('toggle');
+            $('#accountListModal').modal('toggle');
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var amount = $tblrow.find(".colAmountExChange").val() || 0;
@@ -1829,7 +1829,7 @@ Template.chequecard.onRendered(() => {
             }
         }else{
           let accountname = table.find(".productName").text();
-          $('#productListModal').modal('toggle');
+          $('#accountListModal').modal('toggle');
           $('#sltBankAccountName').val(accountname);
         }
 
@@ -2609,7 +2609,7 @@ Template.chequecard.onRendered(() => {
 
       if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
          $('#selectLineID').val('');
-        $('#productListModal').modal();
+        $('#accountListModal').modal();
         setTimeout(function () {
             $('#tblAccount_filter .form-control-sm').focus();
             $('#tblAccount_filter .form-control-sm').val('');
@@ -2968,7 +2968,7 @@ Template.chequecard.onRendered(() => {
            $('#addAccountModal').modal('toggle');
          }else{
            $('#selectLineID').val('');
-           $('#productListModal').modal();
+           $('#accountListModal').modal();
            setTimeout(function () {
              $('#tblAccount_filter .form-control-sm').focus();
              $('#tblAccount_filter .form-control-sm').val('');
@@ -3609,7 +3609,7 @@ Template.chequecard.events({
       } else {
         var accountDataName = $(event.target).val() || '';
         if (event.pageX > offset.left + $earch.width() - 10) { // X button 16px wide?
-          $('#productListModal').modal('toggle');
+          $('#accountListModal').modal('toggle');
           var targetID = $(event.target).closest('tr').attr('id');
           $('#selectLineID').val(targetID);
           setTimeout(function() {
@@ -3971,7 +3971,7 @@ Template.chequecard.events({
           });
           $('#addAccountModal').modal('toggle');
         }else{
-          $('#productListModal').modal('toggle');
+          $('#accountListModal').modal('toggle');
           var targetID = $(event.target).closest('tr').attr('id');
           $('#selectLineID').val(targetID);
           setTimeout(function () {
@@ -3988,7 +3988,7 @@ Template.chequecard.events({
       }
       }
     },
-    'click #productListModal #refreshpagelist': function() {
+    'click #accountListModal #refreshpagelist': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
 
 

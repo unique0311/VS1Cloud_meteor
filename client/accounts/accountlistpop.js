@@ -83,7 +83,8 @@ Template.accountlistpop.onRendered(function() {
                       	data.taccountvs1[i].fields.AccountNumber || '',
                       	data.taccountvs1[i].fields.AccountTypeName || '',
                       	accBalance,
-                      	data.taccountvs1[i].fields.TaxCode || ''
+                      	data.taccountvs1[i].fields.TaxCode || '',
+                        data.taccountvs1[i].fields.ID || ''
                       ];
                       if (currentLoc == "/billcard"){
                         if((data.taccountvs1[i].fields.AccountTypeName != "AP") && (data.taccountvs1[i].fields.AccountTypeName != "AR")&&(data.taccountvs1[i].fields.AccountTypeName != "CCARD") &&(data.taccountvs1[i].fields.AccountTypeName != "BANK")){
@@ -104,6 +105,10 @@ Template.accountlistpop.onRendered(function() {
                         if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")
                         ||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")
                         ){
+                      	splashArrayAccountList.push(dataList);
+                        }
+                      }else if (currentLoc == "/bankrecon"){
+                        if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")){
                       	splashArrayAccountList.push(dataList);
                         }
                       }else{
@@ -129,7 +134,8 @@ Template.accountlistpop.onRendered(function() {
                                 { className: "accountnumber", "targets": [2] },
                                 { className: "salePrice", "targets": [3] },
                                 { className: "prdqty text-right", "targets": [4] },
-                                { className: "taxrate", "targets": [5] }
+                                { className: "taxrate", "targets": [5] },
+                                { className: "colAccountID hiddenColumn", "targets": [6] }
                             ],
                             select: true,
                             destroy: true,
@@ -152,6 +158,7 @@ Template.accountlistpop.onRendered(function() {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.taccountvs1;
+                console.log(useData);
                 let records = [];
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {
@@ -166,7 +173,8 @@ Template.accountlistpop.onRendered(function() {
                         useData[i].fields.AccountNumber || '',
                         useData[i].fields.AccountTypeName || '',
                         accBalance,
-                        useData[i].fields.TaxCode || ''
+                        useData[i].fields.TaxCode || '',
+                        useData[i].fields.ID || ''
                     ];
                     if (currentLoc == "/billcard"){
                       if((useData[i].fields.AccountTypeName != "AP") && (useData[i].fields.AccountTypeName != "AR")&&(useData[i].fields.AccountTypeName != "CCARD") &&(useData[i].fields.AccountTypeName != "BANK")){
@@ -188,6 +196,10 @@ Template.accountlistpop.onRendered(function() {
                       ||(useData[i].fields.AccountTypeName == "OCLIAB")
                       ){
                         splashArrayAccountList.push(dataList);
+                      }
+                    }else if (currentLoc == "/bankrecon"){
+                      if((useData[i].fields.AccountTypeName == "BANK")||(useData[i].fields.AccountTypeName == "CCARD")){
+                      splashArrayAccountList.push(dataList);
                       }
                     }else{
                       splashArrayAccountList.push(dataList);
@@ -211,7 +223,8 @@ Template.accountlistpop.onRendered(function() {
                             { className: "accountnumber", "targets": [2] },
                             { className: "salePrice", "targets": [3] },
                             { className: "prdqty text-right", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
+                            { className: "taxrate", "targets": [5] },
+                            { className: "colAccountID hiddenColumn", "targets": [6] }
                         ],
                         colReorder: true,
 
@@ -259,7 +272,8 @@ Template.accountlistpop.onRendered(function() {
                     data.taccountvs1[i].fields.AccountNumber || '',
                     data.taccountvs1[i].fields.AccountTypeName || '',
                     accBalance,
-                    data.taccountvs1[i].fields.TaxCode || ''
+                    data.taccountvs1[i].fields.TaxCode || '',
+                    data.taccountvs1[i].fields.ID || ''
                   ];
                   if (currentLoc == "/billcard"){
                     if((data.taccountvs1[i].fields.AccountTypeName != "AP") && (data.taccountvs1[i].fields.AccountTypeName != "AR")&&(data.taccountvs1[i].fields.AccountTypeName != "CCARD") &&(data.taccountvs1[i].fields.AccountTypeName != "BANK")){
@@ -280,6 +294,10 @@ Template.accountlistpop.onRendered(function() {
                     if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")
                     ||(data.taccountvs1[i].fields.AccountTypeName == "OCLIAB")
                     ){
+                    splashArrayAccountList.push(dataList);
+                    }
+                  }else if (currentLoc == "/bankrecon"){
+                    if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")){
                     splashArrayAccountList.push(dataList);
                     }
                   }else{
@@ -305,7 +323,8 @@ Template.accountlistpop.onRendered(function() {
                             { className: "accountnumber", "targets": [2] },
                             { className: "salePrice", "targets": [3] },
                             { className: "prdqty text-right", "targets": [4] },
-                            { className: "taxrate", "targets": [5] }
+                            { className: "taxrate", "targets": [5] },
+                            { className: "colAccountID hiddenColumn", "targets": [6] }
                         ],
                         colReorder: true,
 
@@ -482,7 +501,8 @@ Template.accountlistpop.events({
                     	data.taccountvs1[i].fields.AccountNumber || '',
                     	data.taccountvs1[i].fields.AccountTypeName || '',
                     	utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].fields.Balance * 100) / 100)||0,
-                    	data.taccountvs1[i].fields.TaxCode || ''
+                    	data.taccountvs1[i].fields.TaxCode || '',
+                      data.taccountvs1[i].fields.ID || ''
                     ];
                     if (currentLoc == "/billcard"){
                       if((data.taccountvs1[i].fields.AccountTypeName != "AP") && (data.taccountvs1[i].fields.AccountTypeName != "AR")&&(data.taccountvs1[i].fields.AccountTypeName != "CCARD") &&(data.taccountvs1[i].fields.AccountTypeName != "BANK")){
@@ -505,6 +525,10 @@ Template.accountlistpop.events({
                       ){
                     	splashArrayAccountList.push(dataList);
                       }
+                    }else if (currentLoc == "/bankrecon"){
+                      if((data.taccountvs1[i].fields.AccountTypeName == "BANK")||(data.taccountvs1[i].fields.AccountTypeName == "CCARD")){
+                      splashArrayAccountList.push(dataList);
+                      }
                     }else{
                       splashArrayAccountList.push(dataList);
                     }
@@ -519,7 +543,7 @@ Template.accountlistpop.events({
                 } else {
 
                     $('.fullScreenSpin').css('display', 'none');
-                    $('#productListModal').modal('toggle');
+                    $('#accountListModal').modal('toggle');
                     swal({
                         title: 'Question',
                         text: "Account does not exist, would you like to create it?",
@@ -532,7 +556,7 @@ Template.accountlistpop.events({
                             $('#addAccountModal').modal('toggle');
                             $('#edtAccountName').val(dataSearchName);
                         } else if (result.dismiss === 'cancel') {
-                            $('#productListModal').modal('toggle');
+                            $('#accountListModal').modal('toggle');
                         }
                     });
 
@@ -553,7 +577,8 @@ Template.accountlistpop.events({
                           data.taccountvs1[i].fields.AccountNumber || '',
                           data.taccountvs1[i].fields.AccountTypeName || '',
                           utilityService.modifynegativeCurrencyFormat(Math.floor(data.taccountvs1[i].fields.Balance * 100) / 100),
-                          data.taccountvs1[i].fields.TaxCode || ''
+                          data.taccountvs1[i].fields.TaxCode || '',
+                          data.taccountvs1[i].fields.ID || ''
                       ];
 
                       splashArrayAccountList.push(dataList);
@@ -766,7 +791,7 @@ Template.accountlistpop.events({
     },
     'click .lineAccountName': function(event) {
         $('#tblCreditLine tbody tr .lineAccountName').attr("data-toggle", "modal");
-        $('#tblCreditLine tbody tr .lineAccountName').attr("data-target", "#productListModal");
+        $('#tblCreditLine tbody tr .lineAccountName').attr("data-target", "#accountListModal");
         var targetID = $(event.target).closest('tr').attr('id');
         $('#selectLineID').val(targetID);
 
@@ -774,7 +799,7 @@ Template.accountlistpop.events({
             $('#tblAccount_filter .form-control-sm').focus();
         }, 500);
     },
-    'click #productListModal #refreshpagelist': function() {
+    'click #accountListModal #refreshpagelist': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         Meteor._reload.reload();
