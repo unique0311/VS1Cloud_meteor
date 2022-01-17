@@ -3510,6 +3510,11 @@ Template.payrolloverview.events({
 
     },
 
+    'click #btnPayRun': function (event) {
+        $('.modal-backdrop').css('display', 'none');
+        FlowRouter.go('/payrun');
+    },
+
     'click .btnTimesheetList': function (event) {
         $('.modal-backdrop').css('display', 'none');
         let id = $('#updateID').val();

@@ -5271,6 +5271,13 @@ Template.newsidenav.events({
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
+    'click #sidenavPayEmployees': function(event) {
+
+        event.preventDefault();
+        FlowRouter.go('/payrun');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
     'click #sidenavjournalentry': function(event) {
 
         event.preventDefault();

@@ -328,6 +328,15 @@ authenticatedRoutes.route('/payrolloverview', {
     }
 });
 
+authenticatedRoutes.route('/payrun', {
+    name: 'payrun',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'payrun'
+        });
+    }
+});
+
 authenticatedRoutes.route('/purchasesoverview', {
     name: 'purchasesoverview',
     action() {
