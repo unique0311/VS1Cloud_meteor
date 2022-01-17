@@ -1038,13 +1038,15 @@
                                                                             <div class="col-12 col-md-6 colProductService" id="colProductService">
                                                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Default Product /
                                                                                         Service</label>
-                                                                                    <select id="product-list" class="form-control">
+                                                                                        <select type="search" class="form-control" id="product-list" name="product-list" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                        </select>
+                                                                                    <!-- <select id="product-list" class="form-control">
                                                                                         {{#if productsdatatable}}
                                                                                             {{#each item in productsdatatable}}
                                                                                                 <option value="{{item.id}}">{{item.productname}}</option>
                                                                                             {{/each}}
                                                                                         {{/if}}
-                                                                                    </select>
+                                                                                    </select> -->
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -1203,13 +1205,7 @@
 
 
                                                                 </div>
-                                                                <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
-                                                                    {{> employeeproductlistpop}}
-                                                                </div>
-
-                                                                <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
-                                                                    {{> newproductpop}}
-                                                                </div>
+                                                             
                                                             </div>
                                                         </div>
                                                     </div>
@@ -2463,7 +2459,12 @@
             </div>
         {{/if}}
     </div>
-
+   <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
+    {{> employeeproductlistpop}}
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
+    {{> newproductpop}}
+</div>
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
         <div class="modal-dialog" role="document" style="max-width: 670px!important;">
