@@ -1036,6 +1036,9 @@ Template.addcustomerpop.events({
                     }
 
 
+                }else if (currentLoc == "/depositcard" ) {
+                  var selectLineID = $('#customerSelectLineID').val();
+                  $('#' + selectLineID + " .lineCompany").val(company);
                 }else {
                     sideBarService.getAllCustomersDataVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                         addVS1Data('TCustomerVS1', JSON.stringify(dataReload)).then(function (datareturn) {

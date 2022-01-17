@@ -530,7 +530,9 @@
                                             <!-- <td contenteditable="false" class="colPaymentMethod td-input">{{item.paymentmethod}}</td> -->
                                             <td contenteditable="false" class="colPaymentMethod"><input class="es-input highlightSelect linePaymentMethod" type="search" value="{{item.paymentmethod}}" ></td>
                                             <td contenteditable="true" class="colReference">{{item.memo}}</td>
-                                            <td contenteditable="false" class="colCompany lineCompany td-input">{{item.companyname}}</td>
+                                            <td contenteditable="false" class="colCompany">
+                                              <input class="es-input highlightSelect lineCompany" type="search" value="{{item.companyname}}" >
+                                            </td>
                                             <td style="text-align: right!important;"><input class="colAmount highlightInput" type="text" value="{{item.lineamount}}"></td>
                                             <td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 "><i class="fa fa-remove"></i></button></span></td>
                                         </tr>
