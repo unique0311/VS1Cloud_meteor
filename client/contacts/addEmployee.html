@@ -1205,7 +1205,7 @@
 
 
                                                                 </div>
-                                                             
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1255,7 +1255,24 @@
                                                     <div class="card shadow">
                                                         <div class="card-body">
                                                             <h5 class="card-title">Annual Salary</h5>
-                                                            <button type="button" class="btn btn-primary"><i class="far fa-eye" style="margin-right: 5px;"></i> View</button>
+                                                            <button onclick="showAnnualSalary()" type="button" class="btn btn-primary" id="btnViewAnnual"><i class="far fa-eye" style="margin-right: 5px;"></i> View</button>
+                                                            <p style="font-size: 25px; font-weight: 600; margin-bottom: 0px; display: none;" id="annualSalary">
+                                                                <span id="annualSalaryValue">$250,000</span>
+                                                                <button onclick="showAnnualSalary()" class="btn btn-primary float-right"><i class="far fa-eye-slash" style="margin-right: 5px;"></i> Hide</button>
+                                                            </p>
+                                                            <script>
+                                                                function showAnnualSalary() {
+                                                                  var annual = document.getElementById("annualSalary");
+                                                                  var annualBtn = document.getElementById("btnViewAnnual");
+                                                                  if (annual.style.display === "none") {
+                                                                    annual.style.display = "block";
+                                                                    annualBtn.style.display = "none";
+                                                                  } else {
+                                                                    annual.style.display = "none";
+                                                                    annualBtn.style.display = "block";
+                                                                  }
+                                                                }
+                                                            </script>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1263,7 +1280,24 @@
                                                     <div class="card shadow">
                                                         <div class="card-body">
                                                             <h5 class="card-title">Earnings YTD</h5>
-                                                            <button type="button" class="btn btn-primary"><i class="far fa-eye" style="margin-right: 5px;"></i> View</button>
+                                                            <button onclick="showEarnings()" type="button" class="btn btn-primary" id="btnShowEarnings"><i class="far fa-eye" style="margin-right: 5px;"></i> View</button>
+                                                            <p style="font-size: 25px; font-weight: 600; margin-bottom: 0px; display: none;" id="earningsYtd">
+                                                                <span id="earningsYtdValue">$250,000</span>
+                                                                <button onclick="showEarnings()" class="btn btn-primary float-right"><i class="far fa-eye-slash" style="margin-right: 5px;"></i> Hide</button>
+                                                            </p>
+                                                            <script>
+                                                                function showEarnings() {
+                                                                  var earnings = document.getElementById("earningsYtd");
+                                                                  var earningsBtn = document.getElementById("btnShowEarnings");
+                                                                  if (earnings.style.display === "none") {
+                                                                    earnings.style.display = "block";
+                                                                    earningsBtn.style.display = "none";
+                                                                  } else {
+                                                                    earnings.style.display = "none";
+                                                                    earningsBtn.style.display = "block";
+                                                                  }
+                                                                }
+                                                            </script>
                                                         </div>
                                                     </div>
                                                 </div>
