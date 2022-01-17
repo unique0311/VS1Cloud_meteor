@@ -724,7 +724,8 @@ Template.shippingdocket.onRendered(function() {
                     $('#edtCustomerName').val(data.tinvoicebackorder[d].fields.CustomerName);
                     $('#txtshipconnote').val(data.tinvoicebackorder[d].fields.ConNote);
                     $('input[name="deptID"]').val(data.tinvoicebackorder[d].fields.SaleClassId);
-                    $('#shipvia').append('<option selected="selected" value="' + data.tinvoicebackorder[d].fields.Shipping + '">' + data.tinvoicebackorder[d].fields.Shipping + '</option>');
+                    $('#shipvia').val(data.tinvoicebackorder[d].fields.Shipping);
+                    //$('#shipvia').append('<option selected="selected" value="' + data.tinvoicebackorder[d].fields.Shipping + '">' + data.tinvoicebackorder[d].fields.Shipping + '</option>');
                     templateObject.shippingrecord.set(shippingrecord);
                     setTimeout(function() {
                         //clickFirstRow();
@@ -892,7 +893,8 @@ Template.shippingdocket.onRendered(function() {
                 $('#edtCustomerName').val(data.fields.CustomerName);
                 $('#txtshipconnote').val(data.fields.ConNote);
                 $('input[name="deptID"]').val(data.fields.SaleClassId);
-                $('#shipvia').append('<option selected="selected" value="' + data.fields.Shipping + '">' + data.fields.Shipping + '</option>');
+                $('#shipvia').val(data.fields.Shipping);
+                //$('#shipvia').append('<option selected="selected" value="' + data.fields.Shipping + '">' + data.fields.Shipping + '</option>');
                 templateObject.shippingrecord.set(shippingrecord);
                 setTimeout(function() {
                     //clickFirstRow();
@@ -1292,6 +1294,7 @@ Template.shippingdocket.onRendered(function() {
 
     $(document).ready(function() {
         $('#edtCustomerName').editableSelect();
+        $('#shipvia').editableSelect();
     });
 
     $('#edtCustomerName').editableSelect()
@@ -1711,6 +1714,105 @@ Template.shippingdocket.onRendered(function() {
             }
 
 
+        });
+
+        $('#shipvia').editableSelect()
+            .on('click.editable-select', function(e, li) {
+                var $earch = $(this);
+                var offset = $earch.offset();
+                var shipvianame = e.target.value || '';
+                $('#edtShipViaID').val('');
+                $('#newShipViaMethodName').text('Add Ship Via');
+                $('#edtShipVia').attr('readonly', false);
+                if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                    $('#shipViaModal').modal('toggle');
+                    setTimeout(function() {
+                        $('#tblShipViaPopList_filter .form-control-sm').focus();
+                        $('#tblShipViaPopList_filter .form-control-sm').val('');
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                        var datatable = $('#tblShipViaPopList').DataTable();
+                        datatable.draw();
+                        $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                    }, 500);
+                } else {
+                    if (shipvianame.replace(/\s/g, '') != '') {
+                        $('#newShipViaMethodName').text('Edit Ship Via');
+                        setTimeout(function() {
+                            // $('#edtShipVia').attr('readonly', true);
+                        }, 100);
+
+                        getVS1Data('TShippingMethod').then(function(dataObject) {
+                            if (dataObject.length == 0) {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                sideBarService.getShippingMethodData().then(function(data) {
+                                    for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                        if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                            $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                            $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                        }
+                                    }
+                                    setTimeout(function() {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                        $('#newShipViaModal').modal('toggle');
+                                    }, 200);
+                                }).catch(function(err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            } else {
+                                let data = JSON.parse(dataObject[0].data);
+                                let useData = data.tshippingmethod;
+                                for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                    if (useData[i].ShippingMethod === shipvianame) {
+                                        $('#edtShipViaID').val(useData[i].Id);
+                                        $('#edtShipVia').val(useData[i].ShippingMethod);
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newShipViaModal').modal('toggle');
+                                }, 200);
+                            }
+                        }).catch(function(err) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                            sideBarService.getShippingMethodData().then(function(data) {
+                                for (let i = 0; i < data.tshippingmethod.length; i++) {
+                                    if (data.tshippingmethod[i].ShippingMethod === shipvianame) {
+                                        $('#edtShipViaID').val(data.tshippingmethod[i].Id);
+                                        $('#edtShipVia').val(data.tshippingmethod[i].ShippingMethod);
+                                    }
+                                }
+                                setTimeout(function() {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#edtShipVia').attr('readonly', false);
+                                    $('#newShipViaModal').modal('toggle');
+                                }, 200);
+                            }).catch(function(err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        });
+                    } else {
+                        $('#shipViaModal').modal();
+                        setTimeout(function() {
+                            $('#tblShipViaPopList_filter .form-control-sm').focus();
+                            $('#tblShipViaPopList_filter .form-control-sm').val('');
+                            $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                            var datatable = $('#tblShipViaPopList').DataTable();
+                            datatable.draw();
+                            $('#tblShipViaPopList_filter .form-control-sm').trigger("input");
+                        }, 500);
+                    }
+                }
+            });
+
+        $(document).on("click", "#tblShipViaPopList tbody tr", function(e) {
+            $('#shipvia').val($(this).find(".colShipName ").text());
+            $('#shipViaModal').modal('toggle');
+
+            $('#tblShipViaPopList_filter .form-control-sm').val('');
+            setTimeout(function () {
+                $('.btnRefreshVia').trigger('click');
+                $('.fullScreenSpin').css('display', 'none');
+            }, 1000);
         });
 
     /* On click Customer List */
