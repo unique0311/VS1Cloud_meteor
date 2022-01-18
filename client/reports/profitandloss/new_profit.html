@@ -119,68 +119,63 @@
                         <p class="text-primary m-0 font-weight-bold">Profit and Loss</p>
                     </div>
                     <div class="card-body">
-                        <!-- changed strip-->
-                        <div class="row  d-flex align-items-end nplHead" style = "justify-content:space-between;">
-                            <!-- search start    
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-2">
-                                <div class="form-group" style="margin: 16px;margin-left: 8px;">
-                                    <label>Search:</label>
-                                    <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="Search" autocomplete="off" id="myInputSearch" name="myInputSearch">
+                        <div class="row">
+                            <div class="col-12 col-md-6" style="padding-top: 42px;">
+                                <button class="btn btn-primary text-nowrap float-left btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Update</button>
+                                <div class="btn-group btnNav periodSelector" style="margin: 16px;">
+                                    <button class="btn btn-primary btnAll" type="button" data-toggle="dropdown">Comparison Period</button>
+                                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a class="dropdown-item onePeriod" role="presentation" href="#">1 Period</a>
+                                        <a class="dropdown-item twoPeriods" role="presentation" href="#">2 Periods</a>
+                                        <a class="dropdown-item threePeriods" role="presentation" href="#">3 Periods</a>
+                                        <a class="dropdown-item fourPeriods" role="presentation" href="#">4 Periods</a>
+                                        <hr class="periodSelectorLine" />
+                                        <a class="dropdown-item PSother" href="#nplComparisonPeriods" role="presentation" data-toggle="modal">Other</a>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="modal fade" role="dialog" tabindex="-1" id="myModal">
-                                        <div class="modal-dialog modal-sm" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4>Deparment</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    {{#each item in deptrecords}}
-                                                        <div class="custom-control custom-switch" style="margin: 8px;">
-                                                            <input class="custom-control-input chkDepartment" type="checkbox" id="formCheck-{{item.id}}" name="chkDepartment" value="{{item.department}}">
-                                                            <label class="custom-control-label" for="formCheck-{{item.id}}">{{item.department}}</label>
-                                                        </div>
-                                                    {{/each}}
-                                                </div>
-                                                <div class="modal-footer"><button class="btn btn-primary" type="button" data-dismiss="modal"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button><button class="btn btn-light" data-dismiss="modal" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button></div>
-                                            </div>
-                                        </div>
+                                <div class="btn-group btnNav periodSelector" style="margin: 16px;">
+                                    <button class="btn btn-primary btnAll" type="button" data-toggle="dropdown">More</button>
+                                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
+                                    <div class="dropdown-menu" role="menu">
+                                        <span>Accounting basis</span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Accrual</label></span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Cash</label></span>
+                                        <hr class="periodSelectorLine" />
+                                        <span>Show</span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Accounting basis</label></span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Account codes</label></span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Decimals</label></span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Percentage of trading income</label></span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Total</label></span>
+                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Year to date</label></span>
                                     </div>
                                 </div>
                             </div>
-                            search end -->
-                            <!-- date pickers start -->
-                            <div class="col-xs-12 col-md-4 col-lg-2">
-                                <div class="form-group ml-2" style="margin: 16px 0 16px 0; position: relative;">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group float-right" style="margin: 16px;">
+                                    <label>To</label>
+                                    <div class="input-group date" style="width: 160px;">
+                                        <input type="text" class="form-control" id="dateTo" name="dateTo">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group float-right" style="margin: 16px;">
                                     <label>From</label>
                                     <div class="input-group date" style="width: 160px;">
-                                        <!--<input type="text" class="form-control" id="dateNPLFrom" name="dateNPLFrom">-->
-                                        <input type="text" class="form-control" id="dateFrom" name="dateFrom">                                        
+                                        <input type="text" class="form-control" id="dateFrom" name="dateFrom">
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th"></span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-md-4 col-lg-2">
-                                <div class="form-group" style="margin: 16px; position: relative;"><label>To</label>
-                                    <div class="input-group date" style="width: 160px;">
-                                        <!--<input type="text" class="form-control" id="dateNPLTo" name="dateNPLTo">-->
-                                        <input type="text" class="form-control" id="dateTo" name="dateTo">                                        
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-th"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- date pickers end--> 
-                            <div class="col-xs-12 col-md-1 col-lg-1">
-                                <div class="dropdown" style="margin: 16px; position: relative;">
+                                <div class="dropdown float-right" style="margin: 16px; margin-top: 48px;">
                                     <style>
                                         .dropdown-toggle::after {
                                             display: none;
                                         }
-
                                     </style>
                                     <button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button" title="Select Date Range"><i class="fas fa-ellipsis-v"></i></button>
                                     <div class="dropdown-menu" role="menu">
@@ -191,63 +186,12 @@
                                         <a class="dropdown-item ignoreDate" id="ignoreDate" role="presentation" href="#">Ignore Date</a>
                                     </div>
                                 </div>
-                            </div>                            
-                            <!--Period Selector dropdown -->
-                            <div class="col-xs-12 col-md-3 col-lg-3" style="padding: 0px !important;">
-                                <div class="btn-group btnNav periodSelector" style="margin: 16px;min-width: 200.016px;">
-                                    <button class="btn btn-primary btnAll" type="button" data-toggle="dropdown">Comparison Period</button>
-                                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
-                                    <div class="dropdown-menu" role="menu">
-                                        <a class="dropdown-item onePeriod" role="presentation" href="#">1 Period</a>
-                                        <a class="dropdown-item twoPeriods" role="presentation" href="#">2 Periods</a>
-                                        <a class="dropdown-item threePeriods" role="presentation" href="#">3 Periods</a>
-                                        <a class="dropdown-item fourPeriods" role="presentation" href="#">4 Periods</a>
-                                        <hr class="periodSelectorLine" />
-                                        <a class="dropdown-item PSother" href="#nplComparisonPeriods" role="presentation" data-toggle="modal">Other</a>
-                                        <!-- <a class="dropdown-item" role="presentation" href="/supplierawaitingbills">Awaiting Bills (Supplier)</a>
-                <a class="dropdown-item" role="presentation" href="/supplierpayment">Payments (Supplier)</a> -->
-                                    </div>
-                                </div>
                             </div>
-                            <!--end of Period Selector dropdown-->
-                            <!--More Selector dropdown -->
-                            <div class="col-xs-12 col-md-3 col-lg-1" style="padding: 0px !important;">
-                                <div class="btn-group btnNav periodSelector" style="margin: 16px;">
-                                    <button class="btn btn-primary btnAll" type="button" data-toggle="dropdown">More</button>
-                                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
-                                    <div class="dropdown-menu" role="menu">
-                                        <span>Accounting basis</span>
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Accrual</label></span>
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Cash</label></span>
-                                        <hr class="periodSelectorLine" />                                        
-                                        <span>Show</span>                                        
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Accounting basis</label></span>
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Account codes</label></span>
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Decimals</label></span>
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Percentage of trading income</label></span>
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Total</label></span>   
-                                        <span class="dropdown-item"><input  type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Year to date</label></span>                                         
-                                        <!-- <a class="dropdown-item" role="presentation" href="/supplierawaitingbills">Awaiting Bills (Supplier)</a>
-                <a class="dropdown-item" role="presentation" href="/supplierpayment">Payments (Supplier)</a> -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end of More Selector dropdown-->                            
-                            <div class="col-xs-12 col-md-3 col-lg-2 pl-2">
-                                <div class="col d-sm-flex justify-content-sm-end align-items-sm-center refreshBtnFix ">
-                                    <button class="btn btn-primary text-nowrap float-left btnRefresh" type="button" style="margin: 16px 0;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Update</button>
-                                </div>                            
-                            </div>
-
                         </div>
-                        <!-- end of changed strip-->
-                        <div class="row no-gutters d-xl-flex align-items-xl-end nplSecondHead">
-
-                            <div class="col d-sm-flex justify-content-sm-end align-items-sm-center">
-                                <div class="col d-xl-flex justify-content-xl-end pr-0">
-                                    <button class="btn btn-primary float-left btnExportReportProfit" type="button" style="margin: 16px;width: 97px;"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
-                                    <button class="btn btn-primary btnPrintReport" type="button" style="margin: 16px;width: 97px; /*margin-right:0px;*/"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
-                                </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-primary btnPrintReport float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
+                                <button class="btn btn-primary float-left btnExportReportProfit float-right" type="button" style="margin: 16px;"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
                             </div>
                         </div>
                         <div class="printReport">
@@ -290,7 +234,7 @@
                                             {{#each item in records}}
                                             <tr id="item-value-{{item.name}}">
                                                 <th>{{item.accounttype}}</th>
-                                            </tr> 
+                                            </tr>
                                             <tr>
                                                 <td>{{item.accountname}}</td>
                                             </tr>
@@ -396,7 +340,7 @@
                                                 <td class="fgr fgrtotal"><a href="/">494.18</a></td>
                                             </tr>
                                                <!-- end of static table -->
-                                            
+
                                             <!--
                                             {{#if records}}
                                             {{#each item in records}}
@@ -534,28 +478,28 @@
 
 <!--
                                                 <a class="dropdown-item" role="presentation" href="/supplierawaitingbills">Awaiting Bills (Supplier)</a>
-                                                            <a class="dropdown-item" role="presentation" href="/supplierpayment">Payments (Supplier)</a> 
+                                                            <a class="dropdown-item" role="presentation" href="/supplierpayment">Payments (Supplier)</a>
 -->
                                             </div>
                                         </div>
-                                        <!--Layout options button end-->                                        
+                                        <!--Layout options button end-->
                                         <!--Edit Layout button -->
                                         <div class="btn-group btnNav nplLayoutSelector" style="margin: 16px;min-width: 117.016px;">
                                             <button class="btn btn-primary text-nowrap" type="button" role="presentation" data-toggle="modal" href="#nplEditLayoutScreen">Edit Layout</button>
-                                        </div>                                        
+                                        </div>
                                         <!--Edit Layout button end -->
                                     </div>
 
                                     <!--
                                     <div class="col d-xl-flex justify-content-xl-end align-items-xl-start"  style="padding: 0px !important;">
-                                        <button class="btn btn-primary printConfirm float-right btnNav" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>                          
+                                        <button class="btn btn-primary printConfirm float-right btnNav" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
                                         <button id="exportbtn" class="btn btn-primary float-right btnNav" type="button" style="margin: 16px;"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
 
                                     </div> -->
 
                                 </div>
                             </div>
-                            <!-- end of strip-->                        
+                            <!-- end of strip-->
                         </div>
                     </div>
                 </div>
@@ -613,12 +557,12 @@
         .nplLayoutCreationScreen .modal-content .p-1.m-1 {
             border-bottom: 0.1em solid;
         }
-        
+
         .draggable{
             background-color:#f3f3f3;
             color:#000a1e;
             margin-left:5rem;
-/*          
+/*
             border-bottom: 0.1em solid #80858f;
             border-top: 0.1em solid #80858f;
 */
@@ -662,12 +606,12 @@
                         <div class="p-1 m-1">
                             <input type="radio" checked="checked" id="radioPayrollCOGS" name="radio">
                         </div>
-                        
+
                         <div class="p-1 m-1">
                             <label for="radioPayrollCOGS">Payroll as COGS</label>
                             <!--
                             <br>
-                            <label>This is the default report layout provided by VS1Cloud</label>                        
+                            <label>This is the default report layout provided by VS1Cloud</label>
 -->
                         </div>
                     </div>
@@ -677,7 +621,7 @@
                             <label for="radioCOGSEG">COGS Example</label>
                             <!--
                             <br>
-                            <label>This is the default report layout provided by VS1Cloud</label>                        
+                            <label>This is the default report layout provided by VS1Cloud</label>
 -->
                         </div>
                     </div>
@@ -713,7 +657,7 @@
                                 <div class="col-sm-12 pt-2 pl-0 mb-3">
                                     <a href="#" class="btn btn-primary btnMoveAccount" role="button">Move selected accounts...</a>
                                     <a data-toggle="modal" href="#nplAddGroupScreen" class="btn btn-primary btnAddGroup" role="button" onclick="$('#defineGrouping').hide();$('#nplAddGroupDefTag').show();  return false;">Add Group...</a>
-                                    <a data-toggle="modal" href="#nplGroupAccounts" class="btn btn-primary btnGroupAccounts" role="button" onclick="$('#defineGrouping2').hide();$('#nplGroupAccountDefTag').show();  return false;">Group selected accounts...</a>                                    
+                                    <a data-toggle="modal" href="#nplGroupAccounts" class="btn btn-primary btnGroupAccounts" role="button" onclick="$('#defineGrouping2').hide();$('#nplGroupAccountDefTag').show();  return false;">Group selected accounts...</a>
                                 </div>
                                 <div>
                                     <h6>Income</h6>
@@ -761,7 +705,7 @@
                                         <div class="custom-control custom-switch ml-4">
                                             <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle8" checked="">
                                             <label style="width: 275px;" class="custom-control-label" for="accountToggle8">Interest Income (270)</label>
-                                        </div>                                        
+                                        </div>
                                     </div>
                                 </div>
                                 <div>
@@ -827,7 +771,7 @@
                                     <p>Select one or more accounts to group or move. You can group accounts under headings of your choice, these will appear as subtotals in your report.</p>
                                     <p>When you've finished customising your layout, click 'Save' below.</p>
                                     <a>Get more help on customising report layouts</a>
-                                    
+
                                 </div>
                                 <div class="container">
                                     <h5>Layout Details</h5>
@@ -939,7 +883,7 @@
             </div>
         </div>
     </div>
-    <!--End New Profit and Loss, Custom Comparison Periods modal -->   
+    <!--End New Profit and Loss, Custom Comparison Periods modal -->
     <!--Start New Profit and Loss, Group Selected Accounts modal -->
     <div class="modal fade nplGroupAccounts" id="nplGroupAccounts" role="dialog">
         <div class="modal-dialog">
@@ -955,7 +899,7 @@
                     <div class="form-group-sm d-flex flex-column">
                         <div class="m-1 pr-2">
                             <label for="nplGroupName" class="p-1 mb-0">Group Name:</label>
-                            <input type="text" class="form-control m-1" id="nplGroupName" name="cnplGroupName" autocomplete="off">                     
+                            <input type="text" class="form-control m-1" id="nplGroupName" name="cnplGroupName" autocomplete="off">
                         </div>
                         <div class="p-1 m-1">
                             <h6>Place in:</h6>
@@ -976,7 +920,7 @@
                                 <input type="checkbox" class="custom-control-input feeOnTopInput" id="summarySwitchGroupAccounts" checked="">
                                 <label style="width: 275px;" class="custom-control-label" for="summarySwitchGroupAccounts">Show summary only</label>
                             </div>
-                        </div> 
+                        </div>
                         <div class="p-1 m-1">
                             <div class="" >
                                 <a id = "nplGroupAccountDefTag" href="" onclick="$('#nplGroupAccountDefTag').hide();$('#defineGrouping2').show();  return false;"> Define how accounts are grouped </a>
@@ -998,7 +942,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
 
                 </div>
@@ -1029,7 +973,7 @@
                     <div class="form-group-sm d-flex flex-column">
                         <div class="m-1 pr-2">
                             <label for="nplGroupName" class="p-1 mb-0">Group Name:</label>
-                            <input type="text" class="form-control m-1" id="nplGroupName" name="cnplGroupName" autocomplete="off">                     
+                            <input type="text" class="form-control m-1" id="nplGroupName" name="cnplGroupName" autocomplete="off">
                         </div>
                         <div class="p-1 m-1">
                             <h6>Place in:</h6>
@@ -1072,7 +1016,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                         
+                        </div>
                     </div>
 
                 </div>
@@ -1126,7 +1070,7 @@
                             <div class="col-sm-8 sortableAccountParent">
 <!--
                                 <div class="col-sm-12 pt-2 pl-0 mb-3">
-                                    
+
                                 </div>
 -->
                                     <div class="sortableAccount" >
@@ -1144,9 +1088,9 @@
                                         </div>
                                         <div class="ml-3 p-1 draggable">
                                             <label style="width: 275px;">Interest Income (274)</label>
-                                        </div>                                        
+                                        </div>
                                     </div>
- 
+
                                     <div class="sortableAccount">
                                         <div class="ml-1 p-1 avoid">
                                             <label style="width: 275px;">Cost of Sales(270)</label>
@@ -1166,7 +1110,7 @@
                                             <label style="width: 275px;">Cost of Sales(270)</label>
                                         </div>
                                     </div>
-                                
+
                             </div>
                             <div class="col-sm-4">
                                 <div class="container mb-3 Group">
@@ -1183,9 +1127,9 @@
                                             </button>
                                             <button class="btn btn-primary text-nowrap" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Credit Positive
                                             </button>
-                                        </div>    
+                                        </div>
                                     </div>
-                                    <hr class="periodSelectorLine" />                                    
+                                    <hr class="periodSelectorLine" />
                                 </div>
                             </div>
                         </div>
@@ -1204,5 +1148,5 @@
         </div>
     </div>
 
-    <!--End New Profit and Loss Edit Layout Screen -->    
+    <!--End New Profit and Loss Edit Layout Screen -->
 </template>
