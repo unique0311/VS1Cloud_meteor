@@ -120,10 +120,17 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
         if(templateObject.records.get()){
         setTimeout(function () {
           $('td a').each(function(){
-            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+            if($(this).text().indexOf('-'+Currency) >= 0){
+              $(this).addClass('text-danger');
+              $(this).removeClass('fgrblue');
+            }
+
              });
          $('td').each(function(){
-           if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+           if($(this).text().indexOf('-'+Currency) >= 0){
+             $(this).addClass('text-danger');
+             $(this).removeClass('fgrblue');
+           }
             });
             $('.fullScreenSpin').css('display','none');
         }, 100);
@@ -196,10 +203,16 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
       if(templateObject.records.get()){
       setTimeout(function () {
         $('td a').each(function(){
-          if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+          if($(this).text().indexOf('-'+Currency) >= 0) {
+            $(this).addClass('text-danger');
+            $(this).removeClass('fgrblue');
+          }
            });
        $('td').each(function(){
-         if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+         if($(this).text().indexOf('-'+Currency) >= 0) {
+           $(this).addClass('text-danger');
+           $(this).removeClass('fgrblue');
+         }
           });
           $('.fullScreenSpin').css('display','none');
       }, 100);
@@ -245,22 +258,23 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
     // templateObject.getAllProductData();
     templateObject.getDepartments();
 
-//Dragable items in edit layout screen
-        //This works now: break at your own peril
-    $( ".sortableAccountParent" ).sortable({
-        revert: true
-    });
-    $( ".sortableAccount" ).sortable({
-        revert: true,
-        handle:".avoid"
-    });
-    $( ".draggable" ).draggable({
-        connectToSortable: ".sortableAccount",
-        helper: "none",
-        revert: "true"
+    //Dragable items in edit layout screen
+            //This works now: break at your own peril
+        $( ".sortableAccountParent" ).sortable({
+            revert: true,
+            cancel: ".undraggableDate"
         });
-//    $( "ul, li" ).disableSelection();
-    //Dragable items in edit layout screen end
+        $( ".sortableAccount" ).sortable({
+            revert: true,
+            handle:".avoid"
+        });
+        $( ".draggable" ).draggable({
+            connectToSortable: ".sortableAccount",
+            helper: "none",
+            revert: "true"
+            });
+    //    $( "ul, li" ).disableSelection();
+        //Dragable items in edit layout screen end
 });
 
 
@@ -528,7 +542,6 @@ Template.newprofitandloss.events({
         $('.table tbody tr').show();
       }
     },
-    //period selector
     'click .onePeriod':function(event){
         $('#dateFrom').attr('readonly', false);
         $('#dateTo').attr('readonly', false);
@@ -536,7 +549,8 @@ Template.newprofitandloss.events({
         var dateTo = new Date($("#dateTo").datepicker("getDate"));
         let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth()+1) + "-" + dateFrom.getDate();
         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth()+1) + "-" + dateTo.getDate();
-
+      console.log(formatDateFrom);
+      console.log(formatDateTo);
         $('td:nth-child(5)').hide();
         $('td:nth-child(6)').hide();
         $('td:nth-child(7)').hide();
@@ -587,7 +601,63 @@ Template.newprofitandloss.events({
                     $('#nplNoSelection').modal('show');
                 }
             });
-        }
+        },
+    'click .avoid': function (event) {
+        $('.avoid').each(function () {
+            $(this).click(function () {
+                var el = $(this).attr('id');
+                if (el === 'gP') {
+                    $('.edlayCalculator').show();
+                    $('.editGroup').hide();
+                } else if (el === 'nP') {
+                    $('.edlayCalculator').show();
+                    $('.editGroup').hide();
+                } else {
+                    $('.editGroup').show();
+                    $('.edlayCalculator').hide();
+                }
+            });
+        });
+    },
+    'click .nplLayoutEditorBtn': function(event){
+
+      $('.editGroup').hide();
+      $('.edlayCalculator').hide();
+    },
+
+    //calculator buttons
+//    'click .opBtn':function (event){
+//$('.opBtn').each(function () {
+//        var valEntry1 = $('.opBtn').val();
+//        var valEntry2 = $('.calcField').val();
+//        $('.calcField').val(valEntry2 + valEntry1);
+//        });
+//    }
+    'click .addition':function (event){
+        var valEntry1 = $('.addition').val();
+        var valEntry2 = $('.calcField').val();
+        $('.calcField').val(valEntry2 + valEntry1);
+    },
+        'click .minus':function (event){
+        var valEntry1 = $('.minus').val();
+        var valEntry2 = $('.calcField').val();
+        $('.calcField').val(valEntry2 + valEntry1);
+    },
+    'click .multi':function (event){
+        var valEntry1 = $('.multi').val();
+        var valEntry2 = $('.calcField').val();
+        $('.calcField').val(valEntry2 + valEntry1);
+    },
+    'click .divide':function (event){
+        var valEntry1 = $('.divide').val();
+        var valEntry2 = $('.calcField').val();
+        $('.calcField').val(valEntry2 + valEntry1);
+    },
+    'click .ifBlock':function (event){
+        var valEntry1 = $('.ifBlock').val();
+        var valEntry2 = $('.calcField').val();
+        $('.calcField').val(valEntry2 + valEntry1);
+    }
 
     });
 
