@@ -1,9 +1,11 @@
 import {VS1ChartService} from "../vs1charts-service";
 import 'jQuery.print/jQuery.print.js';
 import {UtilityService} from "../../utility-service";
+import {SideBarService} from '../../js/sidebar-service';
 let _ = require('lodash');
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
+let sideBarService = new SideBarService();
 Template.employeecompletedjobs.onCreated(() => {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar([]);

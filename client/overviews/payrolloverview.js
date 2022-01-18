@@ -25,6 +25,9 @@ Template.payrolloverview.onCreated(function () {
     templateObject.loggeduserdata = new ReactiveVar([]);
     templateObject.allnoninvproducts = new ReactiveVar([]);
 
+    templateObject.includePayrollClockOnOffOnly = new ReactiveVar();
+    templateObject.includePayrollClockOnOffOnly.set(false);
+
 });
 
 Template.payrolloverview.onRendered(function () {
@@ -76,6 +79,18 @@ Template.payrolloverview.onRendered(function () {
     let canClockOnClockOff = Session.get('CloudClockOnOff') || false;
     let timesheetStartStop = Session.get('CloudTimesheetStartStop') || false;
     let showTimesheet = Session.get('CloudShowTimesheet') || false;
+
+    let isTimesheetEntry = Session.get('CloudTimesheetEntry');
+    let isShowTimesheet = Session.get('CloudShowTimesheet');
+    let isTimesheetCreate = Session.get('CloudCreateTimesheet');
+    let isEditTimesheetHours = Session.get('CloudEditTimesheetHours');
+    let isClockOnOff = Session.get('CloudClockOnOff');
+
+    if (!(isTimesheetEntry) && !(isShowTimesheet) && !(isTimesheetCreate) && !(isEditTimesheetHours) && (isClockOnOff)) {
+            templateObject.includePayrollClockOnOffOnly.set(true);
+            // $("#settingsModal").modal({"backdrop": "static"});
+    }
+
     if (launchClockOnOff == true && canClockOnClockOff == true) {
         setTimeout(function () {
             $("#btnClockOnOff").trigger("click");
@@ -4337,6 +4352,9 @@ Template.payrolloverview.helpers({
             }
             return (a.jobname.toUpperCase() > b.jobname.toUpperCase()) ? 1 : -1;
         });
+    },
+    includePayrollClockOnOffOnly: () => {
+        return Template.instance().includePayrollClockOnOffOnly.get();
     },
     datatablerecords: () => {
         return Template.instance().datatablerecords.get().sort(function (a, b) {

@@ -19,7 +19,7 @@ export class AccessLevelService extends BaseService {
     getEmployeesUsers() {
       let options = {
               PropertyList: "PropertyList==ID,EmployeeId,EmployeeName",
-              
+
           };
         return this.getList(this.ERPObjects.TUser, options);
     }

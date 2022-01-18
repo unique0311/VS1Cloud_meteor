@@ -74,6 +74,9 @@ Template.newsidenav.onCreated(function() {
     templateObject.includePayroll = new ReactiveVar();
     templateObject.includePayroll.set(false);
 
+    templateObject.includePayrollClockOnOffOnly = new ReactiveVar();
+    templateObject.includePayrollClockOnOffOnly.set(false);
+
     templateObject.includeTimesheetEntry = new ReactiveVar();
     templateObject.includeTimesheetEntry.set(false);
     templateObject.includeClockOnOff = new ReactiveVar();
@@ -162,6 +165,9 @@ Template.newsidenav.onRendered(function() {
     let isPayroll = Session.get('CloudPayrollModule');
 
     let isTimesheetEntry = Session.get('CloudTimesheetEntry');
+    let isShowTimesheet = Session.get('CloudShowTimesheet');
+    let isTimesheetCreate = Session.get('CloudCreateTimesheet');
+    let isEditTimesheetHours = Session.get('CloudEditTimesheetHours');
     let isClockOnOff = Session.get('CloudClockOnOff');
 
     let isSidePanel = Session.get('CloudSidePanelMenu');
@@ -613,6 +619,11 @@ Template.newsidenav.onRendered(function() {
         }
 
         if (!(isTimesheetEntry) && !(isClockOnOff)) {
+            templateObject.includePayroll.set(false);
+        }
+
+        if (!(isTimesheetEntry) && !(isShowTimesheet) && !(isTimesheetCreate) && !(isEditTimesheetHours) && (isClockOnOff)) {
+            templateObject.includePayrollClockOnOffOnly.set(true);
             templateObject.includePayroll.set(false);
         }
 
@@ -6562,6 +6573,9 @@ Template.newsidenav.helpers({
     },
     includePayroll: () => {
         return Template.instance().includePayroll.get();
+    },
+    includePayrollClockOnOffOnly: () => {
+        return Template.instance().includePayrollClockOnOffOnly.get();
     },
     includeTimesheetEntry: () => {
         return Template.instance().includeTimesheetEntry.get();

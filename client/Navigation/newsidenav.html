@@ -688,6 +688,12 @@
                 </li>
             {{/if}}
 
+            {{#if includePayrollClockOnOffOnly}}
+              <li class="payrollLi" id="sidenavtimeclock" name="sidenavtimeclock">
+                  <a class="liHeader payrollLiHeader" ><i class="fas fa-hourglass-half faHeader"></i> Clock On/Off</a>
+              </li>
+            {{/if}}
+
             {{#if includePurchases}}
                 <li class="purchasesLi" id="sidenavpurchases">
                     <a href="#purchasesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader purchasesLiHeader"><i class="fa fa-arrow-circle-down faHeader"></i> Purchases</a>
