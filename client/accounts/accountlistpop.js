@@ -158,7 +158,7 @@ Template.accountlistpop.onRendered(function() {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.taccountvs1;
-                console.log(useData);
+                
                 let records = [];
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {

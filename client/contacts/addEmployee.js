@@ -2548,7 +2548,7 @@ Template.employeescard.onRendered(function () {
                             }
                         }
                     }).catch(function (err) {
-                        console.log(err);
+
                         sideBarService.getOneProductdatavs1byname(productDataName).then(function (data) {
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
@@ -2696,7 +2696,7 @@ Template.employeescard.onRendered(function () {
             $('#product-list').val(productName);
             $('#productListModal').modal('toggle');
         }
-       
+
     });
     });
     var prefObject = "";
@@ -4033,7 +4033,7 @@ Template.employeescard.events({
 
                 $('.fullScreenSpin').css('display', 'none');
                 var myArrResponse = JSON.parse(oPost.responseText);
-                console.log(myArrResponse);
+
                 if (myArrResponse.ProcessLog.ResponseStatus != "OK") {
                     // swal('Ooops...', myArrResponse.ProcessLog.Error, 'error');
                     swal({

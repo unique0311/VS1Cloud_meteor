@@ -884,7 +884,6 @@ Template.bankrecon.onRendered(function() {
                     let data = JSON.parse(dataObject[0].data);
                     let useData = data.treconciliation;
                     var added = false;
-                    console.log(useData);
                     for (let d = 0; d < useData.length; d++) {
                         if (parseInt(useData[d].fields.ID) === currentRecon) {
                             added = true;

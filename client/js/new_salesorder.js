@@ -2295,7 +2295,7 @@ Template.new_salesorder.onRendered(() => {
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentSalesOrder) {
-                                 console.log(useData[d]);
+                                 
                                 added = true;
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];

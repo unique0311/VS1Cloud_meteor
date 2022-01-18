@@ -791,7 +791,7 @@ Template.newpaymentmethodpop.events({
     'click .btnSavePaymentMethod': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let taxRateService = new TaxRateService();
-
+        var currentLoc = FlowRouter.current().path;
         let paymentMethodID = $('#edtPaymentMethodID').val();
         let paymentName = $('#edtPaymentMethodName').val();
         let isCreditCard = false;
@@ -823,6 +823,13 @@ Template.newpaymentmethodpop.events({
                 };
 
                 taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
+                  let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPreferedPayment';
+                  if (currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard" || currentLoc == "/customerscard"
+                  || currentLoc == "/supplierscard") {
+                     $('#'+selectedDropdownID+'').val(paymentName);
+                  }else if(currentLoc == "/depositcard"){
+                      $('#' + selectedDropdownID + " .linePaymentMethod").val(paymentName);
+                  };
                   sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
                       addVS1Data('TPaymentMethod', JSON.stringify(dataReload)).then(function(datareturn) {
                           $('.linePaymentMethod').val(paymentName);
@@ -865,6 +872,13 @@ Template.newpaymentmethodpop.events({
                 };
 
                 taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
+                  let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPreferedPayment';
+                  if (currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard" || currentLoc == "/customerscard"
+                  || currentLoc == "/supplierscard") {
+                     $('#'+selectedDropdownID+'').val(paymentName);
+                  }else if(currentLoc == "/depositcard"){
+                      $('#' + selectedDropdownID + " .linePaymentMethod").val(paymentName);
+                  };
                     sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
                         addVS1Data('TPaymentMethod', JSON.stringify(dataReload)).then(function(datareturn) {
                             $('.linePaymentMethod').val(paymentName);
@@ -910,6 +924,13 @@ Template.newpaymentmethodpop.events({
             };
 
             taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
+              let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPreferedPayment';
+              if (currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard" || currentLoc == "/customerscard"
+              || currentLoc == "/supplierscard") {
+                 $('#'+selectedDropdownID+'').val(paymentName);
+              }else if(currentLoc == "/depositcard"){
+                  $('#' + selectedDropdownID + " .linePaymentMethod").val(paymentName);
+              };
               sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
                   addVS1Data('TPaymentMethod', JSON.stringify(dataReload)).then(function(datareturn) {
                       $('.linePaymentMethod').val(paymentName);

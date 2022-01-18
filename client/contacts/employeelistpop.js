@@ -925,7 +925,7 @@ Template.employeelistpop.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }
         }).catch(function (err) {
-          console.log(err);
+          
             sideBarService.getAllEmployeesDataVS1(initialBaseDataLoad, 0).then(function (data) {
                 addVS1Data('TEmployee', JSON.stringify(data));
                 let lineItems = [];

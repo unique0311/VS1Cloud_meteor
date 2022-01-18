@@ -14,7 +14,7 @@ Template.newprofitandloss.onCreated(function(){
 
 
 Template.newprofitandloss.onRendered(function() {
-    
+
       $('.fullScreenSpin').css('display','inline-block');
   const templateObject = Template.instance();
   let utilityService = new UtilityService();
@@ -34,7 +34,7 @@ Template.newprofitandloss.onRendered(function() {
   }
   var fromDate =fromDateDay + "/" +(fromDateMonth) + "/" + currentDate.getFullYear();
    var url = FlowRouter.current().path;
-//hiding Group selected accounts button    
+//hiding Group selected accounts button
 $('.btnGroupAccounts').hide();
 
 
@@ -52,11 +52,11 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
         changeYear: true,
         yearRange: "-90:+10",
     });
-// end of date picker   
+// end of date picker
        $("#dateFrom").val(fromDate);
    $("#dateTo").val(begunDate);
-    
-    
+
+
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
       if(!localStorage.getItem('VS1ProfitandLoss_Report')){
         reportService.getProfitandLoss(dateFrom, dateTo, ignoreDate).then(function (data) {
@@ -226,8 +226,8 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
     }
     // templateObject.getAllProductData();
     templateObject.getDepartments();
-    
-//Dragable items in edit layout screen 
+
+//Dragable items in edit layout screen
         //This works now: break at your own peril
     $( ".sortableAccountParent" ).sortable({
         revert: true
@@ -243,7 +243,7 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
         });
 //    $( "ul, li" ).disableSelection();
     //Dragable items in edit layout screen end
-}); 
+});
 
 
 Template.newprofitandloss.events({
@@ -515,15 +515,14 @@ Template.newprofitandloss.events({
         $('#dateFrom').attr('readonly', false);
         $('#dateTo').attr('readonly', false);
         var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
-        var dateTo = new Date($("#dateTo").datepicker("getDate"));   
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
         let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth()+1) + "-" + dateFrom.getDate();
-        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth()+1) + "-" + dateTo.getDate();        
-      console.log(formatDateFrom);
-      console.log(formatDateTo);
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth()+1) + "-" + dateTo.getDate();
+
         $('td:nth-child(5)').hide();
         $('td:nth-child(6)').hide();
         $('td:nth-child(7)').hide();
-        
+
     },
 
     'click .twoPeriods':function(event){
@@ -535,16 +534,16 @@ Template.newprofitandloss.events({
         $('td:nth-child(5)').show();
         $('td:nth-child(6)').show();
         $('td:nth-child(7)').hide();
-    },         
+    },
     'click .fourPeriods':function(event){
         $('td:nth-child(5)').show();
         $('td:nth-child(6)').show();
         $('td:nth-child(7)').show();
     },
-    
+
     //custom selection period number
     'click .btnSaveCustomComparison':function(event){
-        
+
     },
     // period selector end
     'click .lytAccountToggle': function(event){
@@ -558,7 +557,7 @@ Template.newprofitandloss.events({
                 $('.btnGroupAccounts').hide();
             }
             });
-        
+
 
     },
         'click .btnMoveAccount':function(event){
@@ -571,7 +570,7 @@ Template.newprofitandloss.events({
                 }
             });
         }
-    
+
     });
 
 Template.newprofitandloss.helpers({
@@ -590,7 +589,7 @@ Template.newprofitandloss.helpers({
      // return (a.accounttype.toUpperCase() > b.accounttype.toUpperCase()) ? 1 : -1;
      // return (a.saledate.toUpperCase() < b.saledate.toUpperCase()) ? 1 : -1;
      // });
-    }, 
+    },
         dateAsAt: () =>{
         return Template.instance().dateAsAt.get() || '-';
     },

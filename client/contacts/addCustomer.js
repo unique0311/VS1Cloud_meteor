@@ -3184,6 +3184,11 @@ Template.customerscard.onRendered(function () {
                                     $('.jobTab').addClass('active');
                                     $('.jobTab').trigger('click');
                                 }
+
+                                $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
+                                $('#sltJobTerms').val(lineItemObj.jobterms);
+                                $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
+                                $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
                             }, 500);
                         });
                     } else {
@@ -3274,6 +3279,11 @@ Template.customerscard.onRendered(function () {
                                         $('.jobTab').addClass('active');
                                         $('.jobTab').trigger('click');
                                     }
+
+                                    $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
+                                    $('#sltJobTerms').val(lineItemObj.jobterms);
+                                    $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
+                                    $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
                                 }, 500);
                             }
                         }
@@ -3362,6 +3372,11 @@ Template.customerscard.onRendered(function () {
                                         $('.jobTab').addClass('active');
                                         $('.jobTab').trigger('click');
                                     }
+
+                                    $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
+                                    $('#sltJobTerms').val(lineItemObj.jobterms);
+                                    $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
+                                    $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
                                 }, 500);
                             });
                         }
@@ -3449,7 +3464,10 @@ Template.customerscard.onRendered(function () {
                                 $('.jobTab').addClass('active');
                                 $('.jobTab').trigger('click');
                             }
-
+                            $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
+                            $('#sltJobTerms').val(lineItemObj.jobterms);
+                            $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
+                            $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
                         }, 500);
                     });
                 });

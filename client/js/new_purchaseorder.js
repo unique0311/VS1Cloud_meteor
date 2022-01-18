@@ -8338,7 +8338,7 @@ Template.purchaseordercard.events({
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         for(let x=0; x < paymentData.length; x++){
-            console.log(paymentData[x].lines);
+            
             if(paymentData[x].lines != null && paymentData[x].lines != "") {
                 if(paymentData[x].lines.length > 1){
                     for(let y = 0; y < paymentData[x].lines.length; y++) {
