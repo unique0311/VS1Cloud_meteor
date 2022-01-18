@@ -788,11 +788,11 @@ Template.newpaymentmethodpop.onRendered(function() {
 
 
 Template.newpaymentmethodpop.events({
-    'click .btnSavePaymentMethod': function() {
+    'click .btnSavePaymentMethodPOP': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let taxRateService = new TaxRateService();
         var currentLoc = FlowRouter.current().path;
-        let paymentMethodID = $('#edtPaymentMethodID').val();
+        let paymentMethodID = $('#edtPaymentMethodID').val()||'';
         let paymentName = $('#edtPaymentMethodName').val();
         let isCreditCard = false;
         if ($('#isformcreditcard').is(':checked')) {
@@ -823,11 +823,11 @@ Template.newpaymentmethodpop.events({
                 };
 
                 taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
-                  let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPreferedPayment';
-                  if (currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard" || currentLoc == "/customerscard"
-                  || currentLoc == "/supplierscard") {
+                  let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPaymentMethod';
+                  if (currentLoc.includes("/paymentcard")|| currentLoc.includes("/supplierpaymentcard") || currentLoc.includes("/customerscard")
+                  || currentLoc.includes("/supplierscard")|| currentLoc.includes("/refundcard")) {
                      $('#'+selectedDropdownID+'').val(paymentName);
-                  }else if(currentLoc == "/depositcard"){
+                  }else if(currentLoc.includes("/depositcard")){
                       $('#' + selectedDropdownID + " .linePaymentMethod").val(paymentName);
                   };
                   sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
@@ -872,11 +872,12 @@ Template.newpaymentmethodpop.events({
                 };
 
                 taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
-                  let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPreferedPayment';
-                  if (currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard" || currentLoc == "/customerscard"
-                  || currentLoc == "/supplierscard") {
+
+                  let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPaymentMethod';
+                  if (currentLoc.includes("/paymentcard")|| currentLoc.includes("/supplierpaymentcard") || currentLoc.includes("/customerscard")
+                  || currentLoc.includes("/supplierscard")|| currentLoc.includes("/refundcard")) {
                      $('#'+selectedDropdownID+'').val(paymentName);
-                  }else if(currentLoc == "/depositcard"){
+                  }else if(currentLoc.includes("/depositcard")){
                       $('#' + selectedDropdownID + " .linePaymentMethod").val(paymentName);
                   };
                     sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
@@ -924,11 +925,11 @@ Template.newpaymentmethodpop.events({
             };
 
             taxRateService.savePaymentMethod(objDetails).then(function(objDetails) {
-              let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPreferedPayment';
-              if (currentLoc == "/paymentcard" || currentLoc == "/supplierpaymentcard" || currentLoc == "/customerscard"
-              || currentLoc == "/supplierscard") {
+              let selectedDropdownID = $('#selectPaymentMethodLineID').val() || 'sltPaymentMethod';
+              if (currentLoc.includes("/paymentcard")|| currentLoc.includes("/supplierpaymentcard") || currentLoc.includes("/customerscard")
+              || currentLoc.includes("/supplierscard")|| currentLoc.includes("/refundcard")) {
                  $('#'+selectedDropdownID+'').val(paymentName);
-              }else if(currentLoc == "/depositcard"){
+              }else if(currentLoc.includes("/depositcard")){
                   $('#' + selectedDropdownID + " .linePaymentMethod").val(paymentName);
               };
               sideBarService.getPaymentMethodDataVS1().then(function(dataReload) {
