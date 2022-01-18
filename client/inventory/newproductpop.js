@@ -1797,12 +1797,19 @@ Template.newproductpop.events({
               } else {
                   sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                       addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                          location.reload();
+                          //location.reload();
+                          $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
+                          $('.fullScreenSpin').css('display','none');
                       }).catch(function (err) {
-                          location.reload();
+                        $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
+                          $('.fullScreenSpin').css('display','none');
                       });
                   }).catch(function (err) {
-                      location.reload();
+                     $('#product-list').val(productName);
+                      $('#newProductModal').modal('toggle');
+                      $('.fullScreenSpin').css('display','none');
                   });
               }
 
@@ -1994,12 +2001,15 @@ Template.newproductpop.events({
                       } else {
                           sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                               addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                  location.reload();
+                                  $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
                               }).catch(function (err) {
-                                  location.reload();
+                                  $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
                               });
                           }).catch(function (err) {
-                              location.reload();
+                              $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
                           });
                       }
 
@@ -2186,12 +2196,15 @@ Template.newproductpop.events({
                       } else {
                           sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                               addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                                  location.reload();
+                                  $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
                               }).catch(function (err) {
-                                  location.reload();
+                                  $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
                               });
                           }).catch(function (err) {
-                              location.reload();
+                              $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
                           });
                       }
 
@@ -2381,12 +2394,19 @@ Template.newproductpop.events({
                   } else {
                       sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function (dataReload) {
                           addVS1Data('TProductVS1', JSON.stringify(dataReload)).then(function (datareturn) {
-                              location.reload();
+                          $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
+                           $('.fullScreenSpin').css('display','none');
                           }).catch(function (err) {
-                              location.reload();
+                              $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
+                          console.log("one");
+                           $('.fullScreenSpin').css('display','none');
                           });
                       }).catch(function (err) {
-                          location.reload();
+                          $('#product-list').val(productName);
+                          $('#newProductModal').modal('toggle');
+                           $('.fullScreenSpin').css('display','none');
                       });
                   }
 

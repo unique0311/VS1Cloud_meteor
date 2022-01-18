@@ -2109,6 +2109,11 @@ $(document).on("click", "#paymentmethodList tbody tr", function(e) {
 
  });
 
+ $(document).on("click", "#termsList tbody tr", function (e) {
+     $('#sltTerms').val($(this).find(".colTermName").text());
+    $('#termsListModal').modal('toggle');
+});
+
 },1000);
 });
 
