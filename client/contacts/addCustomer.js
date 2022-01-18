@@ -4527,7 +4527,7 @@ Template.customerscard.onRendered(() => {
               }
           });
 
-      }, 500);
+      }, 900);
   });
 
     $(document).on("click", "#termsList tbody tr", function (e) {
