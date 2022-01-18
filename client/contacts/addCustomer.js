@@ -1942,7 +1942,7 @@ Template.customerscard.onRendered(function () {
           $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
           $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
             $('.customerTypeSelect').append('<option value="newCust">Add Customer Type</option>');
-        },500)
+        },1000)
         templateObject.isSameAddress.set(true);
         templateObject.records.set(lineItemObj);
         setTimeout(function () {
@@ -2100,7 +2100,7 @@ Template.customerscard.onRendered(function () {
                                     $('.customerTab').addClass('active');
                                     $('.customerTab').trigger('click');
                                 }
-                            }, 500);
+                            }, 1000);
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
@@ -2111,6 +2111,7 @@ Template.customerscard.onRendered(function () {
                             if (parseInt(useData[i].fields.ID) === parseInt(customerID)) {
                                 let lineItems = [];
                                 added = true;
+                                console.log(useData[i]);
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItemObj = {
                                     id: useData[i].fields.ID || '',
@@ -2201,7 +2202,7 @@ Template.customerscard.onRendered(function () {
                                     templateObject.isJobSameAddress.set(true);
                                 }
                                 setTimeout(function () {
-                                    $('#sltPreferedPayment').val(lineItemObj.preferedpayment);
+                                    $('#sltPreferedPayment').val(useData[i].fields.PaymentMethodName);
                                     $('#sltTerms').val(lineItemObj.terms);
                                     $('#sltCustomerType').val(lineItemObj.custometype);
                                     $('#sltTaxCode').val(lineItemObj.taxcode);
@@ -2221,7 +2222,7 @@ Template.customerscard.onRendered(function () {
                                         $('.customerTab').addClass('active');
                                         $('.customerTab').trigger('click');
                                     }
-                                },500)
+                                },1000);
                                 //let attachmentData =  contactService.getCustomerAttachmentList(useData[i].fields.ID);
                                 templateObject.getOverviewARData(useData[i].fields.ClientName);
                                 templateObject.records.set(lineItemObj);
@@ -2382,7 +2383,7 @@ Template.customerscard.onRendered(function () {
                                         $('.customerTab').addClass('active');
                                         $('.customerTab').trigger('click');
                                     }
-                                }, 500);
+                                }, 1000);
                             });
                         }
                     }
@@ -2518,7 +2519,7 @@ Template.customerscard.onRendered(function () {
                                 $('.customerTab').addClass('active');
                                 $('.customerTab').trigger('click');
                             }
-                        }, 500);
+                        }, 1000);
                     });
                 });
 
@@ -2662,7 +2663,7 @@ Template.customerscard.onRendered(function () {
                                 $('.customerTab').addClass('active');
                                 $('.customerTab').trigger('click');
                             }
-                        }, 500);
+                        }, 1000);
                     }).catch(function (err) {
                       $('.fullScreenSpin').css('display', 'none');
                     });
@@ -2785,7 +2786,7 @@ Template.customerscard.onRendered(function () {
                                       $('.customerTab').addClass('active');
                                       $('.customerTab').trigger('click');
                                   }
-                              },500)
+                              },1000)
                               //let attachmentData =  contactService.getCustomerAttachmentList(useData[i].fields.ID);
                               templateObject.getOverviewARData(useData[i].fields.ClientName);
                               templateObject.records.set(lineItemObj);
@@ -2946,7 +2947,7 @@ Template.customerscard.onRendered(function () {
                                       $('.customerTab').addClass('active');
                                       $('.customerTab').trigger('click');
                                   }
-                              }, 500);
+                              }, 1000);
                           }).catch(function (err) {
                             $('.fullScreenSpin').css('display', 'none');
                           });
@@ -3086,7 +3087,7 @@ Template.customerscard.onRendered(function () {
                             $('.customerTab').addClass('active');
                             $('.customerTab').trigger('click');
                         }
-                    }, 500);
+                    }, 1000);
                 }).catch(function (err) {
                   $('.fullScreenSpin').css('display', 'none');
                 });
