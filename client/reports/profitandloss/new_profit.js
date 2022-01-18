@@ -101,7 +101,6 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
 
 
         };
-        console.log(dataList);
         if((accountType == '') && (accountData[i]['AccountName'].replace(/\s/g, '') == '')){
 
         }else{
@@ -139,7 +138,7 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
       }else{
         let data = JSON.parse(localStorage.getItem('VS1ProfitandLoss_ReportCompare'));
         let records = [];
-      if(data.profitandlossreport){
+      if(data.tprofitandlossperiodcomparereport){
         let totalNetAssets = 0;
         let GrandTotalLiability = 0;
         let GrandTotalAsset = 0;
@@ -157,18 +156,27 @@ $("#date-input,#dateTo,#dateFrom").datepicker({
             accountType = accountData[i]['AccountTypeDesc'];
           }
           let totalAmountEx = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount'])|| 0.00;
+          let jan2022Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount'])|| 0.00;
+          let dec2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount'])|| 0.00;
+          let nov2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount'])|| 0.00;
+          let oct2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount'])|| 0.00;
+          let sept2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount'])|| 0.00;
         var dataList = {
           id: accountData[i]['AccountID'] || '',
-          accounttype:accountType || '',
+          accounttype:accountType || "",
           accountname: accountData[i]['AccountName'] || '',
           accountno: accountData[i]['AccountNo'] || '',
           totalamountex: totalAmountEx || 0.00,
-          name: $.trim(accountData[i]['AccountName']).split(" ").join("_")
+          name: $.trim(accountData[i]['AccountName']).split(" ").join("_"),
+          jan2022: jan2022Amt,
+          dec2021: dec2021Amt,
+          nov2021: nov2021Amt,
+          oct2021: oct2021Amt,
+          sept2021: sept2021Amt,
           // totaltax: totalTax || 0.00
 
 
       };
-
       if((accountType == '') && (accountData[i]['AccountName'].replace(/\s/g, '') == '')){
 
       }else{
