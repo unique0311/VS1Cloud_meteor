@@ -3176,12 +3176,12 @@ Template.customerscard.onRendered(function () {
                             // $('.fullScreenSpin').css('display','none');
 
                             setTimeout(function () {
-                              $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
-                              $('#sltJobTerms').val(lineItemObj.jobterms);
-                              $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
-                              $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
-                            }, 900);
-                            
+                              $('#sltJobPreferedPayment').val(data.fields.PaymentMethodName);
+                              $('#sltJobTerms').val(data.fields.TermsName);
+                              $('#sltJobCustomerType').val(data.fields.ClientTypeName);
+                              $('#sltJobTaxCode').val(data.fields.TaxCodeName);
+                            }, 1000);
+
                             setTimeout(function () {
                                 var rowCount = $('.results tbody tr').length;
                                 $('.counter').text(rowCount + ' items');
@@ -3277,11 +3277,11 @@ Template.customerscard.onRendered(function () {
                                 templateObject.getAllCustomerJobs(useData[i].fields.ClientName);
 
                                 setTimeout(function () {
-                                  $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
-                                  $('#sltJobTerms').val(lineItemObj.jobterms);
-                                  $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
-                                  $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
-                                }, 900);
+                                  $('#sltJobPreferedPayment').val(useData[i].fields.PaymentMethodName);
+                                  $('#sltJobTerms').val(useData[i].fields.TermsName);
+                                  $('#sltJobCustomerType').val(useData[i].fields.ClientTypeName);
+                                  $('#sltJobTaxCode').val(useData[i].fields.TaxCodeName);
+                                }, 1000);
                                 // $('.fullScreenSpin').css('display','none');
                                 setTimeout(function () {
                                     var rowCount = $('.results tbody tr').length;
@@ -3376,11 +3376,11 @@ Template.customerscard.onRendered(function () {
                                 templateObject.getAllProductRecentTransactions(data.fields.ClientName);
                                 templateObject.getAllCustomerJobs(data.fields.ClientName);
                                 setTimeout(function () {
-                                  $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
-                                  $('#sltJobTerms').val(lineItemObj.jobterms);
-                                  $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
-                                  $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
-                                }, 900);
+                                  $('#sltJobPreferedPayment').val(data.fields.PaymentMethodName);
+                                  $('#sltJobTerms').val(data.fields.TermsName);
+                                  $('#sltJobCustomerType').val(data.fields.ClientTypeName);
+                                  $('#sltJobTaxCode').val(data.fields.TaxCodeName);
+                                }, 1000);
                                 // $('.fullScreenSpin').css('display','none');
                                 setTimeout(function () {
                                     var rowCount = $('.results tbody tr').length;
@@ -3475,11 +3475,11 @@ Template.customerscard.onRendered(function () {
                         templateObject.getAllCustomerJobs(data.fields.ClientName);
 
                         setTimeout(function () {
-                          $('#sltJobPreferedPayment').val(lineItemObj.jobpreferedpayment);
-                          $('#sltJobTerms').val(lineItemObj.jobterms);
-                          $('#sltJobCustomerType').val(lineItemObj.jobclienttype);
-                          $('#sltJobTaxCode').val(lineItemObj.jobtaxcode);
-                        }, 900);
+                          $('#sltJobPreferedPayment').val(data.fields.PaymentMethodName);
+                          $('#sltJobTerms').val(data.fields.TermsName);
+                          $('#sltJobCustomerType').val(data.fields.ClientTypeName);
+                          $('#sltJobTaxCode').val(data.fields.TaxCodeName);
+                        }, 1000);
                         // $('.fullScreenSpin').css('display','none');
                         setTimeout(function () {
                             var rowCount = $('.results tbody tr').length;
