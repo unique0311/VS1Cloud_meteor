@@ -205,54 +205,47 @@
                             <div class="row no-gutters p-1">
                                 <div class="table-responsive p-2">
                                     <table class="table table-hover table-sm pnlTable" id="tableExport" name="tableExport">
-                                        <!--
+
                                         <thead>
                                             <tr class="table-active">
-                                                <th style="width: 300px;">Account Type</th>
-                                                <th style="width: 300px;">Account Name</th>
-                                                <th style="width: 178px;">Account No.</th>
-                                                <th class="text-right" style="width: 180px;">Total Amount (Ex)</th>
+                                                <th style="width: 300px;"></th>
+                                                <th style="width: 300px;"></th>
+                                                <th style="width: 300px;" class="text-right">Jan 2022</th>
+                                                <th style="width: 300px;" class="text-right">Dec 2021</th>
+                                                <th style="width: 178px;" class="text-right">Nov 2021</th>
+                                                <th style="width: 178px;" class="text-right">Oct 2021</th>
+                                                <th style="width: 178px;" class="text-right">Sep 2021</th>
                                             </tr>
                                         </thead>
--->
+
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <!--foreach or dates starts here -->
-                                                <td class="fgr tperiod">Dec 2021</td>
-                                                <td class="fgr tperiod">Nov 2021</td>
-                                                <td class="fgr tperiod">Oct 2021</td>
-                                                <td class="fgr tperiod">Sep 2021</td>
-                                                <td class="fgr tperiod">Aug 2021</td>
-                                                <!--end of foreach -->
-                                            </tr>
-<!-- live data
-                                            {{#if records}}
-                                            {{#each item in records}}
+                                          {{#if records}}
+                                           {{#each item in records}}
                                             <tr id="item-value-{{item.name}}">
-                                                <th>{{item.accounttype}}</th>
-                                            </tr>
-                                            <tr>
-                                                <td>{{item.accountname}}</td>
-                                            </tr>
--->
-                                           <!-- static data -->
-                                            <tr>
-                                                <th>Trading Income</th>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="/">Sales</a></td>
+                                              {{#if equals item.accounttype ""}}
+                                               <td><a href="/">{{item.accountname}}</a></td>
+                                               <td></td>
+                                               <td class="fgr fgrblue text-right"><a href="/">{{item.jan2022}}</a></td>
+                                               <td class="fgr fgrblue text-right"><a href="/">{{item.dec2021}}</a></td>
+                                               <td class="fgr fgrblue text-right"><a href="/">{{item.nov2021}}</a></td>
+                                               <td class="fgr fgrblue text-right"><a href="/">{{item.oct2021}}</a></td>
+                                               <td class="fgr fgrblue text-right"><a href="/">{{item.sept2021}}</a></td>
+                                              {{else}}
+                                                <td class="fgrtotal"><a href="/">{{item.accounttype}}</a></td>
                                                 <td></td>
-                                                <td class="fgr fgrblue"><a href="/">2,700.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">2,700.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">2,700.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">2,700.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">2,700.00</a></td>
-                                            </tr>
-                                            <tr>
+                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.jan2022}}</a></td>
+                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.dec2021}}</a></td>
+                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.nov2021}}</a></td>
+                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.oct2021}}</a></td>
+                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.sept2021}}</a></td>
+                                              {{/if}}
+
+
+                                          </tr>
+                                          {{/each}}
+                                          {{/if}}
+
+                                            <!-- <tr>
                                                 <td class="fgrtotal"><a href="/">Total Trading Income</a></td>
                                                 <td></td>
                                                 <td class="fgr"><a href="/">2,700.00</a></td>
@@ -260,77 +253,10 @@
                                                 <td class="fgr"><a href="/">2,700.00</a></td>
                                                 <td class="fgr"><a href="/">2,700.00</a></td>
                                                 <td class="fgr"><a href="/">2,700.00</a></td>
-                                            </tr>
-                                            <tr>
-                                                <th>Cost of Sales</th>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="/">Cost of Goods Sold</a></td>
-                                                <td></td>
-                                                <td class="fgr fgrblue"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrblue"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrblue"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrblue"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrblue"><a href="/">981.82</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fgrtotal"><a href="/">Total Cost of Sales</a></td>
-                                                <td></td>
-                                                <td class="fgr fgrtotal"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">981.82</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">981.82</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class ="fgrtotal"><a href="/">Gross Profit</a></td>
-                                                <td></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,718.18</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,718.18</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,718.18</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,718.18</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,718.18</a></td>
-                                            </tr>
-                                            <tr>
-                                                <th class="npl-tableheading">Operating Expenses</th>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="/">Freight & Courier</a></td>
-                                                <td></td>
-                                                <td class="fgr fgrblue"><a href="/">125.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">125.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">125.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">125.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">125.00</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="/">Payroll Expenses</a></td>
-                                                <td></td>
-                                                <td class="fgr fgrblue"><a href="/">999.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">999.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">999.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">999.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">999.00</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td><a href="/">Wages and Salaries</a></td>
-                                                <td></td>
-                                                <td class="fgr fgrblue"><a href="/">100.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">100.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">100.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">100.00</a></td>
-                                                <td class="fgr fgrblue"><a href="/">100.00</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fgrtotal"><a href="/">Total Operating Expenses</a></td>
-                                                <td></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,224.00</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,224.00</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,224.00</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,224.00</a></td>
-                                                <td class="fgr fgrtotal"><a href="/">1,224.00</a></td>
-                                            </tr>
-                                            <tr>
+                                            </tr> -->
+
+
+                                            <!-- <tr>
                                                 <td class="npl-netprofit fgrtotal"><a href="/">Net Profit</a></td>
                                                 <td></td>
                                                 <td class="fgr fgrtotal"><a href="/">494.18</a></td>
@@ -338,91 +264,8 @@
                                                 <td class="fgr fgrtotal"><a href="/">494.18</a></td>
                                                 <td class="fgr fgrtotal"><a href="/">494.18</a></td>
                                                 <td class="fgr fgrtotal"><a href="/">494.18</a></td>
-                                            </tr>
-                                               <!-- end of static table -->
+                                            </tr> -->
 
-                                            <!--
-                                            {{#if records}}
-                                            {{#each item in records}}
-                                            <tr id="item-value-{{item.name}}">
-                                                <td style="font-weight: 800;">{{item.accounttype}}</td>
-                                                <td valueupdate="{{item.accountname}}" style="{{#if containsequals item.accountname 'Total'}}font-weight: 800;{{/if}}">{{#if containsequals item.accountname "Total" }}{{item.accountname}} {{else}} <a href="#" value="{{item.accountname}}" class="{{#if notEquals item.accounttype ''}} {{else}}Indent1{{/if}}" style="text-decoration:none!important;">{{item.accountname}}</a>{{/if}}</td>
-                                                <td>{{item.accountno}}</td>
-                                                <td  class="text-right text-nowrap" style="{{#if notEquals item.accounttype ''}}font-weight: 800;{{else}}{{#if containsequals item.accountname 'Total'}}font-weight: 800;{{/if}}{{/if}}">{{#if notEquals item.accounttype ''}}{{item.totalamountex}}{{else}}{{#if containsequals item.accountname "Total" }}{{item.totalamountex}} {{else}}<a href="#" value="{{item.accountname}}" class="Indent1" style="text-decoration:none!important;">{{item.totalamountex}}</a>{{/if}}{{/if}}</td>
-                                            </tr>
-                                            {{/each}}
-                                            {{else}}
-                                            <tr class="odd" style="text-align: center;"><td valign="top" colspan="4" class="dataTables_empty">No data available in table</td></tr>
-                                            {{/if}}
--->
-                                            <!--
-<tr>
-<td style="font-weight: 800;"></td>
-<td>Sales</td>
-<td></td>
-<td class="text-right">R 10'234.50</td>
-</tr>
-<tr style="padding-bottom: 16px;">
-<td style="font-weight: 800;">Total Income</td>
-<td></td>
-<td></td>
-<td class="text-right">R 10'234.50</td>
-</tr>
-<tr>
-<td style="font-weight: 800;">Cost of Goods Sold</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td style="font-weight: 800;"></td>
-<td>Cost of Goods Sold</td>
-<td>5000</td>
-<td class="text-right">R 3'823.75</td>
-</tr>
-<tr>
-<td style="font-weight: 800;">Total COGS</td>
-<td></td>
-<td></td>
-<td class="text-right">R 3'823.75</td>
-</tr>
-<tr>
-<td style="font-weight: 800;">Gross Profit</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td style="font-weight: 800;"></td>
-<td></td>
-<td></td>
-<td class="text-right">R 3'823.75<br></td>
-</tr>
-<tr>
-<td style="font-weight: 800;">Expense</td>
-<td></td>
-<td></td>
-<td><br></td>
-</tr>
-<tr>
-<td style="font-weight: 800;"></td>
-<td>Fixed Asset Expenses</td>
-<td></td>
-<td class="text-right">- R 3'633.74</td>
-</tr>
-<tr>
-<td style="font-weight: 800;">Total Expenses</td>
-<td></td>
-<td></td>
-<td class="text-right">- R 3'633.74</td>
-</tr>
-<tr>
-<td style="font-weight: 800;">Net Income</td>
-<td></td>
-<td></td>
-<td class="text-right">R 3'347.35</td>
-</tr>
--->
                                         </tbody>
                                     </table>
                                     <style>

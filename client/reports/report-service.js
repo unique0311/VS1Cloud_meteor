@@ -108,6 +108,22 @@ export class ReportService extends BaseService {
         return this.getList(this.ERPObjects.ProfitLossReport, options);
     }
 
+    getProfitandLossCompare(dateFrom, dateTo,ignoreDate) {
+      let options = '';
+      if(ignoreDate == true){
+        options = {
+           IgnoreDates:true
+       };
+     }else{
+       options = {
+          IgnoreDates:false,
+          DateFrom: '"'+dateFrom+'"',
+          DateTo: '"'+dateTo+'"'
+      };
+     }
+        return this.getList(this.ERPObjects.TProfitAndLossPeriodCompareReport, options);
+    }
+
 
     getDepartment() {
         let options = {
