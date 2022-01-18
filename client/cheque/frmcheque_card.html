@@ -882,17 +882,17 @@
                 <div class="row align-items-end" style="margin: 16px;">
                     <div class="col-12 col-lg-8 col-xl-10" style="rpadding-right: 24px;">
                         <div class="row">
-                            <button class="btn btn-primary" type="button" id="addRow" style="margin-bottom: 36px; margin-left: 16px;">+ Add New Entry</button>
+                            <button class="btn btn-primary" type="button" id="addRow" style="margin: 16px; margin-top: 0px;">+ Add New Entry</button>
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="form-group"><label>Comments</label>
-                                    <textarea class="form-control" rows="6" id="txaComment" name="txaComment">{{chequerecord.comments}}</textarea>
+                                    <textarea class="form-control" rows="3" id="txaComment" name="txaComment">{{chequerecord.comments}}</textarea>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group"><label>Picking Instructions</label>
-                                    <textarea class="form-control" rows="6" id="txapickmemo" name="txapickmemo">{{chequerecord.pickmemo}}</textarea>
+                                    <textarea class="form-control" rows="3" id="txapickmemo" name="txapickmemo">{{chequerecord.pickmemo}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -914,18 +914,7 @@
                             </button>
                         </div>
                     </div>
-                    <!-- <div class="col-12 col-md-6 col-lg-4 col-xl-5">
-                        <button class="btn btn-primary" type="button" id="addRow" style="margin-bottom: 120px;">+ Add New Entry</button>
-                        <div class="form-group"><label>Comments</label>
-                            <textarea class="form-control" rows="4" id="txaComment" name="txaComment">{{chequerecord.comments}}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-5 colComments">
-                        <div class="form-group"><label>Picking Instructions</label>
-                            <textarea class="form-control" rows="4" id="txapickmemo" name="txapickmemo">{{chequerecord.pickmemo}}</textarea>
-                        </div>
-                    </div> -->
-                    <div class="col-12 col-md-6 col-lg-4 col-xl-2" id="totalSection" style="padding-right: 1.5rem; padding-left: 1.5rem;">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-2" id="totalSection" style="padding-right: 1.5rem; padding-left: 1.5rem; margin-bottom: 12px;">
                         <div class="row">
                             <div class="col-4" style="padding: 0px;">
                                 <p class="lead">Subtotal</p>
@@ -940,6 +929,14 @@
                             </div>
                             <div class="col-8" style="padding: 0px;">
                                 <p class="lead" id="subtotal_tax" name="subtotal_tax">{{chequerecord.TotalTax}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4" style="padding: 0px;">
+                                <p class="lead">Nett</p>
+                            </div>
+                            <div class="col-8" style="padding: 0px;">
+                                <p class="lead" id="subtotal_tax" name="subtotal_tax">{{chequerecord.Total}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -970,12 +967,12 @@
                             </div>
                         </div>
 -->
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12" style="padding: 0px;">
                                 <hr style="border-top: 3px solid #696969;" />
                                 <p style="display:none;" id="totalBalanceDue" name="totalBalanceDue">{{chequerecord.balanceDue}}</p>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="row justify-content-center mobileButtons" style="display: none;">
