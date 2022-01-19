@@ -19,11 +19,11 @@ import {
 import 'jquery-editable-select';
 let utilityService = new UtilityService();
 let sideBarService = new SideBarService();
-Template.payrun.onCreated(function() {
+Template.payrundetails.onCreated(function() {
 
 });
 
-Template.payrun.onRendered(function() {
+Template.payrundetails.onRendered(function() {
     $("#date-input,#dateTo,#dateFrom").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -38,7 +38,7 @@ Template.payrun.onRendered(function() {
     });
 
     setTimeout(function() {
-        $('#tblPayRunList').DataTable({
+        $('#tblPayRunDetails').DataTable({
             columnDefs: [{
                 "orderable": false,
                 "targets": -1
@@ -84,7 +84,7 @@ Template.payrun.onRendered(function() {
                 [0, "asc"]
             ],
             action: function() {
-                $('#tblPayRunList').DataTable().ajax.reload();
+                $('#tblPayRunDetails').DataTable().ajax.reload();
             },
             "fnDrawCallback": function(oSettings) {
                 setTimeout(function() {
@@ -110,13 +110,10 @@ Template.payrun.onRendered(function() {
     }, 0);
 });
 
-Template.payrun.events({
-    'click .btnPayRunNext': function (event) {
-        $('.modal-backdrop').css('display', 'none');
-        FlowRouter.go('/payrundetails');
-    },
+Template.payrundetails.events({
+
 });
 
-Template.payrun.helpers({
+Template.payrundetails.helpers({
 
 });
