@@ -643,17 +643,38 @@ Template.newprofitandloss.events({
     
     //calculator account selector
     'click .accValSelect': function (event) {
-        var optSelectCheck = $('.accValSelect').attr('value');
-        if (optSelectCheck === 'nonOption') {
+        var optSelectCheck = $('.accValSelect').val();
+        if (optSelectCheck === null) {
+            console.log( optSelectCheck + ' zeero');
+            $('.nonOption').hide();
 
         } else {
-
+            console.log( optSelectCheck+' soomething' );
             $('.nonOption').hide();
+            
+//            var calcOptSelected = $('.accValSelect').val();
+//            var calcFieldContent = $('.calcField').val();   
+              console.log(optSelectCheck);
+
+//            var insblock = $('<input type="button" disabled class="calcVarBlock" data-formula-value="something1>');
+             $('.calcField').append('<input type="button" disabled class="calcVarBlock" >').val(optSelectCheck);  
+
         }
 
     },
     //calculator account selector end
         
+    //adding blocks
+//    'click .calcOption':function(event){
+//           
+//            var calcOptSelected = $('.accValSelect').val();
+//            var calcFieldContent = $('.calcField').val();   
+//              console.log(calcOptSelected);
+//
+//            var addCalcVarBlock = $('<input type="button" disabled class="calcVarBlock" data-formula-value="something1">').attr('value',calcOptSelected);
+//             $('.calcField').append(calcFieldContent+addCalcVarBlock);  
+//    },
+    //end adding blocks
     //calculator buttons
         /*    'click .opBtn':function (event){
         $('.opBtn').each(function () {
@@ -666,27 +687,27 @@ Template.newprofitandloss.events({
     'click .addition': function (event) {
         var valEntry1 = $('.addition').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').val(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry2 + valEntry1);
     },
     'click .minus': function (event) {
         var valEntry1 = $('.minus').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').val(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry2 + valEntry1);
     },
     'click .multi': function (event) {
         var valEntry1 = $('.multi').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').val(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry2 + valEntry1);
     },
     'click .divide': function (event) {
         var valEntry1 = $('.divide').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').val(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry2 + valEntry1);
     },
     'click .ifBlock': function (event) {
         var valEntry1 = $('.ifBlock').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').val(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry2 + valEntry1);
     }
     //end calculator buttons
 });

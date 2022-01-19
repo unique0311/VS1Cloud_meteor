@@ -411,7 +411,7 @@
 */
 
         }
-        .avoid{
+        .avoid,.accdate{
             font-weight: 700;
             display: flex;
         }
@@ -926,6 +926,10 @@
 
                                 </div>
 -->
+                                    <div class="accdate">
+                                            <label class = "col-9 dragVal" style=""></label>
+                                            <label class = "col-3 dragAcc" style="text-align: right;" id="">Jan 2022</label>
+                                    </div>
                                     <div class="sortableAccount" >
                                         <div class="ml-1 avoid">
                                             <label class = "col-9 dragAcc" style="">Trading Income</label>
@@ -1131,14 +1135,26 @@
                                     </div>
                                     <div class="mt-2 ">
                                         <label style="width:100%;">Display Balance</label>
-                                        <div class="">
-                                            <button class="btn btn-primary text-nowrap" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Debit Positive
+                                        <div class="row">
+                                            <button class="btn btn-primary text-nowrap col-12 col-sm-6" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Debit Positive
                                             </button>
-                                            <button class="btn btn-primary text-nowrap" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Credit Positive
+                                            <button class="btn btn-primary text-nowrap col-12 col-sm-6" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Credit Positive
                                             </button>
                                         </div>
+                                        <hr class="periodSelectorLine" />
+                                        <div class="m-1 col-12 p-0">
+                                            <button class="btn btn-primary text-nowrap m-1 w-100" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Group Selection
+                                            </button>
+                                            <button class="btn btn-primary text-nowrap m-1 w-100" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
+                                            </button>
+                                        </div>
+                                        <div class="custom-control custom-switch m-1">
+                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
+                                            <label class="custom-control-label" for="grpTotal">Total</label>
+                                        </div>
                                     </div>
-                                    <hr class="periodSelectorLine" />
+                                    
+                                    
                                 </div>
                                 <div class="container mb-3 p-1 edlayCalculator" style="width:100%">
                                     <style>
@@ -1162,6 +1178,25 @@
                                           resize: none;
                                             border-radius: 0;
                                             border:0.1px #a6a9b0 solid;
+                                            min-height: 200px;
+                                            overflow-y: scroll;
+                                            scroll-behavior: smooth;
+                                            
+                                        }
+                                        .calcVarBlock{
+                                            vertical-align: middle;
+                                            height: 20px;
+                                            width: 8rem;
+                                            margin: 1rem 0.5rem;
+                                            background:#00a3d3;
+                                            border-radius:3px;
+                                            border:1px solid #028dde;
+                                            color: #000a1e;
+                                            line-height: 1rem;
+                                            font-size:1rem;
+                                        }
+                                        .calcRH{
+                                            display:flex;
                                         }
                                     </style>
                                     <h5>Formula</h5>
@@ -1173,14 +1208,14 @@
                                         <div class="container">
                                             <div class="row calcTools">
                                             <select class="form-control accValSelect" id="accValSelect">
-                                                <option selected disabled class="nonOption" value="nonOption">Input</option>
-                                                <option value="Trading Income">Trading Income</option>
-                                                <option value="Cost of Sales">Cost of Sales</option>
-                                                <option value="Plus Other Income">Plus Other Income</option>
-                                                <option value="Less Operatin Expenses">Less Operatin Expenses</option>
-                                                <option value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
-                                                <option value="Non-operating Income">Non-operating Income</option>
-                                                <option value="Non-operating Expenses">Non-operating Expenses</option>
+                                                <option selected disabled class="nonOption" value="">Input</option>
+                                                <option class="calcOption" value="Trading Income">Trading Income</option>
+                                                <option class="calcOption" value="Cost of Sales">Cost of Sales</option>
+                                                <option class="calcOption" value="Plus Other Income">Plus Other Income</option>
+                                                <option class="calcOption" value="Less Operatin Expenses">Less Operatin Expenses</option>
+                                                <option class="calcOption" value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
+                                                <option class="calcOption" value="Non-operating Income">Non-operating Income</option>
+                                                <option class="calcOption" value="Non-operating Expenses">Non-operating Expenses</option>
                                             </select>
                                             <button class="btn btn-primary text-nowrap opBtn addition" value="+"  type="button" id="btnCancelLayoutCreation">+
                                             </button>
@@ -1194,11 +1229,19 @@
                                             </button>
                                             </div>
                                             <div class="row">
-                                                <textarea id="calcField"  rows="3" class="form-control calcField" name="nplcalcField" value="" placeholder=""></textarea>
+                                                <div id="calcField" class="container calcField formula-editor-field " name="nplcalcField" contenteditable="true">
+                                                    <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Trading Income">
+                                                    -                                                    
+                                                    <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Cost of Sales">
+                                                </div>
+                                            </div>                                            <div class="row calcRH">
+                                                <div class="col-12 m-2">
+                                                    <label>Row Heading</label><br>
+                                                    <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" value="Gross Profit" placeholder="Gross Profit">
+                                                </div>                                            
                                             </div>
                                         </div>
                                     </div>
-                                    <hr class="periodSelectorLine" />
                                 </div>
                             </div>
                         </div>
