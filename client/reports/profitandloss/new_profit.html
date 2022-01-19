@@ -919,7 +919,7 @@
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group-sm">
-
+	                           <script type="text/javascript" src="jquery-calx-1.1.8.min.js"></script>
                             <div class="col-sm-8 sortableAccountParent">
 <!--
                                 <div class="col-sm-12 pt-2 pl-0 mb-3">
@@ -928,23 +928,23 @@
 -->
                                     <div class="sortableAccount" >
                                         <div class="ml-1 avoid">
-                                            <label class = "col-9 dragAcc" style="">Less Cost of Sales</label>
-                                            <label class = "col-3 dragVal" style="">11000</label>
+                                            <label class = "col-9 dragAcc" style="">Trading Income</label>
+                                            <label class = "col-3 dragVal" style="" id="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
                                             <label class = "col-9 dragAcc" style="">Interest Income</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
+                                            <label class = "col-9 dragAcc" style="">Other Revenue</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
+                                            <label class = "col-9 dragAcc" style="">Sales</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
+                                            <label class = "col-9 dragAcc" style="">Total Trading Income</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                     </div>
@@ -955,11 +955,11 @@
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
+                                            <label class = "col-9 dragAcc" style="">Cost of Goods Sold</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
+                                            <label class = "col-9 dragAcc" style="">Sales</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
@@ -1031,7 +1031,7 @@
 
                                     <div class="sortableAccount">
                                         <div class="ml-1 avoid">
-                                            <label class = "col-9 dragAcc" style="">Cost of Sales</label>
+                                            <label class = "col-9 dragAcc" style="">Other Income</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
@@ -1091,7 +1091,7 @@
                                     </div>
                                     <div class="sortableAccount">
                                         <div class="ml-1 avoid">
-                                            <label class = "col-9 dragAcc" style="">Cost of Sales</label>
+                                            <label class = "col-9 dragAcc" style="">Operating Expenses</label>
                                             <label class = "col-3 dragVal" style="">11000</label>
                                         </div>
                                         <div class="ml-3 draggable">
@@ -1131,7 +1131,7 @@
                                     </div>
                                     <div class="mt-2 ">
                                         <label style="width:100%;">Display Balance</label>
-                                        <div class="d-flex justify-content-between">
+                                        <div class="">
                                             <button class="btn btn-primary text-nowrap" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Debit Positive
                                             </button>
                                             <button class="btn btn-primary text-nowrap" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Credit Positive
@@ -1173,13 +1173,14 @@
                                         <div class="container">
                                             <div class="row calcTools">
                                             <select class="form-control accValSelect" id="accValSelect">
-                                                <option>Trading Income</option>
-                                                <option>Cost of Sales</option>
-                                                <option>Plus Other Income</option>
-                                                <option>Less Operatin Expenses</option>
-                                                <option>Foreign Currency Gains and Losses</option>
-                                                <option>Non-operating Income</option>
-                                                <option>Non-operating Expenses</option>
+                                                <option selected disabled class="nonOption" value="nonOption">Input</option>
+                                                <option value="Trading Income">Trading Income</option>
+                                                <option value="Cost of Sales">Cost of Sales</option>
+                                                <option value="Plus Other Income">Plus Other Income</option>
+                                                <option value="Less Operatin Expenses">Less Operatin Expenses</option>
+                                                <option value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
+                                                <option value="Non-operating Income">Non-operating Income</option>
+                                                <option value="Non-operating Expenses">Non-operating Expenses</option>
                                             </select>
                                             <button class="btn btn-primary text-nowrap opBtn addition" value="+"  type="button" id="btnCancelLayoutCreation">+
                                             </button>
