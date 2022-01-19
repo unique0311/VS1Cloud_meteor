@@ -646,6 +646,7 @@ Template.chequecard.onRendered(() => {
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentCheque) {
                                 added = true;
+                                console.log((useData[d]));
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
                                 let lineItemObj = {};
@@ -4513,7 +4514,8 @@ Template.chequecard.events({
             let poNumber = $('#ponumber').val();
             let reference = $('#edtRef').val();
 
-            let departement = $('#sltDept').val()||'';
+            //let departement = $('#sltDept').val()||'';
+            let shipviaData = $('#shipvia').val()||'';
             let shippingAddress = $('#txaShipingInfo').val();
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
@@ -4543,7 +4545,7 @@ Template.chequecard.events({
                         OrderDate: saleDate,
                         SupplierInvoiceNumber: poNumber,
                         ConNote: reference,
-                        Shipping: departement,
+                        Shipping: shipviaData,
                         ShipTo: shippingAddress,
                         Comments: comments,
                         RefNo: reference,
@@ -4565,7 +4567,7 @@ Template.chequecard.events({
                         OrderDate: saleDate,
                         SupplierInvoiceNumber: poNumber,
                         ConNote: reference,
-                        Shipping: departement,
+                        Shipping: shipviaData,
                         ShipTo: shippingAddress,
                         Comments: comments,
                         RefNo: reference,
