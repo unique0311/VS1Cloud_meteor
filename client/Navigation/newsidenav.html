@@ -669,13 +669,7 @@
                                 </div>
                             </a>
                         </li> -->
-                        {{#if includeTimesheetEntry}}
-                            {{#if equals showTimesheet true}}
-                            <li>
-                                <a id="sidenavtimesheet" name="sidenavtimesheet"><i class="fas fa-user-clock"></i> Timesheets</a>
-                            </li>
-                            {{/if}}
-                        {{/if}}
+
                         {{#if includeClockOnOff}}
                             <li>
                                 <a id="sidenavtimeclock" name="sidenavtimeclock"><i class="fas fa-hourglass-half"></i> Clock On/Off</a>
@@ -695,6 +689,13 @@
                                 </div>
                             </a>
                         </li>
+                        {{#if includeTimesheetEntry}}
+                            {{#if equals showTimesheet true}}
+                            <li>
+                                <a id="sidenavtimesheet" name="sidenavtimesheet"><i class="fas fa-user-clock"></i> Timesheets</a>
+                            </li>
+                            {{/if}}
+                        {{/if}}
                     </ul>
                 </li>
             {{/if}}
