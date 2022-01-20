@@ -111,6 +111,9 @@
             td.tperiod{
                 font-size: 12px;
             }
+            .scnd .dropdown-menu{
+                padding: 16px; 
+            }
         </style>
         <div class="row no-gutters d-xl-flex justify-content-center justify-content-xl-center mb-3" style="width: 100%;">
             <div class="col-auto col-10">
@@ -134,7 +137,7 @@
                                         <a class="dropdown-item PSother" href="#nplComparisonPeriods" role="presentation" data-toggle="modal">Other</a>
                                     </div>
                                 </div>
-                                <div class="btn-group btnNav periodSelector" style="margin: 16px;">
+                                <div class="btn-group btnNav periodSelector scnd" style="margin: 16px;">
                                     <button class="btn btn-primary btnAll" type="button" data-toggle="dropdown">More</button>
                                     <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
                                     <div class="dropdown-menu" role="menu">
@@ -328,7 +331,7 @@
                                         <!--Layout options button end-->
                                         <!--Edit Layout button -->
                                         <div class="btn-group btnNav nplLayoutSelector" style="margin: 16px;min-width: 117.016px;">
-                                              <button class="btn btn-primary text-nowrap nplLayoutEditorBtn" type="button" role="presentation" data-toggle="modal" href="#nplEditLayoutScreen">Edit Layout</button>
+                                              <button class="btn btn-primary text-nowrap nplLayoutEditorBtn" role="presentation" data-toggle="modal" href="#nplEditLayoutScreen" type="button">Edit Layout</button>
                                           </div>
                                         <!--Edit Layout button end -->
                                     </div>
@@ -912,229 +915,238 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="title-header">Profit and Loss</h4>
+                    <h4 class="title-header">Profit and Loss <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a></h4>                 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 </div>
 
                 <div class="modal-body">
                     <div class="container-fluid">
                         <div class="form-group-sm">
-	                           <script type="text/javascript" src="jquery-calx-1.1.8.min.js"></script>
+                            <script type="text/javascript" src="jquery-calx-1.1.8.min.js"></script>
+
                             <div class="col-sm-8 sortableAccountParent">
-<!--
+                                <!--
                                 <div class="col-sm-12 pt-2 pl-0 mb-3">
 
                                 </div>
 -->
-                                    <div class="accdate">
-                                            <label class = "col-9 dragVal" style=""></label>
-                                            <label class = "col-3 dragAcc" style="text-align: right;" id="">Jan 2022</label>
+                                <div class="edtInfo">
+                                    <div class="col-6">
+                                        <h5 class="" style="margin-bottom: 0px;">{{companyname}}&nbsp;</h5>
+                                        <h5 class="" style="margin-bottom: 8px;">For the month ended Jan 2022</h5>
                                     </div>
-                                    <div class="sortableAccount" >
-                                        <div class="ml-1 avoid">
-                                            <label class = "col-9 dragAcc" style="">Trading Income</label>
-                                            <label class = "col-3 dragVal" style="" id="">11000</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Other Revenue</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Sales</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Total Trading Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
+                                </div>
+                                <hr class="periodSelectorLine" />
+                                <div class="accdate">
+                                    <label class="col-9 dragVal" style=""></label>
+                                    <label class="col-3 dragAcc" style="text-align: right;" id="">Jan 2022</label>
+                                </div>
+                                <div class="sortableAccount">
+                                    <div class="ml-1 avoid">
+                                        <label class="col-9 dragAcc" style="">Trading Income</label>
+                                        <label class="col-3 dragVal" style="" id="">11000.00</label>
                                     </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Other Revenue</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Sales</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Total Trading Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                </div>
 
-                                    <div class="sortableAccount">
-                                        <div class="ml-1 avoid">
-                                            <label class = "col-9 dragAcc" style="">Cost of Sales</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Cost of Goods Sold</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Sales</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
+                                <div class="sortableAccount">
+                                    <div class="ml-1 avoid">
+                                        <label class="col-9 dragAcc" style="">Cost of Sales</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
                                     </div>
-
-
-                                    <div class="sortableAccount">
-                                        <div class="ml-1 avoid gP" id="gP">
-                                            <span class="formula-icon">ƒ</span>
-                                            <label class = "col-9 dragAcc" style="">Gross Profit</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Cost of Goods Sold</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
                                     </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Sales</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                </div>
 
 
-                                    <div class="sortableAccount">
-                                        <div class="ml-1 avoid">
-                                            <label class = "col-9 dragAcc" style="">Other Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
+                                <div class="sortableAccount">
+                                    <div class="ml-1 avoid gP" id="gP">
+                                        <span class="formula-icon">ƒ</span>
+                                        <label class="col-9 dragAcc" style="">Gross Profit</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
                                     </div>
-                                    <div class="sortableAccount">
-                                        <div class="ml-1 avoid nP" id="nP">
-                                            <span class="formula-icon">ƒ</span>
-                                            <label class = "col-9 dragAcc" style="">Net Profit</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
                                     </div>
-                                    <div class="sortableAccount">
-                                        <div class="ml-1 avoid">
-                                            <label class = "col-9 dragAcc" style="">Operating Expenses</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
-                                        <div class="ml-3 draggable">
-                                            <label class = "col-9 dragAcc" style="">Interest Income</label>
-                                            <label class = "col-3 dragVal" style="">11000.00</label>
-                                        </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
                                     </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="sortableAccount">
+                                    <div class="ml-1 avoid">
+                                        <label class="col-9 dragAcc" style="">Other Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                </div>
+                                <div class="sortableAccount">
+                                    <div class="ml-1 avoid nP" id="nP">
+                                        <span class="formula-icon">ƒ</span>
+                                        <label class="col-9 dragAcc" style="">Net Profit</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                </div>
+                                <div class="sortableAccount">
+                                    <div class="ml-1 avoid">
+                                        <label class="col-9 dragAcc" style="">Operating Expenses</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                    <div class="ml-3 draggable">
+                                        <label class="col-9 dragAcc" style="">Interest Income</label>
+                                        <label class="col-3 dragVal" style="">11000.00</label>
+                                    </div>
+                                </div>
 
                             </div>
                             <div class="col-sm-4 editor-Right">
                                 <div class="container mb-3 editDefault" style="">
-                                    <h5>Start editing your layout</h5>
+                                    <h3>Start editing your layout</h3>
                                     <hr class="periodSelectorLine" />
                                     <div>
-                                        <p>Add to your layout from the toolbar or make a</p> <p>selection within the report</p>
+                                        <p>Add to your layout from the toolbar or make a</p>
+                                        <p>selection within the report</p>
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="container mb-3 editGroup" style="">
                                     <h3>Group</h3>
                                     <hr class="periodSelectorLine" />
@@ -1144,93 +1156,142 @@
                                     </div>
                                     <div class="mt-2 ">
                                         <label style="width:100%;">Display Balance</label>
-                                        <div class="row">
-                                            <button class="btn btn-primary text-nowrap col-12 col-sm-6" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Debit Positive
+                                        <div class="row m-2 dspBalanceControls">
+                                            <button class="btn btn-primary text-nowrap " data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Debit Positive
                                             </button>
-                                            <button class="btn btn-primary text-nowrap col-12 col-sm-6" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Credit Positive
+                                            <button class="btn btn-primary text-nowrap " data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Credit Positive
                                             </button>
                                         </div>
                                         <hr class="periodSelectorLine" />
                                         <div class="m-1 col-12 p-1">
-                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Group Selection
+                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplEditLayoutScreen" type="button" id="btnCancelLayoutCreation">Group Selection
                                             </button>
-                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
+                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplSwitchRuleModal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
                                             </button>
                                         </div>
-                                        <div class="custom-control custom-switch m-1 grpTotal-container">
+                                        <div class="custom-control custom-switch grpTotal-container">
                                             <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
                                             <label class="custom-control-label" for="grpTotal">Total</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="container mb-3 p-1 edlayCalculator" style="width:100%">
+                                <div class="container mb-3  edlayCalculator" style="width:100%">
                                     <style>
-                                        .calculatorBody{
-                                            width:100%;
+                                        .calculatorBody {
+                                            width: 100%;
                                         }
-                                        .accValSelect{
+
+                                        .accValSelect {
                                             border-radius: 0;
-                                            border:0.1px #a6a9b0 solid;
+                                            border: 0.1px #a6a9b0 solid;
                                         }
-                                        .calcTools{
+
+                                        .calcTools {
                                             flex-wrap: nowrap;
                                         }
-                                        .calcTools .btn{
-                                            background-color:white !important;
-                                            color:#333 !important;
+
+                                        .calcTools .btn {
+                                            background-color: white !important;
+                                            color: #333 !important;
                                             border-radius: 0;
-                                            border:0.1px #a6a9b0 solid;
+                                            border: 0.1px #a6a9b0 solid;
                                         }
-                                        .calcField{
-                                          resize: none;
+
+                                        .calcField {
+                                            resize: none;
                                             border-radius: 0;
-                                            border:0.1px #a6a9b0 solid;
+                                            border: 0.1px #a6a9b0 solid;
                                             min-height: 150px;
                                             overflow-y: scroll;
-                                            background-color:#fff;
-                                            
+                                            background-color: #fff;
+
                                         }
-                                        .calcVarBlock{
+
+                                        .calcVarBlock {
                                             vertical-align: middle;
                                             height: 20px;
                                             width: 8rem;
                                             margin: 1rem 0.5rem;
-                                            background:#00a3d3;
-                                            border-radius:3px;
-                                            border:1px solid #028dde;
+                                            background: #00a3d3;
+                                            border-radius: 3px;
+                                            border: 1px solid #028dde;
                                             color: #000a1e;
                                             line-height: 1rem;
-                                            font-size:1rem;
+                                            font-size: 1rem;
                                         }
-                                        .calcRH{
-                                            display:flex;
-                                            padding:16px 0;
+
+                                        .calcRH {
+                                            display: flex;
+                                            padding: 16px 0;
                                         }
+
                                         .formula-icon {
                                             color: #028dde;
                                             background-color: #f3f3f3;
                                             padding: 0px;
                                             border: 0.1em solid #ccc;
-                                            border-right:unset;
+                                            border-right: unset;
                                         }
-                                        .gP .dragAcc,.nP .dragAcc{
-                                            border-left:unset;
+
+                                        .gP .dragAcc,
+                                        .nP .dragAcc {
+                                            border-left: unset;
                                         }
-                                        .grpTotal-container{
-                                            padding:16px;
+
+                                        .grpTotal-container {
+                                            padding: 1rem;
+                                            margin: 0rem ;
+                                            background: #fff;
+                                            display: flex;
                                         }
-                                        .editor-Right{
-                                            background-color:#f3f3f3;
+                                        .grpTotal-container #grpTotal{
+                                            position: relative;
+                                            margin-left: 16px;
                                         }
-                                        .editDefault{
-                                            padding:16px;
+                                        .editor-Right {
+                                            background-color: #f3f3f3;
+                                        }
+
+                                        .editDefault {
+                                            padding: 16px;
+
+                                        }
+
+                                        .editDefault h3,
+                                        .editDefault p {
+                                            text-align: center;
                                             
                                         }
-                                        .editDefault h5, .editDefault p{
-                                            text-align: center;
+                                        .edtInfo{
+                                            color: #000a1e;
                                         }
+                                        .editGroup,.edlayCalculator{
+                                            padding:1rem;
+                                        }
+                                        .sortableAccountParent .periodSelectorLine{
+                                            margin-top: 0.7rem;
+                                        }
+                                        .dspBalanceControls{
+                                            margin: 0.5rem 0rem 0.5rem 0.5rem !important;
+                                            display: flex;
+                                            justify-content: space-between;
+                                            gap:0.5rem;
+                                        }
+                                        .dspBalanceControls .btn{
+                                            flex-grow: 1;
+                                        }
+                                        .nplSwitchRuleModal .srFormItems{
+          
+                                        }                                        
+                                        
+                                        .nplSwitchRuleModal .srFormItems label{
+                                            text-align: center;
+                                            line-height: 2rem;
+                                        }
+                                        
+                                        
                                     </style>
-                                    <h5>Formula</h5>
+                                    <h3>Formula</h3>
                                     <hr class="periodSelectorLine" />
                                     <div>
                                         <label>Formula</label><br>
@@ -1238,38 +1299,39 @@
                                     <div class="mt-2 calculatorBody">
                                         <div class="container">
                                             <div class="row calcTools">
-                                            <select class="form-control accValSelect" id="accValSelect">
-                                                <option selected disabled class="nonOption" value="">Input</option>
-                                                <option class="calcOption" value="Trading Income">Trading Income</option>
-                                                <option class="calcOption" value="Cost of Sales">Cost of Sales</option>
-                                                <option class="calcOption" value="Plus Other Income">Plus Other Income</option>
-                                                <option class="calcOption" value="Less Operatin Expenses">Less Operatin Expenses</option>
-                                                <option class="calcOption" value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
-                                                <option class="calcOption" value="Non-operating Income">Non-operating Income</option>
-                                                <option class="calcOption" value="Non-operating Expenses">Non-operating Expenses</option>
-                                            </select>
-                                            <button class="btn btn-primary text-nowrap opBtn addition" value="+"  type="button" id="btnCancelLayoutCreation">+
-                                            </button>
-                                            <button class="btn btn-primary text-nowrap opBtn minus" value="-" type="button" id="btnCancelLayoutCreation">-
-                                            </button>
-                                            <button class="btn btn-primary text-nowrap opBtn multi"  value="*" type="button" id="btnCancelLayoutCreation">×
-                                            </button>
-                                            <button class="btn btn-primary text-nowrap opBtn divide" value="/" type="button" id="btnCancelLayoutCreation">÷
-                                            </button>
-                                            <button class="btn btn-primary text-nowrap opBtn ifBlock" value="if" type="button" id="btnCancelLayoutCreation">If
-                                            </button>
+                                                <select class="form-control accValSelect" id="accValSelect">
+                                                    <option selected disabled class="nonOption" value="">Input</option>
+                                                    <option class="calcOption" value="Trading Income">Trading Income</option>
+                                                    <option class="calcOption" value="Cost of Sales">Cost of Sales</option>
+                                                    <option class="calcOption" value="Plus Other Income">Plus Other Income</option>
+                                                    <option class="calcOption" value="Less Operatin Expenses">Less Operatin Expenses</option>
+                                                    <option class="calcOption" value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
+                                                    <option class="calcOption" value="Non-operating Income">Non-operating Income</option>
+                                                    <option class="calcOption" value="Non-operating Expenses">Non-operating Expenses</option>
+                                                </select>
+                                                <button class="btn btn-primary text-nowrap opBtn addition" value="+" type="button" id="btnCancelLayoutCreation">+
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap opBtn minus" value="-" type="button" id="btnCancelLayoutCreation">-
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap opBtn multi" value="*" type="button" id="btnCancelLayoutCreation">×
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap opBtn divide" value="/" type="button" id="btnCancelLayoutCreation">÷
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap opBtn ifBlock" value="if" type="button" id="btnCancelLayoutCreation">If
+                                                </button>
                                             </div>
                                             <div class="row">
                                                 <div id="calcField" class="container calcField formula-editor-field " name="nplcalcField" contenteditable="true">
                                                     <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Trading Income">
-                                                    -                                                    
+                                                    -
                                                     <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Cost of Sales">
                                                 </div>
-                                            </div>                                            <div class="row calcRH">
+                                            </div>
+                                            <div class="row calcRH">
                                                 <div class="col-12">
                                                     <label>Row Heading</label><br>
                                                     <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" value="Gross Profit" placeholder="Gross Profit">
-                                                </div>                                            
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1287,9 +1349,52 @@
                         </button>
                     </div>
                 </div>
+                </div>
+                </div>
+                </div>
+    <!--End New Profit and Loss Edit Layout Screen -->
+            <!--Start Add switch rule Modal -->
+    <div class="modal fade nplAddGroupScreen nplSwitchRuleModal" id="nplSwitchRuleModal" role="dialog">
+        <div class="modal-dialog" style="min-width:50%; top: 31%; left: 0.3%;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Switch rule: Cost of Sales</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group-sm">
+                        <div class="p-1 m-1">
+                            <div class="">
+                                <div class="m-0 p-0">
+                                    <div class="p-1 m-1 row form-group-sm srFormItems">
+                                        <select class="form-control col-sm-5" id="nplNegCheck">
+                                            <option>If items are negative</option>
+                                            <option>If entire group is negative</option>
+                                        </select>
+                                        <label class="col-sm-2">Move to</label>
+                                        <select class="form-control col-sm-5" id="nplaccSelection">
+                                            <option>Trading Income</option>
+                                            <option>Other Income</option>
+                                            <option>Operating Expenses</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable" type="button" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <!--End New Profit and Loss Edit Layout Screen -->
+    <!--End Add switch rule Modal -->
 </template>
