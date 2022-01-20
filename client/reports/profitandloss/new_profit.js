@@ -628,6 +628,7 @@ Template.newprofitandloss.events({
                     $('.editDefault').hide();
                     $('.groupRow').hide();
                     $('.totalSelctor').hide();
+                    $('.pgbSideText').hide();
                     
                 } else if (el === 'nP') {
                     $('.edlayCalculator').show();
@@ -635,12 +636,45 @@ Template.newprofitandloss.events({
                     $('.editDefault').hide(); 
                     $('.groupRow').hide();
                     $('.totalSelctor').hide();
+                    $('.pgbSideText').hide();
                 } else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
                     $('.editDefault').hide();
                     $('.groupRow').hide();
                     $('.totalSelctor').hide();
+                    $('.pgbSideText').hide();                    
+                }
+            });
+        });
+    },    
+    'click .sortableAccount .draggable': function (event) {
+        $(this).each(function () {
+            $(this).click(function () {
+                var el = $(this).attr('id');
+                if (el === 'tot') {
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').hide();                    
+                    $('.totalSelctor').show();
+                    
+                }   else  if (el === 'pgBreak1') {
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').show();                    
+                    $('.totalSelctor').hide();
+                    
+                }else {
+                    $('.editGroup').show();
+                    $('.edlayCalculator').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.totalSelctor').hide();
+                    $('.pgbSideText').hide();                    
                 }
             });
         });
@@ -652,6 +686,7 @@ Template.newprofitandloss.events({
         $('.groupRow').hide();
         $('.editDefault').show();
         $('.totalSelctor').hide();
+        $('.pgbSideText').hide();
     },
     
     //calculator account selector
@@ -730,6 +765,7 @@ Template.newprofitandloss.events({
         $('.groupRow').show();
         $('.editDefault').hide();
         $('.totalSelctor').hide();
+        $('.pgbSideText').hide();        
         
     }
     //end group row section
