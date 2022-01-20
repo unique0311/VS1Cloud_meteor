@@ -24,9 +24,15 @@ Template.supportmodalpop.onRendered(function() {
         var time = dt.getHours() + ":" + dt.getMinutes();
 
         if (time >= "8:00" || time <= "16:00") {
-            $("#phoneParentAUS").addClass( "phoneOpen" );
+            $("#phoneParentAUS").addClass("phoneOpen");
+            $("#phoneChildAUS").addClass("phoneOpen");
+            $("#phoneParentAUS").removeClass("phoneClosed");
+            $("#phoneChildAUS").removeClass("phoneClosed");
         } else {
-            $("#phoneParentAUS").addClass( "phoneClosed" );
+            $("#phoneParentAUS").addClass("phoneClosed");
+            $("#phoneChildAUS").addClass("phoneClosed");
+            $("#phoneParentAUS").removeClass("phoneOpen");
+            $("#phoneChildAUS").removeClass("phoneOpen");
         }
     } else if (Session.get('ERPLoggedCountry') == "United States of America") {
         document.getElementById("phoneUSA").style.display = "block";
@@ -36,9 +42,15 @@ Template.supportmodalpop.onRendered(function() {
         var time = dt.getHours() + ":" + dt.getMinutes();
 
         if (time >= "8:00" || time <= "16:00") {
-            $("#phoneParentUSA").addClass( "phoneOpen" );
+            $("#phoneParentUSA").addClass("phoneOpen");
+            $("#phoneChildUSA").addClass("phoneOpen");
+            $("#phoneParentUSA").removeClass("phoneClosed");
+            $("#phoneChildUSA").removeClass("phoneClosed");
         } else {
-            $("#phoneParentUSA").addClass( "phoneClosed" );
+            $("#phoneParentUSA").addClass("phoneClosed");
+            $("#phoneChildUSA").addClass("phoneClosed");
+            $("#phoneParentUSA").removeClass("phoneOpen");
+            $("#phoneChildUSA").removeClass("phoneOpen");
         }
     } else if (Session.get('ERPLoggedCountry') == "South Africa") {
         document.getElementById("phoneSA").style.display = "block";
@@ -48,9 +60,15 @@ Template.supportmodalpop.onRendered(function() {
         var time = dt.getHours() + ":" + dt.getMinutes();
 
         if (time >= "8:00" || time <= "16:00") {
-            $("#phoneParentSA").addClass( "phoneOpen" );
+            $("#phoneParentSA").addClass("phoneOpen");
+            $("#phoneChildSA").addClass("phoneOpen");
+            $("#phoneParentSA").removeClass("phoneClosed");
+            $("#phoneChildSA").removeClass("phoneClosed");
         } else {
-            $("#phoneParentSA").addClass( "phoneClosed" );
+            $("#phoneParentSA").addClass("phoneClosed");
+            $("#phoneChildSA").addClass("phoneClosed");
+            $("#phoneParentSA").removeClass("phoneOpen");
+            $("#phoneChildSA").removeClass("phoneOpen");
         }
     } else {
         document.getElementById("phoneUSA").style.display = "block";
@@ -60,9 +78,9 @@ Template.supportmodalpop.onRendered(function() {
         var time = dt.getHours() + ":" + dt.getMinutes();
 
         if (time >= "8:00" || time <= "16:00") {
-            $("#phoneParentUSA").addClass( "phoneOpen" );
+            $("#phoneParentUSA").addClass("phoneOpen");
         } else {
-            $("#phoneParentUSA").addClass( "phoneClosed" );
+            $("#phoneParentUSA").addClass("phoneClosed");
         }
     }
 
