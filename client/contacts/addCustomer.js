@@ -2111,7 +2111,6 @@ Template.customerscard.onRendered(function () {
                             if (parseInt(useData[i].fields.ID) === parseInt(customerID)) {
                                 let lineItems = [];
                                 added = true;
-                                console.log(useData[i]);
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItemObj = {
                                     id: useData[i].fields.ID || '',

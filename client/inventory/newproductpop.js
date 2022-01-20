@@ -2400,7 +2400,6 @@ Template.newproductpop.events({
                           }).catch(function (err) {
                               $('#product-list').val(productName);
                           $('#newProductModal').modal('toggle');
-                          console.log("one");
                            $('.fullScreenSpin').css('display','none');
                           });
                       }).catch(function (err) {
