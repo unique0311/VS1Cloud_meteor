@@ -10,7 +10,7 @@ Template.backuprestore.onCreated(() => {
   templateObject.restorerecords = new ReactiveVar();
 });
 Template.backuprestore.onRendered(function(){
-  $('.fullScreenSpin').css('display', 'inline-block');
+  // $('.fullScreenSpin').css('display', 'inline-block');
   let templateObject = Template.instance();
   let backupService = new TaxRateService();
   const restoreList = [];

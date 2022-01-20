@@ -341,8 +341,8 @@ Template.depositcard.onRendered(()=>{
 
 
                       paging: false,
-                      "scrollY": "400px",
-                      "scrollCollapse": true,
+                      // "scrollY": "400px",
+                      // "scrollCollapse": true,
                       info: true,
                       responsive: true,
                       "order": [[ 0, "asc" ]],
@@ -514,8 +514,8 @@ Template.depositcard.onRendered(()=>{
 
 
             paging: false,
-            "scrollY": "400px",
-            "scrollCollapse": true,
+            // "scrollY": "400px",
+            // "scrollCollapse": true,
             info: true,
             responsive: true,
             "order": [[ 0, "asc" ]],
