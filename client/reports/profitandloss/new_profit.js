@@ -266,7 +266,7 @@ Template.newprofitandloss.onRendered(function () {
     //This works now: break at your own peril
     $(".sortableAccountParent").sortable({
         revert: true,
-        cancel: ".undraggableDate"
+        cancel: ".undraggableDate,.accdate,.edtInfo"
     });
     $(".sortableAccount").sortable({
         revert: true,
@@ -642,22 +642,22 @@ Template.newprofitandloss.events({
 
         $('.editGroup').hide();
         $('.edlayCalculator').hide();
+        $('.editDefault').show();
     },
     
     //calculator account selector
     'click .accValSelect': function (event) {
         var optSelectCheck = $('.accValSelect').val();
         if (optSelectCheck === null) {
-            console.log( optSelectCheck + ' zeero');
             $('.nonOption').hide();
 
         } else {
-            console.log( optSelectCheck+' soomething' );
+
             $('.nonOption').hide();
             
 //            var calcOptSelected = $('.accValSelect').val();
 //            var calcFieldContent = $('.calcField').val();   
-              console.log(optSelectCheck);
+
 
 //            var insblock = $('<input type="button" disabled class="calcVarBlock" data-formula-value="something1>');
              $('.calcField').append('<input type="button" disabled class="calcVarBlock" >').val(optSelectCheck);  
