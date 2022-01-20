@@ -4227,6 +4227,7 @@ Template.new_invoice.onRendered(() => {
             $('#sltTerms').editableSelect();
             $('#sltDept').editableSelect();
             $('#sltStatus').editableSelect();
+            $('#sltCustomOne').editableSelect();
 
             $('#addRow').on('click', function () {
                 var rowData = $('#tblInvoiceLine tbody>tr:last').clone(true);
