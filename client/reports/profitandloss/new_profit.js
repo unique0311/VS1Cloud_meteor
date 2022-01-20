@@ -625,12 +625,15 @@ Template.newprofitandloss.events({
                 if (el === 'gP') {
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
+                    $('.editDefault').hide();
                 } else if (el === 'nP') {
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
+                    $('.editDefault').hide();                    
                 } else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
+                    $('.editDefault').hide();
                 }
             });
         });
