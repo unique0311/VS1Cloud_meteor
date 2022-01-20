@@ -142,18 +142,40 @@
                                     <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button"></button>
                                     <div class="dropdown-menu" role="menu">
                                         <span>Accounting basis</span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Accrual</label></span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Cash</label></span>
+                                        <span class="dropdown-item">
+                                           <input type="radio" style=" margin: 0px 4px;  padding: 0px 8px;" checked="" id="mddItem1" name="radio"><label for="mddItem1">Accrual</label>
+                                        </span>
+                                        <span class="dropdown-item">
+                                            <input type="radio" style="  padding: 0px 8px;  margin: 0px 4px;" checked="" id="mddItem2" name="radio"><label for="mddItem2">Cash</label>
+                                        </span>
                                         <hr class="periodSelectorLine" />
                                         <span>Show</span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Accounting basis</label></span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Account codes</label></span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Decimals</label></span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Percentage of trading income</label></span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Total</label></span>
-                                        <span class="dropdown-item"><input type="radio" checked="checked" id="rdoCash" name="radio"><label for="rdoCash">Year to date</label></span>
+                                        <span class="dropdown-item ml-4 custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem3" name="checkbox">
+                                            <label class="custom-control-label" for="mddItem3">Accounting basis</label>
+                                        </span>
+                                        <span class="dropdown-item ml-4 custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem4" name="checkbox">
+                                            <label class="custom-control-label" for="mddItem4">Account codes</label>
+                                        </span>
+                                        <span class="dropdown-item ml-4 custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem5" name="checkbox">
+                                            <label class="custom-control-label" for="mddItem5">Decimals</label>
+                                        </span>
+                                        <span class="dropdown-item ml-4 custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem6" name="checkbox">
+                                            <label class="custom-control-label" for="mddItem6">Percentage of trading income</label>
+                                        </span>
+                                        <span class="dropdown-item ml-4 custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem7" name="checkbox">
+                                            <label class="custom-control-label" for="mddItem7">Total</label>
+                                        </span>
+                                        <span class="dropdown-item ml-4 custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem8" name="checkbox">
+                                            <label class="custom-control-label" for="mddItem8">Year to date</label>
+                                        </span>
                                     </div>
-                                </div>
+                                    </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group float-right" style="margin: 16px;">
@@ -1147,6 +1169,26 @@
                                         <p>selection within the report</p>
                                     </div>
                                 </div>
+                                <div class="container mb-3 totalSelctor" style="">
+                                    <h3>Total</h3>
+                                    <hr class="periodSelectorLine" />
+                                    <div>
+                                    <div class="col-12">
+                                        <label>Row Heading</label><br>
+                                        <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Total Trading Income">
+                                    </div>
+                                    </div>
+                                </div>                                 
+                                <div class="container mb-3 groupRow" style="">
+                                    <h3>Row</h3>
+                                    <hr class="periodSelectorLine" />
+                                    <div>
+                                        <div class="m-1 col-12 p-1">
+                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" href="" type="button" >Group Selection
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>                                
                                 <div class="container mb-3 editGroup" style="">
                                     <h3>Group</h3>
                                     <hr class="periodSelectorLine" />
@@ -1265,7 +1307,7 @@
                                         .edtInfo{
                                             color: #000a1e;
                                         }
-                                        .editGroup,.edlayCalculator{
+                                        .editGroup,.edlayCalculator,.groupRow,.totalSelctor{
                                             padding:1rem;
                                         }
                                         .sortableAccountParent .periodSelectorLine{
@@ -1287,6 +1329,9 @@
                                         .nplSwitchRuleModal .srFormItems label{
                                             text-align: center;
                                             line-height: 2rem;
+                                        }
+                                        .groupRow h3,.totalSelctor h3{
+                                            text-align: center;
                                         }
                                         
                                         
@@ -1353,7 +1398,7 @@
                 </div>
                 </div>
     <!--End New Profit and Loss Edit Layout Screen -->
-            <!--Start Add switch rule Modal -->
+    <!--Start Add switch rule Modal -->
     <div class="modal fade nplAddGroupScreen nplSwitchRuleModal" id="nplSwitchRuleModal" role="dialog">
         <div class="modal-dialog" style="min-width:50%; top: 31%; left: 0.3%;">
             <!-- Modal content-->

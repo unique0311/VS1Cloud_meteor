@@ -626,14 +626,21 @@ Template.newprofitandloss.events({
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.totalSelctor').hide();
+                    
                 } else if (el === 'nP') {
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
-                    $('.editDefault').hide();                    
+                    $('.editDefault').hide(); 
+                    $('.groupRow').hide();
+                    $('.totalSelctor').hide();
                 } else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
                     $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.totalSelctor').hide();
                 }
             });
         });
@@ -642,7 +649,9 @@ Template.newprofitandloss.events({
 
         $('.editGroup').hide();
         $('.edlayCalculator').hide();
+        $('.groupRow').hide();
         $('.editDefault').show();
+        $('.totalSelctor').hide();
     },
     
     //calculator account selector
@@ -711,8 +720,19 @@ Template.newprofitandloss.events({
         var valEntry1 = $('.ifBlock').val();
         var valEntry2 = $('.calcField').val();
         $('.calcField').append(valEntry2 + valEntry1);
-    }
+    },
     //end calculator buttons
+    
+    //show group row section
+    'click .sortableAccount .draggable': function (event){
+        $('.editGroup').hide();
+        $('.edlayCalculator').hide();
+        $('.groupRow').show();
+        $('.editDefault').hide();
+        $('.totalSelctor').hide();
+        
+    }
+    //end group row section
 });
 
 Template.newprofitandloss.helpers({
