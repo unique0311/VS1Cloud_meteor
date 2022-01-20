@@ -30,9 +30,11 @@
                 .btnTransaction {
                     width: 80% !important;
                 }
+
                 .payNow {
                     margin-right: 8px !important;
                 }
+
                 .btnMakePayment {
                     margin-left: 8px !important;
                 }
@@ -87,6 +89,40 @@
                             </div>
                             <div class="modal-body">
                                 <div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <script>
+
+                                            </script>
+                                            <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
+                                                <input class="custom-control-input" type="checkbox" id="formCheck-customOne" value="one">
+                                                <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="formCheck-customOne"></label>
+
+                                                <div class="input-group">
+                                                    <!-- text field -->
+                                                    <input id="customFieldText" type="text" class="form-control" placeholder="Custom Field 1" style="border-color: #858796;">
+                                                    <!-- date field -->
+                                                    <div id="customFieldDate" class="input-group date pointer" style="width: 86% !important; display: none;">
+                                                        <input type="text" class="form-control" style=" border-color: #858796 !important; width: 86% !important; " id="customdateone" name="customdateone" value="{{invoicerecord.saledate}}">
+                                                        <div class="input-group-addon" style="">
+                                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- text field -->
+                                                    <select type="search" class="form-control pointer" id="sltCustomOne" name="sltCustomOne" style="background-color:rgb(255, 255, 255); border-color: #858796; display: none;">
+                                                    </select>
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item pointer btnToggleText">Text Field</a>
+                                                            <a class="dropdown-item pointer btnToggleDate">Date Field</a>
+                                                            <a class="dropdown-item pointer btnToggleDrop">Dropdown</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <form class="d-xl-flex align-items-xl-center">
                                         <div class="flex-grow-1">
                                             <div class="custom-control custom-switch" style="margin: 8px;">
@@ -186,8 +222,8 @@
                                 {{/if}}
                                 <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Upload</button>
                                 <button class="btn btn-success closeModal" data-dismiss="modal" type="button" style="margin-right: 5px;" autocomplete="off">
-                        <i class="fa fa-save" style="padding-right: 8px;"></i>Save
-                    </button>
+                                    <i class="fa fa-save" style="padding-right: 8px;"></i>Save
+                                </button>
                                 <!-- <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button> -->
                                 <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                             </div>
@@ -425,9 +461,9 @@
                         <div class="row justify-content-end">
                             <div class="col-12 col-md-3 col-xl-12" id="colBalanceDue">
                                 <div class="text-right" style="font-size: 14px; margin: 16px 24px;">
-                                  {{#if equals invoicerecord.deleted true}}
-                                  <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Deleted</p>
-                                  {{/if}}
+                                    {{#if equals invoicerecord.deleted true}}
+                                        <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Deleted</p>
+                                    {{/if}}
                                     <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103);">BALANCE DUE</p>
                                     {{#if equals invoicerecord.ispaid true}}
                                         <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Paid</p>
@@ -950,7 +986,7 @@
                                         <tr class="dnd-moved" id={{item.lineID}}>
 
                                             <!-- <td contenteditable="false" class="lineProductName colProductName pointer" prodid=' '>{{item.item}}</td> -->
-                                            <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="{{item.item}}" ></td>
+                                            <td contenteditable="false" class="colProductName"><input class="es-input highlightSelect lineProductName" type="search" value="{{item.item}}"></td>
 
                                             <td contenteditable="true" class="lineProductDesc colDescription">{{item.description}}</td>
                                             {{#if includeBOnShippedQty}}
@@ -1038,6 +1074,7 @@
                         visibility: hidden;
                         height: 0px !important;
                     }
+
                     @media screen and (min-width: 1366px) {
                         .colComments {
                             padding-right: 2.5rem;
@@ -1048,6 +1085,7 @@
                         .desktopButtons {
                             display: none;
                         }
+
                         .mobileButtons {
                             display: flex !important;
                         }
@@ -1203,9 +1241,11 @@
                         .btnFooter {
                             width: 39% !important;
                         }
+
                         .btnSave {
                             margin-right: 8px !important;
                         }
+
                         .btn_Attachment {
                             margin-right: 8px !important;
                         }
@@ -1213,6 +1253,7 @@
                         .printConfirm {
                             margin-left: 8px !important;
                         }
+
                         .btnBack {
                             margin-left: 8px !important;
                         }
@@ -1361,14 +1402,14 @@
                             <div style="width: 70mm;">
                                 <div style="padding-left: 16px;font-weight: bold;">
                                     <a href="{{organizationurl}}">{{organizationurl}}</a>
-                                        <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
-                                        <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
-                                        <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress2}}</p>
-                                        <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{city}}</p>
-                                        <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{state}} {{poBox}} </p>
-                                        <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
-                                        <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
-                            </div>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress2}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{city}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{state}} {{poBox}} </p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
+                                </div>
                             </div>
                         </div>
                         <div style="font-size: 14px;">
