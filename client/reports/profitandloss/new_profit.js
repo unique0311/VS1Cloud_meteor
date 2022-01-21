@@ -660,7 +660,7 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').hide();                    
                     $('.totalSelctor').show();
                     
-                }   else  if (el === 'pgBreak1') {
+                }   else if (el === 'pgBreak1') {
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
@@ -741,6 +741,7 @@ Template.newprofitandloss.events({
         var valEntry1 = $('.minus').val();
         var valEntry2 = $('.calcField').val();
 //        $('.calcField').append(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry1);
     },
     'click .multi': function (event) {
         var valEntry1 = $('.multi').val();
@@ -771,8 +772,16 @@ Template.newprofitandloss.events({
         $('.totalSelctor').hide();
         $('.pgbSideText').hide();        
         
-    }
+    },
     //end group row section
+    'click #pgBreak1':function (event) {
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').show();                    
+                    $('.totalSelctor').hide();
+                }
 });
 
 Template.newprofitandloss.helpers({
