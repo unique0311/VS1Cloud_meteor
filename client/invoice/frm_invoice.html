@@ -82,94 +82,7 @@
 
                 <!-- Start {{> optionCustomFiled}} -->
                 <div class="modal fade" role="dialog" tabindex="-1" id="myModal4">
-                    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4>Field Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            </div>
-                            <div class="modal-body">
-                                <div>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <script>
-
-                                            </script>
-                                            <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
-                                                <input class="custom-control-input" type="checkbox" id="formCheck-customOne" value="one">
-                                                <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="formCheck-customOne"></label>
-
-                                                <div class="input-group">
-                                                    <!-- text field -->
-                                                    <input id="customFieldText" type="text" class="form-control" placeholder="Custom Field 1" style="border-color: #858796;">
-                                                    <!-- date field -->
-                                                    <div id="customFieldDate" class="input-group date pointer" style="width: 86% !important; display: none;">
-                                                        <input type="text" class="form-control" style=" border-color: #858796 !important; width: 86% !important; " id="customdateone" name="customdateone" value="{{invoicerecord.saledate}}">
-                                                        <div class="input-group-addon" style="">
-                                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
-                                                        </div>
-                                                    </div>
-                                                    <!-- text field -->
-                                                    <select type="search" class="form-control pointer" id="sltCustomOne" name="sltCustomOne" style="background-color:rgb(255, 255, 255); border-color: #858796; display: none; border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;">
-                                                    </select>
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-secondary dropdown-toggle btn-sm" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                                        <div class="dropdown-menu">
-                                                            <a class="dropdown-item pointer btnToggleText">Text Field</a>
-                                                            <a class="dropdown-item pointer btnToggleDate">Date Field</a>
-                                                            <a class="dropdown-item pointer btnToggleDrop">Dropdown</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <form class="d-xl-flex align-items-xl-center">
-                                        <div class="flex-grow-1">
-                                            <div class="custom-control custom-switch" style="margin: 8px;">
-                                                <input class="custom-control-input" type="checkbox" id="formCheck-one" value="one">
-                                                {{#if salesCloudPreferenceRec}}
-                                                    {{#if equals salesCloudPreferenceRec.customFields.[0].hidden false}}
-                                                        <script>
-                                                            $('#formCheck-one').attr("checked", "checked");
-                                                        </script>
-                                                    {{else}}
-                                                        <script>
-                                                            $('#formCheck-one').removeAttr("checked");
-                                                        </script>
-                                                    {{/if}}
-                                                {{/if}}
-                                                <label class="custom-control-label" style="position: absolute;" for="formCheck-one"></label>
-                                                <div contenteditable="true" class="groove customField1Text">{{#if salesCloudPreferenceRec}}{{salesCloudPreferenceRec.customFields.[0].label}}{{else}}SaleCustField1{{/if}}</div>
-                                            </div>
-
-                                            <div class="custom-control custom-switch" style="margin: 8px;">
-                                                <input class="custom-control-input" type="checkbox" id="formCheck-two" value="two">
-                                                {{#if salesCloudPreferenceRec}}
-                                                    {{#if equals salesCloudPreferenceRec.customFields.[1].hidden false}}
-                                                        <script>
-                                                            $('#formCheck-two').attr("checked", "checked");
-                                                        </script>
-                                                    {{else}}
-                                                        <script>
-                                                            $('#formCheck-two').removeAttr("checked");
-                                                        </script>
-                                                    {{/if}}
-                                                {{/if}}
-                                                <label class="custom-control-label" style="position: absolute;" for="formCheck-two"></label>
-                                                <div contenteditable="true" class="groove customField2Text">{{#if salesCloudPreferenceRec}}{{salesCloudPreferenceRec.customFields.[1].label}}{{else}}SaleCustField2{{/if}}</div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <button class="btn btn-success btnSaveSettings" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
-                                <button class="btn btn-warning btnResetSettings" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
-                                <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
-                            </div>
-                        </div>
-                    </div>
+                   {{> customfieldpop}}
                 </div>
                 <!-- END  -->
 
@@ -425,7 +338,7 @@
                                     <div class="col-6 col-md-12 col-lg-12">
                                         <div class="one box checkbox1div" style="{{#if salesCloudPreferenceRec}}{{#if equals salesCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                             <div class="form-group">
-                                                <label class="lblCustomField1">{{#if salesCloudPreferenceRec}}{{salesCloudPreferenceRec.customFields.[0].label}}{{else}}SaleCustField1{{/if}}</label>
+                                                <label class="lblCustomField1">Custom Field 1</label>
                                                 <input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value="{{invoicerecord.saleCustField1}}">
                                             </div>
                                         </div>
@@ -433,8 +346,16 @@
                                     <div class="col-6 col-md-12 col-lg-12">
                                         <div class="two box checkbox2div" style="{{#if salesCloudPreferenceRec}}{{#if equals salesCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                             <div class="form-group">
-                                                <label class="lblCustomField2">{{#if salesCloudPreferenceRec}}{{salesCloudPreferenceRec.customFields.[1].label}}{{else}}SaleCustField2{{/if}}<br></label>
+                                                <label class="lblCustomField2">Custom Field 2<br></label>
                                                 <input class="form-control form-control" type="text" id="edtSaleCustField2" name="edtSaleCustField2" value="{{invoicerecord.saleCustField2}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <div class="col-6 col-md-12 col-lg-12">
+                                        <div class="two box checkbox3div" style="{{#if salesCloudPreferenceRec}}{{#if equals salesCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
+                                            <div class="form-group">
+                                                <label class="lblCustomField2">Custom Field 3<br></label>
+                                                <input class="form-control form-control" type="text" id="edtSaleCustField3" name="edtSaleCustField3" value="{{invoicerecord.saleCustField2}}">
                                             </div>
                                         </div>
                                     </div>
@@ -1572,7 +1493,7 @@
 
         <!-- Modal print-button -modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
-            {{> productlistpop}}
+            
         </div>
 
         <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">

@@ -150,34 +150,7 @@ Template.new_invoice.onRendered(() => {
   // }
   //   });
 
-    $(document).ready(function () {
-            $('#formCheck-one').click(function () {
-                if ($(event.target).is(':checked')) {
-                    $('.checkbox1div').css('display', 'block');
-                } else {
-                    $('.checkbox1div').css('display', 'none');
-                }
-            });
-
-            $('#formCheck-two').click(function () {
-                if ($(event.target).is(':checked')) {
-                    $('.checkbox2div').css('display', 'block');
-                } else {
-                    $('.checkbox2div').css('display', 'none');
-                }
-            });
-
-            $('.customField1Text').blur(function () {
-                var inputValue1 = $('.customField1Text').text();
-                $('.lblCustomField1').text(inputValue1);
-            });
-
-            $('.customField2Text').blur(function () {
-                var inputValue2 = $('.customField2Text').text();
-                $('.lblCustomField2').text(inputValue2);
-            });
-
-        });
+   
         $('.fullScreenSpin').css('display', 'inline-block');
         templateObject.getAllClients = function () {
             getVS1Data('TCustomerVS1').then(function (dataObject) {
@@ -4227,7 +4200,6 @@ Template.new_invoice.onRendered(() => {
             $('#sltTerms').editableSelect();
             $('#sltDept').editableSelect();
             $('#sltStatus').editableSelect();
-            $('#sltCustomOne').editableSelect();
 
             $('#addRow').on('click', function () {
                 var rowData = $('#tblInvoiceLine tbody>tr:last').clone(true);
@@ -6432,36 +6404,36 @@ Template.new_invoice.onRendered(() => {
         // 'click #sltStatus': function(event) {
         //     $('#statusPopModal').modal('toggle');
         // },
-        'click .btnToggleText': function (event) {
-            var text = document.getElementById("customFieldText");
-            var date = document.getElementById("customFieldDate");
-            var drop = document.getElementById("sltCustomOne");
-            if (text.style.display === "none") {
-                text.style.display = "block";
-                date.style.display = "none";
-                drop.style.display = "none";
-            }
-        },
-        'click .btnToggleDate': function (event) {
-            var text = document.getElementById("customFieldText");
-            var date = document.getElementById("customFieldDate");
-            var drop = document.getElementById("sltCustomOne");
-            if (date.style.display === "none") {
-                text.style.display = "none";
-                date.style.display = "inline-flex";
-                drop.style.display = "none";
-            }
-        },
-        'click .btnToggleDrop': function (event) {
-            var text = document.getElementById("customFieldText");
-            var date = document.getElementById("customFieldDate");
-            var drop = document.getElementById("sltCustomOne");
-            if (drop.style.display === "none") {
-                text.style.display = "none";
-                date.style.display = "none";
-                drop.style.display = "block";
-            }
-        },
+        // 'click .btnToggleText': function (event) {
+        //     var text = document.getElementById("customFieldText");
+        //     var date = document.getElementById("customFieldDate");
+        //     var drop = document.getElementById("sltCustomOne");
+        //     if (text.style.display === "none") {
+        //         text.style.display = "block";
+        //         date.style.display = "none";
+        //         drop.style.display = "none";
+        //     }
+        // },
+        // 'click .btnToggleDate': function (event) {
+        //     var text = document.getElementById("customFieldText");
+        //     var date = document.getElementById("customFieldDate");
+        //     var drop = document.getElementById("sltCustomOne");
+        //     if (date.style.display === "none") {
+        //         text.style.display = "none";
+        //         date.style.display = "inline-flex";
+        //         drop.style.display = "none";
+        //     }
+        // },
+        // 'click .btnToggleDrop': function (event) {
+        //     var text = document.getElementById("customFieldText");
+        //     var date = document.getElementById("customFieldDate");
+        //     var drop = document.getElementById("sltCustomOne");
+        //     if (drop.style.display === "none") {
+        //         text.style.display = "none";
+        //         date.style.display = "none";
+        //         drop.style.display = "block";
+        //     }
+        // },
         'click #edtCustomerName': function (event) {
             $('#edtCustomerName').select();
             $('#edtCustomerName').editableSelect();
