@@ -734,27 +734,31 @@ Template.newprofitandloss.events({
     'click .addition': function (event) {
         var valEntry1 = $('.addition').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').append(valEntry2 + valEntry1);
+//        $('.calcField').append(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry1);
     },
     'click .minus': function (event) {
         var valEntry1 = $('.minus').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').append(valEntry2 + valEntry1);
+//        $('.calcField').append(valEntry2 + valEntry1);
     },
     'click .multi': function (event) {
         var valEntry1 = $('.multi').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').append(valEntry2 + valEntry1);
+//        $('.calcField').append(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry1);
     },
     'click .divide': function (event) {
         var valEntry1 = $('.divide').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').append(valEntry2 + valEntry1);
+//        $('.calcField').append(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry1);
     },
     'click .ifBlock': function (event) {
         var valEntry1 = $('.ifBlock').val();
         var valEntry2 = $('.calcField').val();
-        $('.calcField').append(valEntry2 + valEntry1);
+//        $('.calcField').append(valEntry2 + valEntry1);
+        $('.calcField').append(valEntry1);
     },
     //end calculator buttons
     
