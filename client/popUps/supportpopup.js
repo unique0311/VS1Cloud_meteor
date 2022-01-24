@@ -178,8 +178,6 @@ Template.supportmodalpop.onRendered(function() {
 
         }
         setInterval(updateTime, 1000);
-
-
 });
 
 
