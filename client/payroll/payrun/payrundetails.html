@@ -196,7 +196,10 @@
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col-12">
+                <h4 style="font-weight: 600; margin-left: 32px;"><span>1 Employee</span> Included</h4>
+            </div>
+            <div class="col-12">
                 <div class="card-body p-5 rounded" style="padding: 0rem 2rem !important;">
                     <style>
                         th {
@@ -250,6 +253,11 @@
                         .highlightInput[type=number] {
                             -moz-appearance: textfield !important;
                         }
+
+                        .dropdown-toggle:after {
+                            float: right;
+                            margin-top: 8px;
+                        }
                     </style>
                     <div class="table-responsive">
                         <table id="tblPayRunDetails" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayRunDetails">
@@ -263,9 +271,39 @@
                                     <th class="th colPayRunDetailsTax" style="">Tax</th>
                                     <th class="th colPayRunDetailsSuper" style="">Super</th>
                                     <th class="th colPayRunDetailsNetPay" style="">Net Pay</th>
+                                    <th class="th colPayRunDetailsDropdown" style="">
+                                        <div class="btn-group" style="width: 100%;">
+                                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Action
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Include All</a>
+                                                <a class="dropdown-item" href="#">Exclude All</a>
+                                                <a class="dropdown-item" href="#">Exclude All Empty Payslips</a>
+                                                <a class="dropdown-item" href="#">Sort By Included</a>
+                                                <a class="dropdown-item" href="#">Sort By Excluded</a>
+                                            </div>
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr class="dnd-moved" id="" name="">
+                                    <td class="colPayRunDetailsFirstName" contenteditable="false">Simon</td>
+                                    <td class="colPayRunDetailsLastName" contenteditable="false">Clive</td>
+                                    <td class="colPayRunDetailsEmployeeGroup" contenteditable="false"></td>
+                                    <td class="colPayRunDetailsLastEdited" contenteditable="false"></td>
+                                    <td class="colPayRunDetailsEarnings" contenteditable="false" style="text-align: right;">$2,000.00</td>
+                                    <td class="colPayRunDetailsTax" contenteditable="false" style="text-align: right;">$940.00</td>
+                                    <td class="colPayRunDetailsSuper" contenteditable="false" style="text-align: right;">$0.00</td>
+                                    <td class="colPayRunDetailsNetPay" contenteditable="false" style="text-align: right;">$1,060.00</td>
+                                    <td class="colPayRunDetailsDropdown" contenteditable="false">
+                                        <div class="custom-control custom-switch" style="display: inline-flex !important; margin-left: 74px;">
+                                            <input class="custom-control-input" type="checkbox" name="payrundetailsDropdown" id="payrundetailsDropdown" checked>
+                                            <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="payrundetailsDropdown"></label>
+                                        </div>
+                                    </td>
+                                </tr>
                                 {{#if datatablerecords}}
                                     {{#each item in datatablerecords}}
                                         <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">

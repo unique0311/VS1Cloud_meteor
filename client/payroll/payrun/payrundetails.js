@@ -111,7 +111,10 @@ Template.payrundetails.onRendered(function() {
 });
 
 Template.payrundetails.events({
-
+    'click .colPayRunDetailsFirstName': function (event) {
+        $('.modal-backdrop').css('display', 'none');
+        FlowRouter.go('/payslip');
+    },
 });
 
 Template.payrundetails.helpers({

@@ -346,6 +346,15 @@ authenticatedRoutes.route('/payrundetails', {
     }
 });
 
+authenticatedRoutes.route('/payslip', {
+    name: 'payslip',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'payslip'
+        });
+    }
+});
+
 authenticatedRoutes.route('/purchasesoverview', {
     name: 'purchasesoverview',
     action() {
