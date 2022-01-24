@@ -28,7 +28,18 @@ Template.quotedinvoicedamounts.onRendered(() => {
     let topTenData1 = [];
     let topTenSuppData1 = [];
     let topData = this;
-    if (!localStorage.getItem('VS1SalesListReport_dash')) {
+
+    let checkStatus = localStorage.getItem("quotedinvoicedchart") || true;
+
+      if(checkStatus == false || checkStatus == "false") {
+        $("#quotedinvoicedamount").addClass('hideelement');
+        $('#hidesales1').text("Show");
+      } else {
+        $("#quotedinvoicedamount").removeClass('hideelement');
+        $('#hidesales1').text("Hide");
+      }
+      
+        if (!localStorage.getItem('VS1SalesListReport_dash')) {
         let currentDate = new Date();
         let currentMonthDate = currentDate.getMonth() + 1;
         let currentYear = currentDate.getFullYear();
@@ -848,14 +859,17 @@ Template.quotedinvoicedamounts.onRendered(() => {
 
 Template.quotedinvoicedamounts.events({
   'click #hidesales1': function () {
-    if($("#showsales1chat").hasClass('showquotechat')) {
+    let check = localStorage.getItem("quotedinvoicedchart") || true;
+    if(check == "true" || check == true) {
        $("#hidesales1").text("Show");
-       $('#showsales1chat').addClass('hidequotechat');
-       $('#showsales1chat').removeClass('showquotechat');
-    } else if($("#showsales1chat").hasClass('hidequotechat')) {
+       localStorage.setItem("quotedinvoicedchart",false);
+       // $('#showsales1chat').addClass('hidequotechat');
+       // $('#showsales1chat').removeClass('showquotechat');
+    } else {
        $("#hidesales1").text("Hide");
-       $('#showsales1chat').addClass('showquotechat');
-       $('#showsales1chat').removeClass('hidequotechat');
+       localStorage.setItem("quotedinvoicedchart",true);
+       // $('#showsales1chat').addClass('showquotechat');
+       // $('#showsales1chat').removeClass('hidequotechat');
     }
   }
 

@@ -30,6 +30,20 @@ Template.profitandlosschart.onRendered(()=>{
   var begunDate = moment(currentDate).format("DD/MM/YYYY");
   let fromDateMonth = (currentDate.getMonth() + 1);
   let fromDateDay = currentDate.getDate();
+
+
+  let checkStatus = localStorage.getItem("profitloss") || true;
+  console.log(checkStatus);
+  setTimeout(function(){
+  if(checkStatus == false || checkStatus == "false") {
+    $("#profitlossstatus").addClass('hideelement')
+    $('#profitloss1hide').text("Show");
+  } else {
+    $("#profitlossstatus").removeClass('hideelement')
+    $('#profitloss1hide').text("Hide");
+  }
+    },1000);
+  
   if((currentDate.getMonth()+1) < 10){
     fromDateMonth = "0" + (currentDate.getMonth()+1);
   }
@@ -217,6 +231,16 @@ Template.profitandlosschart.onRendered(()=>{
     'click .btnRefresh': function () {
       Meteor._reload.reload();
     },
+    'click #profitloss1hide': function () {
+    let check = localStorage.getItem("profitloss") || true;
+    if(check == "true" || check == true) {
+       localStorage.setItem("profitloss",false);
+       $("#profitloss1hide").text("Show");
+    } else {
+      localStorage.setItem("profitloss",true);
+       $("#profitloss1hide").text("Hide");
+    }
+   },
     'click .btnPrintReport':function (event) {
       $(".printReport").print({
           title   :  document.title +" | Aged Receivables | "+loggedCompany,
@@ -309,20 +333,7 @@ Template.profitandlosschart.onRendered(()=>{
 
   });
 
-  Template.profitandlosschart.events({
-  'click #profitloss1hide': function () {
-    if($("#profitlosschat").hasClass('showprofitchat')) {
-       $("#profitloss1hide").text("Show");
-       $('#profitlosschat').addClass('hideprofitchat');
-       $('#profitlosschat').removeClass('showprofitchat');
-    } else if($("#profitlosschat").hasClass('hideprofitchat')) {
-       $("#profitloss1hide").text("Hide");
-       $('#profitlosschat').addClass('showprofitchat');
-       $('#profitlosschat').removeClass('hideprofitchat');
-    }
-  }
 
-})
 
   Template.profitandlosschart.helpers({
     dateAsAt: () =>{

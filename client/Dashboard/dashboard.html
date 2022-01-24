@@ -20,6 +20,14 @@
                 right: 0;
                 background: rgba(255, 255, 255, 0.75);
             }
+
+            .hideelement{
+                display: none !important;
+            }
+
+            .showelement{
+                display: block;
+            }
         </style>
 
         <div class="d-sm-flex justify-content-between align-items-center mb-4">
@@ -94,10 +102,10 @@
             </div>
             <div class="row">
                 {{> monthlyprofitandloss}}
-                <div class="col-lg-5 col-xl-4">
-                    {{> profitandlosschart}}
 
-                </div>
+                <div class="col-lg-5 col-xl-4" id="profitlossstatus">
+                    {{> profitandlosschart}}
+                </div> 
             </div>
             <div class="row">
                 {{> expenseschart}}
@@ -203,7 +211,7 @@
                 </div>
             </div>
         {{/if}}
-
+<a href="#" id="editcharts" style="width:100px; display: block; margin: 0 auto;">Edit Charts</a> <button class="btn btn-success hideelement" id="btnDone" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-save" style="margin: 4px;"></i>Done</button>
     </div>
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">

@@ -26,6 +26,18 @@ Template.monthlyearnings.onRendered(() => {
     let topTenData1 = [];
     let topTenSuppData1 = [];
     let topData = this;
+
+    
+   let checkStatus = localStorage.getItem("earningschat") || true;
+
+      if(checkStatus == false || checkStatus == "false") {
+        $("showearningchat").addClass('hideelement')
+        $('#hideearnings').text("Show");
+      } else {
+        $("showearningchat").removeClass('hideelement')
+        $('#hideearnings').text("Hide");
+      }
+
     if (!localStorage.getItem('VS1SalesListReport_dash')) {
         getInvSales(function (data) {
 
@@ -459,14 +471,17 @@ Template.monthlyearnings.onRendered(() => {
 
 Template.monthlyearnings.events({
   'click #hideearnings': function () {
-    if($("#showearningschat").hasClass('showearningschat')) {
+   let check = localStorage.getItem("earningschat") || true;
+    if(check == "true" || check == true) {
+       localStorage.setItem("earningschat",false);
        $("#hideearnings").text("Show");
-       $('#showearningschat').addClass('hideearningschat');
-       $('#showearningschat').removeClass('showearningschat');
+       // $('#showearningschat').addClass('hideearningschat');
+       // $('#showearningschat').removeClass('showearningschat');
     } else if($("#showearningschat").hasClass('hideearningschat')) {
        $("#hideearnings").text("Hide");
-       $('#showearningschat').addClass('showearningschat');
-       $('#showearningschat').removeClass('hideearningschat');
+       localStorage.setItem("earningschat",true);
+       // $('#showearningschat').addClass('showearningschat');
+       // $('#showearningschat').removeClass('hideearningschat');
     }
   }
 

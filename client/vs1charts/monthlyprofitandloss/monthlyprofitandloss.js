@@ -34,6 +34,19 @@ Template.monthlyprofitandloss.onRendered(()=>{
        }
   }
 
+  setTimeout(function(){
+  console.log(localStorage.getItem("profitchat"));
+  let checkStatus = localStorage.getItem("profitchat") || true;
+  if(checkStatus == false || checkStatus == "false") {
+    $("#monthlyprofitlossstatus").addClass('hideelement')
+    $('#profitlosshide').text("Show");
+  } else {
+    $("#monthlyprofitlossstatus").removeClass('hideelement')
+    $("#monthlyprofitlossstatus").addClass('showelement');
+    $('#profitlosshide').text("Hide");
+  }
+    }, 500);
+
  if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   getInvSales(function (data) {
 
@@ -605,15 +618,19 @@ Template.monthlyprofitandloss.onRendered(()=>{
 
 Template.monthlyprofitandloss.events({
   'click #profitlosshide': function () {
-    if($("#profitchat").hasClass('showchat')) {
+    let check = localStorage.getItem("profitchat") || true;
+    if(check == "true" || check == true) {
+      localStorage.setItem("profitchat",false);
        $("#profitlosshide").text("Show");
-       $('#profitchat').addClass('hidechat');
-       $('#profitchat').removeClass('showchat');
-    } else if($("#profitchat").hasClass('hidechat')) {
+       // $('#profitchat').addClass('hidechat');
+       // $('#profitchat').removeClass('showchat');
+    } else {
+       localStorage.setItem("profitchat",true);
        $("#profitlosshide").text("Hide");
-       $('#profitchat').addClass('showchat');
-       $('#profitchat').removeClass('hidechat');
+       // $('#profitchat').addClass('showchat');
+       // $('#profitchat').removeClass('hidechat');
     }
+    console.log(localStorage.getItem("profitchat"));
   }
 
 })

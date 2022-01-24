@@ -26,6 +26,16 @@ Template.expenseschart.onRendered(()=>{
   let topTenData1 = [];
   let topTenSuppData1 = [];
   let topData = this;
+
+  let checkStatus = localStorage.getItem("expenseschart") || true;
+
+  if(checkStatus == false || checkStatus == "false") {
+    $("#expensechart").addClass('hideelement')
+    $('#expenseshide').text("Show");
+  } else {
+    $("#expensechart").removeClass('hideelement')
+    $('#expenseshide').text("Hide");
+  }
 if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   var currentDate2 = new Date();
   var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
@@ -613,14 +623,13 @@ var myChart = new Chart(ctx, {
 
  Template.expenseschart.events({
   'click #expenseshide': function () {
-    if($("#showexpenseschat").hasClass('showexpensechat')) {
+   let check = localStorage.getItem("expenseschart") || true;
+    if(check == "true" || check == true) {
        $("#expenseshide").text("Show");
-       $('#showexpenseschat').addClass('hideexpensechat');
-       $('#showexpenseschat').removeClass('showexpensechat');
-    } else if($("#showexpenseschat").hasClass('hideexpensechat')) {
+       localStorage.setItem("expenseschart",false);
+    } else {
        $("#expenseshide").text("Hide");
-       $('#showexpenseschat').addClass('showexpensechat');
-       $('#showexpenseschat').removeClass('hideprofitchat');
+       localStorage.setItem("expenseschart",true);
     }
   }
 

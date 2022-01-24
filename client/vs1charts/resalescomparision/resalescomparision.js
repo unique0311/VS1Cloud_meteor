@@ -24,6 +24,16 @@ Template.resalescomparision.onRendered(()=>{
   let topTenData1 = [];
   let topTenSuppData1 = [];
   let topData = this;
+
+   let checkStatus = localStorage.getItem("resaleschat") || true;
+
+      if(checkStatus == false || checkStatus == "false") {
+        $("#resalecomparision").addClass('hideelement');
+        $('#resalehide').text("Show");
+      } else {
+        $("#resalecomparision").removeClass('hideelement');
+        $('#resalehide').text("Hide");
+      }
 if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
   getInvSales(function (data) {
 
@@ -283,14 +293,13 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
   
   Template.resalescomparision.events({
   'click #resalehide': function () {
-    if($("#showresaleschat").hasClass('showresalechat')) {
-       $("#resalehide").text("Show");
-       $('#showresaleschat').addClass('hideresalechat');
-       $('#showresaleschat').removeClass('showresalechat');
-    } else if($("#showresaleschat").hasClass('hideresalechat')) {
+   let check = localStorage.getItem("hideresalechat") || true;
+    if(check == "true" || check == true) {
+       localStorage.setItem("resaleschat",false);
+      $("#resalehide").text("Show");
+    } else {
        $("#resalehide").text("Hide");
-       $('#showresaleschat').addClass('showresalechat');
-       $('#showresaleschat').removeClass('hideresalechat');
+       localStorage.setItem("resaleschat",true);
     }
   }
 
