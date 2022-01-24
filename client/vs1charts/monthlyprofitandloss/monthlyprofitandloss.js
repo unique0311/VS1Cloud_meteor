@@ -35,7 +35,6 @@ Template.monthlyprofitandloss.onRendered(()=>{
   }
 
   setTimeout(function(){
-  console.log(localStorage.getItem("profitchat"));
   let checkStatus = localStorage.getItem("profitchat") || true;
   if(checkStatus == false || checkStatus == "false") {
     $("#monthlyprofitlossstatus").addClass('hideelement')
@@ -619,6 +618,7 @@ Template.monthlyprofitandloss.onRendered(()=>{
 Template.monthlyprofitandloss.events({
   'click #profitlosshide': function () {
     let check = localStorage.getItem("profitchat") || true;
+    console.log(check);
     if(check == "true" || check == true) {
       localStorage.setItem("profitchat",false);
        $("#profitlosshide").text("Show");
@@ -630,7 +630,7 @@ Template.monthlyprofitandloss.events({
        // $('#profitchat').addClass('showchat');
        // $('#profitchat').removeClass('hidechat');
     }
-    console.log(localStorage.getItem("profitchat"));
+     console.log( localStorage.getItem("profitchat"));
   }
 
 })

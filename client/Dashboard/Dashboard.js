@@ -202,11 +202,11 @@ Template.dashboard.events({
     $("#resalecomparision").removeClass('hideelement');
     $("#showearningchat").removeClass('hideelement');
  
-     if($("#profitchat").hasClass('showchat')) {
-       $("#profitlosshide").text("Show");
-    } else if($("#profitchat").hasClass('hidechat')) {
-       $("#profitlosshide").text("Hide");
-    }
+    //  if($("#profitchat").hasClass('showchat')) {
+    //    $("#profitlosshide").text("Show");
+    // } else if($("#profitchat").hasClass('hidechat')) {
+    //    $("#profitlosshide").text("Hide");
+    // }
 },
 'click #btnDone': function() {
     const templateObject = Template.instance();
