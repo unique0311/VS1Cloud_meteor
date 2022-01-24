@@ -1287,14 +1287,14 @@
                                     <div class="mt-2 ">
                                         <label style="width:100%;">Display Balance</label>
                                         <div class="row m-2 dspBalanceControls">
-                                            <button class="btn btn-primary text-nowrap " data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Debit Positive
+                                            <button class="btn btn-primary text-nowrap "  type="button" id="btnDebitPositive">Debit Positive
                                             </button>
-                                            <button class="btn btn-primary text-nowrap " data-dismiss="modal" type="button" id="btnCancelLayoutCreation">Credit Positive
+                                            <button class="btn btn-primary text-nowrap " type="button" id="btnCreditPositive">Credit Positive
                                             </button>
                                         </div>
                                         <hr class="periodSelectorLine" />
                                         <div class="m-1 col-12 p-1">
-                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplEditLayoutScreen" type="button" id="btnCancelLayoutCreation">Group Selection
+                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="" type="button" id="btnCancelLayoutCreation">Group Selection
                                             </button>
                                             <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplSwitchRuleModal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
                                             </button>
@@ -1304,7 +1304,46 @@
                                             <label class="custom-control-label" for="grpTotal">Total</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
+                               <div class="container mb-3 dateColumnTab" style="">
+                                   <h3>Date column</h3>
+                                   <hr class="periodSelectorLine" />
+                                   <div class="mb-1">
+                                       <div class="col-12">
+                                           <label>Date range</label><br>
+                                           <select class="form-control accValSelect" id="accValSelect">
+                                               <option class="" value="Trading Income">Following report date range <span> Month</span></option>
+                                               <hr class="periodSelectorLine" />
+                                               <option class="" value="Cost of Sales">Month</option>
+                                               <option class="" value="Plus Other Income">Financial quarter</option>
+                                               <option class="" value="Less Operatin Expenses">Financial year</option>
+                                               <option class="" value="Foreign Currency Gains and Losses">Month to date</option>
+                                               <option class="" value="Non-operating Income">Quarter to date</option>
+                                               <option class="" value="Non-operating Expenses">Year to date</option>
+                                               <hr class="periodSelectorLine" />
+                                               <option class="" value="Non-operating Expenses">Custom</option>
+                                           </select>
+                                       </div>
+                                   </div>
+                                   <div class="mt-1 arrowShow">
+                                       <div class="col-12 mt-1">
+                                           <label>Column heading</label><br>
+                                           <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
+                                       </div>
+                                   </div> 
+                                   <div class="mt-1 calndrShow">
+                                       <div class="col-12 mt-1">
+                                           <label>Column heading</label><br>
+                                           <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
+                                       </div>
+                                   </div>                                    
+                                   <div class="mt-1">
+                                       <div class="col-12 mt-1">
+                                           <label>Column heading</label><br>
+                                           <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
+                                       </div>
+                                   </div>
+                               </div>                              
                                 <div class="container mb-3  edlayCalculator" style="width:100%">
                                     <style>
                                         .calculatorBody {
@@ -1397,7 +1436,7 @@
                                         .edtInfo{
                                             color: #000a1e;
                                         }
-                                        .editGroup,.edlayCalculator,.groupRow,.totalSelctor,.pgbSideText{
+                                        .editGroup,.edlayCalculator,.groupRow,.totalSelctor,.pgbSideText,.dateColumnTab{
                                             padding:1rem;
                                         }
                                         .sortableAccountParent .periodSelectorLine{
@@ -1420,7 +1459,7 @@
                                             text-align: center;
                                             line-height: 2rem;
                                         }
-                                        .groupRow h3,.totalSelctor h3{
+                                        .groupRow h3,.totalSelctor h3,.dateColumnTab h3{
                                             text-align: center;
                                         }
                                         .modToolStrip{
