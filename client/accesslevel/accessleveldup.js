@@ -3410,15 +3410,15 @@ Template.accessleveldup.events({
             let objDetailsAccess = {
                 Name: "VS1_EmployeeAccess",
                 Params: {
-                    // VS1EmployeeAccessList:lineItemsFormAccess
-                    VS1EmployeeAccessList:
-                    [
-                        {
-                            EmployeeId:0,
-                            formID:0,
-                            Access:1
-                        }
-                    ]
+                    VS1EmployeeAccessList:lineItemsFormAccess
+                    // VS1EmployeeAccessList:
+                    // [
+                    //     {
+                    //         EmployeeId:0,
+                    //         formID:0,
+                    //         Access:1
+                    //     }
+                    // ]
                 }
             };
 

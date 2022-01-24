@@ -561,7 +561,7 @@ export class PurchaseBoardService extends BaseService {
 
   getAllStockTransferEntry1() {
     let options = {
-      PropertyList: "ID",
+      PropertyList: "ID,TransferFromClassName",
     };
     return this.getList(this.ERPObjects.TStockTransferEntry, options);
   }

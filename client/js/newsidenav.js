@@ -4536,6 +4536,7 @@ Template.newsidenav.onRendered(function() {
         }
         setTimeout(function() {
           if (isInventory) {
+            if (isPayroll || isAppointmentScheduling) {
             getVS1Data('TProductWeb').then(function(dataObject) {
                 if (dataObject.length == 0) {
                     templateObject.getAllProductServiceData();
@@ -4553,7 +4554,7 @@ Template.newsidenav.onRendered(function() {
             }).catch(function(err) {
                 templateObject.getAllProductServiceData();
             });
-
+            }
               getVS1Data('TProductVS1').then(function(dataObject) {
                   if (dataObject.length == 0) {
                       sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {
@@ -4767,6 +4768,7 @@ Template.newsidenav.onRendered(function() {
             });
         }
         if (isInventory) {
+          if (isPayroll || isAppointmentScheduling) {
           getVS1Data('TProductWeb').then(function(dataObject) {
               if (dataObject.length == 0) {
                   templateObject.getAllProductServiceData();
@@ -4784,7 +4786,7 @@ Template.newsidenav.onRendered(function() {
           }).catch(function(err) {
               templateObject.getAllProductServiceData();
           });
-
+         }
             getVS1Data('TProductVS1').then(function(dataObject) {
                 if (dataObject.length == 0) {
                     sideBarService.getNewProductListVS1(initialBaseDataLoad, 0).then(function(data) {

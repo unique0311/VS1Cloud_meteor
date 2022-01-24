@@ -99,17 +99,67 @@ Template.stocktransfercard.onRendered(function() {
     templateObject.getAllStocktransfer = function() {
         clientsService.getAllStockTransferEntry1().then(function(data) {
             let newTransferID = 1;
+            let newDepartmentData = '';
             if (data.tstocktransferentry) {
                 if (data.tstocktransferentry.length > 0) {
                     lastTransfer = data.tstocktransferentry[data.tstocktransferentry.length - 1]
                     newTransferID = parseInt(lastTransfer.Id) + 1;
+                    newDepartmentData = lastTransfer.TransferFromClassName || '';
                 } else {
                     newTransferID = 1;
+                    newDepartmentData = '';
                 }
             } else {
                 newTransferID = 1;
+                newDepartmentData = '';
             }
             $('#txtTransfer').val(newTransferID);
+            if(newDepartmentData != ''){
+            setTimeout(function() {
+                $('#sltDepartment').val(newDepartmentData);
+                setTimeout(function() {
+                    getVS1Data('TDeptClass').then(function(dataObject) {
+                        if (dataObject.length == 0) {
+
+                            sideBarService.getDepartment().then(function(data) {
+                                for (let i = 0; i < data.tdeptclass.length; i++) {
+                                    if (data.tdeptclass[i].DeptClassName === newDepartmentData) {
+                                        $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                    }
+                                }
+
+                            }).catch(function(err) {
+
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tdeptclass;
+                            for (let i = 0; i < data.tdeptclass.length; i++) {
+                                if (data.tdeptclass[i].DeptClassName === newDepartmentData) {
+                                    //$('#' +randomID+' .colDepartment').attr('linedeptid',data.tdeptclass[i].Id);
+                                    $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                }
+                            }
+
+                        }
+                    }).catch(function(err) {
+
+                        sideBarService.getDepartment().then(function(data) {
+                            for (let i = 0; i < data.tdeptclass.length; i++) {
+                                if (data.tdeptclass[i].DeptClassName === newDepartmentData) {
+                                    $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                }
+                            }
+
+                        }).catch(function(err) {
+
+                        });
+                    });
+                }, 400);
+            }, 200);
+
+           }
+
             $('.shippingHeader').html('New Stock Transfer #' + newTransferID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px; margin-left: 16px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a> ');
 
         });
@@ -510,7 +560,6 @@ Template.stocktransfercard.onRendered(function() {
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentStockTransfer) {
                                 added = true;
-                                console.log(useData[d]);
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
                                 let lineItemObj = {};
