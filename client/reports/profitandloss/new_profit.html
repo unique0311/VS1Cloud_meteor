@@ -940,7 +940,7 @@
                     <h4 class="title-header">Profit and Loss <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a></h4>
                     <div class = "modToolStrip" style="display:flex;gap:1rem;">
                         <div style="display:flex;gap:2rem;">
-                            <div style="cursor:pointer">
+                            <div style="cursor:pointer" class="btnTextBlockColumn">
                                 <svg xml:space="http://www.w3.org/2000/svg" data-icon-name="text" width="16" height="17" fill="#00A3D3" stroke="#00A3D3" viewBox="0 0 16 17"><path d="M0 0h16v2H0V0zm7 2h2v13H7V2zM0 2h2v2H0V2zm14 0h2v2h-2V2zM5 15h6v2H5v-2z" fill-rule="evenodd" alt="Text"></path></svg>
                             </div>
                             <div style="cursor:pointer">
@@ -1324,6 +1324,21 @@
                                         </div>
                                     </div>
                                 </div> 
+                                <div class="container mb-3 textBlockColumn" style="">
+                                    <h3>Text block</h3>
+                                    <hr class="periodSelectorLine" />
+                                    <div>
+                                        <h6>Heading</h6>
+                                        <div class="m-1 col-12 p-1" style="display:flex;">
+                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" type="button" id="btnCancelLayoutCreation">Numbered
+                                            </button>
+                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" type="button" id="btnCancelLayoutCreation">Standard
+                                            </button>
+                                            <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" type="button" id="btnCancelLayoutCreation">None
+                                            </button>                                            
+                                        </div>
+                                    </div>
+                                </div>
                                <div class="container mb-3 dateColumnTab" style="">
                                    <h3>Date column</h3>
                                    <hr class="periodSelectorLine" />
@@ -1354,9 +1369,8 @@
                                            
                                        </div>
                                    </div> 
-                                   <div class="mt-1 calndrShow">
+                                   <div class="mt-1 calndrShow" style="display: none;">
                                        <div class="col-12 mt-1">
-                                           <label>Column heading</label><br>
                                            <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
                                        </div>
                                    </div>                                    
@@ -1459,7 +1473,7 @@
                                         .edtInfo{
                                             color: #000a1e;
                                         }
-                                        .editGroup,.edlayCalculator,.groupRow,.totalSelctor,.pgbSideText,.dateColumnTab{
+                                        .editGroup,.edlayCalculator,.groupRow,.totalSelctor,.pgbSideText,.dateColumnTab,.textBlockColumn{
                                             padding:1rem;
                                         }
                                         .sortableAccountParent .periodSelectorLine{
@@ -1482,7 +1496,7 @@
                                             text-align: center;
                                             line-height: 2rem;
                                         }
-                                        .groupRow h3,.totalSelctor h3,.dateColumnTab h3{
+                                        .groupRow h3,.totalSelctor h3,.dateColumnTab h3,.textBlockColumn h3{
                                             text-align: center;
                                         }
                                         .modToolStrip{

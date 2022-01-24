@@ -629,7 +629,8 @@ Template.newprofitandloss.events({
                     $('.groupRow').hide();
                     $('.totalSelctor').hide();
                     $('.pgbSideText').hide();
-                    $('.dateColumnTab').hide();                    
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
                 } else if (el === 'nP') {
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
@@ -637,7 +638,8 @@ Template.newprofitandloss.events({
                     $('.groupRow').hide();
                     $('.totalSelctor').hide();
                     $('.pgbSideText').hide();
-                    $('.dateColumnTab').hide();                    
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
                 } else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
@@ -645,7 +647,8 @@ Template.newprofitandloss.events({
                     $('.groupRow').hide();
                     $('.totalSelctor').hide();
                     $('.pgbSideText').hide(); 
-                    $('.dateColumnTab').hide();                    
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();    
                 }
             });
         });
@@ -661,7 +664,8 @@ Template.newprofitandloss.events({
                     $('.groupRow').hide();
                     $('.pgbSideText').hide();                    
                     $('.totalSelctor').show();
-                    $('.dateColumnTab').hide();                    
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();                    
                     
                 }   else if (el === 'pgBreak1') {
                     $('.edlayCalculator').hide();
@@ -671,7 +675,7 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').show();                    
                     $('.totalSelctor').hide();
                     $('.dateColumnTab').hide();                    
-                    
+                    $('.textBlockColumn').hide();
                 }else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
@@ -679,7 +683,8 @@ Template.newprofitandloss.events({
                     $('.groupRow').hide();
                     $('.totalSelctor').hide();
                     $('.pgbSideText').hide();
-                    $('.dateColumnTab').hide();                    
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
                 }
             });
         });
@@ -692,7 +697,9 @@ Template.newprofitandloss.events({
         $('.editDefault').show();
         $('.totalSelctor').hide();
         $('.pgbSideText').hide();
-        $('.dateColumnTab').hide();        
+        $('.dateColumnTab').hide();
+        $('.textBlockColumn').hide();
+        
     },
     
     //calculator account selector
@@ -778,7 +785,8 @@ Template.newprofitandloss.events({
         $('.editDefault').hide();
         $('.totalSelctor').hide();
         $('.pgbSideText').hide();
-        $('.dateColumnTab').hide();        
+        $('.dateColumnTab').hide(); 
+        $('.textBlockColumn').hide();        
         
     },
     //end group row section
@@ -790,6 +798,7 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').show();                    
                     $('.totalSelctor').hide();
                     $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();        
                 },
     'click .accdate':function (event){
                 $('.edlayCalculator').hide();
@@ -799,6 +808,20 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').hide();                    
                     $('.totalSelctor').hide();
                     $('.dateColumnTab').show();
+                    $('.textBlockColumn').hide();        
+    },
+    
+    //top row icon events
+    'click .btnTextBlockColumn':function(event){
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').hide();                    
+                    $('.totalSelctor').hide();
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
+                    $('.textBlockColumn').show();
     }
 });
 
