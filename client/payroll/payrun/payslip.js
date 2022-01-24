@@ -111,7 +111,14 @@ Template.payslip.onRendered(function() {
 });
 
 Template.payslip.events({
-
+    'click #selectLastFullPayPeriod': function (event) {
+        document.getElementById('selectLastFullPayPeriodCol').style.display = 'block';
+        document.getElementById('enterAverageEarningsCol').style.display = 'none';
+    },
+    'click #enterAverageEarnings': function (event) {
+        document.getElementById('enterAverageEarningsCol').style.display = 'block';
+        document.getElementById('selectLastFullPayPeriodCol').style.display = 'none';
+    },
 });
 
 Template.payslip.helpers({

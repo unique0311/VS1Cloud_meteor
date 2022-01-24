@@ -868,7 +868,7 @@
                                         <div class="form-group">
                                             <label>Full Pay Period Earnings</label><br />
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="fullPayPeriodEarningsRadio" id="selectLastFullPayPeriod" value="selectLastFullPayPeriod">
+                                                <input class="form-check-input" type="radio" name="fullPayPeriodEarningsRadio" id="selectLastFullPayPeriod" value="selectLastFullPayPeriod" checked>
                                                 <label class="form-check-label" for="selectLastFullPayPeriod">Select Last Full Pay Period</label>
                                             </div>
                                             <div class="form-check form-check-inline">
@@ -877,9 +877,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12" id="selectLastFullPayPeriodCol" style="display:;">
                                         <div class="form-group">
                                             <label>Select An Example of a Normal Full Pay Period</label>
+                                            <input type="text" class="form-control" id="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12" id="enterAverageEarningsCol" style="display: none;">
+                                        <div class="form-group">
+                                            <label>Enter Average Earnings</label>
                                             <input type="text" class="form-control" id="">
                                         </div>
                                     </div>
