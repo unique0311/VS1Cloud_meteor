@@ -155,38 +155,6 @@ Template.bankrecon.onRendered(function() {
     $('.formClassDate').val(begunDate);
     // END DATE CODE
 
-
-    // jQuery(document).ready(function($) {
-    //
-    //     if (window.history && window.history.pushState) {
-    //
-    //         window.history.pushState('forward', null, FlowRouter.current().path);
-    //
-    //         $(window).on('popstate', function() {
-    //             swal({
-    //                 title: 'Save Or Cancel To Continue',
-    //                 text: "Do you want to Save or Cancel this transaction?",
-    //                 type: 'question',
-    //                 showCancelButton: true,
-    //                 confirmButtonText: 'Save'
-    //             }).then((result) => {
-    //                 if (result.value) {
-    //                     $(".btnSave").trigger("click");
-    //                 } else if (result.dismiss === 'cancel') {
-    //                     let lastPageVisitUrl = window.location.pathname;
-    //                     if (FlowRouter.current().oldRoute) {
-    //                         lastPageVisitUrl = FlowRouter.current().oldRoute.path;
-    //                     } else {
-    //                         lastPageVisitUrl = window.location.pathname;
-    //                     }
-    //                     //FlowRouter.go(lastPageVisitUrl);
-    //                     window.open(lastPageVisitUrl, '_self');
-    //                 } else {}
-    //             });
-    //         });
-    //
-    //     }
-    // });
     // API to pull Deposits BEGIN
     templateObject.getReconcileDeposit = function(accountTypeId, statementDate, ignoreDate) {
         let recondep = [];
@@ -3588,32 +3556,3 @@ Template.bankrecon.helpers({
         return Template.instance().selectedTranswith.get()
     }
 });
-
-// setTimeout(function(){
-//     $(function () {
-//         let url = window.location.href;
-//         history.pushState(null, document.title, location.href);
-//         window.addEventListener('popstate', function (event) {
-//             if(url.indexOf('?id') > 1){
-//                 window.open('/reconciliationlist', "_self");
-//             }else{
-//                 swal({
-//                     title: 'Save Or Cancel To Continue',
-//                     text: "Do you want to Save or Cancel this transaction?",
-//                     type: 'info',
-//                     showCancelButton: true,
-//                     confirmButtonText: 'Save'
-//                 }).then((result) => {
-//                     if (result.value) {
-//                         $(".reconbtn").trigger("click");
-//                     } else if (result.dismiss === 'cancel') {
-//                         window.open('/reconciliationlist', "_self");
-//                     } else {
-
-//                     }
-//                 });
-//             }
-
-//         });
-//     })
-// },5000)

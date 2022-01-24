@@ -392,6 +392,45 @@ Template.stocktransfercard.onRendered(function() {
                                 $('#shipvia').val(data.fields.Shipping);
                                 // $('#tblStocktransfer .lineOrdered').trigger("click");
                                 $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
+                                setTimeout(function() {
+                                    getVS1Data('TDeptClass').then(function(dataObject) {
+                                        if (dataObject.length == 0) {
+
+                                            sideBarService.getDepartment().then(function(data) {
+                                                for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                    if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                        $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                    }
+                                                }
+
+                                            }).catch(function(err) {
+
+                                            });
+                                        } else {
+                                            let data = JSON.parse(dataObject[0].data);
+                                            let useData = data.tdeptclass;
+                                            for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                    //$('#' +randomID+' .colDepartment').attr('linedeptid',data.tdeptclass[i].Id);
+                                                    $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                }
+                                            }
+
+                                        }
+                                    }).catch(function(err) {
+
+                                        sideBarService.getDepartment().then(function(data) {
+                                            for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                    $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                }
+                                            }
+
+                                        }).catch(function(err) {
+
+                                        });
+                                    });
+                                }, 400);
                             }, 200);
 
                             if (data.fields.Processed == true) {
@@ -471,6 +510,7 @@ Template.stocktransfercard.onRendered(function() {
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentStockTransfer) {
                                 added = true;
+                                console.log(useData[d]);
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
                                 let lineItemObj = {};
@@ -552,6 +592,47 @@ Template.stocktransfercard.onRendered(function() {
                                     $('#shipvia').val(useData[d].fields.Shipping);
                                     // $('#tblStocktransfer .lineOrdered').trigger("click");
                                     $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
+
+                                    setTimeout(function() {
+                                        getVS1Data('TDeptClass').then(function(dataObject) {
+                                            if (dataObject.length == 0) {
+
+                                                sideBarService.getDepartment().then(function(data) {
+                                                    for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                        if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                            $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                        }
+                                                    }
+
+                                                }).catch(function(err) {
+
+                                                });
+                                            } else {
+                                                let data = JSON.parse(dataObject[0].data);
+                                                let useData = data.tdeptclass;
+                                                for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                    if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                        //$('#' +randomID+' .colDepartment').attr('linedeptid',data.tdeptclass[i].Id);
+                                                        $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                    }
+                                                }
+
+                                            }
+                                        }).catch(function(err) {
+
+                                            sideBarService.getDepartment().then(function(data) {
+                                                for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                    if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                        $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                    }
+                                                }
+
+                                            }).catch(function(err) {
+
+                                            });
+                                        });
+                                    }, 400);
+
                                 }, 200);
 
 
@@ -678,6 +759,47 @@ Template.stocktransfercard.onRendered(function() {
                                     $('#shipvia').val(data.fields.Shipping);
                                     // $('#tblStocktransfer .lineOrdered').trigger("click");
                                     $('#tblStocktransfer tr:first-child .lineOrdered').trigger("click");
+
+                                    setTimeout(function() {
+                                        getVS1Data('TDeptClass').then(function(dataObject) {
+                                            if (dataObject.length == 0) {
+
+                                                sideBarService.getDepartment().then(function(data) {
+                                                    for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                        if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                            $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                        }
+                                                    }
+
+                                                }).catch(function(err) {
+
+                                                });
+                                            } else {
+                                                let data = JSON.parse(dataObject[0].data);
+                                                let useData = data.tdeptclass;
+                                                for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                    if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                        //$('#' +randomID+' .colDepartment').attr('linedeptid',data.tdeptclass[i].Id);
+                                                        $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                    }
+                                                }
+
+                                            }
+                                        }).catch(function(err) {
+
+                                            sideBarService.getDepartment().then(function(data) {
+                                                for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                    if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                        $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                    }
+                                                }
+
+                                            }).catch(function(err) {
+
+                                            });
+                                        });
+                                    }, 400);
+
                                 }, 200);
 
                                 if (data.fields.Processed == true) {
@@ -810,6 +932,47 @@ Template.stocktransfercard.onRendered(function() {
                             $('#edtCustomerName').val(data.fields.Lines[0].fields.CustomerName);
                             $('#sltBankAccountName').val(data.fields.AccountName);
                             $('#shipvia').val(data.fields.Shipping);
+
+                            setTimeout(function() {
+                                getVS1Data('TDeptClass').then(function(dataObject) {
+                                    if (dataObject.length == 0) {
+
+                                        sideBarService.getDepartment().then(function(data) {
+                                            for (let i = 0; i < data.tdeptclass.length; i++) {
+                                                if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                    $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                                }
+                                            }
+
+                                        }).catch(function(err) {
+
+                                        });
+                                    } else {
+                                        let data = JSON.parse(dataObject[0].data);
+                                        let useData = data.tdeptclass;
+                                        for (let i = 0; i < data.tdeptclass.length; i++) {
+                                            if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                //$('#' +randomID+' .colDepartment').attr('linedeptid',data.tdeptclass[i].Id);
+                                                $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                            }
+                                        }
+
+                                    }
+                                }).catch(function(err) {
+
+                                    sideBarService.getDepartment().then(function(data) {
+                                        for (let i = 0; i < data.tdeptclass.length; i++) {
+                                            if (data.tdeptclass[i].DeptClassName === record.department) {
+                                                $('input[name="deptID"]').val(data.tdeptclass[i].Id);
+                                            }
+                                        }
+
+                                    }).catch(function(err) {
+
+                                    });
+                                });
+                            }, 400);
+
                         }, 200);
 
                         if (data.fields.Processed == true) {
