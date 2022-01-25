@@ -23,7 +23,7 @@
                             <a href="mailto:support@vs1cloud.com">support@vs1cloud.com</a>
                             <!-- email support -->
                         </div>
-                        <div class="col-12 col-md-4" style="padding-left: 24px; padding-right: 24px;">
+                        <div class="col-12 col-md-4" style="padding-left: 16px; padding-right: 16px;">
                             <a href="tel+18433371599:" id="iconUSA"><i class="fas fa-phone-alt" style="font-size: 65px; color: #00a3d3;"></i></a>
                             <a href="tel:+61755331730" id="iconAUS"><i class="fas fa-phone-alt" style="font-size: 65px; color: #00a3d3;"></i></a>
                             <a href="tel:+27818074827" id="iconSA"><i class="fas fa-phone-alt" style="font-size: 65px; color: #00a3d3;"></i></a>
@@ -41,6 +41,10 @@
                                     pointer-events: none !important;
                                 }
 
+                                .phoneClosed:after {
+                                    content: " (closed)";
+                                }
+
                                 #phoneUSA {
                                     display: none;
                                 }
@@ -52,12 +56,15 @@
                                 #phoneSA {
                                     display: none;
                                 }
+
                                 #iconAUS {
                                     display: none;
                                 }
+
                                 #iconUSA {
                                     display: none;
                                 }
+
                                 #iconSA {
                                     display: none;
                                 }
@@ -75,10 +82,10 @@
                                     border-color: rgba(0, 0, 0, 0) !important;
                                 }
                             </style>
-                            <span id="phoneUSA"><img src="images/icon_usa.png" style="height: 20px!important; margin-right: 5px; margin-top: -4px;"/><a href="tel:+18433371599" id="phoneParentUSA" class="">+1 843 337 1599</a><br /></span>
-                            <span id="phoneAUS"><img src="images/icon_australia.png" style="height: 20px!important; margin-right: 5px; margin-top: -4px;"/><a href="tel:+61755331730" id="phoneParentAUS" class="">+61 7 5533 1730</a><br /></span>
-                            <span id="phoneSA"><img src="images/icon_southafrica.png" style="height: 20px!important; margin-right: 5px; margin-top: -4px;"/><a href="tel:+27818074827" id="phoneParentSA" class="">+27 81 807 4827</a><br /></span>
-<!--
+                            <span id="phoneUSA"><img src="images/icon_usa.png" style="height: 20px!important; margin-right: 5px; margin-top: -4px;" /><a href="tel:+18433371599" id="phoneParentUSA" class="">+1 843 337 1599</a><br /></span>
+                            <span id="phoneAUS"><img src="images/icon_australia.png" style="height: 20px!important; margin-right: 5px; margin-top: -4px;" /><a href="tel:+61755331730" id="phoneParentAUS" class="">+61 7 5533 1730</a><br /></span>
+                            <span id="phoneSA"><img src="images/icon_southafrica.png" style="height: 20px!important; margin-right: 5px; margin-top: -4px;" /><a href="tel:+27818074827" id="phoneParentSA" class="">+27 81 807 4827</a><br /></span>
+                            <!--
                             <button type="button" class="btn btn-link viewAllNumbers" data-toggle="collapse" data-target="#globalNumbersCollapse" aria-expanded="false" aria-controls="globalNumbersCollapse">View all global numbers <i class="fas fa-angle-down"
                                     style="margin-left: 5px;"></i></button>
                             <div class="collapse" id="globalNumbersCollapse">
@@ -99,10 +106,10 @@
                     </div>
 
 
-                     <!-- <div class="label" id="Johannesburg">Johannesburg</div>
+                    <!-- <div class="label" id="Johannesburg">Johannesburg</div>
                      <div class="label" id="Queensland">Queensland</div>
                      <div class="label" id="New_York">New_York</div> -->
-                     <!-- <div class="label" id="Austin">Austin</div> -->
+                    <!-- <div class="label" id="Austin">Austin</div> -->
 
                 </div>
             </div>
