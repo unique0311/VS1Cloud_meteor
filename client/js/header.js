@@ -509,7 +509,7 @@ Template.header.onRendered(function() {
                         } else {
                             $('.fullScreenSpin').css('display', 'none');
 
-                            swal('<strong>WARNING:</strong> No Invoice with that number "' + barcode + '"', '', 'warning');
+                            swal('No record with that exact number "' + barcode + '"', '', 'warning');
                             DangerSound();
                             e.preventDefault();
                         }
@@ -548,7 +548,7 @@ Template.header.onRendered(function() {
 
                         } else {
                             $('.fullScreenSpin').css('display', 'none');
-                            Bert.alert('<strong>WARNING:</strong> Could not find any Sales associated with this barcode "' + barcode + '"', 'warning', 'fixed-top', 'fa-frown-o');
+                            swal('No record with that exact number "' + barcode + '"', '', 'warning');
                             e.preventDefault();
                         }
 
@@ -569,15 +569,22 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
+                    if(data.tglobalsearchreport.length > 0){
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Stock Transfer") {
                             dataSelectID = segs[1] || data.tglobalsearchreport[i].TransId || '';
                             if(dataSelectID != ''){
                               window.open('/stocktransfercard?id=' + dataSelectID, '_self');
+                            }else{
+                              swal('No record with that exact number "' + barcode + '"', '', 'warning');
                             }
                         } else {
+                          swal('No record with that exact number "' + barcode + '"', '', 'warning');
                           $('.fullScreenSpin').css('display', 'none');
                         }
+                    }
+                  }else{
+                    swal('No record with that exact number "' + barcode + '"', '', 'warning');
                     }
 
                 }).catch(function(err) {
@@ -597,7 +604,7 @@ Template.header.onRendered(function() {
                     if(data.tstockadjustentry.length > 0){
                         window.open('/stockadjustmentcard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -618,7 +625,7 @@ Template.header.onRendered(function() {
                     if(data.temployee.length > 0){
                         window.open('/employeescard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -634,6 +641,7 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
+                    if(data.tglobalsearchreport.length > 0){
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Invoice") {
                             dataSelectID = data.tglobalsearchreport[i].TransId || '';
@@ -641,11 +649,13 @@ Template.header.onRendered(function() {
                               window.open('/invoicecard?id=' + dataSelectID, '_self');
                             }
                         } else {
-                          swal('No record with that exact number', '', 'warning');
+                          swal('No record with that exact number "' + barcode + '"', '', 'warning');
                           $('.fullScreenSpin').css('display', 'none');
                         }
                     }
-
+                  }else{
+                    swal('No record with that exact number "' + barcode + '"', '', 'warning');
+                    }
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
@@ -658,6 +668,7 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
+                    if(data.tglobalsearchreport.length > 0){
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Sales Order") {
                             dataSelectID = data.tglobalsearchreport[i].TransId || '';
@@ -665,11 +676,13 @@ Template.header.onRendered(function() {
                               window.open('/salesordercard?id=' + dataSelectID, '_self');
                             }
                         } else {
-                          swal('No record with that exact number', '', 'warning');
+                          swal('No record with that exact number "' + barcode + '"', '', 'warning');
                           $('.fullScreenSpin').css('display', 'none');
                         }
                     }
-
+                  }else{
+                    swal('No record with that exact number "' + barcode + '"', '', 'warning');
+                    }
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
@@ -682,21 +695,24 @@ Template.header.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     let dataTableList = [];
                     let dataTableListDupp = [];
+                    if(data.tglobalsearchreport.length > 0){
                     for (let i = 0; i < data.tglobalsearchreport.length; i++) {
                         if (data.tglobalsearchreport[i].Type === "Quote") {
                             dataSelectID = data.tglobalsearchreport[i].TransId || '';
                             if(dataSelectID != '' && dataSelectID == segs[1]){
                               window.open('/quotecard?id=' + dataSelectID, '_self');
                             }else{
-                              swal('No record with that exact number', '', 'warning');
+                              swal('No record with that exact number "' + barcode + '"', '', 'warning');
                               $('.fullScreenSpin').css('display', 'none');
                             }
                         } else {
-                          swal('No record with that exact number', '', 'warning');
+                          swal('No record with that exact number "' + barcode + '"', '', 'warning');
                           $('.fullScreenSpin').css('display', 'none');
                         }
                     }
-
+                  }else{
+                    swal('No record with that exact number "' + barcode + '"', '', 'warning');
+                    }
                 }).catch(function(err) {
                     $('.fullScreenSpin').css('display', 'none');
                 });
@@ -715,7 +731,7 @@ Template.header.onRendered(function() {
                     if(data.trefundsale.length > 0){
                         window.open('/refundcard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -768,10 +784,12 @@ Template.header.onRendered(function() {
                                 window.open('/supplierpaymentcard?id=' + dataSelectID, '_self');
                             }else{
                                //window.open('/paymentoverview', '_self');
+                               swal('No record with that exact number "' + barcode + '"', '', 'warning');
                             }
                           }
 
                     }else{
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -792,7 +810,7 @@ Template.header.onRendered(function() {
                     if(data.tbillex.length > 0){
                         window.open('/billcard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -813,7 +831,7 @@ Template.header.onRendered(function() {
                     if(data.tpurchaseorderex.length > 0){
                         window.open('/purchaseordercard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -834,7 +852,7 @@ Template.header.onRendered(function() {
                     if(data.tjournalentry.length > 0){
                         window.open('/journalentrycard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -854,7 +872,7 @@ Template.header.onRendered(function() {
                     if(data.ttimesheet.length > 0){
                         window.open('/timesheet?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -875,7 +893,7 @@ Template.header.onRendered(function() {
                     if(data.tcustomervs1.length > 0){
                         window.open('/customerscard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -895,7 +913,7 @@ Template.header.onRendered(function() {
                     if(data.tsuppliervs1.length > 0){
                         window.open('/supplierscard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -915,7 +933,7 @@ Template.header.onRendered(function() {
                     if(data.tproductvs1.length > 0){
                         window.open('/productview?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -935,7 +953,7 @@ Template.header.onRendered(function() {
                     if(data.taccountvs1.length > 0){
                       window.open('/accountsoverview?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -955,7 +973,7 @@ Template.header.onRendered(function() {
                     if(data.tchequeex.length > 0){
                       window.open('/chequecard?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -975,7 +993,7 @@ Template.header.onRendered(function() {
                     if(data.tinvoice.length > 0){
                       window.open('/shippingdocket?id=' + dataSelectID, '_self');
                     }else{
-                      swal('No record with that exact number', '', 'warning');
+                      swal('No record with that exact number "' + barcode + '"', '', 'warning');
                       $('.fullScreenSpin').css('display', 'none');
                     }
 
@@ -1256,7 +1274,7 @@ Template.header.onRendered(function() {
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     }, 0);
                   }else{
-                    swal('No record with that exact number', '', 'warning');
+                    swal('No record with that exact number "' + barcode + '"', '', 'warning');
                   }
                     $('#tblSearchOverview tbody').on('click', 'tr', function() {
                         var listData = $(this).closest('tr').attr('id');
