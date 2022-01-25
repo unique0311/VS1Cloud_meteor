@@ -248,21 +248,21 @@
                                            {{#each item in records}}
                                             <tr id="item-value-{{item.name}}">
                                               {{#if equals item.accounttype ""}}
-                                               <td><a href="/">{{item.accountname}}</a></td>
+                                               <td>{{item.accountname}}</td>
                                                <td></td>
-                                               <td class="fgr fgrblue text-right"><a href="/">{{item.jan2022}}</a></td>
-                                               <td class="fgr fgrblue text-right"><a href="/">{{item.dec2021}}</a></td>
-                                               <td class="fgr fgrblue text-right"><a href="/">{{item.nov2021}}</a></td>
-                                               <td class="fgr fgrblue text-right"><a href="/">{{item.oct2021}}</a></td>
-                                               <td class="fgr fgrblue text-right"><a href="/">{{item.sept2021}}</a></td>
+                                               <td class="fgr fgrblue text-right">{{item.jan2022}}</td>
+                                               <td class="fgr fgrblue text-right">{{item.dec2021}}</td>
+                                               <td class="fgr fgrblue text-right">{{item.nov2021}}</td>
+                                               <td class="fgr fgrblue text-right">{{item.oct2021}}</td>
+                                               <td class="fgr fgrblue text-right">{{item.sept2021}}</td>
                                               {{else}}
-                                                <td class="fgrtotal"><a href="/">{{item.accounttype}}</a></td>
+                                                <td class="fgrtotal">{{item.accounttype}}</td>
                                                 <td></td>
-                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.jan2022}}</a></td>
-                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.dec2021}}</a></td>
-                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.nov2021}}</a></td>
-                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.oct2021}}</a></td>
-                                                <td class="fgr fgrtotal text-right"><a href="/">{{item.sept2021}}</a></td>
+                                                <td class="fgr fgrtotal text-right">{{item.jan2022}}</td>
+                                                <td class="fgr fgrtotal text-right">{{item.dec2021}}</td>
+                                                <td class="fgr fgrtotal text-right">{{item.nov2021}}</td>
+                                                <td class="fgr fgrtotal text-right">{{item.oct2021}}</td>
+                                                <td class="fgr fgrtotal text-right">{{item.sept2021}}</td>
                                               {{/if}}
 
 
@@ -969,7 +969,7 @@
                                                 <a class="dropdown-item" href="">Date</a>
                                                 <a class="dropdown-item" href="" onclick="">Budget</a>
                                                 <a class="dropdown-item" href="" onclick="">Formula</a>
-                                                <a class="dropdown-item" href="" onclick="">Notes</a>                   
+                                                <a class="dropdown-item btnNotes" href="" onclick="">Notes</a>                   
                                                 <a class="dropdown-item" href="" onclick="">Percentage</a>
                                             </div>
                             </div>
@@ -1339,6 +1339,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="container mb-3 notesColumn" style="">
+                                    <h3>Notes column</h3>
+                                    <hr class="periodSelectorLine" />
+                                    <div>
+                                    <div class="col-12">
+                                        <label>Column heading</label><br>
+                                        <input id="nplnotesColumnText" type="text" class="form-control" name="nplnotesColumnText" placeholder="Notes">
+                                    </div>
+                                    </div>
+                                </div>                                 
                                <div class="container mb-3 dateColumnTab" style="">
                                    <h3>Date column</h3>
                                    <hr class="periodSelectorLine" />
@@ -1359,10 +1369,10 @@
                                            </select>
                                        </div>
                                    </div>
-                                   <div class="mt-1 mb-1 arrowShow">
-                                       <div class="col-12 mt-1">
+                                   <div class="mb-1 arrowShow">
+                                       <div class="col-12 mt-1" style="display: flex;flex-wrap: nowrap; justify-content: flex-end;">
                                            <label>1 Jan 2022 - 31 Jan 2022</label>
-                                           <div>                                           
+                                           <div style="display: flex;flex-wrap: nowrap;">                                           
                                                <input id="rowHeading" type="button" class="form-control" name="nplrowHeading" value="<" >
                                                 <input id="rowHeading" type="button" class="form-control" name="nplrowHeading" value=">">
                                            </div>
@@ -1473,7 +1483,7 @@
                                         .edtInfo{
                                             color: #000a1e;
                                         }
-                                        .editGroup,.edlayCalculator,.groupRow,.totalSelctor,.pgbSideText,.dateColumnTab,.textBlockColumn{
+                                        .editGroup,.edlayCalculator,.groupRow,.totalSelctor,.pgbSideText,.dateColumnTab,.textBlockColumn,.notesColumn{
                                             padding:1rem;
                                         }
                                         .sortableAccountParent .periodSelectorLine{
@@ -1496,7 +1506,7 @@
                                             text-align: center;
                                             line-height: 2rem;
                                         }
-                                        .groupRow h3,.totalSelctor h3,.dateColumnTab h3,.textBlockColumn h3{
+                                        .groupRow h3,.totalSelctor h3,.dateColumnTab h3,.textBlockColumn h3,.notesColumn h3{
                                             text-align: center;
                                         }
                                         .modToolStrip{
@@ -1504,6 +1514,14 @@
                                         }
                                         .nplEditLayoutScreen .modal-header .close {
                                             margin: -1rem 0rem;
+                                        }
+                                        .arrowShow{
+                                            margin:16px 0;
+                                            padding:16px 0;
+                                        }
+                                        .arrowShow label{
+                                            margin:8px 8px;
+                                            padding-right:8px;
                                         }
                                     </style>
                                     <h3>Formula</h3>

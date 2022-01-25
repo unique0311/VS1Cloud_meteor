@@ -653,21 +653,51 @@ Template.newprofitandloss.events({
             });
         });
     },    
-    'click .sortableAccount .draggable': function (event) {
+//    'click .sortableAccount .draggable': function (event) {
+//        $(this).each(function () {
+//            $(this).click(function () {
+//                var el = $(this).attr('id');
+//                if (el === 'tot') {
+//                    $('.edlayCalculator').hide();
+//                    $('.editGroup').hide();
+//                    $('.editDefault').hide();
+//                    $('.groupRow').hide();
+//                    $('.pgbSideText').hide();                    
+//                    $('.totalSelctor').show();
+//                    $('.dateColumnTab').hide();
+//                    $('.textBlockColumn').hide();
+//                    $('.notesColumn').hide();
+//                    
+//                }   else if (el === 'pgBreak1') {
+//                    $('.edlayCalculator').hide();
+//                    $('.editGroup').hide();
+//                    $('.editDefault').hide();
+//                    $('.groupRow').hide();
+//                    $('.pgbSideText').show();                    
+//                    $('.totalSelctor').hide();
+//                    $('.dateColumnTab').hide();                    
+//                    $('.textBlockColumn').hide();
+//                    $('.notesColumn').hide();
+//                }else {
+//                    $('.editGroup').show();
+//                    $('.edlayCalculator').hide();
+//                    $('.editDefault').hide();
+//                    $('.groupRow').hide();
+//                    $('.totalSelctor').hide();
+//                    $('.pgbSideText').hide();
+//                    $('.dateColumnTab').hide();
+//                    $('.textBlockColumn').hide();
+//                    $('.notesColumn').hide();
+//                }
+//            });
+//        });
+//    },
+    /*Page break section display start*/
+        'click .sortableAccount .draggable': function (event) {
         $(this).each(function () {
             $(this).click(function () {
                 var el = $(this).attr('id');
-                if (el === 'tot') {
-                    $('.edlayCalculator').hide();
-                    $('.editGroup').hide();
-                    $('.editDefault').hide();
-                    $('.groupRow').hide();
-                    $('.pgbSideText').hide();                    
-                    $('.totalSelctor').show();
-                    $('.dateColumnTab').hide();
-                    $('.textBlockColumn').hide();                    
-                    
-                }   else if (el === 'pgBreak1') {
+                if (el === 'pgBreak1') {
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
@@ -676,6 +706,7 @@ Template.newprofitandloss.events({
                     $('.totalSelctor').hide();
                     $('.dateColumnTab').hide();                    
                     $('.textBlockColumn').hide();
+                    $('.notesColumn').hide();
                 }else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
@@ -685,10 +716,26 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').hide();
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
+                    $('.notesColumn').hide();
                 }
             });
         });
     },
+     /*Page break section display end*/
+    /*Total row display section start */
+    'click #tot':function(event){
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').hide();                    
+                    $('.totalSelctor').show();
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
+                    $('.notesColumn').hide();
+    },
+    /*Total row display section end */
+    /*edit layout button start*/
     'click .nplLayoutEditorBtn': function (event) {
 
         $('.editGroup').hide();
@@ -699,9 +746,10 @@ Template.newprofitandloss.events({
         $('.pgbSideText').hide();
         $('.dateColumnTab').hide();
         $('.textBlockColumn').hide();
+        $('.notesColumn').hide();
         
     },
-    
+    /*edit layout button end*/
     //calculator account selector
     'click .accValSelect': function (event) {
         
@@ -786,7 +834,8 @@ Template.newprofitandloss.events({
         $('.totalSelctor').hide();
         $('.pgbSideText').hide();
         $('.dateColumnTab').hide(); 
-        $('.textBlockColumn').hide();        
+        $('.textBlockColumn').hide();  
+        $('.notesColumn').hide();
         
     },
     //end group row section
@@ -798,7 +847,8 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').show();                    
                     $('.totalSelctor').hide();
                     $('.dateColumnTab').hide();
-                    $('.textBlockColumn').hide();        
+                    $('.textBlockColumn').hide(); 
+                    $('.notesColumn').hide();
                 },
     'click .accdate':function (event){
                 $('.edlayCalculator').hide();
@@ -808,7 +858,8 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').hide();                    
                     $('.totalSelctor').hide();
                     $('.dateColumnTab').show();
-                    $('.textBlockColumn').hide();        
+                    $('.textBlockColumn').hide();
+                    $('.notesColumn').hide();
     },
     
     //top row icon events
@@ -820,8 +871,19 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').hide();                    
                     $('.totalSelctor').hide();
                     $('.dateColumnTab').hide();
-                    $('.textBlockColumn').hide();
                     $('.textBlockColumn').show();
+                    $('.notesColumn').hide();
+    },
+    'click .btnNotes':function(event){
+                            $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').hide();                    
+                    $('.totalSelctor').hide();
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide(); 
+                    $('.notesColumn').show();
     }
 });
 
