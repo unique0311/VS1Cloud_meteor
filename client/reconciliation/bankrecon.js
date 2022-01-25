@@ -2493,7 +2493,7 @@ Template.bankrecon.onRendered(function() {
 
     });
 
-    $(document).on("click", "#tblAccount tbody tr", function(e) {
+    $(document).on("click", ".bankrecon #tblAccount tbody tr", function(e) {
       $(".colAccountName").removeClass('boldtablealertsborder');
         var table = $(this);
 
@@ -2864,7 +2864,7 @@ Template.bankrecon.events({
         // Calc Difference
         var clearedBalCalc2 = $('.clearedBalance').html().replace(/[^0-9.-]+/g, "") || 0;
         var differenceAmount = parseFloat(clearedBalCalc2) - parseFloat(displayEndBal2);
-        $('.differenceCalc').text(utilityService.modifynegativeCurrencyFormat(differenceAmount) || Currency + "0.00");
+        $('.differenceCalc').text(utilityService.modifynegativeCurrencyFormat(Math.abs(differenceAmount)) || Currency + "0.00");
     },
     // 'blur .statementDate, keyup .statementDate, change .statementDate': function(e) {
     //     var statementDate = event.target.value.replace(/[^0-9.-]+/g, "") || 0;
