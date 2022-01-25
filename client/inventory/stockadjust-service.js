@@ -54,7 +54,7 @@ export class StockTransferService extends BaseService {
 
   getCompanyInfo(){
         let options = {
-            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn",
+            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn,CompanyNumber",
         };
         return this.getList(this.ERPObjects.TCompanyInfo, options);
   }

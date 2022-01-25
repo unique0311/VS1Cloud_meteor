@@ -83,8 +83,8 @@ Template.organisationsettings.onRendered(function () {
 
     templateObject.getCompLogoData = function () {
         organisationService.getCompLogo().then((data) => {
-            for (let i = 0; i < data.tcountries.length; i++) {
-                countries.push(data.tcountries[i].Country)
+            for (let i = 0; i < data.tcomplogo.length; i++) {
+                //countries.push(data.tcomplogo[i].Country)
             }
             countries = _.sortBy(countries);
             templateObject.countryData.set(countries);
@@ -131,7 +131,8 @@ Template.organisationsettings.onRendered(function () {
                     //$('#branch').val(mainData.Apcano);
                     //$('#comment').val(mainData.GlobalRef);
                     // $('#org_type').val(mainData.CompanyCategory);
-                    $('#edtCompanyNumber').val(mainData.abn);
+                    $('#edtCompanyNumber').val(mainData.CompanyNumber);
+                    $('#edtABNNumber').val(mainData.abn);
                     $('#edtAddress').val(mainData.Address);
                     $('#edtCity').val(mainData.City);
                     $('#edtState').val(mainData.State);
@@ -221,6 +222,13 @@ Template.organisationsettings.helpers({
     },
     iscompanyemail: () => {
     return Template.instance().iscompanyemail.get();
+    },
+    checkCountryABN: () => {
+      let countryABNValue = "ABN";
+      if(LoggedCountry== "South Africa"){
+        countryABNValue = "VAT";
+      }
+    return countryABNValue;
     }
 });
 Template.organisationsettings.events({
@@ -389,6 +397,7 @@ Template.organisationsettings.events({
         let companyName = $('#displayname').val();
         let tradingName = $('#tradingname').val();
         // let companyCategory = $('#org_type').val();
+        let companyABNNumber = $('#edtABNNumber').val();
         let companyNumber = $('#edtCompanyNumber').val();
         let pocontact = $('#pocontact').val();
         let contact = $('#contact').val();
@@ -435,7 +444,8 @@ Template.organisationsettings.events({
                 CompanyName: companyName,
                 TradingName: tradingName,
                 // CompanyCategory: companyCategory,
-                abn:companyNumber,
+                abn:companyABNNumber,
+                CompanyNumber:companyNumber,
                 ContactName: contact,
                 Contact: pocontact,
                 PhoneNumber: phone,

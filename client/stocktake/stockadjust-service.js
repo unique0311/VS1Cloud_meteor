@@ -15,8 +15,8 @@ export class StockAdjust extends BaseService {
     }
 
     saveStock(data){
-      
-      
+
+
         return this.POST(this.ERPObjects.TStockAdjustEntry, data);
     }
 
@@ -97,7 +97,7 @@ export class StockAdjust extends BaseService {
 
     getCompanyInfo(){
         let options = {
-            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn",
+            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn,CompanyNumber",
         };
         return this.getList(this.ERPObjects.TCompanyInfo, options);
     }

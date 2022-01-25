@@ -1,24 +1,10 @@
-import {
-    EmployeeProfileService
-} from './profile-service';
-import {
-    AccessLevelService
-} from './accesslevel-service';
-import {
-    ReactiveVar
-} from 'meteor/reactive-var';
-import {
-    ProductService
-} from "../product/product-service";
-import {
-    UtilityService
-} from "../utility-service";
-import {
-    CoreService
-} from '../js/core-service';
-import {
-    SideBarService
-} from '../js/sidebar-service';
+import {EmployeeProfileService} from './profile-service';
+import {AccessLevelService} from './accesslevel-service';
+import {ReactiveVar} from 'meteor/reactive-var';
+import {ProductService} from "../product/product-service";
+import {UtilityService} from "../utility-service";
+import {CoreService} from '../js/core-service';
+import {SideBarService} from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
 var CronJob = require('cron').CronJob;
 
@@ -185,11 +171,6 @@ Template.newsidenav.onRendered(function() {
     templateObject.getSetSideNavFocus = function() {
         var currentLoc = FlowRouter.current().route.path;
         setTimeout(function() {
-
-            // $('.collapse').collapse({
-            //     toggle: false
-            // })
-
             var currentLoc = FlowRouter.current().route.path;
 
             if (currentLoc == "/dashboard") {
@@ -640,12 +621,6 @@ Template.newsidenav.onRendered(function() {
         }
     }
 
-    if (LoggedUser) {
-
-
-    } else {
-
-    }
     if ((employeeLoggedUserAccess) && (LoggedDB !== null)) {
 
     } else {

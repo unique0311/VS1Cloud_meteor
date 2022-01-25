@@ -31,7 +31,7 @@ export class InvoiceService extends BaseService {
         return this.getOneById(this.ERPObjects.TInvoiceEx, id);
     }
     savePaidStatusData(data){
-        
+
         return this.POST(this.ERPObjects.TInvoice, data);
     }
     saveDepositData(data){
@@ -40,7 +40,7 @@ export class InvoiceService extends BaseService {
     }
     getCompanyInfo(){
         let options = {
-            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn",
+            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn,CompanyNumber",
         };
         return this.getList(this.ERPObjects.TCompanyInfo, options);
     }
