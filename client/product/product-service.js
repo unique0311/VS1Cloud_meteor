@@ -24,35 +24,35 @@ export class ProductService extends BaseService {
 
   getGlobalSearchAccount(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Active]=true",
       };
       return this.getList(this.ERPObjects.TAccountVS1, options);
   }
 
   getGlobalSearchProduct(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Active]=true",
       };
       return this.getList(this.ERPObjects.TProductVS1, options);
   }
 
   getGlobalSearchSupplier(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Active]=true",
       };
       return this.getList(this.ERPObjects.TSupplierVS1, options);
   }
 
   getGlobalSearchCustomer(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Active]=true",
       };
       return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
 
   getGlobalSearchTimeSheet(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Active]=true",
       };
       return this.getList(this.ERPObjects.TTimeSheet, options);
   }
@@ -66,14 +66,14 @@ export class ProductService extends BaseService {
 
   getGlobalSearchPO(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Deleted]=false",
       };
       return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
   }
 
   getGlobalSearchBill(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Deleted]=false",
       };
       return this.getList(this.ERPObjects.TBillEx, options);
   }
@@ -89,35 +89,35 @@ export class ProductService extends BaseService {
 
   getGlobalSearchRefund(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Deleted]=false",
       };
       return this.getList(this.ERPObjects.TRefundSale, options);
   }
 
   getGlobalSearchEmployee(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Active]=true",
       };
       return this.getList(this.ERPObjects.TEmployee, options);
   }
 
   getGlobalSearchStockAdjust(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Deleted]=false",
       };
       return this.getList(this.ERPObjects.TStockAdjustEntry, options);
   }
 
   getGlobalSearchCheck(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Deleted]=false",
       };
       return this.getList(this.ERPObjects.TChequeEx, options);
   }
 
   getGlobalSearchShipping(searchName){
       let options = {
-        select: "[ID]='"+searchName+"'",
+        select: "[ID]='"+searchName+"' AND [Deleted]=false",
       };
       return this.getList(this.ERPObjects.TInvoice, options);
   }

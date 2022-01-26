@@ -1471,6 +1471,7 @@ Template.header.onRendered(function() {
             let companyCity = data.tcompanyinfo[0].PoCity || '';
             let companyState = data.tcompanyinfo[0].PoState || '';
             let routingNo = data.tcompanyinfo[0].SiteCode || '';
+            let companyReg = data.tcompanyinfo[0].CompanyNumber||'';
             let bankDetails = "Bank Name: " + bankName + "\n" + "Account Name: " + accountName + "\n Bank Account: " + accNo + "\nBSB: " + bsb + "\n Swift Code: " + swiftCode + "\n" + "Routing No: " + routingNo;
             Session.setPersistent('vs1companyName', companyName);
             Session.setPersistent('vs1companyaddress1', companyaddress1);
@@ -1486,6 +1487,7 @@ Template.header.onRendered(function() {
             Session.setPersistent('vs1companyBankDetails', bankDetails);
             Session.setPersistent('vs1companyBankName1', bankDetails);
             Session.setPersistent('vs1companyCompanyPOBox', bankDetails);
+            Session.setPersistent('vs1companyReg', companyReg);
             localStorage.setItem('vs1companyBankName', bankName);
             localStorage.setItem('vs1companyBankAccountName', accountName);
             localStorage.setItem('vs1companyBankAccountNo', accNo);
