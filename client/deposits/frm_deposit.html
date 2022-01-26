@@ -331,62 +331,57 @@
                                                                 </style>
                                                                 <div class="columnSettings">
                                                                     <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                        <input class="custom-control-input chkcolAccountName" type="checkbox" id="formCheck-01" checked="">
+                                                                        <input class="custom-control-input chkDatatable" type="checkbox" id="formCheck-01" name="formCheck-01" checked="">
                                                                         <label class="custom-control-label" for="formCheck-01"></label>
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}From Account{{/if}}" valueupdate="th.colAccountName">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}From Account{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthAccountName" value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}%{{/if}}</span></label>
-                                                                        <input class="custom-range rngRangeAccountName" type="range" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
-
-
                                                                 <div class="columnSettings">
                                                                     <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                        <input class="custom-control-input chkcolMemo" type="checkbox" id="formCheck-03" checked="">
+                                                                        <input class="custom-control-input chkDatatable" type="checkbox" id="formCheck-03" name="formCheck-03" checked="">
                                                                         <label class="custom-control-label" for="formCheck-03"></label>
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Payment Method{{/if}}" valueupdate="th.colMemo">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Payment Method{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthMemo" value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}%{{/if}}</span></label>
-                                                                        <input class="custom-range rngRangeMemo" type="range" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <input class="custom-range rngRange rngRangeMemo" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="columnSettings">
                                                                     <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                        <input class="custom-control-input chkcolCreditEx" type="checkbox" id="formCheck-04" checked="">
+                                                                        <input class="custom-control-input chkcolCreditEx" type="checkbox" id="formCheck-04" name="formCheck-04" checked="">
                                                                         <label class="custom-control-label" for="formCheck-04"></label>
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Reference No{{/if}}" valueupdate="th.colCreditEx">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Reference No{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthCreditEx" value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}%{{/if}}</span></label>
-                                                                        <input class="custom-range rngRangeCreditEx" type="range" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <input class="custom-range rngRange rngRangeCreditEx" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="columnSettings">
                                                                     <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                        <input class="custom-control-input chkcolDebitEx" type="checkbox" id="formCheck-07" checked="">
+                                                                        <input class="custom-control-input chkcolDebitEx" type="checkbox" id="formCheck-07" name="formCheck-07" checked="">
                                                                         <label class="custom-control-label" for="formCheck-07"></label>
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Received From{{/if}}" valueupdate="th.colDebitEx">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Received From{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthDebitEx" value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}%{{/if}}</span></label>
-                                                                        <input class="custom-range rngRangeDebitEx" type="range" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <input class="custom-range rngRange rngRangeDebitEx" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
-
                                                                 <div class="columnSettings">
                                                                     <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                                        <input class="custom-control-input chkcolAmount" type="checkbox" id="formCheck-08" checked="">
+                                                                        <input class="custom-control-input chkcolAmount" type="checkbox" id="formCheck-08" name="formCheck-08" checked="">
                                                                         <label class="custom-control-label" for="formCheck-08"></label>
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Amount{{/if}}" valueupdate="th.colDebitEx">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Amount{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <span class="spWidthAmount" value="">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}%{{/if}}</span></label>
-                                                                        <input class="custom-range rngRangeAmount" type="range" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="100">
+                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <input class="custom-range rngRange rngRangeAmount" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
 
