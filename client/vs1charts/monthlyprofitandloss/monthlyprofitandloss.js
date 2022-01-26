@@ -250,7 +250,7 @@ Template.monthlyprofitandloss.onRendered(() => {
                       setTimeout(function  (){
                            $('#monthlyprofitandlosschart').hide();
                       },500)
-                 
+
                 };
                 var ctx = document.getElementById("monthlyprofitandlosschart").getContext("2d");
                 var myChart = new Chart(ctx, {
@@ -525,7 +525,7 @@ Template.monthlyprofitandloss.onRendered(() => {
   setTimeout(function  (){
        $('#monthlyprofitandlosschart').hide();
   },500)
- 
+
 };
         var ctx = document.getElementById("monthlyprofitandlosschart").getContext("2d");
         var myChart = new Chart(ctx, {
@@ -644,7 +644,7 @@ Template.monthlyprofitandloss.onRendered(() => {
 
     }
 
-    
+
 
     templateObject.reAttachChart = function () {
       alert("Test");

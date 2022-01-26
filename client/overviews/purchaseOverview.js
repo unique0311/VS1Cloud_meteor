@@ -1269,6 +1269,20 @@ Template.purchasesoverview.onRendered(function() {
             $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
         }
     }
+
+    $(".connectedSortable" ).sortable({
+        connectWith: ".connectedSortable",
+        stop: function(event, ui) {
+            // $('.connectedSortable').each(function() {
+            //     // result = "";
+            //     // alert($(this).sortable("toArray"));
+            //     // $(this).find("li").each(function(){
+            //     //     result += $(this).text() + ",";
+            //     // });
+            //     //$("."+$(this).attr("id")+".list").html(result);
+            // });
+        }
+    });
 });
 
 Template.purchasesoverview.events({
