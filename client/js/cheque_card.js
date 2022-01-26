@@ -3319,8 +3319,21 @@ Template.chequecard.helpers({
     companyphone: () => {
         return Session.get('vs1companyPhone');
     },
-    companyabn: () => {
-        return Session.get('vs1companyABN');
+    companyabn: () => { //Update Company ABN
+      let countryABNValue = "ABN: " + Session.get('vs1companyABN');
+      if(LoggedCountry== "South Africa"){
+        countryABNValue = "Vat No: " + Session.get('vs1companyABN');;
+      }
+
+        return countryABNValue;
+    },
+    companyReg: () => { //Add Company Reg
+      let countryRegValue = '';
+      if(LoggedCountry== "South Africa"){
+        countryRegValue = "Reg No: " + Session.get('vs1companyReg');
+      }
+
+        return countryRegValue;
     },
     organizationname: () => {
         return Session.get('vs1companyName');
