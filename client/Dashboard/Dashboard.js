@@ -1,12 +1,24 @@
 import { ReactiveVar } from 'meteor/reactive-var';
 import { CoreService } from '../js/core-service';
 import {DashBoardService} from './dashboard-service';
+import { UtilityService } from "../utility-service";
+import { VS1ChartService } from "../vs1charts/vs1charts-service"
+
 import 'gauge-chart';
+let _ = require('lodash');
+let vs1chartService = new VS1ChartService();
+let utilityService = new UtilityService();
+
 Template.dashboard.onCreated(function () {
     this.loggedDb = new ReactiveVar("");
     const templateObject = Template.instance();
     templateObject.includeDashboard = new ReactiveVar();
     templateObject.includeDashboard.set(false);
+
+
+    templateObject.records = new ReactiveVar([]);
+    templateObject.dateAsAt = new ReactiveVar();
+    templateObject.deptrecords = new ReactiveVar();
 });
 
 Template.dashboard.onRendered(function () {
@@ -16,49 +28,82 @@ Template.dashboard.onRendered(function () {
       templateObject.includeDashboard.set(true);
   }
 
-$( document ).ready(function() {
-    /* events fired on the draggable target */
-    document.addEventListener("drag", function (event) {
-        //event.dataTransfer.setData('text/plain', event.target.id);
-    }, false);
 
-    document.addEventListener("dragstart", function (event) {
-        // store a ref. on the dragged elem
-        dragged = event.target;
 
-        event.target.style.opacity = .5;
-    }, false);
+// $( document ).ready(function() {
+// setTimeout(function(){
 
-    document.addEventListener("dragend", function (event) {
-        // reset the transparency
-        event.target.style.opacity = "";
-    }, false);
+templateObject.deactivateDraggable = function() {
+var columns = document.querySelectorAll('.card');
+var draggingClass = 'dragging';
+var dragSource;
 
-    /* events fired on the drop targets */
-    document.addEventListener("dragover", function (event) {
-        // prevent default to allow drop
-        event.preventDefault();
-    }, false);
-
-    document.addEventListener("dragenter", function (event) {
-        // highlight potential drop target when the draggable element enters it
-        if (event.target.className.includes("droppable")) {
-            event.target.style.background = "#99ccff";
-        }
-
-    }, false);
-
-    document.addEventListener("dragleave", function (event) {
-        // reset background of potential drop target when the draggable element leaves it
-        if (event.target.className.includes("droppable")) {
-            event.target.style.background = "";
-        }
-
-    }, false);
-
-    document.addEventListener("drop", function (event) {
-    });
+Array.prototype.forEach.call(columns, function (col) {
+  col.removeEventListener('dragstart', handleDragStart, true);
+  col.removeEventListener('dragenter', handleDragEnter, true)
+  col.removeEventListener('dragover', handleDragOver, true);
+  col.removeEventListener('dragleave', handleDragLeave, true);
+  col.removeEventListener('drop', handleDrop, true);
+  col.removeEventListener('dragend', handleDragEnd, true);
 });
+
+}
+templateObject.activateDraggable = function() {
+
+var columns = document.querySelectorAll('.card');
+var draggingClass = 'dragging';
+var dragSource;
+
+Array.prototype.forEach.call(columns, function (col) {
+  col.addEventListener('dragstart', handleDragStart, false);
+  col.addEventListener('dragenter', handleDragEnter, false)
+  col.addEventListener('dragover', handleDragOver, false);
+  col.addEventListener('dragleave', handleDragLeave, false);
+  col.addEventListener('drop', handleDrop, false);
+  col.addEventListener('dragend', handleDragEnd, false);
+});
+
+function handleDragStart (evt) {
+  dragSource = this;
+  evt.target.classList.add(draggingClass);
+  evt.dataTransfer.effectAllowed = 'move';
+  evt.dataTransfer.setData('text/html', this.innerHTML);
+}
+
+function handleDragOver (evt) {
+  evt.dataTransfer.dropEffect = 'move';
+  evt.preventDefault();
+}
+
+function handleDragEnter (evt) {
+  this.classList.add('over');
+}
+
+function handleDragLeave (evt) {
+  this.classList.remove('over');
+}
+
+function handleDrop (evt) {
+  evt.stopPropagation();
+  
+  if (dragSource !== this) {
+    dragSource.innerHTML = this.innerHTML;
+    this.innerHTML = evt.dataTransfer.getData('text/html');
+  }
+  
+  evt.preventDefault();
+}
+
+function handleDragEnd (evt) {
+  Array.prototype.forEach.call(columns, function (col) {
+    ['over', 'dragging'].forEach(function (className) {
+      col.classList.remove(className);
+    });
+  });
+}
+}
+// },1000);
+// });
 
 templateObject.hideChartElements = function () {
     $("#profitlosshide").addClass('hideelement');
@@ -201,6 +246,7 @@ Template.dashboard.events({
     $("#monthlyprofitlossstatus").removeClass('hideelement');
     $("#resalecomparision").removeClass('hideelement');
     $("#showearningchat").removeClass('hideelement');
+    templateObject.activateDraggable();
  
     //  if($("#profitchat").hasClass('showchat')) {
     //    $("#profitlosshide").text("Show");
@@ -216,6 +262,7 @@ Template.dashboard.events({
    $("#btnDone").removeClass('showelement');
    $("#editcharts").addClass('showelement')
    $("#editcharts").removeClass('hideelement');
+   templateObject.deactivateDraggable();
 },
 'click .progressbarcheck': function() {
     var valeur = 0;

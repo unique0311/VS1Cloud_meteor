@@ -33,7 +33,6 @@ Template.profitandlosschart.onRendered(()=>{
 
 
   let checkStatus = localStorage.getItem("profitloss") || true;
-  console.log(checkStatus);
   setTimeout(function(){
   if(checkStatus == false || checkStatus == "false") {
     $("#profitlossstatus").addClass('hideelement')

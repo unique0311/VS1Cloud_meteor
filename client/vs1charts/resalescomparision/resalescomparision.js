@@ -34,6 +34,16 @@ Template.resalescomparision.onRendered(()=>{
         $("#resalecomparision").removeClass('hideelement');
         $('#resalehide').text("Hide");
       }
+
+      function done(){
+                      var url= myChart.toBase64Image();
+                      document.getElementById("comparison_url").src=url;
+                      setTimeout(function  (){
+                           $('#myChartCustomer').hide();
+                      },500)
+                 
+                };
+
 if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
   getInvSales(function (data) {
 
@@ -105,6 +115,10 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
             }
         }
     },
+     bezierCurve : true,
+                        animation: {
+                            onComplete: done
+                        },
         "legend":{
         "display":false
         },
@@ -252,6 +266,10 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
         }
     }
 },
+ bezierCurve : true,
+                        animation: {
+                            onComplete: done
+                        },
     "legend":{
     "display":false
     },

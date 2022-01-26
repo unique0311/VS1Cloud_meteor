@@ -36,6 +36,16 @@ Template.expenseschart.onRendered(()=>{
     $("#expensechart").removeClass('hideelement')
     $('#expenseshide').text("Hide");
   }
+
+  function done(){
+                      var url= myChart.toBase64Image();
+                      document.getElementById("expense_url").src=url;
+                      setTimeout(function  (){
+                           $('#myExpensesChart').hide();
+                      },500)
+                 
+                };
+
 if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   var currentDate2 = new Date();
   var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
@@ -180,6 +190,10 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
               }
           }
       },
+       bezierCurve : true,
+                        animation: {
+                            onComplete: done
+                        },
           "legend":{
           "display":false
           },
@@ -583,6 +597,10 @@ var myChart = new Chart(ctx, {
       }
   }
 },
+ bezierCurve : true,
+                        animation: {
+                            onComplete: done
+                        },
   "legend":{
   "display":false
   },

@@ -30,7 +30,6 @@ Template.quotedinvoicedamounts.onRendered(() => {
     let topData = this;
 
     let checkStatus = localStorage.getItem("quotedinvoicedchart") || true;
-
       if(checkStatus == false || checkStatus == "false") {
         $("#quotedinvoicedamount").addClass('hideelement');
         $('#hidesales1').text("Show");
@@ -38,6 +37,15 @@ Template.quotedinvoicedamounts.onRendered(() => {
         $("#quotedinvoicedamount").removeClass('hideelement');
         $('#hidesales1').text("Hide");
       }
+
+              function done(){
+                      var url= myChart.toBase64Image();
+                      document.getElementById("quotedinvoice_url").src=url;
+                      setTimeout(function  (){
+                           $('#quotedinvoicedamounts').hide();
+                      },500)
+                 
+                };
       
         if (!localStorage.getItem('VS1SalesListReport_dash')) {
         let currentDate = new Date();
@@ -100,6 +108,7 @@ Template.quotedinvoicedamounts.onRendered(() => {
    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
             getVS1Data('TSalesList').then(function (dataObject) {
             if (dataObject.length == 0) {
+
                sideBarService.getSalesListData(prevMonth11Date,toDate, false).then((data) => {
 
                     let filterData = _.filter(data.tsaleslist, function (data) {
@@ -201,7 +210,7 @@ Template.quotedinvoicedamounts.onRendered(() => {
                     let prevMonth5 = (moment().subtract(5, 'months')).format("MMMM").substring(0, 3);
                     let prevMonth6 = (moment().subtract(6, 'months')).format("MMMM").substring(0, 3);
                     let prevMonth7 = (moment().subtract(7, 'months')).format("MMMM").substring(0, 3);
-
+                    
                     var ctx = document.getElementById("quotedinvoicedamounts").getContext("2d");
                     var myChart = new Chart(ctx, {
                         type: 'line',
@@ -260,6 +269,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
                                     }
                                 }
                             },
+                             bezierCurve : true,
+                        animation: {
+                            onComplete: done
+                        },
                             "legend": {
                                 "display": true,
                                 "position": "bottom",
@@ -407,7 +420,6 @@ Template.quotedinvoicedamounts.onRendered(() => {
                 let prevMonth5 = (moment().subtract(5, 'months')).format("MMMM").substring(0, 3);
                 let prevMonth6 = (moment().subtract(6, 'months')).format("MMMM").substring(0, 3);
                 let prevMonth7 = (moment().subtract(7, 'months')).format("MMMM").substring(0, 3);
-
                 var ctx = document.getElementById("quotedinvoicedamounts").getContext("2d");
                 var myChart = new Chart(ctx, {
                     type: 'line',
@@ -465,6 +477,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
 
                                 }
                             }
+                        },
+                         bezierCurve : true,
+                        animation: {
+                          onComplete: done
                         },
                         "legend": {
                             "display": true,
@@ -670,6 +686,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
                                 }
                             }
                         },
+                        bezierCurve : true,
+                        animation: {
+                            onComplete: done
+                        },
                         "legend": {
                             "display": true,
                             "position": "bottom",
@@ -805,6 +825,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
                         }
                     }
                 },
+                bezierCurve : true,
+                        animation: {
+                            onComplete: done
+                        },
                 "legend": {
                     "display": true,
                     "position": "bottom",
