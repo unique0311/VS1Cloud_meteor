@@ -349,9 +349,10 @@ Template.payrolloverview.onRendered(function () {
           let dataListloggedUser = {};
           let vs1EmployeeImage = Session.get('vs1EmployeeImages');
           let timesheetEmployeeData = templateObject.timesheetrecords.get();
+          console.log(timesheetEmployeeData);
           let encoded = '';
           for(let i=0; i < timesheetEmployeeData.length; i++){
-            if(timesheetEmployeeData[i].isPaused == "Clocked On"){
+            if(timesheetEmployeeData[i].isPaused == "Clocked On" || timesheetEmployeeData[i].isPaused == "paused"){
                   let employeeUser = timesheetEmployeeData[i].employee;
                   dataListloggedUser = {
                       //id: data.tappuser[i].EmployeeID || '',
@@ -2860,6 +2861,7 @@ Template.payrolloverview.events({
     'click .btnSaveTimeSheet': async function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
+        let showTimesheetStatus = Session.get('CloudShowTimesheet') || true;
         let checkStatus = "";
         let checkStartTime = "";
         let checkEndTime = "";
@@ -3175,9 +3177,16 @@ Template.payrolloverview.events({
                             contactService.saveTimeSheetLog(updateData).then(function (data) {
                                 sideBarService.getAllTimeSheetList().then(function (data) {
                                     addVS1Data('TTimeSheet', JSON.stringify(data));
-                                    setTimeout(function () {
+                                    if(showTimesheetStatus == true) {
+                                         setTimeout(function () {
                                         window.open('/timesheet', '_self');
                                     }, 500);
+                                    } else {
+                                         setTimeout(function () {
+                                        window.open('/dashboard', '_self');
+                                    }, 500);
+                                    }
+                                   
                                 })
                             }).catch(function (err) {})
                         }).catch(function (err) {})
@@ -3186,7 +3195,15 @@ Template.payrolloverview.events({
                             sideBarService.getAllTimeSheetList().then(function (data) {
                                 addVS1Data('TTimeSheet', JSON.stringify(data));
                                 setTimeout(function () {
-                                    window.open('/timesheet', '_self');
+                                     if(showTimesheetStatus == true) {
+                                         setTimeout(function () {
+                                        window.open('/timesheet', '_self');
+                                    }, 500);
+                                    } else {
+                                         setTimeout(function () {
+                                        window.open('/dashboard', '_self');
+                                    }, 500);
+                                    }
                                 }, 500);
                             })
                         }).catch(function (err) {})
@@ -3194,9 +3211,15 @@ Template.payrolloverview.events({
                 } else {
                     sideBarService.getAllTimeSheetList().then(function (data) {
                         addVS1Data('TTimeSheet', JSON.stringify(data));
-                        setTimeout(function () {
-                            window.open('/timesheet', '_self');
-                        }, 500);
+                         if(showTimesheetStatus == true) {
+                                         setTimeout(function () {
+                                        window.open('/timesheet', '_self');
+                                    }, 500);
+                                    } else {
+                                         setTimeout(function () {
+                                        window.open('/dashboard', '_self');
+                                    }, 500);
+                                    }
                     })
                 }
 
@@ -3418,9 +3441,15 @@ Template.payrolloverview.events({
             contactService.saveTimeSheet(data).then(function (data) {
                 sideBarService.getAllTimeSheetList().then(function (data) {
                     addVS1Data('TTimeSheet', JSON.stringify(data));
-                    setTimeout(function () {
-                        window.open('/timesheet', '_self');
-                    }, 500);
+                    if(showTimesheetStatus == true) {
+                                         setTimeout(function () {
+                                        window.open('/timesheet', '_self');
+                                    }, 500);
+                                    } else {
+                                         setTimeout(function () {
+                                        window.open('/dashboard', '_self');
+                                    }, 500);
+                                    }
                 })
             }).catch(function (err) {
                 swal({
@@ -3482,9 +3511,15 @@ Template.payrolloverview.events({
                             contactService.saveTimeSheetLog(updateData).then(function (data) {
                                 sideBarService.getAllTimeSheetList().then(function (data) {
                                     addVS1Data('TTimeSheet', JSON.stringify(data));
-                                    setTimeout(function () {
+                                     if(showTimesheetStatus == true) {
+                                         setTimeout(function () {
                                         window.open('/timesheet', '_self');
                                     }, 500);
+                                    } else {
+                                         setTimeout(function () {
+                                        window.open('/dashboard', '_self');
+                                    }, 500);
+                                    }
                                 })
                             }).catch(function (err) {})
                         }).catch(function (err) {})
@@ -3492,18 +3527,30 @@ Template.payrolloverview.events({
                         contactService.saveTimeSheetLog(obj).then(function (data) {
                             sideBarService.getAllTimeSheetList().then(function (data) {
                                 addVS1Data('TTimeSheet', JSON.stringify(data));
-                                setTimeout(function () {
-                                    window.open('/timesheet', '_self');
-                                }, 500);
+                                if(showTimesheetStatus == true) {
+                                         setTimeout(function () {
+                                        window.open('/timesheet', '_self');
+                                    }, 500);
+                                    } else {
+                                         setTimeout(function () {
+                                        window.open('/dashboard', '_self');
+                                    }, 500);
+                                    }
                             })
                         }).catch(function (err) {})
                     }
                 } else {
                     sideBarService.getAllTimeSheetList().then(function (data) {
                         addVS1Data('TTimeSheet', JSON.stringify(data));
-                        setTimeout(function () {
-                            window.open('/timesheet', '_self');
-                        }, 500);
+                         if(showTimesheetStatus == true) {
+                                         setTimeout(function () {
+                                        window.open('/timesheet', '_self');
+                                    }, 500);
+                                    } else {
+                                         setTimeout(function () {
+                                        window.open('/dashboard', '_self');
+                                    }, 500);
+                                    }
                     })
                 }
 
