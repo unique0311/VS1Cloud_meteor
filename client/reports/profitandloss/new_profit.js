@@ -60,7 +60,72 @@ Template.newprofitandloss.onRendered(function () {
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
 
+// get 'this month' to appear in date range selector dropdown
+//    const monSml = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sepr","Oct","Nov","Dec"];
+//    var currMonth = monSml[currentDate.getMonth()] + " " + currentDate.getFullYear();
+    
+let currMonth = moment().format('MMM') + ' ' + moment().format('YYYY');
+$("#dispCurrMonth").append(currMonth);
+    
+// get 'this month' to appear in date range selector dropdown end  
+    
+// get 'last quarter' to appear in date range selector dropdown
+let lastQStartDispaly = moment().subtract(1, 'Q').startOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+let lastQEndDispaly = moment().subtract(1, 'Q').endOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+$('#dispLastQuarter').append(lastQStartDispaly + " - " + lastQEndDispaly)
+    
+// get 'last quarter' to appear in date range selector dropdown end 
+    
+// get 'this quarter' to appear in date range selector dropdown
+    
+let thisQStartDispaly = moment().startOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+let thisQEndDispaly = moment().endOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+$('#dispCurrQuarter').append(thisQStartDispaly + " - " + thisQEndDispaly)
+    
+// get 'this quarter' to appear in date range selector dropdown end 
 
+// get 'last month' to appear in date range selector dropdown 
+    
+let prevMonth = moment().subtract(1, 'M').format('MMM' + ' ' + 'YYYY');
+$('#dispPrevMonth').append(prevMonth);
+    
+// get 'last month' to appear in date range selector dropdown end
+
+// get 'month to date' to appear in date range selector dropdown 
+    
+let monthStart = moment().startOf('M').format('D' + ' ' + 'MMM');
+let monthCurr = moment().format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+$('#monthStartDisp').append(monthStart + ' - ' + monthCurr);
+    
+// get 'month to date' to appear in date range selector dropdown end
+    
+// get 'quarter to date' to appear in date range selector dropdown
+    
+let currQStartDispaly = moment().startOf('Q').format('D' + ' ' + 'MMM');
+$('#quarterToDateDisp').append(currQStartDispaly + ' - ' + monthCurr);
+    
+// get 'quarter to date' to appear in date range selector dropdown 
+// get 'financial year' to appear
+if (moment().quarter() == 4) {
+  var current_fiscal_year_start = moment().month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var current_fiscal_year_end = moment().add('year', 1).month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');                  
+  var last_fiscal_year_start = moment().subtract('year', 1).month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var last_fiscal_year_end = moment().month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+} else {
+  var current_fiscal_year_start = moment().subtract('year', 1).month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var current_fiscal_year_end = moment().month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY'); 
+    
+  var last_fiscal_year_start = moment().subtract('year', 2).month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var last_fiscal_year_end = moment().subtract('year', 1).month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+};  
+    //display current financial year
+    $('#dispCurrFiscYear').append(current_fiscal_year_start + ' - ' + current_fiscal_year_end);
+    //display last financial year
+    $('#dispPrevFiscYear').append(last_fiscal_year_start + ' - ' + last_fiscal_year_end);
+    //display current financial year to current date;
+    $('#dispCurrFiscYearToDate').append(current_fiscal_year_start + ' - ' + monthCurr);
+// get 'financial year' to appear end
+    
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         if (!localStorage.getItem('VS1ProfitandLoss_ReportCompare1')) {
             reportService.getProfitandLossCompare(dateFrom, dateTo, ignoreDate).then(function (data) {
@@ -419,6 +484,35 @@ Template.newprofitandloss.events({
         templateObject.getProfitandLossReports(getDateFrom, getLoadDate, false);
 
     },
+//        'click #thisMonth': function () {
+//        let templateObject = Template.instance();
+//        $('.fullScreenSpin').css('display', 'inline-block');
+//        localStorage.setItem('VS1ProfitandLoss_ReportCompare', '');
+//        $('#dateFrom').attr('readonly', false);
+//        $('#dateTo').attr('readonly', false);
+//        var currentDate = new Date();
+//        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+//
+//        let fromDateMonth = (currentDate.getMonth() + 1);
+//        let fromDateDay = currentDate.getDate();
+//        if ((currentDate.getMonth() + 1) < 10) {
+//            fromDateMonth = "0" + (currentDate.getMonth() + 1);
+//        }
+//        if (currentDate.getDate() < 10) {
+//            fromDateDay = "0" + currentDate.getDate();
+//        }
+//
+//        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+//        templateObject.dateAsAt.set(begunDate);
+//        $("#dateFrom").val(fromDate);
+//        $("#dateTo").val(begunDate);
+//
+//        var currentDate2 = new Date();
+//        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+//        let getDateFrom = currentDate2.getFullYear() + "-" + (currentDate2.getMonth()) + "-" + currentDate2.getDate();
+//        templateObject.getProfitandLossReports(getDateFrom, getLoadDate, false);
+//
+//    },
     'click #lastQuarter': function () {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
