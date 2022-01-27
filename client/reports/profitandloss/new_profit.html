@@ -222,7 +222,55 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="btn-group float-right" style="margin: 16px; margin-top: 48px;">
+                                <style>
+                                    .selectedDateRangeBtnMod {
+                                        border-top-left-radius: 0px !important;
+                                        border-bottom-left-radius: 0px !important;
+                                    }
+                                </style>
+                                <div class="form-group float-right" style="margin: 16px; display: inline-flex; margin-top: 48px;">
+                                    <input type="text" class="form-control" id="selectedDateRange" aria-describedby="basic-addon2" style="max-width: 160px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; display: none;">
+                                    <div class="input-group-append">
+                                        <button type=" button" class="btn btn-link dropdown-toggle" id="btnSltDateRange" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></button>
+                                        <style>
+                                            .dropdown-toggle::after {
+                                                display: none;
+                                            }
+                                        </style>
+                                        <div class="dropdown-menu" style="width: 350px;">
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">This month
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">Jan 2022</div>
+                                            </a>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">This quarter
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Jan - 31 Mar 2022</div>
+                                            </a>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">This financial year
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Jul 2021 - 30 Jun 2022</div>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">Last month
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">Dec 2021</div>
+                                            </a>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">Last quarter
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Oct - 31 Dec 2021</div>
+                                            </a>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">Last financial year
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Jul 2020 - 30 Jun 2021</div>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">Month to date
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Jan - 26 Jan 2022</div>
+                                            </a>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">Quarter to date
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Jan - 26 Jan 2022</div>
+                                            </a>
+                                            <a class="dropdown-item" href="#" style="width: ;" id="">Year to date
+                                                <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Jul 2021 - 26 Jan 2022</div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="btn-group float-right" style="margin: 16px; margin-top: 48px;">
                                     <button type=" button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></button>
                                     <style>
                                         .dropdown-toggle::after {
@@ -260,7 +308,7 @@
                                             <div class="float-right" style="width: 50%; text-align: end; color: #858796;">1 Jul 2021 - 26 Jan 2022</div>
                                         </a>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- <div class="dropdown float-right" style="margin: 16px; margin-top: 48px;">
                                     <style>
                                         .dropdown-toggle::after {
@@ -563,180 +611,180 @@
                         <div class="form-group-sm">
                             <div class="row">
                                 <div class="col-sm-6">
-                                <div class="col-sm-12 pt-2 pl-0 mb-3">
-                                    <a href="#" class="btn btn-primary btnMoveAccount" role="button">Move selected accounts...</a>
-                                    <a data-toggle="modal" href="#nplAddGroupScreen" class="btn btn-primary btnAddGroup" role="button" onclick="$('#defineGrouping').hide();$('#nplAddGroupDefTag').show();  return false;">Add Group...</a>
-                                    <a data-toggle="modal" href="#nplGroupAccounts" class="btn btn-primary btnGroupAccounts" role="button" onclick="$('#defineGrouping2').hide();$('#nplGroupAccountDefTag').show();  return false;">Group selected
-                                        accounts...</a>
-                                </div>
-                                <div>
-                                    <h6>Income</h6>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle1" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle1">Interest Income (270)</label>
+                                    <div class="col-sm-12 pt-2 pl-0 mb-3">
+                                        <a href="#" class="btn btn-primary btnMoveAccount" role="button">Move selected accounts...</a>
+                                        <a data-toggle="modal" href="#nplAddGroupScreen" class="btn btn-primary btnAddGroup" role="button" onclick="$('#defineGrouping').hide();$('#nplAddGroupDefTag').show();  return false;">Add Group...</a>
+                                        <a data-toggle="modal" href="#nplGroupAccounts" class="btn btn-primary btnGroupAccounts" role="button" onclick="$('#defineGrouping2').hide();$('#nplGroupAccountDefTag').show();  return false;">Group selected
+                                            accounts...</a>
+                                    </div>
+                                    <div>
+                                        <h6>Income</h6>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle1" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle1">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle2" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle2">Other Revenue (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle3" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle3">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle4" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle4">Less Cost of Sales</label>
+                                                <span>
+                                                    Edit Group
+                                                </span>
+                                                <span>
+                                                    |
+                                                </span>
+                                                <span>
+                                                    Delete
+                                                </span>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle5" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle5">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle6" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle6">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle7" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle7">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle8" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle8">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle9" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle9">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h6>Less Operating Expenses</h6>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle10" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle10">Interest Income (270)</label>
+                                                <span>
+                                                    Summary
+                                                </span>
+                                                <span>
+                                                    |
+                                                </span>
+                                                <span>
+                                                    Edit Group
+                                                </span>
+                                                <span>
+                                                    |
+                                                </span>
+                                                <span>
+                                                    Delete
+                                                </span>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle11" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle11">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle12" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle12">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle13" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle13">Interest Income (270)</label>
+                                            </div>
+                                            <div class="custom-control custom-switch ml-4">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle14" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle14">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle15" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle15">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle16" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle16">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle17" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle17">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle18" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle18">Interest Income (270)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="p-1 m-1">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle19" checked="">
+                                                <label style="width: 275px;" class="custom-control-label" for="accountToggle19">Interest Income (270)</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle2" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle2">Other Revenue (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle3" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle3">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle4" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle4">Less Cost of Sales</label>
-                                            <span>
-                                                Edit Group
-                                            </span>
-                                            <span>
-                                            |
-                                            </span>
-                                            <span>
-                                                Delete
-                                            </span>                                            
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle5" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle5">Interest Income (270)</label>
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle6" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle6">Interest Income (270)</label>
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle7" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle7">Interest Income (270)</label>
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle8" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle8">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle9" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle9">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h6>Less Operating Expenses</h6>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle10" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle10">Interest Income (270)</label>
-                                            <span>
-                                            Summary
-                                            </span>                                            
-                                            <span>
-                                            |
-                                            </span>                                            
-                                            <span>
-                                                Edit Group
-                                            </span>
-                                            <span>
-                                            |
-                                            </span>                                            
-                                            <span>
-                                                Delete
-                                            </span>
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle11" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle11">Interest Income (270)</label>
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle12" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle12">Interest Income (270)</label>
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle13" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle13">Interest Income (270)</label>
-                                        </div>
-                                        <div class="custom-control custom-switch ml-4">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle14" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle14">Interest Income (270)</label>
-                                        </div>                                        
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle15" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle15">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle16" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle16">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle17" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle17">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle18" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle18">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="p-1 m-1">
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="accountToggle19" checked="">
-                                            <label style="width: 275px;" class="custom-control-label" for="accountToggle19">Interest Income (270)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                                 <div class="col-sm-6">
-                                <div class="container mb-3">
-                                    <h2>Change the order and grouping of your report</h2>
-                                    <p>Select one or more accounts to group or move. You can group accounts under headings of your choice, these will appear as subtotals in your report.</p>
-                                    <p>When you've finished customising your layout, click 'Save' below.</p>
-                                    <a>Get more help on customising report layouts</a>
+                                    <div class="container mb-3">
+                                        <h2>Change the order and grouping of your report</h2>
+                                        <p>Select one or more accounts to group or move. You can group accounts under headings of your choice, these will appear as subtotals in your report.</p>
+                                        <p>When you've finished customising your layout, click 'Save' below.</p>
+                                        <a>Get more help on customising report layouts</a>
 
-                                </div>
-                                <div class="container">
-                                    <h5>Layout Details</h5>
-                                    <hr>
-                                    <label>Layout Name</label><br>
-                                    <input id="fullName" type="text" class="form-control" name="nplNewLayoutName" value="" placeholder="">
-                                    <label>Layout Description</label><br>
-                                    <input id="fullName" type="text" class="form-control" name="nplNewLayoutDescr" value="" placeholder="">
-                                    <div class="custom-control custom-switch mt-3">
-                                        <input type="checkbox" class="custom-control-input feeOnTopInput" id="defaultSetttingPNL">
-                                        <label style="width: 275px;" class="custom-control-label" for="defaultSetttingPNL">Make this the default Profit and Loss for all users</label>
+                                    </div>
+                                    <div class="container">
+                                        <h5>Layout Details</h5>
+                                        <hr>
+                                        <label>Layout Name</label><br>
+                                        <input id="fullName" type="text" class="form-control" name="nplNewLayoutName" value="" placeholder="">
+                                        <label>Layout Description</label><br>
+                                        <input id="fullName" type="text" class="form-control" name="nplNewLayoutDescr" value="" placeholder="">
+                                        <div class="custom-control custom-switch mt-3">
+                                            <input type="checkbox" class="custom-control-input feeOnTopInput" id="defaultSetttingPNL">
+                                            <label style="width: 275px;" class="custom-control-label" for="defaultSetttingPNL">Make this the default Profit and Loss for all users</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>
