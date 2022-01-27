@@ -1,5 +1,6 @@
 <template name="dashboard">
     <div class="container-fluid">
+      {{#if includeDashboard}}
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
@@ -96,7 +97,7 @@
                 <input name="progressbarcheck" class="progressbarcheck" type="checkbox" value="50">
             </div>
         </div> -->
-        {{#if includeDashboard}}
+
             <div class="row">
                 {{> purchasesaleschart}}
             </div>
@@ -105,7 +106,7 @@
 
                 <div class="col-lg-5 col-xl-4" id="profitlossstatus">
                     {{> profitandlosschart}}
-                </div> 
+                </div>
             </div>
             <div class="row">
                 {{> expenseschart}}
@@ -210,8 +211,9 @@
                     </div>
                 </div>
             </div>
-        {{/if}}
+
 <a href="#" id="editcharts" style="width:100px; display: block; margin: 0 auto;">Edit Charts</a> <button class="btn btn-success hideelement" id="btnDone" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-save" style="margin: 4px;"></i>Done</button>
+{{/if}}
     </div>
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">

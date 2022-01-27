@@ -1285,7 +1285,12 @@
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress2}}</p>
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{city}}</p>
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{state}} {{poBox}} </p>
-                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
+                                    {{#if equals companyReg ''}}
+
+                                    {{else}}
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyReg}}</p>
+                                    {{/if}}
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyabn}}</p>
                                     <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
                                 </div>
                             </div>
@@ -1390,7 +1395,12 @@
                                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress2}}</p>
                                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{city}}</p>
                                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{state}} {{poBox}} </p>
-                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
+                                                {{#if equals companyReg ''}}
+
+                                                {{else}}
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyReg}}</p>
+                                                {{/if}}
+                                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyabn}}</p>
                                                 <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
                                             </div>
                                         </div>
