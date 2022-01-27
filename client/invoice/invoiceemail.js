@@ -141,7 +141,8 @@ Template.invoiceemail.onRendered(function() {
             setTimeout(function () {
                 $('#tblInvoicelist').DataTable({
                   columnDefs: [
-                      {type: 'date', targets: 0}
+                      {"orderable": false,"targets": 0},
+                      {type: 'date', targets: 1}
                   ],
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
@@ -325,7 +326,8 @@ $('.fullScreenSpin').css('display','none');
 setTimeout(function () {
     $('#tblInvoicelist').DataTable({
       columnDefs: [
-          {type: 'date', targets: 0}
+          {"orderable": false,"targets": 0},
+          {type: 'date', targets: 1}
       ],
       "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
       buttons: [
@@ -504,7 +506,8 @@ templateObject.tableheaderrecords.set(tableHeaderList);
             setTimeout(function () {
                 $('#tblInvoicelist').DataTable({
                   columnDefs: [
-                      {type: 'date', targets: 0}
+                      {"orderable": false,"targets": 0},
+                      {type: 'date', targets: 1}
                   ],
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
