@@ -639,6 +639,17 @@ Template.newprofitandloss.events({
             $('.table tbody tr').show();
         }
     },
+    'click .nonePeriod': function (event) {
+        $('td:nth-child(4)').hide();
+        $('td:nth-child(5)').hide();
+        $('td:nth-child(6)').hide();
+        $('td:nth-child(7)').hide();
+        
+        $('th:nth-child(4)').hide();
+        $('th:nth-child(5)').hide();
+        $('th:nth-child(6)').hide();
+        $('th:nth-child(7)').hide();
+    },
     'click .onePeriod': function (event) {
         $('#dateFrom').attr('readonly', false);
         $('#dateTo').attr('readonly', false);
@@ -648,39 +659,46 @@ Template.newprofitandloss.events({
         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 //        console.log(formatDateFrom);
 //        console.log(formatDateTo);
+        $('td:nth-child(4)').show();        
         $('td:nth-child(5)').hide();
         $('td:nth-child(6)').hide();
         $('td:nth-child(7)').hide();
 
+        $('th:nth-child(4)').show();
         $('th:nth-child(5)').hide();
         $('th:nth-child(6)').hide();
         $('th:nth-child(7)').hide();
 
     },
-
     'click .twoPeriods': function (event) {
+        $('th:nth-child(4)').show();
         $('td:nth-child(5)').show();
         $('td:nth-child(6)').hide();
         $('td:nth-child(7)').hide();
 
+        $('th:nth-child(4)').show();
         $('th:nth-child(5)').show();
         $('th:nth-child(6)').hide();
         $('th:nth-child(7)').hide();
     },
     'click .threePeriods': function (event) {
+        $('th:nth-child(4)').show();
         $('td:nth-child(5)').show();
         $('td:nth-child(6)').show();
         $('td:nth-child(7)').hide();
 
+        $('th:nth-child(4)').show();
         $('th:nth-child(5)').show();
         $('th:nth-child(6)').show();
         $('th:nth-child(7)').hide();
     },
     'click .fourPeriods': function (event) {
+        $('th:nth-child(4)').show();
         $('td:nth-child(5)').show();
         $('td:nth-child(6)').show();
         $('td:nth-child(7)').show();
 
+        $('th:nth-child(4)').show();
         $('th:nth-child(5)').show();
         $('th:nth-child(6)').show();
         $('th:nth-child(7)').show();
