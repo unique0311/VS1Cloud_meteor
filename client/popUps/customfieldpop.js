@@ -26,6 +26,7 @@ Template.customfieldpop.onRendered(() => {
         $('#sltCustomOne2').editableSelect();
         $('#sltCustomOne3').editableSelect();
 
+
          $(document).ready(function () {
             $('#formCheck-customOne').click(function () {
                 if ($(event.target).is(':checked')) {
@@ -130,6 +131,10 @@ Template.customfieldpop.events({
     ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
     setTimeout( function(){
         $('#edtSaleCustField1').editableSelect();
+         $('#edtSaleCustField1').editableSelect()
+        .on('click.editable-select', function (e, li) {
+            $('#newCustomFieldPop').modal('toggle');
+        });
     },1500);
 },
 'click .btnToggleText2': function (event) {
@@ -191,6 +196,10 @@ Template.customfieldpop.events({
     ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField2" name="edtSaleCustField2" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
     setTimeout( function(){
         $('#edtSaleCustField2').editableSelect();
+         $('#edtSaleCustField2').editableSelect()
+        .on('click.editable-select', function (e, li) {
+            $('#newCustomFieldPop').modal('toggle');
+        });
     },200);
 },
 'click .btnToggleText3': function (event) {
@@ -252,8 +261,25 @@ Template.customfieldpop.events({
     ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField3" name="edtSaleCustField3" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
     setTimeout( function(){
         $('#edtSaleCustField3').editableSelect();
+         $('#edtSaleCustField3').editableSelect()
+        .on('click.editable-select', function (e, li) {
+            $('#newCustomFieldPop').modal('toggle');
+        })
     },200);
 },
+'click .btnSaveSettings': function (event) {
+        var url = FlowRouter.current().path;
+        if(url.includes('/invoicecard')) {
+            let custfield1 = $('.customField1').val() || 'Custom Field 1';
+            let custfield2 = $('.customField2').val() || 'Custom Field 2';
+            let custfield3 = $('.customField3').val() || 'Custom Field 3';
+
+            localStorage.setItem('custfield1invoice',custfield1);
+            localStorage.setItem('custfield2invoice',custfield2);
+            localStorage.setItem('custfield3invoice',custfield3);
+            $('#myModal4').modal('toggle');
+        }
+}
 // 'click .btnToggleText3': function (event) {
 //     var text = document.getElementById("customFieldText3");
 //     var date = document.getElementById("customFieldDate3");
@@ -288,6 +314,15 @@ Template.customfieldpop.events({
 })
 
 Template.customfieldpop.helpers({
+     custfield1: () => {
+            return localStorage.getItem('custfield1invoice') || "Custom Field 1";
+        },
+        custfield2: () => {
+            return localStorage.getItem('custfield2invoice') || "Custom Field 2";
+        },
+        custfield3: () => {
+            return localStorage.getItem('custfield3invoice') || "Custom Field 3";
+        },
    
 });
 Template.registerHelper('equals', function (a, b) {

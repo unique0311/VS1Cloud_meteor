@@ -4820,6 +4820,7 @@ Template.new_invoice.onRendered(() => {
             // }
         });
 
+
         $('#sltTerms').editableSelect()
         .on('click.editable-select', function (e, li) {
             var $earch = $(this);
@@ -6256,6 +6257,15 @@ Template.new_invoice.onRendered(() => {
         },
         accountID: () => {
             return Template.instance().accountID.get();
+        },
+        custfield1: () => {
+            return localStorage.getItem('custfield1invoice') || 'Custom Field 1';
+        },
+        custfield2: () => {
+            return localStorage.getItem('custfield2invoice') || 'Custom Field 2';
+        },
+        custfield3: () => {
+            return localStorage.getItem('custfield3invoice') || 'Custom Field 3';
         },
         currentDate: () => {
             var currentDate = new Date();
@@ -8226,10 +8236,16 @@ Template.new_invoice.onRendered(() => {
 
             // $('#deleteLineModal').modal('toggle');
         },
-        'click .btnSaveSettings': function (event) {
+        // 'click .btnSaveSettings': function (event) {
+        //     let custfield1 = $('.customField1').val() || 'Custom Field 1';
+        //     let custfield2 = $('.customField2').val() || 'Custom Field 2';
+        //     let custfield3 = $('.customField3').val() || 'Custom Field 3';
 
-            $('#myModal4').modal('toggle');
-        },
+        //     localStorage.setItem('custfield1',custfield1);
+        //     localStorage.setItem('custfield2',custfield2);
+        //     localStorage.setItem('custfield3',custfield3);
+        //     $('#myModal4').modal('toggle');
+        // },
         'click .btnSave': function (event) {
             let templateObject = Template.instance();
             let stripe_id = templateObject.accountID.get();

@@ -338,7 +338,7 @@
                                     <div class="col-6 col-md-12 col-lg-12">
                                         <div class="one box checkbox1div" style="{{#if salesCloudPreferenceRec}}{{#if equals salesCloudPreferenceRec.customFields.[0].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                             <div class="form-group">
-                                                <label class="lblCustomField1">Custom Field 1</label>
+                                                <label class="lblCustomField1">{{custfield1}}</label>
                                                 <input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value="{{invoicerecord.saleCustField1}}">
                                             </div>
                                         </div>
@@ -346,7 +346,7 @@
                                     <div class="col-6 col-md-12 col-lg-12">
                                         <div class="two box checkbox2div" style="{{#if salesCloudPreferenceRec}}{{#if equals salesCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                             <div class="form-group">
-                                                <label class="lblCustomField2">Custom Field 2<br></label>
+                                                <label class="lblCustomField2">{{custfield2}}<br></label>
                                                 <input class="form-control form-control" type="text" id="edtSaleCustField2" name="edtSaleCustField2" value="{{invoicerecord.saleCustField2}}">
                                             </div>
                                         </div>
@@ -354,7 +354,7 @@
                                      <div class="col-6 col-md-12 col-lg-12">
                                         <div class="two box checkbox3div" style="{{#if salesCloudPreferenceRec}}{{#if equals salesCloudPreferenceRec.customFields.[1].hidden false}}display:block{{else}}display:none{{/if}}{{else}}display:none{{/if}}">
                                             <div class="form-group">
-                                                <label class="lblCustomField2">Custom Field 3<br></label>
+                                                <label class="lblCustomField2">{{custfield3}}<br></label>
                                                 <input class="form-control form-control" type="text" id="edtSaleCustField3" name="edtSaleCustField3" value="{{invoicerecord.saleCustField2}}">
                                             </div>
                                         </div>
@@ -1534,6 +1534,10 @@
 
         <div class="modal fade" role="dialog" tabindex="-1" id="newStatusPopModal">
             {{> newstatuspop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="newCustomFieldPop">
+            {{> customfieldformpop}}
         </div>
 
         <!-- End Modal Product -->
