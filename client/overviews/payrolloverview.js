@@ -349,7 +349,6 @@ Template.payrolloverview.onRendered(function () {
           let dataListloggedUser = {};
           let vs1EmployeeImage = Session.get('vs1EmployeeImages');
           let timesheetEmployeeData = templateObject.timesheetrecords.get();
-          console.log(timesheetEmployeeData);
           let encoded = '';
           for(let i=0; i < timesheetEmployeeData.length; i++){
             if(timesheetEmployeeData[i].isPaused == "Clocked On" || timesheetEmployeeData[i].isPaused == "paused"){
