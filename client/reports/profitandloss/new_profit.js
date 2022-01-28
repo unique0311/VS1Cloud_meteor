@@ -108,15 +108,15 @@ $('#quarterToDateDisp').append(currQStartDispaly + ' - ' + monthCurr);
 // get 'financial year' to appear
 if (moment().quarter() == 4) {
   var current_fiscal_year_start = moment().month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
-  var current_fiscal_year_end = moment().add('year', 1).month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');                  
-  var last_fiscal_year_start = moment().subtract('year', 1).month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var current_fiscal_year_end = moment().add(1, 'year').month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');                  
+  var last_fiscal_year_start = moment().subtract(1, 'year').month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
   var last_fiscal_year_end = moment().month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 } else {
-  var current_fiscal_year_start = moment().subtract('year', 1).month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var current_fiscal_year_start = moment().subtract(1,'year').month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
   var current_fiscal_year_end = moment().month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY'); 
     
-  var last_fiscal_year_start = moment().subtract('year', 2).month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
-  var last_fiscal_year_end = moment().subtract('year', 1).month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var last_fiscal_year_start = moment().subtract(2, 'year').month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+  var last_fiscal_year_end = moment().subtract(1, 'year').month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 };  
     //display current financial year
     $('#dispCurrFiscYear').append(current_fiscal_year_start + ' - ' + current_fiscal_year_end);
@@ -989,7 +989,7 @@ Template.newprofitandloss.events({
                     $('.notesColumn').hide();
     },
     'click .btnNotes':function(event){
-                            $('.edlayCalculator').hide();
+                    $('.edlayCalculator').hide();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
                     $('.groupRow').hide();
@@ -998,7 +998,20 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').show();
+    },    
+    //display selected time range next to dropdown
+    'click .mnuDateRng':function(event){
+                $(this).each(function () {
+//                var el = $(this).attr('id');
+                var gid = $(this).attr('id');
+                var insideText = $(gid).text();
+            console.log(insideText);
+           $('#selectedDateRange').append(insideText);
+           $('#btnSltDateRange').addClass('selectedDateRangeBtnMod');    
+          $('#selectedDateRange').show();
+        });      
     }
+    
 });
 
 Template.newprofitandloss.helpers({
