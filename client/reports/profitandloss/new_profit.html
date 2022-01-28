@@ -1101,7 +1101,7 @@
                                 </svg>
                                 <span class="tooltiptext">Text</span>
                             </div>
-                            <div class="pointer btnLayoutAction" style="margin: 0px 16px;">
+                            <div class="pointer btnLayoutAction btnscheduleColumn" style="margin: 0px 16px;">
                                 <svg xml:space="http://www.w3.org/2000/svg" data-icon-name="schedule" width="18" fill="#00A3D3" stroke="#00A3D3" height="17" viewBox="0 0 18 17">
                                     <path d="M17 0c.56 0 1 .45 1 1v15c0 .55-.44 1-1 1H1c-.56 0-1-.45-1-1V1c0-.55.44-1 1-1h16zM2 12h6v3H2v-3zM8 2v3H2V2h6zM2 7h6v3H2V7zm8 5h6v3h-6v-3zm0-10h6v3h-6V2zm0 5h6v3h-6V7z" fill-rule="evenodd"></path>
                                 </svg>
@@ -1514,6 +1514,45 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="container mb-3 scheduleColumn" style="">
+                                        <h3>Schedule</h3>
+                                        <hr class="periodSelectorLine" />
+                                        <div>
+                                            <label>Row Heading</label><br>
+                                            <input id="fullName" type="text" class="form-control" name="nplNewLayoutName" value="" placeholder="">
+                                        </div>
+                                        <div class="mt-2 ">
+                                            <label style="width:100%;">Display Balance</label>
+                                            <div class="row m-2 dspBalanceControls">
+                                                <button class="btn btn-primary text-nowrap " type="button" id="btnDebitPositive">Debit Positive
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap " type="button" id="btnCreditPositive">Credit Positive
+                                                </button>
+                                            </div>
+                                            <hr class="periodSelectorLine" />
+                                            <div class="m-1 col-12 p-1">
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" href="" type="button">Add accounts...
+                                                </button>
+                                            </div>                                            
+                                            <hr class="periodSelectorLine" />
+                                            <div class="m-1 col-12 p-1">
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="" type="button" id="btnCancelLayoutCreation">Group Selection
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplSwitchRuleModal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
+                                                </button>
+                                            </div>
+                                            <div class="custom-control custom-switch grpTotal-container">
+                                                <div>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
+                                                <label class="custom-control-label" for="grpTotal">Total</label>
+                                                </div>
+                                                <div>
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="numberedHeading" checked="">
+                                                <label class="custom-control-label" for="numberedHeading">Numbered heading</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                     <div class="container mb-3 textBlockColumn" style="">
                                         <h3>Text block</h3>
                                         <hr class="periodSelectorLine" />
@@ -1688,7 +1727,7 @@
                                             .pgbSideText,
                                             .dateColumnTab,
                                             .textBlockColumn,
-                                            .notesColumn {
+                                            .notesColumn,.scheduleColumn {
                                                 padding: 1rem;
                                             }
 
