@@ -350,7 +350,7 @@ if (moment().quarter() == 4) {
 Template.newprofitandloss.events({
     'click #dropdownDateRang': function (e) {
         let dateRangeID = e.target.id;
-        //alert(dateRangeID);
+
         if (dateRangeID == "thisMonth") {
             document.getElementById("selectedDateRange").value = "This Month";
         } else if (dateRangeID == "thisQuarter") {

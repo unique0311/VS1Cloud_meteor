@@ -1038,8 +1038,8 @@
                                                                             <div class="col-12 col-md-6 colProductService" id="colProductService">
                                                                                 <div class="form-group flex-grow-1" style="margin: 8px 0px;"><label>Default Product /
                                                                                         Service</label>
-                                                                                        <select type="search" class="form-control" id="product-list" name="product-list" style="background-color:rgb(255, 255, 255); cursor: pointer;">
-                                        </select>
+                                                                                    <select type="search" class="form-control" id="product-list" name="product-list" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                                                                    </select>
                                                                                     <!-- <select id="product-list" class="form-control">
                                                                                         {{#if productsdatatable}}
                                                                                             {{#each item in productsdatatable}}
@@ -1262,15 +1262,15 @@
                                                             </p>
                                                             <script>
                                                                 function showAnnualSalary() {
-                                                                  var annual = document.getElementById("annualSalary");
-                                                                  var annualBtn = document.getElementById("btnViewAnnual");
-                                                                  if (annual.style.display === "none") {
-                                                                    annual.style.display = "block";
-                                                                    annualBtn.style.display = "none";
-                                                                  } else {
-                                                                    annual.style.display = "none";
-                                                                    annualBtn.style.display = "block";
-                                                                  }
+                                                                    var annual = document.getElementById("annualSalary");
+                                                                    var annualBtn = document.getElementById("btnViewAnnual");
+                                                                    if (annual.style.display === "none") {
+                                                                        annual.style.display = "block";
+                                                                        annualBtn.style.display = "none";
+                                                                    } else {
+                                                                        annual.style.display = "none";
+                                                                        annualBtn.style.display = "block";
+                                                                    }
                                                                 }
                                                             </script>
                                                         </div>
@@ -1287,15 +1287,15 @@
                                                             </p>
                                                             <script>
                                                                 function showEarnings() {
-                                                                  var earnings = document.getElementById("earningsYtd");
-                                                                  var earningsBtn = document.getElementById("btnShowEarnings");
-                                                                  if (earnings.style.display === "none") {
-                                                                    earnings.style.display = "block";
-                                                                    earningsBtn.style.display = "none";
-                                                                  } else {
-                                                                    earnings.style.display = "none";
-                                                                    earningsBtn.style.display = "block";
-                                                                  }
+                                                                    var earnings = document.getElementById("earningsYtd");
+                                                                    var earningsBtn = document.getElementById("btnShowEarnings");
+                                                                    if (earnings.style.display === "none") {
+                                                                        earnings.style.display = "block";
+                                                                        earningsBtn.style.display = "none";
+                                                                    } else {
+                                                                        earnings.style.display = "none";
+                                                                        earningsBtn.style.display = "block";
+                                                                    }
                                                                 }
                                                             </script>
                                                         </div>
@@ -1389,43 +1389,51 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <style>
+                                                                    @media screen and (max-width: 450px) {
+                                                                        .mobileLabel {
+                                                                            white-space: initial !important;
+                                                                            width: 235px !important;
+                                                                        }
+                                                                    }
+                                                                </style>
                                                                 <div class="row">
                                                                     <div class="col-12 col-md-3" style="padding: 16px;">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesTaxFreeThresholdClaimed" id="taxesTaxFreeThresholdClaimed">
-                                                                            <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="taxesTaxFreeThresholdClaimed">Tax Free Threshold Claimed</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesTaxFreeThresholdClaimed">Tax Free Threshold Claimed</label>
                                                                         </div>
                                                                         <br />
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesOtherTaxOffsetClaimed" id="taxesOtherTaxOffsetClaimed">
-                                                                            <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="taxesOtherTaxOffsetClaimed">Other Tax Offset Claimed</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesOtherTaxOffsetClaimed">Other Tax Offset Claimed</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12 col-md-3" style="padding: 16px;">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesStudyTrainingSupportLoans" id="taxesStudyTrainingSupportLoans">
-                                                                            <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="taxesStudyTrainingSupportLoans">Study and Training Support Loans</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesStudyTrainingSupportLoans">Study and Training Support Loans</label>
                                                                         </div>
                                                                         <br />
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesUpwardVariationRequested" id="taxesUpwardVariationRequested">
-                                                                            <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="taxesUpwardVariationRequested">Upward Variation Requested</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesUpwardVariationRequested">Upward Variation Requested</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12 col-md-3" style="padding: 16px;">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesEligibleReceiveLeaveLoading" id="taxesEligibleReceiveLeaveLoading">
-                                                                            <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="taxesEligibleReceiveLeaveLoading">Eligible to Receive Leave Loading</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesEligibleReceiveLeaveLoading">Eligible to Receive Leave Loading</label>
                                                                         </div>
                                                                         <br />
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesSeniorPensionersTaxOffsetClaimed" id="taxesSeniorPensionersTaxOffsetClaimed">
-                                                                            <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="taxesSeniorPensionersTaxOffsetClaimed">Senior and Pensioners Tax Offset Claimed</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesSeniorPensionersTaxOffsetClaimed">Senior and Pensioners Tax Offset Claimed</label>
                                                                         </div>
                                                                         <br />
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesHasApprovedWithholdingVariation" id="taxesHasApprovedWithholdingVariation">
-                                                                            <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="taxesHasApprovedWithholdingVariation">Has Approved Withholding Variation</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesHasApprovedWithholdingVariation">Has Approved Withholding Variation</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1828,7 +1836,8 @@
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-12">
-                                                                        <button type="button" class="btn btn-primary mb-2 mt-2" data-toggle="modal" data-target="#addDeductionLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add Deduction Line</button>
+                                                                        <button type="button" class="btn btn-primary mb-2 mt-2" data-toggle="modal" data-target="#addDeductionLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
+                                                                            Deduction Line</button>
                                                                         <div class="modal fade" id="addDeductionLineModal" tabindex="-1" role="dialog" aria-labelledby="newPayCalendarLabel" aria-hidden="true">
                                                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                                                 <div class="modal-content">
@@ -1880,7 +1889,8 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
-                                                                        <button type="button" class="btn btn-primary mb-2 mt-2" data-toggle="modal" data-target="#addSuperannuationLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add Superannuation Line</button>
+                                                                        <button type="button" class="btn btn-primary mb-2 mt-2" data-toggle="modal" data-target="#addSuperannuationLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
+                                                                            Superannuation Line</button>
                                                                         <div class="modal fade" id="addSuperannuationLineModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
                                                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                                                 <div class="modal-content">
@@ -2181,7 +2191,8 @@
                                                                         <h4>Notes</h4>
                                                                     </div>
                                                                     <div class="col-12 col-md-6">
-                                                                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#newNoteModal"><i class="fas fa-plus" style="margin-right: 5px;"></i>Add New Note</button>
+                                                                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#newNoteModal"><i class="fas fa-plus" style="margin-right: 5px;"></i>Add New
+                                                                            Note</button>
                                                                         <div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
                                                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                                                 <div class="modal-content">
@@ -2483,12 +2494,12 @@
             </div>
         {{/if}}
     </div>
-   <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
-    {{> employeeproductlistpop}}
-</div>
-<div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
-    {{> newproductpop}}
-</div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="productListModal">
+        {{> employeeproductlistpop}}
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="newProductModal">
+        {{> newproductpop}}
+    </div>
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
         <div class="modal-dialog" role="document" style="max-width: 670px!important;">
