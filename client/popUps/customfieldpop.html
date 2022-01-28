@@ -17,10 +17,10 @@
 
                                                 <div class="input-group">
                                                     <!-- text field -->
-                                                    <input id="customFieldText1" value="{{custfield1}}" type="text" class="form-control customField1"  placeholder="Custom Field1" style="border-color: #858796;">
+                                                    <input id="customFieldText1" value="{{custfields.[0].custfieldlabel}}" type="text" class="form-control customField1"  placeholder="Custom Field1" style="border-color: #858796;">
                                                     <!-- date field -->
                                                     <div id="customFieldDate1" class="input-group date pointer" style="width: 86% !important; display: none;">
-                                                        <input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; " id="customdateone" name="customdateone" value="{{invoicerecord.saledate}}">
+                                                        <input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; " id="customdateone" name="customdateone" value="{{custfields.[0].custfieldlabel}}">
                                                         <div class="input-group-addon" style="">
                                                             <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                                         </div>
@@ -46,7 +46,7 @@
 
                                                 <div class="input-group">
                                                     <!-- text field -->
-                                                    <input id="customFieldText2" value="{{custfield2}}" type="text" class="form-control customField2"  placeholder="Custom Field2" style="border-color: #858796;">
+                                                    <input id="customFieldText2" value="{{custfields.[1].custfieldlabel}}" type="text" class="form-control customField2"  placeholder="Custom Field2" style="border-color: #858796;">
                                                     <!-- date field -->
                                                     <div id="customFieldDate2" class="input-group date pointer" style="width: 86% !important; display: none;">
                                                         <input type="text" class="form-control customField2" style=" border-color: #858796 !important; width: 86% !important; " id="customdateone" name="customdateone" value="{{invoicerecord.saledate}}">
@@ -73,7 +73,7 @@
                                                 <label class="custom-control-label" style="position: absolute; margin-top: 8px;" for="formCheck-customThree"></label>
                                                 <div class="input-group">
                                                     <!-- text field -->
-                                                    <input id="customFieldText3" value="{{custfield3}}" type="text" class="form-control customField3"  placeholder="Custom Field3"  style="border-color: #858796;">
+                                                    <input id="customFieldText3" value="{{custfields.[2].custfieldlabel}}" type="text" class="form-control customField3"  placeholder="Custom Field3"  style="border-color: #858796;">
                                                     <!-- date field -->
                                                     <div id="customFieldDate3" class="input-group date pointer" style="width: 86% !important; display: none;">
                                                         <input type="text" class="form-control customField3" style=" border-color: #858796 !important; width: 86% !important; " id="customdateone" name="customdateone" value="{{invoicerecord.saledate}}">

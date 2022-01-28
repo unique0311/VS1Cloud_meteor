@@ -180,7 +180,8 @@ ERPObjects = function () {
         TTimeLog: "TTimeLog",
         TRefundSale: "TRefundSale",
         TSerialNumberListCurrentReport: "TSerialNumberListCurrentReport",
-        TRepServices:"TRepServices"
+        TRepServices:"TRepServices",
+        TCustomFieldList: "TCustomFieldList"
     }
     return objects;
 }

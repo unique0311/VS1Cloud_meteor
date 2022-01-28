@@ -44,6 +44,7 @@ Template.new_invoice.onCreated(() => {
     templateObject.termrecords = new ReactiveVar();
     templateObject.clientrecords = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
+    templateObject.custfields = new ReactiveVar([]);
     templateObject.record = new ReactiveVar({});
     templateObject.accountID = new ReactiveVar();
     templateObject.stripe_fee_method = new ReactiveVar()
@@ -98,7 +99,9 @@ Template.new_invoice.onRendered(() => {
     const deptrecords = [];
     const termrecords = [];
     const statusList = [];
+    const custField = [];
     const dataTableList = [];
+    let count = 1;
     let isBOnShippedQty = Session.get('CloudSalesQtyOnly');
     if (isBOnShippedQty) {
         templateObject.includeBOnShippedQty.set(false);
@@ -149,7 +152,6 @@ Template.new_invoice.onRendered(() => {
 
   // }
   //   });
-
 
         $('.fullScreenSpin').css('display', 'inline-block');
         templateObject.getAllClients = function () {
@@ -291,6 +293,40 @@ Template.new_invoice.onRendered(() => {
             });
         };
 
+
+        templateObject.getSalesCustomFieldsList= function () {
+            sideBarService.getAllCustomFields().then(function (data) {
+                let customData = {};
+                for(let x = 0; x < data.tcustomfieldlist.length; x++) {
+                    if(data.tcustomfieldlist[x].fields.ListType == "ltSales") {
+                        customData = {
+                            id: data.tcustomfieldlist[x].fields.ID,
+                            custfieldlabel: data.tcustomfieldlist[x].fields.Description
+                        }
+                        custField.push(customData);
+                }
+            }
+            
+            if(custField.length < 4) {
+                let remainder = 4 - custField.length;
+                count = count + remainder;
+                for(let r =0 ; r < remainder; r++) {
+                    customData = {
+                        id: "",
+                        custfieldlabel: "Custom Field "+count
+                    }
+                    count++;
+                    custField.push(customData);
+                }
+
+            }
+            
+            templateObject.custfields.set(custField);
+            }).catch(function (err) {
+               // console.log(err);
+            })
+        }
+
         templateObject.getOrganisationDetails = function () {
             let account_id = Session.get('vs1companyStripeID') || '';
             let stripe_fee = Session.get('vs1companyStripeFeeMethod') || 'apply';
@@ -299,6 +335,11 @@ Template.new_invoice.onRendered(() => {
         }
 
         templateObject.getOrganisationDetails();
+
+        setTimeout(function(){
+            templateObject.getSalesCustomFieldsList()
+        },500);
+        
 
         templateObject.getAllLeadStatuss = function () {
             getVS1Data('TLeadStatusType').then(function (dataObject) {
@@ -6252,6 +6293,9 @@ Template.new_invoice.onRendered(() => {
         vs1companyBankRoutingNo: () => {
             return localStorage.getItem('vs1companyBankRoutingNo') || '';
         },
+        custfields: () => {
+            return Template.instance().custfields.get();
+        },
         invoicerecord: () => {
             return Template.instance().invoicerecord.get();
         },
@@ -6259,13 +6303,13 @@ Template.new_invoice.onRendered(() => {
             return Template.instance().accountID.get();
         },
         custfield1: () => {
-            return localStorage.getItem('custfield1invoice') || 'Custom Field 1';
+            return localStorage.getItem('custfield1sales') || 'Custom Field 1';
         },
         custfield2: () => {
-            return localStorage.getItem('custfield2invoice') || 'Custom Field 2';
+            return localStorage.getItem('custfield2sales') || 'Custom Field 2';
         },
         custfield3: () => {
-            return localStorage.getItem('custfield3invoice') || 'Custom Field 3';
+            return localStorage.getItem('custfield3sales') || 'Custom Field 3';
         },
         currentDate: () => {
             var currentDate = new Date();

@@ -75,7 +75,7 @@ Template.new_salesorder.onCreated(() => {
     templateObject.uploadedFile = new ReactiveVar();
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.attachmentCount = new ReactiveVar();
-
+    templateObject.custfields = new ReactiveVar([]);
     templateObject.address = new ReactiveVar();
     templateObject.abn = new ReactiveVar();
     templateObject.referenceNumber = new ReactiveVar();
@@ -148,7 +148,8 @@ Template.new_salesorder.onRendered(() => {
     const deptrecords = [];
     const termrecords = [];
     const statusList = [];
-
+    const custField = [];
+    let count = 1;
     $("#date-input,#dtSODate,#dtDueDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
@@ -342,6 +343,44 @@ Template.new_salesorder.onRendered(() => {
         templateObject.accountID.set(account_id);
         templateObject.stripe_fee_method.set(stripe_fee);
     }
+
+
+    templateObject.getSalesCustomFieldsList= function () {
+            sideBarService.getAllCustomFields().then(function (data) {
+                let customData = {};
+                for(let x = 0; x < data.tcustomfieldlist.length; x++) {
+                    if(data.tcustomfieldlist[x].fields.ListType == "ltSales") {
+                        customData = {
+                            id: data.tcustomfieldlist[x].fields.ID,
+                            custfieldlabel: data.tcustomfieldlist[x].fields.Description
+                        }
+                        custField.push(customData);
+                }
+            }
+            
+            if(custField.length < 4) {
+                let remainder = 4 - custField.length;
+                count = count + remainder;
+                for(let r =0 ; r < remainder; r++) {
+                    customData = {
+                        id: "",
+                        custfieldlabel: "Custom Field "+count
+                    }
+                    count++;
+                    custField.push(customData);
+                }
+
+            }
+            templateObject.custfields.set(custField);
+            }).catch(function (err) {
+               console.log(err);
+            })
+        }
+
+       
+        setTimeout(function(){
+            templateObject.getSalesCustomFieldsList()
+        },500);
 
 
     templateObject.getOrganisationDetails();
@@ -5108,6 +5147,18 @@ Template.new_salesorder.helpers({
     },
     vs1companyBankRoutingNo: () => {
         return localStorage.getItem('vs1companyBankRoutingNo') || '';
+    },
+    custfields: () => {
+            return Template.instance().custfields.get();
+    },
+    custfield1: () => {
+        return localStorage.getItem('custfield1salesorder') || 'Custom Field 1';
+    },
+    custfield2: () => {
+        return localStorage.getItem('custfield2salesorder') || 'Custom Field 2';
+    },
+    custfield3: () => {
+        return localStorage.getItem('custfield3salesorder') || 'Custom Field 3';
     },
     salesorderrecord: () => {
         return Template.instance().salesorderrecord.get();
