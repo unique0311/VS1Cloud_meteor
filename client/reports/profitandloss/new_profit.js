@@ -350,6 +350,8 @@ if (moment().quarter() == 4) {
 Template.newprofitandloss.events({
     'click #dropdownDateRang': function (e) {
         let dateRangeID = e.target.id;
+        $('#btnSltDateRange').addClass('selectedDateRangeBtnMod');
+        $('#selectedDateRange').show();
 
         if (dateRangeID == "thisMonth") {
             document.getElementById("selectedDateRange").value = "This Month";
@@ -1021,18 +1023,6 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').show();
-    },
-    //display selected time range next to dropdown
-    'click .mnuDateRng':function(event){
-                $(this).each(function () {
-//                var el = $(this).attr('id');
-                var gid = $(this).attr('id');
-                var insideText = $(gid).text();
-            console.log(insideText);
-           $('#selectedDateRange').append(insideText);
-           $('#btnSltDateRange').addClass('selectedDateRangeBtnMod');
-          $('#selectedDateRange').show();
-        });
     }
 
 });
