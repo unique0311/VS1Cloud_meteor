@@ -1122,8 +1122,8 @@
                                 </div>
 
                                 <div class="dropdown-menu" role="menu" aria-labelledby="edlayRowDD">
-                                    <a class="dropdown-item" href="">Group</a>
-                                    <a class="dropdown-item" href="" onclick="">Formula</a>
+                                    <a class="dropdown-item btnRowGroupColumn" href="">Group</a>
+                                    <a class="dropdown-item btnRowFormulaColumn" href="" onclick="">Formula</a>
                                     <a class="dropdown-item" href="" onclick="">Accounts</a>
                                     <a class="dropdown-item" href="" onclick="">Custom</a>
                                 </div>
@@ -1138,7 +1138,7 @@
                                 <div class="dropdown-menu" role="menu" aria-labelledby="edlayColDD">
                                     <a class="dropdown-item" href="">Date</a>
                                     <a class="dropdown-item" href="" onclick="">Budget</a>
-                                    <a class="dropdown-item" href="" onclick="">Formula</a>
+                                    <a class="dropdown-item btnColFormulaColumn" href="" onclick="">Formula</a>
                                     <a class="dropdown-item btnNotes" href="" onclick="">Notes</a>
                                     <a class="dropdown-item" href="" onclick="">Percentage</a>
                                 </div>
@@ -1514,6 +1514,34 @@
                                             </div>
                                         </div>
                                     </div>
+                                   <div class="container mb-3 editRowGroup" style="">
+                                        <h3>Group</h3>
+                                        <hr class="periodSelectorLine" />
+                                        <div>
+                                            <label>Row Heading</label><br>
+                                            <input id="fullName" type="text" class="form-control" name="nplNewLayoutName" value="" placeholder="">
+                                        </div>
+                                        <div class="mt-2 ">
+                                            <label style="width:100%;">Display Balance</label>
+                                            <div class="row m-2 dspBalanceControls">
+                                                <button class="btn btn-primary text-nowrap " type="button" id="btnDebitPositive">Debit Positive
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap " type="button" id="btnCreditPositive">Credit Positive
+                                                </button>
+                                            </div>
+                                            <hr class="periodSelectorLine" />
+                                            <div class="m-1 col-12 p-1">
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="" type="button" id="btnCancelLayoutCreation">Group Selection
+                                                </button>
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplSwitchRuleModal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
+                                                </button>
+                                            </div>
+                                            <div class="custom-control custom-switch grpTotal-container">
+                                                <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
+                                                <label class="custom-control-label" for="grpTotal">Total</label>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                     <div class="container mb-3 scheduleColumn" style="">
                                         <h3>Schedule</h3>
                                         <hr class="periodSelectorLine" />
@@ -1541,12 +1569,12 @@
                                                 <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplSwitchRuleModal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
                                                 </button>
                                             </div>
-                                            <div class="custom-control custom-switch grpTotal-container">
-                                                <div>
+                                            <div class="custom-control custom-switch">
+                                                <div class="col-12 p-1">
                                                 <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
                                                 <label class="custom-control-label" for="grpTotal">Total</label>
                                                 </div>
-                                                <div>
+                                                <div class="col-12 p-1">
                                                 <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="numberedHeading" checked="">
                                                 <label class="custom-control-label" for="numberedHeading">Numbered heading</label>
                                                 </div>
@@ -1582,7 +1610,7 @@
                                         <h3>Date column</h3>
                                         <hr class="periodSelectorLine" />
                                         <div class="mb-1">
-                                            <div class="col-12">
+                                            <div class="col-12 ">
                                                 <label>Date range</label><br>
                                                 <select class="form-control accValSelect" id="accValSelect">
                                                     <option class="" value="Trading Income">Following report date range <span> Month</span></option>
@@ -1694,7 +1722,7 @@
                                                 display: flex;
                                             }
 
-                                            .grpTotal-container #grpTotal {
+                                            .grpTotal-container #grpTotal,  .grpTotal-container input{
                                                 position: relative;
                                                 margin-left: 16px;
                                             }
@@ -1726,8 +1754,7 @@
                                             .totalSelctor,
                                             .pgbSideText,
                                             .dateColumnTab,
-                                            .textBlockColumn,
-                                            .notesColumn,.scheduleColumn {
+                                            .textBlockColumn, .notesColumn,.scheduleColumn, .editRowGroup,.rowEdLayCalculator,.columnEdLayCalculator {
                                                 padding: 1rem;
                                             }
 
@@ -1757,7 +1784,9 @@
                                             .totalSelctor h3,
                                             .dateColumnTab h3,
                                             .textBlockColumn h3,
-                                            .notesColumn h3 {
+                                            .notesColumn h3,
+                                            .scheduleColumn h3,
+                                            .editRowGroup h3,.editGroup h3,.rowEdLayCalculator h3,.columnEdLayCalculator h3  {
                                                 text-align: center;
                                             }
 
@@ -1813,6 +1842,102 @@
                                                         <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Cost of Sales">
                                                     </div>
                                                 </div>
+                                                <div class="row calcRH">
+                                                    <div class="col-12">
+                                                        <label>Row Heading</label><br>
+                                                        <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" value="Gross Profit" placeholder="Gross Profit">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <div class="container mb-3  rowEdLayCalculator" style="width:100%">
+                                        <h3>Formula</h3>
+                                        <hr class="periodSelectorLine" />
+                                        <div>
+                                            <label>Formula</label><br>
+                                        </div>
+                                        <div class="mt-2 calculatorBody">
+                                            <div class="container">
+                                                <div class="row calcTools">
+                                                    <select class="form-control accValSelect" id="accValSelect">
+                                                        <option selected disabled class="nonOption" value="">Input</option>
+                                                        <option class="calcOption" value="Trading Income">Trading Income</option>
+                                                        <option class="calcOption" value="Cost of Sales">Cost of Sales</option>
+                                                        <option class="calcOption" value="Plus Other Income">Plus Other Income</option>
+                                                        <option class="calcOption" value="Less Operatin Expenses">Less Operatin Expenses</option>
+                                                        <option class="calcOption" value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
+                                                        <option class="calcOption" value="Non-operating Income">Non-operating Income</option>
+                                                        <option class="calcOption" value="Non-operating Expenses">Non-operating Expenses</option>
+                                                    </select>
+                                                    <button class="btn btn-primary text-nowrap opBtn addition" value="+" type="button" id="btnCancelLayoutCreation">+
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn minus" value="-" type="button" id="btnCancelLayoutCreation">-
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn multi" value="*" type="button" id="btnCancelLayoutCreation">×
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn divide" value="/" type="button" id="btnCancelLayoutCreation">÷
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn ifBlock" value="if" type="button" id="btnCancelLayoutCreation">If
+                                                    </button>
+                                                </div>
+                                                <div class="row">
+                                                    <div id="calcField" class="container calcField formula-editor-field " name="nplcalcField" contenteditable="true">
+                                                        <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Trading Income">
+                                                        -
+                                                        <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Cost of Sales">
+                                                    </div>
+                                                </div>
+                                                <div class="row calcRH">
+                                                    <div class="col-12">
+                                                        <label>Row Heading</label><br>
+                                                        <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" value="Gross Profit" placeholder="Gross Profit">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <div class="container mb-3  columnEdLayCalculator" style="width:100%">
+                                        <h3>Formula</h3>
+                                        <hr class="periodSelectorLine" />
+                                        <div>
+                                            <label>Formula</label><br>
+                                        </div>
+                                        <div class="mt-2 calculatorBody">
+                                            <div class="container">
+                                                <div class="row calcTools">
+                                                    <select class="form-control accValSelect" id="accValSelect">
+                                                        <option selected disabled class="nonOption" value="">Input</option>
+                                                        <option class="calcOption" value="Trading Income">Trading Income</option>
+                                                        <option class="calcOption" value="Cost of Sales">Cost of Sales</option>
+                                                        <option class="calcOption" value="Plus Other Income">Plus Other Income</option>
+                                                        <option class="calcOption" value="Less Operatin Expenses">Less Operatin Expenses</option>
+                                                        <option class="calcOption" value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
+                                                        <option class="calcOption" value="Non-operating Income">Non-operating Income</option>
+                                                        <option class="calcOption" value="Non-operating Expenses">Non-operating Expenses</option>
+                                                    </select>
+                                                    <button class="btn btn-primary text-nowrap opBtn addition" value="+" type="button" id="btnCancelLayoutCreation">+
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn minus" value="-" type="button" id="btnCancelLayoutCreation">-
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn multi" value="*" type="button" id="btnCancelLayoutCreation">×
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn divide" value="/" type="button" id="btnCancelLayoutCreation">÷
+                                                    </button>
+                                                    <button class="btn btn-primary text-nowrap opBtn ifBlock" value="if" type="button" id="btnCancelLayoutCreation">If
+                                                    </button>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <div id="calcField" class="container calcField formula-editor-field " name="nplcalcField" contenteditable="true">
+                                                        <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Trading Income">
+                                                        -
+                                                        <input type="button" disabled class="calcVarBlock" data-formula-value="something" value="Cost of Sales">
+                                                    </div>
+                                                </div>
+                                                    <div class="custom-control custom-switch grpTotal-container">
+                                                    <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
+                                                    <label class="custom-control-label" for="grpTotal">Show as percentage</label>
+                                                    </div>                                                                          
                                                 <div class="row calcRH">
                                                     <div class="col-12">
                                                         <label>Row Heading</label><br>

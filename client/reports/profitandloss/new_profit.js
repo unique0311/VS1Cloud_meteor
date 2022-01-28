@@ -769,7 +769,10 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
-                     $('.scheduleColumn').hide(); 
+                     $('.scheduleColumn').hide();
+                    $('.editRowGroup').hide();
+                    $('.rowEdLayCalculator').hide();
+                            $('.columnEdLayCalculator').hide();
                 } else if (el === 'nP') {
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
@@ -780,7 +783,10 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();                    
-                     $('.scheduleColumn').hide(); 
+                     $('.scheduleColumn').hide();
+                    $('.editRowGroup').hide();
+                    $('.rowEdLayCalculator').hide();
+                            $('.columnEdLayCalculator').hide();
                 } else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
@@ -792,6 +798,9 @@ Template.newprofitandloss.events({
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();                    
                      $('.scheduleColumn').hide(); 
+                    $('.editRowGroup').hide();
+                    $('.rowEdLayCalculator').hide();
+                            $('.columnEdLayCalculator').hide();
                 }
             });
         });
@@ -850,7 +859,11 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
-                     $('.scheduleColumn').hide(); 
+                    $('.scheduleColumn').hide(); 
+                    $('.editRowGroup').hide();
+                    $('.rowEdLayCalculator').hide();
+                            $('.columnEdLayCalculator').hide();
+                    
                 }else {
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
@@ -862,6 +875,9 @@ Template.newprofitandloss.events({
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
                      $('.scheduleColumn').hide(); 
+                                        $('.editRowGroup').hide();
+                    $('.rowEdLayCalculator').hide();
+                            $('.columnEdLayCalculator').hide();
                 }
             });
         });
@@ -879,6 +895,9 @@ Template.newprofitandloss.events({
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
          $('.scheduleColumn').hide(); 
+                            $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
     },
     /*Total row display section end */
     /*edit layout button start*/
@@ -893,7 +912,10 @@ Template.newprofitandloss.events({
         $('.dateColumnTab').hide();
         $('.textBlockColumn').hide();
         $('.notesColumn').hide();
-         $('.scheduleColumn').hide(); 
+        $('.scheduleColumn').hide();
+        $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
 
     },
     /*edit layout button end*/
@@ -983,6 +1005,9 @@ Template.newprofitandloss.events({
         $('.textBlockColumn').hide();
         $('.notesColumn').hide();
          $('.scheduleColumn').hide(); 
+                            $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
 
     },
     //end group row section
@@ -997,6 +1022,9 @@ Template.newprofitandloss.events({
                 $('.textBlockColumn').hide();
                 $('.notesColumn').hide();
                 $('.scheduleColumn').hide(); 
+                            $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
                 },
     'click .accdate':function (event){
                 $('.edlayCalculator').hide();
@@ -1009,6 +1037,9 @@ Template.newprofitandloss.events({
                 $('.textBlockColumn').hide();
                 $('.notesColumn').hide();
                 $('.scheduleColumn').hide(); 
+                            $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
     },
 
     //top row icon events
@@ -1023,6 +1054,9 @@ Template.newprofitandloss.events({
                     $('.textBlockColumn').show();
                     $('.notesColumn').hide();
                      $('.scheduleColumn').hide(); 
+                            $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
     },
     'click .btnNotes':function(event){
                     $('.edlayCalculator').hide();
@@ -1035,6 +1069,9 @@ Template.newprofitandloss.events({
                     $('.textBlockColumn').hide();
                     $('.notesColumn').show();
                      $('.scheduleColumn').hide(); 
+                            $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
     },
     'click .btnscheduleColumn':function(event){
                     $('.edlayCalculator').hide();
@@ -1047,6 +1084,56 @@ Template.newprofitandloss.events({
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
                     $('.scheduleColumn').show();
+                            $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
+    },    
+    'click .btnRowGroupColumn':function(event){
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').hide();
+                    $('.totalSelctor').hide();
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
+                    $('.notesColumn').hide();
+                    $('.scheduleColumn').hide();
+                    $('.editRowGroup').show();
+        $('.rowEdLayCalculator').hide();
+                $('.columnEdLayCalculator').hide();
+    },    
+    'click .btnRowFormulaColumn':function(event){
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').hide();
+                    $('.totalSelctor').hide();
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
+                    $('.notesColumn').hide();
+                    $('.scheduleColumn').hide();
+                    $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').show();
+        $('.columnEdLayCalculator').hide();
+        
+    },
+    'click .btnColFormulaColumn':function(event){
+                    $('.edlayCalculator').hide();
+                    $('.editGroup').hide();
+                    $('.editDefault').hide();
+                    $('.groupRow').hide();
+                    $('.pgbSideText').hide();
+                    $('.totalSelctor').hide();
+                    $('.dateColumnTab').hide();
+                    $('.textBlockColumn').hide();
+                    $('.notesColumn').hide();
+                    $('.scheduleColumn').hide();
+                    $('.editRowGroup').hide();
+        $('.rowEdLayCalculator').hide();
+        $('.columnEdLayCalculator').show();
+        
     }
 });
 
