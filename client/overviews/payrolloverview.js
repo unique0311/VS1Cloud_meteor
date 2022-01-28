@@ -23,6 +23,7 @@ Template.payrolloverview.onCreated(function () {
     templateObject.useProductCostaspayRate = new ReactiveVar();
     templateObject.useProductCostaspayRate.set(false);
     templateObject.loggeduserdata = new ReactiveVar([]);
+    templateObject.clockedOnEmpData = new ReactiveVar([]);
     templateObject.allnoninvproducts = new ReactiveVar([]);
 
     templateObject.includePayrollClockOnOffOnly = new ReactiveVar();
@@ -42,6 +43,7 @@ Template.payrolloverview.onRendered(function () {
     const timeSheetList = [];
     const tableHeaderList = [];
     const loggedUserList = [];
+    const clockedOnEmpList = [];
     const jobsList = [];
     let clockEntry = [];
 
@@ -97,7 +99,7 @@ Template.payrolloverview.onRendered(function () {
         }, 500);
     }
 
-    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
+    /*Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
         if (error) {}
         else {
             if (result) {
@@ -116,7 +118,7 @@ Template.payrolloverview.onRendered(function () {
             }
 
         }
-    });
+    });*/
 
     templateObject.endTimePopUp = function () {
         swal({
@@ -133,6 +135,16 @@ Template.payrolloverview.onRendered(function () {
             }
 
         });
+    }
+
+    templateObject.checkAccessSaveRedirect = function () {
+      let showTimesheetForm = Session.get('CloudShowTimesheet') || true;
+      if(showTimesheetForm == true){
+        window.open('/timesheet', '_self');
+      }else{
+        window.open('/payrolloverview', '_self');
+      }
+
     }
 
     templateObject.diff_hours = function (dt2, dt1) {
@@ -177,14 +189,31 @@ Template.payrolloverview.onRendered(function () {
                     let sumTotalCharge = 0;
                     let sumSumHour = 0;
                     let sumSumHourlyRate = 0;
+                    /* Update Clocked On Employees */
+                    let dataListClockedOnEmployeeObj = {};
                     for (let t = 0; t < data.ttimesheet.length; t++) {
+
                         if (data.ttimesheet[t].fields.Logs != null) {
-                            let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
-                            let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
-                            let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
-                            let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || 0.00;
-                            let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || 0.00;
+                          if(data.ttimesheet[t].fields.InvoiceNotes == "Clocked On" || data.ttimesheet[t].fields.InvoiceNotes == "paused"){
+                            dataListClockedOnEmployeeObj = {
+                               employeename: data.ttimesheet[t].fields.EmployeeName || ''
+                           };
+                           clockedOnEmpList.push(dataListClockedOnEmployeeObj);
+                          }
+                            let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || Currency+0.00;
+
+
+                            let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || Currency+0.00;
+                            let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
+                            let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
+                            let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || Currency+0.00;
                             let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                            if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                              hourlyRate = Currency+0.00;
+                            }
+                            if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                              hoursFormatted = '00:00';
+                            }
                             var dataList = {
                                 id: data.ttimesheet[t].fields.ID || '',
                                 employee: data.ttimesheet[t].fields.EmployeeName || '',
@@ -200,9 +229,9 @@ Template.payrolloverview.onRendered(function () {
                                 timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
                                 timelog: data.ttimesheet[t].fields.Logs || '',
                                 isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
-                                totalamountex: totalAmount || 0.00,
-                                totaladjusted: totalAdjusted || 0.00,
-                                totalamountinc: totalAmountInc || 0.00,
+                                totalamountex: totalAmount || Currency+0.00,
+                                totaladjusted: totalAdjusted || Currency+0.00,
+                                totalamountinc: totalAmountInc ||Currency+ 0.00,
                                 overtime: 0,
                                 double: 0,
                                 additional: Currency + '0.00',
@@ -218,7 +247,7 @@ Template.payrolloverview.onRendered(function () {
                         }
 
                     }
-
+                    templateObject.clockedOnEmpData.set(clockedOnEmpList);
                     templateObject.timesheetrecords.set(timeSheetList);
                     $('.fullScreenSpin').css('display', 'none');
 
@@ -234,23 +263,41 @@ Template.payrolloverview.onRendered(function () {
                 let sumTotalCharge = 0;
                 let sumSumHour = 0;
                 let sumSumHourlyRate = 0;
+
+                /* Update Clocked On Employees */
+                let dataListClockedOnEmployeeObj = {};
                 for (let t = 0; t < data.ttimesheet.length; t++) {
+
+
                     if (data.ttimesheet[t].fields.Logs != null) {
-                        let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
-                        let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
-                        let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || 0.00;
-                        let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || 0.00;
+                      if(data.ttimesheet[t].fields.InvoiceNotes == "Clocked On" || data.ttimesheet[t].fields.InvoiceNotes == "paused"){
+                        dataListClockedOnEmployeeObj = {
+                           employeename: data.ttimesheet[t].fields.EmployeeName || ''
+                       };
+                       clockedOnEmpList.push(dataListClockedOnEmployeeObj);
+                      }
+                        let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || Currency+0.00;
+                        let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || Currency+0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
+                        let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
+                        let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) ||Currency+ 0.00;
                         sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
                         sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                         sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
                         let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                        if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                          hourlyRate = Currency+0.00;
+                        }
+                        if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                          hoursFormatted = '00:00';
+                        }
+
                         var dataList = {
                             id: data.ttimesheet[t].fields.ID || '',
                             employee: data.ttimesheet[t].fields.EmployeeName || '',
                             hourlyrate: hourlyRate,
                             hours: data.ttimesheet[t].fields.Hours || '',
-                            hourFormat: hoursFormatted,
+                            hourFormat: hoursFormatted||'',
                             job: data.ttimesheet[t].fields.Job || '',
                             labourcost: labourCost,
                             overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
@@ -260,9 +307,9 @@ Template.payrolloverview.onRendered(function () {
                             timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
                             timelog: data.ttimesheet[t].fields.Logs || '',
                             isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
-                            totalamountex: totalAmount || 0.00,
-                            totaladjusted: totalAdjusted || 0.00,
-                            totalamountinc: totalAmountInc || 0.00,
+                            totalamountex: totalAmount || Currency+0.00,
+                            totaladjusted: totalAdjusted || Currency+0.00,
+                            totalamountinc: totalAmountInc || Currency+0.00,
                             overtime: 0,
                             double: 0,
                             additional: Currency + '0.00',
@@ -274,11 +321,13 @@ Template.payrolloverview.onRendered(function () {
                             finished: 'Not Processed',
                             color: '#f6c23e'
                         };
+
                         timeSheetList.push(dataList);
                     }
 
                 }
                 templateObject.timesheetrecords.set(timeSheetList);
+                templateObject.clockedOnEmpData.set(clockedOnEmpList);
                 let url = window.location.href;
                 $('.fullScreenSpin').css('display', 'none');
             }
@@ -289,14 +338,29 @@ Template.payrolloverview.onRendered(function () {
                 let sumTotalCharge = 0;
                 let sumSumHour = 0;
                 let sumSumHourlyRate = 0;
+                /* Update Clocked On Employees */
+                let dataListClockedOnEmployeeObj = {};
                 for (let t = 0; t < data.ttimesheet.length; t++) {
+
                     if (data.ttimesheet[t].fields.Logs != null) {
-                        let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || 0.00;
-                        let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || 0.00;
-                        let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || 0.00;
-                        let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || 0.00;
+                      if(data.ttimesheet[t].fields.InvoiceNotes == "Clocked On" || data.ttimesheet[t].fields.InvoiceNotes == "paused"){
+                        dataListClockedOnEmployeeObj = {
+                           employeename: data.ttimesheet[t].fields.EmployeeName || ''
+                       };
+                       clockedOnEmpList.push(dataListClockedOnEmployeeObj);
+                      }
+                        let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || Currency+0.00;
+                        let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || Currency+0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
+                        let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
+                        let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || Currency+0.00;
                         let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                        if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                          hourlyRate = Currency+0.00;
+                        }
+                        if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                          hoursFormatted = '00:00';
+                        }
                         var dataList = {
                             id: data.ttimesheet[t].fields.ID || '',
                             employee: data.ttimesheet[t].fields.EmployeeName || '',
@@ -312,9 +376,9 @@ Template.payrolloverview.onRendered(function () {
                             timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
                             timelog: data.ttimesheet[t].fields.Logs || '',
                             isPaused: data.ttimesheet[t].fields.InvoiceNotes || '',
-                            totalamountex: totalAmount || 0.00,
-                            totaladjusted: totalAdjusted || 0.00,
-                            totalamountinc: totalAmountInc || 0.00,
+                            totalamountex: totalAmount || Currency+0.00,
+                            totaladjusted: totalAdjusted || Currency+0.00,
+                            totalamountinc: totalAmountInc || Currency+0.00,
                             overtime: 0,
                             double: 0,
                             additional: Currency + '0.00',
@@ -330,7 +394,7 @@ Template.payrolloverview.onRendered(function () {
                     }
 
                 }
-
+                templateObject.clockedOnEmpData.set(clockedOnEmpList);
                 templateObject.timesheetrecords.set(timeSheetList);
                 $('.fullScreenSpin').css('display', 'none');
 
@@ -347,7 +411,7 @@ Template.payrolloverview.onRendered(function () {
 
      templateObject.getLoggedUserData = function () {
           let dataListloggedUser = {};
-          let vs1EmployeeImage = Session.get('vs1EmployeeImages');
+          //let vs1EmployeeImage = Session.get('vs1EmployeeImages');
           let timesheetEmployeeData = templateObject.timesheetrecords.get();
           let encoded = '';
           for(let i=0; i < timesheetEmployeeData.length; i++){
@@ -366,9 +430,9 @@ Template.payrolloverview.onRendered(function () {
           templateObject.loggeduserdata.set(loggedUserList);
 
     };
-        setTimeout(function(){
-    templateObject.getLoggedUserData();
-},500);
+    // setTimeout(function(){
+    // templateObject.getLoggedUserData();
+    // },1000);
     templateObject.getEmployees = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
 
@@ -2440,6 +2504,7 @@ Template.payrolloverview.events({
             if (Array.isArray(clockList[clockList.length - 1].timelog) && clockList[clockList.length - 1].isPaused != "completed") {
                 let startTime = clockList[clockList.length - 1].timelog[0].fields.StartDatetime || '';
                 let date = clockList[clockList.length - 1].timesheetdate;
+
                 if (startTime != "") {
                     $('#startTime').val(startTime.split(' ')[1]);
                     $('#dtSODate').val(date);
@@ -2450,10 +2515,10 @@ Template.payrolloverview.events({
                     $('#txtNotes').val(clockList[clockList.length - 1].notes);
                     $('#sltJob').val(clockList[clockList.length - 1].job);
                     $('#product-list').val(clockList[clockList.length - 1].product);
-                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                     //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
                     //$("#product-list")[0].options[0].selected = true;
-                    $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                    $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                     $('#startTime').prop('disabled', true);
                     if (clockList[clockList.length - 1].isPaused == "completed") {
                         $('#endTime').val(endTime);
@@ -2465,6 +2530,7 @@ Template.payrolloverview.events({
                 }
             } else if (clockList[clockList.length - 1].isPaused != "completed") {
                 if (clockList[clockList.length - 1].timelog.fields.EndDatetime == "") {
+
                     let startTime = clockList[clockList.length - 1].timelog.fields.StartDatetime.split(' ')[1];
                     let date = clockList[clockList.length - 1].timesheetdate;
                     if (startTime != "") {
@@ -2477,10 +2543,10 @@ Template.payrolloverview.events({
                         $('#txtNotes').val(clockList[clockList.length - 1].notes);
                         $('#sltJob').val(clockList[clockList.length - 1].job);
                         $('#product-list').val(clockList[clockList.length - 1].product);
-                        $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                        $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                         //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
                         //$("#product-list")[0].options[0].selected = true;
-                        $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                        $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                         $('#startTime').prop('disabled', true);
                         if (clockList[clockList.length - 1].isPaused == "completed") {
                             $('#endTime').val(endTime);
@@ -2500,6 +2566,7 @@ Template.payrolloverview.events({
     },
     'click #btnClockOn': function () {
         const templateObject = Template.instance();
+
         let clockList = templateObject.timesheetrecords.get();
         var product = $('#product-list').val() || '';
         clockList = clockList.filter(clkList => {
@@ -2587,7 +2654,7 @@ Template.payrolloverview.events({
                             sideBarService.getAllTimeSheetList().then(function (data) {
                                 addVS1Data('TTimeSheet', JSON.stringify(data));
                                 setTimeout(function () {
-                                    window.open('/timesheet', '_self');
+                                    templateObject.checkAccessSaveRedirect();
                                 }, 500);
                             })
                         }).catch(function (err) {
@@ -3178,14 +3245,14 @@ Template.payrolloverview.events({
                                     addVS1Data('TTimeSheet', JSON.stringify(data));
                                     if(showTimesheetStatus == true) {
                                          setTimeout(function () {
-                                        window.open('/timesheet', '_self');
+                                        templateObject.checkAccessSaveRedirect();
                                     }, 500);
                                     } else {
                                          setTimeout(function () {
                                         window.open('/dashboard', '_self');
                                     }, 500);
                                     }
-                                   
+
                                 })
                             }).catch(function (err) {})
                         }).catch(function (err) {})
@@ -3196,7 +3263,7 @@ Template.payrolloverview.events({
                                 setTimeout(function () {
                                      if(showTimesheetStatus == true) {
                                          setTimeout(function () {
-                                        window.open('/timesheet', '_self');
+                                        templateObject.checkAccessSaveRedirect();
                                     }, 500);
                                     } else {
                                          setTimeout(function () {
@@ -3212,7 +3279,7 @@ Template.payrolloverview.events({
                         addVS1Data('TTimeSheet', JSON.stringify(data));
                          if(showTimesheetStatus == true) {
                                          setTimeout(function () {
-                                        window.open('/timesheet', '_self');
+                                        templateObject.checkAccessSaveRedirect();
                                     }, 500);
                                     } else {
                                          setTimeout(function () {
@@ -3442,7 +3509,7 @@ Template.payrolloverview.events({
                     addVS1Data('TTimeSheet', JSON.stringify(data));
                     if(showTimesheetStatus == true) {
                                          setTimeout(function () {
-                                        window.open('/timesheet', '_self');
+                                        templateObject.checkAccessSaveRedirect();
                                     }, 500);
                                     } else {
                                          setTimeout(function () {
@@ -3512,7 +3579,7 @@ Template.payrolloverview.events({
                                     addVS1Data('TTimeSheet', JSON.stringify(data));
                                      if(showTimesheetStatus == true) {
                                          setTimeout(function () {
-                                        window.open('/timesheet', '_self');
+                                        templateObject.checkAccessSaveRedirect();
                                     }, 500);
                                     } else {
                                          setTimeout(function () {
@@ -3528,7 +3595,7 @@ Template.payrolloverview.events({
                                 addVS1Data('TTimeSheet', JSON.stringify(data));
                                 if(showTimesheetStatus == true) {
                                          setTimeout(function () {
-                                        window.open('/timesheet', '_self');
+                                        templateObject.checkAccessSaveRedirect();
                                     }, 500);
                                     } else {
                                          setTimeout(function () {
@@ -3543,7 +3610,7 @@ Template.payrolloverview.events({
                         addVS1Data('TTimeSheet', JSON.stringify(data));
                          if(showTimesheetStatus == true) {
                                          setTimeout(function () {
-                                        window.open('/timesheet', '_self');
+                                        templateObject.checkAccessSaveRedirect();
                                     }, 500);
                                     } else {
                                          setTimeout(function () {
@@ -3679,10 +3746,10 @@ Template.payrolloverview.events({
                                 $('#txtNotes').val(clockList[clockList.length - 1].notes);
                                 $('#sltJob').val(clockList[clockList.length - 1].job);
                                 $('#product-list').val(clockList[clockList.length - 1].product);
-                                $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                                $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                                 //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
                                 //$("#product-list")[0].options[0].selected = true;
-                                $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                                $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                                 $('#startTime').prop('disabled', true);
                                 if (clockList[clockList.length - 1].isPaused == "completed") {
                                     $('#endTime').val(endTime);
@@ -3706,10 +3773,10 @@ Template.payrolloverview.events({
                                     $('#txtNotes').val(clockList[clockList.length - 1].notes);
                                     $('#sltJob').val(clockList[clockList.length - 1].job);
                                     $('#product-list').val(clockList[clockList.length - 1].product);
-                                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                                    $('#edtProductCost').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                                     //$('#product-list').prepend('<option>' + clockList[clockList.length - 1].product + '</option>');
                                     //$("#product-list")[0].options[0].selected = true;
-                                    $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace('$', ''));
+                                    $('#hourly_rate').val(clockList[clockList.length - 1].hourlyrate.replace(/[^0-9.-]+/g, ""));
                                     $('#startTime').prop('disabled', true);
                                     if (clockList[clockList.length - 1].isPaused == "completed") {
                                         $('#endTime').val(endTime);
@@ -4058,7 +4125,7 @@ Template.payrolloverview.events({
                     sideBarService.getAllTimeSheetList().then(function (data) {
                         addVS1Data('TTimeSheet', JSON.stringify(data));
                         setTimeout(function () {
-                            window.open('/timesheet', '_self');
+                            templateObject.checkAccessSaveRedirect();
                         }, 500);
                     })
                 }).catch(function (err) {
@@ -4152,7 +4219,7 @@ Template.payrolloverview.events({
                       sideBarService.getAllTimeSheetList().then(function (data) {
                           addVS1Data('TTimeSheet', JSON.stringify(data));
                           setTimeout(function () {
-                              window.open('/timesheet', '_self');
+                              templateObject.checkAccessSaveRedirect();
                           }, 500);
                       });
                   }).catch(function (err) {
@@ -4414,6 +4481,17 @@ Template.payrolloverview.helpers({
     },
      loggeduserdata: () => {
         return Template.instance().loggeduserdata.get().sort(function(a, b){
+            if (a.employeename == 'NA') {
+                return 1;
+            }
+            else if (b.employeename == 'NA') {
+                return -1;
+            }
+            return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
+        });
+    },
+     clockedOnEmpData: () => {
+        return Template.instance().clockedOnEmpData.get().sort(function(a, b){
             if (a.employeename == 'NA') {
                 return 1;
             }

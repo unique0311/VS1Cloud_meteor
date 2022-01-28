@@ -115,19 +115,7 @@ Template.supportmodalpop.onRendered(function() {
                 timeZone: 'America/New_York',
                 //timeZoneName: 'long'
             }).format(currentTime);
-            // document.getElementById('Austin').innerHTML = new Intl.DateTimeFormat('en', {
-            //     weekday: 'long',
-            //     hour: 'numeric',
-            //     minute: 'numeric',
-            //     second: 'numeric',
-            //     hour12: true,
-            //     timeZone: 'America/Austin',
-            //     timeZoneName: 'long'
-            // }).format(currentTime);
-            // document.getElementById('Johannesburg').innerHTML = joburgTime;
-            // document.getElementById('Queensland').innerHTML = australiaTime;
-            // document.getElementById('New_York').innerHTML = unitedstateTime;
-            // console.log(joburgTime);
+
 
             document.getElementById("phoneSA").style.display = "block";
             document.getElementById("phoneUSA").style.display = "block";

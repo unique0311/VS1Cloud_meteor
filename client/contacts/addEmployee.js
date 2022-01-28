@@ -4560,7 +4560,6 @@ Template.employeescard.events({
         Meteor._reload.reload();
     },
     'click .btnRemoveProduct': function () {
-        //console.log($(this).attr('id'));
     },
     'click #formCheck-2': function () {
         if ($(event.target).is(':checked')) {

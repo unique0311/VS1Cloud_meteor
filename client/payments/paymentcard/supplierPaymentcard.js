@@ -8406,7 +8406,7 @@ Template.supplierpaymentcard.events({
 
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get()
         if (selectedSupplierPayments.length > 0) {
-            let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
+            let currentApplied = $('.lead').text().replace(/[^0-9.-]+/g, "");
             currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
             let total = parseFloat(currentApplied);
             for (let x = 0; x < selectedSupplierPayments.length; x++) {
@@ -8500,7 +8500,7 @@ Template.supplierpaymentcard.events({
                 let $tblrows = $("#tblSupplierPaymentcard tbody tr");
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
-                    total += parseFloat($tblrow.find(".linePaymentamount ").val().replace('$', '').replace(',', '')) || 0;
+                    total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
                 });
                 $('.appliedAmount').text(Currency + total.toFixed(2));
                 return false;

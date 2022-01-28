@@ -148,7 +148,7 @@
 
                 {{> employeecompletedjobs}}
 
-                            <div class="col-lg-4 col-xl-4">
+            <div class="col-lg-4 col-xl-4">
                 <div class="card shadow mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary font-weight-bold m-0" style=" ">Clocked On Employees</h6>
@@ -162,10 +162,10 @@
                     <div class="card-body">
 
                         <div class="row no-gutters align-items-center" style="margin-bottom: 20px;margin-top: 20px;">
-                            {{#if loggeduserdata}}
-                            {{#each itemloggeduser in loggeduserdata}}
+                            {{#if clockedOnEmpData}}
+                            {{#each itemclockedemp in clockedOnEmpData}}
                             <div class="col-6">
-                                <div class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3"><a href="#"><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; white-space: nowrap;"><img src="img/avatar.png" style="width: 45px;margin-right: 10px; margin-bottom: 10px; ">{{itemloggeduser.employeename}}</p></a>
+                                <div class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3"><a href="#"><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; white-space: nowrap;"><img src="img/avatar.png" style="width: 45px;margin-right: 10px; margin-bottom: 10px; ">{{itemclockedemp.employeename}}</p></a>
                                 </div>
                             </div>
                             {{/each}}
@@ -176,6 +176,7 @@
                     </div>
                 </div>
             </div>
+
             </div>
             <style>
                 @media screen and (max-width: 450px) {

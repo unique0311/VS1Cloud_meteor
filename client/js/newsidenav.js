@@ -651,6 +651,7 @@ Template.newsidenav.onRendered(function() {
     $('.headerprogressbar').removeClass('headerprogressbarHidden');
     getVS1Data('TAppUser').then(function(dataObject) {
         if (dataObject.length == 0) {
+          $('#headerprogressLabelFirst').css('display','block');
           sideBarService.getCurrentLoggedUser().then(function(data) {
             countObjectTimes++;
             progressPercentage = (countObjectTimes * 100) / allDataToLoad;

@@ -6586,7 +6586,7 @@ Template.paymentcard.events({
         const templateObject = Template.instance();
         let selectedSupplierPayments = templateObject.selectedAwaitingPayment.get();
         if (selectedSupplierPayments.length > 0) {
-            let currentApplied = $('.lead').text().replace('$', '').replace(',', '');
+            let currentApplied = $('.lead').text().replace(/[^0-9.-]+/g, "");
             currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
             let total = currentApplied;
             for (let x = 0; x < selectedSupplierPayments.length; x++) {
