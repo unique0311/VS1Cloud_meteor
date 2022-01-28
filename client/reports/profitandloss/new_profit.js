@@ -63,61 +63,61 @@ Template.newprofitandloss.onRendered(function () {
 // get 'this month' to appear in date range selector dropdown
 //    const monSml = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sepr","Oct","Nov","Dec"];
 //    var currMonth = monSml[currentDate.getMonth()] + " " + currentDate.getFullYear();
-    
+
 let currMonth = moment().format('MMM') + ' ' + moment().format('YYYY');
 $("#dispCurrMonth").append(currMonth);
-    
-// get 'this month' to appear in date range selector dropdown end  
-    
+
+// get 'this month' to appear in date range selector dropdown end
+
 // get 'last quarter' to appear in date range selector dropdown
 let lastQStartDispaly = moment().subtract(1, 'Q').startOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 let lastQEndDispaly = moment().subtract(1, 'Q').endOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 $('#dispLastQuarter').append(lastQStartDispaly + " - " + lastQEndDispaly)
-    
-// get 'last quarter' to appear in date range selector dropdown end 
-    
+
+// get 'last quarter' to appear in date range selector dropdown end
+
 // get 'this quarter' to appear in date range selector dropdown
-    
+
 let thisQStartDispaly = moment().startOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 let thisQEndDispaly = moment().endOf('Q').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 $('#dispCurrQuarter').append(thisQStartDispaly + " - " + thisQEndDispaly)
-    
-// get 'this quarter' to appear in date range selector dropdown end 
 
-// get 'last month' to appear in date range selector dropdown 
-    
+// get 'this quarter' to appear in date range selector dropdown end
+
+// get 'last month' to appear in date range selector dropdown
+
 let prevMonth = moment().subtract(1, 'M').format('MMM' + ' ' + 'YYYY');
 $('#dispPrevMonth').append(prevMonth);
-    
+
 // get 'last month' to appear in date range selector dropdown end
 
-// get 'month to date' to appear in date range selector dropdown 
-    
+// get 'month to date' to appear in date range selector dropdown
+
 let monthStart = moment().startOf('M').format('D' + ' ' + 'MMM');
 let monthCurr = moment().format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 $('#monthStartDisp').append(monthStart + ' - ' + monthCurr);
-    
+
 // get 'month to date' to appear in date range selector dropdown end
-    
+
 // get 'quarter to date' to appear in date range selector dropdown
-    
+
 let currQStartDispaly = moment().startOf('Q').format('D' + ' ' + 'MMM');
 $('#quarterToDateDisp').append(currQStartDispaly + ' - ' + monthCurr);
-    
-// get 'quarter to date' to appear in date range selector dropdown 
+
+// get 'quarter to date' to appear in date range selector dropdown
 // get 'financial year' to appear
 if (moment().quarter() == 4) {
   var current_fiscal_year_start = moment().month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
-  var current_fiscal_year_end = moment().add(1, 'year').month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');                  
+  var current_fiscal_year_end = moment().add(1, 'year').month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
   var last_fiscal_year_start = moment().subtract(1, 'year').month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
   var last_fiscal_year_end = moment().month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
 } else {
   var current_fiscal_year_start = moment().subtract(1,'year').month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
-  var current_fiscal_year_end = moment().month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY'); 
-    
+  var current_fiscal_year_end = moment().month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
+
   var last_fiscal_year_start = moment().subtract(2, 'year').month('July').startOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
   var last_fiscal_year_end = moment().subtract(1, 'year').month('June').endOf('month').format('D' + ' ' + 'MMM' + ' ' + 'YYYY');
-};  
+};
     //display current financial year
     $('#dispCurrFiscYear').append(current_fiscal_year_start + ' - ' + current_fiscal_year_end);
     //display last financial year
@@ -125,7 +125,7 @@ if (moment().quarter() == 4) {
     //display current financial year to current date;
     $('#dispCurrFiscYearToDate').append(current_fiscal_year_start + ' - ' + monthCurr);
 // get 'financial year' to appear end
-    
+
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         if (!localStorage.getItem('VS1ProfitandLoss_ReportCompare1')) {
             reportService.getProfitandLossCompare(dateFrom, dateTo, ignoreDate).then(function (data) {
@@ -348,6 +348,29 @@ if (moment().quarter() == 4) {
 
 
 Template.newprofitandloss.events({
+    'click #dropdownDateRang': function (e) {
+        let dateRangeID = e.target.id;
+        //alert(dateRangeID);
+        if (dateRangeID == "thisMonth") {
+            document.getElementById("selectedDateRange").value = "This Month";
+        } else if (dateRangeID == "thisQuarter") {
+            document.getElementById("selectedDateRange").value = "This Quarter";
+        } else if (dateRangeID == "thisFinYear") {
+            document.getElementById("selectedDateRange").value = "This Financial Year";
+        } else if (dateRangeID == "lastMonth") {
+            document.getElementById("selectedDateRange").value = "Last Month";
+        } else if (dateRangeID == "lastQuarter") {
+            document.getElementById("selectedDateRange").value = "Last Quarter";
+        } else if (dateRangeID == "lastFinYear") {
+            document.getElementById("selectedDateRange").value = "Last Financial Year";
+        } else if (dateRangeID == "monthToDate") {
+            document.getElementById("selectedDateRange").value = "Month to Date";
+        } else if (dateRangeID == "quarterToDate") {
+            document.getElementById("selectedDateRange").value = "Quarter to Date";
+        } else if (dateRangeID == "finYearToDate") {
+            document.getElementById("selectedDateRange").value = "Year to Date";
+        }
+    },
     'click .accountingBasisDropdown': function (e) {
         e.stopPropagation();
     },
@@ -644,7 +667,7 @@ Template.newprofitandloss.events({
         $('td:nth-child(5)').hide();
         $('td:nth-child(6)').hide();
         $('td:nth-child(7)').hide();
-        
+
         $('th:nth-child(4)').hide();
         $('th:nth-child(5)').hide();
         $('th:nth-child(6)').hide();
@@ -659,7 +682,7 @@ Template.newprofitandloss.events({
         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 //        console.log(formatDateFrom);
 //        console.log(formatDateTo);
-        $('td:nth-child(4)').show();        
+        $('td:nth-child(4)').show();
         $('td:nth-child(5)').hide();
         $('td:nth-child(6)').hide();
         $('td:nth-child(7)').hide();
@@ -998,7 +1021,7 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').show();
-    },    
+    },
     //display selected time range next to dropdown
     'click .mnuDateRng':function(event){
                 $(this).each(function () {
@@ -1007,11 +1030,11 @@ Template.newprofitandloss.events({
                 var insideText = $(gid).text();
             console.log(insideText);
            $('#selectedDateRange').append(insideText);
-           $('#btnSltDateRange').addClass('selectedDateRangeBtnMod');    
+           $('#btnSltDateRange').addClass('selectedDateRangeBtnMod');
           $('#selectedDateRange').show();
-        });      
+        });
     }
-    
+
 });
 
 Template.newprofitandloss.helpers({
