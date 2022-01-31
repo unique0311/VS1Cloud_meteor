@@ -1651,6 +1651,50 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="container mb-3 budgetColumnTab" style="">
+                                        <h3>Budget column</h3>
+                                        <hr class="periodSelectorLine" />
+                                        <h4>Budget</h4>
+                                        <h5>Overall Budget</h5>
+                                        <div class="mb-1">
+                                            <div class="col-12 ">
+                                                <label>Date range</label><br>
+                                                <select class="form-control accValSelect" id="accValSelect">
+                                                    <option class="" value="Trading Income">Following report date range <span> </span><span>Month</span></option>
+                                                    <hr class="periodSelectorLine" />
+                                                    <option class="" value="Cost of Sales">Month</option>
+                                                    <option class="" value="Plus Other Income">Financial quarter</option>
+                                                    <option class="" value="Less Operatin Expenses">Financial year</option>
+                                                    <option class="" value="Foreign Currency Gains and Losses">Month to date</option>
+                                                    <option class="" value="Non-operating Income">Quarter to date</option>
+                                                    <option class="" value="Non-operating Expenses">Year to date</option>
+                                                    <hr class="periodSelectorLine" />
+                                                    <option class="" value="Non-operating Expenses">Custom</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-1 arrowShow">
+                                            <div class="col-12 mt-1" style="display: flex;flex-wrap: nowrap; justify-content: flex-end;">
+                                                <label>1 Jan 2022 - 31 Jan 2022</label>
+                                                <div style="display: flex;flex-wrap: nowrap;">
+                                                    <input id="rowHeading" type="button" class="form-control" name="nplrowHeading" value="<">
+                                                    <input id="rowHeading" type="button" class="form-control" name="nplrowHeading" value=">">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="mt-1 calndrShow" style="display: none;">
+                                            <div class="col-12 mt-1">
+                                                <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
+                                            </div>
+                                        </div>
+                                        <div class="mt-1">
+                                            <div class="col-12 mt-1">
+                                                <label>Column heading</label><br>
+                                                <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="container mb-3  edlayCalculator" style="width:100%">
                                         <style>
                                             .calculatorBody {
@@ -1757,7 +1801,7 @@
                                             .totalSelctor,
                                             .pgbSideText,
                                             .dateColumnTab,
-                                            .textBlockColumn, .notesColumn,.scheduleColumn, .editRowGroup,.rowEdLayCalculator,.columnEdLayCalculator {
+                                            .textBlockColumn, .notesColumn,.scheduleColumn, .editRowGroup,.rowEdLayCalculator,.columnEdLayCalculator,.budgetColumnTab {
                                                 padding: 1rem;
                                             }
 
@@ -1789,7 +1833,7 @@
                                             .textBlockColumn h3,
                                             .notesColumn h3,
                                             .scheduleColumn h3,
-                                            .editRowGroup h3,.editGroup h3,.rowEdLayCalculator h3,.columnEdLayCalculator h3  {
+                                            .editRowGroup h3,.editGroup h3,.rowEdLayCalculator h3,.columnEdLayCalculator h3,.budgetColumnTab h3  {
                                                 text-align: center;
                                             }
 
