@@ -1,6 +1,7 @@
 import 'jQuery.print/jQuery.print.js';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { SideBarService } from '../js/sidebar-service';
+// import { OrganisationService } from '../../js/organisation-service';
 let sideBarService = new SideBarService();
 Template.customfieldpop.onCreated(() => {
     const templateObject = Template.instance();
@@ -110,7 +111,6 @@ Template.customfieldpop.onRendered(() => {
             
             
             }).catch(function (err) {
-               console.log(err);
             })
         }
 
@@ -216,7 +216,65 @@ Template.customfieldpop.events({
         $('#edtSaleCustField1').editableSelect();
          $('#edtSaleCustField1').editableSelect()
         .on('click.editable-select', function (e, li) {
-            $('#newCustomFieldPop').modal('toggle');
+             var $earch = $(this);
+            var offset = $earch.offset();
+            var fieldDataName = e.target.value || '';
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#customFieldList').modal('toggle');
+            } else {
+                if (fieldDataName.replace(/\s/g, '') != '') {
+                $('#newStatusHeader1').text('Edit Custom Field');
+                    getVS1Data('TCustomFieldList').then(function (dataObject) { //edit to test indexdb
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                                sideBarService.getAllCustomFields().then(function(data) {
+                                for (let i in data.tcustomfieldlist) {
+                                    if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId').val(data.tcustomfieldlist[i].fields.ID);
+                                        $('#newStatus').val(data.tcustomfieldlist[i].fields.Description);
+                                        
+                                    }
+                                }
+                                setTimeout(function () {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newCustomFieldPop').modal('toggle');
+                                }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tcustomfieldlist;
+                            for (let i in useData) {
+                                if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId').val(useData[i].fields.ID);
+                                        $('#newStatus').val(useData[i].fields.Description);
+                                }
+                            }
+                            setTimeout(function () {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCustomFieldPop').modal('newCustomFieldPop');
+                            }, 200);
+                        }
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                         sideBarService.getAllCustomFields().then(function(data) {
+                                for (let i in data.tcustomfieldlist) {
+                                    if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId1').val(data.tcustomfieldlist[i].fields.ID);
+                                        $('#newStatus1').val(data.tcustomfieldlist[i].fields.Description);
+                                        
+                                    }
+                                }
+                            setTimeout(function () {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCustomFieldPop').modal('toggle');
+                            }, 200);
+                        });
+                    });
+
+            } else {
+                $('#customFieldList').modal('toggle');
+            }
+        }
         });
     },1500);
 },
@@ -305,10 +363,68 @@ Template.customfieldpop.events({
     $('.checkbox2div').append('<div class="form-group"><label class="lblCustomField2">'+custfield2+'<br></label>'+
     ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField2" name="edtSaleCustField2" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
     setTimeout( function(){
-        $('#edtSaleCustField2').editableSelect();
+       $('#edtSaleCustField2').editableSelect();
          $('#edtSaleCustField2').editableSelect()
         .on('click.editable-select', function (e, li) {
-            $('#newCustomFieldPop').modal('toggle');
+             var $earch = $(this);
+            var offset = $earch.offset();
+            var fieldDataName = e.target.value || '';
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#customFieldList').modal('toggle');
+            } else {
+                if (fieldDataName.replace(/\s/g, '') != '') {
+                $('#newStatusHeader1').text('Edit Custom Field');
+                    getVS1Data('TCustomFieldList').then(function (dataObject) { //edit to test indexdb
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                                sideBarService.getAllCustomFields().then(function(data) {
+                                for (let i in data.tcustomfieldlist) {
+                                    if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId').val(data.tcustomfieldlist[i].fields.ID);
+                                        $('#newStatus').val(data.tcustomfieldlist[i].fields.Description);
+                                        
+                                    }
+                                }
+                                setTimeout(function () {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newCustomFieldPop').modal('toggle');
+                                }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tcustomfieldlist;
+                            for (let i in useData) {
+                                if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId').val(useData[i].fields.ID);
+                                        $('#newStatus').val(useData[i].fields.Description);
+                                }
+                            }
+                            setTimeout(function () {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCustomFieldPop').modal('newCustomFieldPop');
+                            }, 200);
+                        }
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                         sideBarService.getAllCustomFields().then(function(data) {
+                                for (let i in data.tcustomfieldlist) {
+                                    if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId1').val(data.tcustomfieldlist[i].fields.ID);
+                                        $('#newStatus1').val(data.tcustomfieldlist[i].fields.Description);
+                                        
+                                    }
+                                }
+                            setTimeout(function () {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCustomFieldPop').modal('toggle');
+                            }, 200);
+                        });
+                    });
+
+            } else {
+                $('#customFieldList').modal('toggle');
+            }
+        }
         });
     },200);
 },
@@ -397,13 +513,167 @@ Template.customfieldpop.events({
     $('.checkbox3div').append('<div class="form-group"><label class="lblCustomField3">'+custfield3+'<br></label>'+
     ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField3" name="edtSaleCustField3" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
     setTimeout( function(){
-        $('#edtSaleCustField3').editableSelect();
-         $('#edtSaleCustField3').editableSelect()
+        $('#edtSaleCustField2').editableSelect();
+         $('#edtSaleCustField2').editableSelect()
         .on('click.editable-select', function (e, li) {
-            $('#newCustomFieldPop').modal('toggle');
-        })
+             var $earch = $(this);
+            var offset = $earch.offset();
+            var fieldDataName = e.target.value || '';
+            if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
+                $('#customFieldList').modal('toggle');
+            } else {
+                if (fieldDataName.replace(/\s/g, '') != '') {
+                $('#newStatusHeader1').text('Edit Custom Field');
+                    getVS1Data('TCustomFieldList').then(function (dataObject) { //edit to test indexdb
+                        if (dataObject.length == 0) {
+                            $('.fullScreenSpin').css('display', 'inline-block');
+                                sideBarService.getAllCustomFields().then(function(data) {
+                                for (let i in data.tcustomfieldlist) {
+                                    if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId').val(data.tcustomfieldlist[i].fields.ID);
+                                        $('#newStatus').val(data.tcustomfieldlist[i].fields.Description);
+                                        
+                                    }
+                                }
+                                setTimeout(function () {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('#newCustomFieldPop').modal('toggle');
+                                }, 200);
+                            });
+                        } else {
+                            let data = JSON.parse(dataObject[0].data);
+                            let useData = data.tcustomfieldlist;
+                            for (let i in useData) {
+                                if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId').val(useData[i].fields.ID);
+                                        $('#newStatus').val(useData[i].fields.Description);
+                                }
+                            }
+                            setTimeout(function () {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCustomFieldPop').modal('newCustomFieldPop');
+                            }, 200);
+                        }
+                    }).catch(function (err) {
+                        $('.fullScreenSpin').css('display', 'inline-block');
+                         sideBarService.getAllCustomFields().then(function(data) {
+                                for (let i in data.tcustomfieldlist) {
+                                    if (data.tcustomfieldlist[i].fields.Description === fieldDataName) {
+                                        $('#statusId1').val(data.tcustomfieldlist[i].fields.ID);
+                                        $('#newStatus1').val(data.tcustomfieldlist[i].fields.Description);
+                                        
+                                    }
+                                }
+                            setTimeout(function () {
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('#newCustomFieldPop').modal('toggle');
+                            }, 200);
+                        });
+                    });
+
+            } else {
+                $('#customFieldList').modal('toggle');
+            }
+        }
+        });
     },200);
 },
+// 'click .btnSaveCustomField': function() {
+//      let organisationService = new OrganisationService();
+//       let fieldID = $('#statusId1').val() || '';
+//       let termsName = $('#newStatus1').val();
+//       let listType = "";
+
+//        if(url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
+//          listType = "ltSales";
+//        }
+
+
+//        if (fieldID == "") {
+//            // taxRateService.checkTermByName(termsName).then(function(data) {
+//                 objDetails = {
+//                     type: "TCustomFieldList",
+//                     fields: {
+//                         Description: termsName,
+//                         listType: listType
+//                     }
+//                 };
+
+//                 organisationService.saveCustomField(objDetails).then(function(objDetails) {
+//                     // sideBarService.getTermsVS1().then(function(dataReload) {
+//                         $('#newStatus1').val(termsName);
+//                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
+//                             $('#newCustomFieldPop').modal('toggle');
+//                             $('.fullScreenSpin').css('display', 'none');
+//                         // }).catch(function(err) {
+//                         //     $('#newTermsModal').modal('toggle');
+//                         //     $('.fullScreenSpin').css('display', 'none');
+//                         // });
+//                     // }).catch(function(err) {
+//                     //     $('#newTermsModal').modal('toggle');
+//                     //     $('.fullScreenSpin').css('display', 'none');
+//                     // });
+//                 }).catch(function(err) {
+//                     swal({
+//                         title: 'Oooops...',
+//                         text: err,
+//                         type: 'error',
+//                         showCancelButton: false,
+//                         confirmButtonText: 'Try Again'
+//                     }).then((result) => {
+//                         if (result.value) {
+//                             $('#newTermsModal').modal('toggle');
+//                             $('.fullScreenSpin').css('display', 'none');
+//                         } else if (result.dismiss === 'cancel') {
+
+//                         }
+//                     });
+//                     $('.fullScreenSpin').css('display', 'none');
+//                 });
+
+//         } else {
+//             objDetails = {
+//                     type: "TCustomFieldList",
+//                     fields: {
+//                         ID: fieldID,
+//                         Description: termsName,
+//                         listType: listType
+//                     }
+//                 };
+
+//                 organisationService.saveCustomField(objDetails).then(function(objDetails) {
+//                     // sideBarService.getTermsVS1().then(function(dataReload) {
+//                         $('#newStatus1').val(termsName);
+//                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
+//                             $('#newCustomFieldPop').modal('toggle');
+//                             $('.fullScreenSpin').css('display', 'none');
+//                         // }).catch(function(err) {
+//                         //     $('#newTermsModal').modal('toggle');
+//                         //     $('.fullScreenSpin').css('display', 'none');
+//                         // });
+//                     // }).catch(function(err) {
+//                     //     $('#newTermsModal').modal('toggle');
+//                     //     $('.fullScreenSpin').css('display', 'none');
+//                     // });
+//                 }).catch(function(err) {
+//                     swal({
+//                         title: 'Oooops...',
+//                         text: err,
+//                         type: 'error',
+//                         showCancelButton: false,
+//                         confirmButtonText: 'Try Again'
+//                     }).then((result) => {
+//                         if (result.value) {
+//                             $('#newTermsModal').modal('toggle');
+//                             $('.fullScreenSpin').css('display', 'none');
+//                         } else if (result.dismiss === 'cancel') {
+
+//                         }
+//                     });
+//                     $('.fullScreenSpin').css('display', 'none');
+//                 });
+//         }
+// },
 'click .btnSaveSettings': function (event) {
         var url = FlowRouter.current().path;
         // let custfield1 = $('.customField1').val() || 'Custom Field 1';

@@ -45,6 +45,8 @@ export class SideBarService extends BaseService {
        };
     return this.getList(this.ERPObjects.TCustomFieldList, options);
   }
+
+
   getProductServiceListVS1ByName(dataSearchName) {
     let options = '';
        options = {

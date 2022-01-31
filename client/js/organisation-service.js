@@ -7,6 +7,10 @@ export class OrganisationService extends BaseService {
      return this.POST(this.ERPObjects.TCompanyInfo, data);
      }
 
+    saveCustomField(data) {
+        return this.POST(this.ERPObjects.TCustomFieldList, data);
+    }
+
      getCompLogo() {
          return this.GET(this.ERPObjects.TcompLogo);
      }

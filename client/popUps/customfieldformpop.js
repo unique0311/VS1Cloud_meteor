@@ -8,6 +8,7 @@ import {
     SideBarService
 } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
+import { OrganisationService } from '../js/organisation-service';
 let sideBarService = new SideBarService();
 Template.customfieldformpop.onCreated(function() {
     const templateObject = Template.instance();
@@ -738,6 +739,117 @@ Template.customfieldformpop.onRendered(function() {
 
 
 Template.customfieldformpop.events({
+    'click .btnSaveCustomField': function() {
+     let organisationService = new OrganisationService();
+     var url = FlowRouter.current().path;
+      let fieldID = $('#statusId1').val() || '';
+      let termsName = $('#newStatus1').val();
+      let clickedInput = $('#clickedControl').val();
+      let listType = "";
+      let objDetails1 = '';
+
+       if(url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
+         listType = "ltSales";
+       }
+
+       console.log(fieldID);
+       if (fieldID == "") {
+           // taxRateService.checkTermByName(termsName).then(function(data) {
+                objDetails1 = {
+                    type: "TCustomFieldList",
+                    fields: {
+                        Description: termsName,
+                        listType: listType
+                    }
+                };
+
+                organisationService.saveCustomField(objDetails1).then(function(objDetails) {
+                    // sideBarService.getTermsVS1().then(function(dataReload) {
+                        if(clickedInput == "one") {
+                            $('#edtSaleCustField1').val(termsName);
+                        } else if(clickedInput == "two") {
+                            $('#edtSaleCustField2').val(termsName);
+                        } else if(clickedInput == "three") {
+                            $('#edtSaleCustField3').val(termsName);
+                        }
+                        // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
+                            $('#newCustomFieldPop').modal('toggle');
+                            $('.fullScreenSpin').css('display', 'none');
+                        // }).catch(function(err) {
+                        //     $('#newTermsModal').modal('toggle');
+                        //     $('.fullScreenSpin').css('display', 'none');
+                        // });
+                    // }).catch(function(err) {
+                    //     $('#newTermsModal').modal('toggle');
+                    //     $('.fullScreenSpin').css('display', 'none');
+                    // });
+                }).catch(function(err) {
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#newTermsModal').modal('toggle');
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else if (result.dismiss === 'cancel') {
+
+                        }
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+
+        } else {
+            objDetails1 = {
+                    type: "TCustomFieldList",
+                    fields: {
+                        ID: fieldID,
+                        Description: termsName,
+                        listType: listType
+                    }
+                };
+
+                organisationService.saveCustomField(objDetails1).then(function(objDetails) {
+                    // sideBarService.getTermsVS1().then(function(dataReload) {
+                        if(clickedInput == "one") {
+                            $('#edtSaleCustField1').val(termsName);
+                        } else if(clickedInput == "two") {
+                            $('#edtSaleCustField2').val(termsName);
+                        } else if(clickedInput == "three") {
+                            $('#edtSaleCustField3').val(termsName);
+                        }
+                        // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
+                            $('#newCustomFieldPop').modal('toggle');
+                            $('.fullScreenSpin').css('display', 'none');
+                        // }).catch(function(err) {
+                        //     $('#newTermsModal').modal('toggle');
+                        //     $('.fullScreenSpin').css('display', 'none');
+                        // });
+                    // }).catch(function(err) {
+                    //     $('#newTermsModal').modal('toggle');
+                    //     $('.fullScreenSpin').css('display', 'none');
+                    // });
+                }).catch(function(err) {
+                    swal({
+                        title: 'Oooops...',
+                        text: err,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'Try Again'
+                    }).then((result) => {
+                        if (result.value) {
+                            $('#newTermsModal').modal('toggle');
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else if (result.dismiss === 'cancel') {
+
+                        }
+                    });
+                    $('.fullScreenSpin').css('display', 'none');
+                });
+        }
+},
     // 'click .btnAddNewStatus': function (event) {
     //     setTimeout(function () {
     //       $('#status').focus();
