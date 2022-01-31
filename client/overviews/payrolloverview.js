@@ -167,7 +167,6 @@ Template.payrolloverview.onRendered(function () {
               meridian;
             hours = timeSplit[0];
             minutes = timeSplit[1];
-            //console.log(timeSplit);
             if (hours > 12) {
               meridian = 'PM';
               hours -= 12;
@@ -179,25 +178,21 @@ Template.payrolloverview.onRendered(function () {
             } else {
               meridian = 'PM';
             }
-            //console.log(hours);
+
         let getTimeString = hours + ':' + minutes + ' ' + meridian;
-        console.log(getTimeString);
         var matches = getTimeString.match(/^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/);
-        //console.log(matches);
+
          if (matches != null && matches.length == 3){
-           //console.log(matches[1]);
+
              time = parseInt(matches[1]);
-             console.log(time);
              if (meridian == 'PM'){
-               if(time > 1 && time < 12){
+               if(time >= 1 && time < 12){
                  time += 12;
-                 console.log(time);
                }else if(time == 12){
                  time = 12;
                }
              }
          }
-         console.log(time + ':' + minutes);
         return time + ':' + minutes;
       }
 
@@ -2414,18 +2409,27 @@ Template.payrolloverview.events({
         }
 
     },
-    'change #startTimeNotNeeded': function () {
-        const templateObject = Template.instance();
-        let date1 = document.getElementById("dtSODate").value;
-        date1 = templateObject.dateFormat(date1);
-        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value);
-        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value);
-        if (endTime > startTime) {
-            let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-            document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
-        } else {}
+    'change #startTime': function () {
+      const templateObject = Template.instance();
+
+      var date1Time = new Date($("#dtSODate").datepicker("getDate"));
+
+      let date1 = date1Time.getFullYear() + "/" + (date1Time.getMonth() + 1) + "/" + date1Time.getDate();
+
+      var endtime24Hours =  templateObject.getHour24($("#endTime").val()) ||'';
+      var starttime24Hours =  templateObject.getHour24($("#startTime").val())||'';
+
+      var endTime = new Date(date1 + ' ' + endtime24Hours);
+      var startTime = new Date(date1 + ' ' + starttime24Hours);
+
+      if (endTime > startTime) {
+          let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+          document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
+      } else {
+        document.getElementById('txtBookedHoursSpent').value = '00:00';
+      }
     },
-    'change #endTime, #startTime': function () {
+    'change #endTime': function () {
         const templateObject = Template.instance();
 
         var date1Time = new Date($("#dtSODate").datepicker("getDate"));
@@ -4316,12 +4320,32 @@ Template.payrolloverview.events({
         }).catch(function (err) {});
         sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
             addVS1Data('TEmployee', JSON.stringify(data)).then(function (datareturn) {
-                window.open('/payrolloverview', '_self');
+                //window.open('/payrolloverview', '_self');
             }).catch(function (err) {
-                window.open('/payrolloverview', '_self');
+                //window.open('/payrolloverview', '_self');
             });
         }).catch(function (err) {
-            window.open('/payrolloverview', '_self');
+            //window.open('/payrolloverview', '_self');
+        });
+
+        sideBarService.getAllTimeSheetList().then(function (data) {
+            addVS1Data('TTimeSheet', JSON.stringify(data));
+            setTimeout(function () {
+                window.open('/payrolloverview', '_self');
+            }, 500);
+        }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    // Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {}
+            });
         });
     },
     'click .printConfirm': function (event) {

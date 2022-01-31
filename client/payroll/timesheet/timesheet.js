@@ -146,7 +146,7 @@ Template.timesheet.onRendered(function () {
             if (result.value) {}
             else {
                 $("#endTime").val("");
-                $("#txtBookedHoursSpent").val("00:01");
+                $("#txtBookedHoursSpent").val("00:00");
             }
 
         });
@@ -747,8 +747,8 @@ Template.timesheet.onRendered(function () {
             }
 
         }).catch(function (err) {
-          
-          });
+
+        });
     }
 
     templateObject.getAllTimeSheetData();
