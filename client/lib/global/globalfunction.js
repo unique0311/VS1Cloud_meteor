@@ -320,7 +320,42 @@ batchUpdateCall = function (url) {
     }
 };
 
+getHour24 = function (timeString) {
+  let time = null;
+  let timeSplit = timeString.split(':'),
+      hours,
+      minutes,
+      meridian;
+    hours = timeSplit[0];
+    minutes = timeSplit[1];
+    if (hours > 12) {
+      meridian = 'PM';
+      hours -= 12;
+    } else if (hours < 12) {
+      meridian = 'AM';
+      if (hours == 0) {
+        hours = 12;
+      }
+    } else {
+      meridian = 'PM';
+    }
 
+let getTimeString = hours + ':' + minutes + ' ' + meridian;
+var matches = getTimeString.match(/^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/);
+
+ if (matches != null && matches.length == 3){
+
+     time = parseInt(matches[1]);
+     if (meridian == 'PM'){
+       if(time >= 1 && time < 12){
+         time += 12;
+       }else if(time == 12){
+         time = 12;
+       }
+     }
+ }
+return time + ':' + minutes;
+};
 
 // $(window).load(function() {
 //

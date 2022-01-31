@@ -159,42 +159,7 @@ Template.payrolloverview.onRendered(function () {
         return dateObject;
     }
 
-    templateObject.getHour24 = function (timeString) {
-          let time = null;
-          let timeSplit = timeString.split(':'),
-              hours,
-              minutes,
-              meridian;
-            hours = timeSplit[0];
-            minutes = timeSplit[1];
-            if (hours > 12) {
-              meridian = 'PM';
-              hours -= 12;
-            } else if (hours < 12) {
-              meridian = 'AM';
-              if (hours == 0) {
-                hours = 12;
-              }
-            } else {
-              meridian = 'PM';
-            }
 
-        let getTimeString = hours + ':' + minutes + ' ' + meridian;
-        var matches = getTimeString.match(/^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/);
-
-         if (matches != null && matches.length == 3){
-
-             time = parseInt(matches[1]);
-             if (meridian == 'PM'){
-               if(time >= 1 && time < 12){
-                 time += 12;
-               }else if(time == 12){
-                 time = 12;
-               }
-             }
-         }
-        return time + ':' + minutes;
-      }
 
     templateObject.timeToDecimal = function (time) {
         var hoursMinutes = time.split(/[.:]/);
@@ -2416,8 +2381,8 @@ Template.payrolloverview.events({
 
       let date1 = date1Time.getFullYear() + "/" + (date1Time.getMonth() + 1) + "/" + date1Time.getDate();
 
-      var endtime24Hours =  templateObject.getHour24($("#endTime").val()) ||'';
-      var starttime24Hours =  templateObject.getHour24($("#startTime").val())||'';
+      var endtime24Hours =  getHour24($("#endTime").val()) ||'';
+      var starttime24Hours =  getHour24($("#startTime").val())||'';
 
       var endTime = new Date(date1 + ' ' + endtime24Hours);
       var startTime = new Date(date1 + ' ' + starttime24Hours);
@@ -2436,8 +2401,8 @@ Template.payrolloverview.events({
 
         let date1 = date1Time.getFullYear() + "/" + (date1Time.getMonth() + 1) + "/" + date1Time.getDate();
 
-        var endtime24Hours =  templateObject.getHour24($("#endTime").val()) ||'';
-        var starttime24Hours =  templateObject.getHour24($("#startTime").val())||'';
+        var endtime24Hours =  getHour24($("#endTime").val()) ||'';
+        var starttime24Hours =  getHour24($("#startTime").val())||'';
 
         var endTime = new Date(date1 + ' ' + endtime24Hours);
         var startTime = new Date(date1 + ' ' + starttime24Hours);

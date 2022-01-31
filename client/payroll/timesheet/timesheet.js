@@ -2858,26 +2858,44 @@ Template.timesheet.onRendered(function () {
                     }
                 },
                 'change #startTime': function () {
-                    const templateObject = Template.instance();
-                    let date1 = document.getElementById("dtSODate").value;
-                    date1 = templateObject.dateFormat(date1);
-                    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value);
-                    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value);
-                    if (endTime > startTime) {
-                        let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-                        document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
-                    } else {}
+                  const templateObject = Template.instance();
+
+                  var date1Time = new Date($("#dtSODate").datepicker("getDate"));
+
+                  let date1 = date1Time.getFullYear() + "/" + (date1Time.getMonth() + 1) + "/" + date1Time.getDate();
+
+                  var endtime24Hours =  getHour24($("#endTime").val()) ||'';
+                  var starttime24Hours =  getHour24($("#startTime").val())||'';
+
+                  var endTime = new Date(date1 + ' ' + endtime24Hours);
+                  var startTime = new Date(date1 + ' ' + starttime24Hours);
+
+                  if (endTime > startTime) {
+                      let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+                      document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
+                  } else {
+                    document.getElementById('txtBookedHoursSpent').value = '00:00';
+                  }
                 },
                 'change #endTime': function () {
-                    const templateObject = Template.instance();
-                    let date1 = document.getElementById("dtSODate").value;
-                    date1 = templateObject.dateFormat(date1);
-                    var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value);
-                    var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value);
-                    if (endTime > startTime) {
-                        let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-                        document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
-                    } else {}
+                  const templateObject = Template.instance();
+
+                  var date1Time = new Date($("#dtSODate").datepicker("getDate"));
+
+                  let date1 = date1Time.getFullYear() + "/" + (date1Time.getMonth() + 1) + "/" + date1Time.getDate();
+
+                  var endtime24Hours =  getHour24($("#endTime").val()) ||'';
+                  var starttime24Hours =  getHour24($("#startTime").val())||'';
+
+                  var endTime = new Date(date1 + ' ' + endtime24Hours);
+                  var startTime = new Date(date1 + ' ' + starttime24Hours);
+
+                  if (endTime > startTime) {
+                      let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+                      document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
+                  } else {
+                    document.getElementById('txtBookedHoursSpent').value = '00:00';
+                  }
                 },
                 'blur #endTime': function () {
                     const templateObject = Template.instance();
