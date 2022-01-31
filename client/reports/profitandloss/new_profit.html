@@ -1124,10 +1124,8 @@
                                 <div class="dropdown-menu" role="menu" aria-labelledby="edlayRowDD">
                                     <a class="dropdown-item btnRowGroupColumn" href="">Group</a>
                                     <a class="dropdown-item btnRowFormulaColumn" href="" onclick="">Formula</a>
-<!--
-                                    <a class="dropdown-item" href="" onclick="">Accounts</a>
-                                    <a class="dropdown-item" href="" onclick="">Custom</a>
--->
+                                    <a class="dropdown-item btnRowAccounts" href=".nplAddAccountsModal" onclick="" role="presentation" data-toggle="modal" >Accounts</a>
+                                    <a class="dropdown-item btnRowCustom" href="" onclick="">Custom</a>
                                 </div>
                             </div>
                             <div class="pointer btnLayoutAction" style="margin: 0px 16px;">
@@ -1138,7 +1136,7 @@
                                     <span class="tooltiptext">Column</span>
                                 </div>
                                 <div class="dropdown-menu" role="menu" aria-labelledby="edlayColDD">
-                                    <a class="dropdown-item" href="">Date</a>
+                                    <a class="dropdown-item btnNewDateColumnTab" href="">Date</a>
                                     <a class="dropdown-item btnBudgetColumn" href="" onclick="">Budget</a>
                                     <a class="dropdown-item btnColFormulaColumn" href="" onclick="">Formula</a>
                                     <a class="dropdown-item btnNotes" href="" onclick="">Notes</a>
@@ -1177,7 +1175,7 @@
                                 <svg xml:space="http://www.w3.org/2000/svg" data-icon-name="trash" width="17" height="19" viewBox="0 0 17 19" fill="#00A3D3" stroke="#00A3D3">
                                     <path d="M0 2h17v2H0V2zm6-2h5v2H6V0zM2 5h13v13c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V5zm6 2h1v9H8V7zm3 0h1v9h-1V7zM5 7h1v9H5V7z" fill-rule="evenodd"></path>
                                 </svg>
-                                <span class="tooltiptext">Delete</span>
+                                <span class="tooltiptext btnDelSelected">Delete</span>
                             </div>
                             <div class="pointer btnLayoutAction" style="margin: 0px 16px;">
                                 <svg class="xui-icon" focusable="false" height="20" viewBox="0 0 15 15" width="20" fill="#00A3D3">
@@ -1526,7 +1524,7 @@
                                             <label>Row Heading</label><br>
                                             <input id="fullName" type="text" class="form-control" name="nplNewLayoutName" value="" placeholder="">
                                         </div>
-                                        <div class="mt-2 ">
+                                        <div class="mt-2">
                                             <label style="width:100%;">Display Balance</label>
                                             <div class="row m-2 dspBalanceControls">
                                                 <button class="btn btn-primary text-nowrap " type="button" id="btnDebitPositive">Debit Positive
@@ -1564,16 +1562,22 @@
                                             </div>
                                             <hr class="periodSelectorLine" />
                                             <div class="m-1 col-12 p-1">
-                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" href="" type="button">Add accounts...
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" href=".nplAddAccountsModal" type="button" role="presentation" data-toggle="modal" >Add accounts...
                                                 </button>
-                                            </div>                                            
+                                            </div>
+                                            <div class="m-1 col-12 p-1" style="display:none;">
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" href=".nplAddAccountsModal" type="button" role="presentation" data-toggle="modal" >Edit accounts...
+                                                </button>
+                                            </div>                                             
                                             <hr class="periodSelectorLine" />
+<!--
                                             <div class="m-1 col-12 p-1">
-                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="" type="button" id="btnCancelLayoutCreation">Group Selection
+                                                <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href=".nplAddAccountsModal" type="button" id="btnCancelLayoutCreation">Group Selection
                                                 </button>
                                                 <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" role="presentation" data-toggle="modal" href="#nplSwitchRuleModal" type="button" id="btnCancelLayoutCreation">Add Switch Rule...
                                                 </button>
                                             </div>
+-->
                                             <div class="custom-control custom-switch">
                                                 <div class="col-12 p-1">
                                                 <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
@@ -1614,6 +1618,49 @@
                                     <div class="container mb-3 dateColumnTab" style="">
                                         <h3>Date column</h3>
                                         <hr class="periodSelectorLine" />
+                                        <div class="mb-1">
+                                            <div class="col-12 ">
+                                                <label>Date range</label><br>
+                                                <select class="form-control accValSelect" id="accValSelect">
+                                                    <option class="" value="Trading Income">Following report date range <span> Month</span></option>
+                                                    <hr class="periodSelectorLine" />
+                                                    <option class="" value="Cost of Sales">Month</option>
+                                                    <option class="" value="Plus Other Income">Financial quarter</option>
+                                                    <option class="" value="Less Operatin Expenses">Financial year</option>
+                                                    <option class="" value="Foreign Currency Gains and Losses">Month to date</option>
+                                                    <option class="" value="Non-operating Income">Quarter to date</option>
+                                                    <option class="" value="Non-operating Expenses">Year to date</option>
+                                                    <hr class="periodSelectorLine" />
+                                                    <option class="" value="Non-operating Expenses">Custom</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-1 arrowShow">
+                                            <div class="col-12 mt-1" style="display: flex;flex-wrap: nowrap; justify-content: flex-end;">
+                                                <label>1 Jan 2022 - 31 Jan 2022</label>
+                                                <div style="display: flex;flex-wrap: nowrap;">
+                                                    <input id="rowHeading" type="button" class="form-control" name="nplrowHeading" value="<">
+                                                    <input id="rowHeading" type="button" class="form-control" name="nplrowHeading" value=">">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="mt-1 calndrShow" style="display: none;">
+                                            <div class="col-12 mt-1">
+                                                <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
+                                            </div>
+                                        </div>
+                                        <div class="mt-1">
+                                            <div class="col-12 mt-1">
+                                                <label>Column heading</label><br>
+                                                <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Jan 2022">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container mb-3 newDateColumnTab" style="">
+                                        <h3>Date column</h3>
+                                        <hr class="periodSelectorLine" />
+                                        <p style="text-align: center;">Adding date, total, tracking or percentage columns will limit the availability of certain settings in your report</p>
                                         <div class="mb-1">
                                             <div class="col-12 ">
                                                 <label>Date range</label><br>
@@ -1874,7 +1921,7 @@
                                             .totalSelctor,
                                             .pgbSideText,
                                             .dateColumnTab,
-                                            .textBlockColumn, .notesColumn,.scheduleColumn, .editRowGroup,.rowEdLayCalculator,.columnEdLayCalculator,.budgetColumnTab,.varianceColumnTab,.percentageColumnTab {
+                                            .textBlockColumn, .notesColumn,.scheduleColumn, .editRowGroup,.rowEdLayCalculator,.columnEdLayCalculator,.budgetColumnTab,.varianceColumnTab,.percentageColumnTab,.newDateColumnTab {
                                                 padding: 1rem;
                                             }
 
@@ -1906,7 +1953,7 @@
                                             .textBlockColumn h3,
                                             .notesColumn h3,
                                             .scheduleColumn h3,
-                                            .editRowGroup h3,.editGroup h3,.rowEdLayCalculator h3,.columnEdLayCalculator h3,.budgetColumnTab h3,.varianceColumnTab h3,.percentageColumnTab h3  {
+                                            .editRowGroup h3,.editGroup h3,.rowEdLayCalculator h3,.columnEdLayCalculator h3,.budgetColumnTab h3,.varianceColumnTab h3,.percentageColumnTab h3,.newDateColumnTab h3  {
                                                 text-align: center;
                                             }
 
@@ -2111,6 +2158,60 @@
                                             <option>Other Income</option>
                                             <option>Operating Expenses</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-12 col-lg-offset-4 text-right">
+                        <button class="btn btn-success saveTable" type="button" autocomplete="off">
+                            <i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                        </button>
+                        <button class="btn btn-secondary text-nowrap" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade nplAddGroupScreen nplAddAccountsModal" id="nplAddAccountsModal" role="dialog">
+        <div class="modal-dialog" style="min-width:30%; top: 31%; left: 0.3%;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Update accounts in Untitled schedule</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group-sm">
+                        <div class="p-1 m-1">
+                            <div class="">
+                                <div class="m-0 p-0">
+                                    <div class="p-1 m-1 row form-group-sm srFormItems">
+                                            <div class="col-12 mt-1">
+                                                <input id="" type="text" class="form-control" name="nplrowHeading" placeholder="">
+                                            </div>                                        
+                                            <div class="col-12 mt-1 grpTotal-container" style="max-height:100px; overflow-y: scroll;">
+                                                <div class="custom-control custom-switch" style="display:flex;flex-direction: column;">
+                                                    <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk1" checked="">
+                                                    <label class="custom-control-label" for="addAccChk1">All</label>
+                                                    <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk2">
+                                                    <label class="custom-control-label" for="addAccChk2">Sales</label>
+                                                    <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk3">
+                                                    <label class="custom-control-label" for="addAccChk3">Other Revenue</label>
+                                                    <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk4">
+                                                    <label class="custom-control-label" for="addAccChk4">Interest Income</label> <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk5">
+                                                    <label class="custom-control-label" for="addAccChk5">Cost of Goods Sold</label> <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk6">
+                                                    <label class="custom-control-label" for="addAccChk6">Advertising</label>
+                                                    <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk7">
+                                                    <label class="custom-control-label" for="addAccChk7">Bank Fees</label> <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk8">
+                                                    <label class="custom-control-label" for="addAccChk8">Cleaning</label>
+                                                    <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk9">
+                                                    <label class="custom-control-label" for="addAccChk9">Consulting & Accounting</label>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
