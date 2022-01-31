@@ -1113,6 +1113,19 @@ Template.newprofitandloss.events({
     },
       'click .btnPageBreak':function(event){
           $('.sortableAccountParent').append('<div class="sortableAccount pageBreakBar"><div class="draggable" id="pgBreak1"><label class="col-12 dragAcc" style=" text-align: center; background-color:#00a3d3; border-color: #00a3d3;color:#fff;">Page break (row)</label></div></div>');
+    $(".sortableAccountParent").sortable({
+        revert: true,
+        cancel: ".undraggableDate,.accdate,.edtInfo"
+    });
+    $(".sortableAccount").sortable({
+        revert: true,
+        handle: ".avoid"
+    });
+    $(".draggable").draggable({
+        connectToSortable: ".sortableAccount",
+        helper: "none",
+        revert: "true"
+    });
       }
 });
 
