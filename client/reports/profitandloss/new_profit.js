@@ -726,6 +726,20 @@ Template.newprofitandloss.events({
         $('th:nth-child(6)').show();
         $('th:nth-child(7)').show();
     },
+//    'click .btnComparisonPeriods': function (event) {
+//        var custPeriod = $('#comparisonPeriodNum').val();
+//        if (i>0){
+//            
+//        }
+//        else{
+//        let i = 0;
+//        while (i < custPeriod) {
+//            i++;
+//            $('.table-active').append('<th style="width: 178px;" class="text-right">Next Date</th>');
+//            
+//        }
+//        }
+//    },
 
     //custom selection period number
     'click .btnSaveCustomComparison': function (event) {
@@ -805,45 +819,7 @@ Template.newprofitandloss.events({
             });
         });
     },
-//    'click .sortableAccount .draggable': function (event) {
-//        $(this).each(function () {
-//            $(this).click(function () {
-//                var el = $(this).attr('id');
-//                if (el === 'tot') {
-//                    $('.edlayCalculator').hide();
-//                    $('.editGroup').hide();
-//                    $('.editDefault').hide();
-//                    $('.groupRow').hide();
-//                    $('.pgbSideText').hide();
-//                    $('.totalSelctor').show();
-//                    $('.dateColumnTab').hide();
-//                    $('.textBlockColumn').hide();
-//                    $('.notesColumn').hide();
-//
-//                }   else if (el === 'pgBreak1') {
-//                    $('.edlayCalculator').hide();
-//                    $('.editGroup').hide();
-//                    $('.editDefault').hide();
-//                    $('.groupRow').hide();
-//                    $('.pgbSideText').show();
-//                    $('.totalSelctor').hide();
-//                    $('.dateColumnTab').hide();
-//                    $('.textBlockColumn').hide();
-//                    $('.notesColumn').hide();
-//                }else {
-//                    $('.editGroup').show();
-//                    $('.edlayCalculator').hide();
-//                    $('.editDefault').hide();
-//                    $('.groupRow').hide();
-//                    $('.totalSelctor').hide();
-//                    $('.pgbSideText').hide();
-//                    $('.dateColumnTab').hide();
-//                    $('.textBlockColumn').hide();
-//                    $('.notesColumn').hide();
-//                }
-//            });
-//        });
-//    },
+
     /*Page break section display start*/
         'click .sortableAccount .draggable': function (event) {
         $(this).each(function () {
@@ -1134,7 +1110,10 @@ Template.newprofitandloss.events({
         $('.rowEdLayCalculator').hide();
         $('.columnEdLayCalculator').show();
         
-    }
+    },
+      'click .btnPageBreak':function(event){
+          $('.sortableAccountParent').append('<div class="sortableAccount pageBreakBar"><div class="draggable" id="pgBreak1"><label class="col-12 dragAcc" style=" text-align: center; background-color:#00a3d3; border-color: #00a3d3;color:#fff;">Page break (row)</label></div></div>');
+      }
 });
 
 Template.newprofitandloss.helpers({
