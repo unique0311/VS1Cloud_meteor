@@ -1142,7 +1142,7 @@
                                     <a class="dropdown-item btnBudgetColumn" href="" onclick="">Budget</a>
                                     <a class="dropdown-item btnColFormulaColumn" href="" onclick="">Formula</a>
                                     <a class="dropdown-item btnNotes" href="" onclick="">Notes</a>
-                                    <a class="dropdown-item" href="" onclick="">Percentage</a>
+                                    <a class="dropdown-item btnPercentageColumn" href="" onclick="">Percentage</a>
                                     <a class="dropdown-item btnVarianceColumn" href="" onclick="">Variance</a>
                                 </div>
                             </div>
@@ -1736,6 +1736,38 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="container mb-3 percentageColumnTab" style="">
+                                        <h3>Percentage column</h3>
+                                        <hr class="periodSelectorLine" />
+                                        <div class="mb-1">
+                                            <div class="col-12 ">
+                                                <label>Show</label><br>
+                                                <select class="form-control accValSelect" id="accValSelect">
+                                                    <option disabled class="nonOption" value="Cost of Sales">Select column</option>             
+                                                    <option class="" value="Cost of Sales">Jan 2022</option>
+                                                </select>
+                                            </div>
+                                        </div>                                        
+                                        <div class="mb-1">
+                                            <div class="col-12 ">
+                                                <label>As a percentage of</label><br>
+                                                <select class="form-control accValSelect" id="accValSelect">             
+                                                   <option selected disabled class="nonOption" value="">Select row</option>
+                                                    <option class="calcOption" value="Trading Income">Trading Income</option>
+                                                    <option class="calcOption" value="Cost of Sales">Cost of Sales</option>
+                                                    <option class="calcOption" value="Plus Other Income">Plus Other Income</option>
+                                                    <option class="calcOption" value="Less Operatin Expenses">Less Operatin Expenses</option>
+                                                    <option class="calcOption" value="Foreign Currency Gains and Losses">Foreign Currency Gains and Losses</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mt-1">
+                                            <div class="col-12 mt-1">
+                                                <label>Column heading</label><br>
+                                                <input id="rowHeading" type="text" class="form-control" name="nplrowHeading" placeholder="Select column % of Select row">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="container mb-3  edlayCalculator" style="width:100%">
                                         <style>
                                             .calculatorBody {
@@ -1842,7 +1874,7 @@
                                             .totalSelctor,
                                             .pgbSideText,
                                             .dateColumnTab,
-                                            .textBlockColumn, .notesColumn,.scheduleColumn, .editRowGroup,.rowEdLayCalculator,.columnEdLayCalculator,.budgetColumnTab,.varianceColumnTab {
+                                            .textBlockColumn, .notesColumn,.scheduleColumn, .editRowGroup,.rowEdLayCalculator,.columnEdLayCalculator,.budgetColumnTab,.varianceColumnTab,.percentageColumnTab {
                                                 padding: 1rem;
                                             }
 
@@ -1874,7 +1906,7 @@
                                             .textBlockColumn h3,
                                             .notesColumn h3,
                                             .scheduleColumn h3,
-                                            .editRowGroup h3,.editGroup h3,.rowEdLayCalculator h3,.columnEdLayCalculator h3,.budgetColumnTab h3,.varianceColumnTab h3  {
+                                            .editRowGroup h3,.editGroup h3,.rowEdLayCalculator h3,.columnEdLayCalculator h3,.budgetColumnTab h3,.varianceColumnTab h3,.percentageColumnTab h3  {
                                                 text-align: center;
                                             }
 
