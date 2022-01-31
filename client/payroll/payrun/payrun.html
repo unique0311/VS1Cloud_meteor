@@ -53,7 +53,7 @@
                 <a class="btn btnOpenSettings float-right btnNav" style="margin: 16px;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
                 <button class="btn btn-primary float-right printConfirm btnNav" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
                 <button class="btn btn-primary float-right export exportbtn btnNav" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
-                <a class="btn btnOpenSettings float-right btnOpenSettingsMobile" style="margin: 16px 8px; display: none;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
+                <a class="btn btnOpenSettings float-right btnOpenSettingsMobile" style="margin: 16px; display: none;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
             </div>
         </div>
 
@@ -301,6 +301,10 @@
                             .btn-daterange {
                                 float: right !important;
                             }
+                            .btnSetupSingleTouch {
+                                margin-bottom: 16px;
+                                padding: 0px;
+                            }
                         }
                     </style>
                     <div class="table-responsive">
@@ -309,7 +313,7 @@
                                 <h4 style="font-weight: 600;">Draft Pay Run</h4>
                             </div>
                             <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end myvarFilterForm">
-                                <button type="button" class="btn btn-link" style=""><i class="fas fa-wrench" style="margin-right: 5px;"></i>Setup Single Touch Payroll</button>
+                                <button type="button" class="btn btn-link btnSetupSingleTouch" style=""><i class="fas fa-wrench" style="margin-right: 5px;"></i>Setup Single Touch Payroll</button>
                             </div>
                         </div>
                         <table id="tblPayRunHistory" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayRunHistory">
@@ -412,7 +416,7 @@
                         }
                         @media screen and (max-width: 450px) {
 
-                            #tblTimeSheet_filter {
+                            #tblPayRunList_filter {
                                 width: 70%;
                             }
 

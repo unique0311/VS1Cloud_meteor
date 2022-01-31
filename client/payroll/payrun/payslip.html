@@ -210,41 +210,64 @@
                 </div>
             </div>
         </div>
+
+        <style>
+            @media screen and (max-width: 450px) {
+                .earningsRateLine {
+                    padding-bottom: 0px !important;
+                }
+                .earningsRateLineDelete {
+                    padding-top: 0px !important;
+                }
+                .earningsRateLineDeleteBtn {
+                    margin-top: 0px !important;
+                    float: right;
+                }
+                .earningsFormGroup {
+                    margin-bottom: 0px !important;
+                }
+                .earningsRateLineRow {
+                    border-bottom: 1px solid #e3e6f0;
+                    margin-bottom: 16px;
+                }
+            }
+        </style>
+
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="card shadow" style="margin: 12px 24px;">
                     <div class="card-body" style="padding: 0px;">
-                        <div class="row no-gutters">
-                            <div class="col-6 col-md-3" style="padding: 16px;">
-                                <div class="form-group">
+                        <div class="row no-gutters earningsRateLineRow">
+                            <div class="col-6 col-md-3 earningsRateLine" style="padding: 16px;">
+                                <div class="form-group earningsFormGroup">
                                     <label for="">Earnings Rate</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-2" style="padding: 16px;">
-                                <div class="form-group">
+                            <div class="col-6 col-md-2 earningsRateLine" style="padding: 16px;">
+                                <div class="form-group earningsFormGroup">
                                     <label for="">Hours</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-2" style="padding: 16px;">
+                            <div class="col-6 col-md-2 earningsRateLine" style="padding: 16px;">
                                 <div class="form-group">
                                     <label for="">Rate</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-2" style="padding: 16px;">
+                            <div class="col-6 col-md-2 earningsRateLine" style="padding: 16px;">
                                 <div class="form-group">
                                     <label for="">Total</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-1" style="padding: 16px;">
-                                <button type="button" class="btn btn-danger" style="margin-top: 30px;"><i class="fas fa-trash-alt"></i></button>
+                            <div class="col-12 col-md-1 earningsRateLineDelete" style="padding: 16px;">
+                                <button type="button" class="btn btn-danger earningsRateLineDeleteBtn" style="margin-top: 30px;"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-7" style="padding: 16px; padding-top: 0px;">
+                            <div class="col-6 col-md-7" style="padding: 16px; padding-top: 0px;">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEarningsLineModal2"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
                                     Earnings Line</button>
                                 <div class="modal fade" id="addEarningsLineModal2" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -274,7 +297,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2" style="padding: 16px; padding-top: 0px;">
+                            <div class="col-6 col-md-2" style="padding: 16px; padding-top: 0px;">
                                 <p style="margin-bottom: 0px; margin-top: 4px; font-size: 20px; font-weight: 700; border-top: 1px solid; border-bottom: 1px solid;">
                                     2,000.00
                                 </p>
@@ -289,7 +312,7 @@
                 <div class="card shadow" style="margin: 12px 24px;">
                     <div class="card-body" style="padding: 0px;">
                         <div class="row no-gutters">
-                            <div class="col-7" style="padding: 16px;">
+                            <div class="col-6 col-md-7" style="padding: 16px;">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDeductionLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
                                     Deduction Line</button>
                                 <div class="modal fade" id="addDeductionLineModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -342,7 +365,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2" style="padding: 16px;">
+                            <div class="col-6 col-md-2" style="padding: 16px;">
                                 <p style="margin-bottom: 0px; margin-top: 4px; font-size: 20px; font-weight: 700; border-top: 1px solid; border-bottom: 1px solid;">
                                     0.00
                                 </p>
@@ -371,7 +394,7 @@
                             </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-7" style="padding: 16px; padding-top: 0px;">
+                            <div class="col-6 col-md-7" style="padding: 16px; padding-top: 0px;">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTaxLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
                                     Tax Line</button>
                                 <div class="modal fade" id="addTaxLineModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -413,7 +436,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2" style="padding: 16px; padding-top: 0px;">
+                            <div class="col-6 col-md-2" style="padding: 16px; padding-top: 0px;">
                                 <p style="margin-bottom: 0px; margin-top: 4px; font-size: 20px; font-weight: 700; border-top: 1px solid; border-bottom: 1px solid;">
                                     940.00
                                 </p>
@@ -428,7 +451,7 @@
                 <div class="card shadow" style="margin: 12px 24px;">
                     <div class="card-body" style="padding: 0px;">
                         <div class="row no-gutters">
-                            <div class="col-7" style="padding: 16px;">
+                            <div class="col-6 col-md-7" style="padding: 16px;">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSuperannuationLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
                                     Superannuation Line</button>
                                 <div class="modal fade" id="addSuperannuationLineModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -516,7 +539,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2" style="padding: 16px;">
+                            <div class="col-6 col-md-2" style="padding: 16px;">
                                 <p style="margin-bottom: 0px; margin-top: 4px; font-size: 20px; font-weight: 700; border-top: 1px solid; border-bottom: 1px solid;">
                                     0.00
                                 </p>
@@ -531,7 +554,7 @@
                 <div class="card shadow" style="margin: 12px 24px;">
                     <div class="card-body" style="padding: 0px;">
                         <div class="row no-gutters">
-                            <div class="col-7" style="padding: 16px;">
+                            <div class="col-6 col-md-7" style="padding: 16px;">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSuperannuationLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
                                     Superannuation Line</button>
                                 <div class="modal fade" id="addSuperannuationLineModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -619,7 +642,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2" style="padding: 16px;">
+                            <div class="col-6 col-md-2" style="padding: 16px;">
                                 <p style="margin-bottom: 0px; margin-top: 4px; font-size: 20px; font-weight: 700; border-top: 1px solid; border-bottom: 1px solid;">
                                     0.00
                                 </p>
@@ -634,7 +657,7 @@
                 <div class="card shadow" style="margin: 12px 24px;">
                     <div class="card-body" style="padding: 0px;">
                         <div class="row no-gutters">
-                            <div class="col-7" style="padding: 16px;">
+                            <div class="col-6 col-md-7" style="padding: 16px;">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addReimbursementLineModal"><i class="fas fa-plus" style="margin-right: 5px;"></i> Add
                                     Reiumbursement Line</button>
                                 <div class="modal fade" id="addReimbursementLineModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -676,7 +699,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-2" style="padding: 16px;">
+                            <div class="col-6 col-md-2" style="padding: 16px;">
                                 <p style="margin-bottom: 0px; margin-top: 4px; font-size: 20px; font-weight: 700; border-top: 1px solid; border-bottom: 1px solid;">
                                     0.00
                                 </p>
@@ -707,9 +730,9 @@
                             </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-7" style="padding: 16px; padding-top: 0px;">
+                            <div class="col-12 col-md-7" style="padding: 16px; padding-top: 0px;">
                             </div>
-                            <div class="col-2" style="padding: 16px; padding-top: 0px;">
+                            <div class="col-12 col-md-2" style="padding: 16px; padding-top: 0px;">
                                 <p style="margin-bottom: 0px; margin-top: 4px; font-size: 20px; font-weight: 700; border-top: 1px solid; border-bottom: 1px solid;">
                                     1,060.00
                                 </p>
@@ -719,41 +742,50 @@
                 </div>
             </div>
         </div>
+
+        <style>
+            @media screen and (max-width: 450px) {
+                .leaveTypeRow {
+                    padding-bottom: 0px;
+                }
+            }
+        </style>
+
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="card shadow" style="margin: 12px 24px;">
                     <div class="card-body" style="padding: 0px;">
-                        <div class="row no-gutters">
+                        <div class="row no-gutters leaveTypeRow">
                             <div class="col-6 col-md-8" style="padding: 16px;">
                                 <div class="form-group">
                                     <label for="">Leave Type</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-1" style="padding: 16px;">
+                            <div class="col-4 col-md-1" style="padding: 16px;">
                                 <div class="form-group">
                                     <label for="">Hours</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-1" style="padding: 16px;">
+                            <div class="col-2 col-md-1" style="padding: 16px;">
                                 <button type="button" class="btn btn-danger" style="margin-top: 30px;"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </div>
-                        <div class="row no-gutters">
+                        <div class="row no-gutters leaveTypeRow">
                             <div class="col-6 col-md-8" style="padding: 16px;">
                                 <div class="form-group">
                                     <label for="">Leave Type</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-1" style="padding: 16px;">
+                            <div class="col-4 col-md-1" style="padding: 16px;">
                                 <div class="form-group">
                                     <label for="">Hours</label>
                                     <input type="text" class="form-control" id="">
                                 </div>
                             </div>
-                            <div class="col-6 col-md-1" style="padding: 16px;">
+                            <div class="col-2 col-md-1" style="padding: 16px;">
                                 <button type="button" class="btn btn-danger" style="margin-top: 30px;"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </div>
@@ -821,10 +853,18 @@
             </div>
         </div>
 
+        <style>
+            @media screen and (max-width: 450px) {
+                .btnFooter {
+                    width: 90%;
+                }
+            }
+        </style>
+
         <div class="row mb-4" style="margin: 0px 4px;">
             <div class="col-6">
-                <button type="button" class="btn btn-warning" style="margin: 16px;"><i class="fas fa-undo" style="margin-right: 5px;"></i> Reset Payslip</button>
-                <button type="button" class="btn btn-danger" style="margin: 16px;" data-toggle="modal" data-target="#finalPayModal"><i class="fas fa-undo" style="margin-right: 5px;"></i> Set as Final Pay</button>
+                <button type="button" class="btn btn-warning btnFooter" style="margin: 16px;"><i class="fas fa-undo" style="margin-right: 5px;"></i> Reset Payslip</button>
+                <button type="button" class="btn btn-danger btnFooter" style="margin: 16px;" data-toggle="modal" data-target="#finalPayModal"><i class="fas fa-user-times" style="margin-right: 5px;"></i> Set as Final Pay</button>
 
                 <div class="modal fade" id="finalPayModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -903,9 +943,9 @@
                 </div>
             </div>
             <div class="col-6">
-                <button class="btn btn-secondary float-right" data-dismiss="modal" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
-                <button type="button" class="btn btn-secondary float-right" style="margin: 16px;" disabled><i class="fas fa-save" style="margin-right: 5px;"></i> Save & Next</button>
-                <button type="button" class="btn btn-success float-right" style="margin: 16px;"><i class="fas fa-save" style="margin-right: 5px;"></i> Save</button>
+                <button class="btn btn-secondary float-right btnFooter" data-dismiss="modal" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                <button type="button" class="btn btn-secondary float-right btnFooter" style="margin: 16px;" disabled><i class="far fa-save" style="margin-right: 5px;"></i> Save & Next</button>
+                <button type="button" class="btn btn-success float-right btnFooter" style="margin: 16px;"><i class="fas fa-save" style="margin-right: 5px;"></i> Save</button>
             </div>
         </div>
     </div>
@@ -922,7 +962,7 @@
                     <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
                     <!-- <iframe width="640" height="360" src="https://erphelpes.com/vs1videos/invoicelist.mp4" frameborder="0" allowfullscreen=""></iframe> -->
                     <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
-                        <source src="https://erphelpes.com/vs1videos/comingsoon.mp4" type="video/mp4">
+                        <source src="https://erphelpes.com/vs1videos/comingsoon.mp4" type="video/mp4" style="width: 100%;">
                     </video>
                 </div>
             </div>

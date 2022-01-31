@@ -4,7 +4,7 @@
             <div class="spinner"></div>
         </div>
         <header style="padding: 16px; background-color: #ededed;">
-            <h1 style="margin: 16px; margin-bottom: 0px;" class="timesheetHeader">Pay Run Details
+            <h2 style="margin: 16px; margin-bottom: 0px;" class="timesheetHeader">Pay Run Details
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
@@ -27,8 +27,24 @@
                 </div>
                 <!-- End Help View Modal -->
 
-            </h1>
+            </h2>
         </header>
+
+        <style>
+            @media screen and (max-width: 450px) {
+                .btnNav {
+                    width: 90% !important;
+                }
+
+                .btnOpenSettingsMobile {
+                    display: block !important;
+                }
+
+                .btnOpenSettings {
+                    display: none;
+                }
+            }
+        </style>
 
         <div class="row" style="background-color: #ededed; padding-top: 0px; padding: 24px;">
             <div class="col-6">
@@ -38,7 +54,7 @@
                 <a class="btn btnOpenSettings float-right btnNav" style="margin: 16px;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
                 <button class="btn btn-primary float-right printConfirm btnNav" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
                 <button class="btn btn-primary float-right export exportbtn btnNav" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
-                <a class="btn btnOpenSettings float-right btnOpenSettingsMobile" style="margin: 16px 8px; display: none;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
+                <a class="btn btnOpenSettings float-right btnOpenSettingsMobile" style="margin: 16px; display: none;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
             </div>
         </div>
 
@@ -340,15 +356,23 @@
             </div>
         </div>
 
+        <style>
+            @media screen and (max-width: 450px) {
+                .btnFooter {
+                    width: 90%;
+                }
+            }
+        </style>
+
         <div class="row" style="margin: 0px 4px;">
             <div class="col-6">
-                <button type="button" class="btn btn-danger" style="margin: 16px;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i> Delete Pay Run</button>
-                <button type="button" class="btn btn-warning" style="margin: 16px;"><i class="fas fa-undo" style="margin-right: 5px;"></i> Reset Pay Run</button>
+                <button type="button" class="btn btn-danger btnFooter" style="margin: 16px;"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i> Delete Pay Run</button>
+                <button type="button" class="btn btn-warning btnFooter" style="margin: 16px;"><i class="fas fa-undo" style="margin-right: 5px;"></i> Reset Pay Run</button>
             </div>
             <div class="col-6">
-                <button class="btn btn-secondary float-right" data-dismiss="modal" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
-                <button type="button" class="btn btn-success float-right" style="margin: 16px;"><i class="fas fa-check" style="margin-right: 5px;"></i> Post Pay Run</button>
-                <div class="btn-group float-right" style="margin: 16px;">
+                <button class="btn btn-secondary float-right btnFooter" data-dismiss="modal" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                <button type="button" class="btn btn-success float-right btnFooter" style="margin: 16px;"><i class="fas fa-check" style="margin-right: 5px;"></i> Post Pay Run</button>
+                <div class="btn-group float-right btnFooter" style="margin: 16px;">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-chart-area" style="margin-right: 5px;"></i> View Reports
                     </button>
