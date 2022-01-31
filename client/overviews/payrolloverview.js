@@ -131,7 +131,7 @@ Template.payrolloverview.onRendered(function () {
             if (result.value) {}
             else {
                 $("#endTime").val("");
-                $("#txtBookedHoursSpent").val("00:01");
+                $("#txtBookedHoursSpent").val("00:00");
             }
 
         });
@@ -158,6 +158,48 @@ Template.payrolloverview.onRendered(function () {
         var dateObject = dateParts[2] + '/' + ('0' + (dateParts[1] - 1)).toString().slice(-2) + '/' + dateParts[0];
         return dateObject;
     }
+
+    templateObject.getHour24 = function (timeString) {
+          let time = null;
+          let timeSplit = timeString.split(':'),
+              hours,
+              minutes,
+              meridian;
+            hours = timeSplit[0];
+            minutes = timeSplit[1];
+            //console.log(timeSplit);
+            if (hours > 12) {
+              meridian = 'PM';
+              hours -= 12;
+            } else if (hours < 12) {
+              meridian = 'AM';
+              if (hours == 0) {
+                hours = 12;
+              }
+            } else {
+              meridian = 'PM';
+            }
+            //console.log(hours);
+        let getTimeString = hours + ':' + minutes + ' ' + meridian;
+        console.log(getTimeString);
+        var matches = getTimeString.match(/^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/);
+        //console.log(matches);
+         if (matches != null && matches.length == 3){
+           //console.log(matches[1]);
+             time = parseInt(matches[1]);
+             console.log(time);
+             if (meridian == 'PM'){
+               if(time > 1 && time < 12){
+                 time += 12;
+                 console.log(time);
+               }else if(time == 12){
+                 time = 12;
+               }
+             }
+         }
+         console.log(time + ':' + minutes);
+        return time + ':' + minutes;
+      }
 
     templateObject.timeToDecimal = function (time) {
         var hoursMinutes = time.split(/[.:]/);
@@ -2372,7 +2414,7 @@ Template.payrolloverview.events({
         }
 
     },
-    'change #startTime': function () {
+    'change #startTimeNotNeeded': function () {
         const templateObject = Template.instance();
         let date1 = document.getElementById("dtSODate").value;
         date1 = templateObject.dateFormat(date1);
@@ -2383,16 +2425,25 @@ Template.payrolloverview.events({
             document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
         } else {}
     },
-    'change #endTime': function () {
+    'change #endTime, #startTime': function () {
         const templateObject = Template.instance();
-        let date1 = document.getElementById("dtSODate").value;
-        date1 = templateObject.dateFormat(date1);
-        var endTime = new Date(date1 + ' ' + document.getElementById("endTime").value);
-        var startTime = new Date(date1 + ' ' + document.getElementById("startTime").value);
+
+        var date1Time = new Date($("#dtSODate").datepicker("getDate"));
+
+        let date1 = date1Time.getFullYear() + "/" + (date1Time.getMonth() + 1) + "/" + date1Time.getDate();
+
+        var endtime24Hours =  templateObject.getHour24($("#endTime").val()) ||'';
+        var starttime24Hours =  templateObject.getHour24($("#startTime").val())||'';
+
+        var endTime = new Date(date1 + ' ' + endtime24Hours);
+        var startTime = new Date(date1 + ' ' + starttime24Hours);
+
         if (endTime > startTime) {
             let hours = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
             document.getElementById('txtBookedHoursSpent').value = templateObject.timeFormat(hours);
-        } else {}
+        } else {
+          document.getElementById('txtBookedHoursSpent').value = '00:00';
+        }
     },
     'blur #endTime': function () {
         const templateObject = Template.instance();

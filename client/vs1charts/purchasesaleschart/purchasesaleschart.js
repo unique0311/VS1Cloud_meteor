@@ -40,7 +40,7 @@ Template.purchasesaleschart.onRendered(()=>{
     templateObject.dateAsAt.set(begunDate);
     const dataTableList = [];
     const deptrecords = [];
-    if ((!localStorage.getItem('VS1OverDueInvoiceAmt_dash'))&&(!localStorage.getItem('VS1OutstandingPayablesAmt_dash'))) {
+    if ((!localStorage.getItem('VS1OutstandingInvoiceAmt_dash'))&&(!localStorage.getItem('VS1OutstandingPayablesAmt_dash'))) {
         vs1chartService.getOverviewARDetails().then(function (data) {
             let itemsAwaitingPaymentcount = [];
             let itemsOverduePaymentcount = [];
@@ -129,8 +129,8 @@ Template.purchasesaleschart.onRendered(()=>{
             // templateObject.awaitingpaymentCount.set(itemsAwaitingPaymentcount.length);
         });
     }else{
-        let totInvQty = localStorage.getItem('VS1OverDueInvoiceQty_dash')||0;
-        let totInvAmountOverDue = localStorage.getItem('VS1OverDueInvoiceAmt_dash')||0;
+        let totInvQty = localStorage.getItem('VS1OutstandingInvoiceQty_dash')||0;
+        let totInvAmountOverDue = localStorage.getItem('VS1OutstandingInvoiceAmt_dash')||0;
 
         let supptotQty = localStorage.getItem('VS1OutstandingPayablesQty_dash')||0;
         let supptotAmountOverDue = localStorage.getItem('VS1OutstandingPayablesAmt_dash')||0;
