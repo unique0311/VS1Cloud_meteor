@@ -66,8 +66,8 @@ Template.statementlist.onRendered(function () {
     var begunDate = moment(currentDate).format("DD/MM/YYYY");
     let fromDateMonth = currentDate.getMonth();
     let fromDateDay = currentDate.getDate();
-    if (currentDate.getMonth() < 10) {
-        fromDateMonth = "0" + currentDate.getMonth();
+    if ((currentDate.getMonth()+1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth()+1);
     }
 
     if (currentDate.getDate() < 10) {
@@ -1616,7 +1616,7 @@ Template.statementlist.onRendered(function () {
         });
 
         }
-      
+
 
     }
 
@@ -1977,25 +1977,31 @@ Template.statementlist.events({
         $('#dateFrom').attr('readonly', false);
         $('#dateTo').attr('readonly', false);
         var currentDate = new Date();
-        var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
-        let fromDateMonth = (currentDate.getMonth() + 1);
-        let fromDateDay = currentDate.getDate();
-        if ((currentDate.getMonth()+1) < 10) {
-            fromDateMonth = "0" + (currentDate.getMonth()+1);
-        }
-        if (currentDate.getDate() < 10) {
-            fromDateDay = "0" + currentDate.getDate();
-        }
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
 
-        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
 
         $("#dateFrom").val(fromDate);
-        $("#dateTo").val(begunDate);
+        $("#dateTo").val(toDate);
 
-        var currentDate2 = new Date();
-        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
-        let getDateFrom = currentDate2.getFullYear() + "-" + (fromDateMonth) + "-" + fromDateDay;
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
         templateObject.getAllFilterStatementData(getDateFrom,getLoadDate, false);
     },
     'click #lastQuarter': function () {
