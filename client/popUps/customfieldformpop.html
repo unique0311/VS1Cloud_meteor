@@ -1,6 +1,6 @@
 <template name="customfieldformpop">
 
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document" style="max-width: 400px;">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document" style="max-width: 400px;">
         <div class="modal-content">
             <form id="newstatus" name="newstatus">
                 <div class="modal-header">
@@ -12,8 +12,18 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group flex-grow-1" style="margin: 8px 0px;">
-                                <label>Custom Field</label>
+                                <label>Custom Field Label</label>
                                 <input type="text" id="newStatus1" name="newStatus1" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                                <label>DropDown Values</label> <button class="btn btn-primary btnAddNewTextBox" data-dismiss="modal" data-toggle="modal" data-target="#newStatusPopModal" type="button" style="padding: 2px 4px; font-size: 10px; margin-left: 8px !important;" autocomplete="off"><i class="fas fa-plus"></i></button>
+
+                                <input type="text" style="width: 60%;" id="newStatus1" name="newStatus1" class="form-control"> 
+                                <button type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button>
                             </div>
                         </div>
                     </div>
