@@ -1348,7 +1348,8 @@
                                                                     </div>
                                                                     <div class="col-12 col-md-6">
                                                                         <p style="float: right;">
-                                                                            Status: <span style="font-weight: 600;">Saved</span>
+                                                                            Status: <span style="font-weight: 600; color:#17a673;" class="statusSaved">Saved</span>
+                                                                            <span style="font-weight: 600; color:#e02d1b; display: none;" class="statusUnsaved">Unsaved</span>
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -1395,10 +1396,18 @@
                                                                             white-space: initial !important;
                                                                             width: 235px !important;
                                                                         }
+
+                                                                        .taxesCheckBoxesCol {
+                                                                            padding: 0px 16px !important;
+                                                                        }
+
+                                                                        .mobileTaxesFooterRow {
+                                                                            margin-top: 24px;
+                                                                        }
                                                                     }
                                                                 </style>
                                                                 <div class="row">
-                                                                    <div class="col-12 col-md-3" style="padding: 16px;">
+                                                                    <div class="col-12 col-md-3 taxesCheckBoxesCol" style="padding: 16px;">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesTaxFreeThresholdClaimed" id="taxesTaxFreeThresholdClaimed">
                                                                             <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesTaxFreeThresholdClaimed">Tax Free Threshold Claimed</label>
@@ -1409,7 +1418,7 @@
                                                                             <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesOtherTaxOffsetClaimed">Other Tax Offset Claimed</label>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-12 col-md-3" style="padding: 16px;">
+                                                                    <div class="col-12 col-md-3 taxesCheckBoxesCol" style="padding: 16px;">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesStudyTrainingSupportLoans" id="taxesStudyTrainingSupportLoans">
                                                                             <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesStudyTrainingSupportLoans">Study and Training Support Loans</label>
@@ -1420,7 +1429,7 @@
                                                                             <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesUpwardVariationRequested">Upward Variation Requested</label>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-12 col-md-3" style="padding: 16px;">
+                                                                    <div class="col-12 col-md-3 taxesCheckBoxesCol" style="padding: 16px;">
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesEligibleReceiveLeaveLoading" id="taxesEligibleReceiveLeaveLoading">
                                                                             <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesEligibleReceiveLeaveLoading">Eligible to Receive Leave Loading</label>
@@ -1428,16 +1437,18 @@
                                                                         <br />
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesSeniorPensionersTaxOffsetClaimed" id="taxesSeniorPensionersTaxOffsetClaimed">
-                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesSeniorPensionersTaxOffsetClaimed">Senior and Pensioners Tax Offset Claimed</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesSeniorPensionersTaxOffsetClaimed">Senior and Pensioners Tax Offset
+                                                                                Claimed</label>
                                                                         </div>
                                                                         <br />
                                                                         <div class="custom-control custom-switch" style="margin: 8px; display: inline-flex !important;">
                                                                             <input class="custom-control-input" type="checkbox" name="taxesHasApprovedWithholdingVariation" id="taxesHasApprovedWithholdingVariation">
-                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesHasApprovedWithholdingVariation">Has Approved Withholding Variation</label>
+                                                                            <label class="custom-control-label mobileLabel" style="position: absolute; margin-top: 8px;" for="taxesHasApprovedWithholdingVariation">Has Approved Withholding
+                                                                                Variation</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
+                                                                <div class="row mobileTaxesFooterRow">
                                                                     <div class="col-12">
                                                                         <button class="btn btn-secondary float-right " type="button" style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
                                                                         <button class="btn btn-success float-right " type="button" style="margin: 8px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
@@ -1446,12 +1457,26 @@
                                                                 </div>
                                                             </div>
                                                             <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="-tab">
+                                                                <style>
+                                                                    @media screen and (max-width: 450px) {
+                                                                        .btnAssignLeaveType {
+                                                                            width: 100%;
+                                                                        }
+
+                                                                        .specialHeader {
+                                                                            white-space: nowrap;
+                                                                            overflow: hidden;
+                                                                            text-overflow: ellipsis;
+                                                                        }
+                                                                    }
+                                                                </style>
                                                                 <div class="row mb-2">
                                                                     <div class="col-12 col-md-6">
                                                                         <h4>Leave Balances</h4>
                                                                     </div>
                                                                     <div class="col-12 col-md-6">
-                                                                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#assignLeaveTypeModal"><i class="fas fa-plus" style="margin-right: 5px;"></i>Assign
+                                                                        <button type="button" class="btn btn-primary float-right btnAssignLeaveType" data-toggle="modal" data-target="#assignLeaveTypeModal"><i class="fas fa-plus"
+                                                                                style="margin-right: 5px;"></i>Assign
                                                                             Leave Type</button>
                                                                     </div>
                                                                 </div>
@@ -1535,7 +1560,7 @@
                                                                     <div class="col-12 col-md-4">
                                                                         <div class="card shadow" style="width: 100%">
                                                                             <div class="card-body">
-                                                                                <h3>Personal/Carer's Leave</h3>
+                                                                                <h3 class="specialHeader">Personal/Carer's Leave</h3>
                                                                                 <p class="personalCarerLeave" style="color: #00a3de; font-size: 20px; margin-bottom: 0px; margin-top: 16px;">
                                                                                     1.5385 Hours
                                                                                 </p>
@@ -1661,6 +1686,16 @@
                                                                 </div>
                                                             </div>
                                                             <div class="tab-pane fade" id="bankaccounts" role="tabpanel" aria-labelledby="-tab">
+                                                                <style>
+                                                                    @media screen and (max-width: 450px) {
+                                                                        .addBankAccountCol {
+                                                                            display: contents;
+                                                                        }
+                                                                        .bankAccountsRemaining {
+                                                                            margin-left: 16px;
+                                                                        }
+                                                                    }
+                                                                </style>
                                                                 <div class="row mb-2">
                                                                     <div class="col-12">
                                                                         <h4>Bank Accounts</h4>
@@ -1696,9 +1731,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-12">
+                                                                    <div class="col-12 addBankAccountCol">
                                                                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#newBankAccountModal">Add Another Bank Account</button>
-                                                                        <span>(3 remaining)</span>
+                                                                        <span class="bankAccountsRemaining">(3 remaining)</span>
                                                                         <div class="modal fade" id="newBankAccountModal" tabindex="-1" role="dialog" aria-labelledby="newPayCalendarLabel" aria-hidden="true">
                                                                             {{> addaccountpop}}
                                                                         </div>
@@ -1756,23 +1791,33 @@
                                                                         <h4>Pay Template</h4>
                                                                     </div>
                                                                 </div>
+                                                                <style>
+                                                                    @media screen and (max-width: 450px) {
+                                                                        .addBankAccountCol {
+                                                                            display: contents;
+                                                                        }
+                                                                        .bankAccountsRemaining {
+                                                                            margin-left: 16px;
+                                                                        }
+                                                                    }
+                                                                </style>
                                                                 <div class="row mb-3">
                                                                     <div class="col-12">
                                                                         <div class="card shadow" style="padding: 8px 16px;">
                                                                             <div class="row align-items-end ">
-                                                                                <div class="col-7">
+                                                                                <div class="col-6 col-md-7">
                                                                                     <div class="form-group">
                                                                                         <label>Earnings Rate</label>
                                                                                         <input type="text" class="form-control" id="">
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-2">
+                                                                                <div class="col-5 col-md-2">
                                                                                     <div class="form-group">
                                                                                         <label>Hours</label>
                                                                                         <input type="text" class="form-control" id="">
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-1" style="padding-left: 0px;">
+                                                                                <div class="col-1 col-md-1" style="padding-left: 0px;">
                                                                                     <button type="button" class="btn btn-danger btn-rounded btn-sm" style="margin-bottom: 24px;"><i class="fa fa-remove"></i></button>
                                                                                 </div>
                                                                             </div>
