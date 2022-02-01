@@ -9,6 +9,12 @@
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
                 <style>
+                    .isProcessedColumn{
+                        background-color: #1cc88a !important; color:#fff;
+                    }
+                    .isUnprocessedColumn{
+                      background-color: #f6c23e !important; color:#fff;
+                    }
                     .loggedEmployeeStatus {
                         float: right;
                         font-size: 25px;
@@ -878,12 +884,14 @@
                                     <!-- <th class="th colGrossPay" style="width:50px;">Gross Pay</th> -->
                                     <th class="th colNotes" style="width: 10% !important;">Technical Notes</th>
                                     <th class="th colStatus" style="width: 5% !important;">Status</th>
+                                    <th class="th colHourlyrate hiddenColumn">Hourly Rate</th>
                                     <th class="th colView sorting_disabled noExport" style="width: 3% !important;">View</th>
+
                                     <!-- <th class="" style="max-width: 50px;">Edit</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#if datatablerecords}}
+                                <!-- {{#if datatablerecords}}
                                     {{#each item in datatablerecords}}
                                         <tr class="dnd-moved" id="{{item.id}}" name="{{item.id}}">
                                             <td class="colFlag">
@@ -908,8 +916,6 @@
                                                     style="display: none;">{{item.additional}}</span></td>
                                             <td style="text-align: right!important;"><input class="colPaycheckTips highlightInput cashamount" type="text" value="{{item.paychecktips}}"><span class="colPaycheckTips"
                                                     style="display: none;">{{item.paychecktips}}</span></td>
-                                            <!--  <td style="text-align: right!important;"><input class="colCashTips highlightInput cashamount" type="text" value="{{item.cashtips}}"><span class="colCashTips" style="display: none;">{{item.cashtips}}</span></td> -->
-                                            <!-- <td style="text-align: right!important;"><input class="colGrossPay highlightInput cashamount" type="text" value="{{item.totalamountex}}"><span class="colGrossPay" style="display: none;">{{item.totalamountex}}</span></td> -->
                                             <td class="colNotes">{{item.notes}}</td>
                                             {{#if equals item.status "Unprocessed"}}
                                                 <td class="colStatus" style="background-color: #f6c23e !important; color:#fff">
@@ -924,16 +930,14 @@
                                             {{/if}}
 
                                             <td class="viewTimeLog"><a href="/timesheettimelog?id={{item.id}}" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a></td>
-                                            <!-- <td style="max-width: 50px;"><button class="btn float-left btnAddShift" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewShift"><i class="la la-ellipsis-h" style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
-                                            <!--  <td><button class="btn float-left btnEditTimeSheet" type="button" style="margin: 0px;margin-left: 0px;padding: 0px;" role="button" data-toggle="modal" href="#addNewTimeSheet"><i class="la la-ellipsis-h"
-                                                        style="color: #00a3d3;font-size: 20px;"></i></button></td> -->
+
                                         </tr>
                                     {{/each}}
-                                {{/if}}
+                                {{/if}} -->
 
                             </tbody>
 
-                            <tfoot>
+                            <tfoot style="display:none!important">
                                 <tr class="dnd-moved" style="font-weight: 700;">
                                     <td contenteditable="false"></td>
                                     <td contenteditable="false"></td>
@@ -941,15 +945,15 @@
                                     <td contenteditable="false"></td>
                                     <td contenteditable="false"></td>
                                     <td contenteditable="false"></td>
+                                    <td contenteditable="false" class="hiddenColumn"></td>
                                     <td contenteditable="false" class="cashamount lblSumHour">0.00</td>
                                     <td contenteditable="false" class="cashamount lblSumOvertime">0</td>
                                     <td contenteditable="false" class="cashamount lblSumDouble">0</td>
                                     <td class="cashamount lblSumAdditions">$<span contenteditable="false">0.00</span></td>
                                     <td class="cashamount lblSumCashtips">$<span contenteditable="false">0.00</span></td>
-                                    <!--  <td contenteditable="false" class="cashamount lblSumTotalCharge">0.00</td> -->
                                     <td contenteditable="false"></td>
                                     <td contenteditable="false"></td>
-                                    <!-- <td style="max-width: 50px;"></td> -->
+                                    <td></td>
                                 </tr>
                             </tfoot>
                         </table>

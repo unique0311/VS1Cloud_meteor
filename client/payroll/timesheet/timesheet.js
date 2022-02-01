@@ -42,6 +42,8 @@ Template.timesheet.onRendered(function () {
     const dataTableList = [];
     const tableHeaderList = [];
 
+    var splashArrayTimeSheetList = new Array();
+
     let seeOwnTimesheets = Session.get('CloudTimesheetSeeOwnTimesheets') || false;
     let launchClockOnOff = Session.get('CloudTimesheetLaunch') || false;
     let canClockOnClockOff = Session.get('CloudClockOnOff') || false;
@@ -60,19 +62,39 @@ Template.timesheet.onRendered(function () {
             $(".btnSaveTimeSheetForm").prop("disabled", true);
         }, 500);
     }
-    var today = moment().format('DD/MM/YYYY');
-    var currentDate = new Date();
-    var begunDate = moment(currentDate).format("DD/MM/YYYY");
-    let fromDateMonth = currentDate.getMonth();
-    let fromDateDay = currentDate.getDate();
-    if (currentDate.getMonth() < 10) {
-        fromDateMonth = "0" + currentDate.getMonth();
+    //var today = moment().format('DD/MM/YYYY');
+    // var currentDate = new Date();
+    // var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    // let fromDateMonth = (currentDate.getMonth() + 1);
+    // let fromDateDay = currentDate.getDate();
+    // if ((currentDate.getMonth()+1) < 10) {
+    //     fromDateMonth = "0" + (currentDate.getMonth()+1);
+    // }
+    //
+    // if (currentDate.getDate() < 10) {
+    //     fromDateDay = "0" + currentDate.getDate();
+    // }
+    // var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+    // console.log(fromDate);
+
+
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentBeginDate.getMonth() + 1);
+    let fromDateDay = currentBeginDate.getDate();
+    if((currentBeginDate.getMonth()+1) < 10){
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+    }else{
+      fromDateMonth = (currentBeginDate.getMonth()+1);
     }
 
-    if (currentDate.getDate() < 10) {
-        fromDateDay = "0" + currentDate.getDate();
+    if(currentBeginDate.getDate() < 10){
+        fromDateDay = "0" + currentBeginDate.getDate();
     }
-    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentBeginDate.getFullYear();
+
+    let prevMonthToDate = (moment().subtract(reportsloadMonths, 'months')).format("DD/MM/YYYY");
 
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTimeSheet', function (error, result) {
         if (error) {}
@@ -119,7 +141,7 @@ Template.timesheet.onRendered(function () {
 
     $("#employee_name").val(Session.get('mySessionEmployee'));
 
-    $("#dateFrom").val(fromDate);
+    $("#dateFrom").val(prevMonthToDate);
     $("#dateTo").val(begunDate);
     $("#dtSODate").val(begunDate);
 
@@ -172,267 +194,380 @@ Template.timesheet.onRendered(function () {
         return time;
     }
 
-    templateObject.getAllTimeSheetData = function () {
+    function checkStockColor() {
+        $('td.colStatus').each(function() {
+            if ($(this).text() == "Processed") {
+                $(this).addClass('isProcessedColumn');
+            } else if ($(this).text() == "Unprocessed") {
+                $(this).addClass('isUnprocessedColumn');
+            }
+
+        });
+    };
+
+    templateObject.getAllTimeSheetData = function (fromDate,toDate, ignoreDate) {
+      $('.fullScreenSpin').css('display', 'inline-block');
+      if(ignoreDate == true){
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+      }else{
+
+        $("#dateFrom").val(fromDate !=''? moment(fromDate).format("DD/MM/YYYY"): fromDate);
+        $("#dateTo").val(toDate !=''? moment(toDate).format("DD/MM/YYYY"): toDate);
+      }
+
         getVS1Data('TTimeSheet').then(function (dataObject) {
             if (dataObject == 0) {
-                sideBarService.getAllTimeSheetList().then(function (data) {
-                    addVS1Data('TTimeSheet', JSON.stringify(data));
-                    $('.fullScreenSpin').css('display', 'none');
-                    let lineItems = [];
-                    let lineItemObj = {};
+              sideBarService.getAllTimeSheetList().then(function (data) {
+                  addVS1Data('TTimeSheet', JSON.stringify(data));
+                  $('.fullScreenSpin').css('display', 'none');
+                  let lineItems = [];
+                  let lineItemObj = {};
 
-                    let sumTotalCharge = 0;
-                    let sumSumHour = 0;
-                    let sumSumHourlyRate = 0;
-                    for (let t = 0; t < data.ttimesheet.length; t++) {
-                        let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || Currency+0.00;
-                        let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || Currency+0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
-                        let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
-                        let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || Currency+0.00;
+                  let sumTotalCharge = 0;
+                  let sumSumHour = 0;
+                  let sumSumHourlyRate = 0;
+                  for (let t = 0; t < data.ttimesheet.length; t++) {
+                      let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || Currency+0.00;
+                      let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || Currency+0.00;
+                      let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
+                      let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
+                      let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || Currency+0.00;
+                      sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                      sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                      sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                      let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                      let lineEmpID = '';
+                      if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                        hourlyRate = Currency+0.00;
+                      }
+                      if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                        hoursFormatted = '00:00';
+                      }
+
+                      if (data.ttimesheet[t].fields.Logs) {
+                          if (Array.isArray(data.ttimesheet[t].fields.Logs)) {
+                              // It is array
+                              lineEmpID = data.ttimesheet[t].fields.Logs[0].fields.EmployeeID || '';
+                          } else {
+                              lineEmpID = data.ttimesheet[t].fields.Logs.fields.EmployeeID || '';
+                          }
+                      }
+                      var dataList = {
+                          id: data.ttimesheet[t].fields.ID || '',
+                          employee: data.ttimesheet[t].fields.EmployeeName || '',
+                          employeeID: lineEmpID || '',
+                          hourlyrate: hourlyRate,
+                          hourlyrateval: data.ttimesheet[t].fields.HourlyRate || '',
+                          hours: data.ttimesheet[t].fields.Hours || '',
+                          hourFormat: hoursFormatted,
+                          job: data.ttimesheet[t].fields.Job || '',
+                          product: data.ttimesheet[t].fields.ServiceName || '',
+                          labourcost: labourCost,
+                          overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
+                          sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
+                          timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
+                          // suppliername: data.ttimesheet[t].SupplierName || '',
+                          timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
+                          totalamountex: totalAmount || Currency+0.00,
+                          totaladjusted: totalAdjusted || Currency+0.00,
+                          totalamountinc: totalAmountInc || Currency+0.00,
+                          overtime: 0,
+                          double: 0,
+                          status: data.ttimesheet[t].fields.Status || 'Unprocessed',
+                          additional: Currency + '0.00',
+                          paychecktips: Currency + '0.00',
+                          cashtips: Currency + '0.00',
+                          startTime: data.ttimesheet[t].fields.StartTime || '',
+                          endTime: data.ttimesheet[t].fields.EndTime || '',
+                          // totaloustanding: totalOutstanding || 0.00,
+                          // orderstatus: data.ttimesheet[t].OrderStatus || '',
+                          // custfield1: '' || '',
+                          // custfield2: '' || '',
+                          // invoicenotes: data.ttimesheet[t].InvoiceNotes || '',
+                          notes: data.ttimesheet[t].fields.Notes || '',
+                          finished: 'Not Processed',
+                          color: '#f6c23e'
+                      };
+                      dataTableList.push(dataList);
+
+                      let sortdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate;
+                      let timesheetdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate;
+                      let checkStatus = data.ttimesheet[t].fields.Status || 'Unprocessed';
+
+                      var dataListTimeSheet = [
+                          '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[t].fields.ID+'" name="'+data.ttimesheet[t].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[t].fields.ID+'"></label></div>' || '',
+                          data.ttimesheet[t].fields.ID || '',
+                          data.ttimesheet[t].fields.EmployeeName || '',
+                          '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                          data.ttimesheet[t].fields.Job || '',
+                          data.ttimesheet[t].fields.ServiceName || '',
+                          '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[t].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[t].fields.Hours+'</span>' || '',
+                          '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                          '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                          '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                          '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                          '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                          data.ttimesheet[t].fields.Notes || '',
+                          checkStatus || '',
+                          data.ttimesheet[t].fields.HourlyRate || '',
+                          '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                      ];
+
+                      let dtTimeSheet = new Date(data.ttimesheet[t].fields.TimeSheetDate.split(' ')[0]);
+                      if(ignoreDate == true){
                         sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
                         sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
                         sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
-                        let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
-                        let lineEmpID = '';
-                        if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
-                          hourlyRate = Currency+0.00;
+                        splashArrayTimeSheetList.push(dataListTimeSheet);
+                      }else{
+                        if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                          sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                          sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                          sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                          splashArrayTimeSheetList.push(dataListTimeSheet);
                         }
-                        if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
-                          hoursFormatted = '00:00';
-                        }
+                      }
 
-                        if (data.ttimesheet[t].fields.Logs) {
-                            if (Array.isArray(data.ttimesheet[t].fields.Logs)) {
-                                // It is array
-                                lineEmpID = data.ttimesheet[t].fields.Logs[0].fields.EmployeeID || '';
-                            } else {
-                                lineEmpID = data.ttimesheet[t].fields.Logs.fields.EmployeeID || '';
-                            }
-                        }
-                        var dataList = {
-                            id: data.ttimesheet[t].fields.ID || '',
-                            employee: data.ttimesheet[t].fields.EmployeeName || '',
-                            employeeID: lineEmpID || '',
-                            hourlyrate: hourlyRate,
-                            hourlyrateval: data.ttimesheet[t].fields.HourlyRate || '',
-                            hours: data.ttimesheet[t].fields.Hours || '',
-                            hourFormat: hoursFormatted,
-                            job: data.ttimesheet[t].fields.Job || '',
-                            product: data.ttimesheet[t].fields.ServiceName || '',
-                            labourcost: labourCost,
-                            overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
-                            sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
-                            timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
-                            // suppliername: data.ttimesheet[t].SupplierName || '',
-                            timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
-                            totalamountex: totalAmount || Currency+0.00,
-                            totaladjusted: totalAdjusted || Currency+0.00,
-                            totalamountinc: totalAmountInc || Currency+0.00,
-                            overtime: 0,
-                            double: 0,
-                            status: data.ttimesheet[t].fields.Status || 'Unprocessed',
-                            additional: Currency + '0.00',
-                            paychecktips: Currency + '0.00',
-                            cashtips: Currency + '0.00',
-                            startTime: data.ttimesheet[t].fields.StartTime || '',
-                            endTime: data.ttimesheet[t].fields.EndTime || '',
-                            // totaloustanding: totalOutstanding || 0.00,
-                            // orderstatus: data.ttimesheet[t].OrderStatus || '',
-                            // custfield1: '' || '',
-                            // custfield2: '' || '',
-                            // invoicenotes: data.ttimesheet[t].InvoiceNotes || '',
-                            notes: data.ttimesheet[t].fields.Notes || '',
-                            finished: 'Not Processed',
-                            color: '#f6c23e'
-                        };
-                        dataTableList.push(dataList);
+                  }
+                  $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
+                  $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
+                  $('.lblSumHour').text(sumSumHour.toFixed(2));
+                  templateObject.datatablerecords.set(dataTableList);
+                  templateObject.datatablerecords1.set(dataTableList);
 
-                    }
-                    $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
-                    $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
-                    $('.lblSumHour').text(sumSumHour.toFixed(2));
-                    templateObject.datatablerecords.set(dataTableList);
-                    templateObject.datatablerecords1.set(dataTableList);
+                  if (templateObject.datatablerecords.get()) {
 
-                    if (templateObject.datatablerecords.get()) {
+                      Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTimeSheet', function (error, result) {
+                          if (error) {}
+                          else {
+                              if (result) {
+                                  for (let i = 0; i < result.customFields.length; i++) {
+                                      let customcolumn = result.customFields;
+                                      let columData = customcolumn[i].label;
+                                      let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                      let hiddenColumn = customcolumn[i].hidden;
+                                      let columnClass = columHeaderUpdate.split('.')[1];
+                                      let columnWidth = customcolumn[i].width;
+                                      let columnindex = customcolumn[i].index + 1;
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTimeSheet', function (error, result) {
-                            if (error) {}
-                            else {
-                                if (result) {
-                                    for (let i = 0; i < result.customFields.length; i++) {
-                                        let customcolumn = result.customFields;
-                                        let columData = customcolumn[i].label;
-                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                        let hiddenColumn = customcolumn[i].hidden;
-                                        let columnClass = columHeaderUpdate.split('.')[1];
-                                        let columnWidth = customcolumn[i].width;
-                                        let columnindex = customcolumn[i].index + 1;
+                                      if (hiddenColumn == true) {
 
-                                        if (hiddenColumn == true) {
+                                          $("." + columnClass + "").addClass('hiddenColumn');
+                                          $("." + columnClass + "").removeClass('showColumn');
+                                      } else if (hiddenColumn == false) {
+                                          $("." + columnClass + "").removeClass('hiddenColumn');
+                                          $("." + columnClass + "").addClass('showColumn');
+                                      }
 
-                                            $("." + columnClass + "").addClass('hiddenColumn');
-                                            $("." + columnClass + "").removeClass('showColumn');
-                                        } else if (hiddenColumn == false) {
-                                            $("." + columnClass + "").removeClass('hiddenColumn');
-                                            $("." + columnClass + "").addClass('showColumn');
-                                        }
+                                  }
+                              }
 
-                                    }
-                                }
+                          }
+                      });
 
-                            }
-                        });
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  }
 
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                    }
+                  setTimeout(function () {
+                      $('#tblTimeSheet').DataTable({
+                        data: splashArrayTimeSheetList,
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          columnDefs: [{
+                                  className: "colFlag",
+                                  "orderable": false,
+                                  "targets": [0]
+                              }, {
+                                  className: "colID",
+                                  contenteditable:"false",
+                                  "targets": [1]
+                              }, {
+                                  className: "colName",
+                                  contenteditable:"false",
+                                  "targets": [2]
+                              }, {
+                                  className: "colDate",
+                                  contenteditable:"false",
+                                  "targets": [3]
+                              }, {
+                                  className: "colJob",
+                                  contenteditable:"false",
+                                  "targets": [4]
+                              }, {
+                                  className: "colProduct",
+                                  "targets": [5]
+                              }, {
+                                  className: "hiddenColumn text-right",
+                                  "targets": [6]
+                              }, {
+                                  className: "text-right",
+                                  "targets": [7]
+                              }, {
+                                  className: " text-right",
+                                  "targets": [8]
+                              }, {
+                                  className: " text-right",
+                                  "targets": [9]
+                              }, {
+                                  className: " text-right",
+                                  "targets": [10]
+                              }, {
+                                  className: " text-right",
+                                  "targets": [11]
+                              }, {
+                                  className: "colNotes",
+                                  "targets": [12]
+                              }, {
+                                  className: "colStatus",
+                                  "targets": [13]
+                              }, {
+                                  className: "hiddenColumn hourlyrate",
+                                  "targets": [14]
+                              }, {
+                                  className: "viewTimeLog",
+                                  "targets": [15]
+                              }, {
+                                  targets: 'sorting_disabled',
+                                  orderable: false
+                              }
+                          ],
+                          select: true,
+                          destroy: true,
+                          colReorder: {
+                              fixedColumnsRight: 1,
+                              fixedColumnsLeft: 1
+                          },
+                          buttons: [{
+                                  extend: 'excelHtml5',
+                                  text: '',
+                                  download: 'open',
+                                  className: "btntabletocsv hiddenColumn",
+                                  filename: "Timesheet List - " + moment().format(),
+                                  orientation: 'portrait',
+                                  exportOptions: {
+                                      columns: "thead tr th:not(.noExport)",
+                                      // columns: [':visible :not(:last-child)'],
+                                      format: {
+                                          body: function (data, row, column) {
+                                              if (data.includes("</span>")) {
+                                                  var res = data.split("</span>");
+                                                  data = res[1];
+                                              }
+                                              return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+                                          }
+                                      }
+                                  }
+                              }, {
+                                  extend: 'print',
+                                  download: 'open',
+                                  className: "btntabletopdf hiddenColumn",
+                                  text: '',
+                                  title: 'Time Sheet',
+                                  filename: "Timesheet List - " + moment().format(),
+                                  exportOptions: {
+                                      columns: "thead tr th:not(.noExport)",
+                                      stripHtml: false
+                                  }
+                              }
+                          ],
+                          // paging: false,
+                          pageLength: initialReportDatatableLoad,
+                          "bLengthChange": false,
+                          lengthMenu: [
+                              [initialReportDatatableLoad, -1],
+                              [initialReportDatatableLoad, "All"]
+                          ],
+                          info: true,
+                          responsive: true,
+                          "order": [[1, "desc"]],
+                          action: function () {
+                              $('#tblTimeSheet').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                              setTimeout(function () {
+                                  checkStockColor();
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage) {
+                                  this.fnPageChange('last');
+                              }
+                              $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
 
-                    setTimeout(function () {
-                        $('#tblTimeSheet').DataTable({
-                            columnDefs: [{
-                                    "orderable": false,
-                                    "targets": 0
-                                }, {
-                                    targets: 'sorting_disabled',
-                                    orderable: false
-                                }
-                            ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "Timesheet List - " + moment().format(),
-                                    orientation: 'portrait',
-                                    exportOptions: {
-                                        columns: "thead tr th:not(.noExport)",
-                                        // columns: [':visible :not(:last-child)'],
-                                        format: {
-                                            body: function (data, row, column) {
-                                                if (data.includes("</span>")) {
-                                                    var res = data.split("</span>");
-                                                    data = res[1];
-                                                }
-                                                return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-                                            }
-                                        }
-                                    }
-                                }, {
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Time Sheet',
-                                    filename: "Timesheet List - " + moment().format(),
-                                    exportOptions: {
-                                        columns: "thead tr th:not(.noExport)",
-                                        stripHtml: false
-                                    }
-                                }
-                            ],
-                            select: true,
-                            destroy: true,
-                            colReorder: {
-                                fixedColumnsRight: 1,
-                                fixedColumnsLeft: 1
-                            },
-                            // colReorder: true,
-                            // bStateSave: true,
-                            // rowId: 0,
-                            paging: false,
-                            // "scrollY": "500px",
-                            // "scrollCollapse": true,
-                            info: true,
-                            responsive: true,
-                            "order": [[1, "desc"]],
-                            action: function () {
-                                $('#tblTimeSheet').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function (oSettings) {
-                                setTimeout(function () {
-                                    MakeNegative();
-                                }, 100);
-                            },
-                            "fnInitComplete": function () {
-                                let urlParametersPage = FlowRouter.current().queryParams.page;
-                                if (urlParametersPage) {
-                                    this.fnPageChange('last');
-                                }
-                                $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
+                              $('.myvarFilterForm').appendTo(".colDateFilter");
 
-                                $('.myvarFilterForm').appendTo(".colDateFilter");
-                            }
+                          }
 
-                        }).on('page', function () {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                            let draftRecord = templateObject.datatablerecords.get();
-                            templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                        });
-                        $('.fullScreenSpin').css('display', 'none');
-                    }, 0);
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                          let draftRecord = templateObject.datatablerecords.get();
+                          templateObject.datatablerecords.set(draftRecord);
+                      }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      });
+                      $('.fullScreenSpin').css('display', 'none');
+                  }, 0);
 
-                    var columns = $('#tblTimeSheet th');
-                    let sTible = "";
-                    let sWidth = "";
-                    let sIndex = "";
-                    let sVisible = "";
-                    let columVisible = false;
-                    let sClass = "";
-                    $.each(columns, function (i, v) {
-                        if (v.hidden == false) {
-                            columVisible = true;
-                        }
-                        if ((v.className.includes("hiddenColumn"))) {
-                            columVisible = false;
-                        }
-                        sWidth = v.style.width.replace('px', "");
-                        if(v.className.includes("colRegHoursOne") == false) {
-                        let datatablerecordObj = {
-                            sTitle: v.innerText || '',
-                            sWidth: sWidth || '',
-                            sIndex: v.cellIndex || '',
-                            sVisible: columVisible || false,
-                            sClass: v.className || ''
-                        };
-                        tableHeaderList.push(datatablerecordObj);
-                    }
-                    });
-                    templateObject.tableheaderrecords.set(tableHeaderList);
-                    $('div.dataTables_filter input').addClass('form-control');
-                    $('#tblTimeSheet tbody').on('click', 'tr .btnEditTimeSheet', function () {
-                        var listData = $(this).closest('tr').attr('id');
-                        if (listData) {
-                            var employeeName = $(event.target).closest("tr").find(".colName").attr('empname') || '';
-                            var jobName = $(event.target).closest("tr").find(".colJob").text() || '';
-                            var productName = $(event.target).closest("tr").find(".colProduct").text() || '';
-                            var regHour = $(event.target).closest("tr").find(".colRegHours").val() || 0;
-                            var techNotes = $(event.target).closest("tr").find(".colNotes").text() || '';
-                            $('#edtTimesheetID').val(listData);
-                            $('#add-timesheet-title').text('Edit TimeSheet');
-                            $('.sltEmployee').val(employeeName);
-                            $('.sltJob').val(jobName);
-                            $('#product-list').val(productName);
-                            $('.lineEditHour').val(regHour);
-                            $('.lineEditTechNotes').val(techNotes);
-                            // window.open('/billcard?id=' + listData,'_self');
-                        }
-                    });
+                  var columns = $('#tblTimeSheet th');
+                  let sTible = "";
+                  let sWidth = "";
+                  let sIndex = "";
+                  let sVisible = "";
+                  let columVisible = false;
+                  let sClass = "";
+                  $.each(columns, function (i, v) {
+                      if (v.hidden == false) {
+                          columVisible = true;
+                      }
+                      if ((v.className.includes("hiddenColumn"))) {
+                          columVisible = false;
+                      }
+                      sWidth = v.style.width.replace('px', "");
+                      if(v.className.includes("colRegHoursOne") == false) {
+                      let datatablerecordObj = {
+                          sTitle: v.innerText || '',
+                          sWidth: sWidth || '',
+                          sIndex: v.cellIndex || '',
+                          sVisible: columVisible || false,
+                          sClass: v.className || ''
+                      };
+                      tableHeaderList.push(datatablerecordObj);
+                  }
+                  });
+                  templateObject.tableheaderrecords.set(tableHeaderList);
+                  $('div.dataTables_filter input').addClass('form-control');
+                  $('#tblTimeSheet tbody').on('click', 'tr .btnEditTimeSheet', function () {
+                      var listData = $(this).closest('tr').find(".colID").text()||0;
+                      if (listData) {
+                          var employeeName = $(event.target).closest("tr").find(".colName").text() || '';
+                          var jobName = $(event.target).closest("tr").find(".colJob").text() || '';
+                          var productName = $(event.target).closest("tr").find(".colProduct").text() || '';
+                          var regHour = $(event.target).closest("tr").find(".colRegHours").val() || 0;
+                          var techNotes = $(event.target).closest("tr").find(".colNotes").text() || '';
+                          $('#edtTimesheetID').val(listData);
+                          $('#add-timesheet-title').text('Edit TimeSheet');
+                          $('.sltEmployee').val(employeeName);
+                          $('.sltJob').val(jobName);
+                          $('#product-list').val(productName);
+                          $('.lineEditHour').val(regHour);
+                          $('.lineEditTechNotes').val(techNotes);
+                          // window.open('/billcard?id=' + listData,'_self');
+                      }
+                  });
 
-                }).catch(function (err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                    $('.fullScreenSpin').css('display', 'none');
-                    // Meteor._reload.reload();
-                });
+              }).catch(function (err) {
+                  // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                  $('.fullScreenSpin').css('display', 'none');
+                  // Meteor._reload.reload();
+              });
 
             } else {
                 $('.fullScreenSpin').css('display', 'none');
@@ -450,9 +585,7 @@ Template.timesheet.onRendered(function () {
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
                         let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
                         let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || Currency+0.00;
-                        sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
-                        sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
-                        sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+
                         let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
                         if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
                           hourlyRate = Currency+0.00;
@@ -506,6 +639,48 @@ Template.timesheet.onRendered(function () {
                             color: '#f6c23e'
                         };
                         dataTableList.push(dataList);
+
+                        let sortdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate;
+                        let timesheetdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate;
+                        let checkStatus = data.ttimesheet[t].fields.Status || 'Unprocessed';
+
+                        var dataListTimeSheet = [
+                            '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[t].fields.ID+'" name="'+data.ttimesheet[t].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[t].fields.ID+'"></label></div>' || '',
+                            data.ttimesheet[t].fields.ID || '',
+                            data.ttimesheet[t].fields.EmployeeName || '',
+                            '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                            data.ttimesheet[t].fields.Job || '',
+                            data.ttimesheet[t].fields.ServiceName || '',
+                            '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[t].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[t].fields.Hours+'</span>' || '',
+                            '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                            '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                            '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                            '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                            '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                            data.ttimesheet[t].fields.Notes || '',
+                            checkStatus || '',
+                            data.ttimesheet[t].fields.HourlyRate || '',
+                            '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                        ];
+
+
+                        let dtTimeSheet = new Date(data.ttimesheet[t].fields.TimeSheetDate.split(' ')[0]);
+
+                        if(ignoreDate == true){
+                          sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                          sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                          sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                          splashArrayTimeSheetList.push(dataListTimeSheet);
+                        }else{
+                          if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                            sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                            sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                            sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                            splashArrayTimeSheetList.push(dataListTimeSheet);
+                          }
+                        }
+
+
                     } else {
                         if (data.ttimesheet[t].fields.EmployeeName == Session.get('mySessionEmployee')) {
                             let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || Currency+0.00;
@@ -513,9 +688,9 @@ Template.timesheet.onRendered(function () {
                             let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
                             let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
                             let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || Currency+0.00;
-                            sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
-                            sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
-                            sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                            // sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                            // sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                            // sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
                             let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
                             let lineEmpID = '';
                             if (data.ttimesheet[t].fields.Logs) {
@@ -563,12 +738,49 @@ Template.timesheet.onRendered(function () {
                             };
                             dataTableList.push(dataList);
 
+                            let sortdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate;
+                            let timesheetdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate;
+                            let checkStatus = data.ttimesheet[t].fields.Status || 'Unprocessed';
+
+                            var dataListTimeSheet = [
+                                '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[t].fields.ID+'" name="'+data.ttimesheet[t].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[t].fields.ID+'"></label></div>' || '',
+                                data.ttimesheet[t].fields.ID || '',
+                                data.ttimesheet[t].fields.EmployeeName || '',
+                                '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                                data.ttimesheet[t].fields.Job || '',
+                                data.ttimesheet[t].fields.ServiceName || '',
+                                '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[t].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[t].fields.Hours+'</span>' || '',
+                                '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                                '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                                '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                                '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                                '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                                data.ttimesheet[t].fields.Notes || '',
+                                checkStatus || '',
+                                data.ttimesheet[t].fields.HourlyRate || '',
+                                '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                            ];
+
+                            let dtTimeSheet = new Date(data.ttimesheet[t].fields.TimeSheetDate.split(' ')[0]);
+                            if(ignoreDate == true){
+                              sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                              sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                              sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                              splashArrayTimeSheetList.push(dataListTimeSheet);
+                            }else{
+                              if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                                sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                                sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                                sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                                splashArrayTimeSheetList.push(dataListTimeSheet);
+                              }
+                            }
+
                         }
 
                     }
 
                 }
-
                 $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
                 $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
                 $('.lblSumHour').text(sumSumHour.toFixed(2));
@@ -612,9 +824,61 @@ Template.timesheet.onRendered(function () {
 
                 setTimeout(function () {
                     $('#tblTimeSheet').DataTable({
+                      data: splashArrayTimeSheetList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         columnDefs: [{
+                                className: "colFlag",
                                 "orderable": false,
-                                "targets": 0
+                                "targets": [0]
+                            }, {
+                                className: "colID",
+                                contenteditable:"false",
+                                "targets": [1]
+                            }, {
+                                className: "colName",
+                                contenteditable:"false",
+                                "targets": [2]
+                            }, {
+                                className: "colDate",
+                                contenteditable:"false",
+                                "targets": [3]
+                            }, {
+                                className: "colJob",
+                                contenteditable:"false",
+                                "targets": [4]
+                            }, {
+                                className: "colProduct",
+                                "targets": [5]
+                            }, {
+                                className: "hiddenColumn text-right",
+                                "targets": [6]
+                            }, {
+                                className: "text-right",
+                                "targets": [7]
+                            }, {
+                                className: " text-right",
+                                "targets": [8]
+                            }, {
+                                className: " text-right",
+                                "targets": [9]
+                            }, {
+                                className: " text-right",
+                                "targets": [10]
+                            }, {
+                                className: " text-right",
+                                "targets": [11]
+                            }, {
+                                className: "colNotes",
+                                "targets": [12]
+                            }, {
+                                className: "colStatus",
+                                "targets": [13]
+                            }, {
+                                className: "hiddenColumn hourlyrate",
+                                "targets": [14]
+                            }, {
+                                className: "viewTimeLog",
+                                "targets": [15]
                             }, {
                                 targets: 'sorting_disabled',
                                 orderable: false
@@ -626,7 +890,6 @@ Template.timesheet.onRendered(function () {
                             fixedColumnsRight: 1,
                             fixedColumnsLeft: 1
                         },
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
@@ -660,7 +923,13 @@ Template.timesheet.onRendered(function () {
                                 }
                             }
                         ],
-                        paging: false,
+                        // paging: false,
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
+                        lengthMenu: [
+                            [initialReportDatatableLoad, -1],
+                            [initialReportDatatableLoad, "All"]
+                        ],
                         info: true,
                         responsive: true,
                         "order": [[1, "desc"]],
@@ -669,6 +938,7 @@ Template.timesheet.onRendered(function () {
                         },
                         "fnDrawCallback": function (oSettings) {
                             setTimeout(function () {
+                                checkStockColor();
                                 MakeNegative();
                             }, 100);
                         },
@@ -680,6 +950,7 @@ Template.timesheet.onRendered(function () {
                             $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+
                         }
 
                     }).on('page', function () {
@@ -695,6 +966,7 @@ Template.timesheet.onRendered(function () {
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
+
 
                 var columns = $('#tblTimeSheet th');
                 let sTible = "";
@@ -727,9 +999,9 @@ Template.timesheet.onRendered(function () {
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control');
                 $('#tblTimeSheet tbody').on('click', 'tr .btnEditTimeSheet', function () {
-                    var listData = $(this).closest('tr').attr('id');
+                    var listData = $(this).closest('tr').find(".colID").text()||0;
                     if (listData) {
-                        var employeeName = $(event.target).closest("tr").find(".colName").attr('empname') || '';
+                        var employeeName = $(event.target).closest("tr").find(".colName").text() || '';
                         var jobName = $(event.target).closest("tr").find(".colJob").text() || '';
                         var productName = $(event.target).closest("tr").find(".colProduct").text() || '';
                         var regHour = $(event.target).closest("tr").find(".colRegHours").val() || 0;
@@ -747,11 +1019,363 @@ Template.timesheet.onRendered(function () {
             }
 
         }).catch(function (err) {
+          sideBarService.getAllTimeSheetList().then(function (data) {
+              addVS1Data('TTimeSheet', JSON.stringify(data));
+              $('.fullScreenSpin').css('display', 'none');
+              let lineItems = [];
+              let lineItemObj = {};
 
+              let sumTotalCharge = 0;
+              let sumSumHour = 0;
+              let sumSumHourlyRate = 0;
+              for (let t = 0; t < data.ttimesheet.length; t++) {
+                  let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.HourlyRate) || Currency+0.00;
+                  let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.LabourCost) || Currency+0.00;
+                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.Total) || Currency+0.00;
+                  let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalAdjusted) || Currency+0.00;
+                  let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[t].fields.TotalInc) || Currency+0.00;
+                  sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                  sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                  sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                  let hoursFormatted = templateObject.timeFormat(data.ttimesheet[t].fields.Hours) || '';
+                  let lineEmpID = '';
+                  if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                    hourlyRate = Currency+0.00;
+                  }
+                  if((data.ttimesheet[t].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[t].fields.EndTime.replace(/\s/g, '') == '')){
+                    hoursFormatted = '00:00';
+                  }
+
+                  if (data.ttimesheet[t].fields.Logs) {
+                      if (Array.isArray(data.ttimesheet[t].fields.Logs)) {
+                          // It is array
+                          lineEmpID = data.ttimesheet[t].fields.Logs[0].fields.EmployeeID || '';
+                      } else {
+                          lineEmpID = data.ttimesheet[t].fields.Logs.fields.EmployeeID || '';
+                      }
+                  }
+                  var dataList = {
+                      id: data.ttimesheet[t].fields.ID || '',
+                      employee: data.ttimesheet[t].fields.EmployeeName || '',
+                      employeeID: lineEmpID || '',
+                      hourlyrate: hourlyRate,
+                      hourlyrateval: data.ttimesheet[t].fields.HourlyRate || '',
+                      hours: data.ttimesheet[t].fields.Hours || '',
+                      hourFormat: hoursFormatted,
+                      job: data.ttimesheet[t].fields.Job || '',
+                      product: data.ttimesheet[t].fields.ServiceName || '',
+                      labourcost: labourCost,
+                      overheadrate: data.ttimesheet[t].fields.OverheadRate || '',
+                      sortdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate,
+                      timesheetdate: data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate,
+                      // suppliername: data.ttimesheet[t].SupplierName || '',
+                      timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || '',
+                      totalamountex: totalAmount || Currency+0.00,
+                      totaladjusted: totalAdjusted || Currency+0.00,
+                      totalamountinc: totalAmountInc || Currency+0.00,
+                      overtime: 0,
+                      double: 0,
+                      status: data.ttimesheet[t].fields.Status || 'Unprocessed',
+                      additional: Currency + '0.00',
+                      paychecktips: Currency + '0.00',
+                      cashtips: Currency + '0.00',
+                      startTime: data.ttimesheet[t].fields.StartTime || '',
+                      endTime: data.ttimesheet[t].fields.EndTime || '',
+                      // totaloustanding: totalOutstanding || 0.00,
+                      // orderstatus: data.ttimesheet[t].OrderStatus || '',
+                      // custfield1: '' || '',
+                      // custfield2: '' || '',
+                      // invoicenotes: data.ttimesheet[t].InvoiceNotes || '',
+                      notes: data.ttimesheet[t].fields.Notes || '',
+                      finished: 'Not Processed',
+                      color: '#f6c23e'
+                  };
+                  dataTableList.push(dataList);
+
+                  let sortdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[t].fields.TimeSheetDate;
+                  let timesheetdate = data.ttimesheet[t].fields.TimeSheetDate != '' ? moment(data.ttimesheet[t].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[t].fields.TimeSheetDate;
+                  let checkStatus = data.ttimesheet[t].fields.Status || 'Unprocessed';
+
+                  var dataListTimeSheet = [
+                      '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[t].fields.ID+'" name="'+data.ttimesheet[t].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[t].fields.ID+'"></label></div>' || '',
+                      data.ttimesheet[t].fields.ID || '',
+                      data.ttimesheet[t].fields.EmployeeName || '',
+                      '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                      data.ttimesheet[t].fields.Job || '',
+                      data.ttimesheet[t].fields.ServiceName || '',
+                      '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[t].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[t].fields.Hours+'</span>' || '',
+                      '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                      '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                      '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                      '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                      '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                      data.ttimesheet[t].fields.Notes || '',
+                      checkStatus || '',
+                      data.ttimesheet[t].fields.HourlyRate || '',
+                      '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                  ];
+
+                  let dtTimeSheet = new Date(data.ttimesheet[t].fields.TimeSheetDate.split(' ')[0]);
+                  if(ignoreDate == true){
+                    sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                    sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                    sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                    splashArrayTimeSheetList.push(dataListTimeSheet);
+                  }else{
+                    if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                      sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
+                      sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
+                      sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
+                      splashArrayTimeSheetList.push(dataListTimeSheet);
+                    }
+                  }
+
+              }
+              $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
+              $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
+              $('.lblSumHour').text(sumSumHour.toFixed(2));
+              templateObject.datatablerecords.set(dataTableList);
+              templateObject.datatablerecords1.set(dataTableList);
+
+              if (templateObject.datatablerecords.get()) {
+
+                  Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblTimeSheet', function (error, result) {
+                      if (error) {}
+                      else {
+                          if (result) {
+                              for (let i = 0; i < result.customFields.length; i++) {
+                                  let customcolumn = result.customFields;
+                                  let columData = customcolumn[i].label;
+                                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                  let hiddenColumn = customcolumn[i].hidden;
+                                  let columnClass = columHeaderUpdate.split('.')[1];
+                                  let columnWidth = customcolumn[i].width;
+                                  let columnindex = customcolumn[i].index + 1;
+
+                                  if (hiddenColumn == true) {
+
+                                      $("." + columnClass + "").addClass('hiddenColumn');
+                                      $("." + columnClass + "").removeClass('showColumn');
+                                  } else if (hiddenColumn == false) {
+                                      $("." + columnClass + "").removeClass('hiddenColumn');
+                                      $("." + columnClass + "").addClass('showColumn');
+                                  }
+
+                              }
+                          }
+
+                      }
+                  });
+
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+              }
+
+              setTimeout(function () {
+                  $('#tblTimeSheet').DataTable({
+                    data: splashArrayTimeSheetList,
+                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [{
+                              className: "colFlag",
+                              "orderable": false,
+                              "targets": [0]
+                          }, {
+                              className: "colID",
+                              contenteditable:"false",
+                              "targets": [1]
+                          }, {
+                              className: "colName",
+                              contenteditable:"false",
+                              "targets": [2]
+                          }, {
+                              className: "colDate",
+                              contenteditable:"false",
+                              "targets": [3]
+                          }, {
+                              className: "colJob",
+                              contenteditable:"false",
+                              "targets": [4]
+                          }, {
+                              className: "colProduct",
+                              "targets": [5]
+                          }, {
+                              className: "hiddenColumn text-right",
+                              "targets": [6]
+                          }, {
+                              className: "text-right",
+                              "targets": [7]
+                          }, {
+                              className: " text-right",
+                              "targets": [8]
+                          }, {
+                              className: " text-right",
+                              "targets": [9]
+                          }, {
+                              className: " text-right",
+                              "targets": [10]
+                          }, {
+                              className: " text-right",
+                              "targets": [11]
+                          }, {
+                              className: "colNotes",
+                              "targets": [12]
+                          }, {
+                              className: "colStatus",
+                              "targets": [13]
+                          }, {
+                              className: "hiddenColumn hourlyrate",
+                              "targets": [14]
+                          }, {
+                              className: "viewTimeLog",
+                              "targets": [15]
+                          }, {
+                              targets: 'sorting_disabled',
+                              orderable: false
+                          }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: {
+                          fixedColumnsRight: 1,
+                          fixedColumnsLeft: 1
+                      },
+                      buttons: [{
+                              extend: 'excelHtml5',
+                              text: '',
+                              download: 'open',
+                              className: "btntabletocsv hiddenColumn",
+                              filename: "Timesheet List - " + moment().format(),
+                              orientation: 'portrait',
+                              exportOptions: {
+                                  columns: "thead tr th:not(.noExport)",
+                                  // columns: [':visible :not(:last-child)'],
+                                  format: {
+                                      body: function (data, row, column) {
+                                          if (data.includes("</span>")) {
+                                              var res = data.split("</span>");
+                                              data = res[1];
+                                          }
+                                          return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+                                      }
+                                  }
+                              }
+                          }, {
+                              extend: 'print',
+                              download: 'open',
+                              className: "btntabletopdf hiddenColumn",
+                              text: '',
+                              title: 'Time Sheet',
+                              filename: "Timesheet List - " + moment().format(),
+                              exportOptions: {
+                                  columns: "thead tr th:not(.noExport)",
+                                  stripHtml: false
+                              }
+                          }
+                      ],
+                      // paging: false,
+                      pageLength: initialReportDatatableLoad,
+                      "bLengthChange": false,
+                      lengthMenu: [
+                          [initialReportDatatableLoad, -1],
+                          [initialReportDatatableLoad, "All"]
+                      ],
+                      info: true,
+                      responsive: true,
+                      "order": [[1, "desc"]],
+                      action: function () {
+                          $('#tblTimeSheet').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          setTimeout(function () {
+                              checkStockColor();
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage) {
+                              this.fnPageChange('last');
+                          }
+                          $("<button class='btn btn-primary btnRefreshTimeSheet' type='button' id='btnRefreshTimeSheet' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblTimeSheet_filter");
+
+                          $('.myvarFilterForm').appendTo(".colDateFilter");
+
+                      }
+
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                      let draftRecord = templateObject.datatablerecords.get();
+                      templateObject.datatablerecords.set(draftRecord);
+                  }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+                  $('.fullScreenSpin').css('display', 'none');
+              }, 0);
+
+              var columns = $('#tblTimeSheet th');
+              let sTible = "";
+              let sWidth = "";
+              let sIndex = "";
+              let sVisible = "";
+              let columVisible = false;
+              let sClass = "";
+              $.each(columns, function (i, v) {
+                  if (v.hidden == false) {
+                      columVisible = true;
+                  }
+                  if ((v.className.includes("hiddenColumn"))) {
+                      columVisible = false;
+                  }
+                  sWidth = v.style.width.replace('px', "");
+                  if(v.className.includes("colRegHoursOne") == false) {
+                  let datatablerecordObj = {
+                      sTitle: v.innerText || '',
+                      sWidth: sWidth || '',
+                      sIndex: v.cellIndex || '',
+                      sVisible: columVisible || false,
+                      sClass: v.className || ''
+                  };
+                  tableHeaderList.push(datatablerecordObj);
+              }
+              });
+              templateObject.tableheaderrecords.set(tableHeaderList);
+              $('div.dataTables_filter input').addClass('form-control');
+              $('#tblTimeSheet tbody').on('click', 'tr .btnEditTimeSheet', function () {
+                  var listData = $(this).closest('tr').find(".colID").text()||0;
+                  if (listData) {
+                      var employeeName = $(event.target).closest("tr").find(".colName").text() || '';
+                      var jobName = $(event.target).closest("tr").find(".colJob").text() || '';
+                      var productName = $(event.target).closest("tr").find(".colProduct").text() || '';
+                      var regHour = $(event.target).closest("tr").find(".colRegHours").val() || 0;
+                      var techNotes = $(event.target).closest("tr").find(".colNotes").text() || '';
+                      $('#edtTimesheetID').val(listData);
+                      $('#add-timesheet-title').text('Edit TimeSheet');
+                      $('.sltEmployee').val(employeeName);
+                      $('.sltJob').val(jobName);
+                      $('#product-list').val(productName);
+                      $('.lineEditHour').val(regHour);
+                      $('.lineEditTechNotes').val(techNotes);
+                      // window.open('/billcard?id=' + listData,'_self');
+                  }
+              });
+
+          }).catch(function (err) {
+              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              $('.fullScreenSpin').css('display', 'none');
+              // Meteor._reload.reload();
+          });
         });
     }
 
-    templateObject.getAllTimeSheetData();
+    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+    templateObject.getAllTimeSheetData(prevMonth11Date,toDate, false);
 
     templateObject.getAllTimeSheetDataClock = function () {
         getVS1Data('TTimeSheet').then(function (dataObject) {
@@ -1824,7 +2448,7 @@ Template.timesheet.onRendered(function () {
                 $('#sltJobOne').val($(event.target).closest("tr").find('.colJob').text());
 
                 $('#product-listone').val($(event.target).closest("tr").find('.colProduct').text());
-                $('#edtProductCost').val($(event.target).closest("tr").find('.colName').attr('hourlyrate') || 0);
+                $('#edtProductCost').val($(event.target).closest("tr").find('.hourlyrate').text() || 0);
 
                 let prodLineData = $(event.target).closest("tr").find('.colProduct').text() || '';
                 let prodLineCost = $(event.target).closest("tr").find('.colProduct').text() || '';
@@ -2776,6 +3400,514 @@ Template.timesheet.onRendered(function () {
               });
           html5QrcodeScannerClockOff.render(onScanSuccessClockOff);
 
+
+          templateObject.getAllFilterTimeSheetData = function (fromDate,toDate, ignoreDate) {
+            if(ignoreDate == true){
+              $('#dateFrom').attr('readonly', true);
+              $('#dateTo').attr('readonly', true);
+            }else{
+              $("#dateFrom").val(fromDate !=''? moment(fromDate).format("DD/MM/YYYY"): fromDate);
+              $("#dateTo").val(toDate !=''? moment(toDate).format("DD/MM/YYYY"): toDate);
+            }
+
+            var splashArrayTimeSheetListNew = new Array();
+            getVS1Data('TTimeSheet').then(function (dataObject) {
+              if (dataObject == 0) {
+                sideBarService.getAllTimeSheetList().then(function (data) {
+                    addVS1Data('TTimeSheet', JSON.stringify(data));
+                    $('.fullScreenSpin').css('display', 'none');
+                    let lineItems = [];
+                    let lineItemObj = {};
+
+                    let sumTotalCharge = 0;
+                    let sumSumHour = 0;
+                    let sumSumHourlyRate = 0;
+                    for (let w = 0; w < data.ttimesheet.length; w++) {
+                        let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.HourlyRate) || Currency+0.00;
+                        let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.LabourCost) || Currency+0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.Total) || Currency+0.00;
+                        let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalAdjusted) || Currency+0.00;
+                        let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalInc) || Currency+0.00;
+                        sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                        sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                        sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                        let hoursFormatted = templateObject.timeFormat(data.ttimesheet[w].fields.Hours) || '';
+                        let lineEmpID = '';
+                        if((data.ttimesheet[w].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[w].fields.EndTime.replace(/\s/g, '') == '')){
+                          hourlyRate = Currency+0.00;
+                        }
+                        if((data.ttimesheet[w].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[w].fields.EndTime.replace(/\s/g, '') == '')){
+                          hoursFormatted = '00:00';
+                        }
+
+                        if (data.ttimesheet[w].fields.Logs) {
+                            if (Array.isArray(data.ttimesheet[w].fields.Logs)) {
+                                // It is array
+                                lineEmpID = data.ttimesheet[w].fields.Logs[0].fields.EmployeeID || '';
+                            } else {
+                                lineEmpID = data.ttimesheet[w].fields.Logs.fields.EmployeeID || '';
+                            }
+                        }
+                        var dataList = {
+                            id: data.ttimesheet[w].fields.ID || '',
+                            employee: data.ttimesheet[w].fields.EmployeeName || '',
+                            employeeID: lineEmpID || '',
+                            hourlyrate: hourlyRate,
+                            hourlyrateval: data.ttimesheet[w].fields.HourlyRate || '',
+                            hours: data.ttimesheet[w].fields.Hours || '',
+                            hourFormat: hoursFormatted,
+                            job: data.ttimesheet[w].fields.Job || '',
+                            product: data.ttimesheet[w].fields.ServiceName || '',
+                            labourcost: labourCost,
+                            overheadrate: data.ttimesheet[w].fields.OverheadRate || '',
+                            sortdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate,
+                            timesheetdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate,
+                            // suppliername: data.ttimesheet[w].SupplierName || '',
+                            timesheetdate1: data.ttimesheet[w].fields.TimeSheetDate || '',
+                            totalamountex: totalAmount || Currency+0.00,
+                            totaladjusted: totalAdjusted || Currency+0.00,
+                            totalamountinc: totalAmountInc || Currency+0.00,
+                            overtime: 0,
+                            double: 0,
+                            status: data.ttimesheet[w].fields.Status || 'Unprocessed',
+                            additional: Currency + '0.00',
+                            paychecktips: Currency + '0.00',
+                            cashtips: Currency + '0.00',
+                            startTime: data.ttimesheet[w].fields.StartTime || '',
+                            endTime: data.ttimesheet[w].fields.EndTime || '',
+                            // totaloustanding: totalOutstanding || 0.00,
+                            // orderstatus: data.ttimesheet[w].OrderStatus || '',
+                            // custfield1: '' || '',
+                            // custfield2: '' || '',
+                            // invoicenotes: data.ttimesheet[w].InvoiceNotes || '',
+                            notes: data.ttimesheet[w].fields.Notes || '',
+                            finished: 'Not Processed',
+                            color: '#f6c23e'
+                        };
+                        dataTableList.push(dataList);
+
+                        let sortdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate;
+                        let timesheetdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate;
+                        let checkStatus = data.ttimesheet[w].fields.Status || 'Unprocessed';
+
+                        var dataListTimeSheet = [
+                            '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[w].fields.ID+'" name="'+data.ttimesheet[w].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[w].fields.ID+'"></label></div>' || '',
+                            data.ttimesheet[w].fields.ID || '',
+                            data.ttimesheet[w].fields.EmployeeName || '',
+                            '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                            data.ttimesheet[w].fields.Job || '',
+                            data.ttimesheet[w].fields.ServiceName || '',
+                            '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[w].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[w].fields.Hours+'</span>' || '',
+                            '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                            '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                            '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                            '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                            '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                            data.ttimesheet[w].fields.Notes || '',
+                            checkStatus || '',
+                            data.ttimesheet[w].fields.HourlyRate || '',
+                            '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                        ];
+
+                        let dtTimeSheet = new Date(data.ttimesheet[w].fields.TimeSheetDate.split(' ')[0]);
+
+
+                        if(ignoreDate == true){
+                          sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                          sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                          sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                          splashArrayTimeSheetListNew.push(dataListTimeSheet);
+                        }else{
+                          if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                            sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                            sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                            sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                            splashArrayTimeSheetListNew.push(dataListTimeSheet);
+                          }
+                        }
+
+                    }
+                    $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
+                    $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
+                    $('.lblSumHour').text(sumSumHour.toFixed(2));
+                    templateObject.datatablerecords.set(dataTableList);
+                    templateObject.datatablerecords1.set(dataTableList);
+                    if(splashArrayTimeSheetListNew){
+                    let uniqueChars = [...new Set(splashArrayTimeSheetListNew)];
+                    var datatable = $('#tblTimeSheet').DataTable();
+                    datatable.clear();
+                    datatable.rows.add(uniqueChars);
+                    datatable.draw(false);
+                   }
+
+                }).catch(function (err) {
+                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                    $('.fullScreenSpin').css('display', 'none');
+                    // Meteor._reload.reload();
+                });
+
+              } else {
+                  $('.fullScreenSpin').css('display', 'none');
+                  let data = JSON.parse(dataObject[0].data);
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  let sumTotalCharge = 0;
+                  let sumSumHour = 0;
+                  let sumSumHourlyRate = 0;
+                  for (let w = 0; w < data.ttimesheet.length; w++) {
+
+                      if (seeOwnTimesheets == false) {
+                          let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.HourlyRate) || Currency+0.00;
+                          let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.LabourCost) || Currency+0.00;
+                          let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.Total) || Currency+0.00;
+                          let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalAdjusted) || Currency+0.00;
+                          let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalInc) || Currency+0.00;
+
+                          let hoursFormatted = templateObject.timeFormat(data.ttimesheet[w].fields.Hours) || '';
+                          if((data.ttimesheet[w].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[w].fields.EndTime.replace(/\s/g, '') == '')){
+                            hourlyRate = Currency+0.00;
+                          }
+                          if((data.ttimesheet[w].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[w].fields.EndTime.replace(/\s/g, '') == '')){
+                            hoursFormatted = '00:00';
+                          }
+                          let lineEmpID = '';
+                          if (data.ttimesheet[w].fields.Logs) {
+                              if (Array.isArray(data.ttimesheet[w].fields.Logs)) {
+                                  // It is array
+                                  lineEmpID = data.ttimesheet[w].fields.Logs[0].fields.EmployeeID || '';
+                              } else {
+                                  lineEmpID = data.ttimesheet[w].fields.Logs.fields.EmployeeID || '';
+                              }
+                          }
+                          var dataList = {
+                              id: data.ttimesheet[w].fields.ID || '',
+                              employee: data.ttimesheet[w].fields.EmployeeName || '',
+                              employeeID: lineEmpID || '',
+                              hourlyrate: hourlyRate,
+                              hourlyrateval: data.ttimesheet[w].fields.HourlyRate || '',
+                              hours: data.ttimesheet[w].fields.Hours || '',
+                              hourFormat: hoursFormatted,
+                              job: data.ttimesheet[w].fields.Job || '',
+                              product: data.ttimesheet[w].fields.ServiceName || '',
+                              labourcost: labourCost,
+                              overheadrate: data.ttimesheet[w].fields.OverheadRate || '',
+                              sortdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate,
+                              timesheetdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate,
+                              // suppliername: data.ttimesheet[w].SupplierName || '',
+                              timesheetdate1: data.ttimesheet[w].fields.TimeSheetDate || '',
+                              totalamountex: totalAmount || Currency+0.00,
+                              totaladjusted: totalAdjusted || Currency+0.00,
+                              totalamountinc: totalAmountInc || Currency+0.00,
+                              status: data.ttimesheet[w].fields.Status || 'Unprocessed',
+                              overtime: 0,
+                              double: 0,
+                              additional: Currency + '0.00',
+                              paychecktips: Currency + '0.00',
+                              cashtips: Currency + '0.00',
+                              startTime: data.ttimesheet[w].fields.StartTime || '',
+                              endTime: data.ttimesheet[w].fields.EndTime || '',
+                              // totaloustanding: totalOutstanding || 0.00,
+                              // orderstatus: data.ttimesheet[w].OrderStatus || '',
+                              // custfield1: '' || '',
+                              // custfield2: '' || '',
+                              // invoicenotes: data.ttimesheet[w].InvoiceNotes || '',
+                              notes: data.ttimesheet[w].fields.Notes || '',
+                              finished: 'Not Processed',
+                              color: '#f6c23e'
+                          };
+                          dataTableList.push(dataList);
+
+                          let sortdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate;
+                          let timesheetdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate;
+                          let checkStatus = data.ttimesheet[w].fields.Status || 'Unprocessed';
+
+                          var dataListTimeSheet = [
+                              '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[w].fields.ID+'" name="'+data.ttimesheet[w].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[w].fields.ID+'"></label></div>' || '',
+                              data.ttimesheet[w].fields.ID || '',
+                              data.ttimesheet[w].fields.EmployeeName || '',
+                              '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                              data.ttimesheet[w].fields.Job || '',
+                              data.ttimesheet[w].fields.ServiceName || '',
+                              '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[w].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[w].fields.Hours+'</span>' || '',
+                              '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                              '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                              '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                              '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                              '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                              data.ttimesheet[w].fields.Notes || '',
+                              checkStatus || '',
+                              data.ttimesheet[w].fields.HourlyRate || '',
+                              '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                          ];
+
+                          let dtTimeSheet = new Date(data.ttimesheet[w].fields.TimeSheetDate.split(' ')[0]);
+
+                          if(ignoreDate == true){
+                            sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                            sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                            sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                            splashArrayTimeSheetListNew.push(dataListTimeSheet);
+                          }else{
+                            if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                              sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                              sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                              sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                              splashArrayTimeSheetListNew.push(dataListTimeSheet);
+
+                            }
+                          }
+
+
+                      } else {
+                          if (data.ttimesheet[w].fields.EmployeeName == Session.get('mySessionEmployee')) {
+                              let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.HourlyRate) || Currency+0.00;
+                              let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.LabourCost) || Currency+0.00;
+                              let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.Total) || Currency+0.00;
+                              let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalAdjusted) || Currency+0.00;
+                              let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalInc) || Currency+0.00;
+                              // sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                              // sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                              // sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                              let hoursFormatted = templateObject.timeFormat(data.ttimesheet[w].fields.Hours) || '';
+                              let lineEmpID = '';
+                              if (data.ttimesheet[w].fields.Logs) {
+                                  if (Array.isArray(data.ttimesheet[w].fields.Logs)) {
+                                      // It is array
+                                      lineEmpID = data.ttimesheet[w].fields.Logs[0].fields.EmployeeID || '';
+                                  } else {
+                                      lineEmpID = data.ttimesheet[w].fields.Logs.fields.EmployeeID || '';
+                                  }
+                              }
+
+                              var dataList = {
+                                  id: data.ttimesheet[w].fields.ID || '',
+                                  employee: data.ttimesheet[w].fields.EmployeeName || '',
+                                  employeeID: lineEmpID || '',
+                                  hourlyrate: hourlyRate,
+                                  hourlyrateval: data.ttimesheet[w].fields.HourlyRate || '',
+                                  hours: data.ttimesheet[w].fields.Hours || '',
+                                  hourFormat: hoursFormatted,
+                                  job: data.ttimesheet[w].fields.Job || '',
+                                  product: data.ttimesheet[w].fields.ServiceName || '',
+                                  labourcost: labourCost,
+                                  overheadrate: data.ttimesheet[w].fields.OverheadRate || '',
+                                  sortdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate,
+                                  timesheetdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate,
+                                  // suppliername: data.ttimesheet[w].SupplierName || '',
+                                  timesheetdate1: data.ttimesheet[w].fields.TimeSheetDate || '',
+                                  totalamountex: totalAmount || Currency+0.00,
+                                  totaladjusted: totalAdjusted || Currency+0.00,
+                                  totalamountinc: totalAmountInc || Currency+0.00,
+                                  status: data.ttimesheet[w].fields.Status || 'Unprocessed',
+                                  overtime: 0,
+                                  double: 0,
+                                  additional: Currency + '0.00',
+                                  paychecktips: Currency + '0.00',
+                                  cashtips: Currency + '0.00',
+                                  // totaloustanding: totalOutstanding || 0.00,
+                                  // orderstatus: data.ttimesheet[w].OrderStatus || '',
+                                  // custfield1: '' || '',
+                                  // custfield2: '' || '',
+                                  // invoicenotes: data.ttimesheet[w].InvoiceNotes || '',
+                                  notes: data.ttimesheet[w].fields.Notes || '',
+                                  finished: 'Not Processed',
+                                  color: '#f6c23e'
+                              };
+                              dataTableList.push(dataList);
+
+                              let sortdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate;
+                              let timesheetdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate;
+                              let checkStatus = data.ttimesheet[w].fields.Status || 'Unprocessed';
+
+                              var dataListTimeSheet = [
+                                  '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[w].fields.ID+'" name="'+data.ttimesheet[w].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[w].fields.ID+'"></label></div>' || '',
+                                  data.ttimesheet[w].fields.ID || '',
+                                  data.ttimesheet[w].fields.EmployeeName || '',
+                                  '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                                  data.ttimesheet[w].fields.Job || '',
+                                  data.ttimesheet[w].fields.ServiceName || '',
+                                  '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[w].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[w].fields.Hours+'</span>' || '',
+                                  '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                                  '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                                  '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                                  '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                                  '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                                  data.ttimesheet[w].fields.Notes || '',
+                                  checkStatus || '',
+                                  data.ttimesheet[w].fields.HourlyRate || '',
+                                  '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                              ];
+
+                              let dtTimeSheet = new Date(data.ttimesheet[w].fields.TimeSheetDate.split(' ')[0]);
+                              if(ignoreDate == true){
+                                sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                                sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                                sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                                splashArrayTimeSheetListNew.push(dataListTimeSheet);
+                              }else{
+                                if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                                  sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                                  sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                                  sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                                  splashArrayTimeSheetListNew.push(dataListTimeSheet);
+                                }
+                              }
+
+                          }
+
+                      }
+
+                  }
+
+                  $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
+                  $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
+                  $('.lblSumHour').text(sumSumHour.toFixed(2));
+                  templateObject.datatablerecords.set(dataTableList);
+                  templateObject.datatablerecords1.set(dataTableList);
+                  if(splashArrayTimeSheetListNew){
+                  let uniqueChars = [...new Set(splashArrayTimeSheetListNew)];
+                  var datatable = $('#tblTimeSheet').DataTable();
+                  datatable.clear();
+                  datatable.rows.add(uniqueChars);
+                  datatable.draw(false);
+                }
+              }
+
+          }).catch(function (err) {
+
+            sideBarService.getAllTimeSheetList().then(function (data) {
+                addVS1Data('TTimeSheet', JSON.stringify(data));
+                $('.fullScreenSpin').css('display', 'none');
+                let lineItems = [];
+                let lineItemObj = {};
+
+                let sumTotalCharge = 0;
+                let sumSumHour = 0;
+                let sumSumHourlyRate = 0;
+                for (let w = 0; w < data.ttimesheet.length; w++) {
+                    let hourlyRate = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.HourlyRate) || Currency+0.00;
+                    let labourCost = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.LabourCost) || Currency+0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.Total) || Currency+0.00;
+                    let totalAdjusted = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalAdjusted) || Currency+0.00;
+                    let totalAmountInc = utilityService.modifynegativeCurrencyFormat(data.ttimesheet[w].fields.TotalInc) || Currency+0.00;
+                    sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                    sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                    sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                    let hoursFormatted = templateObject.timeFormat(data.ttimesheet[w].fields.Hours) || '';
+                    let lineEmpID = '';
+                    if((data.ttimesheet[w].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[w].fields.EndTime.replace(/\s/g, '') == '')){
+                      hourlyRate = Currency+0.00;
+                    }
+                    if((data.ttimesheet[w].fields.StartTime.replace(/\s/g, '') == '') || (data.ttimesheet[w].fields.EndTime.replace(/\s/g, '') == '')){
+                      hoursFormatted = '00:00';
+                    }
+
+                    if (data.ttimesheet[w].fields.Logs) {
+                        if (Array.isArray(data.ttimesheet[w].fields.Logs)) {
+                            // It is array
+                            lineEmpID = data.ttimesheet[w].fields.Logs[0].fields.EmployeeID || '';
+                        } else {
+                            lineEmpID = data.ttimesheet[w].fields.Logs.fields.EmployeeID || '';
+                        }
+                    }
+                    var dataList = {
+                        id: data.ttimesheet[w].fields.ID || '',
+                        employee: data.ttimesheet[w].fields.EmployeeName || '',
+                        employeeID: lineEmpID || '',
+                        hourlyrate: hourlyRate,
+                        hourlyrateval: data.ttimesheet[w].fields.HourlyRate || '',
+                        hours: data.ttimesheet[w].fields.Hours || '',
+                        hourFormat: hoursFormatted,
+                        job: data.ttimesheet[w].fields.Job || '',
+                        product: data.ttimesheet[w].fields.ServiceName || '',
+                        labourcost: labourCost,
+                        overheadrate: data.ttimesheet[w].fields.OverheadRate || '',
+                        sortdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate,
+                        timesheetdate: data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate,
+                        // suppliername: data.ttimesheet[w].SupplierName || '',
+                        timesheetdate1: data.ttimesheet[w].fields.TimeSheetDate || '',
+                        totalamountex: totalAmount || Currency+0.00,
+                        totaladjusted: totalAdjusted || Currency+0.00,
+                        totalamountinc: totalAmountInc || Currency+0.00,
+                        overtime: 0,
+                        double: 0,
+                        status: data.ttimesheet[w].fields.Status || 'Unprocessed',
+                        additional: Currency + '0.00',
+                        paychecktips: Currency + '0.00',
+                        cashtips: Currency + '0.00',
+                        startTime: data.ttimesheet[w].fields.StartTime || '',
+                        endTime: data.ttimesheet[w].fields.EndTime || '',
+                        // totaloustanding: totalOutstanding || 0.00,
+                        // orderstatus: data.ttimesheet[w].OrderStatus || '',
+                        // custfield1: '' || '',
+                        // custfield2: '' || '',
+                        // invoicenotes: data.ttimesheet[w].InvoiceNotes || '',
+                        notes: data.ttimesheet[w].fields.Notes || '',
+                        finished: 'Not Processed',
+                        color: '#f6c23e'
+                    };
+                    dataTableList.push(dataList);
+
+                    let sortdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("YYYY/MM/DD") : data.ttimesheet[w].fields.TimeSheetDate;
+                    let timesheetdate = data.ttimesheet[w].fields.TimeSheetDate != '' ? moment(data.ttimesheet[w].fields.TimeSheetDate).format("DD/MM/YYYY") : data.ttimesheet[w].fields.TimeSheetDate;
+                    let checkStatus = data.ttimesheet[w].fields.Status || 'Unprocessed';
+
+                    var dataListTimeSheet = [
+                        '<div class="custom-control custom-checkbox pointer"><input class="custom-control-input chkBox notevent pointer" type="checkbox" id="f-'+data.ttimesheet[w].fields.ID+'" name="'+data.ttimesheet[w].fields.ID+'"> <label class="custom-control-label" for="f-'+data.ttimesheet[w].fields.ID+'"></label></div>' || '',
+                        data.ttimesheet[w].fields.ID || '',
+                        data.ttimesheet[w].fields.EmployeeName || '',
+                        '<span style="display:none;">'+sortdate+'</span> '+timesheetdate || '',
+                        data.ttimesheet[w].fields.Job || '',
+                        data.ttimesheet[w].fields.ServiceName || '',
+                        '<input class="colRegHours highlightInput" type="number" value="'+data.ttimesheet[w].fields.Hours+'"><span class="colRegHours" style="display: none;">'+data.ttimesheet[w].fields.Hours+'</span>' || '',
+                        '<input class="colRegHoursOne highlightInput" type="text" value="'+hoursFormatted+'" autocomplete="off">' || '',
+                        '<input class="colOvertime highlightInput" type="number" value="0"><span class="colOvertime" style="display: none;">0</span>' || '',
+                        '<input class="colDouble highlightInput" type="number" value="0"><span class="colDouble" style="display: none;">0</span>' || '',
+                        '<input class="colAdditional highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colAdditional" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                        '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
+                        data.ttimesheet[w].fields.Notes || '',
+                        checkStatus || '',
+                        data.ttimesheet[w].fields.HourlyRate || '',
+                        '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
+                    ];
+
+                    let dtTimeSheet = new Date(data.ttimesheet[w].fields.TimeSheetDate.split(' ')[0]);
+                    if(ignoreDate == true){
+                      sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                      sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                      sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                      splashArrayTimeSheetListNew.push(dataListTimeSheet);
+                    }else{
+                      if((dtTimeSheet >= new Date(fromDate)) && (dtTimeSheet <= new Date(toDate))){
+                        sumTotalCharge = sumTotalCharge + data.ttimesheet[w].fields.Total;
+                        sumSumHour = sumSumHour + data.ttimesheet[w].fields.Hours;
+                        sumSumHourlyRate = sumSumHourlyRate + data.ttimesheet[w].fields.LabourCost;
+                        splashArrayTimeSheetListNew.push(dataListTimeSheet);
+                      }
+                    }
+
+                }
+                $('.lblSumTotalCharge').text(utilityService.modifynegativeCurrencyFormat(sumTotalCharge));
+                $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(sumSumHourlyRate.toFixed(2)));
+                $('.lblSumHour').text(sumSumHour.toFixed(2));
+                templateObject.datatablerecords.set(dataTableList);
+                templateObject.datatablerecords1.set(dataTableList);
+                if(splashArrayTimeSheetListNew){
+                let uniqueChars = [...new Set(splashArrayTimeSheetListNew)];
+                var datatable = $('#tblTimeSheet').DataTable();
+                datatable.clear();
+                datatable.rows.add(uniqueChars);
+                datatable.draw(false);
+              }
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                $('.fullScreenSpin').css('display', 'none');
+                // Meteor._reload.reload();
+            });
+          });
+          }
+
             });
 
             Template.timesheet.events({
@@ -2819,8 +3951,8 @@ Template.timesheet.onRendered(function () {
                                     var begunDate = moment(currentDate).format("DD/MM/YYYY");
                                     let fromDateMonth = currentDate.getMonth();
                                     let fromDateDay = currentDate.getDate();
-                                    if (currentDate.getMonth() < 10) {
-                                        fromDateMonth = "0" + currentDate.getMonth();
+                                    if ((currentDate.getMonth()+1) < 10) {
+                                        fromDateMonth = "0" + (currentDate.getMonth()+1);
                                     }
 
                                     if (currentDate.getDate() < 10) {
@@ -2931,8 +4063,8 @@ Template.timesheet.onRendered(function () {
                                     var begunDate = moment(currentDate).format("DD/MM/YYYY");
                                     let fromDateMonth = currentDate.getMonth();
                                     let fromDateDay = currentDate.getDate();
-                                    if (currentDate.getMonth() < 10) {
-                                        fromDateMonth = "0" + currentDate.getMonth();
+                                    if ((currentDate.getMonth()+1) < 10) {
+                                        fromDateMonth = "0" + (currentDate.getMonth()+1);
                                     }
 
                                     if (currentDate.getDate() < 10) {
@@ -2972,8 +4104,8 @@ Template.timesheet.onRendered(function () {
                                 var begunDate = moment(currentDate).format("DD/MM/YYYY");
                                 let fromDateMonth = currentDate.getMonth();
                                 let fromDateDay = currentDate.getDate();
-                                if (currentDate.getMonth() < 10) {
-                                    fromDateMonth = "0" + currentDate.getMonth();
+                                if ((currentDate.getMonth()+1) < 10) {
+                                    fromDateMonth = "0" + (currentDate.getMonth()+1);
                                 }
 
                                 if (currentDate.getDate() < 10) {
@@ -3307,7 +4439,7 @@ Template.timesheet.onRendered(function () {
                     }
                 },
                 'click .chkBox': function () {
-                    var listData = $(this).closest('tr').attr('id');
+                    var listData = $(this).closest('tr').find(".colID").text()||0;
                     const templateObject = Template.instance();
                     const selectedTimesheetList = [];
                     const selectedTimesheetCheck = [];
@@ -3316,7 +4448,7 @@ Template.timesheet.onRendered(function () {
                     let JsonIn1 = {};
                     let myStringJSON = '';
                     $('.chkBox:checkbox:checked').each(function () {
-                        var chkIdLine = $(this).closest('tr').attr('id');
+                        var chkIdLine = $(this).closest('tr').find(".colID").text()||0;
                         let obj = {
                             AppointID: parseInt(chkIdLine)
                         }
@@ -4001,6 +5133,34 @@ Template.timesheet.onRendered(function () {
                     let updateID = $("#updateID").val() || "";
                     let contactService = new ContactService();
 
+                    /* Filter to check Date Set */
+
+                    var currentBeginDate = new Date();
+                    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+                    let fromDateMonth = (currentBeginDate.getMonth() + 1);
+                    let fromDateDay = currentBeginDate.getDate();
+                    if((currentBeginDate.getMonth()+1) < 10){
+                        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+                    }else{
+                      fromDateMonth = (currentBeginDate.getMonth()+1);
+                    }
+
+                    if(currentBeginDate.getDate() < 10){
+                        fromDateDay = "0" + currentBeginDate.getDate();
+                    }
+
+                    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentBeginDate.getFullYear();
+
+                    let prevMonthToDate = (moment().subtract(reportsloadMonths, 'months')).format("DD/MM/YYYY");
+
+
+
+                    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+                    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+
+                    /* Filter to check Date Set */
+
                     let clockList = templateObject.timesheetrecords.get();
 
                 let getEmpIDFromLine = $('.employee_name').val() || '';
@@ -4237,8 +5397,17 @@ Template.timesheet.onRendered(function () {
                                 $('#startTime').prop('disabled', true);
                                 templateObject.datatablerecords.set([]);
                                 templateObject.datatablerecords1.set([]);
-                                templateObject.getAllTimeSheetData();
+
+                                //Newly added
+
+                                //templateObject.getAllTimeSheetData();
                                 templateObject.getAllTimeSheetDataClock();
+
+                                if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+                                  templateObject.getAllFilterTimeSheetData('','', true);
+                                } else {
+                                  templateObject.getAllFilterTimeSheetData(prevMonth11Date,toDate, false);
+                                }
                                 $('#settingsModal').modal('hide');
                                 // setTimeout(function(){
                                 // let getTimesheetRecords = templateObject.timesheetrecords.get();
@@ -4712,42 +5881,6 @@ Template.timesheet.onRendered(function () {
                     }
 
                 },
-                'change #dateTo': function () {
-                    let templateObject = Template.instance();
-                    $('.fullScreenSpin').css('display', 'inline-block');
-                    let timesheetData = templateObject.datatablerecords1.get();
-                    let timesheetList = [];
-                    //templateObject.datatablerecords.set('');
-                    let startDate = new Date($("#dateFrom").datepicker("getDate"));
-                    let endDate = new Date($("#dateTo").datepicker("getDate"));
-                    for (let x = 0; x < timesheetData.length; x++) {
-                        let date = new Date(timesheetData[x].timesheetdate1);
-                        if (date >= startDate && date <= endDate) {
-                            timesheetList.push(timesheetData[x]);
-                        }
-                    }
-                    templateObject.datatablerecords.set(timesheetList);
-                    $('.fullScreenSpin').css('display', 'none');
-
-                },
-                'change #dateFrom': function () {
-                    let templateObject = Template.instance();
-                    $('.fullScreenSpin').css('display', 'inline-block');
-                    let timesheetData = templateObject.datatablerecords1.get();
-                    let timesheetList = [];
-                    //templateObject.datatablerecords.set('');
-                    let startDate = new Date($("#dateFrom").datepicker("getDate"));
-                    let endDate = new Date($("#dateTo").datepicker("getDate"));
-                    for (let x = 0; x < timesheetData.length; x++) {
-                        let date = new Date(timesheetData[x].timesheetdate1);
-                        if (date >= startDate && date <= endDate) {
-                            timesheetList.push(timesheetData[x]);
-                        }
-                    }
-                    templateObject.datatablerecords.set(timesheetList);
-                    $('.fullScreenSpin').css('display', 'none');
-
-                },
                 'click .btnAddNewAccounts': function () {
 
                     $('#add-account-title').text('Add New Account');
@@ -5081,10 +6214,10 @@ Template.timesheet.onRendered(function () {
                     $('.lblSumHourlyRate').text(utilityService.modifynegativeCurrencyFormat(totalvalue) || 0);
 
                 },
-                'blur .colRegHoursOne': function (event) {
+                'keyup .colRegHoursOne': function (event) {
                     let templateObject = Template.instance();
                     let contactService = new ContactService();
-                    let id = $(event.target).closest("tr").attr('id');
+                    let id = $(event.target).closest("tr").find(".colID").text()||0;
                     let edthour = $(event.target).val() || '00:00';
                     let hours = templateObject.timeToDecimal(edthour);
                     data = {
@@ -5341,6 +6474,172 @@ Template.timesheet.onRendered(function () {
                     $('.lineEditHourlyRate').val('');
                     $('.lineEditHour').val('');
                     $('.lineEditTechNotes').val('');
+                },
+                'change #dateTo': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', false);
+                    $('#dateTo').attr('readonly', false);
+                    var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                    var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                    let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                    let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                    //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+                    var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+                    //templateObject.dateAsAt.set(formatDate);
+                    if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+                    } else {
+                      templateObject.getAllFilterTimeSheetData(formatDateFrom,formatDateTo, false);
+                    }
+
+                },
+                'change #dateFrom': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', false);
+                    $('#dateTo').attr('readonly', false);
+                    var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                    var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                    let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                    let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                    //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+                    var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+                    //templateObject.dateAsAt.set(formatDate);
+                    if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+                    } else {
+                        templateObject.getAllFilterTimeSheetData(formatDateFrom,formatDateTo, false);
+                    }
+
+                },
+                'click #lastMonth': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', false);
+                    $('#dateTo').attr('readonly', false);
+                    var currentDate = new Date();
+
+                    var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+                    var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+                    var formatDateComponent = function(dateComponent) {
+                      return (dateComponent < 10 ? '0' : '') + dateComponent;
+                    };
+
+                    var formatDate = function(date) {
+                      return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+                    };
+
+                    var formatDateERP = function(date) {
+                      return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+                    };
+
+
+                    var fromDate = formatDate(prevMonthFirstDate);
+                    var toDate = formatDate(prevMonthLastDate);
+
+                    $("#dateFrom").val(fromDate);
+                    $("#dateTo").val(toDate);
+
+                    var getLoadDate = formatDateERP(prevMonthLastDate);
+                    let getDateFrom = formatDateERP(prevMonthFirstDate);
+                    templateObject.getAllFilterTimeSheetData(getDateFrom,getLoadDate, false);
+                },
+                'click #lastQuarter': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', false);
+                    $('#dateTo').attr('readonly', false);
+                    var currentDate = new Date();
+                    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+                    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+                    function getQuarter(d) {
+                        d = d || new Date();
+                        var m = Math.floor(d.getMonth() / 3) + 2;
+                        return m > 4 ? m - 4 : m;
+                    }
+
+                    var quarterAdjustment = (moment().month() % 3) + 1;
+                    var lastQuarterEndDate = moment().subtract({
+                        months: quarterAdjustment
+                    }).endOf('month');
+                    var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+                        months: 2
+                    }).startOf('month');
+
+                    var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+                    var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+                    $("#dateFrom").val(lastQuarterStartDateFormat);
+                    $("#dateTo").val(lastQuarterEndDateFormat);
+
+                    let fromDateMonth = getQuarter(currentDate);
+                    var quarterMonth = getQuarter(currentDate);
+                    let fromDateDay = currentDate.getDate();
+
+                    var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+                    let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+                    templateObject.getAllFilterTimeSheetData(getDateFrom,getLoadDate, false);
+                },
+                'click #last12Months': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', false);
+                    $('#dateTo').attr('readonly', false);
+                    var currentDate = new Date();
+                    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+                    let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+                    let fromDateDay = currentDate.getDate();
+                    if ((currentDate.getMonth()+1) < 10) {
+                        fromDateMonth = "0" + (currentDate.getMonth()+1);
+                    }
+                    if (currentDate.getDate() < 10) {
+                        fromDateDay = "0" + currentDate.getDate();
+                    }
+
+                    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+                    $("#dateFrom").val(fromDate);
+                    $("#dateTo").val(begunDate);
+
+                    var currentDate2 = new Date();
+                    if ((currentDate2.getMonth()+1) < 10) {
+                        fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+                    }
+                    if (currentDate2.getDate() < 10) {
+                        fromDateDay2 = "0" + currentDate2.getDate();
+                    }
+                    var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+                    let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+                    templateObject.getAllFilterTimeSheetData(getDateFrom,getLoadDate, false);
+
+                },
+                'click #ignoreDate': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    templateObject.getAllFilterTimeSheetData('', '', true);
+                },
+                'keyup #tblTimeSheet_filter input': function (event) {
+                      // if($(event.target).val() != ''){
+                      //   $(".btnRefreshTimeSheet").addClass('btnSearchAlert');
+                      // }else{
+                      //   $(".btnRefreshTimeSheet").removeClass('btnSearchAlert');
+                      // }
+                      // if (event.keyCode == 13) {
+                      //    $(".btnRefreshTimeSheet").trigger("click");
+                      // }
+                    },
+                    'click .btnRefreshTimeSheet':function(event){
+                    $(".btnRefreshOne").trigger("click");
                 }
             });
 
