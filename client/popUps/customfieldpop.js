@@ -210,6 +210,7 @@ Template.customfieldpop.events({
     //     date.style.display = "none";
     //     drop.style.display = "block";
     // }
+    $('#newCustomFieldPop').modal('toggle');
     $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">'+custfield1+'<br></label>'+
     ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
     setTimeout( function(){
@@ -277,6 +278,7 @@ Template.customfieldpop.events({
         }
         });
     },1500);
+
 },
 'click .btnToggleText2': function (event) {
      const templateObject = Template.instance();
