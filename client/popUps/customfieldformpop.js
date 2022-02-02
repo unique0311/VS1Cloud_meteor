@@ -760,10 +760,10 @@ Template.customfieldformpop.events({
      let dropObj = '';
       let listType = "";
       let objDetails1 = '';
+      $('.fullScreenSpin').css('display', 'inline-block');
        if(url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
          listType = "ltSales";
        }
-       console.log(dropDownStatus);
        if (fieldID == "") {
            // taxRateService.checkTermByName(termsName).then(function(data) {
             if(dropDownStatus == "true") {
@@ -802,14 +802,22 @@ Template.customfieldformpop.events({
                 organisationService.saveCustomField(objDetails1).then(function(objDetails) {
                     // sideBarService.getTermsVS1().then(function(dataReload) {
                         if(clickedInput == "one") {
+                            $('.lblCustomField1').text(termsName);
                             $('#edtSaleCustField1').val(termsName);
+                            $('#customFieldText1').val(termsName);
+                            
                         } else if(clickedInput == "two") {
+                             $('.lblCustomField2').text(termsName);
                             $('#edtSaleCustField2').val(termsName);
+                            $('#customFieldText2').val(termsName);
                         } else if(clickedInput == "three") {
+                            $('.lblCustomField3').text(termsName);
                             $('#edtSaleCustField3').val(termsName);
+                            $('#customFieldText3').val(termsName);
                         }
                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
                             $('#newCustomFieldPop').modal('toggle');
+                            $('#myModal4').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         // }).catch(function(err) {
                         //     $('#newTermsModal').modal('toggle');
@@ -873,22 +881,25 @@ Template.customfieldformpop.events({
                 };
             }
 
-
                 organisationService.saveCustomField(objDetails1).then(function(objDetails) {
                     // sideBarService.getTermsVS1().then(function(dataReload) {
                         if(clickedInput == "one") {
+                            $('.lblCustomField1').text(termsName);
                             $('#edtSaleCustField1').val(termsName);
                             $('#customFieldText1').val(termsName);
                             
                         } else if(clickedInput == "two") {
+                             $('.lblCustomField2').text(termsName);
                             $('#edtSaleCustField2').val(termsName);
                             $('#customFieldText2').val(termsName);
                         } else if(clickedInput == "three") {
+                            $('.lblCustomField3').text(termsName);
                             $('#edtSaleCustField3').val(termsName);
                             $('#customFieldText3').val(termsName);
                         }
                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
                             $('#newCustomFieldPop').modal('toggle');
+                            $('#myModal4').modal('toggle');
                             $('.fullScreenSpin').css('display', 'none');
                         // }).catch(function(err) {
                         //     $('#newTermsModal').modal('toggle');

@@ -5,6 +5,7 @@ import { Random } from 'meteor/random';
 // import { OrganisationService } from '../../js/organisation-service';
 let sideBarService = new SideBarService();
 let isDropdown = false;
+let clickedInput = "";
 Template.customfieldpop.onCreated(() => {
     const templateObject = Template.instance();
     templateObject.custfields = new ReactiveVar([]);
@@ -225,6 +226,8 @@ Template.customfieldpop.events({
     'click .btnToggleText1': function (event) {
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
+        clickedInput = "one";
+        $('#clickedControl').val(clickedInput);
         // var text = document.getElementById("customFieldText1");
         // var date = document.getElementById("customFieldDate1");
         // var drop = document.getElementById("sltCustomOne1");
@@ -256,7 +259,9 @@ Template.customfieldpop.events({
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
         $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[0].id);
+        $('#statusId1').val(custfieldarr[0].id || '');
+          clickedInput = "one";
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield1 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -303,9 +308,10 @@ Template.customfieldpop.events({
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
         isDropdown = true;
-        let tokenid = "";
         $('#isdropDown').val(isDropdown);
         $('#statusId1').val(custfieldarr[0].id || '');
+        let tokenid = Random.id();
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield1 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -318,7 +324,6 @@ Template.customfieldpop.events({
             $('.btnAddNewTextBox').nextAll().remove();
             //$('.customText').val(custfieldarr[0].dropdown[0].fields.Text);
             for(let x = 0; x < custfieldarr[0].dropdown.length; x++) {
-                tokenid = Random.id();
                 $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown[x].fields.Text+'" autocomplete="off">'+
@@ -419,7 +424,9 @@ Template.customfieldpop.events({
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
         $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[1].id);
+        $('#statusId1').val(custfieldarr[1].id || '');
+        clickedInput = "two";
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield2 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -445,7 +452,9 @@ Template.customfieldpop.events({
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
         $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[1].id);
+        $('#statusId1').val(custfieldarr[1].id || '');
+        clickedInput = "two";
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield2 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -489,7 +498,10 @@ Template.customfieldpop.events({
         let custfieldarr = templateObject.custfields.get();
         isDropdown = true;
         $('#isdropDown').val(isDropdown);
+        let tokenid = Random.id();
         $('#statusId1').val(custfieldarr[1].id || '');
+        clickedInput = "two";
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield2 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -502,7 +514,6 @@ Template.customfieldpop.events({
             $('.btnAddNewTextBox').nextAll().remove();
            // $('.customText').val(custfieldarr[1].dropdown[0].fields.Text);
             for(let x = 0; x < custfieldarr[1].dropdown.length; x++) {
-                tokenid = Random.id();
                 $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[1].dropdown[x].fields.Text+'" autocomplete="off">'+
@@ -611,6 +622,8 @@ Template.customfieldpop.events({
         isDropdown = false;
         $('#isdropDown').val(isDropdown);
         $('#statusId1').val(custfieldarr[2].id || '');
+        clickedInput = "three";
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield3 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -618,12 +631,12 @@ Template.customfieldpop.events({
         } else {
             custfield3 = "Custom Field 3"
         }
+        let tokenid = Random.id();
         $('.checkbox3div').empty();
        if(Array.isArray(custfieldarr[0].dropdown)) {
             $('.btnAddNewTextBox').nextAll().remove();
             //$('.customText').val(custfieldarr[2].dropdown[0].fields.Text);
             for(let x = 0; x < custfieldarr[0].dropdown.length; x++) {
-                tokenid = Random.id();
                 $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown[x].fields.Text+'" autocomplete="off">'+
@@ -654,7 +667,9 @@ Template.customfieldpop.events({
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
         $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[2].id);
+        $('#statusId1').val(custfieldarr[2].id || '');
+        clickedInput = "three";
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield3 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -697,7 +712,10 @@ Template.customfieldpop.events({
         let custfieldarr = templateObject.custfields.get();
         isDropdown = true;
         $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[2].id);
+        $('#statusId1').val(custfieldarr[2].id || '');
+        let tokenid = Random.id();
+        clickedInput = "three";
+        $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
         let custfield3 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -710,7 +728,6 @@ Template.customfieldpop.events({
             $('.btnAddNewTextBox').nextAll().remove();
             $('.customText').val(custfieldarr[2].dropdown[0].fields.Text);
             for(let x = 1; x < custfieldarr[2].dropdown.length; x++) {
-                tokenid = Random.id();
                 $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[2].dropdown[x].fields.Text+'" autocomplete="off">'+
