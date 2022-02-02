@@ -302,6 +302,10 @@ Template.customfieldpop.events({
                 changeYear: true,
                 yearRange: "-90:+10",
             });
+
+             var currentDate = new Date();
+            var begunDate = moment(currentDate).format("DD/MM/YYYY");
+            $("#edtSaleCustField1").val(begunDate);
         }, 1500);
     },
     'click .btnToggleDrop1': function (event) {
@@ -497,6 +501,10 @@ Template.customfieldpop.events({
                 changeYear: true,
                 yearRange: "-90:+10",
             });
+
+            var currentDate = new Date();
+            var begunDate = moment(currentDate).format("DD/MM/YYYY");
+            $("#edtSaleCustField2").val(begunDate);
         }, 1500);
     },
     'click .btnToggleDrop2': function (event) {
@@ -717,7 +725,12 @@ Template.customfieldpop.events({
                 changeYear: true,
                 yearRange: "-90:+10",
             });
+
+            var currentDate = new Date();
+            var begunDate = moment(currentDate).format("DD/MM/YYYY");
+            $("#edtSaleCustField3").val(begunDate);
         }, 200);
+
     },
     'click .btnToggleDrop3': function (event) {
         const templateObject = Template.instance();
