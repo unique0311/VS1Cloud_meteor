@@ -2,6 +2,7 @@ import 'jQuery.print/jQuery.print.js';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { SideBarService } from '../js/sidebar-service';
 import { Random } from 'meteor/random';
+import { OrganisationService } from '../js/organisation-service';
 // import { OrganisationService } from '../../js/organisation-service';
 let sideBarService = new SideBarService();
 let isDropdown = false;
@@ -945,50 +946,126 @@ Template.customfieldpop.events({
     // },
     'click .btnSaveSettings': function (event) {
         var url = FlowRouter.current().path;
-        // let custfield1 = $('.customField1').val() || 'Custom Field 1';
-        // let custfield2 = $('.customField2').val() || 'Custom Field 2';
-        // let custfield3 = $('.customField3').val() || 'Custom Field 3';
-        // if(url.includes('/invoicecard')) {
-        //     localStorage.setItem('custfield1invoice',custfield1);
-        //     localStorage.setItem('custfield2invoice',custfield2);
-        //     localStorage.setItem('custfield3invoice',custfield3);
+        let organisationService = new OrganisationService();
+        var url = FlowRouter.current().path;
+        let fieldData = [];
 
-        //     $('.lblCustomField1').text(localStorage.getItem('custfield1invoice'));
-        //     $('.lblCustomField2').text(localStorage.getItem('custfield2invoice'));
-        //     $('.lblCustomField3').text(localStorage.getItem('custfield3invoice'));
-        //     $('#myModal4').modal('toggle');
+        $('.customfieldcommon').each(function(){
+            dropObj = {
+                id: $(this).attr('custid') || '',
+                name: $(this).val() || ''
+            }
+            fieldData.push(dropObj);
+        });
 
-        // } else if(url.includes('/salesordercard')) {
-        //     localStorage.setItem('custfield1salesorder',custfield1);
-        //     localStorage.setItem('custfield2salesorder',custfield2);
-        //     localStorage.setItem('custfield3salesorder',custfield3);
+        let listType = "";
+        let objDetails1 = '';
+      $('.fullScreenSpin').css('display', 'inline-block');
+       if(url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
+         listType = "ltSales";
+       }
 
-        //     $('.lblCustomField1').text(localStorage.getItem('custfield1salesorder'));
-        //     $('.lblCustomField2').text(localStorage.getItem('custfield2salesorder'));
-        //     $('.lblCustomField3').text(localStorage.getItem('custfield3salesorder'));
-        //     $('#myModal4').modal('toggle');
+       for(let i = 0; i < fieldData.length; i++) {
+        let fieldID = fieldData[i].id;
+        let name = fieldData[i].name;
+        if (fieldID == "") {
+            objDetails1 = {
+                type: "TCustomFieldList",
+                fields: {
+                    DataType:"ftString",
+                    Description: name,
+                    listType: listType
+                }
+            }
 
-        // } else if(url.includes('/quotecard')) {
-        //     localStorage.setItem('custfield1quote',custfield1);
-        //     localStorage.setItem('custfield2quote',custfield2);
-        //     localStorage.setItem('custfield3quote',custfield3);
+            organisationService.saveCustomField(objDetails1).then(function(objDetails) {
+                if(i == 0) {
+                    $('.lblCustomField1').text(fieldData[i].name);
+                    $('#edtSaleCustField1').val(fieldData[i].name);
+                    $('#customFieldText1').val(fieldData[i].name);
+                }
+                
+                if(i == 1) { 
+                    $('.lblCustomField2').text(fieldData[i].name);
+                    $('#edtSaleCustField2').val(fieldData[i].name);
+                    $('#customFieldText2').val(fieldData[i].name);
+                }
 
-        //     $('.lblCustomField1').text(localStorage.getItem('custfield1quote'));
-        //     $('.lblCustomField2').text(localStorage.getItem('custfield2quote'));
-        //     $('.lblCustomField3').text(localStorage.getItem('custfield3quote'));
-        //     $('#myModal4').modal('toggle');
-        // } else if(url.includes('/refundcard')) {
-        //     localStorage.setItem('custfield1refund',custfield1);
-        //     localStorage.setItem('custfield2refund',custfield2);
-        //     localStorage.setItem('custfield3refund',custfield3);
+                if(i == 2) { 
+                    $('.lblCustomField3').text(fieldData[i].name);
+                    $('#edtSaleCustField3').val(fieldData[i].name);
+                    $('#customFieldText3').val(fieldData[i].name);
+                    $('#myModal4').modal('toggle');
+                    $('.fullScreenSpin').css('display', 'none');
+                }
 
-        //     $('.lblCustomField1').text(localStorage.getItem('custfield1refund'));
-        //     $('.lblCustomField2').text(localStorage.getItem('custfield2refund'));
-        //     $('.lblCustomField3').text(localStorage.getItem('custfield3refund'));
-        //     $('#myModal4').modal('toggle');
-        // }
-        $('#myModal4').modal('toggle');
+            }).catch(function(err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        } else {
+            objDetails1 = {
+                type: "TCustomFieldList",
+                fields: {
+                    ID: fieldID,
+                    DataType:"ftString",
+                    Description: name,
+                    listType: listType
+                }
+            };
+
+            organisationService.saveCustomField(objDetails1).then(function(objDetails) {
+                if(i == 0) {
+                    $('.lblCustomField1').text(fieldData[i].name);
+                    $('#edtSaleCustField1').val(fieldData[i].name);
+                    $('#customFieldText1').val(fieldData[i].name);
+                }
+                
+                if(i == 1) { 
+                    $('.lblCustomField2').text(fieldData[i].name);
+                    $('#edtSaleCustField2').val(fieldData[i].name);
+                    $('#customFieldText2').val(fieldData[i].name);
+                }
+
+                if(i == 2) { 
+                    $('.lblCustomField3').text(fieldData[i].name);
+                    $('#edtSaleCustField3').val(fieldData[i].name);
+                    $('#customFieldText3').val(fieldData[i].name);
+                    $('#myModal4').modal('toggle');
+                    $('.fullScreenSpin').css('display', 'none');
+                }
+
+            }).catch(function(err) {
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    } else if (result.dismiss === 'cancel') {
+
+                    }
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
     }
+}
 })
 
 Template.customfieldpop.helpers({
