@@ -9,6 +9,7 @@
                 <div class="modal-body" style="padding: 8px 24px;">
                     <input type="hidden" id="statusId1" name="statusId1" class="form-control">
                     <input type="hidden" id="clickedControl" name="clickedControl" class="form-control">
+                    <input type="hidden" id="isdropDown" name="isdropDown" class="form-control">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group flex-grow-1" style="margin: 8px 0px;">
@@ -19,12 +20,12 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="form-group flex-grow-1" style="margin: 8px 0px;">
+                            <div class="form-group flex-grow-1 dropDownSection" style="margin: 8px 0px;">
                                 <label>Dropdown Values</label>
-                                <button class="btn btn-primary btnAddNewTextBox" data-dismiss="modal" data-toggle="modal" data-target="#newStatusPopModal" type="button" style="padding: 3px 6px; font-size: 12px; margin-left: 8px !important; border-radius: 25px;" autocomplete="off"><i class="fas fa-plus"></i></button>
-                                <div class="row" id="textBoxSection">
+                                <button class="btn btn-primary btnAddNewTextBox" type="button" style="padding: 3px 6px; font-size: 12px; margin-left: 8px !important; border-radius: 25px;" autocomplete="off"><i class="fas fa-plus"></i></button>
+                                <div class="row" id="textBoxSection" style="padding:5px">
                                     <div class="col-10">
-                                        <input type="text" style="" id="newStatus1" name="newStatus1" class="form-control">
+                                        <input type="text" style="" name="customText" class="form-control customText">
                                     </div>
                                     <div class="col-2">
                                         <button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>
