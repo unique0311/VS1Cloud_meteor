@@ -428,6 +428,9 @@ Template.customfieldpop.events({
         clickedInput = "two";
         $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
+         $('.dropDownSection').hide();
+        $('#newStatus1').val($('#customFieldText2').val());
+        $('#newCustomFieldPop').modal('toggle');
         let custfield2 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
             custfield2 = custfieldarr[1].custfieldlabel || 'Custom Field 2';
@@ -453,6 +456,9 @@ Template.customfieldpop.events({
         isDropdown = false;
         $('#isdropDown').val(isDropdown);
         $('#statusId1').val(custfieldarr[1].id || '');
+         $('.dropDownSection').hide();
+        $('#newStatus1').val($('#customFieldText2').val());
+        $('#newCustomFieldPop').modal('toggle');
         clickedInput = "two";
         $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
@@ -632,6 +638,9 @@ Template.customfieldpop.events({
             custfield3 = "Custom Field 3"
         }
         let tokenid = Random.id();
+         $('.dropDownSection').hide();
+        $('#newStatus1').val($('#customFieldText3').val());
+        $('#newCustomFieldPop').modal('toggle');
         $('.checkbox3div').empty();
        if(Array.isArray(custfieldarr[0].dropdown)) {
             $('.btnAddNewTextBox').nextAll().remove();
@@ -670,6 +679,9 @@ Template.customfieldpop.events({
         $('#statusId1').val(custfieldarr[2].id || '');
         clickedInput = "three";
         $('#clickedControl').val(clickedInput);
+         $('.dropDownSection').hide();
+        $('#newStatus1').val($('#customFieldText3').val());
+        $('#newCustomFieldPop').modal('toggle');
         var url = FlowRouter.current().path;
         let custfield3 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
