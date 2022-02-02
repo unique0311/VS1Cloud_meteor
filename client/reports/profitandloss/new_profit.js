@@ -128,8 +128,10 @@ if (moment().quarter() == 4) {
 
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         if (!localStorage.getItem('VS1ProfitandLoss_ReportCompare1')) {
-            reportService.getProfitandLossCompare(dateFrom, dateTo, ignoreDate).then(function (data) {
+            reportService.getProfitandLossCompare(dateFrom, dateTo, true).then(function (data) {
+                console.log(data);
                 let records = [];
+                var groups = {};
                 if (data.tprofitandlossperiodcomparereport) {
                     localStorage.setItem('VS1ProfitandLoss_ReportCompare', JSON.stringify(data) || '');
                     let totalNetAssets = 0;
@@ -141,23 +143,48 @@ if (moment().quarter() == 4) {
                     let accountData = data.tprofitandlossperiodcomparereport;
                     let accountType = '';
 
+                    var dataList = '';
                     for (let i = 0; i < accountData.length; i++) {
 
                         if (accountData[i]['AccountTypeDesc'].replace(/\s/g, '') == '') {
-                            accountType = '';
+                                accountType = '';
+
                         } else {
                             accountType = accountData[i]['AccountTypeDesc'];
                         }
+                        //console.log(accountType);
                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let jan2022Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let dec2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let nov2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let oct2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let sept2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
-                        var dataList = {
+                        if(accountData[i]['AccountHeaderOrder'].replace(/\s/g, '') == '' && accountType != ''){
+                            dataList = {
                             id: accountData[i]['AccountID'] || '',
                             accounttype: accountType || "",
+                            accounttypeshort: accountData[i]['AccountType'] || "",
                             accountname: accountData[i]['AccountName'] || '',
+                            accountheaderorder: accountData[i]['AccountHeaderOrder'] || '',
+                            accountno: accountData[i]['AccountNo'] || '',
+                            totalamountex: '',
+                            name: $.trim(accountData[i]['AccountName']).split(" ").join("_"),
+                            jan2022: '',
+                            dec2021: '',
+                            nov2021: '',
+                            oct2021: '',
+                            sept2021: '',
+                            // totaltax: totalTax || 0.00
+
+
+                        };
+                        }else{
+                        dataList = {
+                            id: accountData[i]['AccountID'] || '',
+                            accounttype: accountType || "",
+                            accounttypeshort: accountData[i]['AccountType'] || "",
+                            accountname: accountData[i]['AccountName'] || '',
+                            accountheaderorder: accountData[i]['AccountHeaderOrder'] || '',
                             accountno: accountData[i]['AccountNo'] || '',
                             totalamountex: totalAmountEx || 0.00,
                             name: $.trim(accountData[i]['AccountName']).split(" ").join("_"),
@@ -170,21 +197,44 @@ if (moment().quarter() == 4) {
 
 
                         };
-                        if ((accountType == '') && (accountData[i]['AccountName'].replace(/\s/g, '') == '')) {
-
-                        } else {
-                            // if(accountType.toLowerCase().indexOf("total") >= 0){
-                            //
-                            // }
-                            if ((accountData[i]['TotalAmount'] != 0)) {
-                                records.push(dataList);
-                            }
-
+                            
                         }
+                    
+                        
+
+                        
+                        
+                        
+                        let accTypeArr= [accountType];
+                        let remBlanks = accTypeArr.filter(function (y) {return y != null && y != 0 && y.length > 0;});
+                    
+                        
+                        
+                        if(accountData[i]['AccountType'].replace(/\s/g, '') == '' && accountType == ''){
+                  
+                            
+                        }else{
+                         records.push(dataList);
+                            
+                            //if(accountType != ''){
+                            var groupName = accountType;
+                                    if (!groups[groupName]) {
+                                        groups[groupName] = [];
+                                    }
+
+
+
+
+                            groups[groupName].push(dataList);
+                            //}
+                        }
+                        
+              
 
 
                     }
-
+                    console.log(groups);
+                                    
                     templateObject.records.set(records);
                     if (templateObject.records.get()) {
                         setTimeout(function () {
@@ -208,11 +258,13 @@ if (moment().quarter() == 4) {
                 }
 
             }).catch(function (err) {
+                console.log(err);
                 //Bert.alert('<strong>' + err + '</strong>!', 'danger');
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
             let data = JSON.parse(localStorage.getItem('VS1ProfitandLoss_ReportCompare'));
+            console.log(data);
             let records = [];
             if (data.tprofitandlossperiodcomparereport) {
                 let totalNetAssets = 0;
@@ -329,7 +381,8 @@ if (moment().quarter() == 4) {
 
     //Dragable items in edit layout screen
     //This works now: break at your own peril
-    $(".sortableAccountParent").sortable({
+    setTimeout(function(){
+        $(".sortableAccountParent").sortable({
         revert: true,
         cancel: ".undraggableDate,.accdate,.edtInfo"
     });
@@ -342,6 +395,8 @@ if (moment().quarter() == 4) {
         helper: "none",
         revert: "true"
     });
+    },1000)
+    
     //    $( "ul, li" ).disableSelection();
     //Dragable items in edit layout screen end
 });
@@ -665,15 +720,10 @@ Template.newprofitandloss.events({
         }
     },
     'click .nonePeriod': function (event) {
-        $('td:nth-child(4)').hide();
-        $('td:nth-child(5)').hide();
-        $('td:nth-child(6)').hide();
-        $('td:nth-child(7)').hide();
-
-        $('th:nth-child(4)').hide();
-        $('th:nth-child(5)').hide();
-        $('th:nth-child(6)').hide();
-        $('th:nth-child(7)').hide();
+        $('td:nth-child(n+3)').show();
+        $('th:nth-child(n+3)').show();
+        $('td:nth-child(n+4)').hide();
+        $('th:nth-child(n+4)').hide();
     },
     'click .onePeriod': function (event) {
         $('#dateFrom').attr('readonly', false);
@@ -682,52 +732,64 @@ Template.newprofitandloss.events({
         var dateTo = new Date($("#dateTo").datepicker("getDate"));
         let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
-        $('td:nth-child(4)').show();
-        $('td:nth-child(5)').hide();
-        $('td:nth-child(6)').hide();
-        $('td:nth-child(7)').hide();
-
-        $('th:nth-child(4)').show();
-        $('th:nth-child(5)').hide();
-        $('th:nth-child(6)').hide();
-        $('th:nth-child(7)').hide();
+        
+        $('td:nth-child(n+4)').show();
+        $('th:nth-child(n+4)').show();        
+        $('td:nth-child(n+5)').hide();
+        $('th:nth-child(n+5)').hide();
 
     },
     'click .twoPeriods': function (event) {
-        $('th:nth-child(4)').show();
-        $('td:nth-child(5)').show();
-        $('td:nth-child(6)').hide();
-        $('td:nth-child(7)').hide();
-
-        $('th:nth-child(4)').show();
-        $('th:nth-child(5)').show();
-        $('th:nth-child(6)').hide();
-        $('th:nth-child(7)').hide();
+        $('td:nth-child(n+4)').show();
+        $('th:nth-child(n+4)').show();   
+        $('td:nth-child(n+6)').hide();
+        $('th:nth-child(n+6)').hide();
     },
     'click .threePeriods': function (event) {
-        $('th:nth-child(4)').show();
-        $('td:nth-child(5)').show();
-        $('td:nth-child(6)').show();
-        $('td:nth-child(7)').hide();
-
-        $('th:nth-child(4)').show();
-        $('th:nth-child(5)').show();
-        $('th:nth-child(6)').show();
-        $('th:nth-child(7)').hide();
+        $('td:nth-child(n+4)').show();
+        $('th:nth-child(n+4)').show();
+        $('td:nth-child(n+7)').hide();
+        $('th:nth-child(n+7)').hide();
     },
     'click .fourPeriods': function (event) {
-        $('th:nth-child(4)').show();
-        $('td:nth-child(5)').show();
-        $('td:nth-child(6)').show();
-        $('td:nth-child(7)').show();
-
-        $('th:nth-child(4)').show();
-        $('th:nth-child(5)').show();
-        $('th:nth-child(6)').show();
-        $('th:nth-child(7)').show();
+        $('td:nth-child(n+4)').show();
+        $('th:nth-child(n+4)').show();
+        $('td:nth-child(n+8)').hide();
+        $('th:nth-child(n+8)').hide();
     },
-    'click .btnComparisonPeriods': function (event) {
-//        var custPeriod = $('#comparisonPeriodNum').val();
+   //custom selection period number    
+    'click .btnSaveComparisonPeriods': function (event) {
+        $('td:nth-child(n+4)').hide();
+        $('th:nth-child(n+4)').hide();
+        
+        if (typeof custPeriod !== 'undefined'){
+            let i = 0;
+            custPeriod = 0;
+            custPeriod = $('#comparisonPeriodNum').val();
+            perModded = 0;
+            perModded = custPeriod + 3;
+            while (i < perModded) {
+            i++;
+                $('td:nth-child('+i+')').show();
+                $('th:nth-child('+i+')').show();
+            }
+            }
+        else{
+        let i = 0;
+        var custPeriod = 0;
+        custPeriod = $('#comparisonPeriodNum').val();
+
+        var perModded =0;
+       perModded = custPeriod + 3;
+            while (i < perModded) {
+            i++;
+                $('td:nth-child('+i+')').show();
+                $('th:nth-child('+i+')').show();
+            }
+        }
+//        }
+        
+        //        var custPeriod = $('#comparisonPeriodNum').val();
 //
 //        let i = 0;
 //        while (i < custPeriod) {
@@ -736,13 +798,14 @@ Template.newprofitandloss.events({
 //            $('tbody').each('tr').append('<td></td>');
 //            
 //        }
+         
     },
-
-    //custom selection period number
-    'click .btnSaveCustomComparison': function (event) {
+ // period selector end
+ 
+    'click .btnCloseCustomComparison': function (event) {
 
     },
-    // period selector end
+   
 
     'click .lytAccountToggle': function (event) {
 
@@ -771,6 +834,7 @@ Template.newprofitandloss.events({
             $(this).click(function () {
                 var el = $(this).attr('id');
                 if (el === 'gP') {
+                                        $(this).addClass('currSelectedItem');
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
@@ -790,6 +854,7 @@ Template.newprofitandloss.events({
                             $('.newDateColumnTab').hide(); 
 //                            $('.btnRowAccounts,.btnRowCustom').hide();
                 } else if (el === 'nP') {
+                                        $(this).addClass('currSelectedItem');
                     $('.edlayCalculator').show();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
@@ -809,6 +874,7 @@ Template.newprofitandloss.events({
                             $('.newDateColumnTab').hide(); 
                             $('.btnRowAccounts,.btnRowCustom').hide();
                 } else {
+                                        $(this).addClass('currSelectedItem');
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
                     $('.editDefault').hide();
@@ -838,6 +904,7 @@ Template.newprofitandloss.events({
             $(this).click(function () {
                 var el = $(this).attr('id');
                 if (el === 'pgBreak1') {
+                    $(this).addClass('currSelectedItem');
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
@@ -858,6 +925,7 @@ Template.newprofitandloss.events({
                             $('.btnRowAccounts,.btnRowCustom').hide();
                     
                 }else {
+                     
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
                     $('.editDefault').hide();
@@ -1024,7 +1092,8 @@ Template.newprofitandloss.events({
 
     },
     //end group row section
-    'click #pgBreak1':function (event) {
+    'click #pgBreak1,.pageBreakBar ':function (event) {
+                $(this).addClass('currSelectedItem');
                 $('.edlayCalculator').hide();
                 $('.editGroup').hide();
                 $('.editDefault').hide();
@@ -1284,6 +1353,9 @@ Template.newprofitandloss.events({
         helper: "none",
         revert: "true"
     });
+      },      
+    'click .btnDelSelected':function(event){
+        $('.currSelectedItem').remove();
       }
 });
 

@@ -118,6 +118,7 @@
 
             td.fgrtotal {
                 font-weight: 700;
+
             }
 
             td.tperiod {
@@ -132,6 +133,11 @@
                 font-size: 18px;
                 border-top: 0px;
                 padding-top: 16px;
+                border-bottom: 1px solid #e3e6f0 !important;
+                border-top: unset;
+            }
+            .pnlTable td{
+              border-top: unset;  
             }
         </style>
         <div class="row no-gutters d-xl-flex justify-content-center justify-content-xl-center mb-3" style="width: 100%;">
@@ -370,6 +376,7 @@
                                                             <td class="fgr fgrblue text-right">{{item.oct2021}}</td>
                                                             <td class="fgr fgrblue text-right">{{item.sept2021}}</td>
                                                         {{else}}
+                                                            {{#if containsequals item.accounttype "Total"}}
                                                             <td class="fgrtotal">{{item.accounttype}}</td>
                                                             <td></td>
                                                             <td class="fgr fgrtotal text-right">{{item.jan2022}}</td>
@@ -377,6 +384,15 @@
                                                             <td class="fgr fgrtotal text-right">{{item.nov2021}}</td>
                                                             <td class="fgr fgrtotal text-right">{{item.oct2021}}</td>
                                                             <td class="fgr fgrtotal text-right">{{item.sept2021}}</td>
+                                                        {{else}}
+                                                            <td class="fgrtotal">{{item.accounttype}}</td>
+                                                            <td></td>
+                                                            <td class="fgr fgrSubtotal text-right">{{item.jan2022}}</td>
+                                                            <td class="fgr fgrSubtotal text-right">{{item.dec2021}}</td>
+                                                            <td class="fgr fgrSubtotal text-right">{{item.nov2021}}</td>
+                                                            <td class="fgr fgrSubtotal text-right">{{item.oct2021}}</td>
+                                                            <td class="fgr fgrSubtotal text-right">{{item.sept2021}}</td>
+                                                        {{/if}}
                                                         {{/if}}
 
 
@@ -882,10 +898,10 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-md-12 col-lg-offset-4 text-right">
-                        <button class="btn btn-success saveTable btnComparisonPeriods" type="button" autocomplete="off">
+                        <button class="btn btn-success saveTable btnSaveComparisonPeriods" type="button" autocomplete="off">
                             <i class="fa fa-save" style="margin-right: 5px;"></i>Save
                         </button>
-                        <button class="btn btn-secondary text-nowrap btnSaveCustomComparison" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                        <button class="btn btn-secondary text-nowrap btnCloseCustomComparison" data-dismiss="modal" type="button" id="btnApplyLayout"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                     </div>
                 </div>
             </div>
@@ -1171,11 +1187,11 @@
                                 </svg>
                                 <span class="tooltiptext">Page Down</span>
                             </div>
-                            <div class="pointer btnLayoutAction" style="margin: 0px 16px;">
+                            <div class="pointer btnLayoutAction btnDelSelected" style="margin: 0px 16px;">
                                 <svg xml:space="http://www.w3.org/2000/svg" data-icon-name="trash" width="17" height="19" viewBox="0 0 17 19" fill="#00A3D3" stroke="#00A3D3">
                                     <path d="M0 2h17v2H0V2zm6-2h5v2H6V0zM2 5h13v13c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V5zm6 2h1v9H8V7zm3 0h1v9h-1V7zM5 7h1v9H5V7z" fill-rule="evenodd"></path>
                                 </svg>
-                                <span class="tooltiptext btnDelSelected">Delete</span>
+                                <span class="tooltiptext">Delete</span>
                             </div>
                             <div class="pointer btnLayoutAction" style="margin: 0px 16px;">
                                 <svg class="xui-icon" focusable="false" height="20" viewBox="0 0 15 15" width="20" fill="#00A3D3">
@@ -1211,6 +1227,7 @@
                                         <label class="col-9 dragVal" style=""></label>
                                         <label class="col-3 dragAcc" style="text-align: right;" id="">Jan 2022</label>
                                     </div>
+                                    <!--
                                     <div class="sortableAccount">
                                         <div class=" avoid">
                                             <label class="col-9 dragAcc" style="">Trading Income</label>
@@ -1236,7 +1253,27 @@
                                             <label class="col-8 dragAcc" style="flex:0 0 70.66667%;max-width:70.66667%;">Total Trading Income</label>
                                             <label class="col-3 dragVal" style="">11000.00</label>
                                         </div>
-                                    </div>
+                                    </div> -->
+                  {{#if records}}
+                        {{#each item in records}}
+                            <div class="sortableAccount">
+                            {{#if notEquals item.accounttype ""}}
+                                <div class=" avoid">
+                                            <label class="col-9 dragAcc" style="">{{item.accounttype}}</label>
+                                            <label class="col-3 dragVal" style="" id="">0.00</label>
+                                </div>
+                            {{else}}
+                                  <div class="draggable">
+                                            <div class="col-1" style="flex:0 0 4.33333%;max-width:4.33333%;"></div>
+                                            <label class="col-8 dragAcc" style="flex:0 0 70.66667%;max-width:70.66667%;">{{item.accountname}}</label>
+                                            <label class="col-3 dragVal" style="">0.00</label>
+                                </div>  
+                            {{/if}} 
+                              </div>        
+                        {{/each}}
+                  {{/if}}
+
+                                    
 <!--
                                     <div class="sortableAccount pageBreakBar">
                                         <div class="draggable" id="pgBreak1">
@@ -1245,6 +1282,7 @@
                                     </div>
 -->
 
+<!--
                                     <div class="sortableAccount">
                                         <div class=" avoid">
                                             <label class="col-9 dragAcc" style="">Cost of Sales</label>
@@ -1286,8 +1324,10 @@
                                             <label class="col-3 dragVal" style="">11000.00</label>
                                         </div>
                                     </div>
+-->
 
 
+<!--
                                     <div class="sortableAccount">
                                         <div class=" avoid gP" id="gP">
                                             <label class="col-9 dragAcc" style=""><span class="formula-icon">ƒ</span> Gross Profit</label>
@@ -1339,8 +1379,10 @@
                                             <label class="col-3 dragVal" style="">11000.00</label>
                                         </div>
                                     </div>
+-->
 
 
+<!--
                                     <div class="sortableAccount">
                                         <div class=" avoid">
                                             <label class="col-9 dragAcc" style="">Other Income</label>
@@ -1450,6 +1492,7 @@
                                             <label class="col-3 dragVal" style="">11000.00</label>
                                         </div>
                                     </div>
+-->
 
                                 </div>
                                 <div class="col-4 editor-Right">
