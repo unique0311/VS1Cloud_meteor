@@ -120,6 +120,11 @@
                 font-weight: 700;
 
             }
+            td.fgrSubtotal {
+              font-weight: 700;
+              font-size: 16px!important;
+            }
+
 
             td.tperiod {
                 font-size: 12px;
@@ -137,7 +142,7 @@
                 border-top: unset;
             }
             .pnlTable td{
-              border-top: unset;  
+              border-top: unset;
             }
         </style>
         <div class="row no-gutters d-xl-flex justify-content-center justify-content-xl-center mb-3" style="width: 100%;">
@@ -368,7 +373,7 @@
                                                 {{#each item in records}}
                                                     <tr id="item-value-{{item.name}}">
                                                         {{#if equals item.accounttype ""}}
-                                                            <td>{{item.accountname}}</td>
+                                                            <td style="padding-left: 15px;" class="fgr fgrblue">{{item.accountname}}</td>
                                                             <td></td>
                                                             <td class="fgr fgrblue text-right">{{item.jan2022}}</td>
                                                             <td class="fgr fgrblue text-right">{{item.dec2021}}</td>
@@ -377,22 +382,22 @@
                                                             <td class="fgr fgrblue text-right">{{item.sept2021}}</td>
                                                         {{else}}
                                                             {{#if containsequals item.accounttype "Total"}}
-                                                            <td class="fgrtotal">{{item.accounttype}}</td>
-                                                            <td></td>
-                                                            <td class="fgr fgrtotal text-right">{{item.jan2022}}</td>
-                                                            <td class="fgr fgrtotal text-right">{{item.dec2021}}</td>
-                                                            <td class="fgr fgrtotal text-right">{{item.nov2021}}</td>
-                                                            <td class="fgr fgrtotal text-right">{{item.oct2021}}</td>
-                                                            <td class="fgr fgrtotal text-right">{{item.sept2021}}</td>
-                                                        {{else}}
-                                                            <td class="fgrtotal">{{item.accounttype}}</td>
+                                                            <td class="fgrSubtotal fgrSubtotalName" style="padding-left: 15px;">{{item.accounttype}}</td>
                                                             <td></td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.jan2022}}</td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.dec2021}}</td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.nov2021}}</td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.oct2021}}</td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.sept2021}}</td>
-                                                        {{/if}}
+                                                            {{else}}
+                                                                <td class="fgrtotal fgrtotalName">{{item.accounttype}}</td>
+                                                                <td></td>
+                                                                <td class="fgr fgrtotal text-right">{{item.jan2022}}</td>
+                                                                <td class="fgr fgrtotal text-right">{{item.dec2021}}</td>
+                                                                <td class="fgr fgrtotal text-right">{{item.nov2021}}</td>
+                                                                <td class="fgr fgrtotal text-right">{{item.oct2021}}</td>
+                                                                <td class="fgr fgrtotal text-right">{{item.sept2021}}</td>
+                                                            {{/if}}
                                                         {{/if}}
 
 
@@ -1227,8 +1232,8 @@
                                         <label class="col-9 dragVal" style=""></label>
                                         <label class="col-3 dragAcc" style="text-align: right;" id="">Jan 2022</label>
                                     </div>
-                                    <!--
-                                    <div class="sortableAccount">
+
+                                    <!-- <div class="sortableAccount">
                                         <div class=" avoid">
                                             <label class="col-9 dragAcc" style="">Trading Income</label>
                                             <label class="col-3 dragVal" style="" id="">11000.00</label>
@@ -1254,26 +1259,36 @@
                                             <label class="col-3 dragVal" style="">11000.00</label>
                                         </div>
                                     </div> -->
-                  {{#if records}}
-                        {{#each item in records}}
+                  {{#if recordslayout}}
+                        {{#each arrayify recordslayout}}
                             <div class="sortableAccount">
-                            {{#if notEquals item.accounttype ""}}
-                                <div class=" avoid">
-                                            <label class="col-9 dragAcc" style="">{{item.accounttype}}</label>
-                                            <label class="col-3 dragVal" style="" id="">0.00</label>
-                                </div>
-                            {{else}}
-                                  <div class="draggable">
-                                            <div class="col-1" style="flex:0 0 4.33333%;max-width:4.33333%;"></div>
-                                            <label class="col-8 dragAcc" style="flex:0 0 70.66667%;max-width:70.66667%;">{{item.accountname}}</label>
-                                            <label class="col-3 dragVal" style="">0.00</label>
-                                </div>  
-                            {{/if}} 
-                              </div>        
+                           {{#each item in value}}
+                              {{#if notEquals item.accounttype ""}}
+                                  {{#if containsequals item.accounttype "Total"}}
+                                    <div class="draggable tot" style="font-weight: 600;" >
+                                        <div class="col-1" style="flex:0 0 4.33333%;max-width:4.33333%;"></div>
+                                        <label class="col-8 dragAcc" style="flex:0 0 70.66667%;max-width:70.66667%;">{{item.accounttype}}</label>
+                                        <label class="col-3 dragVal" style="">0.00</label>
+                                      </div>
+                                  {{else}}
+                                        <div class=" avoid">
+                                          <label class="col-9 dragAcc" style="">{{item.accounttype}}</label>
+                                          <label class="col-3 dragVal" style="" id="">0.00</label>
+                                        </div>
+                                  {{/if}}
+                              {{else}}
+                                    <div class="draggable">
+                                      <div class="col-1" style="flex:0 0 4.33333%;max-width:4.33333%;"></div>
+                                      <label class="col-8 dragAcc" style="flex:0 0 70.66667%;max-width:70.66667%;">{{item.accountname}}</label>
+                                      <label class="col-3 dragVal" style="">0.00</label>
+                                  </div>
+                              {{/if}}
+                            {{/each}}
+                              </div>
                         {{/each}}
                   {{/if}}
 
-                                    
+
 <!--
                                     <div class="sortableAccount pageBreakBar">
                                         <div class="draggable" id="pgBreak1">
@@ -1587,7 +1602,7 @@
                                                 <label class="custom-control-label" for="grpTotal">Total</label>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     <div class="container mb-3 scheduleColumn" style="">
                                         <h3>Schedule</h3>
                                         <hr class="periodSelectorLine" />
@@ -1611,7 +1626,7 @@
                                             <div class="m-1 col-12 p-1" style="display:none;">
                                                 <button class="btn btn-primary text-nowrap mt-1 mb-1 w-100" href=".nplAddAccountsModal" type="button" role="presentation" data-toggle="modal" >Edit accounts...
                                                 </button>
-                                            </div>                                             
+                                            </div>
                                             <hr class="periodSelectorLine" />
 <!--
                                             <div class="m-1 col-12 p-1">
@@ -1632,7 +1647,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     <div class="container mb-3 textBlockColumn" style="">
                                         <h3>Text block</h3>
                                         <hr class="periodSelectorLine" />
@@ -1798,7 +1813,7 @@
                                                     <option class="" value="Cost of Sales">Jan 2022</option>
                                                 </select>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <div class="mb-1">
                                             <div class="col-12 ">
                                                 <label>Second Column</label><br>
@@ -1807,7 +1822,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <hr class="periodSelectorLine" />  
+                                        <hr class="periodSelectorLine" />
                                         <div class="mt-1">
                                             <div class="col-12 mt-1">
                                                     <label>Show</label><br>
@@ -1817,7 +1832,7 @@
                                                     </div>
                                             </div>
                                         </div>
-                                        
+
                                         <hr class="periodSelectorLine" />
                                         <div class="mt-1">
                                             <div class="col-12 mt-1">
@@ -1833,15 +1848,15 @@
                                             <div class="col-12 ">
                                                 <label>Show</label><br>
                                                 <select class="form-control accValSelect" id="accValSelect">
-                                                    <option disabled class="nonOption" value="Cost of Sales">Select column</option>             
+                                                    <option disabled class="nonOption" value="Cost of Sales">Select column</option>
                                                     <option class="" value="Cost of Sales">Jan 2022</option>
                                                 </select>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                         <div class="mb-1">
                                             <div class="col-12 ">
                                                 <label>As a percentage of</label><br>
-                                                <select class="form-control accValSelect" id="accValSelect">             
+                                                <select class="form-control accValSelect" id="accValSelect">
                                                    <option selected disabled class="nonOption" value="">Select row</option>
                                                     <option class="calcOption" value="Trading Income">Trading Income</option>
                                                     <option class="calcOption" value="Cost of Sales">Cost of Sales</option>
@@ -2060,7 +2075,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     <div class="container mb-3  rowEdLayCalculator" style="width:100%">
                                         <h3>Formula</h3>
                                         <hr class="periodSelectorLine" />
@@ -2106,7 +2121,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     <div class="container mb-3  columnEdLayCalculator" style="width:100%">
                                         <h3>Formula</h3>
                                         <hr class="periodSelectorLine" />
@@ -2147,7 +2162,7 @@
                                                     <div class="custom-control custom-switch grpTotal-container">
                                                     <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="grpTotal" checked="">
                                                     <label class="custom-control-label" for="grpTotal">Show as percentage</label>
-                                                    </div>                                                                          
+                                                    </div>
                                                 <div class="row calcRH">
                                                     <div class="col-12">
                                                         <label>Row Heading</label><br>
@@ -2235,7 +2250,7 @@
                                     <div class="p-1 m-1 row form-group-sm srFormItems">
                                             <div class="col-12 mt-1">
                                                 <input id="" type="text" class="form-control" name="nplrowHeading" placeholder="">
-                                            </div>                                        
+                                            </div>
                                             <div class="col-12 mt-1 grpTotal-container" style="max-height:100px; overflow-y: scroll;">
                                                 <div class="custom-control custom-switch" style="display:flex;flex-direction: column;">
                                                     <input type="checkbox" class="custom-control-input feeOnTopInput lytAccountToggle" id="addAccChk1" checked="">

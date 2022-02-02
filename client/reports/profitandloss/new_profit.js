@@ -14,6 +14,7 @@ Template.newprofitandloss.onCreated(function () {
     templateObject.records = new ReactiveVar([]);
     templateObject.dateAsAt = new ReactiveVar();
     templateObject.deptrecords = new ReactiveVar();
+    templateObject.recordslayout = new ReactiveVar([]);
 });
 
 
@@ -128,10 +129,9 @@ if (moment().quarter() == 4) {
 
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         if (!localStorage.getItem('VS1ProfitandLoss_ReportCompare1')) {
-            reportService.getProfitandLossCompare(dateFrom, dateTo, true).then(function (data) {
-                console.log(data);
+            reportService.getProfitandLossCompare(dateFrom, dateTo, ignoreDate).then(function (data) {
                 let records = [];
-                var groups = {};
+                var groupsprofitloss = {};
                 if (data.tprofitandlossperiodcomparereport) {
                     localStorage.setItem('VS1ProfitandLoss_ReportCompare', JSON.stringify(data) || '');
                     let totalNetAssets = 0;
@@ -197,44 +197,68 @@ if (moment().quarter() == 4) {
 
 
                         };
-                            
-                        }
-                    
-                        
 
-                        
-                        
-                        
+                        }
+
+
                         let accTypeArr= [accountType];
                         let remBlanks = accTypeArr.filter(function (y) {return y != null && y != 0 && y.length > 0;});
-                    
-                        
-                        
+
+
+
                         if(accountData[i]['AccountType'].replace(/\s/g, '') == '' && accountType == ''){
-                  
-                            
+
+
                         }else{
                          records.push(dataList);
-                            
+                         let dataToDisplay = accountData[i]['AccountType']||'';
+                         if(accountData[i]['AccountType'] == 'AP'){
+                           dataToDisplay = 'Accounts Payable';
+                         }else if(accountData[i]['AccountType'] == 'AR'){
+                           dataToDisplay = 'Accounts Receivable';
+                         }else if(accountData[i]['AccountType'] == 'EQUITY'){
+                           dataToDisplay = 'Capital / Equity';
+                         }else if(accountData[i]['AccountType'] == 'BANK'){
+                           dataToDisplay = 'Cheque or Saving';
+                         }else if(accountData[i]['AccountType'] == 'COGS'){
+                           dataToDisplay = 'Cost of Goods Sold';
+                         }else if(accountData[i]['AccountType'] == 'CCARD'){
+                           dataToDisplay = 'Credit Card Account';
+                         }else if(accountData[i]['AccountType'] == 'EXP'){
+                           dataToDisplay = 'Expense';
+                         }else if(accountData[i]['AccountType'] == 'FIXASSET'){
+                           dataToDisplay = 'Fixed Asset';
+                         }else if(accountData[i]['AccountType'] == 'INC'){
+                           dataToDisplay = 'Income';
+                         }else if(accountData[i]['AccountType'] == 'LTLIAB'){
+                           dataToDisplay = 'Long Term Liability';
+                         }else if(accountData[i]['AccountType'] == 'OASSET'){
+                           dataToDisplay = 'Other Asset';
+                         }else if(accountData[i]['AccountType'] == 'OCASSET'){
+                           dataToDisplay = 'Other Current Asset';
+                         }else if(accountData[i]['AccountType'] == 'OCLIAB'){
+                           dataToDisplay = 'Other Current Liability';
+                         }else if(accountData[i]['AccountType'] == 'EXEXP'){
+                           dataToDisplay = 'Other Expense';
+                         }else if(accountData[i]['AccountType'] == 'EXINC'){
+                           dataToDisplay = 'Other Income';
+                         }else if(accountData[i]['AccountType'] == 'NI'){
+                           dataToDisplay = 'Net Income';
+                         };
                             //if(accountType != ''){
-                            var groupName = accountType;
-                                    if (!groups[groupName]) {
-                                        groups[groupName] = [];
+                            var groupName = dataToDisplay||accountType ||'';
+                                    if (!groupsprofitloss[groupName]) {
+                                        groupsprofitloss[groupName] = [];
                                     }
 
-
-
-
-                            groups[groupName].push(dataList);
+                            groupsprofitloss[groupName].push(dataList);
                             //}
                         }
-                        
-              
-
 
                     }
-                    console.log(groups);
-                                    
+                    console.log(groupsprofitloss);
+
+                    templateObject.recordslayout.set(groupsprofitloss);
                     templateObject.records.set(records);
                     if (templateObject.records.get()) {
                         setTimeout(function () {
@@ -253,6 +277,22 @@ if (moment().quarter() == 4) {
                             });
                             $('.fullScreenSpin').css('display', 'none');
                         }, 100);
+
+                        setTimeout(function(){
+                            $(".sortableAccountParent").sortable({
+                            revert: true,
+                            cancel: ".undraggableDate,.accdate,.edtInfo"
+                        });
+                        $(".sortableAccount").sortable({
+                            revert: true,
+                            handle: ".avoid"
+                        });
+                        $(".draggable").draggable({
+                            connectToSortable: ".sortableAccount",
+                            helper: "none",
+                            revert: "true"
+                        });
+                      },1000);
                     }
 
                 }
@@ -264,7 +304,6 @@ if (moment().quarter() == 4) {
             });
         } else {
             let data = JSON.parse(localStorage.getItem('VS1ProfitandLoss_ReportCompare'));
-            console.log(data);
             let records = [];
             if (data.tprofitandlossperiodcomparereport) {
                 let totalNetAssets = 0;
@@ -377,7 +416,7 @@ if (moment().quarter() == 4) {
 
     }
     // templateObject.getAllProductData();
-    templateObject.getDepartments();
+    //templateObject.getDepartments();
 
     //Dragable items in edit layout screen
     //This works now: break at your own peril
@@ -395,8 +434,8 @@ if (moment().quarter() == 4) {
         helper: "none",
         revert: "true"
     });
-    },1000)
-    
+  },1500);
+
     //    $( "ul, li" ).disableSelection();
     //Dragable items in edit layout screen end
 });
@@ -542,25 +581,31 @@ Template.newprofitandloss.events({
         $('#dateFrom').attr('readonly', false);
         $('#dateTo').attr('readonly', false);
         var currentDate = new Date();
-        var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
-        let fromDateMonth = (currentDate.getMonth() + 1);
-        let fromDateDay = currentDate.getDate();
-        if ((currentDate.getMonth() + 1) < 10) {
-            fromDateMonth = "0" + (currentDate.getMonth() + 1);
-        }
-        if (currentDate.getDate() < 10) {
-            fromDateDay = "0" + currentDate.getDate();
-        }
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
 
-        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
-        templateObject.dateAsAt.set(begunDate);
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
         $("#dateFrom").val(fromDate);
-        $("#dateTo").val(begunDate);
+        $("#dateTo").val(toDate);
 
-        var currentDate2 = new Date();
-        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
-        let getDateFrom = currentDate2.getFullYear() + "-" + (currentDate2.getMonth()) + "-" + currentDate2.getDate();
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
         templateObject.getProfitandLossReports(getDateFrom, getLoadDate, false);
 
     },
@@ -732,16 +777,16 @@ Template.newprofitandloss.events({
         var dateTo = new Date($("#dateTo").datepicker("getDate"));
         let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
-        
+
         $('td:nth-child(n+4)').show();
-        $('th:nth-child(n+4)').show();        
+        $('th:nth-child(n+4)').show();
         $('td:nth-child(n+5)').hide();
         $('th:nth-child(n+5)').hide();
 
     },
     'click .twoPeriods': function (event) {
         $('td:nth-child(n+4)').show();
-        $('th:nth-child(n+4)').show();   
+        $('th:nth-child(n+4)').show();
         $('td:nth-child(n+6)').hide();
         $('th:nth-child(n+6)').hide();
     },
@@ -757,11 +802,11 @@ Template.newprofitandloss.events({
         $('td:nth-child(n+8)').hide();
         $('th:nth-child(n+8)').hide();
     },
-   //custom selection period number    
+   //custom selection period number
     'click .btnSaveComparisonPeriods': function (event) {
         $('td:nth-child(n+4)').hide();
         $('th:nth-child(n+4)').hide();
-        
+
         if (typeof custPeriod !== 'undefined'){
             let i = 0;
             custPeriod = 0;
@@ -788,7 +833,7 @@ Template.newprofitandloss.events({
             }
         }
 //        }
-        
+
         //        var custPeriod = $('#comparisonPeriodNum').val();
 //
 //        let i = 0;
@@ -796,16 +841,16 @@ Template.newprofitandloss.events({
 //            i++;
 //            $('.table-active').append('<th style="width: 178px;" class="text-right">Next Date</th>');
 //            $('tbody').each('tr').append('<td></td>');
-//            
+//
 //        }
-         
+
     },
  // period selector end
- 
+
     'click .btnCloseCustomComparison': function (event) {
 
     },
-   
+
 
     'click .lytAccountToggle': function (event) {
 
@@ -851,7 +896,7 @@ Template.newprofitandloss.events({
                     $('.budgetColumnTab').hide();
                             $('.varianceColumnTab').hide();
                     $('.percentageColumnTab').hide();
-                            $('.newDateColumnTab').hide(); 
+                            $('.newDateColumnTab').hide();
 //                            $('.btnRowAccounts,.btnRowCustom').hide();
                 } else if (el === 'nP') {
                                         $(this).addClass('currSelectedItem');
@@ -863,7 +908,7 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').hide();
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
-                    $('.notesColumn').hide();                    
+                    $('.notesColumn').hide();
                      $('.scheduleColumn').hide();
                     $('.editRowGroup').hide();
                     $('.rowEdLayCalculator').hide();
@@ -871,7 +916,7 @@ Template.newprofitandloss.events({
                     $('.budgetColumnTab').hide();
                             $('.varianceColumnTab').hide();
                     $('.percentageColumnTab').hide();
-                            $('.newDateColumnTab').hide(); 
+                            $('.newDateColumnTab').hide();
                             $('.btnRowAccounts,.btnRowCustom').hide();
                 } else {
                                         $(this).addClass('currSelectedItem');
@@ -883,8 +928,8 @@ Template.newprofitandloss.events({
                     $('.pgbSideText').hide();
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
-                    $('.notesColumn').hide();                    
-                     $('.scheduleColumn').hide(); 
+                    $('.notesColumn').hide();
+                     $('.scheduleColumn').hide();
                     $('.editRowGroup').hide();
                     $('.rowEdLayCalculator').hide();
                             $('.columnEdLayCalculator').hide();
@@ -914,18 +959,18 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
-                    $('.scheduleColumn').hide(); 
+                    $('.scheduleColumn').hide();
                     $('.editRowGroup').hide();
                     $('.rowEdLayCalculator').hide();
                             $('.columnEdLayCalculator').hide();
                     $('.budgetColumnTab').hide();
                             $('.varianceColumnTab').hide();
                     $('.percentageColumnTab').hide();
-                            $('.newDateColumnTab').hide(); 
+                            $('.newDateColumnTab').hide();
                             $('.btnRowAccounts,.btnRowCustom').hide();
-                    
+
                 }else {
-                     
+
                     $('.editGroup').show();
                     $('.edlayCalculator').hide();
                     $('.editDefault').hide();
@@ -935,7 +980,7 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
-                     $('.scheduleColumn').hide(); 
+                     $('.scheduleColumn').hide();
                                         $('.editRowGroup').hide();
                     $('.rowEdLayCalculator').hide();
                             $('.columnEdLayCalculator').hide();
@@ -950,7 +995,7 @@ Template.newprofitandloss.events({
     },
      /*Page break section display end*/
     /*Total row display section start */
-    'click #tot':function(event){
+    'click .tot':function(event){
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
                     $('.editDefault').hide();
@@ -960,14 +1005,14 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').hide();
-         $('.scheduleColumn').hide(); 
+         $('.scheduleColumn').hide();
                             $('.editRowGroup').hide();
         $('.rowEdLayCalculator').hide();
                 $('.columnEdLayCalculator').hide();
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
     },
     /*Total row display section end */
@@ -990,7 +1035,7 @@ Template.newprofitandloss.events({
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
 
     },
@@ -1080,14 +1125,14 @@ Template.newprofitandloss.events({
         $('.dateColumnTab').hide();
         $('.textBlockColumn').hide();
         $('.notesColumn').hide();
-         $('.scheduleColumn').hide(); 
+         $('.scheduleColumn').hide();
                             $('.editRowGroup').hide();
         $('.rowEdLayCalculator').hide();
                 $('.columnEdLayCalculator').hide();
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
 
     },
@@ -1103,14 +1148,14 @@ Template.newprofitandloss.events({
                 $('.dateColumnTab').hide();
                 $('.textBlockColumn').hide();
                 $('.notesColumn').hide();
-                $('.scheduleColumn').hide(); 
+                $('.scheduleColumn').hide();
                             $('.editRowGroup').hide();
         $('.rowEdLayCalculator').hide();
                 $('.columnEdLayCalculator').hide();
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
                 },
     'click .accdate':function (event){
@@ -1123,14 +1168,14 @@ Template.newprofitandloss.events({
                 $('.dateColumnTab').show();
                 $('.textBlockColumn').hide();
                 $('.notesColumn').hide();
-                $('.scheduleColumn').hide(); 
+                $('.scheduleColumn').hide();
                             $('.editRowGroup').hide();
         $('.rowEdLayCalculator').hide();
                 $('.columnEdLayCalculator').hide();
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
     },
 
@@ -1145,14 +1190,14 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').show();
                     $('.notesColumn').hide();
-                     $('.scheduleColumn').hide(); 
+                     $('.scheduleColumn').hide();
                             $('.editRowGroup').hide();
         $('.rowEdLayCalculator').hide();
                 $('.columnEdLayCalculator').hide();
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
     },
     'click .btnNotes':function(event){
@@ -1165,14 +1210,14 @@ Template.newprofitandloss.events({
                     $('.dateColumnTab').hide();
                     $('.textBlockColumn').hide();
                     $('.notesColumn').show();
-                     $('.scheduleColumn').hide(); 
+                     $('.scheduleColumn').hide();
                             $('.editRowGroup').hide();
         $('.rowEdLayCalculator').hide();
                 $('.columnEdLayCalculator').hide();
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
     },
     'click .btnscheduleColumn':function(event){
@@ -1194,7 +1239,7 @@ Template.newprofitandloss.events({
         $('.percentageColumnTab').hide();
                 $('.newDateColumnTab').hide();
         $('.btnRowAccounts,.btnRowCustom').show();
-    },    
+    },
     'click .btnRowGroupColumn':function(event){
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
@@ -1212,9 +1257,9 @@ Template.newprofitandloss.events({
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
-    },    
+    },
     'click .btnRowFormulaColumn':function(event){
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
@@ -1232,9 +1277,9 @@ Template.newprofitandloss.events({
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
-        
+
     },
     'click .btnColFormulaColumn':function(event){
                     $('.edlayCalculator').hide();
@@ -1253,10 +1298,10 @@ Template.newprofitandloss.events({
         $('.budgetColumnTab').hide();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
-        
-    },    
+
+    },
     'click .btnBudgetColumn':function(event){
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
@@ -1274,9 +1319,9 @@ Template.newprofitandloss.events({
         $('.budgetColumnTab').show();
                 $('.varianceColumnTab').hide();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
-    },    
+    },
     'click .btnVarianceColumn':function(event){
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
@@ -1294,10 +1339,10 @@ Template.newprofitandloss.events({
         $('.budgetColumnTab').hide();
         $('.varianceColumnTab').show();
         $('.percentageColumnTab').hide();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
-        
-    },    
+
+    },
     'click .btnPercentageColumn':function(event){
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
@@ -1315,9 +1360,9 @@ Template.newprofitandloss.events({
         $('.budgetColumnTab').hide();
         $('.varianceColumnTab').hide();
         $('.percentageColumnTab').show();
-                $('.newDateColumnTab').hide(); 
+                $('.newDateColumnTab').hide();
                 $('.btnRowAccounts,.btnRowCustom').hide();
-    },    
+    },
     'click .btnNewDateColumnTab':function(event){
                     $('.edlayCalculator').hide();
                     $('.editGroup').hide();
@@ -1334,7 +1379,7 @@ Template.newprofitandloss.events({
         $('.columnEdLayCalculator').hide();
         $('.budgetColumnTab').hide();
         $('.varianceColumnTab').hide();
-        $('.percentageColumnTab').hide(); 
+        $('.percentageColumnTab').hide();
         $('.newDateColumnTab').show();
                 $('.btnRowAccounts,.btnRowCustom').hide();
     },
@@ -1353,7 +1398,7 @@ Template.newprofitandloss.events({
         helper: "none",
         revert: "true"
     });
-      },      
+      },
     'click .btnDelSelected':function(event){
         $('.currSelectedItem').remove();
       }
@@ -1375,6 +1420,9 @@ Template.newprofitandloss.helpers({
         // return (a.accounttype.toUpperCase() > b.accounttype.toUpperCase()) ? 1 : -1;
         // return (a.saledate.toUpperCase() < b.saledate.toUpperCase()) ? 1 : -1;
         // });
+    },
+    recordslayout: () => {
+        return Template.instance().recordslayout.get();
     },
     dateAsAt: () => {
         return Template.instance().dateAsAt.get() || '-';
@@ -1403,5 +1451,9 @@ Template.registerHelper('notEquals', function (a, b) {
 });
 
 Template.registerHelper('containsequals', function (a, b) {
-    return (a.indexOf(b) >= 0);
+    let chechTotal = false;
+    if(a.toLowerCase().indexOf(b.toLowerCase()) >= 0){
+      chechTotal = true;
+    }
+    return chechTotal;
 });
