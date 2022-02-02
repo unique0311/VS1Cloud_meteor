@@ -19,6 +19,8 @@ import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
+let clickedInput = ""
+let isDropDown = false;
 Template.new_invoice.onCreated(() => {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
@@ -323,7 +325,6 @@ Template.new_invoice.onRendered(() => {
             
             templateObject.custfields.set(custField);
             }).catch(function (err) {
-               // console.log(err);
             })
         }
 
@@ -4665,6 +4666,25 @@ Template.new_invoice.onRendered(() => {
             }, 1000);
         });
 
+
+         $(document).on("click", "#custListType tbody tr", function(e) {;
+            if(clickedInput == "one") {
+                $('#edtSaleCustField1').val($(this).find(".colFieldName").text());
+            } else if(clickedInput == "two") {
+                $('#edtSaleCustField2').val($(this).find(".colFieldName").text());
+            } else if(clickedInput == "three") {
+                $('#edtSaleCustField3').val($(this).find(".colFieldName").text());
+            }
+           // $('#sltStatus').val($(this).find(".colStatusName").text());
+            $('#customFieldList').modal('toggle');
+
+            // $('#tblStatusPopList_filter .form-control-sm').val('');
+            // setTimeout(function () {
+            //     $('.btnRefreshStatus').trigger('click');
+            //     $('.fullScreenSpin').css('display', 'none');
+            // }, 1000);
+        });
+
         /* On click Customer List */
         $(document).on("click", "#tblCustomerlist tbody tr", function (e) {
             let taxcodeList = templateObject.taxraterecords.get();
@@ -6459,9 +6479,25 @@ Template.new_invoice.onRendered(() => {
     });
 
     Template.new_invoice.events({
-        // 'click #sltTerms': function(event) {
-        //     $('#termsListModal').modal('toggle');
-        // },
+        'click #edtSaleCustField1': function(event) {
+            clickedInput = "one";
+            $('#clickedControl').val(clickedInput);
+        },
+        'click #edtSaleCustField2': function(event) {
+            clickedInput = "two";
+            $('#clickedControl').val(clickedInput);
+        },
+        'click #edtSaleCustField3': function(event) {
+            clickedInput = "three";
+            $('#clickedControl').val(clickedInput);
+        },
+        'click .btnAddNewCustField': function(event) {
+            isDropDown = true;
+            $("#statusId1").val("");
+            $('#isdropDown').val(isDropDown);
+            $('#newCustomFieldPop').modal('toggle');
+        },
+
         // 'click #sltCurrency': function(event) {
         //     $('#currencyModal').modal('toggle');
         // },

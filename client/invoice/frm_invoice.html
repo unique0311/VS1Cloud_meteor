@@ -1550,8 +1550,42 @@
             {{> customfieldformpop}}
         </div>
          <div class="modal fade" role="dialog" tabindex="-1" id="customFieldList">
-            {{> custfieldlist}}
+              <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="max-width: 90vw;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Customer Field Values</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+           <table id="custListType" style="width:100%" class="dataTable table table-hover table-striped table-bordered custListType">
+                          <thead>
+                              <tr class="dnd-moved">
+                                  <th class="th colCustField" style="width:10px">ID</th>
+                                  <!-- <th class="th colHeadDept" style="width:100px;">Header Department</th> -->
+                                  <th class="th colFieldName">Custom Field Value</th>
+                                <!--   <th class="th colDeleteCustomField">Delete</th> -->
+                                  <!-- <th class="th colStatus" style="width:50px">Active</th> -->
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <!-- {{#if datatablerecords}}
+                              {{#each item in datatablerecords}}
+                              <tr class="dnd-moved" id="{{item.id}}"  style="cursor: default;">
+
+                                  <td contenteditable="false" class="colClientTypeName">{{item.typeName}}</td>
+
+                                  <td contenteditable="false" class="colDescription">{{item.description}}</td>
+
+                                  <td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>
+                              </tr>
+                              {{/each}}
+                              {{/if}} -->
+                          </tbody>
+
+                        </table>
+                    </div>
         </div>
+    </div>
+</div>
 
         <!-- End Modal Product -->
         <!-- Start of Status Modal -->
