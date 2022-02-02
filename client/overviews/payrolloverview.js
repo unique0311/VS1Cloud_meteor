@@ -3014,11 +3014,11 @@ Template.payrolloverview.events({
             endTime = endDate + ' ' + endTime;
         }
 
-        if (hours != 0.016666666666666666) {
+        if (hours != 0) {
             edthour = hours + parseFloat($('#txtBookedHoursSpent1').val());
         }
 
-        if (hours != 0.016666666666666666) {
+        if (hours != 0) {
             obj = {
                 type: "TTimeLog",
                 fields: {
