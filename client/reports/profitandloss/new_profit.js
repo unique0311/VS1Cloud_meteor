@@ -804,32 +804,35 @@ Template.newprofitandloss.events({
     },
    //custom selection period number
     'click .btnSaveComparisonPeriods': function (event) {
-        $('td:nth-child(n+4)').hide();
-        $('th:nth-child(n+4)').hide();
+
 
         if (typeof custPeriod !== 'undefined'){
-            let i = 0;
+                    $('td:nth-child(n+4)').hide();
+        $('th:nth-child(n+4)').hide();
+            j = 0;
             custPeriod = 0;
             custPeriod = $('#comparisonPeriodNum').val();
             perModded = 0;
-            perModded = custPeriod + 3;
-            while (i < perModded) {
-            i++;
-                $('td:nth-child('+i+')').show();
-                $('th:nth-child('+i+')').show();
+            perModded = custPeriod;
+            while (j < perModded) {
+            j++;
+                $('td:nth-child('+(j+3)+')').show();
+                $('th:nth-child('+(j+3)+')').show();
             }
             }
         else{
-        let i = 0;
-        var custPeriod = 0;
+                    $('td:nth-child(n+4)').hide();
+        $('th:nth-child(n+4)').hide();
+        var j = 0;
+        var custPeriod;
         custPeriod = $('#comparisonPeriodNum').val();
 
-        var perModded =0;
-       perModded = custPeriod + 3;
-            while (i < perModded) {
-            i++;
-                $('td:nth-child('+i+')').show();
-                $('th:nth-child('+i+')').show();
+        var perModded ;
+       perModded = custPeriod;
+            while (j < perModded) {
+            j++;
+                $('td:nth-child('+(j+3)+')').show();
+                $('th:nth-child('+(j+3)+')').show();
             }
         }
 //        }
