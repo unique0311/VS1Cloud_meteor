@@ -438,6 +438,9 @@ if (moment().quarter() == 4) {
 
     //    $( "ul, li" ).disableSelection();
     //Dragable items in edit layout screen end
+    /*Visually hide additional periods so that custom selection handles it*/
+
+    /*Visual hide end*/
 });
 
 

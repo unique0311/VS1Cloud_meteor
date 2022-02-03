@@ -1270,6 +1270,16 @@
                                         <label class="col-8 dragAcc" style="flex:0 0 70.66667%;max-width:70.66667%;">{{item.accounttype}}</label>
                                         <label class="col-3 dragVal" style="">0.00</label>
                                       </div>
+                                    {{else if containsequals item.accounttype "Gross Profit"}}
+                                        <div class=" avoid gP" id="gP">
+                                          <label class="col-9 dragAcc" style=""><span class="formula-icon">ƒ</span> {{item.accounttype}}</label>
+                                          <label class="col-3 dragVal" style="" id="">0.00</label>
+                                        </div>
+                                {{else if containsequals item.accounttype "Net Income"}}
+                                        <div class=" avoid nP" id="nP">
+                                          <label class="col-9 dragAcc" style=""><span class="formula-icon">ƒ</span> {{item.accounttype}}</label>
+                                          <label class="col-3 dragVal" style="" id="">0.00</label>
+                                        </div>
                                   {{else}}
                                         <div class=" avoid">
                                           <label class="col-9 dragAcc" style="">{{item.accounttype}}</label>
