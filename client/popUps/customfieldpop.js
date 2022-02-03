@@ -83,10 +83,13 @@ Template.customfieldpop.onRendered(() => {
             for (let x = 0; x < data.tcustomfieldlist.length; x++) {
                 if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
                     if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
+                        console.log(data.tcustomfieldlist[x]);
                         customData = {
                             id: data.tcustomfieldlist[x].fields.ID,
                             custfieldlabel: data.tcustomfieldlist[x].fields.Description,
-                            dropdown: data.tcustomfieldlist[x].fields.Dropdown
+                            isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,  
+                            dropdown: data.tcustomfieldlist[x].fields.Dropdown,
+                            isCombo: data.tcustomfieldlist[x].fields.IsCombo
                         }
                         custField.push(customData);
                     }
@@ -239,6 +242,7 @@ Template.customfieldpop.events({
         //     drop.style.display = "none";
         // }
         isDropdown = false;
+        $('#customFieldText1').attr('datatype','ftString');
         $('#isdropDown').val(isDropdown);
         var url = FlowRouter.current().path;
         let custfield1 = "";
@@ -254,6 +258,7 @@ Template.customfieldpop.events({
         $('.checkbox1div').empty();
         $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custfield1 + '</label>' +
             '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value=""> </div>');
+        $('#edtSaleCustField1').attr('datatype',"ftString");
     },
     'click .btnToggleDate1': function (event) {
         const templateObject = Template.instance();
@@ -270,15 +275,16 @@ Template.customfieldpop.events({
         } else {
             custfield1 = "Custom Field 1"
         }
-
+        $('#customFieldText1').attr('datatype','ftDateTime');
         $('.dropDownSection').hide();
-        $('#newStatus1').val($('#customFieldText2').val());
+        $('#newStatus1').val($('#customFieldText1').val());
         $('#newCustomFieldPop').modal('toggle');
         $('.checkbox1div').empty();
         $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custfield1 + '<br></label>' +
             '<input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="">' +
             '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
             '</div> </div>');
+        $('#edtSaleCustField1').attr('datatype','ftDateTime');
 
         // var text = document.getElementById("customFieldText1");
         // var date = document.getElementById("customFieldDate1");
@@ -324,6 +330,7 @@ Template.customfieldpop.events({
         } else {
             custfield1 = "Custom Field 1"
         }
+        $('#customFieldText1').attr('datatype','ftString');
         $('.checkbox1div').empty();
         if(Array.isArray(custfieldarr[0].dropdown)) {
             $('.btnAddNewTextBox').nextAll().remove();
@@ -357,6 +364,7 @@ Template.customfieldpop.events({
         templateObject.drawDropDownListTable(custfield1);
         $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custfield1 + '<br></label>' +
             ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
+        $('#edtSaleCustField1').attr('datatype','ftString');
         setTimeout(function () {
             $('#edtSaleCustField1').editableSelect();
             $('#edtSaleCustField1').editableSelect()
@@ -442,18 +450,12 @@ Template.customfieldpop.events({
         } else {
             custfield2 = "Custom Field 2"
         }
+        $('#customFieldText2').attr('datatype','ftString');
         $('.checkbox2div').empty();
-        // var text = document.getElementById("customFieldText2");
-        // var date = document.getElementById("customFieldDate2");
-        // var drop = document.getElementById("sltCustomOne2");
-
-        // if (text.style.display === "none") {
-        //     text.style.display = "block";
-        //     date.style.display = "none";
-        //     drop.style.display = "none";
-        // }
+        
         $('.checkbox2div').append('<div class="form-group"><label class="lblCustomField2">' + custfield2 + '</label>' +
             '<input class="form-control form-control" type="text" id="edtSaleCustField2" name="edtSaleCustField2" value=""> </div>');
+        $('#edtSaleCustField2').attr('datatype','ftString');
     },
     'click .btnToggleDate2': function (event) {
         const templateObject = Template.instance();
@@ -473,21 +475,13 @@ Template.customfieldpop.events({
         } else {
             custfield2 = "Custom Field 2"
         }
+        $('#customFieldText2').attr('datatype','ftDateTime');
         $('.checkbox2div').empty();
-        // var text = document.getElementById("customFieldText2");
-        // var date = document.getElementById("customFieldDate2");
-        // var drop = document.getElementById("sltCustomOne2");
-        // if (date.style.display === "none") {
-        //     text.style.display = "none";
-        //     date.style.display = "inline-flex";
-        //     drop.style.display = "none";
-        // }
-        
         $('.checkbox2div').append('<div class="form-group"><label class="lblCustomField2">' + custfield2 + '<br></label>' +
             '<input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; display: inline-flex;" id="edtSaleCustField2" name="edtSaleCustField2" value="">' +
             '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
             '</div> </div>');
-
+        $('#edtSaleCustField2').attr('datatype','ftDateTime');
         setTimeout(function () {
             $("#edtSaleCustField2").datepicker({
                 showOn: 'button',
@@ -650,6 +644,7 @@ Template.customfieldpop.events({
          $('.dropDownSection').hide();
         $('#newStatus1').val($('#customFieldText3').val());
         $('#newCustomFieldPop').modal('toggle');
+        $('#customFieldText3').attr('datatype','ftString');
         $('.checkbox3div').empty();
        if(Array.isArray(custfieldarr[0].dropdown)) {
             $('.btnAddNewTextBox').nextAll().remove();
@@ -679,6 +674,7 @@ Template.customfieldpop.events({
         }
         $('.checkbox3div').append('<div class="form-group"><label class="lblCustomField3">' + custfield3 + '<br></label>' +
             '<input class="form-control form-control" type="text" id="edtSaleCustField3" name="edtSaleCustField3" value=""> </div>');
+        $('#edtSaleCustField3').attr('datatype','ftString');
     },
     'click .btnToggleDate3': function (event) {
         const templateObject = Template.instance();
@@ -698,6 +694,7 @@ Template.customfieldpop.events({
         } else {
             custfield3 = "Custom Field 3"
         }
+         $('#customFieldText3').attr('datatype','ftDateTime');
         $('.checkbox3div').empty();
         // var text = document.getElementById("customFieldText3");
         // var date = document.getElementById("customFieldDate3");
@@ -711,7 +708,7 @@ Template.customfieldpop.events({
             '<input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; display: inline-flex;" id="edtSaleCustField3" name="edtSaleCustField3" value="">' +
             '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
             '</div> </div>');
-
+         $('#edtSaleCustField3').attr('datatype','ftDateTime');
         setTimeout(function () {
             $("#edtSaleCustField3").datepicker({
                 showOn: 'button',
@@ -749,6 +746,7 @@ Template.customfieldpop.events({
         } else {
             custfield3 = "Custom Field 3"
         }
+        $('#customFieldText3').attr('datatype','ftString');
         $('.checkbox3div').empty();
         if(Array.isArray(custfieldarr[2].dropdown)) {
             $('.btnAddNewTextBox').nextAll().remove();
@@ -776,6 +774,7 @@ Template.customfieldpop.events({
                                 '</div>');
 
         }
+        $('#edtSaleCustField3').attr('datatype','ftString');
          $('.dropDownSection').show();
         $('#newStatus1').val($('#customFieldText3').val());
         $('#newCustomFieldPop').modal('toggle');
@@ -848,102 +847,6 @@ Template.customfieldpop.events({
             });
         }, 1500);
     },
-    // 'click .btnSaveCustomField': function() {
-    //      let organisationService = new OrganisationService();
-    //       let fieldID = $('#statusId1').val() || '';
-    //       let termsName = $('#newStatus1').val();
-    //       let listType = "";
-
-    //        if(url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
-    //          listType = "ltSales";
-    //        }
-
-
-    //        if (fieldID == "") {
-    //            // taxRateService.checkTermByName(termsName).then(function(data) {
-    //                 objDetails = {
-    //                     type: "TCustomFieldList",
-    //                     fields: {
-    //                         Description: termsName,
-    //                         listType: listType
-    //                     }
-    //                 };
-
-    //                 organisationService.saveCustomField(objDetails).then(function(objDetails) {
-    //                     // sideBarService.getTermsVS1().then(function(dataReload) {
-    //                         $('#newStatus1').val(termsName);
-    //                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-    //                             $('#newCustomFieldPop').modal('toggle');
-    //                             $('.fullScreenSpin').css('display', 'none');
-    //                         // }).catch(function(err) {
-    //                         //     $('#newTermsModal').modal('toggle');
-    //                         //     $('.fullScreenSpin').css('display', 'none');
-    //                         // });
-    //                     // }).catch(function(err) {
-    //                     //     $('#newTermsModal').modal('toggle');
-    //                     //     $('.fullScreenSpin').css('display', 'none');
-    //                     // });
-    //                 }).catch(function(err) {
-    //                     swal({
-    //                         title: 'Oooops...',
-    //                         text: err,
-    //                         type: 'error',
-    //                         showCancelButton: false,
-    //                         confirmButtonText: 'Try Again'
-    //                     }).then((result) => {
-    //                         if (result.value) {
-    //                             $('#newTermsModal').modal('toggle');
-    //                             $('.fullScreenSpin').css('display', 'none');
-    //                         } else if (result.dismiss === 'cancel') {
-
-    //                         }
-    //                     });
-    //                     $('.fullScreenSpin').css('display', 'none');
-    //                 });
-
-    //         } else {
-    //             objDetails = {
-    //                     type: "TCustomFieldList",
-    //                     fields: {
-    //                         ID: fieldID,
-    //                         Description: termsName,
-    //                         listType: listType
-    //                     }
-    //                 };
-
-    //                 organisationService.saveCustomField(objDetails).then(function(objDetails) {
-    //                     // sideBarService.getTermsVS1().then(function(dataReload) {
-    //                         $('#newStatus1').val(termsName);
-    //                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
-    //                             $('#newCustomFieldPop').modal('toggle');
-    //                             $('.fullScreenSpin').css('display', 'none');
-    //                         // }).catch(function(err) {
-    //                         //     $('#newTermsModal').modal('toggle');
-    //                         //     $('.fullScreenSpin').css('display', 'none');
-    //                         // });
-    //                     // }).catch(function(err) {
-    //                     //     $('#newTermsModal').modal('toggle');
-    //                     //     $('.fullScreenSpin').css('display', 'none');
-    //                     // });
-    //                 }).catch(function(err) {
-    //                     swal({
-    //                         title: 'Oooops...',
-    //                         text: err,
-    //                         type: 'error',
-    //                         showCancelButton: false,
-    //                         confirmButtonText: 'Try Again'
-    //                     }).then((result) => {
-    //                         if (result.value) {
-    //                             $('#newTermsModal').modal('toggle');
-    //                             $('.fullScreenSpin').css('display', 'none');
-    //                         } else if (result.dismiss === 'cancel') {
-
-    //                         }
-    //                     });
-    //                     $('.fullScreenSpin').css('display', 'none');
-    //                 });
-    //         }
-    // },
     'click .btnSaveSettings': function (event) {
         var url = FlowRouter.current().path;
         let organisationService = new OrganisationService();
