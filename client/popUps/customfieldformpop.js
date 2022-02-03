@@ -803,16 +803,16 @@ Template.customfieldformpop.events({
                     // sideBarService.getTermsVS1().then(function(dataReload) {
                         if(clickedInput == "one") {
                             $('.lblCustomField1').text(termsName);
-                            $('#edtSaleCustField1').val(termsName);
+                            // $('#edtSaleCustField1').val(termsName);
                             $('#customFieldText1').val(termsName);
-                            
+
                         } else if(clickedInput == "two") {
                              $('.lblCustomField2').text(termsName);
-                            $('#edtSaleCustField2').val(termsName);
+                            // $('#edtSaleCustField2').val(termsName);
                             $('#customFieldText2').val(termsName);
                         } else if(clickedInput == "three") {
                             $('.lblCustomField3').text(termsName);
-                            $('#edtSaleCustField3').val(termsName);
+                            // $('#edtSaleCustField3').val(termsName);
                             $('#customFieldText3').val(termsName);
                         }
                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {
@@ -885,16 +885,16 @@ Template.customfieldformpop.events({
                     // sideBarService.getTermsVS1().then(function(dataReload) {
                         if(clickedInput == "one") {
                             $('.lblCustomField1').text(termsName);
-                            $('#edtSaleCustField1').val(termsName);
+                            // $('#edtSaleCustField1').val(termsName);
                             $('#customFieldText1').val(termsName);
-                            
+
                         } else if(clickedInput == "two") {
                              $('.lblCustomField2').text(termsName);
-                            $('#edtSaleCustField2').val(termsName);
+                            // $('#edtSaleCustField2').val(termsName);
                             $('#customFieldText2').val(termsName);
                         } else if(clickedInput == "three") {
                             $('.lblCustomField3').text(termsName);
-                            $('#edtSaleCustField3').val(termsName);
+                            // $('#edtSaleCustField3').val(termsName);
                             $('#customFieldText3').val(termsName);
                         }
                         // addVS1Data('TTermsVS1', JSON.stringify(dataReload)).then(function(datareturn) {

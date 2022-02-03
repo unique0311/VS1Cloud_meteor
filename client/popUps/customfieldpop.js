@@ -87,7 +87,7 @@ Template.customfieldpop.onRendered(() => {
                         customData = {
                             id: data.tcustomfieldlist[x].fields.ID,
                             custfieldlabel: data.tcustomfieldlist[x].fields.Description,
-                            isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,  
+                            isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
                             dropdown: data.tcustomfieldlist[x].fields.Dropdown,
                             isCombo: data.tcustomfieldlist[x].fields.IsCombo
                         }
@@ -145,7 +145,7 @@ Template.customfieldpop.onRendered(() => {
                     for (let x = 0; x < fieldsData[i].dropdown.length; x++) {
                         var dataList = [
                             fieldsData[i].dropdown[x].fields.ID || '',
-                            fieldsData[i].dropdown[x].fields.Text || ''    
+                            fieldsData[i].dropdown[x].fields.Text || ''
                         ];
                         splashArrayClientTypeList1.push(dataList);
                     }
@@ -232,15 +232,7 @@ Template.customfieldpop.events({
         let custfieldarr = templateObject.custfields.get();
         clickedInput = "one";
         $('#clickedControl').val(clickedInput);
-        // var text = document.getElementById("customFieldText1");
-        // var date = document.getElementById("customFieldDate1");
-        // var drop = document.getElementById("sltCustomOne1");
 
-        // if (text.style.display === "none") {
-        //     text.style.display = "block";
-        //     date.style.display = "none";
-        //     drop.style.display = "none";
-        // }
         isDropdown = false;
         $('#customFieldText1').attr('datatype','ftString');
         $('#isdropDown').val(isDropdown);
@@ -251,10 +243,13 @@ Template.customfieldpop.events({
         } else {
             custfield1 = "Custom Field 1"
         }
-        $('.dropDownSection').hide();
-        $('#newStatus1').val($('#customFieldText1').val());
+        $('.custField1Text').css('display','block');
+        $('.custField1Date').css('display','none');
+        $('.custField1Dropdown').css('display','none');
+        // $('.dropDownSection').hide();
+        //$('#newStatus1').val($('#customFieldText1').val());
         $('#statusId1').val(custfieldarr[0].id);
-        $('#newCustomFieldPop').modal('toggle');
+        // $('#newCustomFieldPop').modal('toggle');
         $('.checkbox1div').empty();
         $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custfield1 + '</label>' +
             '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value=""> </div>');
@@ -275,25 +270,21 @@ Template.customfieldpop.events({
         } else {
             custfield1 = "Custom Field 1"
         }
+
+        $('.custField1Text').css('display','none');
+        $('.custField1Date').css('display','block');
+        $('.custField1Dropdown').css('display','none');
         $('#customFieldText1').attr('datatype','ftDateTime');
-        $('.dropDownSection').hide();
-        $('#newStatus1').val($('#customFieldText1').val());
-        $('#newCustomFieldPop').modal('toggle');
+        //$('.dropDownSection').hide();
+      //  $('#newStatus1').val($('#customFieldText1').val());
+        //$('#newCustomFieldPop').modal('toggle');
         $('.checkbox1div').empty();
-        $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custfield1 + '<br></label>' +
-            '<input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="">' +
+        $('.checkbox1div').append('<div class="form-group" data-placement="bottom" title="Date format: DD/MM/YYYY"><label class="lblCustomField1">' + custfield1 + '<br></label>' +
+            '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="">' +
             '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
-            '</div> </div>');
+            '</div> </div></div>');
         $('#edtSaleCustField1').attr('datatype','ftDateTime');
 
-        // var text = document.getElementById("customFieldText1");
-        // var date = document.getElementById("customFieldDate1");
-        // var drop = document.getElementById("sltCustomOne1");
-        // if (date.style.display === "none") {
-        //     text.style.display = "none";
-        //     date.style.display = "inline-flex";
-        //     drop.style.display = "none";
-        // }
 
         setTimeout(function () {
             $("#edtSaleCustField1").datepicker({
@@ -321,6 +312,10 @@ Template.customfieldpop.events({
         isDropdown = true;
         $('#isdropDown').val(isDropdown);
         $('#statusId1').val(custfieldarr[0].id || '');
+        $('.custField1Text').css('display','none');
+        $('.custField1Date').css('display','none');
+        $('.custField1Dropdown').css('display','block');
+
         let tokenid = Random.id();
         $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
@@ -363,7 +358,7 @@ Template.customfieldpop.events({
         $('#newCustomFieldPop').modal('toggle');
         templateObject.drawDropDownListTable(custfield1);
         $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custfield1 + '<br></label>' +
-            ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
+            ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
         $('#edtSaleCustField1').attr('datatype','ftString');
         setTimeout(function () {
             $('#edtSaleCustField1').editableSelect();
@@ -436,14 +431,19 @@ Template.customfieldpop.events({
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
-        $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[1].id || '');
+        $('#isdropDown2').val(isDropdown);
+        $('#statusId2').val(custfieldarr[1].id || '');
+
+        $('.custField2Text').css('display','block');
+        $('.custField2Date').css('display','none');
+        $('.custField2Dropdown').css('display','none');
+
         clickedInput = "two";
-        $('#clickedControl').val(clickedInput);
+        $('#clickedControl2').val(clickedInput);
         var url = FlowRouter.current().path;
-         $('.dropDownSection').hide();
-        $('#newStatus1').val($('#customFieldText2').val());
-        $('#newCustomFieldPop').modal('toggle');
+         //$('.dropDownSection').hide();
+        //$('#newStatus1').val($('#customFieldText2').val());
+        //$('#newCustomFieldPop').modal('toggle');
         let custfield2 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
             custfield2 = custfieldarr[1].custfieldlabel || 'Custom Field 2';
@@ -452,7 +452,7 @@ Template.customfieldpop.events({
         }
         $('#customFieldText2').attr('datatype','ftString');
         $('.checkbox2div').empty();
-        
+
         $('.checkbox2div').append('<div class="form-group"><label class="lblCustomField2">' + custfield2 + '</label>' +
             '<input class="form-control form-control" type="text" id="edtSaleCustField2" name="edtSaleCustField2" value=""> </div>');
         $('#edtSaleCustField2').attr('datatype','ftString');
@@ -461,11 +461,15 @@ Template.customfieldpop.events({
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
-        $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[1].id || '');
-         $('.dropDownSection').hide();
-        $('#newStatus1').val($('#customFieldText2').val());
-        $('#newCustomFieldPop').modal('toggle');
+        $('#isdropDown2').val(isDropdown);
+        $('#statusId2').val(custfieldarr[1].id || '');
+         // $('.dropDownSection').hide();
+        // $('#newStatus1').val($('#customFieldText2').val());
+        // $('#newCustomFieldPop').modal('toggle');
+        $('.custField2Text').css('display','none');
+        $('.custField2Date').css('display','block');
+        $('.custField2Dropdown').css('display','none');
+
         clickedInput = "two";
         $('#clickedControl').val(clickedInput);
         var url = FlowRouter.current().path;
@@ -477,10 +481,10 @@ Template.customfieldpop.events({
         }
         $('#customFieldText2').attr('datatype','ftDateTime');
         $('.checkbox2div').empty();
-        $('.checkbox2div').append('<div class="form-group"><label class="lblCustomField2">' + custfield2 + '<br></label>' +
-            '<input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; display: inline-flex;" id="edtSaleCustField2" name="edtSaleCustField2" value="">' +
+        $('.checkbox2div').append('<div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY"><label class="lblCustomField2">' + custfield2 + '<br></label>' +
+            '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField2" name="edtSaleCustField2" value="">' +
             '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
-            '</div> </div>');
+            '</div> </div></div>');
         $('#edtSaleCustField2').attr('datatype','ftDateTime');
         setTimeout(function () {
             $("#edtSaleCustField2").datepicker({
@@ -506,11 +510,16 @@ Template.customfieldpop.events({
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
         isDropdown = true;
-        $('#isdropDown').val(isDropdown);
+        $('#isdropDown2').val(isDropdown);
         let tokenid = Random.id();
-        $('#statusId1').val(custfieldarr[1].id || '');
+        $('#statusId2').val(custfieldarr[1].id || '');
         clickedInput = "two";
         $('#clickedControl').val(clickedInput);
+
+        $('.custField2Text').css('display','none');
+        $('.custField2Date').css('display','none');
+        $('.custField2Dropdown').css('display','block');
+
         var url = FlowRouter.current().path;
         let custfield2 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -545,20 +554,13 @@ Template.customfieldpop.events({
                                 '</div>');
 
         }
-        // var text = document.getElementById("customFieldText2");
-        // var date = document.getElementById("customFieldDate2");
-        // var drop = document.getElementById("sltCustomOne2");
-        // if (drop.style.display === "none") {
-        //     text.style.display = "none";
-        //     date.style.display = "none";
-        //     drop.style.display = "block";
-        // }
+
          $('.dropDownSection').show();
         $('#newStatus1').val($('#customFieldText2').val());
         $('#newCustomFieldPop').modal('toggle');
         templateObject.drawDropDownListTable(custfield2);
         $('.checkbox2div').append('<div class="form-group"><label class="lblCustomField2">' + custfield2 + '<br></label>' +
-            ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField2" name="edtSaleCustField2" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
+            ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField2" name="edtSaleCustField2" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
         setTimeout(function () {
             $('#edtSaleCustField2').editableSelect();
             $('#edtSaleCustField2').editableSelect()
@@ -629,10 +631,15 @@ Template.customfieldpop.events({
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
-        $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[2].id || '');
+        $('#isdropDown3').val(isDropdown);
+        $('#statusId3').val(custfieldarr[2].id || '');
         clickedInput = "three";
-        $('#clickedControl').val(clickedInput);
+        $('#clickedControl3').val(clickedInput);
+
+        $('.custField3Text').css('display','block');
+        $('.custField3Date').css('display','none');
+        $('.custField3Dropdown').css('display','none');
+
         var url = FlowRouter.current().path;
         let custfield3 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -641,37 +648,37 @@ Template.customfieldpop.events({
             custfield3 = "Custom Field 3"
         }
         let tokenid = Random.id();
-         $('.dropDownSection').hide();
-        $('#newStatus1').val($('#customFieldText3').val());
-        $('#newCustomFieldPop').modal('toggle');
+         // $('.dropDownSection').hide();
+        // $('#newStatus1').val($('#customFieldText3').val());
+        // $('#newCustomFieldPop').modal('toggle');
         $('#customFieldText3').attr('datatype','ftString');
         $('.checkbox3div').empty();
-       if(Array.isArray(custfieldarr[0].dropdown)) {
-            $('.btnAddNewTextBox').nextAll().remove();
-            //$('.customText').val(custfieldarr[2].dropdown[0].fields.Text);
-            for(let x = 0; x < custfieldarr[0].dropdown.length; x++) {
-                $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
-                                    '<div class="col-10">'+
-                                        '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown[x].fields.Text+'" autocomplete="off">'+
-                                    '</div>'+
-                                    '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
-                                    '</div>'+
-                                '</div>');
-            }
-
-        } else if(Object.keys(custfieldarr[0].dropdown).length > 0) {
-            $('.btnAddNewTextBox').nextAll().remove();
-             $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
-                                    '<div class="col-10">'+
-                                        '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown.fields.Text+'" autocomplete="off">'+
-                                    '</div>'+
-                                    '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
-                                    '</div>'+
-                                '</div>');
-
-        }
+       // if(Array.isArray(custfieldarr[0].dropdown)) {
+       //      $('.btnAddNewTextBox').nextAll().remove();
+       //      //$('.customText').val(custfieldarr[2].dropdown[0].fields.Text);
+       //      for(let x = 0; x < custfieldarr[0].dropdown.length; x++) {
+       //          $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+       //                              '<div class="col-10">'+
+       //                                  '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown[x].fields.Text+'" autocomplete="off">'+
+       //                              '</div>'+
+       //                              '<div class="col-2">'+
+       //                                  '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+       //                              '</div>'+
+       //                          '</div>');
+       //      }
+       //
+       //  } else if(Object.keys(custfieldarr[0].dropdown).length > 0) {
+       //      $('.btnAddNewTextBox').nextAll().remove();
+       //       $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+       //                              '<div class="col-10">'+
+       //                                  '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown.fields.Text+'" autocomplete="off">'+
+       //                              '</div>'+
+       //                              '<div class="col-2">'+
+       //                                  '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+       //                              '</div>'+
+       //                          '</div>');
+       //
+       //  }
         $('.checkbox3div').append('<div class="form-group"><label class="lblCustomField3">' + custfield3 + '<br></label>' +
             '<input class="form-control form-control" type="text" id="edtSaleCustField3" name="edtSaleCustField3" value=""> </div>');
         $('#edtSaleCustField3').attr('datatype','ftString');
@@ -680,13 +687,17 @@ Template.customfieldpop.events({
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
         isDropdown = false;
-        $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[2].id || '');
+        $('#isdropDown3').val(isDropdown);
+        $('#statusId3').val(custfieldarr[2].id || '');
         clickedInput = "three";
-        $('#clickedControl').val(clickedInput);
-         $('.dropDownSection').hide();
-        $('#newStatus1').val($('#customFieldText3').val());
-        $('#newCustomFieldPop').modal('toggle');
+
+        $('.custField3Text').css('display','none');
+        $('.custField3Date').css('display','block');
+        $('.custField3Dropdown').css('display','none');
+        // $('#clickedControl').val(clickedInput);
+        //  $('.dropDownSection').hide();
+        // $('#newStatus1').val($('#customFieldText3').val());
+        // $('#newCustomFieldPop').modal('toggle');
         var url = FlowRouter.current().path;
         let custfield3 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -704,10 +715,10 @@ Template.customfieldpop.events({
         //     date.style.display = "inline-flex";
         //     drop.style.display = "none";
         // }
-        $('.checkbox3div').append('<div class="form-group"><label class="lblCustomField3">' + custfield3 + '<br></label>' +
-            '<input type="text" class="form-control customField1" style=" border-color: #858796 !important; width: 86% !important; display: inline-flex;" id="edtSaleCustField3" name="edtSaleCustField3" value="">' +
+        $('.checkbox3div').append('<div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY"><label class="lblCustomField3">' + custfield3 + '<br></label>' +
+            '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField3" name="edtSaleCustField3" value="">' +
             '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
-            '</div> </div>');
+            '</div> </div></div>');
          $('#edtSaleCustField3').attr('datatype','ftDateTime');
         setTimeout(function () {
             $("#edtSaleCustField3").datepicker({
@@ -734,11 +745,16 @@ Template.customfieldpop.events({
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
         isDropdown = true;
-        $('#isdropDown').val(isDropdown);
-        $('#statusId1').val(custfieldarr[2].id || '');
+        $('#isdropDown3').val(isDropdown);
+        $('#statusId3').val(custfieldarr[2].id || '');
         let tokenid = Random.id();
         clickedInput = "three";
-        $('#clickedControl').val(clickedInput);
+        $('#clickedControl3').val(clickedInput);
+
+        $('.custField3Text').css('display','none');
+        $('.custField3Date').css('display','none');
+        $('.custField3Dropdown').css('display','block');
+
         var url = FlowRouter.current().path;
         let custfield3 = "";
         if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
@@ -780,7 +796,7 @@ Template.customfieldpop.events({
         $('#newCustomFieldPop').modal('toggle');
         templateObject.drawDropDownListTable(custfield3);
         $('.checkbox3div').append('<div class="form-group"><label class="lblCustomField3">' + custfield3 + '<br></label>' +
-            ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField3" name="edtSaleCustField3" style="background-color:rgb(255, 255, 255); border-color: #858796;border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
+            ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField3" name="edtSaleCustField3" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
         setTimeout(function () {
             $('#edtSaleCustField3').editableSelect();
             $('#edtSaleCustField3').editableSelect()
@@ -887,14 +903,14 @@ Template.customfieldpop.events({
                     $('#edtSaleCustField1').val(fieldData[i].name);
                     $('#customFieldText1').val(fieldData[i].name);
                 }
-                
-                if(i == 1) { 
+
+                if(i == 1) {
                     $('.lblCustomField2').text(fieldData[i].name);
                     $('#edtSaleCustField2').val(fieldData[i].name);
                     $('#customFieldText2').val(fieldData[i].name);
                 }
 
-                if(i == 2) { 
+                if(i == 2) {
                     $('.lblCustomField3').text(fieldData[i].name);
                     $('#edtSaleCustField3').val(fieldData[i].name);
                     $('#customFieldText3').val(fieldData[i].name);
@@ -935,14 +951,14 @@ Template.customfieldpop.events({
                     $('#edtSaleCustField1').val(fieldData[i].name);
                     $('#customFieldText1').val(fieldData[i].name);
                 }
-                
-                if(i == 1) { 
+
+                if(i == 1) {
                     $('.lblCustomField2').text(fieldData[i].name);
                     $('#edtSaleCustField2').val(fieldData[i].name);
                     $('#customFieldText2').val(fieldData[i].name);
                 }
 
-                if(i == 2) { 
+                if(i == 2) {
                     $('.lblCustomField3').text(fieldData[i].name);
                     $('#edtSaleCustField3').val(fieldData[i].name);
                     $('#customFieldText3').val(fieldData[i].name);
