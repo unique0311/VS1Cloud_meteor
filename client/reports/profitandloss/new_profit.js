@@ -159,6 +159,11 @@ if (moment().quarter() == 4) {
                         let nov2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let oct2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let sept2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
+                        let aug2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;                        
+                        let jul2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;                        
+                        let jun2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;                        
+                        let may2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
+                        
                         if(accountData[i]['AccountHeaderOrder'].replace(/\s/g, '') == '' && accountType != ''){
                             dataList = {
                             id: accountData[i]['AccountID'] || '',
@@ -174,6 +179,10 @@ if (moment().quarter() == 4) {
                             nov2021: '',
                             oct2021: '',
                             sept2021: '',
+                            aug2021: '',
+                            jul2021: '',
+                            jun2021: '',
+                            may2021: '',
                             // totaltax: totalTax || 0.00
 
 
@@ -193,6 +202,10 @@ if (moment().quarter() == 4) {
                             nov2021: nov2021Amt,
                             oct2021: oct2021Amt,
                             sept2021: sept2021Amt,
+                            aug2021:  aug2021Amt,
+                            jul2021: jul2021Amt,
+                            jun2021: jun2021Amt,
+                            may2021: may2021Amt,
                             // totaltax: totalTax || 0.00
 
 
@@ -327,7 +340,11 @@ if (moment().quarter() == 4) {
                     let dec2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                     let nov2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                     let oct2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
-                    let sept2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
+                    let sept2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;                    
+                    let aug2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;                    
+                    let jul2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;                    
+                    let jun2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;                    
+                    let may2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                     var dataList = {
                         id: accountData[i]['AccountID'] || '',
                         accounttype: accountType || "",
@@ -340,6 +357,10 @@ if (moment().quarter() == 4) {
                         nov2021: nov2021Amt,
                         oct2021: oct2021Amt,
                         sept2021: sept2021Amt,
+                          aug2021:  aug2021Amt,
+                            jul2021: jul2021Amt,
+                            jun2021: jun2021Amt,
+                            may2021: may2021Amt,                        
                         // totaltax: totalTax || 0.00
 
 
