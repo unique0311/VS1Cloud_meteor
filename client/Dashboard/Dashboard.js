@@ -32,37 +32,6 @@ Template.dashboard.onRendered(function () {
 
 // $( document ).ready(function() {
 // setTimeout(function(){
-
-templateObject.deactivateDraggable = function() {
-var columns = document.querySelectorAll('.card');
-var draggingClass = 'dragging';
-var dragSource;
-
-Array.prototype.forEach.call(columns, function (col) {
-  col.removeEventListener('dragstart', handleDragStart, true);
-  col.removeEventListener('dragenter', handleDragEnter, true)
-  col.removeEventListener('dragover', handleDragOver, true);
-  col.removeEventListener('dragleave', handleDragLeave, true);
-  col.removeEventListener('drop', handleDrop, true);
-  col.removeEventListener('dragend', handleDragEnd, true);
-});
-
-}
-templateObject.activateDraggable = function() {
-
-var columns = document.querySelectorAll('.card');
-var draggingClass = 'dragging';
-var dragSource;
-
-Array.prototype.forEach.call(columns, function (col) {
-  col.addEventListener('dragstart', handleDragStart, false);
-  col.addEventListener('dragenter', handleDragEnter, false)
-  col.addEventListener('dragover', handleDragOver, false);
-  col.addEventListener('dragleave', handleDragLeave, false);
-  col.addEventListener('drop', handleDrop, false);
-  col.addEventListener('dragend', handleDragEnd, false);
-});
-
 function handleDragStart (evt) {
   dragSource = this;
   evt.target.classList.add(draggingClass);
@@ -101,6 +70,79 @@ function handleDragEnd (evt) {
     });
   });
 }
+templateObject.deactivateDraggable = function() {
+
+var columns = document.querySelectorAll('.card');
+var draggingClass = 'dragging';
+var dragSource;
+
+Array.prototype.forEach.call(columns, function (col) {
+  col.removeEventListener('dragstart', handleDragStart);
+  col.removeEventListener('dragenter', handleDragEnter)
+  col.removeEventListener('dragover', handleDragOver);
+  col.removeEventListener('dragleave', handleDragLeave);
+  col.removeEventListener('drop', handleDrop);
+  col.removeEventListener('dragend', handleDragEnd);
+
+});
+
+
+
+}
+
+templateObject.activateDraggable = function() {
+
+var columns = document.querySelectorAll('.card');
+var draggingClass = 'dragging';
+var dragSource;
+
+Array.prototype.forEach.call(columns, function (col) {
+  col.addEventListener('dragstart', handleDragStart, false);
+  col.addEventListener('dragenter', handleDragEnter, false)
+  col.addEventListener('dragover', handleDragOver, false);
+  col.addEventListener('dragleave', handleDragLeave, false);
+  col.addEventListener('drop', handleDrop, false);
+  col.addEventListener('dragend', handleDragEnd, false);
+});
+
+// function handleDragStart (evt) {
+//   dragSource = this;
+//   evt.target.classList.add(draggingClass);
+//   evt.dataTransfer.effectAllowed = 'move';
+//   evt.dataTransfer.setData('text/html', this.innerHTML);
+// }
+
+// function handleDragOver (evt) {
+//   evt.dataTransfer.dropEffect = 'move';
+//   evt.preventDefault();
+// }
+
+// function handleDragEnter (evt) {
+//   this.classList.add('over');
+// }
+
+// function handleDragLeave (evt) {
+//   this.classList.remove('over');
+// }
+
+// function handleDrop (evt) {
+//   evt.stopPropagation();
+  
+//   if (dragSource !== this) {
+//     dragSource.innerHTML = this.innerHTML;
+//     this.innerHTML = evt.dataTransfer.getData('text/html');
+//   }
+  
+//   evt.preventDefault();
+// }
+
+// function handleDragEnd (evt) {
+//   Array.prototype.forEach.call(columns, function (col) {
+//     ['over', 'dragging'].forEach(function (className) {
+//       col.classList.remove(className);
+//     });
+//   });
+// }
 }
 // },1000);
 // });
@@ -263,6 +305,8 @@ Template.dashboard.events({
    $("#editcharts").addClass('showelement')
    $("#editcharts").removeClass('hideelement');
    templateObject.deactivateDraggable();
+
+
 },
 'click .progressbarcheck': function() {
     var valeur = 0;
