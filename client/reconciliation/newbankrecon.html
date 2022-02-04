@@ -80,7 +80,7 @@
             /* If there's a reconciliation match, add class "matched" to the Tab-Pane and "matchedtaba" to the Match Nav-Item anchor tag */
         </style>
 
-        <div class="row justify-content-center mb-4">
+        <div class="row justify-content-center mb-6">
             <div class="col-11">
                 <div class="card shadow" style="padding: 16px;">
                     <div class="row">
@@ -94,10 +94,22 @@
                                 <p style="margin-bottom: 0px; font-weight: 300; font-size: 14px;">Balance in VS1</p>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div style="text-align: right;">
-                                <p style="margin-bottom: 0px; font-weight: 300; font-size: 14px;">12 Nov 2022</p>
+                        <div class="col-6" style="display: flex; justify-content: end;">
+                            <div style="padding-right: 16px; margin-right: 16px; text-align: right;">
+                                <p style="margin-bottom: 0px; font-weight: 300; font-size: 14px; margin-top: 12px;">12 Feb 2022</p>
                                 <p style="margin-bottom: 0px; font-weight: 300; font-size: 14px; color: #00a3d3;">Reconciliation Report</p>
+                            </div>
+                            <div>
+                                <div class="dropdown" style="margin-top: 12px;">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Manage Account
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -265,7 +277,8 @@
                                     <div class="col-6" style="padding: 16px;">
                                         <div class="form-group mb-0">
                                             <label>Select a Bank Account</label>
-                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate" style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0px; border-color:#e3e6f0;"></select>
+                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
+                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0px; border-color:#e3e6f0;"></select>
                                         </div>
                                     </div>
                                     <div class="col-6" style="padding: 16px;">
@@ -404,7 +417,8 @@
                                     <div class="col-6" style="padding: 16px;">
                                         <div class="form-group mb-0">
                                             <label>Select a Bank Account</label>
-                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate" style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0px; border-color:#e3e6f0;"></select>
+                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
+                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0px; border-color:#e3e6f0;"></select>
                                         </div>
                                     </div>
                                     <div class="col-6" style="padding: 16px;">
@@ -451,8 +465,6 @@
                             </span>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
