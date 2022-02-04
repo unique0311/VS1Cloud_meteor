@@ -1364,6 +1364,15 @@ authenticatedRoutes.route('/bankrecon', {
     }
 });
 
+authenticatedRoutes.route('/newbankrecon', {
+    name: 'newbankrecon',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'newbankrecon'
+        });
+    }
+});
+
 authenticatedRoutes.route('/depositcard', {
     name: 'depositcard',
     action() {
