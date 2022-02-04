@@ -324,7 +324,7 @@ Template.appointmentlist.onRendered(function () {
                           startDate: data.tappointmentex[i].fields.StartTime || '',
                           endDate: data.tappointmentex[i].fields.EndTime || '',
                           frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
-                          toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                          toDate: moment(data.tappointmentex[i].fields.EndTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.EndTime).format('DD'),
                           fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
                           openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
                           aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
@@ -628,6 +628,7 @@ Template.appointmentlist.onRendered(function () {
                         color = "#f6c23e";
 
                     }
+
                     var dataList = {
                         id: useData[i].fields.ID || '',
                         sortdate: useData[i].fields.CreationDate != '' ? moment(useData[i].fields.CreationDate).format("YYYY/MM/DD") : useData[i].fields.CreationDate,
@@ -651,7 +652,7 @@ Template.appointmentlist.onRendered(function () {
                         startDate: useData[i].fields.StartTime || '',
                         endDate: useData[i].fields.EndTime || '',
                         frmDate: moment(useData[i].fields.StartTime).format('dddd') + ', ' + moment(useData[i].fields.StartTime).format('DD'),
-                        toDate: moment(useData[i].fields.endTime).format('dddd') + ', ' + moment(useData[i].fields.endTime).format('DD'),
+                        toDate: moment(useData[i].fields.EndTime).format('dddd') + ', ' + moment(useData[i].fields.EndTime).format('DD'),
                         fromDate: useData[i].fields.Actual_EndTime != '' ? moment(useData[i].fields.Actual_EndTime).format("DD/MM/YYYY") : useData[i].fields.Actual_EndTime,
                         openbalance: useData[i].fields.Actual_EndTime || '',
                         aStartTime: useData[i].fields.Actual_StartTime.split(' ')[1] || '',
@@ -973,7 +974,7 @@ Template.appointmentlist.onRendered(function () {
                         startDate: data.tappointmentex[i].fields.StartTime || '',
                         endDate: data.tappointmentex[i].fields.EndTime || '',
                         frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
-                        toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
+                        toDate: moment(data.tappointmentex[i].fields.EndTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.EndTime).format('DD'),
                         fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
                         openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
                         aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
