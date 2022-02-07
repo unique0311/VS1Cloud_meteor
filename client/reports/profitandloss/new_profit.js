@@ -460,7 +460,12 @@ if (moment().quarter() == 4) {
     //    $( "ul, li" ).disableSelection();
     //Dragable items in edit layout screen end
     /*Visually hide additional periods so that custom selection handles it*/
-
+    setTimeout(function(){
+        
+        $('td:nth-child(n+4)').hide();
+        $('th:nth-child(n+4)').hide();
+  },6000);
+ setTimeout(function(){$('.pnlTable').show();},6000);
     /*Visual hide end*/
 });
 
@@ -1427,7 +1432,7 @@ Template.newprofitandloss.events({
     });
       },
     'click .btnDelSelected':function(event){
-        $('.currSelectedItem').remove();
+        $('.currSelectedItem:nth-child(n)').remove();
       }
 });
 

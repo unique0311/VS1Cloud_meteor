@@ -74,7 +74,14 @@
                     padding: 13px;
                 }
             }
-
+            @media only screen and (max-width:1443px){
+                tr td:nth-child(1){
+                    min-width:180px;
+                }
+                tr td:nth-child(1){
+                    min-width:180px;
+                }
+            }
             .periodSelector,
             .nplHead .form-group {
                 margin: 16px 16px 16px 16px;
@@ -144,6 +151,7 @@
             .pnlTable td{
               border-top: unset;
             }
+            
         </style>
         <div class="row no-gutters d-xl-flex justify-content-center justify-content-xl-center mb-3" style="width: 100%;">
             <div class="col-auto col-10">
@@ -354,7 +362,7 @@
                             </div>
                             <div class="row no-gutters p-1">
                                 <div class="table-responsive p-2">
-                                    <table class="table table-hover table-sm pnlTable" id="tableExport" name="tableExport">
+                                    <table class="table table-hover table-sm pnlTable" id="tableExport" name="tableExport" style="display: none;">
 
                                         <thead>
                                             <tr class="table-active">
@@ -368,7 +376,7 @@
                                                 <th style="width: 178px;" class="text-right">Aug 2021</th>
                                                 <th style="width: 178px;" class="text-right">Jul 2021</th>                                           
                                                 <th style="width: 178px;" class="text-right">Jun 2021</th>
-                                                <th style="width: 178px;" class="text-right">May 2021</th>
+                                                <th style="width: 178px;" class="text-right">May 2021</th>              <th style="width: 178px;" class="text-right">May 2021</th>              <th style="width: 178px;" class="text-right">May 2021</th>              <th style="width: 178px;" class="text-right">May 2021</th><th style="width: 178px;" class="text-right">May 2021</th><th style="width: 178px;" class="text-right">May 2021</th><th style="width: 178px;" class="text-right">May 2021</th>
                                             </tr>
                                         </thead>
 
@@ -386,7 +394,7 @@
                                                             <td class="fgr fgrblue text-right">{{item.sept2021}}</td>
                                                             <td class="fgr fgrblue text-right">{{item.aug2021}}</td>
                                                             <td class="fgr fgrblue text-right">{{item.jul2021}}</td>
-                                                            <td class="fgr fgrblue text-right">{{item.jun2021}}</td>                                                 <td class="fgr fgrblue text-right">{{item.may2021}}</td>
+                                                            <td class="fgr fgrblue text-right">{{item.jun2021}}</td>                                                 <td class="fgr fgrblue text-right">{{item.may2021}}</td>                              <td class="fgr fgrblue text-right">{{item.may2021}}</td>                              <td class="fgr fgrblue text-right">{{item.may2021}}</td>                              <td class="fgr fgrblue text-right">{{item.may2021}}</td><td class="fgr fgrblue text-right">{{item.may2021}}</td><td class="fgr fgrblue text-right">{{item.may2021}}</td><td class="fgr fgrblue text-right">{{item.may2021}}</td>
                                                         
                                                             
                                                         {{else}}
@@ -400,7 +408,7 @@
                                                             <td class="fgr fgrSubtotal text-right">{{item.sept2021}}</td>                                             <td class="fgr fgrSubtotal text-right">{{item.aug2021}}</td>
                                                            <td class="fgr fgrSubtotal text-right">{{item.jul2021}}</td>
                                                            <td class="fgr fgrSubtotal text-right">{{item.jun2021}}</td>
-                                                            <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td>                                                        
+                                                            <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td> <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td> <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td> <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td> <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td> <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td> <td class="fgr fgrSubtotal text-right">{{item.may2021}}</td>                                                        
                                                             {{else}}
                                                                 <td class="fgrtotal fgrtotalName">{{item.accounttype}}</td>
                                                                 <td></td>
@@ -411,7 +419,7 @@
                                                                 <td class="fgr fgrtotal text-right">{{item.sept2021}}</td>                                           <td class="fgr fgrtotal text-right">{{item.aug2021}}</td>
                                                                 <td class="fgr fgrtotal text-right">{{item.jul2021}}</td>
                                                                 <td class="fgr fgrtotal text-right">{{item.jun2021}}</td>                                
-                                                                <td class="fgr fgrtotal text-right">{{item.may2021}}</td>
+                                                                <td class="fgr fgrtotal text-right">{{item.may2021}}</td><td class="fgr fgrtotal text-right">{{item.may2021}}</td><td class="fgr fgrtotal text-right">{{item.may2021}}</td><td class="fgr fgrtotal text-right">{{item.may2021}}</td><td class="fgr fgrtotal text-right">{{item.may2021}}</td><td class="fgr fgrtotal text-right">{{item.may2021}}</td><td class="fgr fgrtotal text-right">{{item.may2021}}</td>
                                                             {{/if}}
                                                         {{/if}}
 
