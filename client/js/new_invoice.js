@@ -8322,45 +8322,7 @@ Template.new_invoice.onRendered(() => {
             $('#newCustomFieldPop').modal('toggle');
         },
 
-        // 'click #sltCurrency': function(event) {
-        //     $('#currencyModal').modal('toggle');
-        // },
-        // 'click #sltDept': function(event) {
-        //     $('#departmentModal').modal('toggle');
-        // },
-        // 'click #sltStatus': function(event) {
-        //     $('#statusPopModal').modal('toggle');
-        // },
-        // 'click .btnToggleText': function (event) {
-        //     var text = document.getElementById("customFieldText");
-        //     var date = document.getElementById("customFieldDate");
-        //     var drop = document.getElementById("sltCustomOne");
-        //     if (text.style.display === "none") {
-        //         text.style.display = "block";
-        //         date.style.display = "none";
-        //         drop.style.display = "none";
-        //     }
-        // },
-        // 'click .btnToggleDate': function (event) {
-        //     var text = document.getElementById("customFieldText");
-        //     var date = document.getElementById("customFieldDate");
-        //     var drop = document.getElementById("sltCustomOne");
-        //     if (date.style.display === "none") {
-        //         text.style.display = "none";
-        //         date.style.display = "inline-flex";
-        //         drop.style.display = "none";
-        //     }
-        // },
-        // 'click .btnToggleDrop': function (event) {
-        //     var text = document.getElementById("customFieldText");
-        //     var date = document.getElementById("customFieldDate");
-        //     var drop = document.getElementById("sltCustomOne");
-        //     if (drop.style.display === "none") {
-        //         text.style.display = "none";
-        //         date.style.display = "none";
-        //         drop.style.display = "block";
-        //     }
-        // },
+        
         'click #edtCustomerName': function (event) {
             $('#edtCustomerName').select();
             $('#edtCustomerName').editableSelect();
