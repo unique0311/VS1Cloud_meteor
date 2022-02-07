@@ -19,7 +19,7 @@ import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
-let clickedInput = ""
+let clickedInput = "";
 let isDropDown = false;
 Template.new_invoice.onCreated(() => {
     const templateObject = Template.instance();
