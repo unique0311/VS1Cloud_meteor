@@ -197,7 +197,9 @@ Template.inventorylist.onRendered(function() {
                 data.tproductvs1[i].fields.BARCODE || '',
                 departmentData,
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc),
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc),
                 data.tproductvs1[i].fields.TotalQtyInStock,
                 data.tproductvs1[i].fields.PurchaseDescription || '',
                 data.tproductvs1[i].fields.CUSTFLD1 || '',
@@ -261,41 +263,47 @@ Template.inventorylist.onRendered(function() {
                     select: true,
                     destroy: true,
                     columnDefs: [
-                         {
-                            className: "colProductID hiddenColumn",
-                            "targets": [0]
-                        }, {
-                            className: "colProductName",
-                            "targets": [1]
-                        }, {
-                            className: "colSalesDescription",
-                            "targets": [2]
-                        }, {
-                            className: "colBarcode",
-                            "targets": [3]
-                        }, {
-                            className: "colDepartment",
-                            "targets": [4]
-                        }, {
-                            className: "colCostPrice text-right",
-                            "targets": [5]
-                        }, {
-                            className: "colSalePrice text-right",
-                            "targets": [6]
-                        }, {
-                            className: "colQuantity text-right",
-                            "targets": [7]
-                        }, {
-                            className: "colPurchaseDescription hiddenColumn",
-                            "targets": [8]
-                        }, {
-                            className: "colProdCustField1 hiddenColumn",
-                            "targets": [9]
-                        }, {
-                            className: "colProdCustField2 hiddenColumn",
-                            "targets": [10]
-                        }
-                    ],
+              {
+                  className: "colProductID hiddenColumn",
+                  "targets": [0]
+              }, {
+                  className: "colProductName",
+                  "targets": [1]
+              }, {
+                  className: "colSalesDescription",
+                  "targets": [2]
+              }, {
+                  className: "colBarcode",
+                  "targets": [3]
+              }, {
+                  className: "colDepartment",
+                  "targets": [4]
+              }, {
+                  className: "colCostPrice text-right",
+                  "targets": [5]
+              }, {
+                  className: "colCostPriceInc hiddenColumn text-right",
+                  "targets": [6]
+              }, {
+                  className: "colSalePrice text-right",
+                  "targets": [7]
+              },{
+                  className: "colSalePriceInc hiddenColumn text-right",
+                  "targets": [8]
+              }, {
+                  className: "colQuantity text-right",
+                  "targets": [9]
+              }, {
+                  className: "colPurchaseDescription hiddenColumn",
+                  "targets": [10]
+              }, {
+                  className: "colProdCustField1 hiddenColumn",
+                  "targets": [11]
+              }, {
+                  className: "colProdCustField2 hiddenColumn",
+                  "targets": [12]
+              }
+          ],
                     colReorder: true,
                     "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     buttons: [
@@ -453,7 +461,9 @@ let deptStatus = '';
        data.tproductvs1[i].fields.BARCODE || '',
        departmentData,
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+       utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc),
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+       utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc),
        data.tproductvs1[i].fields.TotalQtyInStock,
        data.tproductvs1[i].fields.PurchaseDescription || '',
        data.tproductvs1[i].fields.CUSTFLD1 || '',
@@ -536,20 +546,26 @@ setTimeout(function () {
                   className: "colCostPrice text-right",
                   "targets": [5]
               }, {
-                  className: "colSalePrice text-right",
+                  className: "colCostPriceInc hiddenColumn text-right",
                   "targets": [6]
               }, {
-                  className: "colQuantity text-right",
+                  className: "colSalePrice text-right",
                   "targets": [7]
-              }, {
-                  className: "colPurchaseDescription hiddenColumn",
+              },{
+                  className: "colSalePriceInc hiddenColumn text-right",
                   "targets": [8]
               }, {
-                  className: "colProdCustField1 hiddenColumn",
+                  className: "colQuantity text-right",
                   "targets": [9]
               }, {
-                  className: "colProdCustField2 hiddenColumn",
+                  className: "colPurchaseDescription hiddenColumn",
                   "targets": [10]
+              }, {
+                  className: "colProdCustField1 hiddenColumn",
+                  "targets": [11]
+              }, {
+                  className: "colProdCustField2 hiddenColumn",
+                  "targets": [12]
               }
           ],
           select: true,
@@ -697,17 +713,19 @@ setTimeout(function () {
          departmentData = 'All';
           for(let i=0; i<data.tproductvs1.length; i++){
             var dataList = [
-              data.tproductvs1[i].fields.ID || '',
-              data.tproductvs1[i].fields.ProductName || '-',
-              data.tproductvs1[i].fields.SalesDescription || '',
-              data.tproductvs1[i].fields.BARCODE || '',
-              departmentData,
-              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-              data.tproductvs1[i].fields.TotalQtyInStock,
-              data.tproductvs1[i].fields.PurchaseDescription || '',
-              data.tproductvs1[i].fields.CUSTFLD1 || '',
-              data.tproductvs1[i].fields.CUSTFLD2 || '',
+               data.tproductvs1[i].fields.ProductName || '-',
+                data.tproductvs1[i].fields.SalesDescription || '',
+                data.tproductvs1[i].fields.BARCODE || '',
+                departmentData,
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc),
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc),
+                data.tproductvs1[i].fields.TotalQtyInStock,
+                data.tproductvs1[i].fields.PurchaseDescription || '',
+                data.tproductvs1[i].fields.CUSTFLD1 || '',
+                data.tproductvs1[i].fields.CUSTFLD2 || '',
+                data.tproductvs1[i].fields.ID || ''
               // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
           ];
           splashArrayProductList.push(dataList);
@@ -766,41 +784,47 @@ setTimeout(function () {
                   select: true,
                   destroy: true,
                   columnDefs: [
-                      {
-                          className: "colProductID hiddenColumn",
-                          "targets": [0]
-                      }, {
-                          className: "colProductName",
-                          "targets": [1]
-                      }, {
-                          className: "colSalesDescription",
-                          "targets": [2]
-                      }, {
-                          className: "colBarcode",
-                          "targets": [3]
-                      }, {
-                          className: "colDepartment",
-                          "targets": [4]
-                      }, {
-                          className: "colCostPrice text-right",
-                          "targets": [5]
-                      }, {
-                          className: "colSalePrice text-right",
-                          "targets": [6]
-                      }, {
-                          className: "colQuantity text-right",
-                          "targets": [7]
-                      }, {
-                          className: "colPurchaseDescription hiddenColumn",
-                          "targets": [8]
-                      }, {
-                          className: "colProdCustField1 hiddenColumn",
-                          "targets": [9]
-                      }, {
-                          className: "colProdCustField2 hiddenColumn",
-                          "targets": [10]
-                      }
-                  ],
+                    {
+                        className: "colProductID hiddenColumn",
+                        "targets": [0]
+                    }, {
+                        className: "colProductName",
+                        "targets": [1]
+                    }, {
+                        className: "colSalesDescription",
+                        "targets": [2]
+                    }, {
+                        className: "colBarcode",
+                        "targets": [3]
+                    }, {
+                        className: "colDepartment",
+                        "targets": [4]
+                    }, {
+                        className: "colCostPrice text-right",
+                        "targets": [5]
+                    }, {
+                        className: "colCostPriceInc hiddenColumn text-right",
+                        "targets": [6]
+                    }, {
+                        className: "colSalePrice text-right",
+                        "targets": [7]
+                    },{
+                        className: "colSalePriceInc hiddenColumn text-right",
+                        "targets": [8]
+                    }, {
+                        className: "colQuantity text-right",
+                        "targets": [9]
+                    }, {
+                        className: "colPurchaseDescription hiddenColumn",
+                        "targets": [10]
+                    }, {
+                        className: "colProdCustField1 hiddenColumn",
+                        "targets": [11]
+                    }, {
+                        className: "colProdCustField2 hiddenColumn",
+                        "targets": [12]
+                    }
+                ],
                   colReorder: true,
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   buttons: [
