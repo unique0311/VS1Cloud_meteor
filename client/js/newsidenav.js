@@ -1981,23 +1981,24 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllTProductStocknSalePeriodReportData = function() {
-        var currentBeginDate = new Date();
-        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-        let fromDateMonth = (currentBeginDate.getMonth() + 1);
-        let fromDateDay = currentBeginDate.getDate();
-        fromDateMonth
-        if ((currentBeginDate.getMonth()+1) < 10) {
-            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
-        } else {
-            fromDateMonth = (currentBeginDate.getMonth() + 1);
-        }
-
-        if (currentBeginDate.getDate() < 10) {
-            fromDateDay = "0" + currentBeginDate.getDate();
-        }
-        var fromDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
-        let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
-        sideBarService.getProductStocknSaleReportData(prevMonth11Date, fromDate).then(function(data) {
+        // var currentBeginDate = new Date();
+        // var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        // let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        // let fromDateDay = currentBeginDate.getDate();
+        // fromDateMonth
+        // if ((currentBeginDate.getMonth()+1) < 10) {
+        //     fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+        // } else {
+        //     fromDateMonth = (currentBeginDate.getMonth() + 1);
+        // }
+        //
+        // if (currentBeginDate.getDate() < 10) {
+        //     fromDateDay = "0" + currentBeginDate.getDate();
+        // }
+        // var fromDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+        // let prevMonth11Date = (moment().subtract(6, 'months')).format("YYYY-MM-DD");
+        //sideBarService.getProductStocknSaleReportData(prevMonth11Date, fromDate).then(function(data) {
+        sideBarService.getProductStocknSaleReportData(prevMonth11Date, toDate, false).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);

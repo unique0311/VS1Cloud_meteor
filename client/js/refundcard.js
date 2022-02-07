@@ -1967,12 +1967,15 @@ Template.refundcard.onRendered(() => {
             getCustDetails = customers.filter(customer => {
                 return customer.customername == selectedCust
             });
-
+            if (getCustDetails.length > 0) {
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode
             });
             lineTaxRate = taxRate[0].codename
             taxcode1 = getCustDetails[0].taxCode
+          }else{
+            lineTaxRate = table.find(".taxrate").text();
+          }
         } else {
             lineTaxRate = table.find(".taxrate").text();
         }
@@ -2347,7 +2350,7 @@ Template.refundcard.onRendered(() => {
         $('.pdfCustomerAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
         $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || '');
-
+        let selectedTaxCodeName = tableCustomer.find(".colCustomerTaxCode").text() || 'E';
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();
         if (clientList) {
@@ -2380,12 +2383,12 @@ Template.refundcard.onRendered(() => {
             });
             if (getCustDetails.length > 0) {
                 taxRate = taxcodeList.filter(taxrate => {
-                    return taxrate.codename == getCustDetails[0].taxCode
+                    return taxrate.codename == selectedTaxCodeName
                 });
 
                 if (taxRate.length > 0) {
                     let rate = taxRate[0].coderate;
-                    let code = getCustDetails[0].taxCode;
+                    let code = selectedTaxCodeName || 'E';
                     if (code == "NT") {
                         code = "E";
                     }

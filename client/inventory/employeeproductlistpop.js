@@ -170,7 +170,7 @@ Template.employeeproductlistpop.onRendered(function () {
                           "fnDrawCallback": function (oSettings) {
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblInventoryService_ellipsis').addClass('disabled');
-                              /*
+
                               if (oSettings._iDisplayLength == -1) {
                                   if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -179,7 +179,7 @@ Template.employeeproductlistpop.onRendered(function () {
 
                               }
                               if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                  //$('.paginate_button.page-item.next').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
                               }
 
                               $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -225,10 +225,6 @@ Template.employeeproductlistpop.onRendered(function () {
                                       });
 
                                   });
-                                  */
-                              // setTimeout(function () {
-                              //     MakeNegative();
-                              // }, 100);
                           },
                           "fnInitComplete": function () {
                               $("<a class='btn btn-primary scanProdServiceBarcodePOP' href='' id='scanProdServiceBarcodePOP' role='button' style='margin-left: 8px; height:32px;padding: 4px 10px;'><i class='fas fa-camera'></i></a>").insertAfter("#tblInventoryService_filter");
@@ -358,8 +354,8 @@ Template.employeeproductlistpop.onRendered(function () {
                         responsive: true,
                         "order": [[ 1, "asc" ]],
                         "fnDrawCallback": function (oSettings) {
-                            // $('.paginate_button.page-item').removeClass('disabled');
-                            // $('#tblInventoryService_ellipsis').addClass('disabled');
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblInventoryService_ellipsis').addClass('disabled');
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -368,12 +364,12 @@ Template.employeeproductlistpop.onRendered(function () {
 
                             }
                             if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                //$('.paginate_button.page-item.next').addClass('disabled');
+                                $('.paginate_button.page-item.next').addClass('disabled');
                             }
 
                             $('.paginate_button.next:not(.disabled)', this.api().table().container())
                                 .on('click', function () {
-                                  /*
+
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     let dataLenght = oSettings._iDisplayLength;
                                     let customerSearch = $('#tblInventoryService_filter input').val();
@@ -413,7 +409,7 @@ Template.employeeproductlistpop.onRendered(function () {
                                     }).catch(function (err) {
                                         $('.fullScreenSpin').css('display', 'none');
                                     });
-                                    */
+
                                 });
                             // setTimeout(function () {
                             //     MakeNegative();
@@ -544,8 +540,8 @@ Template.employeeproductlistpop.onRendered(function () {
                       responsive: true,
                       "order": [[ 1, "asc" ]],
                       "fnDrawCallback": function (oSettings) {
-                          // $('.paginate_button.page-item').removeClass('disabled');
-                          // $('#tblInventoryService_ellipsis').addClass('disabled');
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblInventoryService_ellipsis').addClass('disabled');
                           if (oSettings._iDisplayLength == -1) {
                               if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -554,12 +550,12 @@ Template.employeeproductlistpop.onRendered(function () {
 
                           }
                           if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                              //$('.paginate_button.page-item.next').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
                           }
 
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
                               .on('click', function () {
-                                /*
+
                                   $('.fullScreenSpin').css('display', 'inline-block');
                                   let dataLenght = oSettings._iDisplayLength;
                                   let customerSearch = $('#tblInventoryService_filter input').val();
@@ -601,7 +597,7 @@ Template.employeeproductlistpop.onRendered(function () {
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
-                                  */
+
                               });
                           // setTimeout(function () {
                           //     MakeNegative();

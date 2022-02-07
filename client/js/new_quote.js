@@ -388,7 +388,7 @@ Template.new_quote.onRendered(() => {
                         custField.push(customData);
                 }
             }
-            
+
             if(custField.length < 4) {
                 let remainder = 4 - custField.length;
                 count = count + remainder;
@@ -402,10 +402,10 @@ Template.new_quote.onRendered(() => {
                 }
 
             }
-            
+
             templateObject.custfields.set(custField);
             }).catch(function (err) {
-               console.log(err);
+
             })
         }
 
@@ -3252,14 +3252,14 @@ Template.new_quote.onRendered(() => {
         let selectedCust = $('#edtCustomerName').val();
         let getCustDetails = "";
         let lineTaxRate = "";
-        let taxRate = ""
+        let taxRate = "";
         if (selectedCust != "") {
             getCustDetails = customers.filter(customer => {
                 return customer.customername == selectedCust
             });
-
+            if (getCustDetails.length > 0) {
             taxRate = taxcodeList.filter(taxrate => {
-                return taxrate.codename == getCustDetails[0].taxCode
+                return taxrate.codename == getCustDetails[0].taxCode||'E'
             });
             if (taxRate.length > 0) {
                 if (taxRate.codename != "") {
@@ -3270,6 +3270,10 @@ Template.new_quote.onRendered(() => {
             } else {
                 lineTaxRate = table.find(".taxrate").text();
             }
+
+          }else{
+             lineTaxRate = table.find(".taxrate").text();
+          }
         } else {
             lineTaxRate = table.find(".taxrate").text();
         }
@@ -3612,6 +3616,7 @@ Template.new_quote.onRendered(() => {
         $('.pdfCustomerAddress').text(postalAddress);
         $('#txaShipingInfo').val(postalAddress);
         $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || '');
+        let selectedTaxCodeName = tableCustomer.find(".colCustomerTaxCode").text() || 'E';
 
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();
@@ -3643,14 +3648,15 @@ Template.new_quote.onRendered(() => {
             getCustDetails = customers.filter(customer => {
                 return customer.customername == selectedCustomer
             });
-            if (getCustDetails.length > 0) {
+
+            //if (getCustDetails.length > 0) {
                 taxRate = taxcodeList.filter(taxrate => {
-                    return taxrate.codename == getCustDetails[0].taxCode
+                    return taxrate.codename == selectedTaxCodeName
                 });
 
                 if (taxRate.length > 0) {
-                    let rate = taxRate[0].coderate;
-                    let code = getCustDetails[0].taxCode;
+                    let rate = taxRate[0].coderate||0;
+                    let code = selectedTaxCodeName||'NT';
                     if (code == "NT") {
                         code = "E";
                     }
@@ -3767,7 +3773,7 @@ Template.new_quote.onRendered(() => {
                     //}
 
                 }
-            }
+            //}
         }
         $('#tblCustomerlist_filter .form-control-sm').val('');
         setTimeout(function() {

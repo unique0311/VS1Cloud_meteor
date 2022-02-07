@@ -900,19 +900,19 @@ Template.customfieldpop.events({
             organisationService.saveCustomField(objDetails1).then(function(objDetails) {
                 if(i == 0) {
                     $('.lblCustomField1').text(fieldData[i].name);
-                    $('#edtSaleCustField1').val(fieldData[i].name);
+                    //$('#edtSaleCustField1').val(fieldData[i].name);
                     $('#customFieldText1').val(fieldData[i].name);
                 }
 
                 if(i == 1) {
                     $('.lblCustomField2').text(fieldData[i].name);
-                    $('#edtSaleCustField2').val(fieldData[i].name);
+                    //$('#edtSaleCustField2').val(fieldData[i].name);
                     $('#customFieldText2').val(fieldData[i].name);
                 }
 
                 if(i == 2) {
                     $('.lblCustomField3').text(fieldData[i].name);
-                    $('#edtSaleCustField3').val(fieldData[i].name);
+                    //$('#edtSaleCustField3').val(fieldData[i].name);
                     $('#customFieldText3').val(fieldData[i].name);
                     $('#myModal4').modal('toggle');
                     $('.fullScreenSpin').css('display', 'none');
@@ -948,19 +948,19 @@ Template.customfieldpop.events({
             organisationService.saveCustomField(objDetails1).then(function(objDetails) {
                 if(i == 0) {
                     $('.lblCustomField1').text(fieldData[i].name);
-                    $('#edtSaleCustField1').val(fieldData[i].name);
+                    //$('#edtSaleCustField1').val(fieldData[i].name);
                     $('#customFieldText1').val(fieldData[i].name);
                 }
 
                 if(i == 1) {
                     $('.lblCustomField2').text(fieldData[i].name);
-                    $('#edtSaleCustField2').val(fieldData[i].name);
+                    //$('#edtSaleCustField2').val(fieldData[i].name);
                     $('#customFieldText2').val(fieldData[i].name);
                 }
 
                 if(i == 2) {
                     $('.lblCustomField3').text(fieldData[i].name);
-                    $('#edtSaleCustField3').val(fieldData[i].name);
+                    //$('#edtSaleCustField3').val(fieldData[i].name);
                     $('#customFieldText3').val(fieldData[i].name);
                     $('#myModal4').modal('toggle');
                     $('.fullScreenSpin').css('display', 'none');

@@ -132,7 +132,8 @@ Template.customerlistpop.onRendered(function () {
                             data.tcustomervs1[i].fields.Discount || 0,
                             data.tcustomervs1[i].fields.TermsName || '',
                             data.tcustomervs1[i].fields.FirstName || '',
-                            data.tcustomervs1[i].fields.LastName || ''
+                            data.tcustomervs1[i].fields.LastName || '',
+                            data.tcustomervs1[i].fields.TaxCodeName || 'E'
                         ];
 
                         splashArrayCustomerList.push(dataListCustomer);
@@ -262,6 +263,9 @@ Template.customerlistpop.onRendered(function () {
                                 }, {
                                     className: "colCustomerLastName hiddenColumn",
                                     "targets": [23]
+                                }, {
+                                    className: "colCustomerTaxCode hiddenColumn",
+                                    "targets": [24]
                                 }
                             ],
                             select: true,
@@ -623,7 +627,8 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.Discount || 0,
                         data.tcustomervs1[i].fields.TermsName || '',
                         data.tcustomervs1[i].fields.FirstName || '',
-                        data.tcustomervs1[i].fields.LastName || ''
+                        data.tcustomervs1[i].fields.LastName || '',
+                        data.tcustomervs1[i].fields.TaxCodeName || 'E'
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
@@ -753,6 +758,9 @@ Template.customerlistpop.onRendered(function () {
                             }, {
                                 className: "colCustomerLastName hiddenColumn",
                                 "targets": [23]
+                            }, {
+                                className: "colCustomerTaxCode hiddenColumn",
+                                "targets": [24]
                             }
                         ],
                         select: true,
@@ -968,7 +976,8 @@ Template.customerlistpop.onRendered(function () {
                                               data.tcustomervs1[i].fields.Discount || 0,
                                               data.tcustomervs1[i].fields.TermsName || '',
                                               data.tcustomervs1[i].fields.FirstName || '',
-                                              data.tcustomervs1[i].fields.LastName || ''
+                                              data.tcustomervs1[i].fields.LastName || '',
+                                              data.tcustomervs1[i].fields.TaxCodeName || 'E'
                                           ];
 
                                           splashArrayCustomerList.push(dataListCustomer);
@@ -1218,7 +1227,8 @@ Template.customerlistpop.onRendered(function () {
                         data.tcustomervs1[i].fields.Discount || 0,
                         data.tcustomervs1[i].fields.TermsName || '',
                         data.tcustomervs1[i].fields.FirstName || '',
-                        data.tcustomervs1[i].fields.LastName || ''
+                        data.tcustomervs1[i].fields.LastName || '',
+                        data.tcustomervs1[i].fields.TaxCodeName || 'E'
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);
@@ -1356,6 +1366,9 @@ Template.customerlistpop.onRendered(function () {
                             }, {
                                 className: "colCustomerLastName hiddenColumn",
                                 "targets": [23]
+                            }, {
+                                className: "colCustomerTaxCode hiddenColumn",
+                                "targets": [24]
                             }
                         ],
                         select: true,
@@ -1755,7 +1768,8 @@ Template.customerlistpop.events({
                             data.tcustomervs1[i].fields.Discount || 0,
                             data.tcustomervs1[i].fields.TermsName || '',
                             data.tcustomervs1[i].fields.FirstName || '',
-                            data.tcustomervs1[i].fields.LastName || ''
+                            data.tcustomervs1[i].fields.LastName || '',
+                            data.tcustomervs1[i].fields.TaxCodeName || 'E'
                         ];
 
                         splashArrayCustomerList.push(dataListCustomer);
@@ -1853,7 +1867,8 @@ Template.customerlistpop.events({
                         data.tcustomervs1[i].fields.Discount || 0,
                         data.tcustomervs1[i].fields.TermsName || '',
                         data.tcustomervs1[i].fields.FirstName || '',
-                        data.tcustomervs1[i].fields.LastName || ''
+                        data.tcustomervs1[i].fields.LastName || '',
+                        data.tcustomervs1[i].fields.TaxCodeName || 'E'
                     ];
 
                     splashArrayCustomerList.push(dataListCustomer);

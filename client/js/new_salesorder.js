@@ -357,7 +357,7 @@ Template.new_salesorder.onRendered(() => {
                         custField.push(customData);
                 }
             }
-            
+
             if(custField.length < 4) {
                 let remainder = 4 - custField.length;
                 count = count + remainder;
@@ -377,7 +377,7 @@ Template.new_salesorder.onRendered(() => {
             })
         }
 
-       
+
         setTimeout(function(){
             templateObject.getSalesCustomFieldsList()
         },500);
@@ -2334,7 +2334,7 @@ Template.new_salesorder.onRendered(() => {
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
                             if (parseInt(useData[d].fields.ID) === currentSalesOrder) {
-                                 
+
                                 added = true;
                                 $('.fullScreenSpin').css('display', 'none');
                                 let lineItems = [];
@@ -3157,7 +3157,7 @@ Template.new_salesorder.onRendered(() => {
             getCustDetails = customers.filter(customer => {
                 return customer.customername == selectedCust
             });
-
+            if (getCustDetails.length > 0) {
             taxRate = taxcodeList.filter(taxrate => {
                 return taxrate.codename == getCustDetails[0].taxCode
             });
@@ -3171,7 +3171,10 @@ Template.new_salesorder.onRendered(() => {
                 lineTaxRate = table.find(".taxrate").text();
             }
 
-            taxcode1 = getCustDetails[0].taxCode
+            taxcode1 = getCustDetails[0].taxCode;
+          }else{
+            lineTaxRate = table.find(".taxrate").text();
+          }
         } else {
             lineTaxRate = table.find(".taxrate").text();
         }
@@ -3514,6 +3517,8 @@ Template.new_salesorder.onRendered(() => {
         $('#txaShipingInfo').val(postalAddress);
         $('#sltTerms').val(tableCustomer.find(".colCustomerTermName").text() || salesDefaultTerms);
 
+        let selectedTaxCodeName = tableCustomer.find(".colCustomerTaxCode").text() || 'E';
+
         //if (li.text() != undefined) {
         let selectedCustomer = $('#edtCustomerName').val();
         if (clientList) {
@@ -3544,14 +3549,14 @@ Template.new_salesorder.onRendered(() => {
             getCustDetails = customers.filter(customer => {
                 return customer.customername == selectedCustomer
             });
-            if (getCustDetails.length > 0) {
+            //if (getCustDetails.length > 0) {
                 taxRate = taxcodeList.filter(taxrate => {
-                    return taxrate.codename == getCustDetails[0].taxCode
+                    return taxrate.codename == selectedTaxCodeName
                 });
 
                 if (taxRate.length > 0) {
                     let rate = taxRate[0].coderate;
-                    let code = getCustDetails[0].taxCode;
+                    let code = selectedTaxCodeName || 'E';
                     if (code == "NT") {
                         code = "E";
                     }
@@ -3668,7 +3673,7 @@ Template.new_salesorder.onRendered(() => {
                     //}
 
                 }
-            }
+            //}
         }
         $('#tblCustomerlist_filter .form-control-sm').val('');
         setTimeout(function() {
