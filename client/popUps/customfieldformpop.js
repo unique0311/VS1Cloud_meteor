@@ -617,14 +617,7 @@ Template.customfieldformpop.onRendered(function() {
 
     templateObject.getTaxRates();
 
-    $('.btnAddNewTextBox').on('click', function () {
-        var textBoxData = $('#textBoxSection:last').clone(true);
-        let tokenid = Random.id();
-        textBoxData.find("input:text").val("");
-        textBoxData.attr('token', tokenid);
-        $('.dropDownSection').append(textBoxData);
 
-    })
 
     $(document).on('click', '.table-remove', function() {
         event.stopPropagation();
@@ -764,13 +757,17 @@ Template.customfieldformpop.events({
        if(url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
          listType = "ltSales";
        }
+
        if (fieldID == "") {
            // taxRateService.checkTermByName(termsName).then(function(data) {
             if(dropDownStatus == "true") {
+              let countCustom = 0;
                 $('.customText').each(function(){
+                  countCustom++;
                     dropObj = {
                         type: "TCustomFieldListDropDown",
                         fields:{
+                            //Recno: parseInt(countCustom) || 0,
                             Text: $(this).val(),
                         }
                     }
@@ -846,11 +843,14 @@ Template.customfieldformpop.events({
 
         } else {
             if(dropDownStatus == "true") {
+              let countCustom = 0;
                 $('.customText').each(function(){
+                  countCustom++;
                     dropObj = {
                         type: "TCustomFieldListDropDown",
                         fields:{
-                            Text: $(this).val(),
+                            //Recno: parseInt(countCustom) || 0,
+                            Text: $(this).val()||'',
                         }
                     }
                     dropDownData.push(dropObj);
@@ -927,11 +927,13 @@ Template.customfieldformpop.events({
                 });
         }
 },
-    // 'click .btnAddNewStatus': function (event) {
-    //     setTimeout(function () {
-    //       $('#status').focus();
-    //     }, 1000);
-    // },
+    'click .btnAddNewTextBox': function (event) {
+      var textBoxData = $('#textBoxSection:last').clone(true);
+      let tokenid = Random.id();
+      textBoxData.find("input:text").val("");
+      textBoxData.attr('token', tokenid);
+      $('.dropDownSection').append(textBoxData);
+    },
     // 'click #btnNewInvoice': function(event) {
     //     // FlowRouter.go('/invoicecard');
     // },

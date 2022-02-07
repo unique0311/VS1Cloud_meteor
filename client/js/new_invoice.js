@@ -392,22 +392,22 @@ Template.new_invoice.onRendered(() => {
                 var splashArrayCustomFieldList = new Array();
                 if(custField[0].dropdown != null){
                 if (custField[0].dropdown.length > 0){
-                  alert('here 1');
+
                   for (let x = 0; x < custField[0].dropdown.length; x++) {
                       var dataList = [
                           custField[0].dropdown[x].fields.ID || '',
                           custField[0].dropdown[x].fields.Text || ''
                       ];
-                      console.log(dataList);
-                      //splashArrayCustomFieldList.push(dataList);
+
+                      splashArrayCustomFieldList.push(dataList);
                   }
                 }else{
-                  console.log(custField[0].dropdown.fields.ID);
+
                   var dataList = [
                       custField[0].dropdown.fields.ID || '',
                       custField[0].dropdown.fields.Text || ''
                   ];
-                  //console.log(dataList);
+
                   splashArrayCustomFieldList.push(dataList);
                 }
                 }else{

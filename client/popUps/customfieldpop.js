@@ -872,7 +872,8 @@ Template.customfieldpop.events({
         $('.customfieldcommon').each(function(){
             dropObj = {
                 id: $(this).attr('custid') || '',
-                name: $(this).val() || ''
+                name: $(this).val() || '',
+                datatype: $(this).attr('datatype') || '',
             }
             fieldData.push(dropObj);
         });
@@ -887,7 +888,18 @@ Template.customfieldpop.events({
        for(let i = 0; i < fieldData.length; i++) {
         let fieldID = fieldData[i].id;
         let name = fieldData[i].name;
+        let dataType = fieldData[i].datatype;
         if (fieldID == "") {
+          if(dataType == 'ftDateTime'){
+            objDetails1 = {
+                type: "TCustomFieldList",
+                fields: {
+                    DataType:"ftDateTime",
+                    Description: name,
+                    listType: listType
+                }
+            }
+          }else{
             objDetails1 = {
                 type: "TCustomFieldList",
                 fields: {
@@ -896,6 +908,8 @@ Template.customfieldpop.events({
                     listType: listType
                 }
             }
+          }
+
 
             organisationService.saveCustomField(objDetails1).then(function(objDetails) {
                 if(i == 0) {
@@ -935,15 +949,28 @@ Template.customfieldpop.events({
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
-            objDetails1 = {
-                type: "TCustomFieldList",
-                fields: {
-                    ID: fieldID,
-                    DataType:"ftString",
-                    Description: name,
-                    listType: listType
-                }
-            };
+            if(dataType == 'ftDateTime'){
+              objDetails1 = {
+                  type: "TCustomFieldList",
+                  fields: {
+                      ID: fieldID,
+                      DataType:"ftDateTime",
+                      Description: name,
+                      listType: listType
+                  }
+              };
+            }else{
+              objDetails1 = {
+                  type: "TCustomFieldList",
+                  fields: {
+                      ID: fieldID,
+                      DataType:"ftString",
+                      Description: name,
+                      listType: listType
+                  }
+              };
+            }
+
 
             organisationService.saveCustomField(objDetails1).then(function(objDetails) {
                 if(i == 0) {
