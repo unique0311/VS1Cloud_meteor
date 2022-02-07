@@ -466,6 +466,30 @@ if (moment().quarter() == 4) {
   },6000);
  setTimeout(function(){$('.pnlTable').show();},6000);
     /*Visual hide end*/
+    
+    
+
+            var eLayScreenArr = [];
+            var pnlTblArr = [];
+            var tbv1 = $('.fgrtotalName').length;
+            var tbv2 = $('.avoid').length;
+            for (let i = 0; i < tbv1; i++) {
+                eLayScreenArr.push(i);
+            }
+            for (let k = 0; k < tbv2; k++) {
+
+                pnlTblArr.push(k);
+            }
+
+//            const sortArray = (eLayScreenArr, pnlTblArr) => {
+//                pnlTblArr.sort((a, b) => {
+//                    const aKey = Object.keys(a)[0];
+//                    const bKey = Object.keys(b)[0];
+//                    return eLayScreenArr.indexOf(aKey) - eLayScreenArr.indexOf(bKey);
+//                });
+//            };
+//            sortArray(eLayScreenArr, pnlTblArr);
+            console.log(pnlTblArr,eLayScreenArr);
 });
 
 
