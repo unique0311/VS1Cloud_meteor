@@ -797,7 +797,9 @@ Template.customfieldformpop.events({
                 };
             }
                 organisationService.saveCustomField(objDetails1).then(function(objDetails) {
-                    // sideBarService.getTermsVS1().then(function(dataReload) {
+                    sideBarService.getAllCustomFields().then(function (data) {
+                        addVS1Data('TCustomFieldList', JSON.stringify(data));
+                    });
                         if(clickedInput == "one") {
                             $('.lblCustomField1').text(termsName);
                             // $('#edtSaleCustField1').val(termsName);
