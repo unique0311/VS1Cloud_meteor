@@ -937,7 +937,12 @@ Template.customfieldformpop.events({
       $('.dropDownSection').append(textBoxData);
     },
     'click .btnRemoveDropOptions': function () {
-       $(event.target).closest('.textBoxSection').remove();
+        if ($('.textBoxSection').length > 1) {
+           $(event.target).closest('.textBoxSection').remove();
+        }else{
+           $("input[name='customText']").val("");
+        }
+
         // swal({
         //     title: 'Delete Dropdown Option',
         //     text: "Are you sure you want to Delete Dropdown Option?",
