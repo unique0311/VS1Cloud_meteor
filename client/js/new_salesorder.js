@@ -373,7 +373,7 @@ Template.new_salesorder.onRendered(() => {
             }
             templateObject.custfields.set(custField);
             }).catch(function (err) {
-               console.log(err);
+
             })
         }
 

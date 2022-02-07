@@ -74,6 +74,7 @@ Template.custfieldlist.onRendered(function() {
         getVS1Data('TCustomFieldList').then(function(dataObject) {
             if (dataObject.length == 0) {
                 sideBarService.getAllCustomFields().then(function(data) {
+                  addVS1Data('TCustomFieldList', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
                     let setISCOD = false;
@@ -82,7 +83,7 @@ Template.custfieldlist.onRendered(function() {
                         var dataList = {
                             id: data.tcustomfieldlist[i].fields.ID || '',
                             typename: data.tcustomfieldlist[i].fields.Description || '',
-                            description: data.tcustomfieldlist[i].Description 
+                            description: data.tcustomfieldlist[i].Description
                         };
 
                         dataTableList.push(dataList);
@@ -263,7 +264,7 @@ Template.custfieldlist.onRendered(function() {
                     var dataList = {
                         id: data.tcustomfieldlist[i].fields.ID || '',
                         typename: data.tcustomfieldlist[i].fields.Description || '',
-                        description: data.tcustomfieldlist[i].Description 
+                        description: data.tcustomfieldlist[i].Description
                     };
 
                     dataTableList.push(dataList);
@@ -430,8 +431,9 @@ Template.custfieldlist.onRendered(function() {
 
             }
         }).catch(function(err) {
-            console.log(err);
+
             sideBarService.getAllCustomFields().then(function(data) {
+              addVS1Data('TCustomFieldList', JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
                 let setISCOD = false;
@@ -440,7 +442,7 @@ Template.custfieldlist.onRendered(function() {
                     var dataList = {
                         id: data.tcustomfieldlist[i].fields.ID || '',
                             typename: data.tcustomfieldlist[i].fields.Description || '',
-                            description: data.tcustomfieldlist[i].Description 
+                            description: data.tcustomfieldlist[i].Description
                     };
 
                     dataTableList.push(dataList);
@@ -633,7 +635,7 @@ Template.custfieldlist.onRendered(function() {
     // });
 
 //     $('#tblStatusPopList1 tbody').on('click', 'tr .colName, tr .colIsDays, tr .colIsEOM, tr .colDescription, tr .colIsCOD, tr .colIsEOMPlus, tr .colCustomerDef, tr .colSupplierDef', function() {
-        
+
 
 //                 $('#edtTermsID').val(termsID);
 //                 $('#edtName').val(termsName);

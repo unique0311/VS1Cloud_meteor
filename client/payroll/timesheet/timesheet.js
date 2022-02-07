@@ -75,7 +75,6 @@ Template.timesheet.onRendered(function () {
     //     fromDateDay = "0" + currentDate.getDate();
     // }
     // var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
-    // console.log(fromDate);
 
 
     var currentBeginDate = new Date();

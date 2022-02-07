@@ -78,42 +78,122 @@ Template.customfieldpop.onRendered(() => {
 
     templateObject.getSalesCustomFieldsList = function () {
         var url = FlowRouter.current().path;
-        sideBarService.getAllCustomFields().then(function (data) {
-            let customData = {};
-            for (let x = 0; x < data.tcustomfieldlist.length; x++) {
-                if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
-                    if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
-                        console.log(data.tcustomfieldlist[x]);
-                        customData = {
-                            id: data.tcustomfieldlist[x].fields.ID,
-                            custfieldlabel: data.tcustomfieldlist[x].fields.Description,
-                            isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
-                            dropdown: data.tcustomfieldlist[x].fields.Dropdown,
-                            isCombo: data.tcustomfieldlist[x].fields.IsCombo
-                        }
-                        custField.push(customData);
-                    }
-                }
+        getVS1Data('TCustomFieldList').then(function(dataObject) {
+            if (dataObject.length == 0) {
+              sideBarService.getAllCustomFields().then(function (data) {
+                addVS1Data('TCustomFieldList', JSON.stringify(data));
+                  let customData = {};
+                  for (let x = 0; x < data.tcustomfieldlist.length; x++) {
+                      if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
+                          if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
+
+                              customData = {
+                                  id: data.tcustomfieldlist[x].fields.ID,
+                                  custfieldlabel: data.tcustomfieldlist[x].fields.Description,
+                                  isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
+                                  dropdown: data.tcustomfieldlist[x].fields.Dropdown,
+                                  isCombo: data.tcustomfieldlist[x].fields.IsCombo
+                              }
+                              custField.push(customData);
+                          }
+                      }
+                  }
+
+                  if (custField.length < 4) {
+                      let remainder = 4 - custField.length;
+                      count = count + remainder;
+                      for (let r = 0; r < remainder; r++) {
+                          customData = {
+                              id: "",
+                              custfieldlabel: "Custom Field " + count,
+                              dropdown: ""
+                          }
+                          count++;
+                          custField.push(customData);
+                      }
+
+                  }
+
+                  templateObject.custfields.set(custField);
+
+              }).catch(function (err) {});
+
+            }else{
+              let data = JSON.parse(dataObject[0].data);
+              let customData = {};
+              for (let x = 0; x < data.tcustomfieldlist.length; x++) {
+                  if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
+                      if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
+
+                          customData = {
+                              id: data.tcustomfieldlist[x].fields.ID,
+                              custfieldlabel: data.tcustomfieldlist[x].fields.Description,
+                              isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
+                              dropdown: data.tcustomfieldlist[x].fields.Dropdown,
+                              isCombo: data.tcustomfieldlist[x].fields.IsCombo
+                          }
+                          custField.push(customData);
+                      }
+                  }
+              }
+
+              if (custField.length < 4) {
+                  let remainder = 4 - custField.length;
+                  count = count + remainder;
+                  for (let r = 0; r < remainder; r++) {
+                      customData = {
+                          id: "",
+                          custfieldlabel: "Custom Field " + count,
+                          dropdown: ""
+                      }
+                      count++;
+                      custField.push(customData);
+                  }
+
+              }
+
+              templateObject.custfields.set(custField);
             }
 
-            if (custField.length < 4) {
-                let remainder = 4 - custField.length;
-                count = count + remainder;
-                for (let r = 0; r < remainder; r++) {
-                    customData = {
-                        id: "",
-                        custfieldlabel: "Custom Field " + count,
-                        dropdown: ""
-                    }
-                    count++;
-                    custField.push(customData);
-                }
+        }).catch(function(err) {
+          sideBarService.getAllCustomFields().then(function (data) {
+            addVS1Data('TCustomFieldList', JSON.stringify(data));
+              let customData = {};
+              for (let x = 0; x < data.tcustomfieldlist.length; x++) {
+                  if (url.includes('/invoicecard') || url.includes('/salesordercard') || url.includes('/quotecard') || url.includes('/refundcard')) {
+                      if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
 
-            }
+                          customData = {
+                              id: data.tcustomfieldlist[x].fields.ID,
+                              custfieldlabel: data.tcustomfieldlist[x].fields.Description,
+                              isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
+                              dropdown: data.tcustomfieldlist[x].fields.Dropdown,
+                              isCombo: data.tcustomfieldlist[x].fields.IsCombo
+                          }
+                          custField.push(customData);
+                      }
+                  }
+              }
 
-            templateObject.custfields.set(custField);
+              if (custField.length < 4) {
+                  let remainder = 4 - custField.length;
+                  count = count + remainder;
+                  for (let r = 0; r < remainder; r++) {
+                      customData = {
+                          id: "",
+                          custfieldlabel: "Custom Field " + count,
+                          dropdown: ""
+                      }
+                      count++;
+                      custField.push(customData);
+                  }
 
-        }).catch(function (err) {})
+              }
+
+              templateObject.custfields.set(custField);
+
+          }).catch(function (err) {});
+        });
     }
 
     setTimeout(function () {

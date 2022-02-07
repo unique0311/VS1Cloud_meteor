@@ -301,7 +301,6 @@ Template.payrollproductlistpop.onRendered(function () {
                 tempObj.productextrasellrecords.set(lineExtaSellItems);
                 //localStorage.setItem('VS1SalesProductList', JSON.stringify(splashArrayProductList));
                 if (splashArrayProductList) {
-                  console.log(splashArrayProductList);
                     $('#tblInventoryPayrollService').dataTable({
                         data: splashArrayProductList,
 
