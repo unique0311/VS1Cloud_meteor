@@ -108,17 +108,19 @@ export class ReportService extends BaseService {
         return this.getList(this.ERPObjects.ProfitLossReport, options);
     }
 
-    getProfitandLossCompare(dateFrom, dateTo,ignoreDate) {
+    getProfitandLossCompare(dateFrom, dateTo,ignoreDate, periodType) {
       let options = '';
       if(ignoreDate == true){
         options = {
-           IgnoreDates:true
+           IgnoreDates:true,
+           PeriodType:'"'+periodType+'"'
        };
      }else{
        options = {
           IgnoreDates:false,
           DateFrom: '"'+dateFrom+'"',
-          DateTo: '"'+dateTo+'"'
+          DateTo: '"'+dateTo+'"',
+          PeriodType:'"'+periodType+'"'
       };
      }
         return this.getList(this.ERPObjects.TProfitAndLossPeriodCompareReport, options);

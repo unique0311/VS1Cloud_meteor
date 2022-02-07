@@ -279,16 +279,16 @@ Template.inventorylist.onRendered(function() {
                   className: "colDepartment",
                   "targets": [4]
               }, {
-                  className: "colCostPrice text-right",
+                  className: "colCostPrice hiddenColumn text-right",
                   "targets": [5]
               }, {
-                  className: "colCostPriceInc hiddenColumn text-right",
+                  className: "colCostPriceInc  text-right",
                   "targets": [6]
               }, {
-                  className: "colSalePrice text-right",
+                  className: "colSalePrice hiddenColumn text-right",
                   "targets": [7]
               },{
-                  className: "colSalePriceInc hiddenColumn text-right",
+                  className: "colSalePriceInc  text-right",
                   "targets": [8]
               }, {
                   className: "colQuantity text-right",
@@ -543,16 +543,16 @@ setTimeout(function () {
                   className: "colDepartment",
                   "targets": [4]
               }, {
-                  className: "colCostPrice text-right",
+                  className: "colCostPrice hiddenColumn text-right",
                   "targets": [5]
               }, {
-                  className: "colCostPriceInc hiddenColumn text-right",
+                  className: "colCostPriceInc  text-right",
                   "targets": [6]
               }, {
-                  className: "colSalePrice text-right",
+                  className: "colSalePrice hiddenColumn text-right",
                   "targets": [7]
               },{
-                  className: "colSalePriceInc hiddenColumn text-right",
+                  className: "colSalePriceInc  text-right",
                   "targets": [8]
               }, {
                   className: "colQuantity text-right",
@@ -800,16 +800,16 @@ setTimeout(function () {
                         className: "colDepartment",
                         "targets": [4]
                     }, {
-                        className: "colCostPrice text-right",
+                        className: "colCostPrice hiddenColumn text-right",
                         "targets": [5]
                     }, {
-                        className: "colCostPriceInc hiddenColumn text-right",
+                        className: "colCostPriceInc  text-right",
                         "targets": [6]
                     }, {
-                        className: "colSalePrice text-right",
+                        className: "colSalePrice hiddenColumn text-right",
                         "targets": [7]
                     },{
-                        className: "colSalePriceInc hiddenColumn text-right",
+                        className: "colSalePriceInc  text-right",
                         "targets": [8]
                     }, {
                         className: "colQuantity text-right",
@@ -2114,6 +2114,76 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
   }else{
     $('.tblInventory tbody tr').show();
   }
+},
+'click .lblCostEx': function (event) {
+  var $earch = $(event.currentTarget);
+  var offset = $earch.offset();
+      if (event.pageX > offset.left + $earch.width() - 10) {
+
+      }else{
+        $('.lblCostEx').addClass('hiddenColumn');
+        $('.lblCostInc').removeClass('hiddenColumn');
+
+        $('.colCostPriceInc').removeClass('hiddenColumn');
+
+        $('.colCostPrice').addClass('hiddenColumn');
+
+        $('.lblCostInc').css('width','12%');
+
+      }
+
+},
+'click .lblCostInc': function (event) {
+  var $earch = $(event.currentTarget);
+  var offset = $earch.offset();
+      if (event.pageX > offset.left + $earch.width() - 10) {
+
+      }else{
+        $('.lblCostInc').addClass('hiddenColumn');
+
+        $('.lblCostEx').removeClass('hiddenColumn');
+
+        $('.colCostPrice').removeClass('hiddenColumn');
+
+        $('.colCostPriceInc').addClass('hiddenColumn');
+        $('.lblCostEx').css('width','10%');
+
+      }
+
+},
+'click .lblPriceEx': function (event) {
+  var $earch = $(event.currentTarget);
+  var offset = $earch.offset();
+      if (event.pageX > offset.left + $earch.width() - 10) {
+
+      }else{
+        $('.lblPriceEx').addClass('hiddenColumn');
+        $('.lblPriceInc').removeClass('hiddenColumn');
+
+        $('.colSalePriceInc').removeClass('hiddenColumn');
+        $('.colSalePrice').addClass('hiddenColumn');
+
+        $('.lblPriceInc').css('width','12%');
+
+      }
+
+},
+'click .lblPriceInc': function (event) {
+  var $earch = $(event.currentTarget);
+  var offset = $earch.offset();
+      if (event.pageX > offset.left + $earch.width() - 10) {
+
+      }else{
+        $('.lblPriceInc').addClass('hiddenColumn');
+        $('.lblPriceEx').removeClass('hiddenColumn');
+
+        $('.colSalePrice').removeClass('hiddenColumn');
+        $('.colSalePriceInc').addClass('hiddenColumn');
+
+        $('.lblPriceEx').css('width','12%');
+
+      }
+
 }
 
 });

@@ -129,7 +129,7 @@ if (moment().quarter() == 4) {
 
     templateObject.getProfitandLossReports = function (dateFrom, dateTo, ignoreDate) {
         if (!localStorage.getItem('VS1ProfitandLoss_ReportCompare1')) {
-            reportService.getProfitandLossCompare(dateFrom, dateTo, ignoreDate).then(function (data) {
+            reportService.getProfitandLossCompare(dateFrom, dateTo, false, '4 Month').then(function (data) {
                 let records = [];
                 var groupsprofitloss = {};
                 if (data.tprofitandlossperiodcomparereport) {
@@ -154,7 +154,27 @@ if (moment().quarter() == 4) {
                         }
 
                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
-                        let jan2022Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
+                        let amount_1 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_1']) || 0.00;
+                        let amount_2 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_2']) || 0.00;
+                        let amount_3 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_3']) || 0.00;
+                        let amount_4 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_4']) || 0.00;
+                        let amount_5 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_5']) || 0.00;
+                        let amount_6 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_6']) || 0.00;
+                        let amount_7 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_7']) || 0.00;
+                        let amount_8 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_8']) || 0.00;
+                        let amount_9 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_9']) || 0.00;
+                        let amount_10 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_10']) || 0.00;
+                        let amount_11 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_11']) || 0.00;
+                        let amount_12 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_12']) || 0.00;
+                        let amount_13 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_13']) || 0.00;
+                        let amount_14 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_14']) || 0.00;
+                        let amount_15 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_15']) || 0.00;
+                        let amount_16 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_16']) || 0.00;
+                        let amount_17 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_17']) || 0.00;
+                        let amount_18 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_18']) || 0.00;
+                        let amount_19 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_19']) || 0.00;
+                        let amount_20 = utilityService.modifynegativeCurrencyFormat(accountData[i]['Amount_20']) || 0.00;
+                        /*
                         let dec2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let nov2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let oct2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
@@ -163,6 +183,7 @@ if (moment().quarter() == 4) {
                         let jul2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let jun2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let may2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
+                        */
 
                         if(accountData[i]['AccountHeaderOrder'].replace(/\s/g, '') == '' && accountType != ''){
                             dataList = {
@@ -174,15 +195,26 @@ if (moment().quarter() == 4) {
                             accountno: accountData[i]['AccountNo'] || '',
                             totalamountex: '',
                             name: $.trim(accountData[i]['AccountName']).split(" ").join("_"),
-                            jan2022: '',
-                            dec2021: '',
-                            nov2021: '',
-                            oct2021: '',
-                            sept2021: '',
-                            aug2021: '',
-                            jul2021: '',
-                            jun2021: '',
-                            may2021: '',
+                            amount_1: '',
+                            amount_2: '',
+                            amount_3: '',
+                            amount_4: '',
+                            amount_5: '',
+                            amount_6: '',
+                            amount_7: '',
+                            amount_8: '',
+                            amount_9: '',
+                            amount_10: '',
+                            amount_11: '',
+                            amount_12: '',
+                            amount_13: '',
+                            amount_14: '',
+                            amount_15: '',
+                            amount_16: '',
+                            amount_17: '',
+                            amount_18: '',
+                            amount_19: '',
+                            amount_20: '',
                             // totaltax: totalTax || 0.00
 
 
@@ -197,15 +229,26 @@ if (moment().quarter() == 4) {
                             accountno: accountData[i]['AccountNo'] || '',
                             totalamountex: totalAmountEx || 0.00,
                             name: $.trim(accountData[i]['AccountName']).split(" ").join("_"),
-                            jan2022: jan2022Amt,
-                            dec2021: dec2021Amt,
-                            nov2021: nov2021Amt,
-                            oct2021: oct2021Amt,
-                            sept2021: sept2021Amt,
-                            aug2021:  aug2021Amt,
-                            jul2021: jul2021Amt,
-                            jun2021: jun2021Amt,
-                            may2021: may2021Amt,
+                            amount_1: amount_1 || '',
+                            amount_2: amount_2 || '',
+                            amount_3: amount_3 || '',
+                            amount_4: amount_4 || '',
+                            amount_5: amount_5 || '',
+                            amount_6: amount_6 || '',
+                            amount_7: amount_7 || '',
+                            amount_8: amount_8 || '',
+                            amount_9: amount_9 || '',
+                            amount_10: amount_10 || '',
+                            amount_11: amount_11 || '',
+                            amount_12: amount_12 || '',
+                            amount_13: amount_13 || '',
+                            amount_14: amount_14 || '',
+                            amount_15: amount_15 || '',
+                            amount_16: amount_16 || '',
+                            amount_17: amount_17 || '',
+                            amount_18: amount_18 || '',
+                            amount_19: amount_19 || '',
+                            amount_20: amount_20 || ''
                             // totaltax: totalTax || 0.00
 
 
@@ -460,15 +503,11 @@ if (moment().quarter() == 4) {
     //Dragable items in edit layout screen end
     /*Visually hide additional periods so that custom selection handles it*/
     setTimeout(function(){
-
         $('td:nth-child(n+4)').hide();
         $('th:nth-child(n+4)').hide();
   },6000);
  setTimeout(function(){$('.pnlTable').show();},6000);
     /*Visual hide end*/
-    
-    
-
             var eLayScreenArr = [];
             var pnlTblArr = [];
             var tbv1 = $('.fgrtotalName').length;
@@ -489,7 +528,7 @@ if (moment().quarter() == 4) {
 //                });
 //            };
 //            sortArray(eLayScreenArr, pnlTblArr);
-            console.log(pnlTblArr,eLayScreenArr);
+      
 });
 
 
