@@ -15,10 +15,10 @@ Template.stscreateharvests.onCreated(function(){
 Template.stscreateharvests.onRendered(function() {
     $('.fullScreenSpin').css('display','inline-block');
     $('.fullScreenSpin').css('display','none');
-    
+
     let templateObject = Template.instance();
     let stsService = new STSService();
-    
+
     // BEGIN LOAD ROOMS
     templateObject.getRooms = function () {
 
@@ -30,7 +30,6 @@ Template.stscreateharvests.onRendered(function() {
                     roomid: data.tproductbin[i].BinNumber || ' ',
                     roomname: data.tproductbin[i].BinLocation || ' '
                 };
-                //                alert(data.tproductbin[i].BinLocation);
                 if(data.tproductbin[i].BinLocation.replace(/\s/g, '') != ''){
                     binList.push(dataObj);
                 }

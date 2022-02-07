@@ -411,24 +411,24 @@ Template.customfieldpop.events({
             $('.btnAddNewTextBox').nextAll().remove();
             //$('.customText').val(custfieldarr[0].dropdown[0].fields.Text);
             for(let x = 0; x < custfieldarr[0].dropdown.length; x++) {
-                $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+                $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown[x].fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+                                        '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
                                     '</div>'+
                                 '</div>');
             }
 
         } else if(Object.keys(custfieldarr[0].dropdown).length > 0) {
             $('.btnAddNewTextBox').nextAll().remove();
-             $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+             $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown.fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+                                        '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
                                     '</div>'+
                                 '</div>');
 
@@ -612,24 +612,24 @@ Template.customfieldpop.events({
             $('.btnAddNewTextBox').nextAll().remove();
            // $('.customText').val(custfieldarr[1].dropdown[0].fields.Text);
             for(let x = 0; x < custfieldarr[1].dropdown.length; x++) {
-                $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+                $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[1].dropdown[x].fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+                                        '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
                                     '</div>'+
                                 '</div>');
             }
 
         } else if(Object.keys(custfieldarr[1].dropdown).length > 0) {
             $('.btnAddNewTextBox').nextAll().remove();
-             $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+             $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[1].dropdown.fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+                                        '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
                                     '</div>'+
                                 '</div>');
 
@@ -848,24 +848,24 @@ Template.customfieldpop.events({
             $('.btnAddNewTextBox').nextAll().remove();
             $('.customText').val(custfieldarr[2].dropdown[0].fields.Text);
             for(let x = 1; x < custfieldarr[2].dropdown.length; x++) {
-                $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+                $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[2].dropdown[x].fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+                                        '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
                                     '</div>'+
                                 '</div>');
             }
 
         } else if(Object.keys(custfieldarr[2].dropdown).length > 0) {
             $('.btnAddNewTextBox').nextAll().remove();
-             $('.dropDownSection').append('<div class="row" id="textBoxSection" style="padding:5px">'+
+             $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
                                         '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[2].dropdown.fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
-                                        '<button type="button" class="btn btn-danger btn-rounded" autocomplete="off"><i class="fa fa-remove"></i></button>'+
+                                        '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
                                     '</div>'+
                                 '</div>');
 

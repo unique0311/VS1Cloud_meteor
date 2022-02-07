@@ -11,7 +11,6 @@ Template.trueERPSettings.events({
     var emailIds = $("#emailIds")
       .val()
       .replace(/;/g, ",");
-    //  alert(emailIds);
     var mailBody = $("#mailBody").html();
 
     if (emailIds === "") {
@@ -60,7 +59,7 @@ Template.trueERPSettings.events({
             event.preventDefault();
             // show a nice error message
             // Session.set("errorMessage", "Please log in to delete a family.");
-            
+
           } else {
             Bert.alert("<strong>Success:</strong> Mail Sent!", "success");
             $(".close").click();

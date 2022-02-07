@@ -511,7 +511,7 @@ Template.viewStatement.events({
             for (let i = 0; i < records.length; i++) {
                 if (records[i].activity == e.currentTarget.id) {
                     if(records[i].prepaymentId > 0 && records[i].invoiceId ==0 ){
-                        alert('redirect to prepayment');   //redirect to prepayment form
+
                     }
                     else if(records[i].prepaymentId == 0 && records[i].invoiceId >0 )
                         window.open('/invoicepaidcard?id=' + invoiceNumber, '_self');

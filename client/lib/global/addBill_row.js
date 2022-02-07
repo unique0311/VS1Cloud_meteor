@@ -122,7 +122,7 @@ addBillRow = function (rowCount) {
 
                     $tblrow.find('.qty').on('change', function () {
                       var qty = $tblrow.find("[id=Ordered]").val();
-                      
+
                       var price = $tblrow.find("[id=UnitPrice]").val();
                       var subTotal = parseInt(qty,10) * parseFloat(price);
                       if (!isNaN(subTotal)) {
@@ -132,7 +132,7 @@ addBillRow = function (rowCount) {
                      $(".subtot").each(function () {
                          var stval = parseFloat($(this).val());
                          SubGrandTotal += isNaN(stval) ? 0 : stval;
-                         
+
                      });
 
 
@@ -145,7 +145,7 @@ addBillRow = function (rowCount) {
 
                     $tblrow.find('.unitPrice').on('change', function () {
                       var qty = $tblrow.find("[id=Ordered]").val();
-                      
+
                       var price = $tblrow.find("[id=UnitPrice]").val();
                       var subTotal = parseInt(qty,10) * parseFloat(price);
                       if (!isNaN(subTotal)) {
@@ -155,7 +155,7 @@ addBillRow = function (rowCount) {
                      $(".subtot").each(function () {
                          var stval = parseFloat($(this).val());
                          SubGrandTotal += isNaN(stval) ? 0 : stval;
-                         
+
                      });
 
 
@@ -194,7 +194,7 @@ $(document).on("click", "#component_tb tr", function(e) {
   var $tblrow = $(this);
 
   var $cell= $(e.target).closest('td');
-  
+
  if(($cell.index() == 2)){
   var erpGetAccount = erpReqAccount();
   erpGetAccount.onreadystatechange = function() {
@@ -272,7 +272,7 @@ $tblrows.each(function (index) {
 
    $tblrow.find('.qty').on('change', function () {
      var qty = $tblrow.find("[id=Ordered]").val();
-     
+
      var price = $tblrow.find("[id=UnitPrice]").val();
      var subTotal = parseInt(qty,10) * parseFloat(price);
      if (!isNaN(subTotal)) {
@@ -282,7 +282,7 @@ $tblrows.each(function (index) {
     $(".subtot").each(function () {
         var stval = parseFloat($(this).val());
         SubGrandTotal += isNaN(stval) ? 0 : stval;
-        
+
     });
 
 
@@ -295,7 +295,7 @@ $tblrows.each(function (index) {
 
    $tblrow.find('.unitPrice').on('change', function () {
      var qty = $tblrow.find("[id=Ordered]").val();
-     
+
      var price = $tblrow.find("[id=UnitPrice]").val();
      var subTotal = parseInt(qty,10) * parseFloat(price);
      if (!isNaN(subTotal)) {
@@ -305,7 +305,7 @@ $tblrows.each(function (index) {
     $(".subtot").each(function () {
         var stval = parseFloat($(this).val());
         SubGrandTotal += isNaN(stval) ? 0 : stval;
-        
+
     });
 
 
@@ -368,7 +368,7 @@ tableCalc = function () {
       $tblrow.find('.qty').on('change', function () {
       
      //var qty = $tblrow.find("[id=Ordered]").val();
-     
+
      var price = $tblrow.find("[id=UnitPrice]").val();
      var subTotal =  parseFloat(price);
      if (!isNaN(subTotal)) {
@@ -378,7 +378,7 @@ tableCalc = function () {
     $(".qty").each(function () {
         var stval = parseFloat($(this).val());
         SubGrandTotal += isNaN(stval) ? 0 : stval;
-        
+
     });
 
     document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -402,7 +402,6 @@ var trArray = [];
 $('#component_tb tbody >tr').each(function () {
   var tr =$(this).text();
   var tdArray = [];
-  alert(tr);
 //  var splashArray = new Array();
   $(this).find('td').each(function () {
       var td = $(this).text();
@@ -410,8 +409,8 @@ $('#component_tb tbody >tr').each(function () {
       var items = {};
       items[tr] = td;
       tdArray.push(items);
-      
-      
+
+
   });
 });
 

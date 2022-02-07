@@ -108,7 +108,7 @@ addRow = function (rowCount) {
                      $tblrow.find('.qty').on('change', function () {
                      
                     var qty = $tblrow.find("[id=Ordered]").val();
-                    
+
                     var price = $tblrow.find("[id=UnitPrice]").val();
                     var subTotal = parseInt(qty,10) * parseFloat(price);
                     if (!isNaN(subTotal)) {
@@ -118,7 +118,7 @@ addRow = function (rowCount) {
                    $(".subtot").each(function () {
                        var stval = parseFloat($(this).val());
                        SubGrandTotal += isNaN(stval) ? 0 : stval;
-                       
+
                    });
 
                    document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -132,7 +132,7 @@ addRow = function (rowCount) {
                     $tblrow.find('.unitPrice').on('change', function () {
                     
                    var qty = $tblrow.find("[id=Ordered]").val();
-                   
+
                    var price = $tblrow.find("[id=UnitPrice]").val();
                    var subTotal = parseInt(qty,10) * parseFloat(price);
                    if (!isNaN(subTotal)) {
@@ -142,7 +142,7 @@ addRow = function (rowCount) {
                   $(".subtot").each(function () {
                       var stval = parseFloat($(this).val());
                       SubGrandTotal += isNaN(stval) ? 0 : stval;
-                      
+
                   });
 
                   document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -154,7 +154,7 @@ addRow = function (rowCount) {
                    });
 
                  });
-    
+
   //});
 /*
   $('.Show').click(function() {
@@ -170,7 +170,7 @@ addRow = function (rowCount) {
 
 
   $(document).on('click', '.allocate_edit', function () {
-    
+
     event.stopPropagation();
   //if($('#component_tbUpdate tbody>tr').length > 1){
       $('#allocate_box').toggle('slow');
@@ -205,7 +205,7 @@ addRow = function (rowCount) {
       var $dropdown = $("#dropdown");
     var $tblrows = $("#component_tb tbody tr");
 
-      
+
       /*
 
       <option value="Special Projects">20%(VAT on Income)</option>
@@ -246,7 +246,7 @@ addRow = function (rowCount) {
                      //$tblrow.find('.qty').on('change', function () {
                      
                     var qty = $tblrow.find("[id=Ordered]").val();
-                    
+
                     var price = $tblrow.find("[id=UnitPrice]").val();
                     var subTotal = parseInt(qty,10) * parseFloat(price);
                     if (!isNaN(subTotal)) {
@@ -310,7 +310,7 @@ tableCalc = function () {
       $tblrow.find('.qty').on('change', function () {
       
      var qty = $tblrow.find("[id=Ordered]").val();
-     
+
      var price = $tblrow.find("[id=UnitPrice]").val();
      var subTotal = parseInt(qty,10) * parseFloat(price);
      if (!isNaN(subTotal)) {
@@ -320,7 +320,7 @@ tableCalc = function () {
     $(".subtot").each(function () {
         var stval = parseFloat($(this).val());
         SubGrandTotal += isNaN(stval) ? 0 : stval;
-        
+
     });
 
     document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -343,7 +343,6 @@ var trArray = [];
 $('#component_tb tbody >tr').each(function () {
   var tr =$(this).text();
   var tdArray = [];
-  alert(tr);
 //  var splashArray = new Array();
   $(this).find('td').each(function () {
       var td = $(this).text();
@@ -351,8 +350,8 @@ $('#component_tb tbody >tr').each(function () {
       var items = {};
       items[tr] = td;
       tdArray.push(items);
-      
-      
+
+
   });
 });
 

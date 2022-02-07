@@ -11,8 +11,6 @@ Template.settings.onRendered(function() {
 
         function mediaQuery(x) {
             if (x.matches) {
-
-//                alert("Matches");
                 $("#settingsCard").removeClass("col-8");
                 $("#settingsCard").addClass("col-12");
 

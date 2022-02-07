@@ -104,7 +104,7 @@ updateRow = function (rowCount) {
                     $tblrow.find('.qty').on('change', function () {
                     
                    var qty = $tblrow.find("[id=Ordered]").val();
-                   
+
                    var price = $tblrow.find("[id=UnitPrice]").val();
                    var subTotal = parseInt(qty,10) * parseFloat(price);
                    if (!isNaN(subTotal)) {
@@ -114,7 +114,7 @@ updateRow = function (rowCount) {
                   $(".subtot").each(function () {
                       var stval = parseFloat($(this).val());
                       SubGrandTotal += isNaN(stval) ? 0 : stval;
-                      
+
                   });
 
                   document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -128,7 +128,7 @@ updateRow = function (rowCount) {
                    $tblrow.find('.unitPrice').on('change', function () {
                    
                   var qty = $tblrow.find("[id=Ordered]").val();
-                  
+
                   var price = $tblrow.find("[id=UnitPrice]").val();
                   var subTotal = parseInt(qty,10) * parseFloat(price);
                   if (!isNaN(subTotal)) {
@@ -138,7 +138,7 @@ updateRow = function (rowCount) {
                  $(".subtot").each(function () {
                      var stval = parseFloat($(this).val());
                      SubGrandTotal += isNaN(stval) ? 0 : stval;
-                     
+
                  });
 
                  document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -150,7 +150,7 @@ updateRow = function (rowCount) {
                   });
 
                 });
-   
+
  //});
 /*
  $('.Show').click(function() {
@@ -166,7 +166,7 @@ updateRow = function (rowCount) {
 
 
  $(document).on('click', '.allocate_edit', function () {
-   
+
    event.stopPropagation();
  //if($('#component_tbUpdate tbody>tr').length > 1){
      $('#allocate_box').toggle('slow');
@@ -241,7 +241,7 @@ updateRow = function (rowCount) {
                     //$tblrow.find('.qty').on('change', function () {
                     
                    var qty = $tblrow.find("[id=Ordered]").val();
-                   
+
                    var price = $tblrow.find("[id=UnitPrice]").val();
                    var subTotal = parseInt(qty,10) * parseFloat(price);
                    if (!isNaN(subTotal)) {
@@ -305,7 +305,7 @@ tableCalc = function () {
      $tblrow.find('.qty').on('change', function () {
      
     var qty = $tblrow.find("[id=Ordered]").val();
-    
+
     var price = $tblrow.find("[id=UnitPrice]").val();
     var subTotal = parseInt(qty,10) * parseFloat(price);
     if (!isNaN(subTotal)) {
@@ -315,7 +315,7 @@ tableCalc = function () {
    $(".subtot").each(function () {
        var stval = parseFloat($(this).val());
        SubGrandTotal += isNaN(stval) ? 0 : stval;
-       
+
    });
 
    document.getElementById("subtotal_total").innerHTML = Currency+''+SubGrandTotal.toFixed(2);
@@ -330,25 +330,3 @@ tableCalc = function () {
 
 
 };
-
-
-
-/*
-var trArray = [];
-$('#component_tbUpdate tbody >tr').each(function () {
- var tr =$(this).text();
- var tdArray = [];
- alert(tr);
-//  var splashArray = new Array();
- $(this).find('td').each(function () {
-     var td = $(this).text();
-     // I want to create the array of objects here …
-     var items = {};
-     items[tr] = td;
-     tdArray.push(items);
-     
-     
- });
-});
-
-*/

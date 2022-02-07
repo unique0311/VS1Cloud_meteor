@@ -117,7 +117,6 @@ Template.departmentpop.onRendered(function() {
                     roomid: data.tproductbin[i].BinNumber || ' ',
                     roomname: data.tproductbin[i].BinLocation || ' '
                 };
-                //                alert(data.tproductbin[i].BinLocation);
                 if(data.tproductbin[i].BinLocation.replace(/\s/g, '') != ''){
                     binList.push(dataObj);
                 }

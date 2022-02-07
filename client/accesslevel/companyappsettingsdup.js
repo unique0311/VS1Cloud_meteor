@@ -332,8 +332,6 @@ Template.companyappsettingsdup.onRendered(function () {
 
         function mediaQuery(x) {
             if (x.matches) {
-
-                //                alert("Matches");
                 $("#settingsCard1").removeClass("col-3");
                 $("#settingsCard1").addClass("col-6");
                 $("#settingsCard2").removeClass("col-3");
@@ -355,8 +353,6 @@ Template.companyappsettingsdup.onRendered(function () {
 
         function mediaQuery(x) {
             if (x.matches) {
-
-                //                alert("Matches");
                 $("#settingsCard1").removeClass("col-3");
                 $("#settingsCard1").addClass("col-12");
                 $("#settingsCard2").removeClass("col-3");

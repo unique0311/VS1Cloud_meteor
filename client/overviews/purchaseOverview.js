@@ -1275,7 +1275,6 @@ Template.purchasesoverview.onRendered(function() {
         stop: function(event, ui) {
             // $('.connectedSortable').each(function() {
             //     // result = "";
-            //     // alert($(this).sortable("toArray"));
             //     // $(this).find("li").each(function(){
             //     //     result += $(this).text() + ",";
             //     // });

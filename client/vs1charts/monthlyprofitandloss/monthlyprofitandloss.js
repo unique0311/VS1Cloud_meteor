@@ -647,7 +647,6 @@ Template.monthlyprofitandloss.onRendered(() => {
 
 
     templateObject.reAttachChart = function () {
-      alert("Test");
         if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
             getInvSales(function (data) {
 

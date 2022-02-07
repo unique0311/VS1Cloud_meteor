@@ -3308,7 +3308,6 @@ Template.sidenav.events({
         templateObject.getSetSideNavFocus();
     },
      'click #sidenavRefund': function(event) {
-        alert(10);
         event.preventDefault();
         FlowRouter.go('/refundlist');
         let templateObject = Template.instance();

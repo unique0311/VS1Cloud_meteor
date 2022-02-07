@@ -63,7 +63,7 @@ function getUrlParam(name) {
 var id = getUrlParam('id');
 if (id > "") {
   currentStockAdjustId = id;
-  
+
     // do something with the id
 } else {
   currentStockAdjustId = 'newstockadjust';
@@ -467,7 +467,7 @@ templateObject.loadProductImage = function (productName) {
     for (let i = 0; i < data.tproductpicture.length; i++) {
       let previewImage = {};
       let input =  data.tproductpicture[i].PicType;
-      
+
       let prodAttachment = data.tproductpicture[i].MIMEEncodedPicture;
       previewImage.link = 'data:'+input+';base64,'+prodAttachment;
       previewImage.name = data.tproductpicture[i].ImageName;
@@ -476,7 +476,7 @@ templateObject.loadProductImage = function (productName) {
         $('#myPrevImgModal').modal('show');
 
     }
-  
+
 });
 };
 
@@ -610,7 +610,7 @@ getProductByBarcode = function (barcode) {
   let scannedCode =  barcode;
   if(scannedCode != ''){
     var segs = scannedCode.split('-');
-    
+
     if(segs.length >= 3){
       if(segs[0] == Barcode_Prefix_PQASN){
         accountService.validateProdSerialNumbers(scannedCode).then(function (data) {
@@ -618,9 +618,7 @@ getProductByBarcode = function (barcode) {
           var valListRet = JSON.stringify(data);
           let valueObj = JSON.parse(valListRet);
           let returnedResult = valueObj.ValidateSN.Result;
-          
-          
-        //  alert(valListRet.ValidateSN.Result);
+
           if(returnedResult == false){
              scannedSerial = "";
             Bert.alert('<strong>WARNING:</strong> '+valueObj.ValidateSN.Message+' or product is not on this order!', 'now-danger');
@@ -662,11 +660,11 @@ getProductByBarcode = function (barcode) {
           });
 
       }else if(segs[0] == Barcode_Prefix_PQABATCH){
-        
+
       }
     }else{
       accountService.getProductDataByBarcodes(barcode).then(function (data) {
-       
+
             if(data.tproductbarcode.length === 0){
               Bert.alert('<strong>WARNING:</strong> Product Not Found for this Barcode "'+barcode+'"', 'now-dangerorange');
             }
@@ -862,7 +860,7 @@ $(".add-stock-diff-status").click(function(e) {
       var empName = ($("#STEmployeeName").val());
         var tableLine = $('#component_tb tbody tr').map(function (idxRow, ele) {
         var itemValProd = $(this).closest("tr") .find(".select-product").html();
-        
+
     if(itemValProd.replace(/\s/g, '') != ""){
     var typeName = 'TSAELinesFlat';
     var retVal = {PartBarcode: ""};
@@ -1099,10 +1097,10 @@ this.submit();
 
 $("#btnScanPSN").click(function(e) {
   var scannedCode =  $('input[name="prodBarcode"]').val().toUpperCase();
-  
+
    //let tempObjNew = Template.instance();
   getProductByBarcode(scannedCode);
-  
+
   });
 
 });
@@ -1203,8 +1201,7 @@ Template.stockscan.events({
         let uomNameget = $("#uom-input-" + id).text();
         let templateObject = Template.instance();
         templateObject.PopulateUOMComboForProduct(productNameget, uomNameget);
-    //  alert(id);
-      //$(".select-department").val(event.currentTarget.innerText);
+
     },
     'click .department-img': function (event) {
           //this.empty();
@@ -1880,7 +1877,7 @@ Template.stockscan.events({
                         var qty = $tblrow.find(".qty").html();
 
                         var taxrate = $tblrow.find(".taxrate").val();
-                        
+
                         var price = $tblrow.find(".unitPrice").html();
                         var subTotal = parseInt(qty, 10) * parseFloat(price);
                         var taxTotal = 0;
@@ -1937,7 +1934,7 @@ Template.stockscan.events({
                         var qty = $tblrow.find(".qty").html();
 
                         var taxrate = $tblrow.find(".taxrate").val();
-                        
+
                         var price = $tblrow.find(".unitPrice").html();
                         var subTotal = parseInt(qty, 10) * parseFloat(price);
                         var taxTotal = parseInt(qty, 10) * parseFloat(price) * parseFloat(taxrate);
@@ -2045,7 +2042,7 @@ Template.stockscan.events({
                 var ErrorResponse = oPost.getResponseHeader('errormessage');
                 var segError = ErrorResponse.split(':');
                 if ((segError[1]) == ' "Unable to lock object') {
-                    
+
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>. Please close the product in ERP!', 'danger');
                 } else {
                   swal({
@@ -2112,7 +2109,7 @@ Template.stockscan.events({
         Session.set('isShowSaveNotification', false);
     },
     'keyup #prodBarcode':function (e) {
-      
+
       if (e.keyCode == 13) {
         var scannedCode =  $('input[name="prodBarcode"]').val().toUpperCase();
         getProductByBarcode(scannedCode);
@@ -2129,7 +2126,5 @@ Template.stockscan.events({
           templateObject.loadProductImage(productName);
         }
 
-    //  alert(id);
-      //$(".select-department").val(event.currentTarget.innerText);
     }
 });

@@ -3,7 +3,7 @@ if (Meteor.isClient) {
 
 Template.register.events({
   'submit .addRegisterForm' : function (event, template) {
-   
+
    event.preventDefault();
    var serverIP = event.target.Server.value;
    var databaseName = event.target.Database.value;
@@ -22,7 +22,7 @@ Template.register.events({
 
   }else{
     if((cloudpassword.match(/[A-z]/)) && (cloudpassword.match(/[A-Z]/)) && (cloudpassword.match(/\d/))){
-    
+
       $('.CloudPassword').css('border-color','#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
       if (emailAlreadyExist.length > 0) {
         Bert.alert('<strong>Error:</strong> Email already registered!', 'warning');
@@ -94,7 +94,7 @@ Template.register.onRendered( function() {
   var cloudHashPassword = CryptoJS.MD5(cloudPassword).toString().toUpperCase();
   CloudDatabase.update({_id:id}, {server: serverIP,database:databaseName,username:userName,useremail:userEmail,password:password,port:port,description:description}, function(err, idTag) {
     if(err){
-      
+
     }else{
       var queryList = [];
       var usertoUpdate = CloudUser.find({clouddatabaseID:id}).forEach(function(doc){
@@ -112,12 +112,12 @@ Template.register.onRendered( function() {
       }
 
       });
-      
+
     }
    });
   Bert.alert('<strong>Success:</strong> Server connection details successfully updated for <strong>'+databaseName+'</strong>!', 'success');
       event.preventDefault();
-    
+
 
   });
 
@@ -134,10 +134,10 @@ Template.register.onRendered( function() {
   var description = $(this).closest('tr').find("[id=Description1]").val();
 
   var usertoReset = CloudUser.find({clouddatabaseID:id}).forEach(function(doc){
-  
+
   CloudUser.update({_id: doc._id},{ $set: {userMultiLogon: false}});
   });
-  
+
 
 var serverTest = URLRequest + serverIP + ':' + port + '/erpapi/TERPSysInfo';
 
@@ -153,10 +153,7 @@ oReq.setRequestHeader("password",password);
 
 /*
 oReq.onload = function(){
-  alert('here');
-  
   var ErrorMessage = oReq.getResponseHeader('content-type');
-  alert(ErrorMessage);
 };
 */
 oReq.send();
@@ -166,8 +163,8 @@ oReq.timeout = 30000;
 oReq.onreadystatechange = function() {
 
   if (oReq.readyState == 4 && oReq.status == 200) {
-   
-    
+
+
     $('#isnotokayres').css('display','none');
     $('#isokay').css('display','block');
     document.getElementById("isokay").innerHTML = 'Testing Connection to <strong>'+databaseName+'</strong> server <b style="float:right"> Pass </b>';
@@ -189,7 +186,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    
+
   }else if(oReq.readyState == 4 && oReq.status == 403){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -202,7 +199,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    
+
   }else if(oReq.readyState == 4 && oReq.status == 406){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -215,7 +212,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    
+
   }else if(oReq.readyState == 4 && oReq.status == 500){
     $('#isokay').css('display','none');
     $('#isnotokayres').css('display','block');
@@ -228,7 +225,7 @@ oReq.onreadystatechange = function() {
     setTimeout(function () {
       $('#isnotokayres').css('display','none');
     }, 3500);
-    
+
   }else{
     $('.fullScreenSpin').css('display','none');
   }
@@ -242,15 +239,15 @@ $(document).ready(function() {
   $('.CloudPassword').keyup(function() {
 
   }).focus(function() {
-      
+
   }).blur(function() {
     var pswd = $(this).val();
-    
+
     if(pswd.length < 8) {
     Bert.alert('<strong>Error: Invalid VS1 Password</strong> must be at <b>least eight characters</b> including one capital letter, one number and one special characters [! @ # $ % ^ & *] !', 'danger');
     $('.CloudPassword').css('border-color','red');
     }else {
-        
+
         if(pswd.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)) {
           $('.CloudPassword').css('border-color','#b5b8bb #e2e4e7 #e8eaec #bdbfc3');
         } else {
@@ -259,8 +256,8 @@ $(document).ready(function() {
         }
 
     }
-    
-      
+
+
   });
 });
 

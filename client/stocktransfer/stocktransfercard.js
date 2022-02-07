@@ -1657,7 +1657,6 @@ Template.stocktransfercard.onRendered(function() {
             var offset = $earch.offset();
             $('#edtCustomerPOPID').val('');
             var customerDataName = e.target.value || '';
-            // alert(customerDataName);
             // var customerDataID = $('#edtCustomerName').attr('custid').replace(/\s/g, '') || '';
             if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                 $('#customerListModal').modal();
@@ -2532,7 +2531,6 @@ Template.stocktransfercard.onRendered(function() {
             document.getElementById("mobileScanResult").style.display = "none";
         }, 500);
     }
-    // alert(isMobile);
     if (isMobile == true) {
       setTimeout(function() {
         document.getElementById("scanResult").style.display = "none";

@@ -117,7 +117,6 @@ Template.departmentSettings.onRendered(function() {
                     roomid: data.tproductbin[i].BinNumber || ' ',
                     roomname: data.tproductbin[i].BinLocation || ' '
                 };
-                //                alert(data.tproductbin[i].BinLocation);
                 if(data.tproductbin[i].BinLocation.replace(/\s/g, '') != ''){
                     binList.push(dataObj);
                 }
@@ -139,7 +138,7 @@ Template.departmentSettings.onRendered(function() {
                       departid: data.tdeptclass[i].Id || ' ',
                       deptname: data.tdeptclass[i].DeptClassName || ' ',
                   };
-                  
+
                   if(data.tdeptclass[i].DeptClassName.replace(/\s/g, '') != ''){
                       deptList.push(dataObject);
                   }
@@ -157,7 +156,7 @@ Template.departmentSettings.onRendered(function() {
                 departid: useData[i].Id || ' ',
                 deptname: useData[i].DeptClassName || ' ',
             };
-            
+
             if(data.tdeptclass[i].DeptClassName.replace(/\s/g, '') != ''){
                 deptList.push(dataObject);
             }
@@ -175,7 +174,7 @@ Template.departmentSettings.onRendered(function() {
                     departid: data.tdeptclass[i].Id || ' ',
                     deptname: data.tdeptclass[i].DeptClassName || ' ',
                 };
-                
+
                 if(data.tdeptclass[i].DeptClassName.replace(/\s/g, '') != ''){
                     deptList.push(dataObject);
                 }

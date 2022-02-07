@@ -4,7 +4,7 @@ Template.addnewdepartment.events({
     let deptDesc = $('#deptDescription').val();
     let siteCode = $('#siteCode').val();
 
-    
+
     let objDetails = {
     type:"TDeptClass",
     fields:
@@ -50,7 +50,6 @@ Template.addnewdepartment.events({
        let deptrecordObj = {
          department: deptName || ' ',
        };
-         alert(deptrecordObj);
        deptrecords.push(deptrecordObj);
        templateObject.deptrecords.set(deptrecords);
 */
@@ -62,7 +61,7 @@ Template.addnewdepartment.events({
 
 
     } else if(oPost.readyState == 4 && oPost.status == 403){
-    
+
 
 
     swal({
@@ -84,9 +83,9 @@ Template.addnewdepartment.events({
       //oPost.setRequestHeader("Content-Length", "1");
       let ErrorResponse = oPost.getResponseHeader('errormessage');
       let segError = ErrorResponse.split(':');
-      
+
     if((segError[1]) == ' "Unable to lock object'){
-      
+
       Bert.alert('<strong>'+ oPost.getResponseHeader('errormessage')+'</strong>. Please close the Department Information in ERP!', 'danger');
     }else{
       swal({

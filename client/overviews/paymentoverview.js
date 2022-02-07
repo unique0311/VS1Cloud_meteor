@@ -1048,8 +1048,6 @@ Template.paymentoverview.onRendered(function() {
 
         function mediaQuery(x) {
             if (x.matches) {
-
-                //                alert("Matches");
                 $("#paymentCard1").removeClass("col-auto");
                 $("#paymentCard2").removeClass("col-auto");
                 $("#paymentCard3").removeClass("col-auto");

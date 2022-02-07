@@ -791,10 +791,8 @@ oReq.setRequestHeader("password",password);
 
 /*
 oReq.onload = function(){
-  alert('here');
 
   var ErrorMessage = oReq.getResponseHeader('content-type');
-  alert(ErrorMessage);
 };
 */
 oReq.send();

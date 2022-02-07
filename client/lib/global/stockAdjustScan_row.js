@@ -144,7 +144,7 @@ $(document).on('click', 'a.send_new', function () {
                     $('input[name="'+available+'"]').val('0');
                    $('input[name="'+productdesc+'"]').val(ProdDesc);
                   // $('input[name="'+adjust+'"]').val('1');
-                    
+
                     $('input[name="'+barcode+'"]').val(ProdBarcode);
                     var oReq = new XMLHttpRequest();
 
@@ -156,7 +156,7 @@ $(document).on('click', 'a.send_new', function () {
                     oReq.send();
 
                     oReq.timeout = 30000;
-                    
+
                     oReq.onreadystatechange = function() {
                     if (oReq.readyState == 4 && oReq.status == 200) {
                       var dataListRet2 = JSON.parse(oReq.responseText);
@@ -165,7 +165,7 @@ $(document).on('click', 'a.send_new', function () {
                         var dataCopy2 = dataListRet2[event];
                         for (var data2 in dataCopy2) {
                           var mainData2 = dataCopy2[data2];
-                          
+
                          // department = mainData2.DeptName;
                           quantity = mainData2.AvailableQty;
                           inStockQty = mainData2.InStockQty;
@@ -179,7 +179,7 @@ $(document).on('click', 'a.send_new', function () {
                      $('input[name="'+final+'"]').val(inStockQty);
                        $('input[name="'+adjust+'"]').val('1');
                        var adjustment = 1;
-                       
+
                       // var availableQty = $tblrow.find("[id=instock]").val();
                        var sumTotal = parseInt(adjustment) + parseInt(inStockQty);
                        if (!isNaN(sumTotal)) {
@@ -189,18 +189,7 @@ $(document).on('click', 'a.send_new', function () {
 
                       }
 
-                       
 
-                   /* var dataListRet = oReq.responseText;
-                    //var id = '';
-                    var obj = $.parseJSON(dataListRet);
-                    $.each(obj, function() {
-                  AvailQty = this['DeptName'];
-                  alert(AvailQty);
-                  //product = this['Lines'];
-
-                  });
-   */
                   AddUERP(oReq.responseText);
                     }
                     }
@@ -218,7 +207,7 @@ $(document).on('click', 'a.send_new', function () {
 
                   $tblrow.find('.AdjustQty').on('change', function () {
                     var adjust = $tblrow.find("[id=adjust]").val();
-                    
+
                     var availableQty = $tblrow.find("[id=instock]").val();
                     var sumTotal = parseInt(adjust) + parseInt(availableQty);
                     if (!isNaN(sumTotal)) {
@@ -262,99 +251,10 @@ $(document).on('click', 'a.send_new', function () {
     //$('#component_tb tbody>tr:last').clone(true).insertAfter('#component_tb tbody>tr:last');
   //  var rowCount = $('#component_tb tbody>tr').length;
 
-    
+
     $('input[name="prodBarcode"]').val('');
   });
 
 
-
-/*
-
-    $('#tblStockAdjust  tbody').on('change', 'select', function (e) {
-
-      var x = document.getElementById("tblStockAdjust");
-      var DeptName =  $(this).val();
-      var tblrows2 = $("#tblStockAdjust tbody tr");
-      //var Segs2 = itemVal2.split(',');
-      //var AccTaxCode = Segs[1];
-
-      var erpGet2 = erpDb();
-       
-          if (x != null) {
-
-              for (var i = 0; i < x.rows.length; i++) {
-
-                  for (var j = 0; j < x.rows[i].cells.length; j++)
-
-                      x.rows[i].cells[5].onclick = function () {
-
-                        var cnt = i;
-                      
-                        var instock2N ="instock_"+cnt;
-                        var available2N ="available_"+cnt;
-                        var final2N ="final_"+cnt;
-                        var prodNameN ="ProdName_"+cnt;
-
-
-                        return function() {
-
-                  $('input[name="'+available2N+'"]').val('0');
-                  var productName = $('select[name=' + prodNameN + ']').val();
-                  //$("#ProdName").val();
-                  var Segs3 = productName.split(',');
-                  var ProdName2 = Segs3[0];
-                //  alert(ProdName2);
-                 var oReqDept = new XMLHttpRequest();
-
-                 oReqDept.open("GET",URLRequest + erpGet2.ERPIPAddress + ':' + erpGet2.ERPPort + '/' + erpGet2.ERPApi + '/' + erpGet2.ERPProductClassQuantityList + '&select=[ProductName]="'+ProdName2+'"and [DepartmentName]="'+DeptName+'"' , true);
-                 //oReq.open("GET",URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + erpGet.ERPApi + '/' + erpGet.ERPPOCard + '/' + ProdName, true);
-                 oReqDept.setRequestHeader("database",erpGet2.ERPDatabase);
-                 oReqDept.setRequestHeader("username",erpGet2.ERPUsername);
-                 oReqDept.setRequestHeader("password",erpGet2.ERPPassword);
-                 oReqDept.send();
-
-                 oReqDept.timeout = 30000;
-                 
-                 oReqDept.onreadystatechange = function() {
-                 if (oReqDept.readyState == 4 && oReqDept.status == 200) {
-                   var dataListRet3 = JSON.parse(oReqDept.responseText);
-                     var quantity2 = '';
-                     var inStockQty2 = '';
-                   for (var event2 in dataListRet3) {
-                     var dataCopy3 = dataListRet3[event2];
-                     for (var data3 in dataCopy3) {
-                       var mainData3 = dataCopy3[data3];
-                       quantity2 = mainData3.AvailableQty;
-                       inStockQty2 = mainData3.InStockQty;
-
-                     }
-                   }
-                  if(quantity2 == ''){
-                    $('input[name="'+available2N+'"]').val('0');
-                 }else{
-                    $('input[name="'+available2N+'"]').val(quantity2);
-                  }
-                   $('input[name="'+instock2N+'"]').val(inStockQty2);
-                   $('input[name="'+final2N+'"]').val(inStockQty2);
-
-               AddUERP(oReqDept.responseText);
-                 }
-                 }
-
-
-
-                }
-                      }(i);
-
-              }
-
-          }
-
-
-
-      e.preventDefault();
-    });
-
-*/
 
 };

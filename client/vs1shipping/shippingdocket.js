@@ -469,7 +469,7 @@ Template.shippingdocket.onRendered(function() {
             if (oPost.readyState == 4 && oPost.status == 200) {
                 var dataReturnRes = JSON.parse(oPost.responseText);
                 if (dataReturnRes.Reports) {
-                    // alert(JSON.stringify(dataReturnRes.Reports));
+    
                     for (let i = 0; i < dataReturnRes.Reports.length; i++) {
                         let mimecodetoConvert = dataReturnRes.Reports[i].MimeEncodedFile;
                         let mimecodeName = dataReturnRes.Reports[i].ReportType;

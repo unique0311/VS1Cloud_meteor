@@ -418,14 +418,7 @@ function updateRowOrder(){
           self.close();
           window.location.href = "about:blank";//In case self.close isn't allowed
       }
-      /*else{
 
-        alert('Doesnt look like you have a barcode sanner app installed. Please download and allow the app to be installed by following the on screen instructions.');
-        window.close();
-        self.close();
-        window.location.href = "/APK/com.google.zxing.client.android-4.7.3-103-minAPI15.apk";//In case self.close isn't allowed
-        $("#scanBarcode").attr("href","/APK/com.google.zxing.client.android-4.7.3-103-minAPI15.apk");
-      }*/
       var changingHash = false;
       function onbarcode(event){
           switch(event.type){
