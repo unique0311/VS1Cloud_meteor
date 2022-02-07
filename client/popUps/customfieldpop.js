@@ -1091,6 +1091,12 @@ Template.customfieldpop.events({
             });
         }
     }
+
+    setTimeout(function() {
+    sideBarService.getAllCustomFields().then(function (data) {
+        addVS1Data('TCustomFieldList', JSON.stringify(data));
+    });
+ }, 1500);
 }
 })
 
