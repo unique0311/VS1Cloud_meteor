@@ -44,6 +44,7 @@ let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
 let clickedInput = "";
+let isDropDown = false;
 Template.new_quote.onCreated(() => {
 
     const templateObject = Template.instance();

@@ -45,6 +45,7 @@ let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 var times = 0;
 let clickedInput = "";
+let isDropDown = false;
 let salesDefaultTerms = "";
 Template.new_salesorder.onCreated(() => {
     const templateObject = Template.instance();
