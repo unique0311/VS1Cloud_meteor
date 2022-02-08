@@ -181,7 +181,8 @@ ERPObjects = function () {
         TRefundSale: "TRefundSale",
         TSerialNumberListCurrentReport: "TSerialNumberListCurrentReport",
         TRepServices:"TRepServices",
-        TCustomFieldList: "TCustomFieldList"
+        TCustomFieldList: "TCustomFieldList",
+        TReportSchedules: "TReportSchedules"
     }
     return objects;
 }
