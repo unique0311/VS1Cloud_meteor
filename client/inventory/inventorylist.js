@@ -205,7 +205,6 @@ Template.inventorylist.onRendered(function() {
                 data.tproductvs1[i].fields.PurchaseDescription || '',
                 data.tproductvs1[i].fields.CUSTFLD1 || '',
                 data.tproductvs1[i].fields.CUSTFLD2 || ''
-                // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
             ];
             splashArrayProductList.push(dataList);
             }
@@ -471,7 +470,7 @@ let deptStatus = '';
        data.tproductvs1[i].fields.PurchaseDescription || '',
        data.tproductvs1[i].fields.CUSTFLD1 || '',
        data.tproductvs1[i].fields.CUSTFLD2 || '',
-       // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+
    ];
    splashArrayProductList.push(dataList);
    // dataTableList.push(dataList);
@@ -732,7 +731,6 @@ setTimeout(function () {
                 data.tproductvs1[i].fields.CUSTFLD1 || '',
                 data.tproductvs1[i].fields.CUSTFLD2 || '',
 
-              // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
           ];
           splashArrayProductList.push(dataList);
           }
@@ -1600,6 +1598,7 @@ Template.inventorylist.helpers({
                   if(data.tproductvs1.length > 0){
                   for (let i = 0; i < data.tproductvs1.length; i++) {
                     var dataList = [
+                      data.tproductvs1[i].fields.ID || '',
                       data.tproductvs1[i].fields.ProductName || '-',
                       data.tproductvs1[i].fields.SalesDescription || '',
                       data.tproductvs1[i].fields.BARCODE || '',
@@ -1613,8 +1612,7 @@ Template.inventorylist.helpers({
                       data.tproductvs1[i].fields.PurchaseDescription || '',
                       data.tproductvs1[i].fields.CUSTFLD1 || '',
                       data.tproductvs1[i].fields.CUSTFLD2 || '',
-                      data.tproductvs1[i].fields.ID || ''
-                      // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+
                   ];
 
                       splashArrayProductList.push(dataList);
@@ -1655,6 +1653,7 @@ Template.inventorylist.helpers({
                     let inventoryData = [];
                     for (let i = 0; i < data.tproductvs1.length; i++) {
                       var dataList = [
+                        data.tproductvs1[i].fields.ID || '',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
                         data.tproductvs1[i].fields.BARCODE || '',
@@ -1667,8 +1666,7 @@ Template.inventorylist.helpers({
                         data.tproductvs1[i].fields.PurchaseDescription || '',
                         data.tproductvs1[i].fields.CUSTFLD1 || '',
                         data.tproductvs1[i].fields.CUSTFLD2 || '',
-                        data.tproductvs1[i].fields.ID || ''
-                        // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
+
                     ];
 
                         splashArrayProductList.push(dataList);
@@ -1874,8 +1872,6 @@ Template.inventorylist.helpers({
                             data.tproductlocationqty[i].ProductName || '',
                             data.tproductlocationqty[i].CUSTFLD1 || '',
                             data.tproductlocationqty[i].CUSTFLD2 || '',
-
-                            // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
                         ];
 
               splashArrayProductListDept.push(dataList);
