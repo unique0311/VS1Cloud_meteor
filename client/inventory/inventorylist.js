@@ -2146,7 +2146,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
 
         $('.colCostPrice').addClass('hiddenColumn');
 
-        $('.lblCostInc').css('width','10.1%');
+        //$('.lblCostInc').css('width','10.1%');
 
       }
 
@@ -2164,7 +2164,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
         $('.colCostPrice').removeClass('hiddenColumn');
 
         $('.colCostPriceInc').addClass('hiddenColumn');
-        $('.lblCostEx').css('width','10%');
+        //$('.lblCostEx').css('width','10%');
 
       }
 
@@ -2181,7 +2181,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
         $('.colSalePriceInc').removeClass('hiddenColumn');
         $('.colSalePrice').addClass('hiddenColumn');
 
-        $('.lblPriceInc').css('width','10.1%');
+        //$('.lblPriceInc').css('width','10.1%');
 
       }
 
@@ -2198,7 +2198,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
         $('.colSalePrice').removeClass('hiddenColumn');
         $('.colSalePriceInc').addClass('hiddenColumn');
 
-        $('.lblPriceEx').css('width','10%');
+        //$('.lblPriceEx').css('width','10%');
 
       }
 
