@@ -2031,7 +2031,7 @@ Template.employeescard.onRendered(function () {
                                 changeYear: true,
                                 yearRange: "-90:+10",
                             });
-                            // $('.fullScreenSpin').css('display','none');
+                            $('.fullScreenSpin').css('display','none');
                         }, 500);
                     });
                 });

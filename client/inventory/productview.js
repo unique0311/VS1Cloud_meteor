@@ -834,9 +834,75 @@ Template.productview.onRendered(function () {
         let lineTaxCode = table.find(".taxName").text();
          if (taxSelected == "sales") {
                 $('#slttaxcodesales').val(lineTaxCode);
+
+                let utilityService = new UtilityService();
+                let taxcodeList = templateObject.taxraterecords.get();
+                var taxRate = lineTaxCode;
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate || 0;
+                        }
+                    }
+                }
+
+                let sellPrice = $('#edtsellqty1price').val() || 0;
+                let sellPriceInc = 0;
+
+                if (!isNaN(sellPrice)) {
+                    $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+                } else {
+                    sellPrice = parseFloat(sellPrice.replace(/[^0-9.-]+/g, ""));
+                    $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+                }
+
+                var taxTotal = parseFloat(sellPrice) * parseFloat(taxrateamount);
+                sellPriceInc = parseFloat(sellPrice) + taxTotal;
+                if (!isNaN(sellPriceInc)) {
+                    $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
+                }
+
+                $('.itemExtraSellRow').each(function () {
+                    var lineID = this.id;
+                    let tdclientType = $('#' + lineID + " .customerTypeSelect").val();
+                    if (tdclientType == "Default") {
+                        $('#' + lineID + " .edtDiscount").val(0);
+                        $('#' + lineID + " .edtPriceEx").val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+                    }
+
+                });
+
             } else if (taxSelected == "purchase") {
                 $('#slttaxcodepurchase').val(lineTaxCode);
-        }
+                let utilityService = new UtilityService();
+                let costPrice = $('#edtbuyqty1cost').val() || 0;
+                let taxcodeList = templateObject.taxraterecords.get();
+                var taxRate = lineTaxCode;
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate || 0;
+                        }
+                    }
+                }
+
+                let costPriceInc = 0;
+
+                if (!isNaN(costPrice)) {
+                    $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+                } else {
+                    costPrice = parseFloat($('#edtbuyqty1cost').val().replace(/[^0-9.-]+/g, "")) || 0;
+                    $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+                }
+                var taxTotal = parseFloat(costPrice) * parseFloat(taxrateamount);
+                costPriceInc = parseFloat(costPrice) + taxTotal;
+                if (!isNaN(costPriceInc)) {
+                    $('#edtbuyqty1costInc').val(utilityService.modifynegativeCurrencyFormat(costPriceInc));
+                }
+
+            }
         $('#taxRateListModal').modal('toggle');
     });
 
@@ -855,7 +921,7 @@ Template.productview.onRendered(function () {
 
     });
 
-    
+
 
     //On Click Client Type List
     $(document).on("click", "#clienttypeList tbody tr", function (e) {
@@ -1403,7 +1469,7 @@ Template.productview.onRendered(function () {
 
                     for (let i = 0; i < useData.length; i++) {
                         if (parseInt(useData[i].fields.ID) === currentProductID) {
-
+                          console.log(useData[i]);
                             added = true;
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
@@ -1445,6 +1511,61 @@ Template.productview.onRendered(function () {
                                 $("#sltinventoryacount").val(useData[i].fields.AssetAccount);
                                 $("#slttaxcodesales").val(useData[i].fields.TaxCodeSales);
                                 $("#slttaxcodepurchase").val(useData[i].fields.TaxCodePurchase);
+                                if(useData[i].fields.CUSTFLD14 == 'true'){
+                                  $('.lblPriceEx').addClass('hiddenColumn');
+                                  $('.lblPriceEx').removeClass('showColumn');
+
+                                  $('.lblPriceInc').addClass('showColumn');
+                                  $('.lblPriceInc').removeClass('hiddenColumn');
+
+                                  $('#edtsellqty1priceInc').removeClass('hiddenColumn');
+                                  $('#edtsellqty1priceInc').addClass('showColumn');
+
+                                  $('#edtsellqty1price').addClass('hiddenColumn');
+                                  $('#edtsellqty1price').removeClass('showColumn');
+                                  $('.lblPriceCheckStatus').val('true');
+                                }else if(useData[i].fields.CUSTFLD14 == 'false'){
+                                  $('.lblPriceInc').addClass('hiddenColumn');
+                                  $('.lblPriceInc').removeClass('showColumn');
+
+                                  $('.lblPriceEx').addClass('showColumn');
+                                  $('.lblPriceEx').removeClass('hiddenColumn');
+
+                                  $('#edtsellqty1priceInc').addClass('hiddenColumn');
+                                  $('#edtsellqty1priceInc').removeClass('showColumn');
+
+                                  $('#edtsellqty1price').removeClass('hiddenColumn');
+                                  $('#edtsellqty1price').addClass('showColumn');
+                                  $('.lblPriceCheckStatus').val('false');
+                                }
+                                if(useData[i].fields.CUSTFLD15 == 'true'){
+                                  $('.lblCostEx').addClass('hiddenColumn');
+                                  $('.lblCostEx').removeClass('showColumn');
+
+                                  $('.lblCostInc').addClass('showColumn');
+                                  $('.lblCostInc').removeClass('hiddenColumn');
+
+                                  $('#edtbuyqty1costInc').removeClass('hiddenColumn');
+                                  $('#edtbuyqty1costInc').addClass('showColumn');
+
+                                  $('#edtbuyqty1cost').addClass('hiddenColumn');
+                                  $('#edtbuyqty1cost').removeClass('showColumn');
+
+                                  $('.lblCostCheckStatus').val('true');
+                                }else if(useData[i].fields.CUSTFLD15 == 'false'){
+                                  $('.lblCostInc').addClass('hiddenColumn');
+                                  $('.lblCostInc').removeClass('showColumn');
+
+                                  $('.lblCostEx').addClass('showColumn');
+                                  $('.lblCostEx').removeClass('hiddenColumn');
+
+                                  $('#edtbuyqty1costInc').addClass('hiddenColumn');
+                                  $('#edtbuyqty1costInc').removeClass('showColumn');
+
+                                  $('#edtbuyqty1cost').removeClass('hiddenColumn');
+                                  $('#edtbuyqty1cost').addClass('showColumn');
+                                  $('.lblCostCheckStatus').val('false');
+                                }
                             }, 1000);
                             if (useData[i].fields.ExtraSellPrice == null) {
                                 lineExtaSellObj = {
@@ -1752,6 +1873,8 @@ Template.productview.onRendered(function () {
         templateObject.getProductData();
 
         templateObject.getAllProductRecentTransactions = function () {
+
+
             productService.getProductRecentTransactionsAll(currentProductID).then(function (data) {
                 recentTransList = [];
                 for (let i = 0; i < data.t_vs1_report_productmovement.length; i++) {
@@ -1770,6 +1893,7 @@ Template.productview.onRendered(function () {
                 templateObject.recentTrasactions.set(recentTransList);
                 setTimeout(function () {
                     $('#productrecentlist').DataTable({
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -1813,11 +1937,17 @@ Template.productview.onRendered(function () {
                 });
 
                 $('.product_recent_trans').css('display', 'block');
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $(".product_recent_trans").offset().top
+                  }, 2000);
                 $('.fullScreenSpin').css('display', 'none');
             }).catch(function (err) {
 
                 $('.fullScreenSpin').css('display', 'none');
                 $('.product_recent_trans').css('display', 'block');
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $(".product_recent_trans").offset().top
+                  }, 2000);
 
                 //Bert.alert('<strong>' + err + '</strong>!', 'deleting products failed');
             });
@@ -2273,6 +2403,7 @@ Template.productview.onRendered(function () {
                 templateObject.recentTrasactions.set(recentTransList);
                 setTimeout(function () {
                     $('#productrecentlist').DataTable({
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         select: true,
                         destroy: true,
                         colReorder: true,
@@ -2317,10 +2448,16 @@ Template.productview.onRendered(function () {
 
                 $('.product_recent_trans').css('display', 'block');
                 $('.fullScreenSpin').css('display', 'none');
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $(".product_recent_trans").offset().top
+                  }, 2000);
             }).catch(function (err) {
 
                 $('.fullScreenSpin').css('display', 'none');
                 $('.product_recent_trans').css('display', 'block');
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $(".product_recent_trans").offset().top
+                  }, 2000);
 
                 //Bert.alert('<strong>' + err + '</strong>!', 'deleting products failed');
             });
@@ -2450,6 +2587,11 @@ Template.productview.onRendered(function () {
 
     }
 
+
+    if (FlowRouter.current().queryParams.instock) {
+        templateObject.getAllProductRecentTransactions();
+    }
+
 });
 
 Template.productview.helpers({
@@ -2557,6 +2699,11 @@ Template.productview.helpers({
 });
 
 Template.productview.events({
+    'click .trackProdQty': function (event) {
+      $('.fullScreenSpin').css('display', 'inline-block');
+      let templateObject = Template.instance();
+      templateObject.getAllProductRecentTransactions();
+    },
     'click .lblPriceEx': function (event) {
         $('.lblPriceEx').addClass('hiddenColumn');
         $('.lblPriceEx').removeClass('showColumn');
@@ -2569,6 +2716,7 @@ Template.productview.events({
 
         $('#edtsellqty1price').addClass('hiddenColumn');
         $('#edtsellqty1price').removeClass('showColumn');
+        $('.lblPriceCheckStatus').val('true');
     },
     'click .lblPriceInc': function (event) {
         $('.lblPriceInc').addClass('hiddenColumn');
@@ -2582,6 +2730,7 @@ Template.productview.events({
 
         $('#edtsellqty1price').removeClass('hiddenColumn');
         $('#edtsellqty1price').addClass('showColumn');
+        $('.lblPriceCheckStatus').val('false');
     },
     'click .lblCostEx': function (event) {
         $('.lblCostEx').addClass('hiddenColumn');
@@ -2595,6 +2744,8 @@ Template.productview.events({
 
         $('#edtbuyqty1cost').addClass('hiddenColumn');
         $('#edtbuyqty1cost').removeClass('showColumn');
+
+        $('.lblCostCheckStatus').val('true');
     },
     'click .lblCostInc': function (event) {
         $('.lblCostInc').addClass('hiddenColumn');
@@ -2608,6 +2759,7 @@ Template.productview.events({
 
         $('#edtbuyqty1cost').removeClass('hiddenColumn');
         $('#edtbuyqty1cost').addClass('showColumn');
+        $('.lblCostCheckStatus').val('false');
     },
     'click #sltsalesacount': function (event) {
         // $('#edtassetaccount').select();
@@ -2625,6 +2777,7 @@ Template.productview.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
         templateObject.getAllProductRecentTransactions();
+
     },
     'click #btnSave': async function () {
         let productService = new ProductService();
@@ -2633,6 +2786,11 @@ Template.productview.events({
         var objDetails = '';
         let lineExtaSellItems = [];
         let lineExtaSellObj = {};
+
+        let lastPriceSetting = $('.lblPriceCheckStatus').val() || 'true';
+        let lastCostSetting = $('.lblCostCheckStatus').val() || 'true';
+
+
         $('.fullScreenSpin').css('display', 'inline-block');
 
         let itrackThisItem = false;
@@ -2674,7 +2832,7 @@ Template.productview.events({
 
         var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
-        var currentID = getso_id[getso_id.length - 1].split('#')[0];
+        var currentID = FlowRouter.current().queryParams.id || 0;
 
         if ($('#chkSellPrice').is(':checked')) {
             $('.itemExtraSellRow').each(function () {
@@ -2702,12 +2860,14 @@ Template.productview.events({
                 objDetails = {
                     type: "TProductVS1",
                     fields: {
-                        ID: currentID,
+                        ID: parseInt(currentID),
                         Active: true,
                         ProductType: "INV",
                         PRODUCTCODE: productCode,
                         CUSTFLD1: customField1,
                         CUSTFLD2: customField2,
+                        CUSTFLD14: lastPriceSetting,
+                        CUSTFLD15: lastCostSetting,
                         ProductPrintName: productName,
                         ProductName: productName,
                         PurchaseDescription: $("#txapurchasedescription").val(),
@@ -2732,12 +2892,14 @@ Template.productview.events({
                 objDetails = {
                     type: "TProductVS1",
                     fields: {
-                        ID: currentID,
+                        ID: parseInt(currentID),
                         Active: true,
                         ProductType: "NONINV",
                         PRODUCTCODE: productCode,
                         CUSTFLD1: customField1,
                         CUSTFLD2: customField2,
+                        CUSTFLD14: lastPriceSetting,
+                        CUSTFLD15: lastCostSetting,
                         ProductPrintName: productName,
                         ProductName: productName,
                         PurchaseDescription: $("#txapurchasedescription").val(),
@@ -2763,7 +2925,7 @@ Template.productview.events({
                     let objServiceDetails = {
                         type: "TServices",
                         fields: {
-                            ProductId: currentID,
+                            ProductId: parseInt(currentID),
                             ServiceDesc: productName,
                             StandardRate: parseFloat($("#edtbuyqty1cost").val().replace(/[^0-9.-]+/g, "")) || 0,
                         }
@@ -2879,6 +3041,8 @@ Template.productview.events({
                                 PRODUCTCODE: productCode,
                                 CUSTFLD1: customField1,
                                 CUSTFLD2: customField2,
+                                CUSTFLD14: lastPriceSetting,
+                                CUSTFLD15: lastCostSetting,
                                 ProductPrintName: productName,
                                 ProductName: productName,
                                 PurchaseDescription: $("#txapurchasedescription").val(),
@@ -2909,6 +3073,8 @@ Template.productview.events({
                                 PRODUCTCODE: productCode,
                                 CUSTFLD1: customField1,
                                 CUSTFLD2: customField2,
+                                CUSTFLD14: lastPriceSetting,
+                                CUSTFLD15: lastCostSetting,
                                 ProductPrintName: productName,
                                 ProductName: productName,
                                 PurchaseDescription: $("#txapurchasedescription").val(),
@@ -3038,6 +3204,8 @@ Template.productview.events({
                                 PRODUCTCODE: productCode,
                                 CUSTFLD1: customField1,
                                 CUSTFLD2: customField2,
+                                CUSTFLD14: lastPriceSetting,
+                                CUSTFLD15: lastCostSetting,
                                 ProductPrintName: productName,
                                 ProductName: productName,
                                 PurchaseDescription: $("#txapurchasedescription").val(),
@@ -3068,6 +3236,8 @@ Template.productview.events({
                                 PRODUCTCODE: productCode,
                                 CUSTFLD1: customField1,
                                 CUSTFLD2: customField2,
+                                CUSTFLD14: lastPriceSetting,
+                                CUSTFLD15: lastCostSetting,
                                 ProductPrintName: productName,
                                 ProductName: productName,
                                 PurchaseDescription: $("#txapurchasedescription").val(),
@@ -3200,6 +3370,8 @@ Template.productview.events({
                             PRODUCTCODE: productCode,
                             CUSTFLD1: customField1,
                             CUSTFLD2: customField2,
+                            CUSTFLD14: lastPriceSetting,
+                            CUSTFLD15: lastCostSetting,
                             ProductPrintName: productName,
                             ProductName: productName,
                             PurchaseDescription: $("#txapurchasedescription").val(),
@@ -3230,6 +3402,8 @@ Template.productview.events({
                             PRODUCTCODE: productCode,
                             CUSTFLD1: customField1,
                             CUSTFLD2: customField2,
+                            CUSTFLD14: lastPriceSetting,
+                            CUSTFLD15: lastCostSetting,
                             ProductPrintName: productName,
                             ProductName: productName,
                             PurchaseDescription: $("#txapurchasedescription").val(),
@@ -3719,7 +3893,7 @@ Template.productview.events({
                 $('.fullScreenSpin').css('display', 'inline-block');
                 var url = FlowRouter.current().path;
                 var getso_id = url.split('?id=');
-                var currentProduct = getso_id[getso_id.length - 1];
+                var currentProduct = FlowRouter.current().queryParams.id || '';
                 var objDetails = '';
                 if (getso_id[1]) {
                     currentProduct = parseInt(currentProduct);
@@ -3870,7 +4044,7 @@ Template.productview.events({
         $("#" + targetID + ' .edtDiscount').val(getDiscountRate || 0);
 
     },
-   
+
 
 });
 

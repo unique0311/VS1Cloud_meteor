@@ -216,6 +216,9 @@
                                     <div class="form-group" style="margin: 4px;">
                                         <label class="lblPriceEx hiddenColumn">Price (Ex Tax) <i class="fas fa-random"></i></label>
                                         <label class="lblPriceInc ">Price (Inc Tax) <i class="fas fa-random fa-trans"></i></label>
+
+                                        <input type="hidden" class="lblPriceCheckStatus" value="">
+
                                         <input type="text" class="form-control highlightInput edtsellqty1priceCheck hiddenColumn" id="edtsellqty1price" name="edtsellqty1price" value="{{productrecord.sellqty1price}}">
                                         <input type="text" class="form-control highlightInput edtsellqty1priceIncCheck " id="edtsellqty1priceInc" name="edtsellqty1priceInc" value="{{productrecord.sellqty1priceinc}}">
                                     </div>
@@ -331,6 +334,9 @@
                                     <div class="form-group" style="margin: 4px;">
                                         <label class="lblCostEx hiddenColumn">Cost (Ex Tax) <i class="fas fa-random"></i></label>
                                         <label class="lblCostInc ">Cost (Inc Tax) <i class="fas fa-random fa-trans"></i></label>
+
+                                          <input type="hidden" class="lblCostCheckStatus" value="">
+
                                         <input type="text" class="form-control highlightInput edtbuyqty1cost hiddenColumn" id="edtbuyqty1cost" name="edtbuyqty1cost" value="{{productrecord.buyqty1cost}}">
                                         <input type="text" class="form-control highlightInput edtbuyqty1costInc " id="edtbuyqty1costInc" name="edtbuyqty1costInc" value="{{productrecord.buyqty1costinc}}">
                                     </div>
@@ -398,7 +404,7 @@
                                             <div class="form-group" style="margin: 4px;"><label style="display: none;">Deparment</label><input type="text" class="form-control" style="width: 250px;" value="{{item.department}}"></div>
                                         </div>
                                         <div class="col-lg-4 col-sm-6 col-6">
-                                            <div class="form-group" style="margin: 4px;"><label style="display: none;">Quantity</label><input type="text" class="form-control" style="width: 150px;" value="{{item.quantity}}"></div>
+                                            <div class="form-group" style="margin: 4px;"><label style="display: none;">Quantity</label><input type="text" class="form-control trackProdQty" style="width: 150px;" value="{{item.quantity}}"></div>
                                         </div>
                                     </div>
                                 </div>

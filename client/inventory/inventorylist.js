@@ -192,19 +192,19 @@ Template.inventorylist.onRendered(function() {
            departmentData = 'All';
             for(let i=0; i<data.tproductvs1.length; i++){
               var dataList = [
+                data.tproductvs1[i].fields.ID || '',
                 data.tproductvs1[i].fields.ProductName || '-',
                 data.tproductvs1[i].fields.SalesDescription || '',
                 data.tproductvs1[i].fields.BARCODE || '',
                 departmentData,
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc),
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc),
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
                 data.tproductvs1[i].fields.TotalQtyInStock,
                 data.tproductvs1[i].fields.PurchaseDescription || '',
                 data.tproductvs1[i].fields.CUSTFLD1 || '',
-                data.tproductvs1[i].fields.CUSTFLD2 || '',
-                data.tproductvs1[i].fields.ID || ''
+                data.tproductvs1[i].fields.CUSTFLD2 || ''
                 // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
             ];
             splashArrayProductList.push(dataList);
@@ -368,17 +368,20 @@ Template.inventorylist.onRendered(function() {
                                   for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                      var dataListDupp = [
+                                       dataObjectnew.tproductvs1[i].fields.ID || '',
                                        dataObjectnew.tproductvs1[i].fields.ProductName || '-',
                                        dataObjectnew.tproductvs1[i].fields.SalesDescription || '',
                                        dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                                        departmentData,
                                        utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                       utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
                                        utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                       utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
                                        dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
                                        dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                                        dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
                                        dataObjectnew.tproductvs1[i].fields.CUSTFLD2 || '',
-                                       dataObjectnew.tproductvs1[i].fields.ID || ''
+
                                    ];
                                    splashArrayProductList.push(dataListDupp);
 
@@ -461,9 +464,9 @@ let deptStatus = '';
        data.tproductvs1[i].fields.BARCODE || '',
        departmentData,
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-       utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc),
+       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-       utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc),
+        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
        data.tproductvs1[i].fields.TotalQtyInStock,
        data.tproductvs1[i].fields.PurchaseDescription || '',
        data.tproductvs1[i].fields.CUSTFLD1 || '',
@@ -637,7 +640,9 @@ setTimeout(function () {
                              dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                              departmentData,
                              utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                             utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
                              utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                             utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
                              dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
                              dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                              dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
@@ -713,19 +718,20 @@ setTimeout(function () {
          departmentData = 'All';
           for(let i=0; i<data.tproductvs1.length; i++){
             var dataList = [
+              data.tproductvs1[i].fields.ID || '',
                data.tproductvs1[i].fields.ProductName || '-',
                 data.tproductvs1[i].fields.SalesDescription || '',
                 data.tproductvs1[i].fields.BARCODE || '',
                 departmentData,
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
-                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.BuyQty1CostInc),
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
                 utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
-                utilityService.modifynegativeCurrencyFormat(data.tproductvs1[i].fields.SellQty1PriceInc),
+                utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
                 data.tproductvs1[i].fields.TotalQtyInStock,
                 data.tproductvs1[i].fields.PurchaseDescription || '',
                 data.tproductvs1[i].fields.CUSTFLD1 || '',
                 data.tproductvs1[i].fields.CUSTFLD2 || '',
-                data.tproductvs1[i].fields.ID || ''
+
               // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
           ];
           splashArrayProductList.push(dataList);
@@ -895,7 +901,9 @@ setTimeout(function () {
                                      dataObjectnew.tproductvs1[i].fields.BARCODE || '',
                                      departmentData,
                                      utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                                     utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
                                      utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                                     utilityService.modifynegativeCurrencyFormat(Math.floor(dataObjectnew.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
                                      dataObjectnew.tproductvs1[i].fields.TotalQtyInStock,
                                      dataObjectnew.tproductvs1[i].fields.PurchaseDescription || '',
                                      dataObjectnew.tproductvs1[i].fields.CUSTFLD1 || '',
@@ -963,11 +971,18 @@ setTimeout(function () {
 
   }
 
-  $('#tblInventory tbody').on( 'click', 'tr', function () {
+  $('#tblInventory tbody').on( 'click', 'td:not(.colQuantity)', function () {
     var listData = $(this).closest('tr').find('.colProductID').text();
     if(listData){
       //FlowRouter.go('/productview?id=' + listData);
       FlowRouter.go('/productview?id=' + listData);
+    }
+  });
+
+  $('#tblInventory tbody').on( 'click', 'td.colQuantity', function () {
+    var listData = $(this).closest('tr').find('.colProductID').text();
+    if(listData){
+      FlowRouter.go('/productview?id=' + listData+'&instock=true');
     }
   });
 
@@ -1590,7 +1605,9 @@ Template.inventorylist.helpers({
                       data.tproductvs1[i].fields.BARCODE || '',
                       'All',
                       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
                       utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                      utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
                       data.tproductvs1[i].fields.TotalQtyInStock,
 
                       data.tproductvs1[i].fields.PurchaseDescription || '',
@@ -1643,7 +1660,9 @@ Template.inventorylist.helpers({
                         data.tproductvs1[i].fields.BARCODE || '',
                         'All',
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1CostInc * 100) / 100),
                         utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1Price * 100) / 100),
+                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.SellQty1PriceInc * 100) / 100),
                         data.tproductvs1[i].fields.TotalQtyInStock,
                         data.tproductvs1[i].fields.PurchaseDescription || '',
                         data.tproductvs1[i].fields.CUSTFLD1 || '',
@@ -1842,17 +1861,20 @@ Template.inventorylist.helpers({
             $('.fullScreenSpin').css('display','none');
           for(let i=0; i<data.tproductlocationqty.length; i++){
             var dataList = [
+                            data.tproductlocationqty[i].ProductID || '',
                             data.tproductlocationqty[i].ProductName || '-',
                             data.tproductlocationqty[i].ProductName || '',
                             data.tproductlocationqty[i].BARCODE || '',
                             data.tproductlocationqty[i].Deptname,
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100)||0,
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100)||0,
+                            utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100) || 0,
                             utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductlocationqty[i].Cost * 100) / 100) || 0,
                             data.tproductlocationqty[i].InStock,
                             data.tproductlocationqty[i].ProductName || '',
                             data.tproductlocationqty[i].CUSTFLD1 || '',
                             data.tproductlocationqty[i].CUSTFLD2 || '',
-                            data.tproductlocationqty[i].ProductID || ''
+
                             // JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null
                         ];
 
@@ -2128,7 +2150,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
 
         $('.colCostPrice').addClass('hiddenColumn');
 
-        $('.lblCostInc').css('width','12%');
+        $('.lblCostInc').css('width','10.1%');
 
       }
 
@@ -2163,7 +2185,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
         $('.colSalePriceInc').removeClass('hiddenColumn');
         $('.colSalePrice').addClass('hiddenColumn');
 
-        $('.lblPriceInc').css('width','12%');
+        $('.lblPriceInc').css('width','10.1%');
 
       }
 
@@ -2180,7 +2202,7 @@ swal('Invalid Data Mapping fields ', 'Please check that you are importing the co
         $('.colSalePrice').removeClass('hiddenColumn');
         $('.colSalePriceInc').addClass('hiddenColumn');
 
-        $('.lblPriceEx').css('width','12%');
+        $('.lblPriceEx').css('width','10%');
 
       }
 

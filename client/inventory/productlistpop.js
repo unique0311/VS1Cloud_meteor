@@ -275,7 +275,7 @@ Template.productlistpop.onRendered(function () {
 
                             }
                             if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                //$('.paginate_button.page-item.next').addClass('disabled');
+                                $('.paginate_button.page-item.next').addClass('disabled');
                             }
 
                             $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -300,7 +300,16 @@ Template.productlistpop.onRendered(function () {
                                            JSON.stringify(data.tproductvs1[i].fields.ExtraSellPrice)||null,
 
                                        ];
-                                       splashArrayProductList.push(dataListDupp);
+
+                                       if (currentLoc == "/stockadjustmentcard"){
+                                         if (data.tproductvs1[i].fields.ProductType == "INV") {
+                                           splashArrayProductList.push(dataListDupp);
+                                         }
+
+                                       }else{
+                                         splashArrayProductList.push(dataListDupp);
+                                       }
+
 
                                       }
 
@@ -577,6 +586,7 @@ Template.productlistpop.events({
     });
   }else{
     sideBarService.getNewProductListVS1(initialBaseDataLoad,0).then(function (data) {
+      addVS1Data('TProductVS1',JSON.stringify(data));
           let records = [];
           let inventoryData = [];
           for (let i = 0; i < data.tproductvs1.length; i++) {
