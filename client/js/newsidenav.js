@@ -162,6 +162,9 @@ Template.newsidenav.onRendered(function() {
     let isAppointmentScheduling = Session.get('CloudAppointmentSchedulingModule');
     let isCurrencyEnable = Session.get('CloudUseForeignLicence');
     let isAppointmentLaunch = Session.get('CloudAppointmentAppointmentLaunch');
+
+    let launchAllocations = Session.get('CloudAppointmentAllocationLaunch');
+
     var erpGet = erpDb();
     var LoggedDB = erpGet.ERPDatabase;
     var LoggedUser = localStorage.getItem('mySession');
@@ -642,6 +645,13 @@ Template.newsidenav.onRendered(function() {
     //  sidePanelToggle = Session.get('sidePanelToggle');
     // }
 
+    if (launchAllocations) {
+      $('#allocationModal').css('dispay','none');
+      setTimeout(function () {
+          $('#allocationModal').addClass('killAllocationPOP');
+      }, 800);
+
+    }
 
     let isGreenTrack = Session.get('isGreenTrack');
     let loggedUserEventFired = Session.get('LoggedUserEventFired');
@@ -649,6 +659,7 @@ Template.newsidenav.onRendered(function() {
     $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
     $('.headerprogressbar').addClass('headerprogressbarShow');
     $('.headerprogressbar').removeClass('headerprogressbarHidden');
+
     getVS1Data('TAppUser').then(function(dataObject) {
         if (dataObject.length == 0) {
           $('#headerprogressLabelFirst').css('display','block');
@@ -685,6 +696,11 @@ Template.newsidenav.onRendered(function() {
               $("<span class='process'>App User Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
           }).catch(function(err) {
             $('.process').addClass('killProgressBar');
+            if (launchAllocations) {
+              setTimeout(function () {
+              $('.allocationModal').removeClass('killAllocationPOP');
+            }, 800);
+            }
           });
         } else {
             let getTimeStamp = dataObject[0].timestamp.split(' ');
@@ -695,16 +711,31 @@ Template.newsidenav.onRendered(function() {
                           addVS1Data('TAppUser', JSON.stringify(data));
                         }).catch(function(err) {
                           $('.process').addClass('killProgressBar');
+                          if (launchAllocations) {
+                            setTimeout(function () {
+                            $('.allocationModal').removeClass('killAllocationPOP');
+                          }, 800);
+                          }
                         });
                         $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
                         $(".headerprogressLabel").text("All Your Information Loaded");
                         $(".progressBarInner").text(""+Math.round(100)+"%");
                         $('.checkmarkwrapper').removeClass("hide");
                         $('.process').addClass('killProgressBar');
+                        if (launchAllocations) {
+                          setTimeout(function () {
+                          $('.allocationModal').removeClass('killAllocationPOP');
+                        }, 800);
+                        }
                         setTimeout(function() {
                         $('.headerprogressbar').removeClass('headerprogressbarShow');
                         $('.headerprogressbar').addClass('headerprogressbarHidden');
                         $('.headerprogressbar').addClass('killProgressBar');
+                        if (launchAllocations) {
+                          setTimeout(function () {
+                          $('.allocationModal').removeClass('killAllocationPOP');
+                        }, 800);
+                        }
                        }, 3000);
                     }else{
                       $('.loadingbar').css('width', 100 + '%').attr('aria-valuenow', 100);
@@ -712,10 +743,20 @@ Template.newsidenav.onRendered(function() {
                       $(".progressBarInner").text(""+Math.round(100)+"%");
                       $('.checkmarkwrapper').removeClass("hide");
                       $('.process').addClass('killProgressBar');
+                      if (launchAllocations) {
+                        setTimeout(function () {
+                        $('.allocationModal').removeClass('killAllocationPOP');
+                      }, 800);
+                      }
                       setTimeout(function() {
                       $('.headerprogressbar').removeClass('headerprogressbarShow');
                       $('.headerprogressbar').addClass('headerprogressbarHidden');
                       $('.headerprogressbar').addClass('killProgressBar');
+                      if (launchAllocations) {
+                        setTimeout(function () {
+                        $('.allocationModal').removeClass('killAllocationPOP');
+                      }, 800);
+                      }
                      }, 3000);
                     }
                 }
@@ -755,9 +796,18 @@ Template.newsidenav.onRendered(function() {
           $("<span class='process'>App User Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
       }).catch(function(err) {
         $('.process').addClass('killProgressBar');
+        if (launchAllocations) {
+          setTimeout(function () {
+          $('.allocationModal').removeClass('killAllocationPOP');
+        }, 800);
+        }
       });
     });
-    }
+  }else{
+    setTimeout(function () {
+    $('.allocationModal').removeClass('killAllocationPOP');
+     }, 800);
+  }
 
 
 
@@ -3088,10 +3138,20 @@ Template.newsidenav.onRendered(function() {
               $(".progressBarInner").text(""+Math.round(100)+"%");
               $('.checkmarkwrapper').removeClass("hide");
               $('.process').addClass('killProgressBar');
+              if (launchAllocations) {
+                setTimeout(function () {
+                  $('.allocationModal').removeClass('killAllocationPOP');
+                }, 800);
+              }
               setTimeout(function() {
               $('.headerprogressbar').removeClass('headerprogressbarShow');
               $('.headerprogressbar').addClass('headerprogressbarHidden');
               $('.headerprogressbar').addClass('killProgressBar');
+              if (launchAllocations) {
+                setTimeout(function () {
+                  $('.allocationModal').removeClass('killAllocationPOP');
+                }, 800);
+              }
             }, 3000);
             }
         }, 3000);
@@ -3101,10 +3161,21 @@ Template.newsidenav.onRendered(function() {
           $(".progressBarInner").text(""+Math.round(100)+"%");
           $('.checkmarkwrapper').removeClass("hide");
           $('.process').addClass('killProgressBar');
+          if (launchAllocations) {
+            setTimeout(function () {
+            $('.allocationModal').removeClass('killAllocationPOP');
+          }, 800);
+
+          }
           setTimeout(function() {
           $('.headerprogressbar').removeClass('headerprogressbarShow');
           $('.headerprogressbar').addClass('headerprogressbarHidden');
           $('.headerprogressbar').addClass('killProgressBar');
+          if (launchAllocations) {
+            setTimeout(function () {
+            $('.allocationModal').removeClass('killAllocationPOP');
+          }, 800);
+          }
         }, 5000);
         }, 60000);
 

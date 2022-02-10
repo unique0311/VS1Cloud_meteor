@@ -87,12 +87,12 @@ Template.appointments.onRendered(function () {
     if ((currentId === "allocationModal")) {
         setTimeout(function () {
             $('#allocationModal').modal('show');
-        }, 500);
+        }, 700);
 
     } else if (launchAllocations == true) {
         setTimeout(function () {
             $('#allocationModal').modal('show');
-        }, 500);
+        }, 700);
     }
 
     if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
@@ -559,7 +559,7 @@ Template.appointments.onRendered(function () {
                 $("#tActualStartTime").prop("disabled", false);
                 $("#tActualEndTime").prop("disabled", false);
                 $("#txtActualHoursSpent").prop("disabled", false);
-               
+
                 var hours = '0';
                 var id = info.event.id;
                 var appointmentData = templateObject.appointmentrecords.get();
@@ -624,8 +624,8 @@ Template.appointments.onRendered(function () {
                     document.getElementById("suburb").value = result[0].suburb || '';
                     document.getElementById("zip").value = result[0].zip || '';
                     document.getElementById("country").value = result[0].country || '';
-                        
-                
+
+
                     document.getElementById("product-list").value = result[0].product || '';
                     // if (result[0].product.replace(/\s/g, '') != "") {
                     //     $('#product-list').prepend('<option value="' + result[0].product + '" selected>' + result[0].product + '</option>');
@@ -2281,7 +2281,7 @@ Template.appointments.onRendered(function () {
                             document.getElementById("suburb").value = result[0].suburb;
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
-                           
+
 
                             document.getElementById("product-list").value = result[0].product || '';
                             // if (result[0].product.replace(/\s/g, '') != "") {
@@ -5828,7 +5828,7 @@ Template.appointments.onRendered(function () {
                             document.getElementById("zip").value = result[0].zip;
                             document.getElementById("country").value = result[0].country;
 
-                              
+
                             //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
                             document.getElementById("product-list").value = result[0].product || '';
                             document.getElementById("employee_name").value = result[0].employeename;
@@ -6495,7 +6495,7 @@ Template.appointments.events({
             document.getElementById("zip").value = result[0].zip || ''
             document.getElementById("country").value = result[0].country || '';
 
-            
+
             document.getElementById("product-list").value = result[0].product || '';
             //$('#product-list').prepend('<option value="' + result[0].product + '">' + result[0].product + '</option>');
             document.getElementById("employee_name").value = result[0].employeename;

@@ -974,8 +974,8 @@ getCustomersDataByName(dataSearchName) {
        ListType: "Detail",
        select: "[Deleted]=false",
        // LimitCount:'"'+initialReportLoad+'"'
-       //LimitCount:'"'+limitcount+'"',
-      //LimitFrom:'"'+limitfrom+'"'
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
    };
   }
     return this.getList(this.ERPObjects.TVS1BankDeposit, options);
