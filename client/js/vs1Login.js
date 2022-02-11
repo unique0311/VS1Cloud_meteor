@@ -45,6 +45,22 @@ Template.vs1login.onCreated(function () {
 
 Template.vs1login.onRendered(function () {
 
+
+  openDbCheckVersion().then(function (data) {
+        if(data == true){
+        window.indexedDB.databases().then((r) => {
+            for (var i = 0; i < r.length; i++) {
+                window.indexedDB.deleteDatabase(r[i].name);
+            }
+
+        }).then(() => {
+
+        });
+      }
+
+  }).catch(function (err) {
+  });
+
     localStorage.removeItem('VS1ProductList');
     localStorage.removeItem('VS1CustomerList');
     localStorage.removeItem('VS1SupplierList');

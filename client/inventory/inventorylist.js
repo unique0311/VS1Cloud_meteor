@@ -616,6 +616,10 @@ setTimeout(function () {
                   if (oSettings.fnRecordsDisplay() > 150) {
 
                   }
+                  $('.fullScreenSpin').css('display', 'inline-block');
+                  setTimeout(function () {
+                      $('.fullScreenSpin').css('display', 'none');
+                  }, 100);
               } else {
 
               }

@@ -424,3 +424,30 @@ getStoreToDelete = async function (email) {
   const objectStore = await transaction.objectStore('TDatabases');
   return await deleteStoreExists(objectStore,email);
 }
+
+openDbCheckVersion = async function () {
+  var promise =  new Promise((resolve, reject) => {
+    var exists = false;
+    let dbReq = indexedDB.open('TDatabaseVersion', 3);
+    dbReq.onsuccess = function () {
+     resolve(exists);
+    };
+    dbReq.onupgradeneeded = function (event) {
+      let db = event.target.result;
+       if(event.oldVersion != 0){
+          if(event.oldVersion != event.newVersion){
+            exists = true;
+            resolve(exists);
+         }else{
+           exists = false;
+           resolve(exists);
+         }
+       }else{
+         exists = false;
+         resolve(exists);
+       }
+      db.createObjectStore("TDatabaseVersion", { keyPath: "EmployeeEmail" });
+    }
+  })
+return promise;
+}
