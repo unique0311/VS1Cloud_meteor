@@ -182,7 +182,17 @@ ERPObjects = function () {
         TSerialNumberListCurrentReport: "TSerialNumberListCurrentReport",
         TRepServices:"TRepServices",
         TCustomFieldList: "TCustomFieldList",
-        TReportSchedules: "TReportSchedules"
+        TReportSchedules: "TReportSchedules",
+        TAllowance: "TAllowance",
+        TTerminationSimple: "TTerminationSimple",
+        TPayscommission: "TPayscommission",
+        TDeduction: "TDeduction",
+        TPaysleave: "TPaysleave",
+        TSuperannuation: "TSuperannuation",
+        TLeavetypes: "TLeavetypes",
+        TEmployeepaysettings: "TEmployeepaysettings",
+        TPayRun: "TPayRun",
+        TPaybase: "TPaybase"
     }
     return objects;
 }
