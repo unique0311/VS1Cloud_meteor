@@ -2931,8 +2931,15 @@ Template.payrolloverview.events({
         let toUpdate = {};
         let date = new Date();
         let initialDate = new Date($("#dtSODate").datepicker("getDate"));
+
         //new Date(moment($("#dtSODate").datepicker("getDate")).format("YYYY-MM-DD"));
         if (clockList.length > 0) {
+          //console.log(clockList);
+
+          let getstartDatedata = clockList[clockList.length - 1].startTime.split(' ')[0] ||'';
+          let dateInnitialDate = new Date(getstartDatedata);
+          initialDate = new Date(getstartDatedata)||initialDate;
+
             if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                 checkStatus = clockList[clockList.length - 1].isPaused || "";
                 latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
@@ -3023,7 +3030,8 @@ Template.payrolloverview.events({
                                         type: 'error',
                                         showCancelButton: true,
                                         confirmButtonText: 'Ok'
-                                    })
+                                    });
+                                    $('.fullScreenSpin').css('display', 'none');
                                 }
                             }).catch(function (err) {
                                 swal({
@@ -3101,7 +3109,8 @@ Template.payrolloverview.events({
                             type: 'error',
                             showCancelButton: true,
                             confirmButtonText: 'Ok'
-                        })
+                        });
+                        $('.fullScreenSpin').css('display', 'none');
                     }
                 }
 

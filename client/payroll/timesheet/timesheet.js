@@ -4988,6 +4988,9 @@ Template.timesheet.onRendered(function () {
                     let initialDate = new Date($("#dtSODate").datepicker("getDate"));
                     // new Date(moment($("#dtSODate").datepicker("getDate")).format("YYYY-MM-DD"));
                     if (clockList.length > 0) {
+                      let getstartDatedata = clockList[clockList.length - 1].startTime.split(' ')[0] ||'';
+                      let dateInnitialDate = new Date(getstartDatedata);
+                      initialDate = new Date(getstartDatedata)||initialDate;
                         if (Array.isArray(clockList[clockList.length - 1].timelog)) {
                             checkStatus = clockList[clockList.length - 1].isPaused || "";
                             latestTimeLogId = clockList[clockList.length - 1].timelog[clockList[clockList.length - 1].timelog.length - 1].fields.ID || "";
