@@ -17,6 +17,7 @@ Template.emailsettings.onCreated(function() {
     templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
     templateObject.countryData = new ReactiveVar();
+    templateObject.empSchedRec = new ReactiveVar([]);
 });
 
 Template.emailsettings.onRendered(function() {
@@ -28,7 +29,7 @@ Template.emailsettings.onRendered(function() {
 
     var countryService = new CountryService();
     let countries = [];
-
+    let empSchedRec = [];
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'currencyLists', function(error, result) {
         if (error) {
 
@@ -56,6 +57,78 @@ Template.emailsettings.onRendered(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+     templateObject.getScheduleInfo = function() {
+        taxRateService.getScheduleSettings().then(function(data) {
+          let empData = data.treportschedules;
+
+
+          // data.tReportSchedules.Every = 3;
+          // let schList =
+          // schList = "3";
+            // data.treportschedules[1]['fields']['Every'] = "4";
+
+
+            // data.treportschedules[0]['fields'].push(data);
+                  var empIDSes = Session.get('mySessionEmployeeLoggedID');
+
+                  for (let i = 0; i < empData.length; i++) {
+
+                    if (empData[i].fields.EmployeeId == empIDSes) {
+                    // empDataCurr = empData[i].fields.Active;
+
+                    var empDataCurr = {
+                      Active: empData[i].fields.Active,
+                      BeginFromOption: empData[i].fields.BeginFromOption,
+                      EmployeeId: empData[i].fields.EmployeeId,
+                      EndDate: empData[i].fields.EndDate,
+                      Every: empData[i].fields.Every,
+                      FormID: empData[i].fields.FormID,
+                      Frequency:empData[i].fields.Frequency,
+                      ID:empData[i].fields.ID,
+                      ISEmpty: empData[i].fields.ISEmpty,
+                      MonthDays: empData[i].fields.MonthDays,
+                      NextDueDate: empData[i].fields.NextDueDate,
+                      Recno: empData[i].fields.Recno,
+                      SatAction: empData[i].fields.SatAction,
+                      StartDate: empData[i].fields.StartDate.split(' ')[0],
+                      StartTime: empData[i].fields.StartDate.split(' ')[1],
+                      SunAction: empData[i].fields.SunAction,
+                      WeekDay: empData[i].fields.WeekDay,
+                    };
+
+                    empSchedRec.push(empDataCurr);
+                    templateObject.empSchedRec.set(empDataCurr);
+                    console.log(empDataCurr);
+
+                    // var strtDate = empDataCurr.StartDate;
+                    // strtDate = strtDate.substr(0,11);
+                    if (empDataCurr.FormID = "139"){
+                    if (empDataCurr.Frequency = "D"){
+                     $('#blncSheets #edtFrequency').html("Daily");
+                    $("#frequencyDaily").prop('checked', true);
+                    // $("#dailyEvery").trigger('click');
+                    $("#dailyEvery").prop('checked', true);
+                    $(".dailySettings").show();
+                    $('.monthlySettings').hide();
+                    $('.dailyEveryXDays').attr('disabled', false);
+                    $('.dailyEveryXDays').val(empDataCurr.Every);
+                    setTimeout(function () {
+                      $('#edtDailyStartDate').val(empDataCurr.StartDate);
+                      $('#edtDailyStartTime').val(empDataCurr.StartTime);
+                    }, 500);
+
+                      }
+                    }
+                    }
+
+                  }
+
+          })
+     }
+
+     templateObject.getScheduleInfo();
+
 
     setTimeout(function() {
         $('#tblAutomatedEmails').DataTable({
@@ -128,8 +201,59 @@ Template.emailsettings.onRendered(function() {
 });
 
 Template.emailsettings.events({
+  'click .btnSaveFrequency': function(){
+        let taxRateService = new TaxRateService();
+alert('im a problem');
+      var startTime = $('#edtDailyStartTime').val();
+      var startDate = $('#edtDailyStartDate').val();
+      let date = startDate+' '+startTime;
+      var dayFreq = $('#dailyEveryXDays').val();
+      var empIDSes = Session.get('mySessionEmployeeLoggedID');
+      // let freqD = $(#frequencyDaily);
+      objDetails = {
+          type: "TReportSchedules",
+          fields: {
+              Active: true,
+              BeginFromOption:"E",
+              EmployeeId:empIDSes,
+              EndDate: "2022-03-09 10:01:14",
+              Every: dayFreq,
+              Frequency:"D",
+              FormID: 139,
+              ISEmpty: false,
+              MonthDays: 0,
+              NextDueDate: "2022-02-15 00:00:00",
+              Recno: 2,
+              SatAction: "D",
+              StartDate: date,
+              SunAction: "A",
+              WeekDay: 0,
+          }
+      };
+      if (($('#frequencyDaily').is(':checked'))&&($('#dailyEvery').is(':checked'))) {
+
+       taxRateService.saveScheduleSettings(objDetails).then(function(data) {
+         // data.tReportSchedules.Every = 3;
+         // let schList =
+         // schList = "3";
+           // data.treportschedules[0]['fields']['Every'] = "3";
+
+           console.log(data);
+           // data.treportschedules[0]['fields'].push(data);
+         }).catch(function (err) {
+            console.log(err);
+             //Bert.alert('<strong>' + err + '</strong>!', 'danger');
+             $('.fullScreenSpin').css('display', 'none');
+         });
+       }
+  },
     'click #edtFrequency': function() {
         $("#frequencyModal").modal('toggle');
+    },
+    'click #blncSheets #edtFrequency': function() {
+
+        $("#frequencyModal").modal('toggle');
+
     },
     'click input[name="frequencyRadio"]': function() {
         if (event.target.id == "frequencyMonthly") {
@@ -190,38 +314,38 @@ Template.emailsettings.events({
             $("#frequencyModal").modal('toggle');
         }
     },
-    'click .btnSaveFrequency': function() {
-        let radioFrequency = $('input[type=radio][name=frequencyRadio]:checked').attr('id');
-
-        if (radioFrequency == "frequencyMonthly") {
-            setTimeout(function() {
-                $('#edtFrequency').html("Monthly");
-                $("#frequencyModal").modal('toggle');
-            }, 100);
-        } else if (radioFrequency == "frequencyWeekly") {
-            setTimeout(function() {
-                $('#edtFrequency').html("Weekly");
-                $("#frequencyModal").modal('toggle');
-            }, 100);
-        } else if (radioFrequency == "frequencyDaily") {
-            setTimeout(function() {
-                $('#edtFrequency').html("Daily");
-                $("#frequencyModal").modal('toggle');
-            }, 100);
-        } else if (radioFrequency == "frequencyOnetimeonly") {
-            setTimeout(function() {
-                $('#edtFrequency').html("One Time Only");
-                $("#frequencyModal").modal('toggle');
-            }, 100);
-        } else if (radioFrequency == "frequencyOnevent") {
-            setTimeout(function() {
-                $('#edtFrequency').html("On Event");
-                $("#frequencyModal").modal('toggle');
-            }, 100);
-        } else {
-            $("#frequencyModal").modal('toggle');
-        }
-    },
+    // 'click .btnSaveFrequency': function() {
+    //     let radioFrequency = $('input[type=radio][name=frequencyRadio]:checked').attr('id');
+    //
+    //     if (radioFrequency == "frequencyMonthly") {
+    //         setTimeout(function() {
+    //             $('#edtFrequency').html("Monthly");
+    //             $("#frequencyModal").modal('toggle');
+    //         }, 100);
+    //     } else if (radioFrequency == "frequencyWeekly") {
+    //         setTimeout(function() {
+    //             $('#edtFrequency').html("Weekly");
+    //             $("#frequencyModal").modal('toggle');
+    //         }, 100);
+    //     } else if (radioFrequency == "frequencyDaily") {
+    //         setTimeout(function() {
+    //             $('#edtFrequency').html("Daily");
+    //             $("#frequencyModal").modal('toggle');
+    //         }, 100);
+    //     } else if (radioFrequency == "frequencyOnetimeonly") {
+    //         setTimeout(function() {
+    //             $('#edtFrequency').html("One Time Only");
+    //             $("#frequencyModal").modal('toggle');
+    //         }, 100);
+    //     } else if (radioFrequency == "frequencyOnevent") {
+    //         setTimeout(function() {
+    //             $('#edtFrequency').html("On Event");
+    //             $("#frequencyModal").modal('toggle');
+    //         }, 100);
+    //     } else {
+    //         $("#frequencyModal").modal('toggle');
+    //     }
+    // },
     'click #edtBasedOn': function() {
         $("#basedOnModal").modal('toggle');
     },
@@ -289,5 +413,8 @@ Template.emailsettings.helpers({
             return (a.code.toUpperCase() > b.code.toUpperCase()) ? 1 : -1;
             // return (a.saledate.toUpperCase() < b.saledate.toUpperCase()) ? 1 : -1;
         });
-    }
+    },
+    empSchedRec: () => {
+        return Template.instance().empSchedRec.get();
+    },
 });

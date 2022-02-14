@@ -1,11 +1,13 @@
-import {BaseService} from '../js/base-service.js';
+import {
+    BaseService
+} from '../js/base-service.js';
 
 export class TaxRateService extends BaseService {
     getTaxRate() {
         return this.GET(this.erpGet.ERPTaxCode);
     }
 
-    getOneTaxRate(id){
+    getOneTaxRate(id) {
         return this.getOneById(this.ERPObjects.ERPTaxCode, id);
     }
 
@@ -17,6 +19,22 @@ export class TaxRateService extends BaseService {
         return this.GET(this.erpGet.ERPAccountList);
     }
 
+    getScheduleSettings() {
+        let options = {
+                ListType: "Detail",
+    //        PropertyList:"BeginFromOption,ContinueIndefinitely,EmployeeId,Employeename,EndDate,Every,FormID,Frequency,GlobalRef,HolidayAction,ID,ISEmpty,KeyStringFieldName,KeyValue,LastEmaileddate,MonthDays,MsTimeStamp,MsUpdateSiteCode",
+
+            };
+            return this.getList(this.ERPObjects.TReportSchedules,options);
+        }
+      saveScheduleSettings(data) {
+      //     let options = {
+      //             ListType: "Detail",
+      // //        PropertyList:"BeginFromOption,ContinueIndefinitely,EmployeeId,Employeename,EndDate,Every,FormID,Frequency,GlobalRef,HolidayAction,ID,ISEmpty,KeyStringFieldName,KeyValue,LastEmaileddate,MonthDays,MsTimeStamp,MsUpdateSiteCode",
+      //
+      //         };
+              return this.POST(this.ERPObjects.TReportSchedules,data);
+          }
     getAssetTypes() {
         let options = {
             PropertyList: "AssetTypeName, AssetTypeCode, Notes",
@@ -33,7 +51,7 @@ export class TaxRateService extends BaseService {
         return this.getList(this.ERPObjects.TAccount, options);
     }
 
-    getAssetType(id){
+    getAssetType(id) {
         return this.getOneById(this.ERPObjects.TFixedAssetType, id);
     }
 
@@ -45,104 +63,104 @@ export class TaxRateService extends BaseService {
     //     return this.getList(this.ERPObjects.TCurrency, options);
     // }
 
-    getOneAccount(id){
-       return this.getOneById(this.ERPObjects.ERPAccount, id);
-     }
-
-     getAccountTypeDropDown() {
-       let options = {
-           PropertyList: "Description, AccountTypeName",
-       };
-       return this.getList(this.ERPObjects.ERPAccountType, options);
-     }
-
-     getTaxRateDropDown() {
-       let options = {
-           PropertyList: "CodeName",
-           select: "[Active]=true",
-       };
-       return this.getList(this.ERPObjects.TTaxCode, options);
-     }
-
-    saveTaxRate(data){
-         return this.POST(this.ERPObjects.TTaxCode, data);
+    getOneAccount(id) {
+        return this.getOneById(this.ERPObjects.ERPAccount, id);
     }
 
-    checkTaxRateByName(codeName){
-         let options = {
-             select: "[CodeName]='"+codeName+"'"
-         };
-         return this.getList(this.ERPObjects.TTaxCode, options);
+    getAccountTypeDropDown() {
+        let options = {
+            PropertyList: "Description, AccountTypeName",
+        };
+        return this.getList(this.ERPObjects.ERPAccountType, options);
     }
 
-     checkTermByName(termName){
-         let options = {
-             select: "[TermsName]='"+termName+"'"
-         };
-         return this.getList(this.ERPObjects.TTerms, options);
-     }
+    getTaxRateDropDown() {
+        let options = {
+            PropertyList: "CodeName",
+            select: "[Active]=true",
+        };
+        return this.getList(this.ERPObjects.TTaxCode, options);
+    }
 
-     getOneAccountTypeByName(AccountTypeName) {
-       let options = {
-           PropertyList: "Description, AccountTypeName",
-       };
-       return this.getList(this.ERPObjects.ERPAccountType, options);
-     }
+    saveTaxRate(data) {
+        return this.POST(this.ERPObjects.TTaxCode, data);
+    }
 
-     getExpenseAccountList() {
-         return this.GET(this.erpGet.ERPExpenseAccountList);
-     }
+    checkTaxRateByName(codeName) {
+        let options = {
+            select: "[CodeName]='" + codeName + "'"
+        };
+        return this.getList(this.ERPObjects.TTaxCode, options);
+    }
 
-     getRevenueAccountList() {
-         return this.GET(this.erpGet.ERPRevenueAccountList);
-     }
+    checkTermByName(termName) {
+        let options = {
+            select: "[TermsName]='" + termName + "'"
+        };
+        return this.getList(this.ERPObjects.TTerms, options);
+    }
 
-     getEquityAccountList() {
-         return this.GET(this.erpGet.ERPEquityAccountList);
-     }
+    getOneAccountTypeByName(AccountTypeName) {
+        let options = {
+            PropertyList: "Description, AccountTypeName",
+        };
+        return this.getList(this.ERPObjects.ERPAccountType, options);
+    }
 
-     getAssetAccountList() {
-         return this.GET(this.erpGet.ERPAssetAccountList);
-     }
+    getExpenseAccountList() {
+        return this.GET(this.erpGet.ERPExpenseAccountList);
+    }
 
-     getLiabilityAccountList() {
-         return this.GET(this.erpGet.ERPLiabilityAccountList);
-     }
-     getArchiveAccountList() {
-         return this.GET(this.erpGet.ERPArchiveAccountList);
-     }
-    getChartOfAccounts(){
+    getRevenueAccountList() {
+        return this.GET(this.erpGet.ERPRevenueAccountList);
+    }
+
+    getEquityAccountList() {
+        return this.GET(this.erpGet.ERPEquityAccountList);
+    }
+
+    getAssetAccountList() {
+        return this.GET(this.erpGet.ERPAssetAccountList);
+    }
+
+    getLiabilityAccountList() {
+        return this.GET(this.erpGet.ERPLiabilityAccountList);
+    }
+    getArchiveAccountList() {
+        return this.GET(this.erpGet.ERPArchiveAccountList);
+    }
+    getChartOfAccounts() {
         let options = {
             select: "[Active]=true",
-            ListType:"Detail"
+            ListType: "Detail"
         };
         return this.getList(this.ERPObjects.TAccount, options);
     }
-    saveAccount(data){
+    saveAccount(data) {
         return this.POST(this.ERPObjects.TAccount, data);
     }
-    saveClientTypeData(data){
+    saveClientTypeData(data) {
         return this.POST(this.ERPObjects.TClientType, data);
     }
 
-    saveAccount(data){
+    saveAccount(data) {
         return this.POST(this.ERPObjects.TAccount, data);
     }
 
-    saveDepartment(data){
+    saveDepartment(data) {
         return this.POST(this.ERPObjects.TDeptClass, data);
     }
 
-    checkDepartmentByName(deptName){
+    checkDepartmentByName(deptName) {
         let options = {
-            select: "[DeptClassName]='"+deptName+"'"
+            select: "[DeptClassName]='" + deptName + "'"
         };
         return this.getList(this.ERPObjects.TDeptClass, options);
     }
-    checkCurrency(Country){
+    checkCurrency(Country) {
         let options = {
-            PropertyList:"Code,CurrencyDesc,Currency,BuyRate,SellRate,Active,CurrencySymbol,ID",
-            select: "[Country]="+ Country
+            PropertyList: "Code,CurrencyDesc,Currency,BuyRate,SellRate,Active,CurrencySymbol,ID",
+            select: "[Country]=" + Country
         };
         return this.getList(this.ERPObjects.TCurrency, options);
     }
@@ -167,7 +185,7 @@ export class TaxRateService extends BaseService {
         return this.getList(this.ERPObjects.TClientType, options);
     }
 
-    getOneDepartment(id){
+    getOneDepartment(id) {
         return this.getOneById(this.ERPObjects.TDeptClass, id);
     }
 
@@ -187,7 +205,7 @@ export class TaxRateService extends BaseService {
         return this.getList(this.ERPObjects.TCurrencyVS1, options);
     }
 
-    getOneCurrency(id){
+    getOneCurrency(id) {
         return this.getOneById(this.ERPObjects.TCurrency, id);
     }
 
@@ -215,11 +233,11 @@ export class TaxRateService extends BaseService {
         return this.getList(this.ERPObjects.TPaymentMethodVS1, options);
     }
 
-    getOnePaymentMethod(id){
+    getOnePaymentMethod(id) {
         return this.getOneById(this.ERPObjects.TPaymentMethod, id);
     }
 
-    savePaymentMethod(data){
+    savePaymentMethod(data) {
         return this.POST(this.ERPObjects.TPaymentMethod, data);
     }
 
@@ -239,65 +257,65 @@ export class TaxRateService extends BaseService {
     }
 
     getTaxRateVS1() {
-      let options = {
-          PropertyList: "ID,CodeName,Description,LocationCategoryDesc,Rate,RegionName,Active",
-          select: "[Active]=true",
-      };
+        let options = {
+            PropertyList: "ID,CodeName,Description,LocationCategoryDesc,Rate,RegionName,Active",
+            select: "[Active]=true",
+        };
         return this.getList(this.ERPObjects.TTaxcodeVS1, options);
     }
 
-    getOneTerms(id){
+    getOneTerms(id) {
         return this.getOneById(this.ERPObjects.TTerms, id);
     }
 
-    saveTerms(data){
+    saveTerms(data) {
         return this.POST(this.ERPObjects.TTerms, data);
     }
 
-    checkPaymentMethodByName(paymentName){
+    checkPaymentMethodByName(paymentName) {
         let options = {
-            select: "[PaymentMethodName]='"+paymentName+"'"
+            select: "[PaymentMethodName]='" + paymentName + "'"
         };
         return this.getList(this.ERPObjects.TPaymentMethod, options);
     }
 
     getEmployees() {
-      let options = {
-              PropertyList: "PropertyList==ID,EmployeeName",
-              Select: "[Active]=true"
-          };
+        let options = {
+            PropertyList: "PropertyList==ID,EmployeeName",
+            Select: "[Active]=true"
+        };
         return this.getList(this.ERPObjects.TEmployee, options);
     }
 
     getBins() {
-      let options = {
-              PropertyList: "ID,BinLocation,BinNumber",
-              Select: "[Active]=true"
-          };
+        let options = {
+            PropertyList: "ID,BinLocation,BinNumber",
+            Select: "[Active]=true"
+        };
         return this.getList(this.ERPObjects.TProductBin, options);
     }
 
-    saveRoom(data){
-        return this.POST(this.ERPObjects.TProductBin,data);
+    saveRoom(data) {
+        return this.POST(this.ERPObjects.TProductBin, data);
     }
 
-    pullBackupData(data){
+    pullBackupData(data) {
         return this.POSTJsonIn('VS1_Cloud_Task/Method?Name="VS1_BackupList"', data);
     }
 
-    saveBackupData(data){
+    saveBackupData(data) {
         return this.POSTJsonIn('VS1_Cloud_Task/Method?Name="VS1_DatabaseBackup"', data);
     }
 
-    restoreBackupData(data){
+    restoreBackupData(data) {
         return this.POSTJsonIn('VS1_Cloud_Task/Method?Name="VS1_DatabaseRestore"', data);
     }
 
     getAllBackUpList() {
-      let options = {
-              // PropertyList: "PropertyList==ID,EmployeeName",
-              // Select: "[Active]=true"
-          };
+        let options = {
+            // PropertyList: "PropertyList==ID,EmployeeName",
+            // Select: "[Active]=true"
+        };
         return this.getList('VS1_Cloud_Task/Method?Name="VS1_BackupList"');
     }
 
