@@ -899,11 +899,25 @@ setTimeout(function () {
     });
   }
 
-  $('.tblInventory tbody').on( 'click', 'tr', function () {
+  // $('.tblInventory tbody').on( 'click', 'tr', function () {
+  //   var listData = $(this).closest('tr').find('.colProductID').text();
+  //   if(listData){
+  //     //FlowRouter.go('/productview?id=' + listData);
+  //     FlowRouter.go('/productview?id=' + listData);
+  //   }
+  // });
+
+  $('.tblInventory tbody').on( 'click', 'td:not(.colQuantity)', function () {
     var listData = $(this).closest('tr').find('.colProductID').text();
     if(listData){
-      //FlowRouter.go('/productview?id=' + listData);
       FlowRouter.go('/productview?id=' + listData);
+    }
+  });
+
+  $('.tblInventory tbody').on( 'click', 'td.colQuantity', function () {
+    var listData = $(this).closest('tr').find('.colProductID').text();
+    if(listData){
+      FlowRouter.go('/productview?id=' + listData+'&instock=true');
     }
   });
 
