@@ -263,7 +263,7 @@ Template.emailsettings.onRendered(function() {
                             $('#sltDayOccurence').val(empDataCurr.every);
                             $('#sltDayOfWeek').val(empDataCurr.monthDays);
                              $('#edtMonthlyStartTime').val(empDataCurr.startTime);
-                            $('#edtMonthlyStartDate').val(moment(empDataCurr.startDate).format('DD/MM/YYYY'));
+                            $('#edtMonthlyStartDate').val(empDataCurr.startDate);
                              $('#edtFrequency').text("Monthly");
                         }
 
