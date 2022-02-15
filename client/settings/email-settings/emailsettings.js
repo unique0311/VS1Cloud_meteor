@@ -17,7 +17,7 @@ Template.emailsettings.onCreated(function() {
     templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
     templateObject.countryData = new ReactiveVar();
-    templateObject.empSchedRec = new ReactiveVar([]);
+    templateObject.employeescheduledrecord = new ReactiveVar([]);
 });
 
 Template.emailsettings.onRendered(function() {
@@ -29,7 +29,7 @@ Template.emailsettings.onRendered(function() {
 
     var countryService = new CountryService();
     let countries = [];
-    let empSchedRec = [];
+    let employeeScheduledRecord = [];
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'currencyLists', function(error, result) {
         if (error) {
 
@@ -57,77 +57,256 @@ Template.emailsettings.onRendered(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+    templateObject.assignFrequency = function(frequency) {
+        if(frequency == "W") {
+            $("#frequencyWeekly").prop('checked', true);
+            $("#frequencyMonthly").prop('checked', false);
+            $("#frequencyDaily").prop('checked', false);
+            $("#frequencyOnetimeonly").prop('checked', false);
+            $("#frequencyOnevent").prop('checked', false);
+            document.getElementById("monthlySettings").style.display = "none";
+            document.getElementById("weeklySettings").style.display = "block";
+            document.getElementById("dailySettings").style.display = "none";
+            document.getElementById("oneTimeOnlySettings").style.display = "none";
+        }
 
+        if(frequency == "D") {
+            $("#frequencyDaily").prop('checked', true);
+            $("#frequencyWeekly").prop('checked', false);
+            $("#frequencyMonthly").prop('checked', false);
+            $("#frequencyOnetimeonly").prop('checked', false);
+            $("#frequencyOnevent").prop('checked', false);
+            document.getElementById("monthlySettings").style.display = "none";
+            document.getElementById("weeklySettings").style.display = "none";
+            document.getElementById("dailySettings").style.display = "block";
+            document.getElementById("oneTimeOnlySettings").style.display = "none";
+        }
+
+        if(frequency == "M") {
+            $("#frequencyMonthly").prop('checked', true);
+            $("#frequencyDaily").prop('checked', false);
+            $("#frequencyWeekly").prop('checked', false);
+            $("#frequencyOnetimeonly").prop('checked', false);
+            $("#frequencyOnevent").prop('checked', false);
+            document.getElementById("monthlySettings").style.display = "block";
+            document.getElementById("weeklySettings").style.display = "none";
+            document.getElementById("dailySettings").style.display = "none";
+            document.getElementById("oneTimeOnlySettings").style.display = "none";
+        }
+
+    }
+
+    templateObject.getDayNumber = function(day) {
+        day = day.toLowerCase();
+        if(day == ""){
+            return;
+        }
+
+        if(day == "monday") {
+            return 1;
+        }
+
+        if(day == "tuesday") {
+            return 2;
+        }
+
+        if(day == "wednesday") {
+            return 3;
+        }
+
+        if(day == "thursday") {
+            return 4;
+        }
+
+        if(day == "friday") {
+            return 5;
+        }
+
+        if(day == "saturday") {
+            return 6;
+        }
+
+        if(day == "sunday") {
+            return 7;
+        }
+
+    }
+
+    templateObject.getDayName = function(day) {
+        if(day == 1 || day == 0) {
+            $("#formCheck-monday").prop('checked', true);
+            $("#formCheck-tuesday").prop('checked', false);
+            $("#formCheck-wednesday").prop('checked', false);
+            $("#formCheck-thursday").prop('checked', false);
+            $("#formCheck-friday").prop('checked', false);
+            $("#formCheck-saturday").prop('checked', false);
+            $("#formCheck-sunday").prop('checked', false);
+        }
+
+        if(day == 2) {
+            $("#formCheck-monday").prop('checked', false);
+            $("#formCheck-tuesday").prop('checked', true);
+            $("#formCheck-wednesday").prop('checked', false);
+            $("#formCheck-thursday").prop('checked', false);
+            $("#formCheck-friday").prop('checked', false);
+            $("#formCheck-saturday").prop('checked', false);
+            $("#formCheck-sunday").prop('checked', false);
+        }
+
+        if(day == 3) {
+            $("#formCheck-monday").prop('checked', false);
+            $("#formCheck-tuesday").prop('checked', false);
+            $("#formCheck-wednesday").prop('checked', true);
+            $("#formCheck-thursday").prop('checked', false);
+            $("#formCheck-friday").prop('checked', false);
+            $("#formCheck-saturday").prop('checked', false);
+            $("#formCheck-sunday").prop('checked', false);
+        }
+
+        if(day == 4) {
+            $("#formCheck-monday").prop('checked', false);
+            $("#formCheck-tuesday").prop('checked', false);
+            $("#formCheck-wednesday").prop('checked', false);
+            $("#formCheck-thursday").prop('checked', true);
+            $("#formCheck-friday").prop('checked', false);
+            $("#formCheck-saturday").prop('checked', false);
+            $("#formCheck-sunday").prop('checked', false);
+        }
+
+        if(day == 5) {
+            $("#formCheck-monday").prop('checked', false);
+            $("#formCheck-tuesday").prop('checked', false);
+            $("#formCheck-wednesday").prop('checked', false);
+            $("#formCheck-thursday").prop('checked', false);
+            $("#formCheck-friday").prop('checked', true);
+            $("#formCheck-saturday").prop('checked', false);
+            $("#formCheck-sunday").prop('checked', false);
+        }
+
+        if(day == 6) {
+            $("#formCheck-monday").prop('checked', false);
+            $("#formCheck-tuesday").prop('checked', false);
+            $("#formCheck-wednesday").prop('checked', false);
+            $("#formCheck-thursday").prop('checked', false);
+            $("#formCheck-friday").prop('checked', false);
+            $("#formCheck-saturday").prop('checked', true);
+            $("#formCheck-sunday").prop('checked', false);
+        }
+
+        if(day == 7) {
+            $("#formCheck-monday").prop('checked', false);
+            $("#formCheck-tuesday").prop('checked', false);
+            $("#formCheck-wednesday").prop('checked', false);
+            $("#formCheck-thursday").prop('checked', false);
+            $("#formCheck-friday").prop('checked', false);
+            $("#formCheck-saturday").prop('checked', false);
+            $("#formCheck-sunday").prop('checked', true);
+        }
+
+    }
+     templateObject.assignSettings = function(setting) {
+        if(setting == "W") {
+            $("#frequencyMonthly").prop('checked', false);
+            $("#frequencyDaily").prop('checked', false);
+            $("#frequencyOnetimeonly").prop('checked', false);
+            $("#frequencyOnevent").prop('checked', false);
+            $('#frequencyWeekly').trigger('click');
+        }
+
+        if(setting == "D") {
+            $("#frequencyDaily").prop('checked', true);
+            $("#frequencyWeekly").prop('checked', false);
+            $("#frequencyMonthly").prop('checked', false);
+            $("#frequencyOnetimeonly").prop('checked', false);
+            $("#frequencyOnevent").prop('checked', false);
+        }
+
+        if(setting == "M") {
+            $("#frequencyMonthly").prop('checked', true);
+            $("#frequencyDaily").prop('checked', false);
+            $("#frequencyWeekly").prop('checked', false);
+            $("#frequencyOnetimeonly").prop('checked', false);
+            $("#frequencyOnevent").prop('checked', false);
+            $('#frequencyMonthly').trigger('click');
+        }
+
+    }
      templateObject.getScheduleInfo = function() {
         taxRateService.getScheduleSettings().then(function(data) {
           let empData = data.treportschedules;
-
-
-          // data.tReportSchedules.Every = 3;
-          // let schList =
-          // schList = "3";
-            // data.treportschedules[1]['fields']['Every'] = "4";
-
-
-            // data.treportschedules[0]['fields'].push(data);
-                  var empIDSes = Session.get('mySessionEmployeeLoggedID');
-
+                  var employeeID = Session.get('mySessionEmployeeLoggedID');
                   for (let i = 0; i < empData.length; i++) {
-
-                    if (empData[i].fields.EmployeeId == empIDSes) {
-                    // empDataCurr = empData[i].fields.Active;
-
-                    var empDataCurr = {
-                      Active: empData[i].fields.Active,
-                      BeginFromOption: empData[i].fields.BeginFromOption,
-                      EmployeeId: empData[i].fields.EmployeeId,
-                      EndDate: empData[i].fields.EndDate,
-                      Every: empData[i].fields.Every,
-                      FormID: empData[i].fields.FormID,
-                      Frequency:empData[i].fields.Frequency,
-                      ID:empData[i].fields.ID,
-                      ISEmpty: empData[i].fields.ISEmpty,
-                      MonthDays: empData[i].fields.MonthDays,
-                      NextDueDate: empData[i].fields.NextDueDate,
-                      Recno: empData[i].fields.Recno,
-                      SatAction: empData[i].fields.SatAction,
-                      StartDate: empData[i].fields.StartDate.split(' ')[0],
-                      StartTime: empData[i].fields.StartDate.split(' ')[1],
-                      SunAction: empData[i].fields.SunAction,
-                      WeekDay: empData[i].fields.WeekDay,
+                    if (empData[i].fields.EmployeeId == employeeID) {
+                        var empDataCurr = {
+                            fromdate: empData[i].fields.BeginFromOption || '',
+                            employeeid: empData[i].fields.EmployeeId || '',
+                            enddate: empData[i].fields.EndDate || '',
+                            every: empData[i].fields.Every || '',
+                            formID: empData[i].fields.FormID || '',
+                            frequency:empData[i].fields.Frequency || '',
+                            id:empData[i].fields.ID || '',
+                            monthDays: empData[i].fields.MonthDays || '',
+                            nextDueDate: empData[i].fields.NextDueDate || '',
+                            satAction: empData[i].fields.SatAction || '',
+                            startDate: empData[i].fields.StartDate.split(' ')[0] || '',
+                            startTime: empData[i].fields.StartDate.split(' ')[1] || '',
+                            sunAction: empData[i].fields.SunAction || '',
+                            weekDay: empData[i].fields.WeekDay || '',
                     };
+                    templateObject.employeescheduledrecord.set(empDataCurr);
+                       // $('#blncSheets #edtFrequency').html("Daily");
+                        $(".dailySettings").show();
+                        $('.monthlySettings').hide();
+                        templateObject.assignFrequency(empDataCurr.frequency);
+                        $('#frequencyid').val(empDataCurr.id);
+                        if(empDataCurr.frequency == "M") {
+                            $('#sltDayOccurence').val(empDataCurr.every);
+                            $('#sltDayOfWeek').val(empDataCurr.monthDays);
+                             $('#edtMonthlyStartTime').val(empDataCurr.startTime);
+                            $('#edtMonthlyStartDate').val(moment(empDataCurr.startDate).format('DD/MM/YYYY'));
+                             $('#edtFrequency').text("Monthly");
+                        }
 
-                    empSchedRec.push(empDataCurr);
-                    templateObject.empSchedRec.set(empDataCurr);
-                    console.log(empDataCurr);
-
-                    // var strtDate = empDataCurr.StartDate;
-                    // strtDate = strtDate.substr(0,11);
-                    if (empDataCurr.FormID = "139"){
-                    if (empDataCurr.Frequency = "D"){
-                     $('#blncSheets #edtFrequency').html("Daily");
-                    $("#frequencyDaily").prop('checked', true);
-                    // $("#dailyEvery").trigger('click');
-                    $("#dailyEvery").prop('checked', true);
-                    $(".dailySettings").show();
-                    $('.monthlySettings').hide();
-                    $('.dailyEveryXDays').attr('disabled', false);
-                    $('.dailyEveryXDays').val(empDataCurr.Every);
-                    setTimeout(function () {
-                      $('#edtDailyStartDate').val(empDataCurr.StartDate);
-                      $('#edtDailyStartTime').val(empDataCurr.StartTime);
-                    }, 500);
-
-                      }
-                    }
-                    }
-
-                  }
-
-          })
+                        if(empDataCurr.frequency == "W") {
+                            setTimeout(function () {
+                            $('#weeklyEveryXWeeks').val(empDataCurr.every);
+                            $('#edtWeeklyStartTime').val(empDataCurr.startTime);
+                            $('#edtWeeklyStartDate').val(empDataCurr.startDate);
+                            templateObject.getDayName(empDataCurr.weekDay);
+                            $('#edtFrequency').text("Weekly");
+                            }, 500);
+                        }
+                        
+                        if(empDataCurr.frequency == "D") {
+                            setTimeout(function () {
+                            $('#dailyEveryXDays').val(empDataCurr.every);
+                            $('#edtDailyStartTime').val(empDataCurr.startTime);
+                            $('#edtDailyStartDate').val(empDataCurr.startDate);
+                            $('#edtFrequency').text("Daily");
+                            }, 500);
+                        }
+                        $('.fullScreenSpin').css('display', 'none');
+                        
+                        // setTimeout(function () {
+                        //     $('#edtWeeklyStartTime').val(empDataCurr.StartDate);
+                        //     $('#edtWeeklyStartDate').val(empDataCurr.StartTime);
+                        // }, 500);
+                }
+            }
+        })
      }
 
      templateObject.getScheduleInfo();
+
+    //  function onlyOne(checkbox) {
+    //     var checkboxes = document.getElementsByName('chkBox')
+    //     checkboxes.forEach((item) => {
+    //         console.log(item);
+    //         if (item !== checkbox) {
+    //             item.checked = false
+    //         }
+    //     });
+    // }
 
 
     setTimeout(function() {
@@ -196,57 +375,123 @@ Template.emailsettings.onRendered(function() {
         });
 
         // $('#currencyLists').DataTable().column( 0 ).visible( true );
-        $('.fullScreenSpin').css('display', 'none');
+        // $('.fullScreenSpin').css('display', 'none');
     }, 0);
 });
 
 Template.emailsettings.events({
   'click .btnSaveFrequency': function(){
-        let taxRateService = new TaxRateService();
-alert('im a problem');
-      var startTime = $('#edtDailyStartTime').val();
-      var startDate = $('#edtDailyStartDate').val();
-      let date = startDate+' '+startTime;
-      var dayFreq = $('#dailyEveryXDays').val();
-      var empIDSes = Session.get('mySessionEmployeeLoggedID');
-      // let freqD = $(#frequencyDaily);
-      objDetails = {
+    $('.fullScreenSpin').css('display', 'inline-block');
+      let taxRateService = new TaxRateService();
+      let templateObject = Template.instance();
+      let startTime = "";
+      let startDate = "";
+      let date = "";
+      let frequency = ""
+      let every = 0;
+      let monthDays = 0;
+      let weekDay = 0;
+      let id =  $('#frequencyid').val() || '';
+      let employeeID = Session.get('mySessionEmployeeLoggedID');
+
+      if($('#frequencyMonthly').is(":checked")) {
+        startTime = $('#edtMonthlyStartTime').val();
+        startDate = moment($('#edtMonthlyStartDate').val()).format('YYYY-MM-DD');
+        every = $('#sltDayOccurence').val();
+        frequency = "M";
+        monthDays = $('#sltDayOfWeek').val();
+        date = startDate+' '+startTime;
+      }
+
+
+      if($('#frequencyWeekly').is(":checked")) {
+        startTime = $('#edtWeeklyStartTime').val();
+        startDate = moment($('#edtWeeklyStartDate').val()).format('YYYY-MM-DD');
+        every = $('#weeklyEveryXWeeks').val();
+        frequency = "W";
+        date = startDate+' '+startTime;
+
+        var checkboxes = document.querySelectorAll('.chkBoxDays');
+        checkboxes.forEach((item) => {
+            if (item.checked) {
+                weekDay = templateObject.getDayNumber(item.value);
+            }
+        });
+      }
+
+      if($('#frequencyDaily').is(":checked")) {
+        startTime = $('#edtDailyStartTime').val();
+        startDate = moment($('#edtDailyStartDate').val()).format('YYYY-MM-DD');
+        every = $('#dailyEveryXDays').val();
+        frequency = "D";
+        date = startDate+' '+startTime;
+      }
+      
+      if(id == "") {
+         objDetails = {
           type: "TReportSchedules",
           fields: {
-              Active: true,
-              BeginFromOption:"E",
-              EmployeeId:empIDSes,
-              EndDate: "2022-03-09 10:01:14",
-              Every: dayFreq,
-              Frequency:"D",
-              FormID: 139,
-              ISEmpty: false,
-              MonthDays: 0,
-              NextDueDate: "2022-02-15 00:00:00",
-              Recno: 2,
-              SatAction: "D",
+              EmployeeId:employeeID,
               StartDate: date,
-              SunAction: "A",
-              WeekDay: 0,
+              Every: every,
+              Frequency:frequency,
+              //FormID: 139,
+              MonthDays: monthDays,
+              //NextDueDate: "2022-02-15 00:00:00",
+              // SatAction: "D",
+              StartDate: date,
+              // SunAction: "A",
+              WeekDay: weekDay,
           }
       };
-      if (($('#frequencyDaily').is(':checked'))&&($('#dailyEvery').is(':checked'))) {
+      } else {
+         objDetails = {
+          type: "TReportSchedules",
+          fields: {
+              ID: id,
+              EmployeeId:employeeID,
+              StartDate: date,
+              Every: every,
+              Frequency:frequency,
+              //FormID: 139,
+              MonthDays: monthDays,
+              //NextDueDate: "2022-02-15 00:00:00",
+              // SatAction: "D",
+              StartDate: date,
+              // SunAction: "A",
+              WeekDay: weekDay,
+          }
+      };
+
+      }
+     
 
        taxRateService.saveScheduleSettings(objDetails).then(function(data) {
-         // data.tReportSchedules.Every = 3;
-         // let schList =
-         // schList = "3";
-           // data.treportschedules[0]['fields']['Every'] = "3";
-
-           console.log(data);
-           // data.treportschedules[0]['fields'].push(data);
+           Meteor._reload.reload();
          }).catch(function (err) {
-            console.log(err);
-             //Bert.alert('<strong>' + err + '</strong>!', 'danger');
-             $('.fullScreenSpin').css('display', 'none');
-         });
-       }
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+                }
+            });
+            $('.fullScreenSpin').css('display','none');
+        });
   },
+   'click .chkBoxDays': function(event){
+   var checkboxes = document.querySelectorAll('.chkBoxDays');
+        checkboxes.forEach((item) => {
+            if (item !== event.target) {
+                item.checked = false
+            }
+        });
+    },
     'click #edtFrequency': function() {
         $("#frequencyModal").modal('toggle');
     },
@@ -414,7 +659,7 @@ Template.emailsettings.helpers({
             // return (a.saledate.toUpperCase() < b.saledate.toUpperCase()) ? 1 : -1;
         });
     },
-    empSchedRec: () => {
-        return Template.instance().empSchedRec.get();
+    employeescheduledrecord: () => {
+        return Template.instance().employeescheduledrecord.get();
     },
 });
