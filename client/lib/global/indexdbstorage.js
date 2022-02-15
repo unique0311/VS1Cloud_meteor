@@ -179,7 +179,7 @@ openDb = function (dbName) {
       db.createObjectStore("TAwaitingSupplierPayment", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TCustomFieldList", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TReportSchedules", { keyPath: "EmployeeEmail" });
-
+      db.createObjectStore("TPayRun", { keyPath: "EmployeeEmail" });
     }
 
     dbReq.onerror = (event) => reject(new Error('Failed to open DB'));

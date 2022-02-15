@@ -119,7 +119,7 @@ Template.newsidenav.onCreated(function() {
 });
 Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
-    let allDataToLoad = 51;
+    let allDataToLoad = 52;
     let progressPercentage = 0;
 
     let templateObject = Template.instance();
@@ -2865,6 +2865,42 @@ Template.newsidenav.onRendered(function() {
         });
     }
 
+    templateObject.getAllPayRunData = function() {
+        sideBarService.getAllPayRunDataVS1(initialDataLoad, 0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Timesheets "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Pay Run List ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TPayRun', JSON.stringify(data));
+            $("<span class='process'>Pay Run Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+    }
+
     var job = new CronJob('00 00 00 * * *', function() {
 
     });
@@ -2930,6 +2966,23 @@ Template.newsidenav.onRendered(function() {
                     }
                 }).catch(function(err) {
                     templateObject.getAllTimeSheetData();
+                });
+
+                getVS1Data('TPayRun').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllPayRunData();
+                    } else {
+                        let getTimeStamp = dataObject[0].timestamp.split(' ');
+                        if (getTimeStamp) {
+                            if (loggedUserEventFired) {
+                                if (getTimeStamp[0] != currenctTodayDate) {
+                                    templateObject.getAllPayRunData();
+                                }
+                            }
+                        }
+                    }
+                }).catch(function(err) {
+                    templateObject.getAllPayRunData();
                 });
 
             }

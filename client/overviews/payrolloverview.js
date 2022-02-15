@@ -99,7 +99,7 @@ Template.payrolloverview.onRendered(function () {
         }, 500);
     }
 
-    /*Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
+    /*Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
         if (error) {}
         else {
             if (result) {
@@ -435,49 +435,55 @@ Template.payrolloverview.onRendered(function () {
     // setTimeout(function(){
     // templateObject.getLoggedUserData();
     // },1000);
-    templateObject.getEmployees = function () {
-        getVS1Data('TEmployee').then(function (dataObject) {
+
+    templateObject.resetData = function (dataVal) {
+        window.open('/payrolloverview?page=last', '_self');
+    }
+
+    templateObject.getPayRunHistory = function () {
+        getVS1Data('TPayRun').then(function (dataObject) {
 
             if (dataObject.length == 0) {
-                sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
-                    addVS1Data('TEmployee', JSON.stringify(data));
+                sideBarService.getAllPayRunDataVS1(initialBaseDataLoad, 0).then(function (data) {
+                    addVS1Data('TPayRun', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
-                    for (let i = 0; i < data.temployee.length; i++) {
+                    for (let i = 0; i < data.tpayrun.length; i++) {
+                      let earning = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeEarnings) || 0.00;
+                      let tax = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeTax) || 0.00;
+                      let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation) || 0.00;
+                      let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeNetPay) || 0.00;
                         var dataList = {
-                            id: data.temployee[i].fields.ID || '',
-                            employeeno: data.temployee[i].fields.EmployeeNo || '',
-                            employeename: data.temployee[i].fields.EmployeeName || '',
-                            firstname: data.temployee[i].fields.FirstName || '',
-                            lastname: data.temployee[i].fields.LastName || '',
-                            phone: data.temployee[i].fields.Phone || '',
-                            mobile: data.temployee[i].fields.Mobile || '',
-                            email: data.temployee[i].fields.Email || '',
-                            address: data.temployee[i].fields.Street || '',
-                            country: data.temployee[i].fields.Country || '',
-                            department: data.temployee[i].fields.DefaultClassName || '',
-                            custFld1: data.temployee[i].fields.CustFld1 || '',
-                            custFld2: data.temployee[i].fields.CustFld2 || '',
-                            custFld3: data.temployee[i].fields.CustFld3 || '',
-                            custFld4: data.temployee[i].fields.CustFld4 || ''
+                            id: data.tpayrun[i].fields.EmployeeID || '',
+                            atomessage: data.tpayrun[i].fields.ATOMessage || '',
+                            employeename: data.tpayrun[i].fields.EmployeeName || '',
+                            employeegroup: data.tpayrun[i].fields.PayRunDetailsEmployeeGroup || '',
+                            earning: earning || '',
+                            tax: tax || '',
+                            super: supernuation || '',
+                            netpay: netpay || '',
+                            firstname: data.tpayrun[i].fields.PayRunDetailsEmployeeFirstName || '',
+                            lastname: data.tpayrun[i].fields.PayRunDetailsEmployeeLastName || '',
+                            rundate: data.tpayrun[i].fields.RunDate != '' ? moment(data.tpayrun[i].fields.RunDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.RunDate,
+                            submitted: data.tpayrun[i].fields.Submitted || '',
+                            submitdate: data.tpayrun[i].fields.SubmittedDate != '' ? moment(data.tpayrun[i].fields.SubmittedDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.SubmittedDate,
+                            notes: data.tpayrun[i].fields.Notes || '',
+                            paysinbatch: data.tpayrun[i].fields.PaysProcessed || '',
+                            invalidated: data.tpayrun[i].fields.Invalidated || false,
+                            yearfinal: data.tpayrun[i].fields.FinancialYearFinalRun || false,
+                            complete: data.tpayrun[i].fields.Complete || false,
+                            payrundetailsemployeesuperannuation: data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation || '',
+                            payslipemployeeearnings: data.tpayrun[i].fields.PaySlipEmployeeEarnings || ''
                         };
 
-                        if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
-                            dataTableList.push(dataList);
-                            if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
-                              if(data.temployee[i].fields.CustFld8 == "false"){
-                                templateObject.includeAllProducts.set(false);
-                              }
-                            }
-                        }
-                        //}
+                        dataTableList.push(dataList);
                     }
 
                     templateObject.datatablerecords.set(dataTableList);
 
                     if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
                             if (error) {}
                             else {
                                 if (result) {
@@ -507,7 +513,7 @@ Template.payrolloverview.onRendered(function () {
                     }
 
                     setTimeout(function () {
-                        $('#tblEmployeelist').DataTable({
+                        $('#tblPayRunlist').DataTable({
 
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
@@ -515,7 +521,7 @@ Template.payrolloverview.onRendered(function () {
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "Employee List - " + moment().format(),
+                                    filename: "Pay Run History - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -525,8 +531,8 @@ Template.payrolloverview.onRendered(function () {
                                     download: 'open',
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
-                                    title: 'Employee List',
-                                    filename: "Employee List - " + moment().format(),
+                                    title: 'Pay Run History',
+                                    filename: "Pay Run History - " + moment().format(),
                                     exportOptions: {
                                         columns: ':visible',
                                         stripHtml: false
@@ -536,7 +542,7 @@ Template.payrolloverview.onRendered(function () {
                                     title: '',
                                     download: 'open',
                                     className: "btntabletoexcel hiddenColumn",
-                                    filename: "Employee List - " + moment().format(),
+                                    filename: "Pay Run History - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -555,7 +561,62 @@ Template.payrolloverview.onRendered(function () {
                             responsive: true,
                             "order": [[1, "asc"]],
                             action: function () {
-                                $('#tblEmployeelist').DataTable().ajax.reload();
+                                $('#tblPayRunlist').DataTable().ajax.reload();
+                            },
+                            "fnDrawCallback": function (oSettings) {
+                                $('#tblPayRunlist_paginate .paginate_button.page-item').removeClass('disabled');
+                                $('#tblPayRunlist_ellipsis').addClass('disabled');
+
+                                if (oSettings._iDisplayLength == -1) {
+                                    if (oSettings.fnRecordsDisplay() > 150) {
+                                        $('#tblPayRunlist_paginate .paginate_button.page-item.previous').addClass('disabled');
+                                        $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                    }
+                                } else {}
+                                if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                    $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                }
+                                $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                .on('click', function () {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    let dataLenght = oSettings._iDisplayLength;
+
+                                    sideBarService.getAllPayRunDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                        getVS1Data('TPayRun').then(function (dataObjectold) {
+                                            if (dataObjectold.length == 0) {}
+                                            else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tpayrun), dataOld.tpayrun);
+                                                let objCombineData = {
+                                                    tpayrun: thirdaryData
+                                                }
+
+                                                addVS1Data('TPayRun', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function (err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function (err) {});
+
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+
+                                });
+                                setTimeout(function () {
+                                    MakeNegative();
+                                }, 100);
+                            },
+                            "fnInitComplete": function () {
+                                let urlParametersPage = FlowRouter.current().queryParams.page;
+                                if (urlParametersPage) {
+                                    this.fnPageChange('last');
+                                }
+                                $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayRunlist_filter");
                             },
 
                         }).on('page', function () {
@@ -564,11 +625,11 @@ Template.payrolloverview.onRendered(function () {
                             templateObject.datatablerecords.set(draftRecord);
                         }).on('column-reorder', function () {});
 
-                        // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
+                        // $('#tblPayRunlist').DataTable().column( 0 ).visible( true );
                         //$('.fullScreenSpin').css('display', 'none');
                     }, 0);
 
-                    var columns = $('#tblEmployeelist th');
+                    var columns = $('#tblPayRunlist th');
                     let sTible = "";
                     let sWidth = "";
                     let sIndex = "";
@@ -594,7 +655,7 @@ Template.payrolloverview.onRendered(function () {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblEmployeelist tbody').on('click', 'tr', function () {
+                    $('#tblPayRunlist tbody').on('click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
                             FlowRouter.go('/employeescard?id=' + listData);
@@ -605,6 +666,499 @@ Template.payrolloverview.onRendered(function () {
                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                     //$('.fullScreenSpin').css('display', 'none');
                     // Meteor._reload.reload();
+                });
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.tpayrun;
+
+                let lineItems = [];
+                let lineItemObj = {};
+                for (let i = 0; i < data.tpayrun.length; i++) {
+                  let earning = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeEarnings) || 0.00;
+                  let tax = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeTax) || 0.00;
+                  let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation) || 0.00;
+                  let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeNetPay) || 0.00;
+                    var dataList = {
+                        id: data.tpayrun[i].fields.EmployeeID || '',
+                        atomessage: data.tpayrun[i].fields.ATOMessage || '',
+                        employeename: data.tpayrun[i].fields.EmployeeName || '',
+                        employeegroup: data.tpayrun[i].fields.PayRunDetailsEmployeeGroup || '',
+                        earning: earning || '',
+                        tax: tax || '',
+                        super: supernuation || '',
+                        netpay: netpay || '',
+                        firstname: data.tpayrun[i].fields.PayRunDetailsEmployeeFirstName || '',
+                        lastname: data.tpayrun[i].fields.PayRunDetailsEmployeeLastName || '',
+                        rundate: data.tpayrun[i].fields.RunDate != '' ? moment(data.tpayrun[i].fields.RunDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.RunDate,
+                        submitted: data.tpayrun[i].fields.Submitted || '',
+                        submitdate: data.tpayrun[i].fields.SubmittedDate != '' ? moment(data.tpayrun[i].fields.SubmittedDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.SubmittedDate,
+                        notes: data.tpayrun[i].fields.Notes || '',
+                        paysinbatch: data.tpayrun[i].fields.PaysProcessed || '',
+                        invalidated: data.tpayrun[i].fields.Invalidated || false,
+                        yearfinal: data.tpayrun[i].fields.FinancialYearFinalRun || false,
+                        complete: data.tpayrun[i].fields.Complete || false,
+                        payrundetailsemployeesuperannuation: data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation || '',
+                        payslipemployeeearnings: data.tpayrun[i].fields.PaySlipEmployeeEarnings || ''
+                    };
+
+                    dataTableList.push(dataList);
+                }
+
+                templateObject.datatablerecords.set(dataTableList);
+
+                if (templateObject.datatablerecords.get()) {
+
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
+                        if (error) {}
+                        else {
+                            if (result) {
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if (hiddenColumn == true) {
+
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+                }
+
+                setTimeout(function () {
+                    $('#tblPayRunlist').DataTable({
+
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [{
+                                extend: 'csvHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Pay Run History - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Pay Run History',
+                                filename: "Pay Run History - " + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible',
+                                    stripHtml: false
+                                }
+                            }, {
+                                extend: 'excelHtml5',
+                                title: '',
+                                download: 'open',
+                                className: "btntabletoexcel hiddenColumn",
+                                filename: "Pay Run History - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+
+                            }
+                        ],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        // bStateSave: true,
+                        // rowId: 0,
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
+                        info: true,
+                        responsive: true,
+                        "order": [[1, "asc"]],
+                        action: function () {
+                            $('#tblPayRunlist').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            $('#tblPayRunlist_paginate .paginate_button.page-item').removeClass('disabled');
+                            $('#tblPayRunlist_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('#tblPayRunlist_paginate .paginate_button.page-item.previous').addClass('disabled');
+                                    $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('#tblPayRunlist_paginate .page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                sideBarService.getAllPayRunDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TPayRun').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpayrun), dataOld.tpayrun);
+                                            let objCombineData = {
+                                                tpayrun: thirdaryData
+                                            }
+
+                                            addVS1Data('TPayRun', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+                        "fnInitComplete": function () {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayRunlist_filter");
+                        },
+
+                    }).on('page', function () {
+
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {});
+
+                    // $('#tblPayRunlist').DataTable().column( 0 ).visible( true );
+                    //$('.fullScreenSpin').css('display', 'none');
+                }, 0);
+
+                var columns = $('#tblPayRunlist th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function (i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
+                    }
+                    if ((v.className.includes("hiddenColumn"))) {
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblPayRunlist tbody').on('click', 'tr', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    if (listData) {
+                        FlowRouter.go('/employeescard?id=' + listData);
+                    }
+                });
+            }
+        }).catch(function (err) {
+
+            sideBarService.getAllPayRunDataVS1(initialBaseDataLoad, 0).then(function (data) {
+                addVS1Data('TPayRun', JSON.stringify(data));
+                let lineItems = [];
+                let lineItemObj = {};
+                for (let i = 0; i < data.tpayrun.length; i++) {
+                  let earning = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeEarnings) || 0.00;
+                  let tax = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeTax) || 0.00;
+                  let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation) || 0.00;
+                  let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeNetPay) || 0.00;
+                    var dataList = {
+                        id: data.tpayrun[i].fields.EmployeeID || '',
+                        atomessage: data.tpayrun[i].fields.ATOMessage || '',
+                        employeename: data.tpayrun[i].fields.EmployeeName || '',
+                        employeegroup: data.tpayrun[i].fields.PayRunDetailsEmployeeGroup || '',
+                        earning: earning || '',
+                        tax: tax || '',
+                        super: supernuation || '',
+                        netpay: netpay || '',
+                        firstname: data.tpayrun[i].fields.PayRunDetailsEmployeeFirstName || '',
+                        lastname: data.tpayrun[i].fields.PayRunDetailsEmployeeLastName || '',
+                        rundate: data.tpayrun[i].fields.RunDate != '' ? moment(data.tpayrun[i].fields.RunDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.RunDate,
+                        submitted: data.tpayrun[i].fields.Submitted || '',
+                        submitdate: data.tpayrun[i].fields.SubmittedDate != '' ? moment(data.tpayrun[i].fields.SubmittedDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.SubmittedDate,
+                        notes: data.tpayrun[i].fields.Notes || '',
+                        paysinbatch: data.tpayrun[i].fields.PaysProcessed || '',
+                        invalidated: data.tpayrun[i].fields.Invalidated || false,
+                        yearfinal: data.tpayrun[i].fields.FinancialYearFinalRun || false,
+                        complete: data.tpayrun[i].fields.Complete || false,
+                        payrundetailsemployeesuperannuation: data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation || '',
+                        payslipemployeeearnings: data.tpayrun[i].fields.PaySlipEmployeeEarnings || ''
+                    };
+
+                    dataTableList.push(dataList);
+                }
+
+                templateObject.datatablerecords.set(dataTableList);
+                if (templateObject.datatablerecords.get()) {
+
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
+                        if (error) {}
+                        else {
+                            if (result) {
+                                for (let i = 0; i < result.customFields.length; i++) {
+                                    let customcolumn = result.customFields;
+                                    let columData = customcolumn[i].label;
+                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                    let hiddenColumn = customcolumn[i].hidden;
+                                    let columnClass = columHeaderUpdate.split('.')[1];
+                                    let columnWidth = customcolumn[i].width;
+                                    let columnindex = customcolumn[i].index + 1;
+
+                                    if (hiddenColumn == true) {
+
+                                        $("." + columnClass + "").addClass('hiddenColumn');
+                                        $("." + columnClass + "").removeClass('showColumn');
+                                    } else if (hiddenColumn == false) {
+                                        $("." + columnClass + "").removeClass('hiddenColumn');
+                                        $("." + columnClass + "").addClass('showColumn');
+                                    }
+
+                                }
+                            }
+
+                        }
+                    });
+                }
+
+                setTimeout(function () {
+                    $('#tblPayRunlist').DataTable({
+
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        buttons: [{
+                                extend: 'csvHtml5',
+                                text: '',
+                                download: 'open',
+                                className: "btntabletocsv hiddenColumn",
+                                filename: "Pay Run History - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            }, {
+                                extend: 'print',
+                                download: 'open',
+                                className: "btntabletopdf hiddenColumn",
+                                text: '',
+                                title: 'Pay Run History',
+                                filename: "Pay Run History - " + moment().format(),
+                                exportOptions: {
+                                    columns: ':visible',
+                                    stripHtml: false
+                                }
+                            }, {
+                                extend: 'excelHtml5',
+                                title: '',
+                                download: 'open',
+                                className: "btntabletoexcel hiddenColumn",
+                                filename: "Pay Run History - " + moment().format(),
+                                orientation: 'portrait',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+
+                            }
+                        ],
+                        select: true,
+                        destroy: true,
+                        colReorder: true,
+                        // bStateSave: true,
+                        // rowId: 0,
+                        pageLength: initialDatatableLoad,
+                        lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
+                        info: true,
+                        responsive: true,
+                        "order": [[1, "asc"]],
+                        action: function () {
+                            $('#tblPayRunlist').DataTable().ajax.reload();
+                        },
+                        "fnDrawCallback": function (oSettings) {
+                            $('#tblPayRunlist_paginate .paginate_button.page-item').removeClass('disabled');
+                            $('#tblPayRunlist_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('#tblPayRunlist_paginate .paginate_button.page-item.previous').addClass('disabled');
+                                    $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                sideBarService.getAllPayRunDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TPayRun').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpayrun), dataOld.tpayrun);
+                                            let objCombineData = {
+                                                tpayrun: thirdaryData
+                                            }
+
+                                            addVS1Data('TPayRun', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+                        "fnInitComplete": function () {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayRunlist_filter");
+                        },
+
+                    }).on('page', function () {
+
+                        let draftRecord = templateObject.datatablerecords.get();
+                        templateObject.datatablerecords.set(draftRecord);
+                    }).on('column-reorder', function () {});
+
+                    // $('#tblPayRunlist').DataTable().column( 0 ).visible( true );
+                    //$('.fullScreenSpin').css('display', 'none');
+                }, 0);
+
+                var columns = $('#tblPayRunlist th');
+                let sTible = "";
+                let sWidth = "";
+                let sIndex = "";
+                let sVisible = "";
+                let columVisible = false;
+                let sClass = "";
+                $.each(columns, function (i, v) {
+                    if (v.hidden == false) {
+                        columVisible = true;
+                    }
+                    if ((v.className.includes("hiddenColumn"))) {
+                        columVisible = false;
+                    }
+                    sWidth = v.style.width.replace('px', "");
+                    let datatablerecordObj = {
+                        sTitle: v.innerText || '',
+                        sWidth: sWidth || '',
+                        sIndex: v.cellIndex || '',
+                        sVisible: columVisible || false,
+                        sClass: v.className || ''
+                    };
+                    tableHeaderList.push(datatablerecordObj);
+                });
+                templateObject.tableheaderrecords.set(tableHeaderList);
+                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                $('#tblPayRunlist tbody').on('click', 'tr', function () {
+                    var listData = $(this).closest('tr').attr('id');
+                    if (listData) {
+                        FlowRouter.go('/employeescard?id=' + listData);
+                    }
+                });
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                //$('.fullScreenSpin').css('display', 'none');
+                // Meteor._reload.reload();
+            });
+        });
+    }
+
+    templateObject.getPayRunHistory();
+
+    templateObject.getEmployees = function () {
+        getVS1Data('TEmployee').then(function (dataObject) {
+
+            if (dataObject.length == 0) {
+                sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
+                    addVS1Data('TEmployee', JSON.stringify(data));
+                    let lineItems = [];
+                    let lineItemObj = {};
+                    for (let i = 0; i < data.temployee.length; i++) {
+                        var dataList = {
+                            id: data.temployee[i].fields.ID || '',
+                            employeeno: data.temployee[i].fields.EmployeeNo || '',
+                            employeename: data.temployee[i].fields.EmployeeName || '',
+                            firstname: data.temployee[i].fields.FirstName || '',
+                            lastname: data.temployee[i].fields.LastName || '',
+                            phone: data.temployee[i].fields.Phone || '',
+                            mobile: data.temployee[i].fields.Mobile || '',
+                            email: data.temployee[i].fields.Email || '',
+                            address: data.temployee[i].fields.Street || '',
+                            country: data.temployee[i].fields.Country || '',
+                            department: data.temployee[i].fields.DefaultClassName || '',
+                            custFld1: data.temployee[i].fields.CustFld1 || '',
+                            custFld2: data.temployee[i].fields.CustFld2 || '',
+                            custFld3: data.temployee[i].fields.CustFld3 || '',
+                            custFld4: data.temployee[i].fields.CustFld4 || ''
+                        };
+
+                        if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
+
+                            if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
+                              if(data.temployee[i].fields.CustFld8 == "false"){
+                                templateObject.includeAllProducts.set(false);
+                              }
+                            }
+                        }
+                        //}
+                    }
+
+
+
+                }).catch(function (err) {
+
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
@@ -632,7 +1186,7 @@ Template.payrolloverview.onRendered(function () {
                     };
 
                     if (useData[i].fields.EmployeeName.replace(/\s/g, '') != '') {
-                        dataTableList.push(dataList);
+
                         if(Session.get('mySessionEmployee') == useData[i].fields.EmployeeName){
                           if(useData[i].fields.CustFld8 == "false"){
                             templateObject.includeAllProducts.set(false);
@@ -642,133 +1196,7 @@ Template.payrolloverview.onRendered(function () {
                     //}
                 }
 
-                templateObject.datatablerecords.set(dataTableList);
 
-                if (templateObject.datatablerecords.get()) {
-
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
-                        if (error) {}
-                        else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if (hiddenColumn == true) {
-
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-                }
-
-                setTimeout(function () {
-                    $('#tblEmployeelist').DataTable({
-
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Employee List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Employee List',
-                                filename: "Employee List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible',
-                                    stripHtml: false
-                                }
-                            }, {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "Employee List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-
-                            }
-                        ],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
-                        info: true,
-                        responsive: true,
-                        "order": [[1, "asc"]],
-                        action: function () {
-                            $('#tblEmployeelist').DataTable().ajax.reload();
-                        },
-
-                    }).on('page', function () {
-
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {});
-
-                    // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                    //$('.fullScreenSpin').css('display', 'none');
-                }, 0);
-
-                var columns = $('#tblEmployeelist th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function (i, v) {
-                    if (v.hidden == false) {
-                        columVisible = true;
-                    }
-                    if ((v.className.includes("hiddenColumn"))) {
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblEmployeelist tbody').on('click', 'tr', function () {
-                    var listData = $(this).closest('tr').attr('id');
-                    if (listData) {
-                        FlowRouter.go('/employeescard?id=' + listData);
-                    }
-                });
             }
         }).catch(function (err) {
             sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
@@ -795,7 +1223,7 @@ Template.payrolloverview.onRendered(function () {
                     };
 
                     if (data.temployee[i].fields.EmployeeName.replace(/\s/g, '') != '') {
-                        dataTableList.push(dataList);
+
                         if(Session.get('mySessionEmployee') == data.temployee[i].fields.EmployeeName){
                           if(data.temployee[i].fields.CustFld8 == "false"){
                             templateObject.includeAllProducts.set(false);
@@ -805,138 +1233,8 @@ Template.payrolloverview.onRendered(function () {
                     //}
                 }
 
-                templateObject.datatablerecords.set(dataTableList);
-
-                if (templateObject.datatablerecords.get()) {
-
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblEmployeelist', function (error, result) {
-                        if (error) {}
-                        else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if (hiddenColumn == true) {
-
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-                }
-
-                setTimeout(function () {
-                    $('#tblEmployeelist').DataTable({
-
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'csvHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Employee List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Employee List',
-                                filename: "Employee List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible',
-                                    stripHtml: false
-                                }
-                            }, {
-                                extend: 'excelHtml5',
-                                title: '',
-                                download: 'open',
-                                className: "btntabletoexcel hiddenColumn",
-                                filename: "Employee List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible'
-                                }
-
-                            }
-                        ],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
-                        info: true,
-                        responsive: true,
-                        "order": [[2, "asc"]],
-                        action: function () {
-                            $('#tblEmployeelist').DataTable().ajax.reload();
-                        },
-
-                    }).on('page', function () {
-
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function () {});
-
-                    // $('#tblEmployeelist').DataTable().column( 0 ).visible( true );
-                    // $('.fullScreenSpin').css('display', 'none');
-                }, 0);
-
-                var columns = $('#tblEmployeelist th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function (i, v) {
-                    if (v.hidden == false) {
-                        columVisible = true;
-                    }
-                    if ((v.className.includes("hiddenColumn"))) {
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblEmployeelist tbody').on('click', 'tr', function () {
-                    var listData = $(this).closest('tr').attr('id');
-                    if (listData) {
-                        FlowRouter.go('/employeescard?id=' + listData);
-                    }
-                });
-
             }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                //$('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
+
             });
         });
     }
@@ -1120,7 +1418,7 @@ Template.payrolloverview.onRendered(function () {
                           responsive: true,
                           "order": [[ 1, "asc" ]],
                           "fnDrawCallback": function (oSettings) {
-                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblInventoryPayrollService_paginate .paginate_button.page-item').removeClass('disabled');
                               $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
 
                               if (oSettings._iDisplayLength == -1) {
@@ -1131,7 +1429,7 @@ Template.payrolloverview.onRendered(function () {
 
                               }
                               if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                  $('.paginate_button.page-item.next').addClass('disabled');
+                                  $('#tblInventoryPayrollService_paginat .paginate_button.page-item.next').addClass('disabled');
                               }
 
                               $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -1303,7 +1601,7 @@ Template.payrolloverview.onRendered(function () {
                       responsive: true,
                       "order": [[ 1, "asc" ]],
                       "fnDrawCallback": function (oSettings) {
-                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblInventoryPayrollService_paginat .paginate_button.page-item').removeClass('disabled');
                           $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
 
                           if (oSettings._iDisplayLength == -1) {
@@ -1314,7 +1612,7 @@ Template.payrolloverview.onRendered(function () {
 
                           }
                           if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                              $('.paginate_button.page-item.next').addClass('disabled');
+                              $('#tblInventoryPayrollService_paginat .paginate_button.page-item.next').addClass('disabled');
                           }
 
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -1487,7 +1785,7 @@ Template.payrolloverview.onRendered(function () {
                     responsive: true,
                     "order": [[ 1, "asc" ]],
                     "fnDrawCallback": function (oSettings) {
-                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblInventoryPayrollService_paginat .paginate_button.page-item').removeClass('disabled');
                         $('#tblInventoryPayrollService_ellipsis').addClass('disabled');
 
                         if (oSettings._iDisplayLength == -1) {
@@ -1498,7 +1796,7 @@ Template.payrolloverview.onRendered(function () {
 
                         }
                         if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                            $('.paginate_button.page-item.next').addClass('disabled');
+                            $('#tblInventoryPayrollService_paginat .paginate_button.page-item.next').addClass('disabled');
                         }
 
                         $('.paginate_button.next:not(.disabled)', this.api().table().container())
@@ -1657,7 +1955,7 @@ Template.payrolloverview.onRendered(function () {
         }
     });
 
-    $('#tblEmployeelist tbody').on('click', 'tr', function () {
+    $('#tblPayRunlist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if (listData) {
             FlowRouter.go('/employeescard?id=' + listData);
@@ -4011,7 +4309,7 @@ Template.payrolloverview.events({
         }
     },
     'click .chkDatatable': function (event) {
-        var columns = $('#tblEmployeelist th');
+        var columns = $('#tblPayRunlist th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
         $.each(columns, function (i, v) {
@@ -4041,7 +4339,7 @@ Template.payrolloverview.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblEmployeelist'
+                    PrefName: 'tblPayRunlist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.remove({
@@ -4092,7 +4390,7 @@ Template.payrolloverview.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblEmployeelist'
+                    PrefName: 'tblPayRunlist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.update({
@@ -4103,7 +4401,7 @@ Template.payrolloverview.events({
                             username: clientUsername,
                             useremail: clientEmail,
                             PrefGroup: 'salesform',
-                            PrefName: 'tblEmployeelist',
+                            PrefName: 'tblPayRunlist',
                             published: true,
                             customFields: lineItems,
                             updatedAt: new Date()
@@ -4122,7 +4420,7 @@ Template.payrolloverview.events({
                         username: clientUsername,
                         useremail: clientEmail,
                         PrefGroup: 'salesform',
-                        PrefName: 'tblEmployeelist',
+                        PrefName: 'tblPayRunlist',
                         published: true,
                         customFields: lineItems,
                         createdAt: new Date()
@@ -4143,7 +4441,7 @@ Template.payrolloverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        var datable = $('#tblEmployeelist').DataTable();
+        var datable = $('#tblPayRunlist').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
 
@@ -4154,7 +4452,7 @@ Template.payrolloverview.events({
 
         let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
-        var datable = $('#tblEmployeelist th');
+        var datable = $('#tblPayRunlist th');
         $.each(datable, function (i, v) {
             if (v.innerText == columnDataValue) {
                 let className = v.className;
@@ -4167,7 +4465,7 @@ Template.payrolloverview.events({
     },
     'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
-        var columns = $('#tblEmployeelist th');
+        var columns = $('#tblPayRunlist th');
 
         const tableHeaderList = [];
         let sTible = "";
@@ -4444,13 +4742,13 @@ Template.payrolloverview.events({
     },
     'click .exportbtn': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblEmployeelist_wrapper .dt-buttons .btntabletocsv').click();
+        jQuery('#tblPayRunlist_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display', 'none');
 
     },
     'click .exportbtnExcel': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblEmployeelist_wrapper .dt-buttons .btntabletoexcel').click();
+        jQuery('#tblPayRunlist_wrapper .dt-buttons .btntabletoexcel').click();
         $('.fullScreenSpin').css('display', 'none');
     },
     'click .btnRefresh': function () {
@@ -4460,11 +4758,21 @@ Template.payrolloverview.events({
         sideBarService.getAllAppointmentPredList().then(function (data) {
             addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
         }).catch(function (err) {});
-        sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
-            addVS1Data('TEmployee', JSON.stringify(data)).then(function (datareturn) {
+        sideBarService.getAllPayRunDataVS1(initialBaseDataLoad, 0).then(function (data) {
+            addVS1Data('TPayRun', JSON.stringify(data)).then(function (datareturn) {
                 //window.open('/payrolloverview', '_self');
             }).catch(function (err) {
                 //window.open('/payrolloverview', '_self');
+            });
+        }).catch(function (err) {
+            //window.open('/payrolloverview', '_self');
+        });
+
+        sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
+            addVS1Data('TEmployee', JSON.stringify(data)).then(function (datareturn) {
+
+            }).catch(function (err) {
+;
             });
         }).catch(function (err) {
             //window.open('/payrolloverview', '_self');
@@ -4493,7 +4801,7 @@ Template.payrolloverview.events({
     'click .printConfirm': function (event) {
 
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblEmployeelist_wrapper .dt-buttons .btntabletopdf').click();
+        jQuery('#tblPayRunlist_wrapper .dt-buttons .btntabletopdf').click();
         $('.fullScreenSpin').css('display', 'none');
     },
     'click .templateDownload': function () {
@@ -4749,7 +5057,7 @@ Template.payrolloverview.helpers({
     salesCloudPreferenceRec: () => {
         return CloudPreference.findOne({
             userid: Session.get('mycloudLogonID'),
-            PrefName: 'tblEmployeelist'
+            PrefName: 'tblPayRunlist'
         });
     },
     loggedCompany: () => {

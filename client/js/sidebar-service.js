@@ -1338,4 +1338,21 @@ getEmpFormAccessDetail() {
     return this.getList(this.ERPObjects.TEmployeeFormAccessDetail, options);
 }
 
+getAllPayRunDataVS1(limitcount, limitfrom) {
+  let options = '';
+  if(limitcount == 'All'){
+     options = {
+      ListType: "Detail"
+     };
+  }else{
+    options = {
+     // orderby:'"ClientID desc"',
+     ListType: "Detail",
+     LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+    };
+  }
+    return this.getList(this.ERPObjects.TPayRun, options);
+}
+
 }
