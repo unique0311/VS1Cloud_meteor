@@ -377,6 +377,13 @@ Template.emailsettings.onRendered(function() {
         // $('#currencyLists').DataTable().column( 0 ).visible( true );
         // $('.fullScreenSpin').css('display', 'none');
     }, 0);
+
+
+    $(document).on("click", "#tblCustomerlist tbody tr", function (e) {
+        var tableCustomer = $(this);
+        $('#customerListModal').modal('toggle');
+        $('#edtRecipients').text(tableCustomer.find(".colEmail").text());
+    });
 });
 
 Template.emailsettings.events({
@@ -496,8 +503,11 @@ Template.emailsettings.events({
         $("#frequencyModal").modal('toggle');
     },
     'click #blncSheets #edtFrequency': function() {
-
         $("#frequencyModal").modal('toggle');
+
+    },
+    'click #edtRecipients': function() {
+        $("#customerListModal").modal('toggle');
 
     },
     'click input[name="frequencyRadio"]': function() {
