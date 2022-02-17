@@ -3232,8 +3232,6 @@ Template.payrolloverview.events({
 
         //new Date(moment($("#dtSODate").datepicker("getDate")).format("YYYY-MM-DD"));
         if (clockList.length > 0) {
-          //console.log(clockList);
-
           let getstartDatedata = clockList[clockList.length - 1].startTime.split(' ')[0] ||'';
           let dateInnitialDate = new Date(getstartDatedata);
           initialDate = new Date(getstartDatedata)||initialDate;

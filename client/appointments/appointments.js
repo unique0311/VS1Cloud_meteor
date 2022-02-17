@@ -83,16 +83,20 @@ Template.appointments.onRendered(function () {
     let prefObject = {};
     let globalSet = {};
     let launchAllocations = Session.get('CloudAppointmentAllocationLaunch');
+
     let currentId = FlowRouter.current().context.hash;
     if ((currentId === "allocationModal")) {
         setTimeout(function () {
             $('#allocationModal').modal('show');
-        }, 700);
+        }, 900);
 
-    } else if (launchAllocations == true) {
-        setTimeout(function () {
-            $('#allocationModal').modal('show');
-        }, 700);
+    } else{
+      if (launchAllocations == true) {
+
+         setTimeout(function () {
+             $('#allocationModal').modal('show');
+         }, 900);
+     }
     }
 
     if (Session.get('CloudAppointmentStartStopAccessLevel') == true) {
