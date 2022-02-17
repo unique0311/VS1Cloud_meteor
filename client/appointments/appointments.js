@@ -7321,6 +7321,16 @@ Template.appointments.events({
             if((getDate.getMonth() - 1) == -1 && dayOfWeek != 1) {
                 weekendStartListener = moment((getDate.getFullYear() -1) + '-' + "12" + '-' + dayOfWeek).format('YYYY-MM-DD');
             } else {
+                let year = getDate.getFullYear();
+                if(getDate.getMonth() == 1){
+                    let leapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+                    if(leapYear == true) {
+                       dayOfWeek = 29;
+                    } else {
+                       dayOfWeek = 28;
+                    }
+
+                }
                 weekendStartListener = moment(getDate.getFullYear() + '-' + ("0" + (getDate.getMonth() + 1)).slice(-2) + '-' + dayOfWeek).format('YYYY-MM-DD');
             }
 
