@@ -899,6 +899,24 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TTermsVS1, options);
   }
 
+  getAllowance(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Active]=true'
+        };
+    }else{
+      options = {
+        ListType: "Detail",
+        select: '[Active]=true',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    };
+    return this.getList(this.ERPObjects.TAllowance, options);
+  }
+
   getAllLeadStatus() {
     let options = {
       PropertyList: "ID,TypeName",

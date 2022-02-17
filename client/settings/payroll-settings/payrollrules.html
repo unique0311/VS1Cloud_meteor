@@ -819,6 +819,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
+                                                              <input type="hidden" class="form-control" id="edtAllowanceID" name="edtAllowanceID">
                                                                 <div class="row">
                                                                     <div class="col-12 mb-1">
                                                                         <span style="font-size: 14px;">Allowances are reported to the ATO seperately from gross payments</span>
@@ -826,52 +827,71 @@
                                                                     <div class="col-12 mb-1">
                                                                         <div class="form-group mb-0">
                                                                             <label for="edtAllowanceType">Type</label>
-                                                                            <input type="text" class="form-control" id="edtAllowanceType">
+                                                                            <input type="search" class="form-control" id="edtAllowanceType" name="edtAllowanceType">
                                                                         </div>
                                                                         <span style="font-size: 12px;">Type is used to group allowances for reporting to the ATO</span>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtEarningsNameAllowance">Earnings Name</label>
-                                                                            <input type="text" class="form-control" id="edtEarningsNameAllowance">
+                                                                            <input type="text" class="form-control" id="edtEarningsNameAllowance" name="edtEarningsNameAllowance">
+                                                                            <input type="hidden" class="form-control" id="edtExpenseAccountID" name="edtExpenseAccountID">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtDisplayNameAllowance">Display Name <span style="font-weight: 200;">(optional)</span></label>
-                                                                            <input type="text" class="form-control" id="edtDisplayNameAllowance">
+                                                                            <input type="text" class="form-control" id="edtDisplayNameAllowance" name="edtDisplayNameAllowance">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
-                                                                            <label for="edtRateTypeAllowance">Rate Type</label>
-                                                                            <input type="text" class="form-control" id="edtRateTypeAllowance">
+                                                                            <label for="edtRateTypeAllowance">Amount</label>
+                                                                            <input type="text" class="form-control" id="edtAllowanceAmount" name="edtAllowanceAmount">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountAllowance">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountAllowance">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountAllowance" name="edtExpenseAccountAllowance">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="custom-control custom-checkbox chkBox pointer">
-                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptPAYGAllowance" value="Allowance1">
+                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptPAYGAllowance" name="formCheck-ExemptPAYGAllowance" value="Allowance1">
                                                                             <label class="custom-control-label chkBox pointer" for="formCheck-ExemptPAYGAllowance">Exempt from PAYG withholding</label>
                                                                         </div>
                                                                         <div class="custom-control custom-checkbox chkBox pointer">
-                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptSuperannuationAllowance" value="Allowance2">
+                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptSuperannuationAllowance" name="formCheck-ExemptSuperannuationAllowance" value="Allowance2">
                                                                             <label class="custom-control-label chkBox pointer" for="formCheck-ExemptSuperannuationAllowance">Exempt from Superannuation Guarantee Contribution</label>
                                                                         </div>
                                                                         <div class="custom-control custom-checkbox chkBox pointer">
-                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptReportableAllowance" value="Allowance3">
+                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptReportableAllowance" name="formCheck-ExemptReportableAllowance" value="Allowance3">
                                                                             <label class="custom-control-label chkBox pointer" for="formCheck-ExemptReportableAllowance">Reportable as W1 on Activity Statement</label>
                                                                         </div>
                                                                     </div>
+
+                                                                    <!-- <div class="col-12">
+                                                                      <div class="row" style="padding: 0px 8px;">
+                                                                        <div class="col-6">
+                                                                        <div class="form-group">
+                                                                            <label for="edtAllowanceAmount">Amount</label>
+                                                                            <input type="text" class="form-control" id="edtAllowanceAmount">
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                        <div class="form-group">
+                                                                            <label for="edtBasedOn">Based On</label>
+                                                                            <input type="text" class="form-control" id="edtBasedOn" name="edtBasedOn">
+                                                                        </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div> -->
+
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success btnSaveAllowance"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1211,10 +1231,12 @@
                                                                 <th class="th colEarningsRateType" style="">Rate Type</th>
                                                                 <th class="th colEarningsRate" style="">Rate</th>
                                                                 <th class="th colEarningsAccounts" style="">Account</th>
-                                                                <th class="th colDelete" style="width: 3% !important;"></th>
+                                                                <th class="th colDelete" style="width: 3%!important;"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                          {{#if datatableallowancerecords}}
+                                                          {{#each item in datatableallowancerecords}}
                                                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                                                 <td contenteditable="false" class="colEarningsNames"></td>
                                                                 <td contenteditable="false" class="colEarningsCategory"></td>
@@ -1224,6 +1246,8 @@
                                                                 <td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>
                                                                 </td>
                                                             </tr>
+                                                          {{/each}}
+                                                          {{/if}}
                                                         </tbody>
 
                                                     </table>
@@ -2034,6 +2058,14 @@
     </div>
 
     <!-- End Help Video Modal -->
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="accountListModal">
+        {{> accountlistpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+        {{> addaccountpop}}
+    </div>
 
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModalAdd">

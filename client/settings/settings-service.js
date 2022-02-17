@@ -100,6 +100,13 @@ export class TaxRateService extends BaseService {
         return this.getList(this.ERPObjects.TTerms, options);
     }
 
+    checkAllowanceByName(earningName) {
+        let options = {
+            select: "[Description]='" + earningName + "'"
+        };
+        return this.getList(this.ERPObjects.TAllowance, options);
+    }
+
     getOneAccountTypeByName(AccountTypeName) {
         let options = {
             PropertyList: "Description, AccountTypeName",
@@ -270,6 +277,10 @@ export class TaxRateService extends BaseService {
 
     saveTerms(data) {
         return this.POST(this.ERPObjects.TTerms, data);
+    }
+
+    saveAllowance(data) {
+        return this.POST(this.ERPObjects.TAllowance, data);
     }
 
     checkPaymentMethodByName(paymentName) {

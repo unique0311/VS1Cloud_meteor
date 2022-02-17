@@ -778,12 +778,12 @@ Template.payrolloverview.onRendered(function () {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
+                        paging: true,
+                        info: true,
+                        searching: true,
+                        responsive: true,
                         pageLength: initialDatatableLoad,
                         lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
-                        info: true,
-                        responsive: true,
                         "order": [[1, "asc"]],
                         action: function () {
                             $('#tblPayRunlist').DataTable().ajax.reload();
