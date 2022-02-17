@@ -132,6 +132,79 @@ Template.emailsettings.onRendered(function() {
 
     }
 
+     templateObject.getMonths = function(startDate,endDate) {
+        let dateone = "";
+        let datetwo = "";
+        if(startDate != "") {
+            dateone = moment(startDate).format('M');
+        }
+
+        if(endDate != "") {
+            datetwo = parseInt(moment(endDate).format('M')) + 1;
+        }
+
+        if(dateone != "" && datetwo != "") {
+            for(let x=dateone; x < datetwo; x++) {
+                if(x==1) {
+                     $("#formCheck-january").prop('checked', true);
+                }
+
+                if(x==2) {
+                     $("#formCheck-february").prop('checked', true);
+                }
+
+                if(x==3) {
+                     $("#formCheck-march").prop('checked', true);
+                }
+
+                if(x==4) {
+                     $("#formCheck-april").prop('checked', true);
+                }
+
+                if(x==5) {
+                     $("#formCheck-may").prop('checked', true);
+                }
+
+                if(x==6) {
+                     $("#formCheck-june").prop('checked', true);
+                }
+
+                if(x==7) {
+                     $("#formCheck-july").prop('checked', true);
+                }
+
+                if(x==8) {
+                     $("#formCheck-august").prop('checked', true);
+                }
+
+                if(x==9) {
+                     $("#formCheck-september").prop('checked', true);
+                }
+
+                if(x==10) {
+                     $("#formCheck-october").prop('checked', true);
+                }
+
+                 if(x==11) {
+                     $("#formCheck-november").prop('checked', true);
+                }
+
+                if(x==12) {
+                     $("#formCheck-december").prop('checked', true);
+                }
+            }
+        }
+
+        if(dateone == "") {
+            $("#formCheck-january").prop('checked', true);
+        }
+
+    }
+
+
+        
+
+
     templateObject.getDayName = function(day) {
         if(day == 1 || day == 0) {
             $("#formCheck-monday").prop('checked', true);
@@ -240,7 +313,7 @@ Template.emailsettings.onRendered(function() {
                         var empDataCurr = {
                             fromdate: empData[i].fields.BeginFromOption || '',
                             employeeid: empData[i].fields.EmployeeId || '',
-                            enddate: empData[i].fields.EndDate || '',
+                            endDate: empData[i].fields.EndDate.split(' ')[0] || '' || '',
                             every: empData[i].fields.Every || '',
                             formID: empData[i].fields.FormID || '',
                             frequency:empData[i].fields.Frequency || '',
@@ -258,6 +331,7 @@ Template.emailsettings.onRendered(function() {
                         $(".dailySettings").show();
                         $('.monthlySettings').hide();
                         templateObject.assignFrequency(empDataCurr.frequency);
+                        templateObject.getMonths(empDataCurr.startDate, empDataCurr.endDate);
                         $('#frequencyid').val(empDataCurr.id);
                         if(empDataCurr.frequency == "M") {
                             $('#sltDayOccurence').val(empDataCurr.every);
@@ -293,21 +367,25 @@ Template.emailsettings.onRendered(function() {
                         // }, 500);
                 }
             }
-        })
+        }).catch(function(err){
+            swal({
+                title: 'Oooops...',
+                text: err,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Try Again'
+            }).then((result) => {
+                if (result.value) {
+                    Meteor._reload.reload();
+                } else if (result.dismiss === 'cancel') {
+                }
+            });
+            $('.fullScreenSpin').css('display','none');
+
+        });
      }
 
      templateObject.getScheduleInfo();
-
-    //  function onlyOne(checkbox) {
-    //     var checkboxes = document.getElementsByName('chkBox')
-    //     checkboxes.forEach((item) => {
-    //         console.log(item);
-    //         if (item !== checkbox) {
-    //             item.checked = false
-    //         }
-    //     });
-    // }
-
 
     setTimeout(function() {
         $('#tblAutomatedEmails').DataTable({
