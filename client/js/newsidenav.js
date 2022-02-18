@@ -2938,6 +2938,42 @@ Template.newsidenav.onRendered(function() {
         });
     }
 
+    templateObject.getAllEmployeepaysettingsData = function() {
+        sideBarService.getAllEmployeePaySettings(initialDataLoad, 0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Timesheets "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Employee Pay Settings ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TEmployeepaysettings', JSON.stringify(data));
+            $("<span class='process'>Employee Pay Settings Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+    }
+
     var job = new CronJob('00 00 00 * * *', function() {
 
     });
@@ -3038,6 +3074,23 @@ Template.newsidenav.onRendered(function() {
                     }
                 }).catch(function(err) {
                     templateObject.getAllAllowanceData();
+                });
+
+                getVS1Data('TEmployeepaysettings').then(function(dataObject) {
+                    if (dataObject.length == 0) {
+                        templateObject.getAllEmployeepaysettingsData();
+                    } else {
+                        let getTimeStamp = dataObject[0].timestamp.split(' ');
+                        if (getTimeStamp) {
+                            if (loggedUserEventFired) {
+                                if (getTimeStamp[0] != currenctTodayDate) {
+                                    templateObject.getAllEmployeepaysettingsData();
+                                }
+                            }
+                        }
+                    }
+                }).catch(function(err) {
+                    templateObject.getAllEmployeepaysettingsData();
                 });
 
             }
@@ -4598,47 +4651,22 @@ Template.newsidenav.onRendered(function() {
     if (isAppointmentLaunch) {
         if (isAppointmentScheduling) {
 
-            // templateObject.getAllEmployeeData();
-            let getTimeStamp = dataObject[0].timestamp.split(' ');
-            if (getTimeStamp) {
-                if (loggedUserEventFired) {
-                    if (getTimeStamp[0] != currenctTodayDate) {
-            sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function(data) {
-              countObjectTimes++;
-              progressPercentage = (countObjectTimes * 100) / allDataToLoad;
-              $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-              //$(".progressBarInner").text("Appointment "+Math.round(progressPercentage)+"%");
-              $(".progressBarInner").text(Math.round(progressPercentage)+"%");
-              $(".progressName").text("Appointment ");
-              if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
-                if($('.headerprogressbar').hasClass("headerprogressbarShow")){
-                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
-                }else{
-                  $('.headerprogressbar').addClass('headerprogressbarShow');
-                  $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            getVS1Data('TAppointment').then(function(dataObject) {
+                if (dataObject.length == 0) {
+                    templateObject.getAllAppointmentData();
+                } else {
+                    let getTimeStamp = dataObject[0].timestamp.split(' ');
+                    if (getTimeStamp) {
+                        if (loggedUserEventFired) {
+                            if (getTimeStamp[0] != currenctTodayDate) {
+                                templateObject.getAllAppointmentData();
+                            }
+                        }
+                    }
                 }
-
-              }else if(Math.round(progressPercentage) == 100){
-                  $('.checkmarkwrapper').removeClass("hide");
-                setTimeout(function() {
-                  if($('.headerprogressbar').hasClass("headerprogressbarShow")){
-                    $('.headerprogressbar').removeClass('headerprogressbarShow');
-                    $('.headerprogressbar').addClass('headerprogressbarHidden');
-                  }else{
-                    $('.headerprogressbar').removeClass('headerprogressbarShow');
-                    $('.headerprogressbar').addClass('headerprogressbarHidden');
-                  }
-
-                }, 1000);
-              }
-                addVS1Data('TAppointment', JSON.stringify(data));
-                $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
             }).catch(function(err) {
-
+              templateObject.getAllAppointmentData();
             });
-                }
-              }
-            };
 
             getVS1Data('TAppointmentPreferences').then(function(dataObject) {
                 if (dataObject.length == 0) {

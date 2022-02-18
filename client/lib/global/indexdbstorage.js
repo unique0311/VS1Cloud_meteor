@@ -182,6 +182,11 @@ openDb = function (dbName) {
       db.createObjectStore("TPayRun", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TAllowance", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TPayRate", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TEmployeepaysettings", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TSuperannuation", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TTerminationSimple", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TDeduction", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TLeaveRequest", { keyPath: "EmployeeEmail" });
     }
 
     dbReq.onerror = (event) => reject(new Error('Failed to open DB'));
@@ -405,19 +410,14 @@ return promise;
 }
 
 deleteStoreDatabase = async function (databaseName) {
-    //var promise =  new Promise((resolve, reject) => {
-      var req = indexedDB.deleteDatabase(databaseName);
-      req.onsuccess = function () {
+    var req = window.indexedDB.databases().then((r) => {
+            for (var i = 0; i < r.length; i++) {
+                window.indexedDB.deleteDatabase(r[i].name);
+            };
+        }).then(() => {
 
-      };
-      req.onerror = function () {
-
-      };
-      req.onblocked = function () {
-
-      };
-    //})
-    return await req;
+        });
+  return await req;
 }
 
 getStoreToDelete = async function (email) {
@@ -428,28 +428,28 @@ getStoreToDelete = async function (email) {
 }
 
 openDbCheckVersion = async function () {
-  var promise =  new Promise((resolve, reject) => {
-    var exists = false;
-    let dbReq = indexedDB.open('TDatabaseVersion', 3);
-    dbReq.onsuccess = function () {
-     resolve(exists);
+  var promiseversion =  new Promise((resolve, reject) => {
+    var versionExists = false;
+    let dbReqVersion = indexedDB.open('TDatabaseVersion', 3);
+    dbReqVersion.onsuccess = function () {
+     resolve(versionExists);
     };
-    dbReq.onupgradeneeded = function (event) {
-      let db = event.target.result;
+    dbReqVersion.onupgradeneeded = function (event) {
+      let dbVersion = event.target.result;
        if(event.oldVersion != 0){
           if(event.oldVersion != event.newVersion){
-            exists = true;
-            resolve(exists);
+            versionExists = true;
+            resolve(versionExists);
          }else{
-           exists = false;
-           resolve(exists);
+           versionExists = false;
+           resolve(versionExists);
          }
        }else{
-         exists = false;
-         resolve(exists);
+         versionExists = false;
+         resolve(versionExists);
        }
-      db.createObjectStore("TDatabaseVersion", { keyPath: "EmployeeEmail" });
+      //dbReqVersion.createObjectStore("TDatabaseVersion", { keyPath: "EmployeeEmail" });
     }
   })
-return promise;
+return promiseversion;
 }

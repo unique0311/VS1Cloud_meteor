@@ -3310,6 +3310,105 @@ Template.accessleveldup.events({
             $('.tbl_access .chkSetting' + getCheckedValue + '').val(6);
         }
     },
+    'click .employeeModules .chkSettingAccounts': function (event) {
+         if($(event.target).is(':checked')){
+           if($('.chkGlobalSettings#formCheck-Accounts').is(':checked')){
+
+          }else{
+            $('.chkGlobalSettings#formCheck-Accounts').trigger("click");
+          }
+        }
+    },
+    'click .employeeModules .chkSettingAppointments': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Appointments').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Appointments').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingEmployee': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Employee').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Employee').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingGeneral': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-General').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-General').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingInventory': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Inventory').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Inventory').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingManufacturing': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Manufacturing').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Manufacturing').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingPayments': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Payments').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Payments').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingPayroll': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Payroll').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Payroll').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingPurchases': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Purchases').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Purchases').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingSales': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Sales').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Sales').trigger("click");
+         }
+       }
+    },
+    'click .employeeModules .chkSettingShipping': function (event) {
+        if($(event.target).is(':checked')){
+          if($('.chkGlobalSettings#formCheck-Shipping').is(':checked')){
+
+         }else{
+           $('.chkGlobalSettings#formCheck-Shipping').trigger("click");
+         }
+       }
+    },
     'click .chkSettings.chkInventory': function (event) {
 
         if($(event.target).is(':checked')){

@@ -5145,5 +5145,9 @@ Template.employeescard.helpers({
         }
 
         return isMobile;
+    },
+    includePayroll: () => {
+        let isPayroll = Session.get('CloudPayrollModule') || false;
+        return isPayroll;
     }
 });

@@ -289,7 +289,9 @@
                                     <ul class="nav nav-tabs nav-fill">
 
                                         <li class="nav-item" style="cursor: pointer;"><a class="nav-link employeeTab active" role="tab" data-toggle="tab" data-target="#tab-2">Employee Details</a></li>
+                                        {{#if includePayroll}}
                                         <li class="nav-item" style="cursor: pointer;"><a class="nav-link payrollTab" role="tab" data-toggle="tab" data-target="#tab-3">Payroll</a></li>
+                                        {{/if}}
                                         <li class="nav-item" style="cursor: pointer;"><a class="nav-link transTab" role="tab" data-toggle="tab" data-target="#tab-1">Transaction List</a></li>
                                         <!-- <li class="nav-item"><a class="nav-link" role="tab" data-toggle="tab" data-target="#tab-3">Jobs / Projects</a></li> -->
                                     </ul>
