@@ -72,7 +72,7 @@ Template.payrollrules.onRendered(function() {
                       data.tallowance[i].fields.Payrolltaxexempt || false,
                       data.tallowance[i].fields.Superinc || false,
                       data.tallowance[i].fields.Workcoverexempt || false,
-                      '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                      '<td contenteditable="false" class="colDeleteAllowances"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
                   ];
 
                   splashArrayAllowanceList.push(dataListAllowance);
@@ -89,44 +89,44 @@ Template.payrollrules.onRendered(function() {
                   MakeNegative();
               }, 100);
               setTimeout(function () {
-                  $('#tblEarnings').DataTable({
+                  $('#tblAlowances').DataTable({
 
                       data: splashArrayAllowanceList,
                       "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       columnDefs: [
                           {
-                              className: "colEarningsID hiddenColumn",
+                              className: "colAlowancesID hiddenColumn",
                               "targets": [0]
                           },
                           {
-                              className: "colEarningsNames",
+                              className: "colAllowancesNames",
                               "targets": [1]
                           },  {
-                              className: "colEarningsType",
+                              className: "colAllowancesType",
                               "targets": [2]
                           }, {
-                              className: "colEarningsDsiplayName",
+                              className: "colAllowancesDisplayName",
                               "targets": [3]
                           }, {
-                              className: "colEarningsAmount  text-right",
+                              className: "colAllowancesAmount  text-right",
                               "targets": [4]
                           }, {
-                              className: "colEarningsAccounts",
+                              className: "colAllowancesAccounts",
                               "targets": [5]
                           }, {
-                              className: "colEarningsAccountsID hiddenColumn",
+                              className: "colAllowancesAccountsID hiddenColumn",
                               "targets": [6]
                           }, {
-                              className: "colEarningsPAYG hiddenColumn",
+                              className: "colAllowancesPAYG hiddenColumn",
                               "targets": [7]
                           }, {
-                              className: "colEarningsSuperannuation hiddenColumn",
+                              className: "colAllowancesSuperannuation hiddenColumn",
                               "targets": [8]
                           }, {
-                              className: "colEarningsReportableasW1 hiddenColumn",
+                              className: "colAllowancesReportableasW1 hiddenColumn",
                               "targets": [9]
                           }, {
-                              className: "colDeleteEarnings",
+                              className: "colDeleteAllowances",
                               "orderable": false,
                               "targets": -1
                           }
@@ -140,11 +140,11 @@ Template.payrollrules.onRendered(function() {
                       responsive: true,
                       "order": [[0, "asc"]],
                       action: function () {
-                          $('#tblEarnings').DataTable().ajax.reload();
+                          $('#tblAlowances').DataTable().ajax.reload();
                       },
                       "fnDrawCallback": function (oSettings) {
                           $('.paginate_button.page-item').removeClass('disabled');
-                          $('#tblEarnings_ellipsis').addClass('disabled');
+                          $('#tblAlowances_ellipsis').addClass('disabled');
                           if (oSettings._iDisplayLength == -1) {
                               if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -161,7 +161,7 @@ Template.payrollrules.onRendered(function() {
                                   $('.fullScreenSpin').css('display', 'inline-block');
                                   var splashArrayAllowanceListDupp = new Array();
                                   let dataLenght = oSettings._iDisplayLength;
-                                  let customerSearch = $('#tblEarnings_filter input').val();
+                                  let customerSearch = $('#tblAlowances_filter input').val();
 
                                   sideBarService.getAllowance(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
@@ -180,7 +180,7 @@ Template.payrollrules.onRendered(function() {
                                                     dataObjectnew.tallowance[i].fields.Payrolltaxexempt || false,
                                                     dataObjectnewdataObjectnew.tallowance[i].fields.Superinc || false,
                                                     dataObjectnew.tallowance[i].fields.Workcoverexempt || false,
-                                                    '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                                    '<td contenteditable="false" class="colDeleteAllowances"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
                                                   ];
 
                                                   splashArrayAllowanceList.push(dataListCustomerDupp);
@@ -188,12 +188,12 @@ Template.payrollrules.onRendered(function() {
                                               }
 
                                               let uniqueChars = [...new Set(splashArrayAllowanceList)];
-                                              var datatable = $('#tblEarnings').DataTable();
+                                              var datatable = $('#tblAlowances').DataTable();
                                               datatable.clear();
                                               datatable.rows.add(uniqueChars);
                                               datatable.draw(false);
                                               setTimeout(function () {
-                                                $("#tblEarnings").dataTable().fnPageChange('last');
+                                                $("#tblAlowances").dataTable().fnPageChange('last');
                                               }, 400);
 
                                               $('.fullScreenSpin').css('display', 'none');
@@ -209,8 +209,8 @@ Template.payrollrules.onRendered(function() {
                           }, 100);
                       },
                       "fnInitComplete": function () {
-                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEarnings_filter");
-                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEarnings_filter");
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
 
                       }
 
@@ -280,7 +280,7 @@ Template.payrollrules.onRendered(function() {
                   data.tallowance[i].fields.Payrolltaxexempt || false,
                   data.tallowance[i].fields.Superinc || false,
                   data.tallowance[i].fields.Workcoverexempt || false,
-                  '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                  '<td contenteditable="false" class="colDeleteAllowances"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
               ];
 
               splashArrayAllowanceList.push(dataListAllowance);
@@ -297,44 +297,44 @@ Template.payrollrules.onRendered(function() {
               MakeNegative();
           }, 100);
           setTimeout(function () {
-              $('#tblEarnings').DataTable({
+              $('#tblAlowances').DataTable({
 
                   data: splashArrayAllowanceList,
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   columnDefs: [
                       {
-                          className: "colEarningsID hiddenColumn",
+                          className: "colAlowancesID hiddenColumn",
                           "targets": [0]
                       },
                       {
-                          className: "colEarningsNames",
+                          className: "colAllowancesNames",
                           "targets": [1]
                       },  {
-                          className: "colEarningsType",
+                          className: "colAllowancesType",
                           "targets": [2]
                       }, {
-                          className: "colEarningsDsiplayName",
+                          className: "colAllowancesDisplayName",
                           "targets": [3]
                       }, {
-                          className: "colEarningsAmount  text-right",
+                          className: "colAllowancesAmount  text-right",
                           "targets": [4]
                       }, {
-                          className: "colEarningsAccounts",
+                          className: "colAllowancesAccounts",
                           "targets": [5]
                       }, {
-                          className: "colEarningsAccountsID hiddenColumn",
+                          className: "colAllowancesAccountsID hiddenColumn",
                           "targets": [6]
                       }, {
-                          className: "colEarningsPAYG hiddenColumn",
+                          className: "colAllowancesPAYG hiddenColumn",
                           "targets": [7]
                       }, {
-                          className: "colEarningsSuperannuation hiddenColumn",
+                          className: "colAllowancesSuperannuation hiddenColumn",
                           "targets": [8]
                       }, {
-                          className: "colEarningsReportableasW1 hiddenColumn",
+                          className: "colAllowancesReportableasW1 hiddenColumn",
                           "targets": [9]
                       }, {
-                          className: "colDeleteEarnings",
+                          className: "colDeleteAllowances",
                           "orderable": false,
                           "targets": -1
                       }
@@ -348,11 +348,11 @@ Template.payrollrules.onRendered(function() {
                   responsive: true,
                   "order": [[0, "asc"]],
                   action: function () {
-                      $('#tblEarnings').DataTable().ajax.reload();
+                      $('#tblAlowances').DataTable().ajax.reload();
                   },
                   "fnDrawCallback": function (oSettings) {
                       $('.paginate_button.page-item').removeClass('disabled');
-                      $('#tblEarnings_ellipsis').addClass('disabled');
+                      $('#tblAlowances_ellipsis').addClass('disabled');
                       if (oSettings._iDisplayLength == -1) {
                           if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -369,7 +369,7 @@ Template.payrollrules.onRendered(function() {
                               $('.fullScreenSpin').css('display', 'inline-block');
                               var splashArrayAllowanceListDupp = new Array();
                               let dataLenght = oSettings._iDisplayLength;
-                              let customerSearch = $('#tblEarnings_filter input').val();
+                              let customerSearch = $('#tblAlowances_filter input').val();
 
                               sideBarService.getAllowance(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
@@ -388,7 +388,7 @@ Template.payrollrules.onRendered(function() {
                                                 dataObjectnew.tallowance[i].fields.Payrolltaxexempt || false,
                                                 dataObjectnewdataObjectnew.tallowance[i].fields.Superinc || false,
                                                 dataObjectnew.tallowance[i].fields.Workcoverexempt || false,
-                                                '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                                '<td contenteditable="false" class="colDeleteAllowances"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
                                               ];
 
                                               splashArrayAllowanceList.push(dataListCustomerDupp);
@@ -396,12 +396,12 @@ Template.payrollrules.onRendered(function() {
                                           }
 
                                           let uniqueChars = [...new Set(splashArrayAllowanceList)];
-                                          var datatable = $('#tblEarnings').DataTable();
+                                          var datatable = $('#tblAlowances').DataTable();
                                           datatable.clear();
                                           datatable.rows.add(uniqueChars);
                                           datatable.draw(false);
                                           setTimeout(function () {
-                                            $("#tblEarnings").dataTable().fnPageChange('last');
+                                            $("#tblAlowances").dataTable().fnPageChange('last');
                                           }, 400);
 
                                           $('.fullScreenSpin').css('display', 'none');
@@ -417,8 +417,8 @@ Template.payrollrules.onRendered(function() {
                       }, 100);
                   },
                   "fnInitComplete": function () {
-                      $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEarnings_filter");
-                      $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEarnings_filter");
+                      $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                      $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
 
                   }
 
@@ -484,7 +484,7 @@ Template.payrollrules.onRendered(function() {
                   data.tallowance[i].fields.Payrolltaxexempt || false,
                   data.tallowance[i].fields.Superinc || false,
                   data.tallowance[i].fields.Workcoverexempt || false,
-                  '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                  '<td contenteditable="false" class="colDeleteAllowances"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
               ];
 
               splashArrayAllowanceList.push(dataListAllowance);
@@ -501,44 +501,44 @@ Template.payrollrules.onRendered(function() {
               MakeNegative();
           }, 100);
           setTimeout(function () {
-              $('#tblEarnings').DataTable({
+              $('#tblAlowances').DataTable({
 
                   data: splashArrayAllowanceList,
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                   columnDefs: [
                       {
-                          className: "colEarningsID hiddenColumn",
+                          className: "colAlowancesID hiddenColumn",
                           "targets": [0]
                       },
                       {
-                          className: "colEarningsNames",
+                          className: "colAllowancesNames",
                           "targets": [1]
                       },  {
-                          className: "colEarningsType",
+                          className: "colAllowancesType",
                           "targets": [2]
                       }, {
-                          className: "colEarningsDsiplayName",
+                          className: "colAllowancesDisplayName",
                           "targets": [3]
                       }, {
-                          className: "colEarningsAmount  text-right",
+                          className: "colAllowancesAmount  text-right",
                           "targets": [4]
                       }, {
-                          className: "colEarningsAccounts",
+                          className: "colAllowancesAccounts",
                           "targets": [5]
                       }, {
-                          className: "colEarningsAccountsID hiddenColumn",
+                          className: "colAllowancesAccountsID hiddenColumn",
                           "targets": [6]
                       }, {
-                          className: "colEarningsPAYG hiddenColumn",
+                          className: "colAllowancesPAYG hiddenColumn",
                           "targets": [7]
                       }, {
-                          className: "colEarningsSuperannuation hiddenColumn",
+                          className: "colAllowancesSuperannuation hiddenColumn",
                           "targets": [8]
                       }, {
-                          className: "colEarningsReportableasW1 hiddenColumn",
+                          className: "colAllowancesReportableasW1 hiddenColumn",
                           "targets": [9]
                       }, {
-                          className: "colDeleteEarnings",
+                          className: "colDeleteAllowances",
                           "orderable": false,
                           "targets": -1
                       }
@@ -552,11 +552,11 @@ Template.payrollrules.onRendered(function() {
                   responsive: true,
                   "order": [[0, "asc"]],
                   action: function () {
-                      $('#tblEarnings').DataTable().ajax.reload();
+                      $('#tblAlowances').DataTable().ajax.reload();
                   },
                   "fnDrawCallback": function (oSettings) {
                       $('.paginate_button.page-item').removeClass('disabled');
-                      $('#tblEarnings_ellipsis').addClass('disabled');
+                      $('#tblAlowances_ellipsis').addClass('disabled');
                       if (oSettings._iDisplayLength == -1) {
                           if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -573,7 +573,7 @@ Template.payrollrules.onRendered(function() {
                               $('.fullScreenSpin').css('display', 'inline-block');
                               var splashArrayAllowanceListDupp = new Array();
                               let dataLenght = oSettings._iDisplayLength;
-                              let customerSearch = $('#tblEarnings_filter input').val();
+                              let customerSearch = $('#tblAlowances_filter input').val();
 
                               sideBarService.getAllowance(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
@@ -592,7 +592,7 @@ Template.payrollrules.onRendered(function() {
                                                 dataObjectnew.tallowance[i].fields.Payrolltaxexempt || false,
                                                 dataObjectnewdataObjectnew.tallowance[i].fields.Superinc || false,
                                                 dataObjectnew.tallowance[i].fields.Workcoverexempt || false,
-                                                '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                                '<td contenteditable="false" class="colDeleteAllowances"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
                                               ];
 
                                               splashArrayAllowanceList.push(dataListCustomerDupp);
@@ -600,12 +600,12 @@ Template.payrollrules.onRendered(function() {
                                           }
 
                                           let uniqueChars = [...new Set(splashArrayAllowanceList)];
-                                          var datatable = $('#tblEarnings').DataTable();
+                                          var datatable = $('#tblAlowances').DataTable();
                                           datatable.clear();
                                           datatable.rows.add(uniqueChars);
                                           datatable.draw(false);
                                           setTimeout(function () {
-                                            $("#tblEarnings").dataTable().fnPageChange('last');
+                                            $("#tblAlowances").dataTable().fnPageChange('last');
                                           }, 400);
 
                                           $('.fullScreenSpin').css('display', 'none');
@@ -621,8 +621,8 @@ Template.payrollrules.onRendered(function() {
                       }, 100);
                   },
                   "fnInitComplete": function () {
-                      $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEarnings_filter");
-                      $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEarnings_filter");
+                      $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblAlowances_filter");
+                      $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblAlowances_filter");
 
                   }
 
@@ -676,18 +676,18 @@ Template.payrollrules.onRendered(function() {
   templateObject.getAllAllowance();
 
 
-  $('#tblEarnings tbody').on( 'click', 'td:not(.colDeleteEarnings)', function () {
-    var listData = $(this).closest('tr').find('.colEarningsID').text();
+  $('#tblAlowances tbody').on( 'click', 'td:not(.colDeleteAllowances)', function () {
+    var listData = $(this).closest('tr').find('.colAlowancesID').text();
     if(listData){
-      let allowanceType = $(this).closest('tr').find('.colEarningsType').text()||'';
-      let earningName = $(this).closest('tr').find('.colEarningsNames').text()||'';
-      let earningDisplayName = $(this).closest('tr').find('.colEarningsDsiplayName').text()||'';
-      let earningAmount = $(this).closest('tr').find('.colEarningsAmount').text()||'0.00';
-      let earningExpenseAccount = $(this).closest('tr').find('.colEarningsAccounts').text()||'';
-      let earningExpenseAccountID = $(this).closest('tr').find('.colEarningsAccountsID').text()||'';
-      let exemptPAYG = $(this).closest('tr').find('.colEarningsPAYG').text()||'false';
-      let exemptSupernation = $(this).closest('tr').find('.colEarningsSuperannuation').text()||'false';
-      let exemptActivityStatement = $(this).closest('tr').find('.colEarningsReportableasW1').text()||'false';
+      let allowanceType = $(this).closest('tr').find('.colAllowancesType').text()||'';
+      let earningName = $(this).closest('tr').find('.colAllowancesNames').text()||'';
+      let earningDisplayName = $(this).closest('tr').find('.colAllowancesDisplayName').text()||'';
+      let earningAmount = $(this).closest('tr').find('.colAllowancesAmount').text()||'0.00';
+      let earningExpenseAccount = $(this).closest('tr').find('.colAllowancesAccounts').text()||'';
+      let earningExpenseAccountID = $(this).closest('tr').find('.colAllowancesAccountsID').text()||'';
+      let exemptPAYG = $(this).closest('tr').find('.colAllowancesPAYG').text()||'false';
+      let exemptSupernation = $(this).closest('tr').find('.colAllowancesSuperannuation').text()||'false';
+      let exemptActivityStatement = $(this).closest('tr').find('.colAllowancesReportableasW1').text()||'false';
 
       $('#edtAllowanceID').val(listData);
       $('#edtAllowanceType').val(allowanceType);
@@ -720,8 +720,8 @@ Template.payrollrules.onRendered(function() {
     }
   });
 
-  $('#tblEarnings tbody').on( 'click', 'td.colDeleteEarnings', function () {
-    var listData = $(this).closest('tr').find('.colEarningsID').text();
+  $('#tblAlowances tbody').on( 'click', 'td.colDeleteAllowances', function () {
+    var listData = $(this).closest('tr').find('.colAlowancesID').text();
     if(listData){
       FlowRouter.go('/productview?id=' + listData+'&instock=true');
     }
@@ -1239,9 +1239,82 @@ Template.payrollrules.onRendered(function() {
         $('.fullScreenSpin').css('display', 'none');
     }, 0);
 
-    $(document).on('click', '.colDeleteEarnings', function() {
+    setTimeout(function() {
+        $('#tblEarnings').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": -1
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "taxratelist_" + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Tax Rate List',
+                filename: "taxratelist_" + moment().format(),
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsRight: 1
+            },
+            lengthMenu: [
+                [25, -1],
+                [25, "All"]
+            ],
+            // bStateSave: true,
+            // rowId: 0,
+            paging: true,
+            info: true,
+            responsive: true,
+            "order": [
+                [0, "asc"]
+            ],
+            action: function() {
+                $('#tblLeave').DataTable().ajax.reload();
+            },
+            "fnDrawCallback": function(oSettings) {
+                setTimeout(function() {
+                    MakeNegative();
+                }, 100);
+            },
+
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {
+
+        }).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+
+        // $('#currencyLists').DataTable().column( 0 ).visible( true );
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    $(document).on('click', '.colDeleteAllowances', function() {
         event.stopPropagation();
-        var targetID = $(event.target).closest('tr').find('.colEarningsID').text()||0; // table row ID
+        var targetID = $(event.target).closest('tr').find('.colAlowancesID').text()||0; // table row ID
         $('#selectDeleteLineID').val(targetID);
         $('#deleteEarningsLineModal').modal('toggle');
     });
@@ -1669,24 +1742,35 @@ Template.payrollrules.onRendered(function() {
 
 Template.payrollrules.events({
     'click #btnEarnings': function() {
+        document.getElementById("allowances").style.display = "none";
         document.getElementById("earnings").style.display = "block";
         document.getElementById("deductions").style.display = "none";
         document.getElementById("reimbursements").style.display = "none";
         document.getElementById("leave").style.display = "none";
     },
+    'click #btnAllowances': function() {
+        document.getElementById("allowances").style.display = "block";
+        document.getElementById("earnings").style.display = "none";
+        document.getElementById("deductions").style.display = "none";
+        document.getElementById("reimbursements").style.display = "none";
+        document.getElementById("leave").style.display = "none";
+    },
     'click #btnDeductions': function() {
+        document.getElementById("allowances").style.display = "none";
         document.getElementById("earnings").style.display = "none";
         document.getElementById("deductions").style.display = "block";
         document.getElementById("reimbursements").style.display = "none";
         document.getElementById("leave").style.display = "none";
     },
     'click #btnReiumbursement': function() {
+        document.getElementById("allowances").style.display = "none";
         document.getElementById("earnings").style.display = "none";
         document.getElementById("deductions").style.display = "none";
         document.getElementById("reimbursements").style.display = "block";
         document.getElementById("leave").style.display = "none";
     },
     'click #btnLeave': function() {
+        document.getElementById("allowances").style.display = "none";
         document.getElementById("earnings").style.display = "none";
         document.getElementById("deductions").style.display = "none";
         document.getElementById("reimbursements").style.display = "none";

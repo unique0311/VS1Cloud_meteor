@@ -678,14 +678,134 @@
                                     </style>
                                     <div class="row">
                                         <div class="col-12 col-md-2">
-                                            <button class="btn btn-primary btncollapse" type="button" id="btnEarnings">Earnings</button>
+                                            <button class="btn btn-primary btncollapse" type="button" id="btnAllowances">Allowance</button>
                                             <button class="btn btn-primary btncollapse" type="button" id="btnDeductions">Deductions</button>
-                                            <button class="btn btn-primary btncollapse" type="button" id="btnReiumbursement">Reimbursements</button>
+                                            <button class="btn btn-primary btncollapse" type="button" id="btnEarnings">Earnings</button>
                                             <button class="btn btn-primary btncollapse" type="button" id="btnLeave">Leave</button>
+                                            <button class="btn btn-primary btncollapse" type="button" id="btnReiumbursement">Reimbursements</button>
                                         </div>
                                         <div class="col-12 col-md-10">
+                                          <div class="" id="allowances" style="">
+                                              <div class="row mb-2">
+                                                  <div class="col-6">
+                                                      <h5 style="font-weight: 600;">Allowance</h5>
+                                                  </div>
 
-                                            <div class="" id="earnings" style="">
+                                              </div>
+                                              <div class="modal fade" id="allowanceModal" tabindex="-1" role="dialog" aria-labelledby="allowanceLabel" aria-hidden="true">
+                                                  <div class="modal-dialog modal-dialog-centered" role="document">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                              <h5 class="modal-title" id="allowanceLabel">Allowance</h5>
+                                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                  <span aria-hidden="true">&times;</span>
+                                                              </button>
+                                                          </div>
+                                                          <div class="modal-body">
+                                                            <input type="hidden" class="form-control" id="edtAllowanceID" name="edtAllowanceID">
+                                                              <div class="row">
+                                                                  <div class="col-12 mb-1">
+                                                                      <span style="font-size: 14px;">Allowances are reported to the ATO seperately from gross payments</span>
+                                                                  </div>
+                                                                  <div class="col-12 mb-1">
+                                                                      <div class="form-group mb-0">
+                                                                          <label for="edtAllowanceType">Type</label>
+                                                                          <input type="search" class="form-control" id="edtAllowanceType" name="edtAllowanceType">
+                                                                      </div>
+                                                                      <span style="font-size: 12px;">Type is used to group allowances for reporting to the ATO</span>
+                                                                  </div>
+                                                                  <div class="col-12">
+                                                                      <div class="form-group">
+                                                                          <label for="edtEarningsNameAllowance">Earnings Name</label>
+                                                                          <input type="text" class="form-control" id="edtEarningsNameAllowance" name="edtEarningsNameAllowance">
+                                                                          <input type="hidden" class="form-control" id="edtExpenseAccountID" name="edtExpenseAccountID">
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-12">
+                                                                      <div class="form-group">
+                                                                          <label for="edtDisplayNameAllowance">Display Name <span style="font-weight: 200;">(optional)</span></label>
+                                                                          <input type="text" class="form-control" id="edtDisplayNameAllowance" name="edtDisplayNameAllowance">
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-12">
+                                                                      <div class="form-group">
+                                                                          <label for="edtRateTypeAllowance">Amount</label>
+                                                                          <input type="text" class="form-control" id="edtAllowanceAmount" name="edtAllowanceAmount">
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-12">
+                                                                      <div class="form-group">
+                                                                          <label for="edtExpenseAccountAllowance">Expense Account</label>
+                                                                          <input type="text" class="form-control" id="edtExpenseAccountAllowance" name="edtExpenseAccountAllowance">
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-12">
+                                                                      <div class="custom-control custom-switch pointer">
+                                                                          <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptPAYGAllowance" name="formCheck-ExemptPAYGAllowance" value="Allowance1">
+                                                                          <label class="custom-control-label chkBox pointer" for="formCheck-ExemptPAYGAllowance">Exempt from PAYG withholding</label>
+                                                                      </div>
+                                                                      <div class="custom-control custom-switch pointer">
+                                                                          <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptSuperannuationAllowance" name="formCheck-ExemptSuperannuationAllowance" value="Allowance2">
+                                                                          <label class="custom-control-label chkBox pointer" for="formCheck-ExemptSuperannuationAllowance">Exempt from Superannuation Guarantee Contribution</label>
+                                                                      </div>
+                                                                      <div class="custom-control custom-switch pointer">
+                                                                          <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptReportableAllowance" name="formCheck-ExemptReportableAllowance" value="Allowance3">
+                                                                          <label class="custom-control-label chkBox pointer" for="formCheck-ExemptReportableAllowance">Reportable as W1 on Activity Statement</label>
+                                                                      </div>
+                                                                  </div>
+
+                                                                  <!-- <div class="col-12">
+                                                                    <div class="row" style="padding: 0px 8px;">
+                                                                      <div class="col-6">
+                                                                      <div class="form-group">
+                                                                          <label for="edtAllowanceAmount">Amount</label>
+                                                                          <input type="text" class="form-control" id="edtAllowanceAmount">
+                                                                      </div>
+                                                                      </div>
+                                                                      <div class="col-6">
+                                                                      <div class="form-group">
+                                                                          <label for="edtBasedOn">Based On</label>
+                                                                          <input type="text" class="form-control" id="edtBasedOn" name="edtBasedOn">
+                                                                      </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div> -->
+
+                                                              </div>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <button type="button" class="btn btn-success btnSaveAllowance"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="table-responsive">
+                                                  <table id="tblAlowances" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblAlowances">
+                                                      <thead>
+                                                          <tr class="dnd-moved">
+                                                              <th class="th colAllowancesID hiddenColumn" style="">Allowance ID</th>
+                                                              <th class="th colAlowancesNames" style="width: 200px;">Allowance Name</th>
+                                                              <th class="th colAllowancesType" style="width: 80px;">Allowance Type</th>
+                                                              <th class="th colAllowancesDisplayName" style="">Display name</th>
+                                                              <th class="th colAllowancesAmount" style="width: 80px;">Amount</th>
+                                                              <th class="th colAllowancesAccounts" style="">Account</th>
+                                                              <th class="th colAllowancesAccountsID hiddenColumn" style="">Account ID</th>
+                                                              <th class="th colAllowancesPAYG hiddenColumn" style="">PAYG withholding</th>
+                                                              <th class="th colAllowancesSuperannuation hiddenColumn" style="">Superannuation Guarantee Contribution</th>
+                                                              <th class="th colAllowancesReportableasW1 hiddenColumn" style="">Reportable as W1</th>
+                                                              <th class="th colDeleteAllowances" style="width: 20px!important;"></th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+
+                                                      </tbody>
+
+                                                  </table>
+                                              </div>
+                                          </div>
+                                            <div class="" id="earnings" style="display: none;">
                                                 <div class="row mb-2">
                                                     <div class="col-6">
                                                         <h5 style="font-weight: 600;">Earnings</h5>
@@ -698,7 +818,6 @@
                                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                                                 <a class="dropdown-item pointer" data-toggle="modal" data-target="#ordinaryTimeEarningsModal">Ordinary Time Earnings</a>
                                                                 <a class="dropdown-item pointer" data-toggle="modal" data-target="#overtimeEarningsModal">Overtime Earnings</a>
-                                                                <a class="dropdown-item pointer" data-toggle="modal" data-target="#allowanceModal">Allowance</a>
                                                                 <a class="dropdown-item pointer" data-toggle="modal" data-target="#employmentTermninationPaymentsModal">Employment Termnination Payments</a>
                                                                 <a class="dropdown-item pointer" data-toggle="modal" data-target="#lumpSumEModal">Lump Sum E</a>
                                                                 <a class="dropdown-item pointer" data-toggle="modal" data-target="#bonusesCommissionsModal">Bonuses & Commissions</a>
@@ -821,95 +940,6 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="modal fade" id="allowanceModal" tabindex="-1" role="dialog" aria-labelledby="allowanceLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="allowanceLabel">Allowance</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                              <input type="hidden" class="form-control" id="edtAllowanceID" name="edtAllowanceID">
-                                                                <div class="row">
-                                                                    <div class="col-12 mb-1">
-                                                                        <span style="font-size: 14px;">Allowances are reported to the ATO seperately from gross payments</span>
-                                                                    </div>
-                                                                    <div class="col-12 mb-1">
-                                                                        <div class="form-group mb-0">
-                                                                            <label for="edtAllowanceType">Type</label>
-                                                                            <input type="search" class="form-control" id="edtAllowanceType" name="edtAllowanceType">
-                                                                        </div>
-                                                                        <span style="font-size: 12px;">Type is used to group allowances for reporting to the ATO</span>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <label for="edtEarningsNameAllowance">Earnings Name</label>
-                                                                            <input type="text" class="form-control" id="edtEarningsNameAllowance" name="edtEarningsNameAllowance">
-                                                                            <input type="hidden" class="form-control" id="edtExpenseAccountID" name="edtExpenseAccountID">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <label for="edtDisplayNameAllowance">Display Name <span style="font-weight: 200;">(optional)</span></label>
-                                                                            <input type="text" class="form-control" id="edtDisplayNameAllowance" name="edtDisplayNameAllowance">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <label for="edtRateTypeAllowance">Amount</label>
-                                                                            <input type="text" class="form-control" id="edtAllowanceAmount" name="edtAllowanceAmount">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <div class="form-group">
-                                                                            <label for="edtExpenseAccountAllowance">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountAllowance" name="edtExpenseAccountAllowance">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <div class="custom-control custom-switch pointer">
-                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptPAYGAllowance" name="formCheck-ExemptPAYGAllowance" value="Allowance1">
-                                                                            <label class="custom-control-label chkBox pointer" for="formCheck-ExemptPAYGAllowance">Exempt from PAYG withholding</label>
-                                                                        </div>
-                                                                        <div class="custom-control custom-switch pointer">
-                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptSuperannuationAllowance" name="formCheck-ExemptSuperannuationAllowance" value="Allowance2">
-                                                                            <label class="custom-control-label chkBox pointer" for="formCheck-ExemptSuperannuationAllowance">Exempt from Superannuation Guarantee Contribution</label>
-                                                                        </div>
-                                                                        <div class="custom-control custom-switch pointer">
-                                                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-ExemptReportableAllowance" name="formCheck-ExemptReportableAllowance" value="Allowance3">
-                                                                            <label class="custom-control-label chkBox pointer" for="formCheck-ExemptReportableAllowance">Reportable as W1 on Activity Statement</label>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- <div class="col-12">
-                                                                      <div class="row" style="padding: 0px 8px;">
-                                                                        <div class="col-6">
-                                                                        <div class="form-group">
-                                                                            <label for="edtAllowanceAmount">Amount</label>
-                                                                            <input type="text" class="form-control" id="edtAllowanceAmount">
-                                                                        </div>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                        <div class="form-group">
-                                                                            <label for="edtBasedOn">Based On</label>
-                                                                            <input type="text" class="form-control" id="edtBasedOn" name="edtBasedOn">
-                                                                        </div>
-                                                                        </div>
-                                                                      </div>
-                                                                    </div> -->
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success btnSaveAllowance"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1248,7 +1278,7 @@
                                                                 <th class="th colEarningsID hiddenColumn" style="">Earning ID</th>
                                                                 <th class="th colEarningsNames" style="width: 200px;">Earnings Name</th>
                                                                 <th class="th colEarningsType" style="width: 80px;">Earnings Type</th>
-                                                                <th class="th colEarningsDsiplayName" style="">Display name</th>
+                                                                <th class="th colEarningsDisplayName" style="">Display name</th>
                                                                 <th class="th colEarningsAmount" style="width: 80px;">Amount</th>
                                                                 <th class="th colEarningsAccounts" style="">Account</th>
                                                                 <th class="th colEarningsAccountsID hiddenColumn" style="">Account ID</th>
@@ -1795,11 +1825,14 @@
                                                         vertical-align: top;
                                                     }
 
-                                                    .colDeleteEarnings{
+                                                    .colDeleteAllowances,.colDeleteEarnings{
                                                       width: 3%!important;
                                                     }
-                                                    .colEarningsAmount{
+                                                    .colAllowancesAmount,.colEarningsAmount{
                                                       width:12%!important;
+                                                    }
+                                                    .colAllowancesType,{
+                                                      width:16%!important;
                                                     }
                                                     .colEarningsType{
                                                       width:14%!important;
