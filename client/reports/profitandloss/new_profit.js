@@ -316,6 +316,7 @@ if (moment().quarter() == 4) {
                     templateObject.recordslayout.set(groupsprofitloss);
                     templateObject.records.set(records);
                     if (templateObject.records.get()) {
+                      console.log(records);
                         setTimeout(function () {
                             $('td a').each(function () {
                                 if ($(this).text().indexOf('-' + Currency) >= 0) {
@@ -334,13 +335,18 @@ if (moment().quarter() == 4) {
                         }, 100);
 
                         setTimeout(function(){
+                          var currentIndex;
                             $(".sortableAccountParent").sortable({
                             revert: true,
                             cancel: ".undraggableDate,.accdate,.edtInfo"
                         });
                         $(".sortableAccount").sortable({
                             revert: true,
-                            handle: ".avoid"
+                            handle: ".avoid",
+                            start: function(event, ui) {
+                                currentIndex = ui.helper.index();
+                              },
+
                         });
                         $(".draggable").draggable({
                             connectToSortable: ".sortableAccount",
@@ -484,6 +490,7 @@ if (moment().quarter() == 4) {
     //Dragable items in edit layout screen
     //This works now: break at your own peril
     setTimeout(function(){
+
         $(".sortableAccountParent").sortable({
         revert: true,
         cancel: ".undraggableDate,.accdate,.edtInfo"
@@ -498,6 +505,28 @@ if (moment().quarter() == 4) {
         revert: "true"
     });
   },1500);
+/*
+  setTimeout(function(){
+
+  $(".dragTable").sortable({
+      revert: true,
+       // cancel: ".tblAvoid"
+  });
+  $(".tblGroupAcc").sortable({
+      revert: true,
+     handle: ".tblAvoid"
+  });
+  $(".tblIndIvAcc").draggable({
+      connectToSortable: ".tblGroupAcc",
+      helper: "none",
+      revert: "true"
+  });
+$('.tblAvoid').each(function(){
+  $('.dragTable').append(<tbody class = "tblGroupAcc"></tbody>);
+});
+  $('.tblAvoid').nextAll('.tblIndIvAcc').css('background', 'red');
+},3500);
+*/
 
     //    $( "ul, li" ).disableSelection();
     //Dragable items in edit layout screen end
@@ -508,17 +537,17 @@ if (moment().quarter() == 4) {
   },6000);
  setTimeout(function(){$('.pnlTable').show();},6000);
     /*Visual hide end*/
-            var eLayScreenArr = [];
-            var pnlTblArr = [];
-            var tbv1 = $('.fgrtotalName').length;
-            var tbv2 = $('.avoid').length;
-            for (let i = 0; i < tbv1; i++) {
-                eLayScreenArr.push(i);
-            }
-            for (let k = 0; k < tbv2; k++) {
-
-                pnlTblArr.push(k);
-            }
+            // var eLayScreenArr = [];
+            // var pnlTblArr = [];
+            // var tbv1 = $('.fgrtotalName').length;
+            // var tbv2 = $('.avoid').length;
+            // for (let i = 0; i < tbv1; i++) {
+            //     eLayScreenArr.push(i);
+            // }
+            // for (let k = 0; k < tbv2; k++) {
+            //
+            //     pnlTblArr.push(k);
+            // }
 
 //            const sortArray = (eLayScreenArr, pnlTblArr) => {
 //                pnlTblArr.sort((a, b) => {
@@ -528,7 +557,7 @@ if (moment().quarter() == 4) {
 //                });
 //            };
 //            sortArray(eLayScreenArr, pnlTblArr);
-      
+
 });
 
 
@@ -1477,22 +1506,22 @@ Template.newprofitandloss.events({
         $('.newDateColumnTab').show();
                 $('.btnRowAccounts,.btnRowCustom').hide();
     },
-      'click .btnPageBreak':function(event){
-          $('.sortableAccountParent').append('<div class="sortableAccount pageBreakBar"><div class="draggable" id="pgBreak1"><label class="col-12 dragAcc" style=" text-align: center; background-color:#00a3d3; border-color: #00a3d3;color:#fff;">Page break (row)</label></div></div>');
-    $(".sortableAccountParent").sortable({
-        revert: true,
-        cancel: ".undraggableDate,.accdate,.edtInfo"
-    });
-    $(".sortableAccount").sortable({
-        revert: true,
-        handle: ".avoid"
-    });
-    $(".draggable").draggable({
-        connectToSortable: ".sortableAccount",
-        helper: "none",
-        revert: "true"
-    });
-      },
+    //   'click .btnPageBreak':function(event){
+    //       $('.sortableAccountParent').append('<div class="sortableAccount pageBreakBar"><div class="draggable" id="pgBreak1"><label class="col-12 dragAcc" style=" text-align: center; background-color:#00a3d3; border-color: #00a3d3;color:#fff;">Page break (row)</label></div></div>');
+    // $(".sortableAccountParent").sortable({
+    //     revert: true,
+    //     cancel: ".undraggableDate,.accdate,.edtInfo"
+    // });
+    // $(".sortableAccount").sortable({
+    //     revert: true,
+    //     handle: ".avoid"
+    // });
+    // $(".draggable").draggable({
+    //     connectToSortable: ".sortableAccount",
+    //     helper: "none",
+    //     revert: "true"
+    // });
+    //   },
     'click .btnDelSelected':function(event){
         $('.currSelectedItem:nth-child(n)').remove();
       }
@@ -1550,4 +1579,10 @@ Template.registerHelper('containsequals', function (a, b) {
       chechTotal = true;
     }
     return chechTotal;
+});
+
+Template.registerHelper('shortDate', function (a) {
+  let dateIn = a;
+  let dateOut =  moment(dateIn,'DD/MM/YYYY').format('MMM YYYY');
+    return dateOut;
 });
