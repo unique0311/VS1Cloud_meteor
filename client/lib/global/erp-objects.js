@@ -192,7 +192,8 @@ ERPObjects = function () {
         TLeavetypes: "TLeavetypes",
         TEmployeepaysettings: "TEmployeepaysettings",
         TPayRun: "TPayRun",
-        TPaybase: "TPaybase"
+        TPaybase: "TPaybase",
+        TPayRate: "TPayRate"
     }
     return objects;
 }

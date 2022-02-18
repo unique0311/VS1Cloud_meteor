@@ -23,6 +23,7 @@ Template.payrollrules.onRendered(function() {
     let taxRateService = new TaxRateService();
     const dataTableList = [];
     const tableHeaderList = [];
+    var splashArrayAllowanceList = new Array();
 
     var countryService = new CountryService();
     let countries = [];
@@ -46,9 +47,218 @@ Template.payrollrules.onRendered(function() {
         });
     };
 
+    templateObject.resetData = function (dataVal) {
+        location.reload();
+    }
+
+    templateObject.getAllAllowance = function() {
     getVS1Data('TAllowance').then(function(dataObject) {
         if (dataObject.length == 0) {
+          sideBarService.getAllowance(initialBaseDataLoad, 0).then(function (data) {
+              addVS1Data('TAllowance', JSON.stringify(data));
+              let lineItems = [];
+              let lineItemObj = {};
+              for (let i = 0; i < data.tallowance.length; i++) {
+                  let allowanceAmount = utilityService.modifynegativeCurrencyFormat(data.tallowance[i].fields.Amount) || 0.00;
 
+                  var dataListAllowance = [
+                      data.tallowance[i].fields.ID || 0,
+                      data.tallowance[i].fields.Description || '-',
+                      data.tallowance[i].fields.AllowanceType || '',
+                      data.tallowance[i].fields.DisplayIn || '',
+                      allowanceAmount || 0.00,
+                      data.tallowance[i].fields.Accountname || '',
+                      data.tallowance[i].fields.Accountid || 0,
+                      data.tallowance[i].fields.Payrolltaxexempt || false,
+                      data.tallowance[i].fields.Superinc || false,
+                      data.tallowance[i].fields.Workcoverexempt || false,
+                      '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                  ];
+
+                  splashArrayAllowanceList.push(dataListAllowance);
+              }
+
+              function MakeNegative() {
+                  $('td').each(function () {
+                      if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                  });
+              };
+
+
+              setTimeout(function () {
+                  MakeNegative();
+              }, 100);
+              setTimeout(function () {
+                  $('#tblEarnings').DataTable({
+
+                      data: splashArrayAllowanceList,
+                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      columnDefs: [
+                          {
+                              className: "colEarningsID hiddenColumn",
+                              "targets": [0]
+                          },
+                          {
+                              className: "colEarningsNames",
+                              "targets": [1]
+                          },  {
+                              className: "colEarningsType",
+                              "targets": [2]
+                          }, {
+                              className: "colEarningsDsiplayName",
+                              "targets": [3]
+                          }, {
+                              className: "colEarningsAmount  text-right",
+                              "targets": [4]
+                          }, {
+                              className: "colEarningsAccounts",
+                              "targets": [5]
+                          }, {
+                              className: "colEarningsAccountsID hiddenColumn",
+                              "targets": [6]
+                          }, {
+                              className: "colEarningsPAYG hiddenColumn",
+                              "targets": [7]
+                          }, {
+                              className: "colEarningsSuperannuation hiddenColumn",
+                              "targets": [8]
+                          }, {
+                              className: "colEarningsReportableasW1 hiddenColumn",
+                              "targets": [9]
+                          }, {
+                              className: "colDeleteEarnings",
+                              "orderable": false,
+                              "targets": -1
+                          }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      pageLength: initialDatatableLoad,
+                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      info: true,
+                      responsive: true,
+                      "order": [[0, "asc"]],
+                      action: function () {
+                          $('#tblEarnings').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblEarnings_ellipsis').addClass('disabled');
+                          if (oSettings._iDisplayLength == -1) {
+                              if (oSettings.fnRecordsDisplay() > 150) {
+
+                              }
+                          } else {
+
+                          }
+                          if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  var splashArrayAllowanceListDupp = new Array();
+                                  let dataLenght = oSettings._iDisplayLength;
+                                  let customerSearch = $('#tblEarnings_filter input').val();
+
+                                  sideBarService.getAllowance(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                              for (let j = 0; j < dataObjectnew.tallowance.length; j++) {
+
+                                                  let allowanceAmount = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tallowance[j].fields.Amount) || 0.00;
+
+                                                  var dataListCustomerDupp = [
+                                                    dataObjectnewdataObjectnew.tallowance[i].fields.ID || 0,
+                                                    dataObjectnew.tallowance[i].fields.Description || '-',
+                                                    dataObjectnew.tallowance[i].fields.AllowanceType || '',
+                                                    dataObjectnew.tallowance[i].fields.DisplayIn || '',
+                                                    allowanceAmount || 0.00,
+                                                    dataObjectnew.tallowance[i].fields.Accountname || '',
+                                                    dataObjectnew.tallowance[i].fields.Accountid || 0,
+                                                    dataObjectnew.tallowance[i].fields.Payrolltaxexempt || false,
+                                                    dataObjectnewdataObjectnew.tallowance[i].fields.Superinc || false,
+                                                    dataObjectnew.tallowance[i].fields.Workcoverexempt || false,
+                                                    '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                                  ];
+
+                                                  splashArrayAllowanceList.push(dataListCustomerDupp);
+                                                  //}
+                                              }
+
+                                              let uniqueChars = [...new Set(splashArrayAllowanceList)];
+                                              var datatable = $('#tblEarnings').DataTable();
+                                              datatable.clear();
+                                              datatable.rows.add(uniqueChars);
+                                              datatable.draw(false);
+                                              setTimeout(function () {
+                                                $("#tblEarnings").dataTable().fnPageChange('last');
+                                              }, 400);
+
+                                              $('.fullScreenSpin').css('display', 'none');
+
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+
+                              });
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                          $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEarnings_filter");
+                          $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEarnings_filter");
+
+                      }
+
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+
+                  }).on('column-reorder', function () {
+
+                  }).on('length.dt', function (e, settings, len) {
+                    //$('.fullScreenSpin').css('display', 'inline-block');
+                    let dataLenght = settings._iDisplayLength;
+                    splashArrayAllowanceList = [];
+                    if (dataLenght == -1) {
+                      $('.fullScreenSpin').css('display', 'none');
+
+                    } else {
+                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        } else {
+                            sideBarService.getAllowance(dataLenght, 0).then(function (dataNonBo) {
+
+                                addVS1Data('TAllowance', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    templateObject.resetData(dataNonBo);
+                                    $('.fullScreenSpin').css('display', 'none');
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }
+                    }
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+
+
+              }, 0);
+
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+            $('.fullScreenSpin').css('display', 'none');
+          });
         }else{
 
           let data = JSON.parse(dataObject[0].data);
@@ -56,82 +266,79 @@ Template.payrollrules.onRendered(function() {
           let useData = data;
           let lineItems = [];
           let lineItemObj = {};
-          console.log(data);
-          /*for (let i = 0; i < data.tallowance.length; i++) {
-              let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tallowance[i].fields.TotalAmount) || 0.00;
-              let totalTax = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalTax) || 0.00;
-              // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-              let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
-              let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
-              let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
-              var dataList = {
-                  id: data.tinvoiceex[i].fields.ID || '',
-                  earningname: data.tinvoiceex[i].fields.EmployeeName || '',
-                  earningcategory: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("YYYY/MM/DD") : data.tinvoiceex[i].fields.SaleDate,
-                  earningtype: data.tinvoiceex[i].fields.SaleDate != '' ? moment(data.tinvoiceex[i].fields.SaleDate).format("DD/MM/YYYY") : data.tinvoiceex[i].fields.SaleDate,
-                  customername: data.tinvoiceex[i].fields.CustomerName || '',
-                  totalamountex: totalAmountEx || 0.00,
-                  totaltax: totalTax || 0.00,
-                  totalamount: totalAmount || 0.00,
-                  totalpaid: totalPaid || 0.00,
-                  totaloustanding: totalOutstanding || 0.00,
-                  salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
-                  custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
-                  custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
-                  comments: data.tinvoiceex[i].fields.Comments || '',
-                  // shipdate:data.tinvoiceex[i].fields.ShipDate !=''? moment(data.tinvoiceex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tinvoiceex[i].fields.ShipDate,
+          for (let i = 0; i < data.tallowance.length; i++) {
+              let allowanceAmount = utilityService.modifynegativeCurrencyFormat(data.tallowance[i].fields.Amount) || 0.00;
 
-              };
+              var dataListAllowance = [
+                  data.tallowance[i].fields.ID || 0,
+                  data.tallowance[i].fields.Description || '-',
+                  data.tallowance[i].fields.AllowanceType || '',
+                  data.tallowance[i].fields.DisplayIn || '',
+                  allowanceAmount || 0.00,
+                  data.tallowance[i].fields.Accountname || '',
+                  data.tallowance[i].fields.Accountid || 0,
+                  data.tallowance[i].fields.Payrolltaxexempt || false,
+                  data.tallowance[i].fields.Superinc || false,
+                  data.tallowance[i].fields.Workcoverexempt || false,
+                  '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+              ];
 
-              if (data.tinvoiceex[i].fields.Deleted == false && data.tinvoiceex[i].fields.CustomerName.replace(/\s/g, '') != '') {
-                  dataTableList.push(dataList);
-              }
+              splashArrayAllowanceList.push(dataListAllowance);
+          }
 
-          }*/
+          function MakeNegative() {
+              $('td').each(function () {
+                  if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+              });
+          };
 
-          templateObject.datatableallowancerecords.set(dataTableList);
 
-          $('.fullScreenSpin').css('display', 'none');
+          setTimeout(function () {
+              MakeNegative();
+          }, 100);
           setTimeout(function () {
               $('#tblEarnings').DataTable({
-                  columnDefs: [{
-                  "orderable": false, "targets": -1}],
+
+                  data: splashArrayAllowanceList,
                   "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                  buttons: [
+                  columnDefs: [
                       {
-                          extend: 'csvHtml5',
-                          text: '',
-                          download: 'open',
-                          className: "btntabletocsv hiddenColumn",
-                          filename: "earnings_"+ moment().format(),
-                          orientation:'portrait',
-                          exportOptions: {
-                              columns: ':visible'
-                          }
-                      },{
-                          extend: 'print',
-                          download: 'open',
-                          className: "btntabletopdf hiddenColumn",
-                          text: '',
-                          title: 'Allowance List',
-                          filename: "Allowance List - "+ moment().format(),
-                          exportOptions: {
-                              columns: ':visible',
-                              stripHtml: false
-                          }
+                          className: "colEarningsID hiddenColumn",
+                          "targets": [0]
                       },
                       {
-                          extend: 'excelHtml5',
-                          title: '',
-                          download: 'open',
-                          className: "btntabletoexcel hiddenColumn",
-                          filename: "Allowance List - "+ moment().format(),
-                          orientation:'portrait',
-                          exportOptions: {
-                              columns: ':visible'
-                          }
-
-                      }],
+                          className: "colEarningsNames",
+                          "targets": [1]
+                      },  {
+                          className: "colEarningsType",
+                          "targets": [2]
+                      }, {
+                          className: "colEarningsDsiplayName",
+                          "targets": [3]
+                      }, {
+                          className: "colEarningsAmount  text-right",
+                          "targets": [4]
+                      }, {
+                          className: "colEarningsAccounts",
+                          "targets": [5]
+                      }, {
+                          className: "colEarningsAccountsID hiddenColumn",
+                          "targets": [6]
+                      }, {
+                          className: "colEarningsPAYG hiddenColumn",
+                          "targets": [7]
+                      }, {
+                          className: "colEarningsSuperannuation hiddenColumn",
+                          "targets": [8]
+                      }, {
+                          className: "colEarningsReportableasW1 hiddenColumn",
+                          "targets": [9]
+                      }, {
+                          className: "colDeleteEarnings",
+                          "orderable": false,
+                          "targets": -1
+                      }
+                  ],
                   select: true,
                   destroy: true,
                   colReorder: true,
@@ -139,131 +346,386 @@ Template.payrollrules.onRendered(function() {
                   lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                   info: true,
                   responsive: true,
-                  "order": [[ 1, "asc" ]],
+                  "order": [[0, "asc"]],
                   action: function () {
                       $('#tblEarnings').DataTable().ajax.reload();
                   },
                   "fnDrawCallback": function (oSettings) {
-                    $('.paginate_button.page-item').removeClass('disabled');
-                    $('#tblEarnings_ellipsis').addClass('disabled');
+                      $('.paginate_button.page-item').removeClass('disabled');
+                      $('#tblEarnings_ellipsis').addClass('disabled');
+                      if (oSettings._iDisplayLength == -1) {
+                          if (oSettings.fnRecordsDisplay() > 150) {
 
-                    if(oSettings._iDisplayLength == -1){
-                      if(oSettings.fnRecordsDisplay() > 150){
-                        $('.paginate_button.page-item.previous').addClass('disabled');
-                        $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                      } else {
+
                       }
-                    }else{
+                      if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                      }
 
-                    }
-                    if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
-                        $('.paginate_button.page-item.next').addClass('disabled');
-                    }
+                      $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                          .on('click', function () {
+                              $('.fullScreenSpin').css('display', 'inline-block');
+                              var splashArrayAllowanceListDupp = new Array();
+                              let dataLenght = oSettings._iDisplayLength;
+                              let customerSearch = $('#tblEarnings_filter input').val();
 
-                    $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                     .on('click', function(){
-                       $('.fullScreenSpin').css('display','inline-block');
-                       let dataLenght = oSettings._iDisplayLength;
+                              sideBarService.getAllowance(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
-                       sideBarService.getAllowance(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                         getVS1Data('TAllowance').then(function (dataObjectold) {
-                           if(dataObjectold.length == 0){
+                                          for (let j = 0; j < dataObjectnew.tallowance.length; j++) {
 
-                           }else{
-                             let dataOld = JSON.parse(dataObjectold[0].data);
+                                              let allowanceAmount = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tallowance[j].fields.Amount) || 0.00;
 
-                             var thirdaryData = $.merge($.merge([], dataObjectnew.tallowance), dataOld.tallowance);
-                             let objCombineData = {
-                               tallowance:thirdaryData
-                             }
+                                              var dataListCustomerDupp = [
+                                                dataObjectnewdataObjectnew.tallowance[i].fields.ID || 0,
+                                                dataObjectnew.tallowance[i].fields.Description || '-',
+                                                dataObjectnew.tallowance[i].fields.AllowanceType || '',
+                                                dataObjectnew.tallowance[i].fields.DisplayIn || '',
+                                                allowanceAmount || 0.00,
+                                                dataObjectnew.tallowance[i].fields.Accountname || '',
+                                                dataObjectnew.tallowance[i].fields.Accountid || 0,
+                                                dataObjectnew.tallowance[i].fields.Payrolltaxexempt || false,
+                                                dataObjectnewdataObjectnew.tallowance[i].fields.Superinc || false,
+                                                dataObjectnew.tallowance[i].fields.Workcoverexempt || false,
+                                                '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                              ];
+
+                                              splashArrayAllowanceList.push(dataListCustomerDupp);
+                                              //}
+                                          }
+
+                                          let uniqueChars = [...new Set(splashArrayAllowanceList)];
+                                          var datatable = $('#tblEarnings').DataTable();
+                                          datatable.clear();
+                                          datatable.rows.add(uniqueChars);
+                                          datatable.draw(false);
+                                          setTimeout(function () {
+                                            $("#tblEarnings").dataTable().fnPageChange('last');
+                                          }, 400);
+
+                                          $('.fullScreenSpin').css('display', 'none');
 
 
-                               addVS1Data('TAllowance',JSON.stringify(objCombineData)).then(function (datareturn) {
-                                 templateObject.resetData(objCombineData);
-                               $('.fullScreenSpin').css('display','none');
-                               }).catch(function (err) {
-                               $('.fullScreenSpin').css('display','none');
-                               });
-
-                           }
-                          }).catch(function (err) {
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
 
                           });
-
-                       }).catch(function(err) {
-                         $('.fullScreenSpin').css('display','none');
-                       });
-
-                     });
                       setTimeout(function () {
                           MakeNegative();
                       }, 100);
                   },
                   "fnInitComplete": function () {
-                    let urlParametersPage = FlowRouter.current().queryParams.page;
-                    if(urlParametersPage){
-                      this.fnPageChange('last');
-                    }
+                      $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEarnings_filter");
+                      $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEarnings_filter");
 
-                   },
-                   "fnInitComplete": function () {
-                      $("<button class='btn btn-primary btnRefreshCustomers' type='button' id='btnRefreshCustomers' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEarnings_filter");
                   }
 
               }).on('page', function () {
                   setTimeout(function () {
                       MakeNegative();
                   }, 100);
-                  let draftRecord = templateObject.datatableallowancerecords.get();
-                  templateObject.datatableallowancerecords.set(draftRecord);
+
               }).on('column-reorder', function () {
 
-              }).on( 'length.dt', function ( e, settings, len ) {
-                $('.fullScreenSpin').css('display','inline-block');
+              }).on('length.dt', function (e, settings, len) {
+                //$('.fullScreenSpin').css('display', 'inline-block');
                 let dataLenght = settings._iDisplayLength;
-                if(dataLenght == -1){
-                  if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                    $('.fullScreenSpin').css('display','none');
-                  }else{
-                  sideBarService.getAllowance('All',1).then(function(dataNonBo) {
+                splashArrayAllowanceList = [];
+                if (dataLenght == -1) {
+                  $('.fullScreenSpin').css('display', 'none');
 
-                    addVS1Data('TAllowance',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                      templateObject.resetData(dataNonBo);
-                    $('.fullScreenSpin').css('display','none');
-                    }).catch(function (err) {
-                    $('.fullScreenSpin').css('display','none');
-                    });
-                  }).catch(function(err) {
-                    $('.fullScreenSpin').css('display','none');
-                  });
-                 }
-                }else{
-                  if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                    $('.fullScreenSpin').css('display','none');
-                  }else{
-                    sideBarService.getAllowance(dataLenght,0).then(function(dataNonBo) {
+                } else {
+                    if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    } else {
+                        sideBarService.getAllowance(dataLenght, 0).then(function (dataNonBo) {
 
-                      addVS1Data('TAllowance',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                        templateObject.resetData(dataNonBo);
-                      $('.fullScreenSpin').css('display','none');
-                      }).catch(function (err) {
-                      $('.fullScreenSpin').css('display','none');
-                      });
-                    }).catch(function(err) {
-                      $('.fullScreenSpin').css('display','none');
-                    });
-                  }
+                            addVS1Data('TAllowance', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                templateObject.resetData(dataNonBo);
+                                $('.fullScreenSpin').css('display', 'none');
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }).catch(function (err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    }
                 }
                   setTimeout(function () {
                       MakeNegative();
                   }, 100);
               });
 
-              $('.fullScreenSpin').css('display','none');
+
           }, 0);
+
+          $('div.dataTables_filter input').addClass('form-control form-control-sm');
+          $('.fullScreenSpin').css('display', 'none');
+
         }
     }).catch(function(err) {
+      sideBarService.getAllowance(initialBaseDataLoad, 0).then(function (data) {
+          addVS1Data('TAllowance', JSON.stringify(data));
+          let lineItems = [];
+          let lineItemObj = {};
+          for (let i = 0; i < data.tallowance.length; i++) {
+              let allowanceAmount = utilityService.modifynegativeCurrencyFormat(data.tallowance[i].fields.Amount) || 0.00;
 
+              var dataListAllowance = [
+                  data.tallowance[i].fields.ID || 0,
+                  data.tallowance[i].fields.Description || '-',
+                  data.tallowance[i].fields.AllowanceType || '',
+                  data.tallowance[i].fields.DisplayIn || '',
+                  allowanceAmount || 0.00,
+                  data.tallowance[i].fields.Accountname || '',
+                  data.tallowance[i].fields.Accountid || 0,
+                  data.tallowance[i].fields.Payrolltaxexempt || false,
+                  data.tallowance[i].fields.Superinc || false,
+                  data.tallowance[i].fields.Workcoverexempt || false,
+                  '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+              ];
+
+              splashArrayAllowanceList.push(dataListAllowance);
+          }
+
+          function MakeNegative() {
+              $('td').each(function () {
+                  if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+              });
+          };
+
+
+          setTimeout(function () {
+              MakeNegative();
+          }, 100);
+          setTimeout(function () {
+              $('#tblEarnings').DataTable({
+
+                  data: splashArrayAllowanceList,
+                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                  columnDefs: [
+                      {
+                          className: "colEarningsID hiddenColumn",
+                          "targets": [0]
+                      },
+                      {
+                          className: "colEarningsNames",
+                          "targets": [1]
+                      },  {
+                          className: "colEarningsType",
+                          "targets": [2]
+                      }, {
+                          className: "colEarningsDsiplayName",
+                          "targets": [3]
+                      }, {
+                          className: "colEarningsAmount  text-right",
+                          "targets": [4]
+                      }, {
+                          className: "colEarningsAccounts",
+                          "targets": [5]
+                      }, {
+                          className: "colEarningsAccountsID hiddenColumn",
+                          "targets": [6]
+                      }, {
+                          className: "colEarningsPAYG hiddenColumn",
+                          "targets": [7]
+                      }, {
+                          className: "colEarningsSuperannuation hiddenColumn",
+                          "targets": [8]
+                      }, {
+                          className: "colEarningsReportableasW1 hiddenColumn",
+                          "targets": [9]
+                      }, {
+                          className: "colDeleteEarnings",
+                          "orderable": false,
+                          "targets": -1
+                      }
+                  ],
+                  select: true,
+                  destroy: true,
+                  colReorder: true,
+                  pageLength: initialDatatableLoad,
+                  lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                  info: true,
+                  responsive: true,
+                  "order": [[0, "asc"]],
+                  action: function () {
+                      $('#tblEarnings').DataTable().ajax.reload();
+                  },
+                  "fnDrawCallback": function (oSettings) {
+                      $('.paginate_button.page-item').removeClass('disabled');
+                      $('#tblEarnings_ellipsis').addClass('disabled');
+                      if (oSettings._iDisplayLength == -1) {
+                          if (oSettings.fnRecordsDisplay() > 150) {
+
+                          }
+                      } else {
+
+                      }
+                      if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                      }
+
+                      $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                          .on('click', function () {
+                              $('.fullScreenSpin').css('display', 'inline-block');
+                              var splashArrayAllowanceListDupp = new Array();
+                              let dataLenght = oSettings._iDisplayLength;
+                              let customerSearch = $('#tblEarnings_filter input').val();
+
+                              sideBarService.getAllowance(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+
+                                          for (let j = 0; j < dataObjectnew.tallowance.length; j++) {
+
+                                              let allowanceAmount = utilityService.modifynegativeCurrencyFormat(dataObjectnew.tallowance[j].fields.Amount) || 0.00;
+
+                                              var dataListCustomerDupp = [
+                                                dataObjectnewdataObjectnew.tallowance[i].fields.ID || 0,
+                                                dataObjectnew.tallowance[i].fields.Description || '-',
+                                                dataObjectnew.tallowance[i].fields.AllowanceType || '',
+                                                dataObjectnew.tallowance[i].fields.DisplayIn || '',
+                                                allowanceAmount || 0.00,
+                                                dataObjectnew.tallowance[i].fields.Accountname || '',
+                                                dataObjectnew.tallowance[i].fields.Accountid || 0,
+                                                dataObjectnew.tallowance[i].fields.Payrolltaxexempt || false,
+                                                dataObjectnewdataObjectnew.tallowance[i].fields.Superinc || false,
+                                                dataObjectnew.tallowance[i].fields.Workcoverexempt || false,
+                                                '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
+                                              ];
+
+                                              splashArrayAllowanceList.push(dataListCustomerDupp);
+                                              //}
+                                          }
+
+                                          let uniqueChars = [...new Set(splashArrayAllowanceList)];
+                                          var datatable = $('#tblEarnings').DataTable();
+                                          datatable.clear();
+                                          datatable.rows.add(uniqueChars);
+                                          datatable.draw(false);
+                                          setTimeout(function () {
+                                            $("#tblEarnings").dataTable().fnPageChange('last');
+                                          }, 400);
+
+                                          $('.fullScreenSpin').css('display', 'none');
+
+
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+
+                          });
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  },
+                  "fnInitComplete": function () {
+                      $("<button class='btn btn-primary btnAddNewAllowance' data-dismiss='modal' data-toggle='modal' data-target='#allowanceModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblEarnings_filter");
+                      $("<button class='btn btn-primary btnRefreshAllowance' type='button' id='btnRefreshAllowance' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblEarnings_filter");
+
+                  }
+
+              }).on('page', function () {
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+
+              }).on('column-reorder', function () {
+
+              }).on('length.dt', function (e, settings, len) {
+                //$('.fullScreenSpin').css('display', 'inline-block');
+                let dataLenght = settings._iDisplayLength;
+                splashArrayAllowanceList = [];
+                if (dataLenght == -1) {
+                  $('.fullScreenSpin').css('display', 'none');
+
+                } else {
+                    if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                        $('.fullScreenSpin').css('display', 'none');
+                    } else {
+                        sideBarService.getAllowance(dataLenght, 0).then(function (dataNonBo) {
+
+                            addVS1Data('TAllowance', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                templateObject.resetData(dataNonBo);
+                                $('.fullScreenSpin').css('display', 'none');
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                        }).catch(function (err) {
+                            $('.fullScreenSpin').css('display', 'none');
+                        });
+                    }
+                }
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+              });
+
+
+          }, 0);
+
+          $('div.dataTables_filter input').addClass('form-control form-control-sm');
+
+          $('.fullScreenSpin').css('display', 'none');
+      }).catch(function (err) {
+        $('.fullScreenSpin').css('display', 'none');
+      });
     });
+  };
+  templateObject.getAllAllowance();
+
+
+  $('#tblEarnings tbody').on( 'click', 'td:not(.colDeleteEarnings)', function () {
+    var listData = $(this).closest('tr').find('.colEarningsID').text();
+    if(listData){
+      let allowanceType = $(this).closest('tr').find('.colEarningsType').text()||'';
+      let earningName = $(this).closest('tr').find('.colEarningsNames').text()||'';
+      let earningDisplayName = $(this).closest('tr').find('.colEarningsDsiplayName').text()||'';
+      let earningAmount = $(this).closest('tr').find('.colEarningsAmount').text()||'0.00';
+      let earningExpenseAccount = $(this).closest('tr').find('.colEarningsAccounts').text()||'';
+      let earningExpenseAccountID = $(this).closest('tr').find('.colEarningsAccountsID').text()||'';
+      let exemptPAYG = $(this).closest('tr').find('.colEarningsPAYG').text()||'false';
+      let exemptSupernation = $(this).closest('tr').find('.colEarningsSuperannuation').text()||'false';
+      let exemptActivityStatement = $(this).closest('tr').find('.colEarningsReportableasW1').text()||'false';
+
+      $('#edtAllowanceID').val(listData);
+      $('#edtAllowanceType').val(allowanceType);
+      $('#edtEarningsNameAllowance').val(earningName);
+      $('#edtDisplayNameAllowance').val(earningDisplayName);
+      $('#edtAllowanceAmount').val(earningAmount);
+      $('#edtExpenseAccountAllowance').val(earningExpenseAccount);
+      $('#edtExpenseAccountID').val(earningExpenseAccountID);
+
+      if(exemptPAYG == 'true'){
+          $('#formCheck-ExemptPAYGAllowance').prop('checked', true);
+      }else{
+        $('#formCheck-ExemptPAYGAllowance').prop('checked', false);
+      }
+
+      if(exemptSupernation == 'true'){
+          $('#formCheck-ExemptSuperannuationAllowance').prop('checked', true);
+      }else{
+        $('#formCheck-ExemptSuperannuationAllowance').prop('checked', false);
+      }
+
+      if(exemptActivityStatement == 'true'){
+          $('#formCheck-ExemptReportableAllowance').prop('checked', true);
+      }else{
+        $('#formCheck-ExemptReportableAllowance').prop('checked', false);
+      }
+
+      $('#allowanceModal').modal('toggle');
+
+    }
+  });
+
+  $('#tblEarnings tbody').on( 'click', 'td.colDeleteEarnings', function () {
+    var listData = $(this).closest('tr').find('.colEarningsID').text();
+    if(listData){
+      FlowRouter.go('/productview?id=' + listData+'&instock=true');
+    }
+  });
 
 
     setTimeout(function() {
@@ -777,12 +1239,11 @@ Template.payrollrules.onRendered(function() {
         $('.fullScreenSpin').css('display', 'none');
     }, 0);
 
-    $(document).on('click', '.table-remove', function() {
+    $(document).on('click', '.colDeleteEarnings', function() {
         event.stopPropagation();
-        event.stopPropagation();
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').find('.colEarningsID').text()||0; // table row ID
         $('#selectDeleteLineID').val(targetID);
-        $('#deleteLineModal').modal('toggle');
+        $('#deleteEarningsLineModal').modal('toggle');
     });
 
     $(document).ready(function() {
@@ -1273,6 +1734,7 @@ Template.payrollrules.events({
     },
     'click .btnSaveAllowance': function(){
         let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display','inline-block');
         let earningName = $('#edtEarningsNameAllowance').val()||'';
         let taxRateService = new TaxRateService();
 

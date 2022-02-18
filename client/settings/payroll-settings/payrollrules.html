@@ -352,6 +352,21 @@
                                         <div class="col-12">
                                             <div class="table-responsive">
                                                 <style>
+                                                  th {
+                                                      background-color: #ededed;
+                                                  }
+                                                  .table-striped tbody tr:nth-of-type(odd) {
+                                                      background-color: white !important;
+                                                  }
+
+                                                  .table-striped tbody tr:nth-of-type(even) {
+                                                      background-color: #0000000d !important;
+                                                  }
+
+                                                  .JColResizer > tbody > tr > td, .JColResizer > tbody > tr > th {
+                                                      padding: .75rem!important;
+                                                  }
+
                                                     .hiddenColumn {
                                                         display: none;
                                                     }
@@ -383,6 +398,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+
                                                 <table id="tblPayCalendars" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayCalendars">
                                                     <thead>
                                                         <tr class="dnd-moved">
@@ -1223,31 +1241,25 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <table id="tblEarnings" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblEarnings">
                                                         <thead>
                                                             <tr class="dnd-moved">
-                                                                <th class="th colEarningsNames" style="">Earnings Name</th>
-                                                                <th class="th colEarningsCategory" style="">Earnings Category</th>
-                                                                <th class="th colEarningsRateType" style="">Rate Type</th>
-                                                                <th class="th colEarningsRate" style="">Rate</th>
+                                                                <th class="th colEarningsID hiddenColumn" style="">Earning ID</th>
+                                                                <th class="th colEarningsNames" style="width: 200px;">Earnings Name</th>
+                                                                <th class="th colEarningsType" style="width: 80px;">Earnings Type</th>
+                                                                <th class="th colEarningsDsiplayName" style="">Display name</th>
+                                                                <th class="th colEarningsAmount" style="width: 80px;">Amount</th>
                                                                 <th class="th colEarningsAccounts" style="">Account</th>
-                                                                <th class="th colDelete" style="width: 3%!important;"></th>
+                                                                <th class="th colEarningsAccountsID hiddenColumn" style="">Account ID</th>
+                                                                <th class="th colEarningsPAYG hiddenColumn" style="">PAYG withholding</th>
+                                                                <th class="th colEarningsSuperannuation hiddenColumn" style="">Superannuation Guarantee Contribution</th>
+                                                                <th class="th colEarningsReportableasW1 hiddenColumn" style="">Reportable as W1</th>
+                                                                <th class="th colDeleteEarnings" style="width: 20px!important;"></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                          {{#if datatableallowancerecords}}
-                                                          {{#each item in datatableallowancerecords}}
-                                                            <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
-                                                                <td contenteditable="false" class="colEarningsNames"></td>
-                                                                <td contenteditable="false" class="colEarningsCategory"></td>
-                                                                <td contenteditable="false" class="colEarningsRateType"></td>
-                                                                <td contenteditable="false" class="colEarningsRate"></td>
-                                                                <td contenteditable="false" class="colEarningsAccounts"></td>
-                                                                <td contenteditable="false" class="colDelete"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>
-                                                                </td>
-                                                            </tr>
-                                                          {{/each}}
-                                                          {{/if}}
+
                                                         </tbody>
 
                                                     </table>
@@ -1782,6 +1794,16 @@
                                                         padding: .75rem;
                                                         vertical-align: top;
                                                     }
+
+                                                    .colDeleteEarnings{
+                                                      width: 3%!important;
+                                                    }
+                                                    .colEarningsAmount{
+                                                      width:12%!important;
+                                                    }
+                                                    .colEarningsType{
+                                                      width:14%!important;
+                                                    }
                                                 </style>
 
                                                 <div class="modal fade" role="dialog" tabindex="-1" id="deleteLineModal">
@@ -2065,6 +2087,27 @@
 
     <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
         {{> addaccountpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="deleteEarningsLineModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <input type="hidden" style="width: 100%; display:none;" id="selectDeleteLineID" name="selectDeleteLineID" readonly>
+                <div class="modal-header">
+                    <h4 style="margin-bottom: 0px;">Delete Earnings</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="text-align: center;">Are you sure you want to delete this earnings?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger float-right btnDeleteEarnings" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Delete</button>
+                    <button class="btn btn-secondary float-right btnBack" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Start Help Video Modal -->

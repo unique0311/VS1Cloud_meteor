@@ -1457,7 +1457,7 @@ Template.newsidenav.onRendered(function() {
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           //$(".progressBarInner").text("Account Type "+Math.round(progressPercentage)+"%");
           $(".progressBarInner").text(Math.round(progressPercentage)+"%");
-          $(".progressName").text("ERP Forms ");
+          $(".progressName").text("Access Level Forms ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1481,7 +1481,7 @@ Template.newsidenav.onRendered(function() {
           }
             //localStorage.setItem('VS1AccountTypeList', JSON.stringify(data) || '');
             addVS1Data('TERPForm', JSON.stringify(data));
-            $("<span class='process'>ERP Forms Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Access Level Forms Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -1725,7 +1725,7 @@ Template.newsidenav.onRendered(function() {
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           //$(".progressBarInner").text("Refund Sale "+Math.round(progressPercentage)+"%");
           $(".progressBarInner").text(Math.round(progressPercentage)+"%");
-          $(".progressName").text("Refund Sale ");
+          $(".progressName").text("Refunds ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1748,7 +1748,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TRefundSale', JSON.stringify(data));
-            $("<span class='process'>Refund Sales Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Refunds Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2464,7 +2464,7 @@ Template.newsidenav.onRendered(function() {
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
           //$(".progressBarInner").text("ERP Preference "+Math.round(progressPercentage)+"%");
           $(".progressBarInner").text(Math.round(progressPercentage)+"%");
-          $(".progressName").text("ERP Preference ");
+          $(".progressName").text("Preference ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2487,7 +2487,7 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TERPPreference', JSON.stringify(data));
-            $("<span class='process'>ERP Preferences Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Preferences Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });
@@ -2501,7 +2501,7 @@ Template.newsidenav.onRendered(function() {
               $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
               //$(".progressBarInner").text("ERP Preference Extra "+Math.round(progressPercentage)+"%");
               $(".progressBarInner").text(Math.round(progressPercentage)+"%");
-              $(".progressName").text("ERP Preference Extra ");
+              $(".progressName").text("Preference Extra ");
               if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
                 if($('.headerprogressbar').hasClass("headerprogressbarShow")){
                   $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -2527,7 +2527,7 @@ Template.newsidenav.onRendered(function() {
 
 
             addVS1Data('TERPPreferenceExtra', JSON.stringify(data));
-            $("<span class='process'>Extra ERP Preferences Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Extra Preferences Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
         }).catch(function(err) {
 
         });

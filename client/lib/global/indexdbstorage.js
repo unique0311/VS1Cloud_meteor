@@ -180,6 +180,8 @@ openDb = function (dbName) {
       db.createObjectStore("TCustomFieldList", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TReportSchedules", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TPayRun", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TAllowance", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TPayRate", { keyPath: "EmployeeEmail" });
     }
 
     dbReq.onerror = (event) => reject(new Error('Failed to open DB'));
