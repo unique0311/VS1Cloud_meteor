@@ -156,6 +156,20 @@ Template.emailsettings.onRendered(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+    $("#date-input,#edtWeeklyStartDate,#dtDueDate,#customdateone").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        constrainInput: false,
+        dateFormat: 'd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
     templateObject.assignFrequency = function(frequency) {
         if(frequency == "Weekly") {
             $("#frequencyWeekly").prop('checked', true);
