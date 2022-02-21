@@ -17,7 +17,7 @@ import {
 import '../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
-Template.customerlistpop.onCreated(function () {
+Template.contactlistpop.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.custdatatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
@@ -25,7 +25,7 @@ Template.customerlistpop.onCreated(function () {
     templateObject.selectedFile = new ReactiveVar();
 });
 
-Template.customerlistpop.onRendered(function () {
+Template.contactlistpop.onRendered(function () {
     //$('.fullScreenSpin').css('display','inline-block');
     let templateObject = Template.instance();
     let contactService = new ContactService();
@@ -38,7 +38,7 @@ Template.customerlistpop.onRendered(function () {
     const dataTableList = [];
     const tableHeaderList = [];
 
-    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblContactlist', function (error, result) {
         if (error) {
 
         } else {
@@ -150,7 +150,7 @@ Template.customerlistpop.onRendered(function () {
 
                     if (templateObject.custdatatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblContactlist', function (error, result) {
                             if (error) {
 
                             } else {
@@ -187,85 +187,91 @@ Template.customerlistpop.onRendered(function () {
 
                     //$('.fullScreenSpin').css('display','none');
                     setTimeout(function () {
-                        $('#tblCustomerlist').DataTable({
+                        $('#tblContactlist').DataTable({
                             data: splashArrayCustomerList,
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             columnDefs: [
                                 {
-                                    className: "colCompany",
+                                    className: "chkBox pointer",
+                                    "orderable": false,
                                     "targets": [0]
-                                }, {
-                                    className: "colJob",
+
+                                },
+                                {
+                                    className: "colCompany",
                                     "targets": [1]
                                 }, {
-                                    className: "colPhone",
+                                    className: "colJob",
                                     "targets": [2]
                                 }, {
-                                    className: "colARBalance hiddenColumn text-right",
+                                    className: "colPhone",
                                     "targets": [3]
                                 }, {
-                                    className: "colCreditBalance hiddenColumn text-right",
+                                    className: "colARBalance hiddenColumn text-right",
                                     "targets": [4]
                                 }, {
-                                    className: "colBalance text-right",
+                                    className: "colCreditBalance hiddenColumn text-right",
                                     "targets": [5]
                                 }, {
-                                    className: "colCreditLimit hiddenColumn text-right",
+                                    className: "colBalance text-right",
                                     "targets": [6]
                                 }, {
-                                    className: "colSalesOrderBalance text-right",
+                                    className: "colCreditLimit hiddenColumn text-right",
                                     "targets": [7]
                                 }, {
-                                    className: "colCountry",
+                                    className: "colSalesOrderBalance text-right",
                                     "targets": [8]
                                 }, {
-                                    className: "colState hiddenColumn",
+                                    className: "colCountry",
                                     "targets": [9]
                                 }, {
-                                    className: "colCity hiddenColumn",
+                                    className: "colState hiddenColumn",
                                     "targets": [10]
                                 }, {
-                                    className: "colStreetAddress hiddenColumn",
+                                    className: "colCity hiddenColumn",
                                     "targets": [11]
                                 }, {
-                                    className: "colZipCode hiddenColumn",
+                                    className: "colStreetAddress hiddenColumn",
                                     "targets": [12]
                                 }, {
-                                    className: "colEmail hiddenColumn",
+                                    className: "colZipCode hiddenColumn",
                                     "targets": [13]
                                 }, {
-                                    className: "colAccountNo hiddenColumn",
+                                    className: "colEmail hiddenColumn",
                                     "targets": [14]
                                 }, {
-                                    className: "colClientNo hiddenColumn",
+                                    className: "colAccountNo hiddenColumn",
                                     "targets": [15]
                                 }, {
-                                    className: "colJobTitle hiddenColumn",
+                                    className: "colClientNo hiddenColumn",
                                     "targets": [16]
                                 }, {
-                                    className: "colNotes",
+                                    className: "colJobTitle hiddenColumn",
                                     "targets": [17]
                                 }, {
-                                    className: "colID hiddenColumn",
+                                    className: "colNotes",
                                     "targets": [18]
                                 }, {
-                                    className: "colCustomerType hiddenColumn",
+                                    className: "colID hiddenColumn",
                                     "targets": [19]
                                 }, {
-                                    className: "colCustomerDiscount hiddenColumn",
+                                    className: "colCustomerType hiddenColumn",
                                     "targets": [20]
                                 }, {
-                                    className: "colCustomerTermName hiddenColumn",
+                                    className: "colCustomerDiscount hiddenColumn",
                                     "targets": [21]
                                 }, {
-                                    className: "colCustomerFirstName hiddenColumn",
+                                    className: "colCustomerTermName hiddenColumn",
                                     "targets": [22]
                                 }, {
-                                    className: "colCustomerLastName hiddenColumn",
+                                    className: "colCustomerFirstName hiddenColumn",
                                     "targets": [23]
                                 }, {
-                                    className: "colCustomerTaxCode hiddenColumn",
+                                    className: "colCustomerLastName hiddenColumn",
                                     "targets": [24]
+                                }, {
+                                    className: "colCustomerTaxCode hiddenColumn",
+                                    "targets": [25]
                                 }
                             ],
                             select: true,
@@ -275,13 +281,13 @@ Template.customerlistpop.onRendered(function () {
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [[0, "asc"]],
+                            "order": [[1, "asc"]],
                             action: function () {
-                                $('#tblCustomerlist').DataTable().ajax.reload();
+                                $('#tblContactlist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
                                 $('.paginate_button.page-item').removeClass('disabled');
-                                $('#tblCustomerlist_ellipsis').addClass('disabled');
+                                $('#tblContactlist_ellipsis').addClass('disabled');
                                 if (oSettings._iDisplayLength == -1) {
                                     if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -298,7 +304,7 @@ Template.customerlistpop.onRendered(function () {
                                         $('.fullScreenSpin').css('display', 'inline-block');
                                         var splashArrayCustomerListDupp = new Array();
                                         let dataLenght = oSettings._iDisplayLength;
-                                        let customerSearch = $('#tblCustomerlist_filter input').val();
+                                        let customerSearch = $('#tblContactlist_filter input').val();
 
                                         sideBarService.getAllCustomersDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
@@ -339,6 +345,7 @@ Template.customerlistpop.onRendered(function () {
 
                                                         dataTableList.push(dataList);
                                                         var dataListCustomerDupp = [
+                                                            '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tcustomervs1[i].fields.ID+'"></label></div>',
                                                             dataObjectnew.tcustomervs1[j].fields.ClientName || '-',
                                                             dataObjectnew.tcustomervs1[j].fields.JobName || '',
                                                             dataObjectnew.tcustomervs1[j].fields.Phone || '',
@@ -370,12 +377,12 @@ Template.customerlistpop.onRendered(function () {
                                                     }
 
                                                     let uniqueChars = [...new Set(splashArrayCustomerList)];
-                                                    var datatable = $('#tblCustomerlist').DataTable();
+                                                    var datatable = $('#tblContactlist').DataTable();
                                                     datatable.clear();
                                                     datatable.rows.add(uniqueChars);
                                                     datatable.draw(false);
                                                     setTimeout(function () {
-                                                      $("#tblCustomerlist").dataTable().fnPageChange('last');
+                                                      $("#tblContactlist").dataTable().fnPageChange('last');
                                                     }, 400);
 
                                                     $('.fullScreenSpin').css('display', 'none');
@@ -390,9 +397,14 @@ Template.customerlistpop.onRendered(function () {
                                     MakeNegative();
                                 }, 100);
                             },
-                            "fnInitComplete": function () {
-                                $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
-                                $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerlist_filter");
+                            "fnInitComplete": function (oSettings) {
+                                $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblContactlist_filter");
+                                $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
+
+                                let urlParametersPage = FlowRouter.current().queryParams.page;
+                                if (urlParametersPage) {
+                                    this.fnPageChange('last');
+                                }
 
                             }
 
@@ -405,133 +417,240 @@ Template.customerlistpop.onRendered(function () {
                         }).on('column-reorder', function () {
 
                         }).on('length.dt', function (e, settings, len) {
-                          //$('.fullScreenSpin').css('display', 'inline-block');
-                          let dataLenght = settings._iDisplayLength;
-                          splashArrayCustomerList = [];
-                          if (dataLenght == -1) {
-                            $('.fullScreenSpin').css('display', 'none');
-                              //if(settings.fnRecordsDisplay() > 150){
-                              //  $('.paginate_button.page-item.next').addClass('disabled');
-                              //
-                              //}else{
-                              // sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
-                              //     for (let i = 0; i < data.tcustomervs1.length; i++) {
-                              //         let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
-                              //         let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
-                              //         let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
-                              //         let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
-                              //         let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
-                              //         var dataList = {
-                              //             id: data.tcustomervs1[i].fields.ID || '',
-                              //             clientName: data.tcustomervs1[i].fields.ClientName || '',
-                              //             company: data.tcustomervs1[i].fields.Companyname || '',
-                              //             contactname: data.tcustomervs1[i].fields.ContactName || '',
-                              //             phone: data.tcustomervs1[i].fields.Phone || '',
-                              //             arbalance: arBalance || 0.00,
-                              //             creditbalance: creditBalance || 0.00,
-                              //             balance: balance || 0.00,
-                              //             creditlimit: creditLimit || 0.00,
-                              //             salesorderbalance: salesOrderBalance || 0.00,
-                              //             email: data.tcustomervs1[i].fields.Email || '',
-                              //             job: data.tcustomervs1[i].fields.JobName || '',
-                              //             accountno: data.tcustomervs1[i].fields.AccountNo || '',
-                              //             clientno: data.tcustomervs1[i].fields.ClientNo || '',
-                              //             jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
-                              //             notes: data.tcustomervs1[i].fields.Notes || '',
-                              //             state: data.tcustomervs1[i].fields.State || '',
-                              //             country: data.tcustomervs1[i].fields.Country || '',
-                              //             street: data.tcustomervs1[i].fields.Street || ' ',
-                              //             street2: data.tcustomervs1[i].fields.Street2 || ' ',
-                              //             street3: data.tcustomervs1[i].fields.Street3 || ' ',
-                              //             suburb: data.tcustomervs1[i].fields.Suburb || ' ',
-                              //             postcode: data.tcustomervs1[i].fields.Postcode || ' '
-                              //         };
-                              //
-                              //         dataTableList.push(dataList);
-                              //         var dataListCustomer = [
-                              //             data.tcustomervs1[i].fields.ClientName || '-',
-                              //             data.tcustomervs1[i].fields.JobName || '',
-                              //             data.tcustomervs1[i].fields.Phone || '',
-                              //             arBalance || 0.00,
-                              //             creditBalance || 0.00,
-                              //             balance || 0.00,
-                              //             creditLimit || 0.00,
-                              //             salesOrderBalance || 0.00,
-                              //             data.tcustomervs1[i].fields.Country || '',
-                              //             data.tcustomervs1[i].fields.State || '',
-                              //             data.tcustomervs1[i].fields.Street2 || '',
-                              //             data.tcustomervs1[i].fields.Street || '',
-                              //             data.tcustomervs1[i].fields.Postcode || '',
-                              //             data.tcustomervs1[i].fields.Email || '',
-                              //             data.tcustomervs1[i].fields.AccountNo || '',
-                              //             data.tcustomervs1[i].fields.ClientNo || '',
-                              //             data.tcustomervs1[i].fields.JobTitle || '',
-                              //             data.tcustomervs1[i].fields.Notes || '',
-                              //             data.tcustomervs1[i].fields.ID || '',
-                              //             data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                              //             data.tcustomervs1[i].fields.Discount || 0,
-                              //             data.tcustomervs1[i].fields.TermsName || '',
-                              //             data.tcustomervs1[i].fields.FirstName || '',
-                              //             data.tcustomervs1[i].fields.LastName || ''
-                              //         ];
-                              //
-                              //         splashArrayCustomerList.push(dataListCustomer);
-                              //
-                              //         //}
-                              //     }
-                              //
-                              //     function MakeNegative() {
-                              //         $('td').each(function () {
-                              //             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
-                              //         });
-                              //     };
-                              //
-                              //     templateObject.custdatatablerecords.set(dataTableList);
-                              //     var datatable = $('#tblCustomerlist').DataTable();
-                              //     datatable.clear();
-                              //     datatable.rows.add(splashArrayCustomerList);
-                              //     datatable.draw(false);
-                              //
-                              //     $('.fullScreenSpin').css('display', 'none');
-                              //     $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
-                              //     $('.fullScreenSpin').css('display', 'none');
-                              //     // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              //
-                              //     //
-                              //     // }).catch(function (err) {
-                              //     //
-                              //     // });
-                              // }).catch(function (err) {
-                              //     $('.fullScreenSpin').css('display', 'none');
-                              // });
-                              //}
-                          } else {
-                              if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                                  $('.fullScreenSpin').css('display', 'none');
-                              } else {
-                                  sideBarService.getAllCustomersDataVS1(dataLenght, 0).then(function (dataNonBo) {
 
-                                      addVS1Data('TCustomerVS1', JSON.stringify(dataNonBo)).then(function (datareturn) {
-                                          templateObject.resetData(dataNonBo);
+                            let dataLenght = settings._iDisplayLength;
+                            let customerSearch = $('#tblContactlist_filter input').val();
+                            splashArrayCustomerList = [];
+                            if (dataLenght == -1) {
+                              if(settings.fnRecordsDisplay() > initialDatatableLoad){
+
+                              }else{
+                                if (customerSearch.replace(/\s/g, '') != '') {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  sideBarService.getAllCustomersDataVS1ByName(customerSearch).then(function (data) {
+                                      let lineItems = [];
+                                      let lineItemObj = {};
+                                      if (data.tcustomervs1.length > 0) {
+                                          for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                              let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
+                                              let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                                              let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
+                                              let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
+                                              let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
+                                              var dataList = {
+                                                  id: data.tcustomervs1[i].fields.ID || '',
+                                                  clientName: data.tcustomervs1[i].fields.ClientName || '',
+                                                  company: data.tcustomervs1[i].fields.Companyname || '',
+                                                  contactname: data.tcustomervs1[i].fields.ContactName || '',
+                                                  phone: data.tcustomervs1[i].fields.Phone || '',
+                                                  arbalance: arBalance || 0.00,
+                                                  creditbalance: creditBalance || 0.00,
+                                                  balance: balance || 0.00,
+                                                  creditlimit: creditLimit || 0.00,
+                                                  salesorderbalance: salesOrderBalance || 0.00,
+                                                  email: data.tcustomervs1[i].fields.Email || '',
+                                                  job: data.tcustomervs1[i].fields.JobName || '',
+                                                  accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                                                  clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                                                  jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                                                  notes: data.tcustomervs1[i].fields.Notes || '',
+                                                  state: data.tcustomervs1[i].fields.State || '',
+                                                  country: data.tcustomervs1[i].fields.Country || '',
+                                                  street: data.tcustomervs1[i].fields.Street || ' ',
+                                                  street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                                                  street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                                                  suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                                                  postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                                              };
+
+                                              dataTableList.push(dataList);
+                                              var dataListCustomer = [
+                                                  '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tcustomervs1[i].fields.ID+'"></label></div>',
+                                                  data.tcustomervs1[i].fields.ClientName || '-',
+                                                  data.tcustomervs1[i].fields.JobName || '',
+                                                  data.tcustomervs1[i].fields.Phone || '',
+                                                  arBalance || 0.00,
+                                                  creditBalance || 0.00,
+                                                  balance || 0.00,
+                                                  creditLimit || 0.00,
+                                                  salesOrderBalance || 0.00,
+                                                  data.tcustomervs1[i].fields.Country || '',
+                                                  data.tcustomervs1[i].fields.State || '',
+                                                  data.tcustomervs1[i].fields.Street2 || '',
+                                                  data.tcustomervs1[i].fields.Street || '',
+                                                  data.tcustomervs1[i].fields.Postcode || '',
+                                                  data.tcustomervs1[i].fields.Email || '',
+                                                  data.tcustomervs1[i].fields.AccountNo || '',
+                                                  data.tcustomervs1[i].fields.ClientNo || '',
+                                                  data.tcustomervs1[i].fields.JobTitle || '',
+                                                  data.tcustomervs1[i].fields.Notes || '',
+                                                  data.tcustomervs1[i].fields.ID || '',
+                                                  data.tcustomervs1[i].fields.ClientTypeName || 'Default',
+                                                  data.tcustomervs1[i].fields.Discount || 0,
+                                                  data.tcustomervs1[i].fields.TermsName || '',
+                                                  data.tcustomervs1[i].fields.FirstName || '',
+                                                  data.tcustomervs1[i].fields.LastName || '',
+                                                  data.tcustomervs1[i].fields.TaxCodeName || 'E'
+                                              ];
+
+                                              splashArrayCustomerList.push(dataListCustomer);
+                                              //}
+                                          }
+                                          var datatable = $('#tblContactlist').DataTable();
+                                          datatable.clear();
+                                          datatable.rows.add(splashArrayCustomerList);
+                                          datatable.draw(false);
+
                                           $('.fullScreenSpin').css('display', 'none');
-                                      }).catch(function (err) {
+                                      } else {
+
                                           $('.fullScreenSpin').css('display', 'none');
-                                      });
+                                          $('#customerListModal').modal('toggle');
+                                          swal({
+                                              title: 'Question',
+                                              text: "Customer does not exist, would you like to create it?",
+                                              type: 'question',
+                                              showCancelButton: true,
+                                              confirmButtonText: 'Yes',
+                                              cancelButtonText: 'No'
+                                          }).then((result) => {
+                                              if (result.value) {
+                                                  $('#addCustomerModal').modal('toggle');
+                                                  $('#edtCustomerCompany').val(dataSearchName);
+                                              } else if (result.dismiss === 'cancel') {
+                                                  $('#customerListModal').modal('toggle');
+                                              }
+                                          });
+
+                                      }
+
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
+                                }else{
+                                  $('.fullScreenSpin').css('display', 'none');
+                                sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
+                                    for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                        let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
+                                        let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                                        let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
+                                        let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
+                                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
+                                        var dataList = {
+                                            id: data.tcustomervs1[i].fields.ID || '',
+                                            clientName: data.tcustomervs1[i].fields.ClientName || '',
+                                            company: data.tcustomervs1[i].fields.Companyname || '',
+                                            contactname: data.tcustomervs1[i].fields.ContactName || '',
+                                            phone: data.tcustomervs1[i].fields.Phone || '',
+                                            arbalance: arBalance || 0.00,
+                                            creditbalance: creditBalance || 0.00,
+                                            balance: balance || 0.00,
+                                            creditlimit: creditLimit || 0.00,
+                                            salesorderbalance: salesOrderBalance || 0.00,
+                                            email: data.tcustomervs1[i].fields.Email || '',
+                                            job: data.tcustomervs1[i].fields.JobName || '',
+                                            accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                                            clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                                            jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                                            notes: data.tcustomervs1[i].fields.Notes || '',
+                                            state: data.tcustomervs1[i].fields.State || '',
+                                            country: data.tcustomervs1[i].fields.Country || '',
+                                            street: data.tcustomervs1[i].fields.Street || ' ',
+                                            street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                                            street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                                            suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                                            postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                                        };
+
+                                        dataTableList.push(dataList);
+                                        var dataListCustomer = [
+                                            '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tcustomervs1[i].fields.ID+'"></label></div>',
+                                            data.tcustomervs1[i].fields.ClientName || '-',
+                                            data.tcustomervs1[i].fields.JobName || '',
+                                            data.tcustomervs1[i].fields.Phone || '',
+                                            arBalance || 0.00,
+                                            creditBalance || 0.00,
+                                            balance || 0.00,
+                                            creditLimit || 0.00,
+                                            salesOrderBalance || 0.00,
+                                            data.tcustomervs1[i].fields.Country || '',
+                                            data.tcustomervs1[i].fields.State || '',
+                                            data.tcustomervs1[i].fields.Street2 || '',
+                                            data.tcustomervs1[i].fields.Street || '',
+                                            data.tcustomervs1[i].fields.Postcode || '',
+                                            data.tcustomervs1[i].fields.Email || '',
+                                            data.tcustomervs1[i].fields.AccountNo || '',
+                                            data.tcustomervs1[i].fields.ClientNo || '',
+                                            data.tcustomervs1[i].fields.JobTitle || '',
+                                            data.tcustomervs1[i].fields.Notes || '',
+                                            data.tcustomervs1[i].fields.ID || '',
+                                            data.tcustomervs1[i].fields.ClientTypeName || 'Default',
+                                            data.tcustomervs1[i].fields.Discount || 0,
+                                            data.tcustomervs1[i].fields.TermsName || '',
+                                            data.tcustomervs1[i].fields.FirstName || '',
+                                            data.tcustomervs1[i].fields.LastName || ''
+                                        ];
+
+                                        splashArrayCustomerList.push(dataListCustomer);
+
+                                        //}
+                                    }
+
+                                    function MakeNegative() {
+                                        $('td').each(function () {
+                                            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                                        });
+                                    };
+
+                                    templateObject.custdatatablerecords.set(dataTableList);
+                                    var datatable = $('#tblContactlist').DataTable();
+                                    datatable.clear();
+                                    datatable.rows.add(splashArrayCustomerList);
+                                    datatable.draw(false);
+
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+                                    $('.fullScreenSpin').css('display', 'none');
+                                    // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                    //   templateObject.resetData(dataNonBo);
+                                    //
+                                    // }).catch(function (err) {
+                                    //
+                                    // });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                                }
+
                               }
-                          }
+
+                            } else {
+                                if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                } else {
+                                    sideBarService.getAllCustomersDataVS1(dataLenght, 0).then(function (dataNonBo) {
+
+                                        addVS1Data('TCustomerVS1', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                            templateObject.resetData(dataNonBo);
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        }).catch(function (err) {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        });
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }
+                            }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         });
 
-                        // $('#tblCustomerlist').DataTable().column( 0 ).visible( true );
+                        // $('#tblContactlist').DataTable().column( 0 ).visible( true );
                         //$('.fullScreenSpin').css('display','none');
                     }, 0);
 
-                    var columns = $('#tblCustomerlist th');
+                    var columns = $('#tblContactlist th');
                     let sTible = "";
                     let sWidth = "";
                     let sIndex = "";
@@ -604,6 +723,7 @@ Template.customerlistpop.onRendered(function () {
                     dataTableList.push(dataList);
 
                     var dataListCustomer = [
+                        '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tcustomervs1[i].fields.ID+'"></label></div>',
                         data.tcustomervs1[i].fields.ClientName || '-',
                         data.tcustomervs1[i].fields.JobName || '',
                         data.tcustomervs1[i].fields.Phone || '',
@@ -645,7 +765,7 @@ Template.customerlistpop.onRendered(function () {
 
                 if (templateObject.custdatatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblContactlist', function (error, result) {
                         if (error) {
 
                         } else {
@@ -682,85 +802,91 @@ Template.customerlistpop.onRendered(function () {
 
                 //$('.fullScreenSpin').css('display','none');
                 setTimeout(function () {
-                    $('#tblCustomerlist').DataTable({
+                    $('#tblContactlist').DataTable({
                         data: splashArrayCustomerList,
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         columnDefs: [
                             {
-                                className: "colCompany",
+                                className: "chkBox pointer",
+                                "orderable": false,
                                 "targets": [0]
-                            }, {
-                                className: "colJob",
+
+                            },
+                            {
+                                className: "colCompany",
                                 "targets": [1]
                             }, {
-                                className: "colPhone",
+                                className: "colJob",
                                 "targets": [2]
                             }, {
-                                className: "colARBalance hiddenColumn text-right",
+                                className: "colPhone",
                                 "targets": [3]
                             }, {
-                                className: "colCreditBalance hiddenColumn text-right",
+                                className: "colARBalance hiddenColumn text-right",
                                 "targets": [4]
                             }, {
-                                className: "colBalance text-right",
+                                className: "colCreditBalance hiddenColumn text-right",
                                 "targets": [5]
                             }, {
-                                className: "colCreditLimit hiddenColumn text-right",
+                                className: "colBalance text-right",
                                 "targets": [6]
                             }, {
-                                className: "colSalesOrderBalance text-right",
+                                className: "colCreditLimit hiddenColumn text-right",
                                 "targets": [7]
                             }, {
-                                className: "colCountry",
+                                className: "colSalesOrderBalance text-right",
                                 "targets": [8]
                             }, {
-                                className: "colState hiddenColumn",
+                                className: "colCountry",
                                 "targets": [9]
                             }, {
-                                className: "colCity hiddenColumn",
+                                className: "colState hiddenColumn",
                                 "targets": [10]
                             }, {
-                                className: "colStreetAddress hiddenColumn",
+                                className: "colCity hiddenColumn",
                                 "targets": [11]
                             }, {
-                                className: "colZipCode hiddenColumn",
+                                className: "colStreetAddress hiddenColumn",
                                 "targets": [12]
                             }, {
-                                className: "colEmail hiddenColumn",
+                                className: "colZipCode hiddenColumn",
                                 "targets": [13]
                             }, {
-                                className: "colAccountNo hiddenColumn",
+                                className: "colEmail hiddenColumn",
                                 "targets": [14]
                             }, {
-                                className: "colClientNo hiddenColumn",
+                                className: "colAccountNo hiddenColumn",
                                 "targets": [15]
                             }, {
-                                className: "colJobTitle hiddenColumn",
+                                className: "colClientNo hiddenColumn",
                                 "targets": [16]
                             }, {
-                                className: "colNotes",
+                                className: "colJobTitle hiddenColumn",
                                 "targets": [17]
                             }, {
-                                className: "colID hiddenColumn",
+                                className: "colNotes",
                                 "targets": [18]
                             }, {
-                                className: "colCustomerType hiddenColumn",
+                                className: "colID hiddenColumn",
                                 "targets": [19]
                             }, {
-                                className: "colCustomerDiscount hiddenColumn",
+                                className: "colCustomerType hiddenColumn",
                                 "targets": [20]
                             }, {
-                                className: "colCustomerTermName hiddenColumn",
+                                className: "colCustomerDiscount hiddenColumn",
                                 "targets": [21]
                             }, {
-                                className: "colCustomerFirstName hiddenColumn",
+                                className: "colCustomerTermName hiddenColumn",
                                 "targets": [22]
                             }, {
-                                className: "colCustomerLastName hiddenColumn",
+                                className: "colCustomerFirstName hiddenColumn",
                                 "targets": [23]
                             }, {
-                                className: "colCustomerTaxCode hiddenColumn",
+                                className: "colCustomerLastName hiddenColumn",
                                 "targets": [24]
+                            }, {
+                                className: "colCustomerTaxCode hiddenColumn",
+                                "targets": [25]
                             }
                         ],
                         select: true,
@@ -770,13 +896,13 @@ Template.customerlistpop.onRendered(function () {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[0, "asc"]],
+                        "order": [[1, "asc"]],
                         action: function () {
-                            $('#tblCustomerlist').DataTable().ajax.reload();
+                            $('#tblContactlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
                             $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblCustomerlist_ellipsis').addClass('disabled');
+                            $('#tblContactlist_ellipsis').addClass('disabled');
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -793,7 +919,7 @@ Template.customerlistpop.onRendered(function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     var splashArrayCustomerListDupp = new Array();
                                     let dataLenght = oSettings._iDisplayLength;
-                                    let customerSearch = $('#tblCustomerlist_filter input').val();
+                                    let customerSearch = $('#tblContactlist_filter input').val();
 
                                     sideBarService.getAllCustomersDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
@@ -834,6 +960,7 @@ Template.customerlistpop.onRendered(function () {
 
                                                     dataTableList.push(dataList);
                                                     var dataListCustomerDupp = [
+                                                        '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tcustomervs1[i].fields.ID+'"></label></div>',
                                                         dataObjectnew.tcustomervs1[j].fields.ClientName || '-',
                                                         dataObjectnew.tcustomervs1[j].fields.JobName || '',
                                                         dataObjectnew.tcustomervs1[j].fields.Phone || '',
@@ -865,12 +992,12 @@ Template.customerlistpop.onRendered(function () {
                                                 }
 
                                                 let uniqueChars = [...new Set(splashArrayCustomerList)];
-                                                var datatable = $('#tblCustomerlist').DataTable();
+                                                var datatable = $('#tblContactlist').DataTable();
                                                 datatable.clear();
                                                 datatable.rows.add(uniqueChars);
                                                 datatable.draw(false);
                                                 setTimeout(function () {
-                                                  $("#tblCustomerlist").dataTable().fnPageChange('last');
+                                                  $("#tblContactlist").dataTable().fnPageChange('last');
                                                 }, 400);
 
                                                 $('.fullScreenSpin').css('display', 'none');
@@ -886,8 +1013,8 @@ Template.customerlistpop.onRendered(function () {
                             }, 100);
                         },
                         "fnInitComplete": function (oSettings) {
-                            $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
-                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerlist_filter");
+                            $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblContactlist_filter");
+                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
 
                             let urlParametersPage = FlowRouter.current().queryParams.page;
                             if (urlParametersPage) {
@@ -907,7 +1034,7 @@ Template.customerlistpop.onRendered(function () {
                     }).on('length.dt', function (e, settings, len) {
 
                         let dataLenght = settings._iDisplayLength;
-                        let customerSearch = $('#tblCustomerlist_filter input').val();
+                        let customerSearch = $('#tblContactlist_filter input').val();
                         splashArrayCustomerList = [];
                         if (dataLenght == -1) {
                           if(settings.fnRecordsDisplay() > initialDatatableLoad){
@@ -953,6 +1080,7 @@ Template.customerlistpop.onRendered(function () {
 
                                           dataTableList.push(dataList);
                                           var dataListCustomer = [
+                                              '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tcustomervs1[i].fields.ID+'"></label></div>',
                                               data.tcustomervs1[i].fields.ClientName || '-',
                                               data.tcustomervs1[i].fields.JobName || '',
                                               data.tcustomervs1[i].fields.Phone || '',
@@ -983,7 +1111,7 @@ Template.customerlistpop.onRendered(function () {
                                           splashArrayCustomerList.push(dataListCustomer);
                                           //}
                                       }
-                                      var datatable = $('#tblCustomerlist').DataTable();
+                                      var datatable = $('#tblContactlist').DataTable();
                                       datatable.clear();
                                       datatable.rows.add(splashArrayCustomerList);
                                       datatable.draw(false);
@@ -1016,96 +1144,97 @@ Template.customerlistpop.onRendered(function () {
                               });
                             }else{
                               $('.fullScreenSpin').css('display', 'none');
-                            // sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
-                            //     for (let i = 0; i < data.tcustomervs1.length; i++) {
-                            //         let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
-                            //         let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
-                            //         let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
-                            //         let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
-                            //         let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
-                            //         var dataList = {
-                            //             id: data.tcustomervs1[i].fields.ID || '',
-                            //             clientName: data.tcustomervs1[i].fields.ClientName || '',
-                            //             company: data.tcustomervs1[i].fields.Companyname || '',
-                            //             contactname: data.tcustomervs1[i].fields.ContactName || '',
-                            //             phone: data.tcustomervs1[i].fields.Phone || '',
-                            //             arbalance: arBalance || 0.00,
-                            //             creditbalance: creditBalance || 0.00,
-                            //             balance: balance || 0.00,
-                            //             creditlimit: creditLimit || 0.00,
-                            //             salesorderbalance: salesOrderBalance || 0.00,
-                            //             email: data.tcustomervs1[i].fields.Email || '',
-                            //             job: data.tcustomervs1[i].fields.JobName || '',
-                            //             accountno: data.tcustomervs1[i].fields.AccountNo || '',
-                            //             clientno: data.tcustomervs1[i].fields.ClientNo || '',
-                            //             jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
-                            //             notes: data.tcustomervs1[i].fields.Notes || '',
-                            //             state: data.tcustomervs1[i].fields.State || '',
-                            //             country: data.tcustomervs1[i].fields.Country || '',
-                            //             street: data.tcustomervs1[i].fields.Street || ' ',
-                            //             street2: data.tcustomervs1[i].fields.Street2 || ' ',
-                            //             street3: data.tcustomervs1[i].fields.Street3 || ' ',
-                            //             suburb: data.tcustomervs1[i].fields.Suburb || ' ',
-                            //             postcode: data.tcustomervs1[i].fields.Postcode || ' '
-                            //         };
-                            //
-                            //         dataTableList.push(dataList);
-                            //         var dataListCustomer = [
-                            //             data.tcustomervs1[i].fields.ClientName || '-',
-                            //             data.tcustomervs1[i].fields.JobName || '',
-                            //             data.tcustomervs1[i].fields.Phone || '',
-                            //             arBalance || 0.00,
-                            //             creditBalance || 0.00,
-                            //             balance || 0.00,
-                            //             creditLimit || 0.00,
-                            //             salesOrderBalance || 0.00,
-                            //             data.tcustomervs1[i].fields.Country || '',
-                            //             data.tcustomervs1[i].fields.State || '',
-                            //             data.tcustomervs1[i].fields.Street2 || '',
-                            //             data.tcustomervs1[i].fields.Street || '',
-                            //             data.tcustomervs1[i].fields.Postcode || '',
-                            //             data.tcustomervs1[i].fields.Email || '',
-                            //             data.tcustomervs1[i].fields.AccountNo || '',
-                            //             data.tcustomervs1[i].fields.ClientNo || '',
-                            //             data.tcustomervs1[i].fields.JobTitle || '',
-                            //             data.tcustomervs1[i].fields.Notes || '',
-                            //             data.tcustomervs1[i].fields.ID || '',
-                            //             data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                            //             data.tcustomervs1[i].fields.Discount || 0,
-                            //             data.tcustomervs1[i].fields.TermsName || '',
-                            //             data.tcustomervs1[i].fields.FirstName || '',
-                            //             data.tcustomervs1[i].fields.LastName || ''
-                            //         ];
-                            //
-                            //         splashArrayCustomerList.push(dataListCustomer);
-                            //
-                            //         //}
-                            //     }
-                            //
-                            //     function MakeNegative() {
-                            //         $('td').each(function () {
-                            //             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
-                            //         });
-                            //     };
-                            //
-                            //     templateObject.custdatatablerecords.set(dataTableList);
-                            //     var datatable = $('#tblCustomerlist').DataTable();
-                            //     datatable.clear();
-                            //     datatable.rows.add(splashArrayCustomerList);
-                            //     datatable.draw(false);
-                            //
-                            //     $('.fullScreenSpin').css('display', 'none');
-                            //     $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
-                            //     $('.fullScreenSpin').css('display', 'none');
-                            //     // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            //     //   templateObject.resetData(dataNonBo);
-                            //     //
-                            //     // }).catch(function (err) {
-                            //     //
-                            //     // });
-                            // }).catch(function (err) {
-                            //     $('.fullScreenSpin').css('display', 'none');
-                            // });
+                            sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
+                                for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                    let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
+                                    let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                                    let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
+                                    let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
+                                    let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
+                                    var dataList = {
+                                        id: data.tcustomervs1[i].fields.ID || '',
+                                        clientName: data.tcustomervs1[i].fields.ClientName || '',
+                                        company: data.tcustomervs1[i].fields.Companyname || '',
+                                        contactname: data.tcustomervs1[i].fields.ContactName || '',
+                                        phone: data.tcustomervs1[i].fields.Phone || '',
+                                        arbalance: arBalance || 0.00,
+                                        creditbalance: creditBalance || 0.00,
+                                        balance: balance || 0.00,
+                                        creditlimit: creditLimit || 0.00,
+                                        salesorderbalance: salesOrderBalance || 0.00,
+                                        email: data.tcustomervs1[i].fields.Email || '',
+                                        job: data.tcustomervs1[i].fields.JobName || '',
+                                        accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                                        clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                                        jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                                        notes: data.tcustomervs1[i].fields.Notes || '',
+                                        state: data.tcustomervs1[i].fields.State || '',
+                                        country: data.tcustomervs1[i].fields.Country || '',
+                                        street: data.tcustomervs1[i].fields.Street || ' ',
+                                        street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                                        street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                                        suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                                        postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                                    };
+
+                                    dataTableList.push(dataList);
+                                    var dataListCustomer = [
+                                        '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tcustomervs1[i].fields.ID+'"></label></div>',
+                                        data.tcustomervs1[i].fields.ClientName || '-',
+                                        data.tcustomervs1[i].fields.JobName || '',
+                                        data.tcustomervs1[i].fields.Phone || '',
+                                        arBalance || 0.00,
+                                        creditBalance || 0.00,
+                                        balance || 0.00,
+                                        creditLimit || 0.00,
+                                        salesOrderBalance || 0.00,
+                                        data.tcustomervs1[i].fields.Country || '',
+                                        data.tcustomervs1[i].fields.State || '',
+                                        data.tcustomervs1[i].fields.Street2 || '',
+                                        data.tcustomervs1[i].fields.Street || '',
+                                        data.tcustomervs1[i].fields.Postcode || '',
+                                        data.tcustomervs1[i].fields.Email || '',
+                                        data.tcustomervs1[i].fields.AccountNo || '',
+                                        data.tcustomervs1[i].fields.ClientNo || '',
+                                        data.tcustomervs1[i].fields.JobTitle || '',
+                                        data.tcustomervs1[i].fields.Notes || '',
+                                        data.tcustomervs1[i].fields.ID || '',
+                                        data.tcustomervs1[i].fields.ClientTypeName || 'Default',
+                                        data.tcustomervs1[i].fields.Discount || 0,
+                                        data.tcustomervs1[i].fields.TermsName || '',
+                                        data.tcustomervs1[i].fields.FirstName || '',
+                                        data.tcustomervs1[i].fields.LastName || ''
+                                    ];
+
+                                    splashArrayCustomerList.push(dataListCustomer);
+
+                                    //}
+                                }
+
+                                function MakeNegative() {
+                                    $('td').each(function () {
+                                        if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                                    });
+                                };
+
+                                templateObject.custdatatablerecords.set(dataTableList);
+                                var datatable = $('#tblContactlist').DataTable();
+                                datatable.clear();
+                                datatable.rows.add(splashArrayCustomerList);
+                                datatable.draw(false);
+
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+                                $('.fullScreenSpin').css('display', 'none');
+                                // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                //   templateObject.resetData(dataNonBo);
+                                //
+                                // }).catch(function (err) {
+                                //
+                                // });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
                             }
 
                           }
@@ -1132,11 +1261,11 @@ Template.customerlistpop.onRendered(function () {
                         }, 100);
                     });
 
-                    // $('#tblCustomerlist').DataTable().column( 0 ).visible( true );
+                    // $('#tblContactlist').DataTable().column( 0 ).visible( true );
                     //$('.fullScreenSpin').css('display','none');
                 }, 0);
 
-                var columns = $('#tblCustomerlist th');
+                var columns = $('#tblContactlist th');
                 let sTible = "";
                 let sWidth = "";
                 let sIndex = "";
@@ -1253,7 +1382,7 @@ Template.customerlistpop.onRendered(function () {
 
                 if (templateObject.custdatatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblCustomerlist', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblContactlist', function (error, result) {
                         if (error) {
 
                         } else {
@@ -1290,85 +1419,91 @@ Template.customerlistpop.onRendered(function () {
 
                 //$('.fullScreenSpin').css('display','none');
                 setTimeout(function () {
-                    $('#tblCustomerlist').DataTable({
+                    $('#tblContactlist').DataTable({
                         data: splashArrayCustomerList,
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         columnDefs: [
                             {
-                                className: "colCompany",
+                                className: "chkBox pointer",
+                                "orderable": false,
                                 "targets": [0]
-                            }, {
-                                className: "colJob",
+
+                            },
+                            {
+                                className: "colCompany",
                                 "targets": [1]
                             }, {
-                                className: "colPhone",
+                                className: "colJob",
                                 "targets": [2]
                             }, {
-                                className: "colARBalance hiddenColumn text-right",
+                                className: "colPhone",
                                 "targets": [3]
                             }, {
-                                className: "colCreditBalance hiddenColumn text-right",
+                                className: "colARBalance hiddenColumn text-right",
                                 "targets": [4]
                             }, {
-                                className: "colBalance text-right",
+                                className: "colCreditBalance hiddenColumn text-right",
                                 "targets": [5]
                             }, {
-                                className: "colCreditLimit hiddenColumn text-right",
+                                className: "colBalance text-right",
                                 "targets": [6]
                             }, {
-                                className: "colSalesOrderBalance text-right",
+                                className: "colCreditLimit hiddenColumn text-right",
                                 "targets": [7]
                             }, {
-                                className: "colCountry",
+                                className: "colSalesOrderBalance text-right",
                                 "targets": [8]
                             }, {
-                                className: "colState hiddenColumn",
+                                className: "colCountry",
                                 "targets": [9]
                             }, {
-                                className: "colCity hiddenColumn",
+                                className: "colState hiddenColumn",
                                 "targets": [10]
                             }, {
-                                className: "colStreetAddress hiddenColumn",
+                                className: "colCity hiddenColumn",
                                 "targets": [11]
                             }, {
-                                className: "colZipCode hiddenColumn",
+                                className: "colStreetAddress hiddenColumn",
                                 "targets": [12]
                             }, {
-                                className: "colEmail hiddenColumn",
+                                className: "colZipCode hiddenColumn",
                                 "targets": [13]
                             }, {
-                                className: "colAccountNo hiddenColumn",
+                                className: "colEmail hiddenColumn",
                                 "targets": [14]
                             }, {
-                                className: "colClientNo hiddenColumn",
+                                className: "colAccountNo hiddenColumn",
                                 "targets": [15]
                             }, {
-                                className: "colJobTitle hiddenColumn",
+                                className: "colClientNo hiddenColumn",
                                 "targets": [16]
                             }, {
-                                className: "colNotes",
+                                className: "colJobTitle hiddenColumn",
                                 "targets": [17]
                             }, {
-                                className: "colID hiddenColumn",
+                                className: "colNotes",
                                 "targets": [18]
                             }, {
-                                className: "colCustomerType hiddenColumn",
+                                className: "colID hiddenColumn",
                                 "targets": [19]
                             }, {
-                                className: "colCustomerDiscount hiddenColumn",
+                                className: "colCustomerType hiddenColumn",
                                 "targets": [20]
                             }, {
-                                className: "colCustomerTermName hiddenColumn",
+                                className: "colCustomerDiscount hiddenColumn",
                                 "targets": [21]
                             }, {
-                                className: "colCustomerFirstName hiddenColumn",
+                                className: "colCustomerTermName hiddenColumn",
                                 "targets": [22]
                             }, {
-                                className: "colCustomerLastName hiddenColumn",
+                                className: "colCustomerFirstName hiddenColumn",
                                 "targets": [23]
                             }, {
-                                className: "colCustomerTaxCode hiddenColumn",
+                                className: "colCustomerLastName hiddenColumn",
                                 "targets": [24]
+                            }, {
+                                className: "colCustomerTaxCode hiddenColumn",
+                                "targets": [25]
                             }
                         ],
                         select: true,
@@ -1378,13 +1513,13 @@ Template.customerlistpop.onRendered(function () {
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[0, "asc"]],
+                        "order": [[1, "asc"]],
                         action: function () {
-                            $('#tblCustomerlist').DataTable().ajax.reload();
+                            $('#tblContactlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
                             $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblCustomerlist_ellipsis').addClass('disabled');
+                            $('#tblContactlist_ellipsis').addClass('disabled');
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
 
@@ -1401,7 +1536,7 @@ Template.customerlistpop.onRendered(function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     var splashArrayCustomerListDupp = new Array();
                                     let dataLenght = oSettings._iDisplayLength;
-                                    let customerSearch = $('#tblCustomerlist_filter input').val();
+                                    let customerSearch = $('#tblContactlist_filter input').val();
 
                                     sideBarService.getAllCustomersDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
 
@@ -1442,6 +1577,7 @@ Template.customerlistpop.onRendered(function () {
 
                                                     dataTableList.push(dataList);
                                                     var dataListCustomerDupp = [
+                                                        '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.tcustomervs1[i].fields.ID+'"></label></div>',
                                                         dataObjectnew.tcustomervs1[j].fields.ClientName || '-',
                                                         dataObjectnew.tcustomervs1[j].fields.JobName || '',
                                                         dataObjectnew.tcustomervs1[j].fields.Phone || '',
@@ -1473,12 +1609,12 @@ Template.customerlistpop.onRendered(function () {
                                                 }
 
                                                 let uniqueChars = [...new Set(splashArrayCustomerList)];
-                                                var datatable = $('#tblCustomerlist').DataTable();
+                                                var datatable = $('#tblContactlist').DataTable();
                                                 datatable.clear();
                                                 datatable.rows.add(uniqueChars);
                                                 datatable.draw(false);
                                                 setTimeout(function () {
-                                                  $("#tblCustomerlist").dataTable().fnPageChange('last');
+                                                  $("#tblContactlist").dataTable().fnPageChange('last');
                                                 }, 400);
 
                                                 $('.fullScreenSpin').css('display', 'none');
@@ -1493,10 +1629,14 @@ Template.customerlistpop.onRendered(function () {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
+                        "fnInitComplete": function (oSettings) {
+                            $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblContactlist_filter");
+                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
 
-                            $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblCustomerlist_filter");
-                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerlist_filter");
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
 
                         }
 
@@ -1509,134 +1649,240 @@ Template.customerlistpop.onRendered(function () {
                     }).on('column-reorder', function () {
 
                     }).on('length.dt', function (e, settings, len) {
-                      $('.fullScreenSpin').css('display', 'inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      splashArrayCustomerList = [];
 
-                      if (dataLenght == -1) {
-                        $('.fullScreenSpin').css('display', 'none');
-                          //if(settings.fnRecordsDisplay() > 150){
-                          //  $('.paginate_button.page-item.next').addClass('disabled');
-                          //
-                          //}else{
-                          // sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
-                          //     for (let i = 0; i < data.tcustomervs1.length; i++) {
-                          //         let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
-                          //         let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
-                          //         let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
-                          //         let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
-                          //         let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
-                          //         var dataList = {
-                          //             id: data.tcustomervs1[i].fields.ID || '',
-                          //             clientName: data.tcustomervs1[i].fields.ClientName || '',
-                          //             company: data.tcustomervs1[i].fields.Companyname || '',
-                          //             contactname: data.tcustomervs1[i].fields.ContactName || '',
-                          //             phone: data.tcustomervs1[i].fields.Phone || '',
-                          //             arbalance: arBalance || 0.00,
-                          //             creditbalance: creditBalance || 0.00,
-                          //             balance: balance || 0.00,
-                          //             creditlimit: creditLimit || 0.00,
-                          //             salesorderbalance: salesOrderBalance || 0.00,
-                          //             email: data.tcustomervs1[i].fields.Email || '',
-                          //             job: data.tcustomervs1[i].fields.JobName || '',
-                          //             accountno: data.tcustomervs1[i].fields.AccountNo || '',
-                          //             clientno: data.tcustomervs1[i].fields.ClientNo || '',
-                          //             jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
-                          //             notes: data.tcustomervs1[i].fields.Notes || '',
-                          //             state: data.tcustomervs1[i].fields.State || '',
-                          //             country: data.tcustomervs1[i].fields.Country || '',
-                          //             street: data.tcustomervs1[i].fields.Street || ' ',
-                          //             street2: data.tcustomervs1[i].fields.Street2 || ' ',
-                          //             street3: data.tcustomervs1[i].fields.Street3 || ' ',
-                          //             suburb: data.tcustomervs1[i].fields.Suburb || ' ',
-                          //             postcode: data.tcustomervs1[i].fields.Postcode || ' '
-                          //         };
-                          //
-                          //         dataTableList.push(dataList);
-                          //         var dataListCustomer = [
-                          //             data.tcustomervs1[i].fields.ClientName || '-',
-                          //             data.tcustomervs1[i].fields.JobName || '',
-                          //             data.tcustomervs1[i].fields.Phone || '',
-                          //             arBalance || 0.00,
-                          //             creditBalance || 0.00,
-                          //             balance || 0.00,
-                          //             creditLimit || 0.00,
-                          //             salesOrderBalance || 0.00,
-                          //             data.tcustomervs1[i].fields.Country || '',
-                          //             data.tcustomervs1[i].fields.State || '',
-                          //             data.tcustomervs1[i].fields.Street2 || '',
-                          //             data.tcustomervs1[i].fields.Street || '',
-                          //             data.tcustomervs1[i].fields.Postcode || '',
-                          //             data.tcustomervs1[i].fields.Email || '',
-                          //             data.tcustomervs1[i].fields.AccountNo || '',
-                          //             data.tcustomervs1[i].fields.ClientNo || '',
-                          //             data.tcustomervs1[i].fields.JobTitle || '',
-                          //             data.tcustomervs1[i].fields.Notes || '',
-                          //             data.tcustomervs1[i].fields.ID || '',
-                          //             data.tcustomervs1[i].fields.ClientTypeName || 'Default',
-                          //             data.tcustomervs1[i].fields.Discount || 0,
-                          //             data.tcustomervs1[i].fields.TermsName || '',
-                          //             data.tcustomervs1[i].fields.FirstName || '',
-                          //             data.tcustomervs1[i].fields.LastName || ''
-                          //         ];
-                          //
-                          //         splashArrayCustomerList.push(dataListCustomer);
-                          //
-                          //         //}
-                          //     }
-                          //
-                          //     function MakeNegative() {
-                          //         $('td').each(function () {
-                          //             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
-                          //         });
-                          //     };
-                          //
-                          //     templateObject.custdatatablerecords.set(dataTableList);
-                          //     var datatable = $('#tblCustomerlist').DataTable();
-                          //     datatable.clear();
-                          //     datatable.rows.add(splashArrayCustomerList);
-                          //     datatable.draw(false);
-                          //
-                          //     $('.fullScreenSpin').css('display', 'none');
-                          //     $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
-                          //     $('.fullScreenSpin').css('display', 'none');
-                          //     // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                          //     //   templateObject.resetData(dataNonBo);
-                          //     //
-                          //     // }).catch(function (err) {
-                          //     //
-                          //     // });
-                          // }).catch(function (err) {
-                          //     $('.fullScreenSpin').css('display', 'none');
-                          // });
-                          //}
-                      } else {
-                          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                              $('.fullScreenSpin').css('display', 'none');
-                          } else {
-                              sideBarService.getAllCustomersDataVS1(dataLenght, 0).then(function (dataNonBo) {
+                        let dataLenght = settings._iDisplayLength;
+                        let customerSearch = $('#tblContactlist_filter input').val();
+                        splashArrayCustomerList = [];
+                        if (dataLenght == -1) {
+                          if(settings.fnRecordsDisplay() > initialDatatableLoad){
 
-                                  addVS1Data('TCustomerVS1', JSON.stringify(dataNonBo)).then(function (datareturn) {
-                                      templateObject.resetData(dataNonBo);
+                          }else{
+                            if (customerSearch.replace(/\s/g, '') != '') {
+                              $('.fullScreenSpin').css('display', 'inline-block');
+                              sideBarService.getAllCustomersDataVS1ByName(customerSearch).then(function (data) {
+                                  let lineItems = [];
+                                  let lineItemObj = {};
+                                  if (data.tcustomervs1.length > 0) {
+                                      for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                          let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
+                                          let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                                          let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
+                                          let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
+                                          let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
+                                          var dataList = {
+                                              id: data.tcustomervs1[i].fields.ID || '',
+                                              clientName: data.tcustomervs1[i].fields.ClientName || '',
+                                              company: data.tcustomervs1[i].fields.Companyname || '',
+                                              contactname: data.tcustomervs1[i].fields.ContactName || '',
+                                              phone: data.tcustomervs1[i].fields.Phone || '',
+                                              arbalance: arBalance || 0.00,
+                                              creditbalance: creditBalance || 0.00,
+                                              balance: balance || 0.00,
+                                              creditlimit: creditLimit || 0.00,
+                                              salesorderbalance: salesOrderBalance || 0.00,
+                                              email: data.tcustomervs1[i].fields.Email || '',
+                                              job: data.tcustomervs1[i].fields.JobName || '',
+                                              accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                                              clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                                              jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                                              notes: data.tcustomervs1[i].fields.Notes || '',
+                                              state: data.tcustomervs1[i].fields.State || '',
+                                              country: data.tcustomervs1[i].fields.Country || '',
+                                              street: data.tcustomervs1[i].fields.Street || ' ',
+                                              street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                                              street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                                              suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                                              postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                                          };
+
+                                          dataTableList.push(dataList);
+                                          var dataListCustomer = [
+                                              '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tcustomervs1[i].fields.ID+'"></label></div>',
+                                              data.tcustomervs1[i].fields.ClientName || '-',
+                                              data.tcustomervs1[i].fields.JobName || '',
+                                              data.tcustomervs1[i].fields.Phone || '',
+                                              arBalance || 0.00,
+                                              creditBalance || 0.00,
+                                              balance || 0.00,
+                                              creditLimit || 0.00,
+                                              salesOrderBalance || 0.00,
+                                              data.tcustomervs1[i].fields.Country || '',
+                                              data.tcustomervs1[i].fields.State || '',
+                                              data.tcustomervs1[i].fields.Street2 || '',
+                                              data.tcustomervs1[i].fields.Street || '',
+                                              data.tcustomervs1[i].fields.Postcode || '',
+                                              data.tcustomervs1[i].fields.Email || '',
+                                              data.tcustomervs1[i].fields.AccountNo || '',
+                                              data.tcustomervs1[i].fields.ClientNo || '',
+                                              data.tcustomervs1[i].fields.JobTitle || '',
+                                              data.tcustomervs1[i].fields.Notes || '',
+                                              data.tcustomervs1[i].fields.ID || '',
+                                              data.tcustomervs1[i].fields.ClientTypeName || 'Default',
+                                              data.tcustomervs1[i].fields.Discount || 0,
+                                              data.tcustomervs1[i].fields.TermsName || '',
+                                              data.tcustomervs1[i].fields.FirstName || '',
+                                              data.tcustomervs1[i].fields.LastName || '',
+                                              data.tcustomervs1[i].fields.TaxCodeName || 'E'
+                                          ];
+
+                                          splashArrayCustomerList.push(dataListCustomer);
+                                          //}
+                                      }
+                                      var datatable = $('#tblContactlist').DataTable();
+                                      datatable.clear();
+                                      datatable.rows.add(splashArrayCustomerList);
+                                      datatable.draw(false);
+
                                       $('.fullScreenSpin').css('display', 'none');
-                                  }).catch(function (err) {
+                                  } else {
+
                                       $('.fullScreenSpin').css('display', 'none');
-                                  });
+                                      $('#customerListModal').modal('toggle');
+                                      swal({
+                                          title: 'Question',
+                                          text: "Customer does not exist, would you like to create it?",
+                                          type: 'question',
+                                          showCancelButton: true,
+                                          confirmButtonText: 'Yes',
+                                          cancelButtonText: 'No'
+                                      }).then((result) => {
+                                          if (result.value) {
+                                              $('#addCustomerModal').modal('toggle');
+                                              $('#edtCustomerCompany').val(dataSearchName);
+                                          } else if (result.dismiss === 'cancel') {
+                                              $('#customerListModal').modal('toggle');
+                                          }
+                                      });
+
+                                  }
+
                               }).catch(function (err) {
                                   $('.fullScreenSpin').css('display', 'none');
                               });
+                            }else{
+                              $('.fullScreenSpin').css('display', 'none');
+                            sideBarService.getAllCustomersDataVS1('All', 1).then(function (data) {
+                                for (let i = 0; i < data.tcustomervs1.length; i++) {
+                                    let arBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.ARBalance) || 0.00;
+                                    let creditBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditBalance) || 0.00;
+                                    let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.Balance) || 0.00;
+                                    let creditLimit = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.CreditLimit) || 0.00;
+                                    let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.tcustomervs1[i].fields.SalesOrderBalance) || 0.00;
+                                    var dataList = {
+                                        id: data.tcustomervs1[i].fields.ID || '',
+                                        clientName: data.tcustomervs1[i].fields.ClientName || '',
+                                        company: data.tcustomervs1[i].fields.Companyname || '',
+                                        contactname: data.tcustomervs1[i].fields.ContactName || '',
+                                        phone: data.tcustomervs1[i].fields.Phone || '',
+                                        arbalance: arBalance || 0.00,
+                                        creditbalance: creditBalance || 0.00,
+                                        balance: balance || 0.00,
+                                        creditlimit: creditLimit || 0.00,
+                                        salesorderbalance: salesOrderBalance || 0.00,
+                                        email: data.tcustomervs1[i].fields.Email || '',
+                                        job: data.tcustomervs1[i].fields.JobName || '',
+                                        accountno: data.tcustomervs1[i].fields.AccountNo || '',
+                                        clientno: data.tcustomervs1[i].fields.ClientNo || '',
+                                        jobtitle: data.tcustomervs1[i].fields.JobTitle || '',
+                                        notes: data.tcustomervs1[i].fields.Notes || '',
+                                        state: data.tcustomervs1[i].fields.State || '',
+                                        country: data.tcustomervs1[i].fields.Country || '',
+                                        street: data.tcustomervs1[i].fields.Street || ' ',
+                                        street2: data.tcustomervs1[i].fields.Street2 || ' ',
+                                        street3: data.tcustomervs1[i].fields.Street3 || ' ',
+                                        suburb: data.tcustomervs1[i].fields.Suburb || ' ',
+                                        postcode: data.tcustomervs1[i].fields.Postcode || ' '
+                                    };
+
+                                    dataTableList.push(dataList);
+                                    var dataListCustomer = [
+                                        '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tcustomervs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tcustomervs1[i].fields.ID+'"></label></div>',
+                                        data.tcustomervs1[i].fields.ClientName || '-',
+                                        data.tcustomervs1[i].fields.JobName || '',
+                                        data.tcustomervs1[i].fields.Phone || '',
+                                        arBalance || 0.00,
+                                        creditBalance || 0.00,
+                                        balance || 0.00,
+                                        creditLimit || 0.00,
+                                        salesOrderBalance || 0.00,
+                                        data.tcustomervs1[i].fields.Country || '',
+                                        data.tcustomervs1[i].fields.State || '',
+                                        data.tcustomervs1[i].fields.Street2 || '',
+                                        data.tcustomervs1[i].fields.Street || '',
+                                        data.tcustomervs1[i].fields.Postcode || '',
+                                        data.tcustomervs1[i].fields.Email || '',
+                                        data.tcustomervs1[i].fields.AccountNo || '',
+                                        data.tcustomervs1[i].fields.ClientNo || '',
+                                        data.tcustomervs1[i].fields.JobTitle || '',
+                                        data.tcustomervs1[i].fields.Notes || '',
+                                        data.tcustomervs1[i].fields.ID || '',
+                                        data.tcustomervs1[i].fields.ClientTypeName || 'Default',
+                                        data.tcustomervs1[i].fields.Discount || 0,
+                                        data.tcustomervs1[i].fields.TermsName || '',
+                                        data.tcustomervs1[i].fields.FirstName || '',
+                                        data.tcustomervs1[i].fields.LastName || ''
+                                    ];
+
+                                    splashArrayCustomerList.push(dataListCustomer);
+
+                                    //}
+                                }
+
+                                function MakeNegative() {
+                                    $('td').each(function () {
+                                        if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+                                    });
+                                };
+
+                                templateObject.custdatatablerecords.set(dataTableList);
+                                var datatable = $('#tblContactlist').DataTable();
+                                datatable.clear();
+                                datatable.rows.add(splashArrayCustomerList);
+                                datatable.draw(false);
+
+                                $('.fullScreenSpin').css('display', 'none');
+                                $('.dataTables_info').html('Showing 1 to ' + data.tcustomervs1.length + ' of ' + data.tcustomervs1.length + ' entries');
+                                $('.fullScreenSpin').css('display', 'none');
+                                // addVS1Data('TCustomerVS1',JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                //   templateObject.resetData(dataNonBo);
+                                //
+                                // }).catch(function (err) {
+                                //
+                                // });
+                            }).catch(function (err) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            });
+                            }
+
                           }
-                      }
+
+                        } else {
+                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
+                                $('.fullScreenSpin').css('display', 'none');
+                            } else {
+                                sideBarService.getAllCustomersDataVS1(dataLenght, 0).then(function (dataNonBo) {
+
+                                    addVS1Data('TCustomerVS1', JSON.stringify(dataNonBo)).then(function (datareturn) {
+                                        templateObject.resetData(dataNonBo);
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                            }
+                        }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
 
-                    // $('#tblCustomerlist').DataTable().column( 0 ).visible( true );
+                    // $('#tblContactlist').DataTable().column( 0 ).visible( true );
                     //$('.fullScreenSpin').css('display','none');
                 }, 0);
 
-                var columns = $('#tblCustomerlist th');
+                var columns = $('#tblContactlist th');
                 let sTible = "";
                 let sWidth = "";
                 let sIndex = "";
@@ -1680,7 +1926,7 @@ Template.customerlistpop.onRendered(function () {
 });
 
 
-Template.customerlistpop.events({
+Template.contactlistpop.events({
     'click #btnNewCustomer': function (event) {
         FlowRouter.go('/customerscard');
     },
@@ -1691,7 +1937,7 @@ Template.customerlistpop.events({
     },
     'click .btnCloseCustomerPOPList': function (event) {
         setTimeout(function () {
-          $('#tblCustomerlist_filter .form-control-sm').val('');
+          $('#tblContactlist_filter .form-control-sm').val('');
         }, 1000);
     },
     'click .btnRefreshCustomer': function (event) {
@@ -1704,7 +1950,7 @@ Template.customerlistpop.events({
         var splashArrayCustomerList = new Array();
         const dataTableList = [];
         const tableHeaderList = [];
-        let dataSearchName = $('#tblCustomerlist_filter input').val();
+        let dataSearchName = $('#tblContactlist_filter input').val();
 
         if (dataSearchName.replace(/\s/g, '') != '') {
             sideBarService.getAllCustomersDataVS1ByName(dataSearchName).then(function (data) {
@@ -1775,7 +2021,7 @@ Template.customerlistpop.events({
                         splashArrayCustomerList.push(dataListCustomer);
                         //}
                     }
-                    var datatable = $('#tblCustomerlist').DataTable();
+                    var datatable = $('#tblContactlist').DataTable();
                     datatable.clear();
                     datatable.rows.add(splashArrayCustomerList);
                     datatable.draw(false);
@@ -1892,7 +2138,7 @@ Template.customerlistpop.events({
                     // clientList.push(customerrecordObj);
                     //}
                 }
-                var datatable = $('#tblCustomerlist').DataTable();
+                var datatable = $('#tblContactlist').DataTable();
                 datatable.clear();
                 datatable.rows.add(splashArrayCustomerList);
                 datatable.draw(false);
@@ -1905,13 +2151,13 @@ Template.customerlistpop.events({
             });
         }
     },
-    'keyup #tblCustomerlist_filter input': function (event) {
+    'keyup #tblContactlist_filter input': function (event) {
       if (event.keyCode == 13) {
          $(".btnRefreshCustomer").trigger("click");
       }
     },
     'click .chkDatatable': function (event) {
-        var columns = $('#tblCustomerlist th');
+        var columns = $('#tblContactlist th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
         $.each(columns, function (i, v) {
@@ -1941,7 +2187,7 @@ Template.customerlistpop.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblCustomerlist'
+                    PrefName: 'tblContactlist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.remove({
@@ -1992,7 +2238,7 @@ Template.customerlistpop.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblCustomerlist'
+                    PrefName: 'tblContactlist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.update({
@@ -2003,7 +2249,7 @@ Template.customerlistpop.events({
                             username: clientUsername,
                             useremail: clientEmail,
                             PrefGroup: 'salesform',
-                            PrefName: 'tblCustomerlist',
+                            PrefName: 'tblContactlist',
                             published: true,
                             customFields: lineItems,
                             updatedAt: new Date()
@@ -2022,7 +2268,7 @@ Template.customerlistpop.events({
                         username: clientUsername,
                         useremail: clientEmail,
                         PrefGroup: 'salesform',
-                        PrefName: 'tblCustomerlist',
+                        PrefName: 'tblContactlist',
                         published: true,
                         customFields: lineItems,
                         createdAt: new Date()
@@ -2043,7 +2289,7 @@ Template.customerlistpop.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        var datable = $('#tblCustomerlist').DataTable();
+        var datable = $('#tblContactlist').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
 
@@ -2054,7 +2300,7 @@ Template.customerlistpop.events({
 
         let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
-        var datable = $('#tblCustomerlist th');
+        var datable = $('#tblContactlist th');
         $.each(datable, function (i, v) {
             if (v.innerText == columnDataValue) {
                 let className = v.className;
@@ -2067,7 +2313,7 @@ Template.customerlistpop.events({
     },
     'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
-        var columns = $('#tblCustomerlist th');
+        var columns = $('#tblContactlist th');
 
         const tableHeaderList = [];
         let sTible = "";
@@ -2097,19 +2343,19 @@ Template.customerlistpop.events({
     },
     'click .exportbtn': function () {
         //$('.fullScreenSpin').css('display','inline-block');
-        jQuery('#tblCustomerlist_wrapper .dt-buttons .btntabletocsv').click();
+        jQuery('#tblContactlist_wrapper .dt-buttons .btntabletocsv').click();
         //$('.fullScreenSpin').css('display','none');
 
     },
     'click .exportbtnExcel': function () {
         //$('.fullScreenSpin').css('display','inline-block');
-        jQuery('#tblCustomerlist_wrapper .dt-buttons .btntabletoexcel').click();
+        jQuery('#tblContactlist_wrapper .dt-buttons .btntabletoexcel').click();
         //$('.fullScreenSpin').css('display','none');
     },
     'click .printConfirm': function (event) {
 
         //$('.fullScreenSpin').css('display','inline-block');
-        jQuery('#tblCustomerlist_wrapper .dt-buttons .btntabletopdf').click();
+        jQuery('#tblContactlist_wrapper .dt-buttons .btntabletopdf').click();
         //$('.fullScreenSpin').css('display','none');
     },
     'click .refreshpagelist': function () {
@@ -2300,7 +2546,7 @@ Template.customerlistpop.events({
 
 });
 
-Template.customerlistpop.helpers({
+Template.contactlistpop.helpers({
     custdatatablerecords: () => {
         return Template.instance().custdatatablerecords.get().sort(function (a, b) {
             if (a.company == 'NA') {
@@ -2317,7 +2563,7 @@ Template.customerlistpop.helpers({
     salesCloudPreferenceRec: () => {
         return CloudPreference.findOne({
             userid: Session.get('mycloudLogonID'),
-            PrefName: 'tblCustomerlist'
+            PrefName: 'tblContactlist'
         });
     },
     loggedCompany: () => {

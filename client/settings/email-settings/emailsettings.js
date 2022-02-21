@@ -126,7 +126,7 @@ Template.emailsettings.onRendered(function() {
        ];
 
 
-   
+
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'currencyLists', function(error, result) {
         if (error) {
 
@@ -315,7 +315,7 @@ Template.emailsettings.onRendered(function() {
     }
 
 
-        
+
 
 
     templateObject.getDayName = function(day) {
@@ -483,7 +483,7 @@ Template.emailsettings.onRendered(function() {
                     if (!found) {
                         employeeScheduledRecord.push(empDataCurr);
                     }
-                        
+
             });
             $('.fullScreenSpin').css('display', 'none');
             templateObject.employeescheduledrecord.set(employeeScheduledRecord);
@@ -579,7 +579,7 @@ Template.emailsettings.onRendered(function() {
      templateObject.getScheduleInfo();
 
 
-    $(document).on("click", "#tblCustomerlist tbody tr", function (e) {
+    $(document).on("click", "#tblContactlist tbody tr", function (e) {
         var tableCustomer = $(this);
         $('#customerListModal').modal('toggle');
         $('#edtRecipients').text(tableCustomer.find(".colEmail").text());
@@ -633,7 +633,7 @@ Template.emailsettings.events({
         frequency = "D";
         date = startDate+' '+startTime;
       }
-      
+
       if(id == "") {
          objDetails = {
           type: "TReportSchedules",
@@ -671,7 +671,7 @@ Template.emailsettings.events({
       };
 
       }
-     
+
 
        taxRateService.saveScheduleSettings(objDetails).then(function(data) {
            Meteor._reload.reload();
@@ -726,7 +726,7 @@ Template.emailsettings.events({
                 $('#edtFrequency').text("Weekly");
                 }, 500);
             }
-        
+
             if(result[0].frequency == "Daily") {
                 setTimeout(function () {
                 $('#dailyEveryXDays').val(result[0].every);

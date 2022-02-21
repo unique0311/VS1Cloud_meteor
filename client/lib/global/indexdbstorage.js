@@ -445,7 +445,7 @@ openDbCheckVersion = async function () {
            resolve(versionExists);
          }
        }else{
-         versionExists = false;
+         versionExists = true;
          resolve(versionExists);
        }
       //dbReqVersion.createObjectStore("TDatabaseVersion", { keyPath: "EmployeeEmail" });

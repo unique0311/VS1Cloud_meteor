@@ -1,4 +1,4 @@
-<template name="customerlistpop">
+<template name="contactlistpop">
     <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
         <div class="card-body rounded" style="margin: 0px;">
 
@@ -140,10 +140,17 @@
                     .colNotes {
                         width: 200px !important;
                     }
+                    .th.chkBox {
+                        width: 2% !important;
+                    }
                 </style>
-                <table id="tblCustomerlist" name="tblCustomerlist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblCustomerlist">
+                <table id="tblContactlist" name="tblContactlist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblContactlist">
                     <thead>
                         <tr class="dnd-moved">
+                            <th class="th chkBox" style="width:15px!important;">
+                                  <div class="custom-control custom-checkbox chkBox" style="width:15px;"><input class="custom-control-input chkBoxAll" type="checkbox" id="formCheck-All"><label class="custom-control-label chkBoxAll"
+                                          for="formCheck-All"></label></div>
+                            </th>
                             <th class="th colCompany" style="width:200px;">Company</th>
                             <th class="th colJob" style="width:200px;">Job</th>
                             <th class="th colPhone" style="width:95px;">Phone</th>
