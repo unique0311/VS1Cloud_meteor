@@ -2542,6 +2542,17 @@ Template.contactlistpop.events({
 
             }
         });
+    },
+    'click .chkBoxAll': function () {
+        if ($(event.target).is(':checked')) {
+            $(".chkBox").prop("checked", true);
+            // $("#addAllProducts").prop("checked", true);
+            // $('.activeProductEmployee').css('display', 'none');
+        } else {
+            $(".chkBox").prop("checked", false);
+            // $("#addAllProducts").prop("checked", false);
+            // $('.activeProductEmployee').css('display', 'block');
+        }
     }
 
 });
