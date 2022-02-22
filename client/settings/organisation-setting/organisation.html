@@ -133,6 +133,43 @@ class="d-xl-flex flex-column flex-grow-1 align-items-xl-start"><label>Organizati
                                 </style>
                                 <div>
                                     <div align="left">
+                                        <h4 class="text-left" style="margin-top: 20px;">Owner Details</h4>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <div align="left">
+                                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start"><label>First Name</label>
+                                                        <input class="form-control" type="text" id="ownerfirstname" name="ownerfirstname">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div align="left">
+                                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start"><label>Last Name</label>
+                                                        <input class="form-control" type="text" id="ownerlastname" name="ownerlastname">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <div align="left">
+                                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start"><label>Owner Email</label>
+                                                        <input class="form-control" type="text" id="owneremail" name="owneremail">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div align="left">
+                                                    <div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start"><label>Owner Phone</label>
+                                                        <input class="form-control" type="text" id="ownerphone" name="ownerphone">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div align="left">
                                         <h4 class="text-left" style="margin-top: 20px;">Contacts</h4>
                                         <div class="form-row">
                                             <div class="col">
@@ -155,11 +192,11 @@ class="d-xl-flex flex-column flex-grow-1 align-items-xl-start"><label>Organizati
                                                                 </div>
                                                             </div>
                                                             {{#if equals iscompanyemail true}}
-                                                            <span class="customTooltipSpan" style="color: #808080;">used for all emailing</span>
-                                                            <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="used for all emailing" style="display:none;"></i>
+                                                                <span class="customTooltipSpan" style="color: #808080;">used for all emailing</span>
+                                                                <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="used for all emailing" style="display:none;"></i>
                                                             {{else}}
-                                                            <span class="customTooltipSpan" style="color: #808080;">will use employee email</span>
-                                                            <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="will be done using employee email address" style="display:none;"></i>
+                                                                <span class="customTooltipSpan" style="color: #808080;">will use employee email</span>
+                                                                <i class="far fa-question-circle customTooltipIcon" data-toggle="tooltip" data-placement="top" title="will be done using employee email address" style="display:none;"></i>
                                                             {{/if}}
                                                         </label>
 
