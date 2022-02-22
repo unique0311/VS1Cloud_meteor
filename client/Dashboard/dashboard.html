@@ -33,6 +33,13 @@
             .showelement{
                 display: block;
             }
+
+            .col-area li{
+                list-style-type: none;
+            }
+
+
+
         </style>
 
         <div class="d-sm-flex justify-content-between align-items-center mb-4">
@@ -106,19 +113,21 @@
                 {{> purchasesaleschart}}
             </div>
             <div class="row">
-                {{> monthlyprofitandloss}}
+                <ul class="col-area col-sm-6" id="col1">
+                <li>{{> monthlyprofitandloss}}</li>
 
-                <div class="col-lg-5 col-xl-4" id="profitlossstatus">
-                    {{> profitandlosschart}}
-                </div>
-            </div>
-            <div class="row">
-                {{> expenseschart}}
-                {{> quotedinvoicedamounts}}
-            </div>
-            <div class="row">
-                {{> resalescomparision}}
-                {{> monthlyearnings}}
+                <li>
+                    {{> resalescomparision}}
+                </li>
+
+                <li>{{> monthlyearnings}}</li>
+            </ul>
+            <ul class="col-area col-sm-6" id="col2">
+                <li>{{> profitandlosschart}}</li>
+ 
+                <li> {{> quotedinvoicedamounts}} </li>
+                <li>{{> expenseschart}} </li>
+            </ul>
             </div>
 
             <div class="row" style="Display:none!important;">
@@ -216,7 +225,10 @@
                 </div>
             </div>
 
-<a href="#" id="editcharts" style="width:100px; display: block; margin: 0 auto;">Edit Charts</a> <button class="btn btn-success hideelement" id="btnDone" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-save" style="margin: 4px;"></i>Done</button>
+<a href="#" id="editcharts" style="width:100px; display: block; margin: 0 auto;">Edit Charts</a> 
+<button class="btn btn-secondary hideelement" id="btnCancel" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-remove" style="margin: 4px;"></i>Cancel</button>
+
+&nbsp; &nbsp; <button class="btn btn-success hideelement" id="btnDone" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-save" style="margin: 4px;"></i>Save Changes</button>
 {{/if}}
     </div>
     <!-- Start Help Video Modal -->

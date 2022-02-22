@@ -35,14 +35,14 @@ Template.resalescomparision.onRendered(()=>{
         $('#resalehide').text("Hide");
       }
 
-      function done(){
-                      var url= myChart.toBase64Image();
-                      document.getElementById("comparison_url").src=url;
-                      setTimeout(function  (){
-                           $('#myChartCustomer').hide();
-                      },500)
+      // function done(){
+      //                 var url= myChart.toBase64Image();
+      //                 document.getElementById("comparison_url").src=url;
+      //                 setTimeout(function  (){
+      //                      $('#myChartCustomer').hide();
+      //                 },500)
                  
-                };
+      //           };
 
 if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
   getInvSales(function (data) {
@@ -115,10 +115,10 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
             }
         }
     },
-     bezierCurve : true,
-                        animation: {
-                            onComplete: done
-                        },
+     // bezierCurve : true,
+     //                    animation: {
+     //                        onComplete: done
+     //                    },
         "legend":{
         "display":false
         },
@@ -266,10 +266,10 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
         }
     }
 },
- bezierCurve : true,
-                        animation: {
-                            onComplete: done
-                        },
+ // bezierCurve : true,
+ //                        animation: {
+ //                            onComplete: done
+ //                        },
     "legend":{
     "display":false
     },
@@ -310,16 +310,16 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
   });
   
   Template.resalescomparision.events({
-  'click #resalehide': function () {
-   let check = localStorage.getItem("hideresalechat") || true;
-    if(check == "true" || check == true) {
-       localStorage.setItem("resaleschat",false);
-      $("#resalehide").text("Show");
-    } else {
-       $("#resalehide").text("Hide");
-       localStorage.setItem("resaleschat",true);
-    }
-  }
+  // 'click #resalehide': function () {
+  //  let check = localStorage.getItem("hideresalechat") || true;
+  //   if(check == "true" || check == true) {
+  //      // localStorage.setItem("resaleschat",false);
+  //     $("#resalehide").text("Show");
+  //   } else {
+  //      $("#resalehide").text("Hide");
+  //      // localStorage.setItem("resaleschat",true);
+  //   }
+  // }
 
 })
 

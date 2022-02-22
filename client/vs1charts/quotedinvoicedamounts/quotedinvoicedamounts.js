@@ -38,14 +38,14 @@ Template.quotedinvoicedamounts.onRendered(() => {
         $('#hidesales1').text("Hide");
       }
 
-              function done(){
-                      var url= myChart.toBase64Image();
-                      document.getElementById("quotedinvoice_url").src=url;
-                      setTimeout(function  (){
-                           $('#quotedinvoicedamounts').hide();
-                      },500)
+              // function done(){
+              //         var url= myChart.toBase64Image();
+              //         document.getElementById("quotedinvoice_url").src=url;
+              //         setTimeout(function  (){
+              //              $('#quotedinvoicedamounts').hide();
+              //         },500)
                  
-                };
+              //   };
       
         if (!localStorage.getItem('VS1SalesListReport_dash')) {
         let currentDate = new Date();
@@ -269,10 +269,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
                                     }
                                 }
                             },
-                             bezierCurve : true,
-                        animation: {
-                            onComplete: done
-                        },
+                        //      bezierCurve : true,
+                        // animation: {
+                        //     onComplete: done
+                        // },
                             "legend": {
                                 "display": true,
                                 "position": "bottom",
@@ -478,10 +478,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
                                 }
                             }
                         },
-                         bezierCurve : true,
-                        animation: {
-                          onComplete: done
-                        },
+                        //  bezierCurve : true,
+                        // animation: {
+                        //   onComplete: done
+                        // },
                         "legend": {
                             "display": true,
                             "position": "bottom",
@@ -686,10 +686,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
                                 }
                             }
                         },
-                        bezierCurve : true,
-                        animation: {
-                            onComplete: done
-                        },
+                        // bezierCurve : true,
+                        // animation: {
+                        //     onComplete: done
+                        // },
                         "legend": {
                             "display": true,
                             "position": "bottom",
@@ -825,10 +825,10 @@ Template.quotedinvoicedamounts.onRendered(() => {
                         }
                     }
                 },
-                bezierCurve : true,
-                        animation: {
-                            onComplete: done
-                        },
+                // bezierCurve : true,
+                //         animation: {
+                //             onComplete: done
+                //         },
                 "legend": {
                     "display": true,
                     "position": "bottom",
@@ -886,14 +886,8 @@ Template.quotedinvoicedamounts.events({
     let check = localStorage.getItem("quotedinvoicedchart") || true;
     if(check == "true" || check == true) {
        $("#hidesales1").text("Show");
-       localStorage.setItem("quotedinvoicedchart",false);
-       // $('#showsales1chat').addClass('hidequotechat');
-       // $('#showsales1chat').removeClass('showquotechat');
     } else {
        $("#hidesales1").text("Hide");
-       localStorage.setItem("quotedinvoicedchart",true);
-       // $('#showsales1chat').addClass('showquotechat');
-       // $('#showsales1chat').removeClass('hidequotechat');
     }
   }
 

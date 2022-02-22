@@ -244,14 +244,14 @@ Template.monthlyprofitandloss.onRendered(() => {
                 month_6_diff = (Number(month_6_profit) + Number(total_month_6_loss));
                 month_7_diff = (Number(month_7_profit) + Number(total_month_7_loss));
                 month_8_diff = (Number(month_8_profit) + Number(total_month_8_loss));
-                function done(){
-                      var url= myChart.toBase64Image();
-                      document.getElementById("url").src=url;
-                      setTimeout(function  (){
-                           $('#monthlyprofitandlosschart').hide();
-                      },500)
+                // function done(){
+                //       var url= myChart.toBase64Image();
+                //       document.getElementById("url").src=url;
+                //       setTimeout(function  (){
+                //            $('#monthlyprofitandlosschart').hide();
+                //       },500)
 
-                };
+                // };
                 var ctx = document.getElementById("monthlyprofitandlosschart").getContext("2d");
                 var myChart = new Chart(ctx, {
                     type: 'bar',
@@ -320,10 +320,10 @@ Template.monthlyprofitandloss.onRendered(() => {
                                 }
                             }
                         },
-                         bezierCurve : true,
-                        animation: {
-                        onComplete: done
-                    },
+                    //      bezierCurve : true,
+                    //     animation: {
+                    //     onComplete: done
+                    // },
                         "legend": {
                             "display": true,
                             "position": "right",
@@ -519,14 +519,14 @@ Template.monthlyprofitandloss.onRendered(() => {
 
 
         //month_8_diff = (Number(month_8_profit) + Number(total_month_8_loss));
-        function done(){
-  var url= myChart.toBase64Image();
-  document.getElementById("url").src=url;
-  setTimeout(function  (){
-       $('#monthlyprofitandlosschart').hide();
-  },500)
+//         function done(){
+//   var url= myChart.toBase64Image();
+//   document.getElementById("url").src=url;
+//   setTimeout(function  (){
+//        $('#monthlyprofitandlosschart').hide();
+//   },500)
 
-};
+// };
         var ctx = document.getElementById("monthlyprofitandlosschart").getContext("2d");
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -594,10 +594,10 @@ Template.monthlyprofitandloss.onRendered(() => {
                         }
                     }
                 },
-                bezierCurve : true,
-                animation: {
-                onComplete: done
-                },
+                // bezierCurve : true,
+                // animation: {
+                // onComplete: done
+                // },
                 "legend": {
                     "display": true,
                     "position": "right",
@@ -1217,20 +1217,14 @@ Template.monthlyprofitandloss.onRendered(() => {
 });
 
 Template.monthlyprofitandloss.events({
-    'click #profitlosshide': function () {
-        let check = localStorage.getItem("profitchat") || true;
-        if (check == "true" || check == true) {
-            localStorage.setItem("profitchat", false);
-            $("#profitlosshide").text("Show");
-            // $('#profitchat').addClass('hidechat');
-            // $('#profitchat').removeClass('showchat');
-        } else {
-            localStorage.setItem("profitchat", true);
-            $("#profitlosshide").text("Hide");
-            // $('#profitchat').addClass('showchat');
-            // $('#profitchat').removeClass('hidechat');
-        }
-    },
+    // 'click #profitlosshide': function () {
+    //     let check = localStorage.getItem("profitchat") || true;
+    //     if (check == "true" || check == true) {
+    //         $("#profitlosshide").text("Show");
+    //     } else {
+    //         $("#profitlosshide").text("Hide");
+    //     }
+    // },
 
 })
 

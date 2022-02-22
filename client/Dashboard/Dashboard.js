@@ -8,7 +8,12 @@ import 'gauge-chart';
 let _ = require('lodash');
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
-
+let monthlyprofitlosschart = localStorage.getItem("profitchat") || true;
+let profitlosschart = localStorage.getItem("profitloss") || true;
+let resalechart = localStorage.getItem("hideresalechat") || true;
+let quotedinvoicedchart = localStorage.getItem("quotedinvoicedchart") || true;
+let earningschart = localStorage.getItem("earningschat") || true;
+let expenseschart = localStorage.getItem("expenseschart") || true;
 Template.dashboard.onCreated(function () {
     this.loggedDb = new ReactiveVar("");
     const templateObject = Template.instance();
@@ -30,122 +35,30 @@ Template.dashboard.onRendered(function () {
 
 
 
-// $( document ).ready(function() {
-// setTimeout(function(){
-function handleDragStart (evt) {
-  dragSource = this;
-  evt.target.classList.add(draggingClass);
-  evt.dataTransfer.effectAllowed = 'move';
-  evt.dataTransfer.setData('text/html', this.innerHTML);
-}
-
-function handleDragOver (evt) {
-  evt.dataTransfer.dropEffect = 'move';
-  evt.preventDefault();
-}
-
-function handleDragEnter (evt) {
-  this.classList.add('over');
-}
-
-function handleDragLeave (evt) {
-  this.classList.remove('over');
-}
-
-function handleDrop (evt) {
-  evt.stopPropagation();
-  
-  if (dragSource !== this) {
-    dragSource.innerHTML = this.innerHTML;
-    this.innerHTML = evt.dataTransfer.getData('text/html');
-  }
-  
-  evt.preventDefault();
-}
-
-function handleDragEnd (evt) {
-  Array.prototype.forEach.call(columns, function (col) {
-    ['over', 'dragging'].forEach(function (className) {
-      col.classList.remove(className);
-    });
-  });
-}
 templateObject.deactivateDraggable = function() {
-
-var columns = document.querySelectorAll('.card');
-var draggingClass = 'dragging';
-var dragSource;
-
-Array.prototype.forEach.call(columns, function (col) {
-  col.removeEventListener('dragstart', handleDragStart);
-  col.removeEventListener('dragenter', handleDragEnter)
-  col.removeEventListener('dragover', handleDragOver);
-  col.removeEventListener('dragleave', handleDragLeave);
-  col.removeEventListener('drop', handleDrop);
-  col.removeEventListener('dragend', handleDragEnd);
-
-});
-
-
-
+  $('#col1,#col2').sortable({
+  disabled:true,
+  connectWith: '.col-area',
+  placeholder: 'highlight',
+  cursor: 'grabbing',
+  handle: '.card'
+}).disableSelection();
 }
-
 templateObject.activateDraggable = function() {
-
-var columns = document.querySelectorAll('.card');
-var draggingClass = 'dragging';
-var dragSource;
-
-Array.prototype.forEach.call(columns, function (col) {
-  col.addEventListener('dragstart', handleDragStart, false);
-  col.addEventListener('dragenter', handleDragEnter, false)
-  col.addEventListener('dragover', handleDragOver, false);
-  col.addEventListener('dragleave', handleDragLeave, false);
-  col.addEventListener('drop', handleDrop, false);
-  col.addEventListener('dragend', handleDragEnd, false);
-});
-
-// function handleDragStart (evt) {
-//   dragSource = this;
-//   evt.target.classList.add(draggingClass);
-//   evt.dataTransfer.effectAllowed = 'move';
-//   evt.dataTransfer.setData('text/html', this.innerHTML);
-// }
-
-// function handleDragOver (evt) {
-//   evt.dataTransfer.dropEffect = 'move';
-//   evt.preventDefault();
-// }
-
-// function handleDragEnter (evt) {
-//   this.classList.add('over');
-// }
-
-// function handleDragLeave (evt) {
-//   this.classList.remove('over');
-// }
-
-// function handleDrop (evt) {
-//   evt.stopPropagation();
-  
-//   if (dragSource !== this) {
-//     dragSource.innerHTML = this.innerHTML;
-//     this.innerHTML = evt.dataTransfer.getData('text/html');
-//   }
-  
-//   evt.preventDefault();
-// }
-
-// function handleDragEnd (evt) {
-//   Array.prototype.forEach.call(columns, function (col) {
-//     ['over', 'dragging'].forEach(function (className) {
-//       col.classList.remove(className);
-//     });
-//   });
-// }
+$('#col1,#col2').sortable({
+  disabled:false,
+  connectWith: '.col-area',
+  placeholder: 'highlight',
+  cursor: 'grabbing',
+  handle: '.card'
+}).disableSelection();
 }
-// },1000);
-// });
+
+
+
+
+
+
 
 templateObject.hideChartElements = function () {
     $("#profitlosshide").addClass('hideelement');
@@ -166,9 +79,9 @@ templateObject.hideChartElements = function () {
      $("#hideearnings").addClass('hideelement');
      $("#hideearnings").removeClass('showelement');
 
-     var dimmedElements = document.getElementsByClassName('dimmed');
+     var dimmedElements = document.getElementsByClassName('dimmedChart');
      while(dimmedElements.length > 0){
-        dimmedElements[0].classList.remove('dimmed');
+        dimmedElements[0].classList.remove('dimmedChart');
     }
 
 
@@ -193,12 +106,14 @@ templateObject.showChartElements = function () {
      $("#hideearnings").removeClass('hideelement');
      $("#hideearnings").addClass('showelement');
 
-     $('#profitchat').addClass('dimmed');
-     $('#profitlosschat').addClass('dimmed');
-     $('#showexpenseschat').addClass('dimmed');
-     $('#showsales1chat').addClass('dimmed');
-     $('#showresaleschat').addClass('dimmed');
-     $('#showearningschat').addClass('dimmed');
+     $('.card').addClass('dimmedChart');
+
+     $(".py-2").removeClass("dimmedChart");
+     // $('#profitlosschat').addClass('dimmedChart');
+     // $('#showexpenseschat').addClass('dimmedChart');
+     // $('#showsales1chat').addClass('dimmedChart');
+     // $('#showresaleschat').addClass('dimmedChart');
+     // $('#showearningschat').addClass('dimmedChart');
 
 
 }
@@ -212,14 +127,15 @@ templateObject.checkChartToDisplay = function() {
       $("#monthlyprofitlossstatus").addClass('hideelement');
     }
 
-    if(localStorage.getItem('expensechart') == "true" || localStorage.getItem('expensechart') == true || localStorage.getItem('expensechart') == null) {
+    
+    if(localStorage.getItem('expenseschart') == "true" || localStorage.getItem('expensechart') == true || localStorage.getItem('expensechart') == null) {
        $("#expenseshide").text("Hide");
        $("#expensechart").removeClass('hideelement');
     } else {
       $("#expenseshide").text("Show");
       $("#expensechart").addClass('hideelement');
     }
-
+  
     if(localStorage.getItem('profitloss') == "true" || localStorage.getItem('profitloss') == true || localStorage.getItem('profitloss') == null) {
        $("#profitloss1hide").text("Hide");
        $("#profitlossstatus").removeClass('hideelement');
@@ -273,12 +189,15 @@ Template.dashboard.events({
   $('.fullScreenSpin').css('display','inline-block');
     batchUpdateCall();
 },
+
 'click #editcharts': function () {
      const templateObject = Template.instance();
      templateObject.showChartElements();
 
    $("#btnDone").addClass('showelement');
    $("#btnDone").removeClass('hideelement');
+   $("#btnCancel").addClass('showelement');
+   $("#btnCancel").removeClass('hideelement');
    $("#editcharts").addClass('hideelement')
    $("#editcharts").removeClass('showelement');
 
@@ -289,22 +208,83 @@ Template.dashboard.events({
     $("#resalecomparision").removeClass('hideelement');
     $("#showearningchat").removeClass('hideelement');
     templateObject.activateDraggable();
- 
-    //  if($("#profitchat").hasClass('showchat')) {
-    //    $("#profitlosshide").text("Show");
-    // } else if($("#profitchat").hasClass('hidechat')) {
-    //    $("#profitlosshide").text("Hide");
-    // }
+
 },
-'click #btnDone': function() {
+'click #btnCancel': function() {
     const templateObject = Template.instance();
     templateObject.hideChartElements();
     templateObject.checkChartToDisplay();
    $("#btnDone").addClass('hideelement');
    $("#btnDone").removeClass('showelement');
+   $("#btnCancel").addClass('hideelement');
+   $("#btnCancel").removeClass('showelement');
    $("#editcharts").addClass('showelement')
    $("#editcharts").removeClass('hideelement');
    templateObject.deactivateDraggable();
+},
+
+'click #btnDone': function() {
+    const templateObject = Template.instance();
+   templateObject.hideChartElements();
+   $("#btnDone").addClass('hideelement');
+   $("#btnDone").removeClass('showelement');
+   $("#btnCancel").addClass('hideelement');
+   $("#btnCancel").removeClass('showelement');
+   $("#editcharts").addClass('showelement')
+   $("#editcharts").removeClass('hideelement');
+
+//monthlyprofitloss
+if (monthlyprofitlosschart == "true" || monthlyprofitlosschart == true) {
+    localStorage.setItem("profitchat", true);
+    $("#profitlosshide").text("Show");
+} else {
+    localStorage.setItem("profitchat", false);
+    $("#profitlosshide").text("Hide");
+}
+
+if(profitlosschart == "true" || profitlosschart == true) {
+   localStorage.setItem("profitloss",true);
+   $("#profitloss1hide").text("Show");
+} else {
+  localStorage.setItem("profitloss",false);
+   $("#profitloss1hide").text("Hide");
+}
+
+
+if(resalechart == "true" || resalechart== true) {
+   localStorage.setItem("resaleschat",true);
+  $("#resalehide").text("Show");
+} else {
+   $("#resalehide").text("Hide");
+   localStorage.setItem("resaleschat",false);
+}
+
+if(quotedinvoicedchart == "true" || quotedinvoicedchart == true) {
+   $("#hidesales1").text("Show");
+   localStorage.setItem("quotedinvoicedchart",true);
+} else {
+   $("#hidesales1").text("Hide");
+   localStorage.setItem("quotedinvoicedchart",false);
+}
+
+if(earningschart == "true" || earningschart == true) {
+   localStorage.setItem("earningschat",true);
+   $("#hideearnings").text("Show");
+} else {
+   $("#hideearnings").text("Hide");
+   localStorage.setItem("earningschat",false);
+}
+
+ if(expenseschart == "true" || expenseschart == true) {
+       $("#expenseshide").text("Show");
+       localStorage.setItem("expenseschart",true);
+    } else {
+       $("#expenseshide").text("Hide");
+       localStorage.setItem("expenseschart",false);
+    }
+ 
+   templateObject.deactivateDraggable();
+   templateObject.checkChartToDisplay();
 
 
 },
@@ -318,5 +298,69 @@ Template.dashboard.events({
     });
     $('.loadingbar').css('width', valeur + '%').attr('aria-valuenow', valeur);
     $(".progressBarInner").text("Invoices "+valeur+"%");
-}
+},
+ 'click #hideearnings': function () {
+   let check = earningschart;
+    if(check == "true" || check == true) {
+       earningschart = false;
+       $("#hideearnings").text("Show");
+    } else {
+        earningschart = true;
+       $("#hideearnings").text("Hide");
+    }
+  },
+'click #expenseshide': function () {
+   let check =  expenseschart;
+    if(check == "true" || check == true) {
+        expenseschart = false;
+       $("#expenseshide").text("Show");
+       // localStorage.setItem("expenseschart",false);
+    } else {
+       $("#expenseshide").text("Hide");
+       expenseschart = true;
+       // localStorage.setItem("expenseschart",true);
+    }
+  },
+'click #profitloss1hide': function () {
+    let check = profitlosschart;
+    if(check == "true" || check == true) {
+        profitlosschart = false;
+       $("#profitloss1hide").text("Show");
+    } else {
+       $("#profitloss1hide").text("Hide");
+       profitlosschart = true
+    }
+   },
+ 'click #profitlosshide': function () {
+        let check = monthlyprofitlosschart;
+        if (check == "true" || check == true) {
+            monthlyprofitlosschart = false;
+            $("#profitlosshide").text("Show");
+        } else {
+            $("#profitlosshide").text("Hide");
+            monthlyprofitlosschart = true;
+        }
+  },
+
+ 'click #resalehide': function () {
+   let check = resalechart;
+    if(check == "true" || check == true) {
+       resalechart = false;
+      $("#resalehide").text("Show");
+    } else {
+       $("#resalehide").text("Hide");
+       resalechart = true
+    }
+  },
+
+ 'click #hidesales1': function () {
+    let check =  quotedinvoicedchart;
+    if(check == "true" || check == true) {
+        quotedinvoicedchart = false;
+       $("#hidesales1").text("Show");
+    } else {
+       $("#hidesales1").text("Hide");
+       quotedinvoicedchart = true;
+    }
+  }
 });

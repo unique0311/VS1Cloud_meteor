@@ -28,7 +28,6 @@ Template.expenseschart.onRendered(()=>{
   let topData = this;
 
   let checkStatus = localStorage.getItem("expenseschart") || true;
-
   if(checkStatus == false || checkStatus == "false") {
     $("#expensechart").addClass('hideelement')
     $('#expenseshide').text("Show");
@@ -37,14 +36,14 @@ Template.expenseschart.onRendered(()=>{
     $('#expenseshide').text("Hide");
   }
 
-  function done(){
-                      var url= myChart.toBase64Image();
-                      document.getElementById("expense_url").src=url;
-                      setTimeout(function  (){
-                           $('#myExpensesChart').hide();
-                      },500)
+  // function done(){
+  //                     var url= myChart.toBase64Image();
+  //                     document.getElementById("expense_url").src=url;
+  //                     setTimeout(function  (){
+  //                          $('#myExpensesChart').hide();
+  //                     },500)
                  
-                };
+  //               };
 
 if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
   var currentDate2 = new Date();
@@ -190,10 +189,10 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
               }
           }
       },
-       bezierCurve : true,
-                        animation: {
-                            onComplete: done
-                        },
+       // bezierCurve : true,
+       //                  animation: {
+       //                      onComplete: done
+       //                  },
           "legend":{
           "display":false
           },
@@ -597,11 +596,11 @@ var myChart = new Chart(ctx, {
       }
   }
 },
- bezierCurve : true,
-                        animation: {
-                            onComplete: done
-                        },
-  "legend":{
+ // bezierCurve : true,
+ //                        animation: {
+ //                            onComplete: done
+ //                     },
+     "legend":{
   "display":false
   },
   "title":{},
@@ -640,16 +639,16 @@ var myChart = new Chart(ctx, {
   });
 
  Template.expenseschart.events({
-  'click #expenseshide': function () {
-   let check = localStorage.getItem("expenseschart") || true;
-    if(check == "true" || check == true) {
-       $("#expenseshide").text("Show");
-       localStorage.setItem("expenseschart",false);
-    } else {
-       $("#expenseshide").text("Hide");
-       localStorage.setItem("expenseschart",true);
-    }
-  }
+  // 'click #expenseshide': function () {
+  //  let check = localStorage.getItem("expenseschart") || true;
+  //   if(check == "true" || check == true) {
+  //      $("#expenseshide").text("Show");
+  //      // localStorage.setItem("expenseschart",false);
+  //   } else {
+  //      $("#expenseshide").text("Hide");
+  //      // localStorage.setItem("expenseschart",true);
+  //   }
+  // }
 
 })
   Template.expenseschart.helpers({

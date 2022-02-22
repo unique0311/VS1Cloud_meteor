@@ -230,16 +230,14 @@ Template.profitandlosschart.onRendered(()=>{
     'click .btnRefresh': function () {
       Meteor._reload.reload();
     },
-    'click #profitloss1hide': function () {
-    let check = localStorage.getItem("profitloss") || true;
-    if(check == "true" || check == true) {
-       localStorage.setItem("profitloss",false);
-       $("#profitloss1hide").text("Show");
-    } else {
-      localStorage.setItem("profitloss",true);
-       $("#profitloss1hide").text("Hide");
-    }
-   },
+   //  'click #profitloss1hide': function () {
+   //  let check = localStorage.getItem("profitloss") || true;
+   //  if(check == "true" || check == true) {
+   //     $("#profitloss1hide").text("Show");
+   //  } else {
+   //     $("#profitloss1hide").text("Hide");
+   //  }
+   // },
     'click .btnPrintReport':function (event) {
       $(".printReport").print({
           title   :  document.title +" | Aged Receivables | "+loggedCompany,
