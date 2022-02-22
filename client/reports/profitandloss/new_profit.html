@@ -171,21 +171,21 @@
                                         <span>Accounting basis</span>
                                         <br />
                                         <div class="form-check form-check-inline" style="margin-top: 8px;">
-                                            <input class="form-check-input" type="radio" name="radio" id="mddItem1" value="accrual">
+                                            <input class="form-check-input rbAccrual" type="radio" name="radio" id="mddItem1" value="accrual">
                                             <label class="form-check-label" for="mddItem1">Accrual</label>
                                         </div>
                                         <div class="form-check form-check-inline" style="margin-top: 8px;">
-                                            <input class="form-check-input" type="radio" name="radio" id="mddItem2" value="cash">
+                                            <input class="form-check-input rbCash" type="radio" name="radio" id="mddItem2" value="cash">
                                             <label class="form-check-label" for="mddItem2">Cash</label>
                                         </div>
                                         <hr class="periodSelectorLine" style="margin-top: 8px; margin-bottom: 8px;" />
                                         <span>Show</span>
                                         <span class="dropdown-item custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem3" name="checkbox">
+                                            <input type="checkbox" class="custom-control-input chkAccBasis"  id="mddItem3" name="checkbox">
                                             <label class="custom-control-label" for="mddItem3">Accounting basis</label>
                                         </span>
                                         <span class="dropdown-item custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem4" name="checkbox">
+                                            <input type="checkbox" class="custom-control-input chkAccCodes"  id="mddItem4" name="checkbox">
                                             <label class="custom-control-label" for="mddItem4">Account codes</label>
                                         </span>
                                         <span class="dropdown-item custom-control custom-switch">
@@ -197,11 +197,11 @@
                                             <label class="custom-control-label" for="mddItem6">Percentage of trading income</label>
                                         </span>
                                         <span class="dropdown-item custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem7" name="checkbox">
+                                            <input type="checkbox" class="custom-control-input chkTotal"  id="mddItem7" name="checkbox">
                                             <label class="custom-control-label" for="mddItem7">Total</label>
                                         </span>
                                         <span class="dropdown-item custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" checked="" id="mddItem8" name="checkbox">
+                                            <input type="checkbox" class="custom-control-input chkYTDate"  id="mddItem8" name="checkbox">
                                             <label class="custom-control-label" for="mddItem8">Year to date</label>
                                         </span>
                                     </div>
@@ -343,6 +343,7 @@
                                     <p class="text-center" style="margin-bottom: 0px;font-weight: bold;">Profit and Loss Report</p>
                                     <p class="text-center" style="margin-bottom: 0px;">{{companyname}}&nbsp;</p>
                                     <p class="text-center" style="margin-bottom: 8px;">As of {{dateAsAt}}</p>
+                                    <p class="text-center tglAccBasis" style="margin-bottom: 8px; display:none;"></p>
                                 </div>
                             </div>
                             <div class="row no-gutters p-1">
@@ -368,8 +369,8 @@
                                                 <th style="width: 178px;" class="text-right">Feb 2021</th>
                                                 <th style="width: 178px;" class="text-right">Jan 2021</th>
                                                 <th style="width: 178px;" class="text-right">Dec 2020</th>
-                                                <!-- <th style="width: 178px;" class="text-right">Total</th>
-                                                <th style="width: 178px;" class="text-right">Year to date</th> -->
+                                                <th style="width: 178px;" class="text-right tglTotal">Total</th>
+                                                <th style="width: 178px;" class="text-right tglYTD">Year to date</th>
 
                                             </tr>
                                         </thead>
@@ -378,7 +379,7 @@
                                                 {{#each item in records}}
                                                     <tr id="item-value-{{item.name}}">
                                                         {{#if equals item.accounttype ""}}
-                                                            <td style="padding-left: 15px;" class="fgr fgrblue">{{item.accountname}}</td>
+                                                            <td style="padding-left: 15px;" class="fgr fgrblue"><span class = "tglAccCodes" style="display:none;">200 - </span>{{item.accountname}}</td>
                                                             <td></td>
                                                             <td class="fgr fgrblue text-right">{{item.amount_1}}</td>
                                                             <td class="fgr fgrblue text-right">{{item.amount_2}}</td>
@@ -395,8 +396,8 @@
                                                             <td class="fgr fgrblue text-right">{{item.amount_12}}</td>
                                                             <td class="fgr fgrblue text-right">{{item.amount_13}}</td>
                                                             <td class="fgr fgrblue text-right">{{item.amount_14}}</td>
-                                                            <!-- <td class="fgr fgrblue text-right">0.00</td>
-                                                            <td class="fgr fgrblue text-right">0.00</td> -->
+                                                            <td class="fgr fgrblue text-right tglTotal">0.00</td>
+                                                            <td class="fgr fgrblue text-right tglYTD">0.00</td>
 
 
                                                         {{else}}
@@ -407,7 +408,8 @@
                                                             <td class="fgr fgrSubtotal text-right">{{item.amount_2}}</td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.amount_3}}</td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.amount_4}}</td>
-                                                            <td class="fgr fgrSubtotal text-right">{{item.amount_5}}</td>                                             <td class="fgr fgrSubtotal text-right">{{item.aug2021}}</td>
+                                                            <td class="fgr fgrSubtotal text-right">{{item.amount_5}}</td>
+                                                            <td class="fgr fgrSubtotal text-right">{{item.aug2021}}</td>
                                                            <td class="fgr fgrSubtotal text-right">{{item.amount_6}}</td>
                                                            <td class="fgr fgrSubtotal text-right">{{item.amount_7}}</td>
                                                             <td class="fgr fgrSubtotal text-right">{{item.amount_8}}</td>
@@ -417,8 +419,8 @@
                                                              <td class="fgr fgrSubtotal text-right">{{item.amount_12}}</td>
                                                              <td class="fgr fgrSubtotal text-right">{{item.amount_13}}</td>
                                                              <td class="fgr fgrSubtotal text-right">{{item.amount_14}}</td>
-                                                             <!-- <td class="fgr fgrSubtotal text-right">0.00</td>
-                                                             <td class="fgr fgrSubtotal text-right">0.00</td> -->
+                                                             <td class="fgr fgrSubtotal text-right tglTotal">0.00</td>
+                                                             <td class="fgr fgrSubtotal text-right tglYTD">0.00</td>
                                                             {{else}}
                                                                 <td class="fgrtotal fgrtotalName">{{item.accounttype}}</td>
                                                                 <td></td>
@@ -436,8 +438,8 @@
                                                                 <td class="fgr fgrtotal text-right">{{item.amount_12}}</td>
                                                                 <td class="fgr fgrtotal text-right">{{item.amount_13}}</td>
                                                                 <td class="fgr fgrtotal text-right">{{item.amount_14}}</td>
-                                                                <!-- <td class="fgr fgrtotal text-right">0.00</td>
-                                                                <td class="fgr fgrtotal text-right">0.00</td> -->
+                                                                <td class="fgr fgrtotal text-right tglTotal">0.00</td>
+                                                                <td class="fgr fgrtotal text-right tglYTD">0.00</td>
                                                             {{/if}}
                                                         {{/if}}
 

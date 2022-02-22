@@ -316,7 +316,7 @@ if (moment().quarter() == 4) {
                     templateObject.recordslayout.set(groupsprofitloss);
                     templateObject.records.set(records);
                     if (templateObject.records.get()) {
-                      console.log(records);
+                      // console.log(records);
                         setTimeout(function () {
                             $('td a').each(function () {
                                 if ($(this).text().indexOf('-' + Currency) >= 0) {
@@ -1524,6 +1524,43 @@ Template.newprofitandloss.events({
     //   },
     'click .btnDelSelected':function(event){
         $('.currSelectedItem:nth-child(n)').remove();
+      },
+    'click .chkTotal':function(event){
+        $('.tglTotal').toggle();
+      },
+    'click .chkYTDate':function(event){
+        $('.tglYTD').toggle();
+      },
+    'click .chkAccBasis':function(event){
+        $('.tglAccBasis').toggle();
+      },
+    'click .chkAccCodes':function(event){
+        $('.tglAccCodes').toggle();
+      },
+    'click .rbAccrual':function(event){
+
+        if ($('.chkAccBasis').is(":checked") == 'true'){
+          // $('.chkAccBasis').trigger('click');
+          $('.tglAccBasis').text('Accrual Basis');
+        }else{
+            // $('.chkAccBasis').trigger('click');
+            $('.tglAccBasis').text('Accrual Basis');
+            $('.chkAccBasis').trigger('click');
+        }
+
+      },
+    'click .rbCash':function(event){
+
+        if ($('.chkAccBasis').is(':checked') == 'true'){
+          $('.tglAccBasis').text('Cash Basis');
+          //
+          // $('.chkAccBasis').trigger('click');
+        }else{
+            // $('.chkAccBasis').trigger('click');
+            $('.tglAccBasis').text('Cash Basis');
+            $('.chkAccBasis').trigger('click');
+        }
+
       }
 });
 

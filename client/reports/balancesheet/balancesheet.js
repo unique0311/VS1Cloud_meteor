@@ -900,10 +900,17 @@ Template.balancesheetreport.events({
       Meteor._reload.reload();
     },
     'click .btnPrintReport':function (event) {
+      $("a").attr("href", "/");
       $(".printReport").print({
           title   :  document.title +" | Aged Receivables | "+loggedCompany,
           noPrintSelector : ".addSummaryEditor",
-      })
+          mediaPrint: false,
+      });
+
+      setTimeout(function () {
+          $("a").attr("href", "#");
+      },100);
+
     },
     'click .btnExportReport':function() {
       $('.fullScreenSpin').css('display','inline-block');
