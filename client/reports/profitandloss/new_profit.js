@@ -1538,29 +1538,42 @@ Template.newprofitandloss.events({
         $('.tglAccCodes').toggle();
       },
     'click .rbAccrual':function(event){
-
+$('.tglAccBasis').text('Accrual Basis');
         if ($('.chkAccBasis').is(":checked") == 'true'){
           // $('.chkAccBasis').trigger('click');
           $('.tglAccBasis').text('Accrual Basis');
-        }else{
-            // $('.chkAccBasis').trigger('click');
-            $('.tglAccBasis').text('Accrual Basis');
+        }else if($('.chkAccBasis').is(':not(:checked)')){
+          $('.tglAccBasis').text('Accrual Basis');
             $('.chkAccBasis').trigger('click');
+              $('.chkAccBasis').prop('checked', true);
+
+            // $('.chkAccBasis').trigger('click');
         }
 
       },
     'click .rbCash':function(event){
-
+$('.tglAccBasis').text('Cash Basis')
         if ($('.chkAccBasis').is(':checked') == 'true'){
           $('.tglAccBasis').text('Cash Basis');
           //
           // $('.chkAccBasis').trigger('click');
-        }else{
-            // $('.chkAccBasis').trigger('click');
-            $('.tglAccBasis').text('Cash Basis');
+        }else if ($('.chkAccBasis').is(':not(:checked)')){
+          $('.tglAccBasis').text('Cash Basis');
             $('.chkAccBasis').trigger('click');
+            $('.chkAccBasis').prop('checked', true);
+
+            // $('.chkAccBasis').trigger('click');
         }
 
+      },
+      'click .chkDecimal':function(event){
+        // var takeIn;
+        // $('.fgr.text-right').each(function () {
+        //   takeIn = $(this).text().substring(1);
+        //   takeIn = parseInt(takeIn);
+        //   $('.fgr.text-right').text(takeIn);
+        // })
+          // var numVal = $('.fgr').html().parseInt();
       }
 });
 
@@ -1622,4 +1635,14 @@ Template.registerHelper('shortDate', function (a) {
   let dateIn = a;
   let dateOut =  moment(dateIn,'DD/MM/YYYY').format('MMM YYYY');
     return dateOut;
+});
+
+Template.registerHelper('noDecimal', function (a) {
+  let numIn = a;
+  // numIn= $(numIn).val().substring(1);
+  // numIn= $(numIn).val().replace('$','');
+
+    // numIn= $numIn.text().replace('-','');
+  let numOut = parseInt(numIn);
+    return numOut;
 });
