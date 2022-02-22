@@ -127,6 +127,9 @@ Template.organisationsettings.onRendered(function () {
 
                     $('#displayname').val(mainData.CompanyName);
                     $('#tradingname').val(mainData.TradingName);
+
+                    $('#ownerfirstname').val(mainData.Firstname);
+                    $('#ownerlastname').val(mainData.LastName);
                     //$('#businessnumber').val(mainData.Abn);
                     //$('#branch').val(mainData.Apcano);
                     //$('#comment').val(mainData.GlobalRef);
@@ -396,6 +399,9 @@ Template.organisationsettings.events({
         let companyID = 1;
         let companyName = $('#displayname').val();
         let tradingName = $('#tradingname').val();
+
+        let ownerFistName = $('#ownerfirstname').val()||'';
+        let ownerlastName = $('#ownerlastname').val()||'';
         // let companyCategory = $('#org_type').val();
         let companyABNNumber = $('#edtABNNumber').val();
         let companyNumber = $('#edtCompanyNumber').val();
@@ -443,6 +449,8 @@ Template.organisationsettings.events({
                 Id: companyID,
                 CompanyName: companyName,
                 TradingName: tradingName,
+                Firstname: ownerFistName,
+                LastName: ownerlastName,
                 // CompanyCategory: companyCategory,
                 abn:companyABNNumber,
                 CompanyNumber:companyNumber,

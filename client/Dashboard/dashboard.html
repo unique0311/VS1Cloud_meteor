@@ -124,7 +124,7 @@
             </ul>
             <ul class="col-area col-sm-6" id="col2">
                 <li>{{> profitandlosschart}}</li>
- 
+
                 <li> {{> quotedinvoicedamounts}} </li>
                 <li>{{> expenseschart}} </li>
             </ul>
@@ -225,10 +225,14 @@
                 </div>
             </div>
 
-<a href="#" id="editcharts" style="width:100px; display: block; margin: 0 auto;">Edit Charts</a> 
-<button class="btn btn-secondary hideelement" id="btnCancel" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-remove" style="margin: 4px;"></i>Cancel</button>
+<a href="#" id="editcharts" style="width:100px; display: block; margin: 0 auto;">Edit Charts</a>
+<div class="row no-gutters justify-content-center">
+        <button class="btn btn-secondary float-right hideelement" id="btnCancel" type="button" style="margin:16px;margin-top: 0px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+        <button class="btn btn-success float-right hideelement" id="btnDone" type="button" style="margin:16px;margin-left: 0px;margin-top: 0px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save Changes</button>
+</div>
+<!-- <button class="btn btn-secondary hideelement" id="btnCancel" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-remove" style="margin: 4px;"></i>Cancel</button>
 
-&nbsp; &nbsp; <button class="btn btn-success hideelement" id="btnDone" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-save" style="margin: 4px;"></i>Save Changes</button>
+ <button class="btn btn-success hideelement" id="btnDone" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-save" style="margin: 4px;"></i>Save Changes</button> -->
 {{/if}}
     </div>
     <!-- Start Help Video Modal -->

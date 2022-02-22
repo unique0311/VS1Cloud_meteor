@@ -14,7 +14,7 @@
                 }
             }
 
-            .colRunDate{
+            .colPayDate{
               width:80px!important;
             }
             .colPayInBatch{
@@ -28,6 +28,12 @@
             }
             .colSuper{
               width:80px!important;
+            }
+            .colGross{
+              width:80px!important;
+            }
+            .colPaid{
+              width:10px!important;
             }
             .colNetPay{
               width:80px!important;
@@ -369,70 +375,59 @@
                             }
 
                         </style>
-                        <table id="tblPayRunlist" name="tblPayRunlist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayRunlist">
+                        <table id="tblPayHistorylist" name="tblPayHistorylist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayHistorylist">
                             <thead>
                                 <tr class="dnd-moved">
-
+                                    <th class="th colPayNo hiddenColumn" style="width:70px;">Pay No</th>
+                                    <th class="th colEmployeeName" style="width:81px;">Employee Name</th>
                                     <th class="th colEmployeeNo hiddenColumn" style="width:81px;">Emp #</th>
-                                    <th class="th colFirstName" style="width:85px;">First Name</th>
-                                    <th class="th colLastName" style="width:85px;">Last Name</th>
-                                    <th class="th colPayInBatch" style="width:70px;">Pay In Batch</th>
-                                    <th class="th colRunDate" style="width:95px;">Run Date</th>
-                                    <th class="th colEarning" style="width:80px;">Earning</th>
+                                    <th class="th colCalendar" style="width:85px;">Calendar</th>
+                                    <th class="th colPayDate" style="width:95px;">Payment Date</th>
+                                    <th class="th colWages" style="width:80px;">Wages</th>
                                     <th class="th colTax" style="width:80px;">Tax</th>
                                     <th class="th colSuper" style="width:80px;">Super</th>
+                                    <th class="th colGross" style="width:80px;">Gross</th>
                                     <th class="th colNetPay" style="width:80px;">Net Pay</th>
-                                    <th class="th colSubmitted hiddenColumn">Submitted</th>
-                                    <th class="th colSubmitDate hiddenColumn" style="width:95px;">Submit Date</th>
-                                    <th class="th colComplete hiddenColumn">Complete</th>
+                                    <th class="th colPaid" style="width:20px;">Paid</th>
+                                    <th class="th colCommission hiddenColumn" style="width:80px;">Commission</th>
+                                    <th class="th colDeduction hiddenColumn" style="width:80px;">Deduction</th>
+                                    <th class="th colAllowance hiddenColumn" style="width:80px;">Allowance</th>
                                     <th class="th colNotes">Notes</th>
-                                    <!-- <th class="th colCustFld3 hiddenColumn">CustFld3</th>
-<th class="th colCustFld4 hiddenColumn">CustFld4</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#if datatablerecords}}
                                     {{#each item in datatablerecords}}
                                         <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                            <td contenteditable="false" class="colPayNo hiddenColumn">{{item.payid}}</td>
+                                            <td contenteditable="false" class="colEmployeeName">{{item.employeename}}</td>
                                             <td contenteditable="false" class="colEmployeeNo hiddenColumn" >{{item.id}}</td>
-                                            <td contenteditable="false" class="colFirstName">{{item.firstname}}</td>
-                                            <td contenteditable="false" class="colLastName">{{item.lastname}}</td>
-                                            <td contenteditable="false" class="colPayInBatch">{{item.paysinbatch}}</td>
-                                            <td contenteditable="false" class="colRunDate">{{item.rundate}}</td>
-                                            <td contenteditable="false" class="colEarning" style="text-align: right!important;">{{item.earning}}</td>
+                                            <td contenteditable="false" class="colCalendar">{{item.calendar}}</td>
+
+                                            <td contenteditable="false" class="colPayDate">{{item.paydate}}</td>
+                                            <td contenteditable="false" class="colWages" style="text-align: right!important;">{{item.earning}}</td>
                                             <td contenteditable="false" class="colTax" style="text-align: right!important;">{{item.tax}}</td>
                                             <td contenteditable="false" class="colSuper" style="text-align: right!important;">{{item.super}}</td>
+                                            <td contenteditable="false" class="colGross" style="text-align: right!important;">{{item.gross}}</td>
                                             <td contenteditable="false" class="colNetPay" style="text-align: right!important;">{{item.netpay}}</td>
-                                            <td contenteditable="false" class="colSubmitted hiddenColumn" style="text-align: center;">
-                                              {{#if equals item.submitted true}}
+                                            <td contenteditable="false" class="colPaid" style="text-align: center;">
+                                              {{#if equals item.paid true}}
                                               <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkSubmitted" id="chkSubmitted" checked>
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkSubmitted"></label>
+                                                  <input class="custom-control-input" type="checkbox" name="chkPaid" id="chkPaid" checked>
+                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkPaid"></label>
                                               </div>
                                               {{else}}
                                               <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkSubmitted" id="chkSubmitted">
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkSubmitted"></label>
+                                                  <input class="custom-control-input" type="checkbox" name="chkPaid" id="chkPaid">
+                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkPaid"></label>
                                               </div>
                                               {{/if}}
                                             </td>
-                                            <td contenteditable="false" class="colSubmitDate hiddenColumn">{{item.submitdate}}</td>
-                                            <td contenteditable="false" class="colComplete hiddenColumn" style="text-align: center;">
-                                              {{#if equals item.complete true}}
-                                              <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkCompleted" id="chkCompleted" checked>
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkCompleted"></label>
-                                              </div>
-                                              {{else}}
-                                              <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkCompleted" id="chkCompleted">
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkCompleted"></label>
-                                              </div>
-                                              {{/if}}
-                                            </td>
+                                            <td contenteditable="false" class="colCommission hiddenColumn" style="text-align: right!important;">{{item.commission}}</td>
+                                            <td contenteditable="false" class="colDeduction hiddenColumn" style="text-align: right!important;">{{item.deduction}}</td>
+                                            <td contenteditable="false" class="colAllowance hiddenColumn" style="text-align: right!important;">{{item.allowance}}</td>
                                             <td contenteditable="false" class="colNotes">{{item.notes}}</td>
-                                            <!-- <td contenteditable="false" class="colCustFld3 hiddenColumn">{{item.custFld3}}</td>
-<td contenteditable="false" class="colCustFld4 hiddenColumn" >{{item.custFld4}}</td> -->
+
                                         </tr>
                                     {{/each}}
                                 {{/if}}
@@ -583,70 +578,59 @@
                                 opacity: 1;
                             }
                         </style>
-                        <table id="tblPayRunlist" name="tblPayRunlist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayRunlist">
+                        <table id="tblPayHistorylist" name="tblPayHistorylist" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblPayHistorylist">
                             <thead>
                                 <tr class="dnd-moved">
-
-                                    <th class="th colEmployeeNo hiddenColumn" style="width:80px;">Emp #</th>
-                                    <th class="th colFirstName" style="width:85px;">First Name</th>
-                                    <th class="th colLastName" style="width:85px;">Last Name</th>
-                                    <th class="th colPayInBatch" style="width:70px;">Pay In Batch</th>
-                                    <th class="th colRunDate" style="width:95px;">Run Date</th>
-                                    <th class="th colEarning" style="width:80px;">Earning</th>
+                                    <th class="th colPayNo hiddenColumn" style="width:70px;">Pay No</th>
+                                    <th class="th colEmployeeName" style="width:81px;">Employee Name</th>
+                                    <th class="th colEmployeeNo hiddenColumn" style="width:81px;">Emp #</th>
+                                    <th class="th colCalendar" style="width:85px;">Calendar</th>
+                                    <th class="th colPayDate" style="width:95px;">Payment Date</th>
+                                    <th class="th colWages" style="width:80px;">Wages</th>
                                     <th class="th colTax" style="width:80px;">Tax</th>
                                     <th class="th colSuper" style="width:80px;">Super</th>
+                                    <th class="th colGross" style="width:80px;">Gross</th>
                                     <th class="th colNetPay" style="width:80px;">Net Pay</th>
-                                    <th class="th colSubmitted hiddenColumn">Submitted</th>
-                                    <th class="th colSubmitDate hiddenColumn" style="width:95px;">Submit Date</th>
-                                    <th class="th colComplete hiddenColumn">Complete</th>
+                                    <th class="th colPaid" style="width:20px;">Paid</th>
+                                    <th class="th colCommission hiddenColumn" style="width:80px;">Commission</th>
+                                    <th class="th colDeduction hiddenColumn" style="width:80px;">Deduction</th>
+                                    <th class="th colAllowance hiddenColumn" style="width:80px;">Allowance</th>
                                     <th class="th colNotes">Notes</th>
-                                    <!-- <th class="th colCustFld3 hiddenColumn">CustFld3</th>
-<th class="th colCustFld4 hiddenColumn">CustFld4</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#if datatablerecords}}
                                     {{#each item in datatablerecords}}
                                         <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
+                                            <td contenteditable="false" class="colPayNo hiddenColumn">{{item.payid}}</td>
+                                            <td contenteditable="false" class="colEmployeeName">{{item.employeename}}</td>
                                             <td contenteditable="false" class="colEmployeeNo hiddenColumn" >{{item.id}}</td>
-                                            <td contenteditable="false" class="colFirstName">{{item.firstname}}</td>
-                                            <td contenteditable="false" class="colLastName">{{item.lastname}}</td>
-                                            <td contenteditable="false" class="colPayInBatch">{{item.paysinbatch}}</td>
-                                            <td contenteditable="false" class="colRunDate">{{item.rundate}}</td>
-                                            <td contenteditable="false" class="colEarning" style="text-align: right!important;">{{item.earning}}</td>
+                                            <td contenteditable="false" class="colCalendar">{{item.calendar}}</td>
+
+                                            <td contenteditable="false" class="colPayDate">{{item.paydate}}</td>
+                                            <td contenteditable="false" class="colWages" style="text-align: right!important;">{{item.earning}}</td>
                                             <td contenteditable="false" class="colTax" style="text-align: right!important;">{{item.tax}}</td>
                                             <td contenteditable="false" class="colSuper" style="text-align: right!important;">{{item.super}}</td>
+                                            <td contenteditable="false" class="colGross" style="text-align: right!important;">{{item.gross}}</td>
                                             <td contenteditable="false" class="colNetPay" style="text-align: right!important;">{{item.netpay}}</td>
-                                            <td contenteditable="false" class="colSubmitted hiddenColumn" style="text-align: center;">
-                                              {{#if equals item.submitted true}}
+                                            <td contenteditable="false" class="colPaid" style="text-align: center;">
+                                              {{#if equals item.paid true}}
                                               <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkSubmitted" id="chkSubmitted" checked>
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkSubmitted"></label>
+                                                  <input class="custom-control-input" type="checkbox" name="chkPaid" id="chkPaid" checked>
+                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkPaid"></label>
                                               </div>
                                               {{else}}
                                               <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkSubmitted" id="chkSubmitted">
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkSubmitted"></label>
+                                                  <input class="custom-control-input" type="checkbox" name="chkPaid" id="chkPaid">
+                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkPaid"></label>
                                               </div>
                                               {{/if}}
                                             </td>
-                                            <td contenteditable="false" class="colSubmitDate hiddenColumn">{{item.submitdate}}</td>
-                                            <td contenteditable="false" class="colComplete hiddenColumn" style="text-align: center;">
-                                              {{#if equals item.complete true}}
-                                              <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkCompleted" id="chkCompleted" checked>
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkCompleted"></label>
-                                              </div>
-                                              {{else}}
-                                              <div class="custom-control custom-switch" style="display: inline-flex !important;">
-                                                  <input class="custom-control-input" type="checkbox" name="chkCompleted" id="chkCompleted">
-                                                  <label class="custom-control-label" style="position: absolute; margin-top: 5px;" for="chkCompleted"></label>
-                                              </div>
-                                              {{/if}}
-                                            </td>
+                                            <td contenteditable="false" class="colCommission hiddenColumn" style="text-align: right!important;">{{item.commission}}</td>
+                                            <td contenteditable="false" class="colDeduction hiddenColumn" style="text-align: right!important;">{{item.deduction}}</td>
+                                            <td contenteditable="false" class="colAllowance hiddenColumn" style="text-align: right!important;">{{item.allowance}}</td>
                                             <td contenteditable="false" class="colNotes">{{item.notes}}</td>
-                                            <!-- <td contenteditable="false" class="colCustFld3 hiddenColumn">{{item.custFld3}}</td>
-<td contenteditable="false" class="colCustFld4 hiddenColumn" >{{item.custFld4}}</td> -->
+
                                         </tr>
                                     {{/each}}
                                 {{/if}}

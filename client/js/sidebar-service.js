@@ -910,11 +910,29 @@ getCustomersDataByName(dataSearchName) {
       options = {
         ListType: "Detail",
         select: '[Active]=true',
-        LimitCount:'"'+limitcount+'"',
-        LimitFrom:'"'+limitfrom+'"'
+        // LimitCount:'"'+limitcount+'"',
+        // LimitFrom:'"'+limitfrom+'"'
      };
     };
     return this.getList(this.ERPObjects.TAllowance, options);
+  }
+
+  getDeduction(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail",
+          select: '[Active]=true'
+        };
+    }else{
+      options = {
+        ListType: "Detail",
+        select: '[Active]=true',
+        // LimitCount:'"'+limitcount+'"',
+        // LimitFrom:'"'+limitfrom+'"'
+     };
+    };
+    return this.getList(this.ERPObjects.TDeduction, options);
   }
 
   getAllEmployeePaySettings(limitcount, limitfrom) {
@@ -1389,6 +1407,23 @@ getAllPayRunDataVS1(limitcount, limitfrom) {
     };
   }
     return this.getList(this.ERPObjects.TPayRun, options);
+}
+
+getAllPayHistoryDataVS1(limitcount, limitfrom) {
+  let options = '';
+  if(limitcount == 'All'){
+     options = {
+      ListType: "Detail"
+     };
+  }else{
+    options = {
+     // orderby:'"ClientID desc"',
+     ListType: "Detail",
+     LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+    };
+  }
+    return this.getList(this.ERPObjects.TPayHistory, options);
 }
 
 }

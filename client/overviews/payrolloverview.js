@@ -99,7 +99,7 @@ Template.payrolloverview.onRendered(function () {
         }, 500);
     }
 
-    /*Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
+    /*Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayHistorylist', function (error, result) {
         if (error) {}
         else {
             if (result) {
@@ -440,40 +440,46 @@ Template.payrolloverview.onRendered(function () {
         window.open('/payrolloverview?page=last', '_self');
     }
 
-    templateObject.getPayRunHistory = function () {
-        getVS1Data('TPayRun').then(function (dataObject) {
+    function MakeNegative() {
+        $('td').each(function () {
+            if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+        });
+    };
+    
+    templateObject.getPayHistory = function () {
+        getVS1Data('TPayHistory').then(function (dataObject) {
 
             if (dataObject.length == 0) {
-                sideBarService.getAllPayRunDataVS1(initialBaseDataLoad, 0).then(function (data) {
-                    addVS1Data('TPayRun', JSON.stringify(data));
+                sideBarService.getAllPayHistoryDataVS1(initialBaseDataLoad, 0).then(function (data) {
+                    addVS1Data('TPayHistory', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
-                    for (let i = 0; i < data.tpayrun.length; i++) {
-                      let earning = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeEarnings) || 0.00;
-                      let tax = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeTax) || 0.00;
-                      let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation) || 0.00;
-                      let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeNetPay) || 0.00;
+                    for (let i = 0; i < data.tpayhistory.length; i++) {
+                      let earning = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Wages) || 0.00;
+                      let tax = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Tax) || 0.00;
+                      let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Superannuation) || 0.00;
+                      let gross = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Gross) || 0.00;
+                      let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Net) || 0.00;
+                      let commission = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Commission) || 0.00;
+                      let allowance = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Allowances) || 0.00;
+                      let deduction = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Deductions) || 0.00;
                         var dataList = {
-                            id: data.tpayrun[i].fields.EmployeeID || '',
-                            atomessage: data.tpayrun[i].fields.ATOMessage || '',
-                            employeename: data.tpayrun[i].fields.EmployeeName || '',
-                            employeegroup: data.tpayrun[i].fields.PayRunDetailsEmployeeGroup || '',
-                            earning: earning || '',
-                            tax: tax || '',
-                            super: supernuation || '',
-                            netpay: netpay || '',
-                            firstname: data.tpayrun[i].fields.PayRunDetailsEmployeeFirstName || '',
-                            lastname: data.tpayrun[i].fields.PayRunDetailsEmployeeLastName || '',
-                            rundate: data.tpayrun[i].fields.RunDate != '' ? moment(data.tpayrun[i].fields.RunDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.RunDate,
-                            submitted: data.tpayrun[i].fields.Submitted || '',
-                            submitdate: data.tpayrun[i].fields.SubmittedDate != '' ? moment(data.tpayrun[i].fields.SubmittedDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.SubmittedDate,
-                            notes: data.tpayrun[i].fields.Notes || '',
-                            paysinbatch: data.tpayrun[i].fields.PaysProcessed || '',
-                            invalidated: data.tpayrun[i].fields.Invalidated || false,
-                            yearfinal: data.tpayrun[i].fields.FinancialYearFinalRun || false,
-                            complete: data.tpayrun[i].fields.Complete || false,
-                            payrundetailsemployeesuperannuation: data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation || '',
-                            payslipemployeeearnings: data.tpayrun[i].fields.PaySlipEmployeeEarnings || ''
+                            id: data.tpayhistory[i].fields.Employeeid || '',
+                            employeename: data.tpayhistory[i].fields.Empname || '',
+                            calendar: data.tpayhistory[i].fields.Payperiod || '',
+                            earning: earning || '0.00',
+                            tax: tax || '0.00',
+                            super: supernuation || '0.00',
+                            commission: commission || '0.00',
+                            allowance: allowance || '0.00',
+                            deduction: deduction || '0.00',
+                            gross: gross || '0.00',
+                            netpay: netpay || '0.00',
+                            paydate: data.tpayhistory[i].fields.DatePaid != '' ? moment(data.tpayhistory[i].fields.DatePaid).format("DD/MM/YYYY") : data.tpayhistory[i].fields.DatePaid,
+                            paid: data.tpayhistory[i].fields.Paid || '',
+                            notes: data.tpayhistory[i].fields.Paynotes || '',
+                            payid: data.tpayhistory[i].fields.PayID || ''
+
                         };
 
                         dataTableList.push(dataList);
@@ -483,7 +489,7 @@ Template.payrolloverview.onRendered(function () {
 
                     if (templateObject.datatablerecords.get()) {
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
+                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayHistorylist', function (error, result) {
                             if (error) {}
                             else {
                                 if (result) {
@@ -513,15 +519,21 @@ Template.payrolloverview.onRendered(function () {
                     }
 
                     setTimeout(function () {
-                        $('#tblPayRunlist').DataTable({
+                        $('#tblPayHistorylist').DataTable({
+                          columnDefs: [
+                            {
+                                "orderable": false,
+                                "targets": [10]
 
+                            }
+                          ],
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
                                     extend: 'csvHtml5',
                                     text: '',
                                     download: 'open',
                                     className: "btntabletocsv hiddenColumn",
-                                    filename: "Pay Run History - " + moment().format(),
+                                    filename: "Pay History - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -531,8 +543,8 @@ Template.payrolloverview.onRendered(function () {
                                     download: 'open',
                                     className: "btntabletopdf hiddenColumn",
                                     text: '',
-                                    title: 'Pay Run History',
-                                    filename: "Pay Run History - " + moment().format(),
+                                    title: 'Pay History',
+                                    filename: "Pay History - " + moment().format(),
                                     exportOptions: {
                                         columns: ':visible',
                                         stripHtml: false
@@ -542,7 +554,7 @@ Template.payrolloverview.onRendered(function () {
                                     title: '',
                                     download: 'open',
                                     className: "btntabletoexcel hiddenColumn",
-                                    filename: "Pay Run History - " + moment().format(),
+                                    filename: "Pay History - " + moment().format(),
                                     orientation: 'portrait',
                                     exportOptions: {
                                         columns: ':visible'
@@ -561,38 +573,38 @@ Template.payrolloverview.onRendered(function () {
                             responsive: true,
                             "order": [[1, "asc"]],
                             action: function () {
-                                $('#tblPayRunlist').DataTable().ajax.reload();
+                                $('#tblPayHistorylist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
-                                $('#tblPayRunlist_paginate .paginate_button.page-item').removeClass('disabled');
-                                $('#tblPayRunlist_ellipsis').addClass('disabled');
+                                $('#tblPayHistorylist_paginate .paginate_button.page-item').removeClass('disabled');
+                                $('#tblPayHistorylist_ellipsis').addClass('disabled');
 
                                 if (oSettings._iDisplayLength == -1) {
                                     if (oSettings.fnRecordsDisplay() > 150) {
-                                        $('#tblPayRunlist_paginate .paginate_button.page-item.previous').addClass('disabled');
-                                        $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                        $('#tblPayHistorylist_paginate .paginate_button.page-item.previous').addClass('disabled');
+                                        $('#tblPayHistorylist_paginate .paginate_button.page-item.next').addClass('disabled');
                                     }
                                 } else {}
                                 if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                    $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                    $('#tblPayHistorylist_paginate .paginate_button.page-item.next').addClass('disabled');
                                 }
                                 $('.paginate_button.next:not(.disabled)', this.api().table().container())
                                 .on('click', function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
                                     let dataLenght = oSettings._iDisplayLength;
 
-                                    sideBarService.getAllPayRunDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-                                        getVS1Data('TPayRun').then(function (dataObjectold) {
+                                    sideBarService.getAllPayHistoryDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                        getVS1Data('TPayHistory').then(function (dataObjectold) {
                                             if (dataObjectold.length == 0) {}
                                             else {
                                                 let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tpayrun), dataOld.tpayrun);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tpayhistory), dataOld.tpayhistory);
                                                 let objCombineData = {
-                                                    tpayrun: thirdaryData
+                                                    tpayhistory: thirdaryData
                                                 }
 
-                                                addVS1Data('TPayRun', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                addVS1Data('TPayHistory', JSON.stringify(objCombineData)).then(function (datareturn) {
                                                     templateObject.resetData(objCombineData);
                                                     $('.fullScreenSpin').css('display', 'none');
                                                 }).catch(function (err) {
@@ -616,7 +628,7 @@ Template.payrolloverview.onRendered(function () {
                                 if (urlParametersPage) {
                                     this.fnPageChange('last');
                                 }
-                                $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayRunlist_filter");
+                                $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayHistorylist_filter");
                             },
 
                         }).on('page', function () {
@@ -625,11 +637,11 @@ Template.payrolloverview.onRendered(function () {
                             templateObject.datatablerecords.set(draftRecord);
                         }).on('column-reorder', function () {});
 
-                        // $('#tblPayRunlist').DataTable().column( 0 ).visible( true );
+                        // $('#tblPayHistorylist').DataTable().column( 0 ).visible( true );
                         //$('.fullScreenSpin').css('display', 'none');
                     }, 0);
 
-                    var columns = $('#tblPayRunlist th');
+                    var columns = $('#tblPayHistorylist th');
                     let sTible = "";
                     let sWidth = "";
                     let sIndex = "";
@@ -655,7 +667,7 @@ Template.payrolloverview.onRendered(function () {
                     });
                     templateObject.tableheaderrecords.set(tableHeaderList);
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblPayRunlist tbody').on('click', 'tr', function () {
+                    $('#tblPayHistorylist tbody').on('click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         if (listData) {
                             FlowRouter.go('/employeescard?id=' + listData);
@@ -669,36 +681,36 @@ Template.payrolloverview.onRendered(function () {
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tpayrun;
+                let useData = data.tpayhistory;
 
                 let lineItems = [];
                 let lineItemObj = {};
-                for (let i = 0; i < data.tpayrun.length; i++) {
-                  let earning = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeEarnings) || 0.00;
-                  let tax = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeTax) || 0.00;
-                  let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation) || 0.00;
-                  let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeNetPay) || 0.00;
+                for (let i = 0; i < data.tpayhistory.length; i++) {
+                  let earning = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Wages) || 0.00;
+                  let tax = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Tax) || 0.00;
+                  let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Superannuation) || 0.00;
+                  let gross = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Gross) || 0.00;
+                  let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Net) || 0.00;
+                  let commission = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Commission) || 0.00;
+                  let allowance = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Allowances) || 0.00;
+                  let deduction = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Deductions) || 0.00;
                     var dataList = {
-                        id: data.tpayrun[i].fields.EmployeeID || '',
-                        atomessage: data.tpayrun[i].fields.ATOMessage || '',
-                        employeename: data.tpayrun[i].fields.EmployeeName || '',
-                        employeegroup: data.tpayrun[i].fields.PayRunDetailsEmployeeGroup || '',
-                        earning: earning || '',
-                        tax: tax || '',
-                        super: supernuation || '',
-                        netpay: netpay || '',
-                        firstname: data.tpayrun[i].fields.PayRunDetailsEmployeeFirstName || '',
-                        lastname: data.tpayrun[i].fields.PayRunDetailsEmployeeLastName || '',
-                        rundate: data.tpayrun[i].fields.RunDate != '' ? moment(data.tpayrun[i].fields.RunDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.RunDate,
-                        submitted: data.tpayrun[i].fields.Submitted || '',
-                        submitdate: data.tpayrun[i].fields.SubmittedDate != '' ? moment(data.tpayrun[i].fields.SubmittedDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.SubmittedDate,
-                        notes: data.tpayrun[i].fields.Notes || '',
-                        paysinbatch: data.tpayrun[i].fields.PaysProcessed || '',
-                        invalidated: data.tpayrun[i].fields.Invalidated || false,
-                        yearfinal: data.tpayrun[i].fields.FinancialYearFinalRun || false,
-                        complete: data.tpayrun[i].fields.Complete || false,
-                        payrundetailsemployeesuperannuation: data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation || '',
-                        payslipemployeeearnings: data.tpayrun[i].fields.PaySlipEmployeeEarnings || ''
+                        id: data.tpayhistory[i].fields.Employeeid || '',
+                        employeename: data.tpayhistory[i].fields.Empname || '',
+                        calendar: data.tpayhistory[i].fields.Payperiod || '',
+                        earning: earning || '0.00',
+                        tax: tax || '0.00',
+                        super: supernuation || '0.00',
+                        commission: commission || '0.00',
+                        allowance: allowance || '0.00',
+                        deduction: deduction || '0.00',
+                        gross: gross || '0.00',
+                        netpay: netpay || '0.00',
+                        paydate: data.tpayhistory[i].fields.DatePaid != '' ? moment(data.tpayhistory[i].fields.DatePaid).format("DD/MM/YYYY") : data.tpayhistory[i].fields.DatePaid,
+                        paid: data.tpayhistory[i].fields.Paid || '',
+                        notes: data.tpayhistory[i].fields.Paynotes || '',
+                        payid: data.tpayhistory[i].fields.PayID || ''
+
                     };
 
                     dataTableList.push(dataList);
@@ -708,7 +720,7 @@ Template.payrolloverview.onRendered(function () {
 
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayHistorylist', function (error, result) {
                         if (error) {}
                         else {
                             if (result) {
@@ -738,15 +750,21 @@ Template.payrolloverview.onRendered(function () {
                 }
 
                 setTimeout(function () {
-                    $('#tblPayRunlist').DataTable({
+                    $('#tblPayHistorylist').DataTable({
+                        columnDefs: [
+                          {
+                              "orderable": false,
+                              "targets": [10]
 
+                          }
+                        ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
                                 extend: 'csvHtml5',
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "Pay Run History - " + moment().format(),
+                                filename: "Pay History - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -756,8 +774,8 @@ Template.payrolloverview.onRendered(function () {
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
-                                title: 'Pay Run History',
-                                filename: "Pay Run History - " + moment().format(),
+                                title: 'Pay History',
+                                filename: "Pay History - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
@@ -767,7 +785,7 @@ Template.payrolloverview.onRendered(function () {
                                 title: '',
                                 download: 'open',
                                 className: "btntabletoexcel hiddenColumn",
-                                filename: "Pay Run History - " + moment().format(),
+                                filename: "Pay History - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -786,39 +804,39 @@ Template.payrolloverview.onRendered(function () {
                         lengthMenu: [[initialDatatableLoad, -1], [initialDatatableLoad, "All"]],
                         "order": [[1, "asc"]],
                         action: function () {
-                            $('#tblPayRunlist').DataTable().ajax.reload();
+                            $('#tblPayHistorylist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
-                            $('#tblPayRunlist_paginate .paginate_button.page-item').removeClass('disabled');
-                            $('#tblPayRunlist_ellipsis').addClass('disabled');
+                            $('#tblPayHistorylist_paginate .paginate_button.page-item').removeClass('disabled');
+                            $('#tblPayHistorylist_ellipsis').addClass('disabled');
 
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
-                                    $('#tblPayRunlist_paginate .paginate_button.page-item.previous').addClass('disabled');
-                                    $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                    $('#tblPayHistorylist_paginate .paginate_button.page-item.previous').addClass('disabled');
+                                    $('#tblPayHistorylist_paginate .paginate_button.page-item.next').addClass('disabled');
                                 }
                             } else {}
 
                             if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                $('#tblPayRunlist_paginate .page-item.next').addClass('disabled');
+                                $('#tblPayHistorylist_paginate .page-item.next').addClass('disabled');
                             }
                             $('.paginate_button.next:not(.disabled)', this.api().table().container())
                             .on('click', function () {
                                 $('.fullScreenSpin').css('display', 'inline-block');
                                 let dataLenght = oSettings._iDisplayLength;
 
-                                sideBarService.getAllPayRunDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-                                    getVS1Data('TPayRun').then(function (dataObjectold) {
+                                sideBarService.getAllPayHistoryDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TPayHistory').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
                                         else {
                                             let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpayrun), dataOld.tpayrun);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpayhistory), dataOld.tpayhistory);
                                             let objCombineData = {
-                                                tpayrun: thirdaryData
+                                                tpayhistory: thirdaryData
                                             }
 
-                                            addVS1Data('TPayRun', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                            addVS1Data('TPayHistory', JSON.stringify(objCombineData)).then(function (datareturn) {
                                                 templateObject.resetData(objCombineData);
                                                 $('.fullScreenSpin').css('display', 'none');
                                             }).catch(function (err) {
@@ -842,7 +860,7 @@ Template.payrolloverview.onRendered(function () {
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
-                            $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayRunlist_filter");
+                            $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayHistorylist_filter");
                         },
 
                     }).on('page', function () {
@@ -851,11 +869,11 @@ Template.payrolloverview.onRendered(function () {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {});
 
-                    // $('#tblPayRunlist').DataTable().column( 0 ).visible( true );
+                    // $('#tblPayHistorylist').DataTable().column( 0 ).visible( true );
                     //$('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
-                var columns = $('#tblPayRunlist th');
+                var columns = $('#tblPayHistorylist th');
                 let sTible = "";
                 let sWidth = "";
                 let sIndex = "";
@@ -881,7 +899,7 @@ Template.payrolloverview.onRendered(function () {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblPayRunlist tbody').on('click', 'tr', function () {
+                $('#tblPayHistorylist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
                         FlowRouter.go('/employeescard?id=' + listData);
@@ -889,37 +907,37 @@ Template.payrolloverview.onRendered(function () {
                 });
             }
         }).catch(function (err) {
-
-            sideBarService.getAllPayRunDataVS1(initialBaseDataLoad, 0).then(function (data) {
-                addVS1Data('TPayRun', JSON.stringify(data));
+          console.log(err);
+            sideBarService.getAllPayHistoryDataVS1(initialBaseDataLoad, 0).then(function (data) {
+                addVS1Data('TPayHistory', JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
-                for (let i = 0; i < data.tpayrun.length; i++) {
-                  let earning = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeEarnings) || 0.00;
-                  let tax = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeTax) || 0.00;
-                  let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation) || 0.00;
-                  let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayrun[i].fields.PayRunDetailsEmployeeNetPay) || 0.00;
+                for (let i = 0; i < data.tpayhistory.length; i++) {
+                  let earning = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Wages) || 0.00;
+                  let tax = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Tax) || 0.00;
+                  let supernuation = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Superannuation) || 0.00;
+                  let gross = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Gross) || 0.00;
+                  let netpay = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Net) || 0.00;
+                  let commission = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Commission) || 0.00;
+                  let allowance = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Allowances) || 0.00;
+                  let deduction = utilityService.modifynegativeCurrencyFormat(data.tpayhistory[i].fields.Deductions) || 0.00;
                     var dataList = {
-                        id: data.tpayrun[i].fields.EmployeeID || '',
-                        atomessage: data.tpayrun[i].fields.ATOMessage || '',
-                        employeename: data.tpayrun[i].fields.EmployeeName || '',
-                        employeegroup: data.tpayrun[i].fields.PayRunDetailsEmployeeGroup || '',
-                        earning: earning || '',
-                        tax: tax || '',
-                        super: supernuation || '',
-                        netpay: netpay || '',
-                        firstname: data.tpayrun[i].fields.PayRunDetailsEmployeeFirstName || '',
-                        lastname: data.tpayrun[i].fields.PayRunDetailsEmployeeLastName || '',
-                        rundate: data.tpayrun[i].fields.RunDate != '' ? moment(data.tpayrun[i].fields.RunDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.RunDate,
-                        submitted: data.tpayrun[i].fields.Submitted || '',
-                        submitdate: data.tpayrun[i].fields.SubmittedDate != '' ? moment(data.tpayrun[i].fields.SubmittedDate).format("DD/MM/YYYY") : data.tpayrun[i].fields.SubmittedDate,
-                        notes: data.tpayrun[i].fields.Notes || '',
-                        paysinbatch: data.tpayrun[i].fields.PaysProcessed || '',
-                        invalidated: data.tpayrun[i].fields.Invalidated || false,
-                        yearfinal: data.tpayrun[i].fields.FinancialYearFinalRun || false,
-                        complete: data.tpayrun[i].fields.Complete || false,
-                        payrundetailsemployeesuperannuation: data.tpayrun[i].fields.PayRunDetailsEmployeeSuperannuation || '',
-                        payslipemployeeearnings: data.tpayrun[i].fields.PaySlipEmployeeEarnings || ''
+                        id: data.tpayhistory[i].fields.Employeeid || '',
+                        employeename: data.tpayhistory[i].fields.Empname || '',
+                        calendar: data.tpayhistory[i].fields.Payperiod || '',
+                        earning: earning || '0.00',
+                        tax: tax || '0.00',
+                        super: supernuation || '0.00',
+                        commission: commission || '0.00',
+                        allowance: allowance || '0.00',
+                        deduction: deduction || '0.00',
+                        gross: gross || '0.00',
+                        netpay: netpay || '0.00',
+                        paydate: data.tpayhistory[i].fields.DatePaid != '' ? moment(data.tpayhistory[i].fields.DatePaid).format("DD/MM/YYYY") : data.tpayhistory[i].fields.DatePaid,
+                        paid: data.tpayhistory[i].fields.Paid || '',
+                        notes: data.tpayhistory[i].fields.Paynotes || '',
+                        payid: data.tpayhistory[i].fields.PayID || ''
+
                     };
 
                     dataTableList.push(dataList);
@@ -928,7 +946,7 @@ Template.payrolloverview.onRendered(function () {
                 templateObject.datatablerecords.set(dataTableList);
                 if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayRunlist', function (error, result) {
+                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPayHistorylist', function (error, result) {
                         if (error) {}
                         else {
                             if (result) {
@@ -958,15 +976,21 @@ Template.payrolloverview.onRendered(function () {
                 }
 
                 setTimeout(function () {
-                    $('#tblPayRunlist').DataTable({
+                    $('#tblPayHistorylist').DataTable({
+                      columnDefs: [
+                        {
+                            "orderable": false,
+                            "targets": [10]
 
+                        }
+                      ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
                                 extend: 'csvHtml5',
                                 text: '',
                                 download: 'open',
                                 className: "btntabletocsv hiddenColumn",
-                                filename: "Pay Run History - " + moment().format(),
+                                filename: "Pay History - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -976,8 +1000,8 @@ Template.payrolloverview.onRendered(function () {
                                 download: 'open',
                                 className: "btntabletopdf hiddenColumn",
                                 text: '',
-                                title: 'Pay Run History',
-                                filename: "Pay Run History - " + moment().format(),
+                                title: 'Pay History',
+                                filename: "Pay History - " + moment().format(),
                                 exportOptions: {
                                     columns: ':visible',
                                     stripHtml: false
@@ -987,7 +1011,7 @@ Template.payrolloverview.onRendered(function () {
                                 title: '',
                                 download: 'open',
                                 className: "btntabletoexcel hiddenColumn",
-                                filename: "Pay Run History - " + moment().format(),
+                                filename: "Pay History - " + moment().format(),
                                 orientation: 'portrait',
                                 exportOptions: {
                                     columns: ':visible'
@@ -1006,16 +1030,16 @@ Template.payrolloverview.onRendered(function () {
                         responsive: true,
                         "order": [[1, "asc"]],
                         action: function () {
-                            $('#tblPayRunlist').DataTable().ajax.reload();
+                            $('#tblPayHistorylist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
-                            $('#tblPayRunlist_paginate .paginate_button.page-item').removeClass('disabled');
-                            $('#tblPayRunlist_ellipsis').addClass('disabled');
+                            $('#tblPayHistorylist_paginate .paginate_button.page-item').removeClass('disabled');
+                            $('#tblPayHistorylist_ellipsis').addClass('disabled');
 
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
-                                    $('#tblPayRunlist_paginate .paginate_button.page-item.previous').addClass('disabled');
-                                    $('#tblPayRunlist_paginate .paginate_button.page-item.next').addClass('disabled');
+                                    $('#tblPayHistorylist_paginate .paginate_button.page-item.previous').addClass('disabled');
+                                    $('#tblPayHistorylist_paginate .paginate_button.page-item.next').addClass('disabled');
                                 }
                             } else {}
                             if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
@@ -1026,18 +1050,18 @@ Template.payrolloverview.onRendered(function () {
                                 $('.fullScreenSpin').css('display', 'inline-block');
                                 let dataLenght = oSettings._iDisplayLength;
 
-                                sideBarService.getAllPayRunDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-                                    getVS1Data('TPayRun').then(function (dataObjectold) {
+                                sideBarService.getAllPayHistoryDataVS1(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TPayHistory').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
                                         else {
                                             let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpayrun), dataOld.tpayrun);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpayhistory), dataOld.tpayhistory);
                                             let objCombineData = {
-                                                tpayrun: thirdaryData
+                                                tpayhistory: thirdaryData
                                             }
 
-                                            addVS1Data('TPayRun', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                            addVS1Data('TPayHistory', JSON.stringify(objCombineData)).then(function (datareturn) {
                                                 templateObject.resetData(objCombineData);
                                                 $('.fullScreenSpin').css('display', 'none');
                                             }).catch(function (err) {
@@ -1061,7 +1085,7 @@ Template.payrolloverview.onRendered(function () {
                             if (urlParametersPage) {
                                 this.fnPageChange('last');
                             }
-                            $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayRunlist_filter");
+                            $("<button class='btn btn-primary btnRefreshPayRunList' type='button' id='btnRefreshPayRunList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPayHistorylist_filter");
                         },
 
                     }).on('page', function () {
@@ -1070,11 +1094,11 @@ Template.payrolloverview.onRendered(function () {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {});
 
-                    // $('#tblPayRunlist').DataTable().column( 0 ).visible( true );
+                    // $('#tblPayHistorylist').DataTable().column( 0 ).visible( true );
                     //$('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
-                var columns = $('#tblPayRunlist th');
+                var columns = $('#tblPayHistorylist th');
                 let sTible = "";
                 let sWidth = "";
                 let sIndex = "";
@@ -1100,7 +1124,7 @@ Template.payrolloverview.onRendered(function () {
                 });
                 templateObject.tableheaderrecords.set(tableHeaderList);
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblPayRunlist tbody').on('click', 'tr', function () {
+                $('#tblPayHistorylist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     if (listData) {
                         FlowRouter.go('/employeescard?id=' + listData);
@@ -1115,7 +1139,7 @@ Template.payrolloverview.onRendered(function () {
         });
     }
 
-    templateObject.getPayRunHistory();
+    templateObject.getPayHistory();
 
     templateObject.getEmployees = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
@@ -1955,7 +1979,7 @@ Template.payrolloverview.onRendered(function () {
         }
     });
 
-    $('#tblPayRunlist tbody').on('click', 'tr', function () {
+    $('#tblPayHistorylist tbody').on('click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
         if (listData) {
             FlowRouter.go('/employeescard?id=' + listData);
@@ -4307,7 +4331,7 @@ Template.payrolloverview.events({
         }
     },
     'click .chkDatatable': function (event) {
-        var columns = $('#tblPayRunlist th');
+        var columns = $('#tblPayHistorylist th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
         $.each(columns, function (i, v) {
@@ -4337,7 +4361,7 @@ Template.payrolloverview.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblPayRunlist'
+                    PrefName: 'tblPayHistorylist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.remove({
@@ -4388,7 +4412,7 @@ Template.payrolloverview.events({
                 var clientEmail = getcurrentCloudDetails.cloudEmail;
                 var checkPrefDetails = CloudPreference.findOne({
                     userid: clientID,
-                    PrefName: 'tblPayRunlist'
+                    PrefName: 'tblPayHistorylist'
                 });
                 if (checkPrefDetails) {
                     CloudPreference.update({
@@ -4399,7 +4423,7 @@ Template.payrolloverview.events({
                             username: clientUsername,
                             useremail: clientEmail,
                             PrefGroup: 'salesform',
-                            PrefName: 'tblPayRunlist',
+                            PrefName: 'tblPayHistorylist',
                             published: true,
                             customFields: lineItems,
                             updatedAt: new Date()
@@ -4418,7 +4442,7 @@ Template.payrolloverview.events({
                         username: clientUsername,
                         useremail: clientEmail,
                         PrefGroup: 'salesform',
-                        PrefName: 'tblPayRunlist',
+                        PrefName: 'tblPayHistorylist',
                         published: true,
                         customFields: lineItems,
                         createdAt: new Date()
@@ -4439,7 +4463,7 @@ Template.payrolloverview.events({
         let columData = $(event.target).text();
 
         let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-        var datable = $('#tblPayRunlist').DataTable();
+        var datable = $('#tblPayHistorylist').DataTable();
         var title = datable.column(columnDatanIndex).header();
         $(title).html(columData);
 
@@ -4450,7 +4474,7 @@ Template.payrolloverview.events({
 
         let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
         let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
-        var datable = $('#tblPayRunlist th');
+        var datable = $('#tblPayHistorylist th');
         $.each(datable, function (i, v) {
             if (v.innerText == columnDataValue) {
                 let className = v.className;
@@ -4463,7 +4487,7 @@ Template.payrolloverview.events({
     },
     'click .btnOpenSettings': function (event) {
         let templateObject = Template.instance();
-        var columns = $('#tblPayRunlist th');
+        var columns = $('#tblPayHistorylist th');
 
         const tableHeaderList = [];
         let sTible = "";
@@ -4740,13 +4764,13 @@ Template.payrolloverview.events({
     },
     'click .exportbtn': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblPayRunlist_wrapper .dt-buttons .btntabletocsv').click();
+        jQuery('#tblPayHistorylist_wrapper .dt-buttons .btntabletocsv').click();
         $('.fullScreenSpin').css('display', 'none');
 
     },
     'click .exportbtnExcel': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblPayRunlist_wrapper .dt-buttons .btntabletoexcel').click();
+        jQuery('#tblPayHistorylist_wrapper .dt-buttons .btntabletoexcel').click();
         $('.fullScreenSpin').css('display', 'none');
     },
     'click .btnRefresh': function () {
@@ -4756,8 +4780,8 @@ Template.payrolloverview.events({
         sideBarService.getAllAppointmentPredList().then(function (data) {
             addVS1Data('TAppointmentPreferences', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
         }).catch(function (err) {});
-        sideBarService.getAllPayRunDataVS1(initialBaseDataLoad, 0).then(function (data) {
-            addVS1Data('TPayRun', JSON.stringify(data)).then(function (datareturn) {
+        sideBarService.getAllPayHistoryDataVS1(initialBaseDataLoad, 0).then(function (data) {
+            addVS1Data('TPayHistory', JSON.stringify(data)).then(function (datareturn) {
                 //window.open('/payrolloverview', '_self');
             }).catch(function (err) {
                 //window.open('/payrolloverview', '_self');
@@ -4779,7 +4803,7 @@ Template.payrolloverview.events({
         sideBarService.getAllTimeSheetList().then(function (data) {
             addVS1Data('TTimeSheet', JSON.stringify(data));
             setTimeout(function () {
-                window.open('/payrolloverview', '_self');
+                //window.open('/payrolloverview', '_self');
             }, 500);
         }).catch(function (err) {
             $('.fullScreenSpin').css('display', 'none');
@@ -4799,7 +4823,7 @@ Template.payrolloverview.events({
     'click .printConfirm': function (event) {
 
         $('.fullScreenSpin').css('display', 'inline-block');
-        jQuery('#tblPayRunlist_wrapper .dt-buttons .btntabletopdf').click();
+        jQuery('#tblPayHistorylist_wrapper .dt-buttons .btntabletopdf').click();
         $('.fullScreenSpin').css('display', 'none');
     },
     'click .templateDownload': function () {
@@ -5055,7 +5079,7 @@ Template.payrolloverview.helpers({
     salesCloudPreferenceRec: () => {
         return CloudPreference.findOne({
             userid: Session.get('mycloudLogonID'),
-            PrefName: 'tblPayRunlist'
+            PrefName: 'tblPayHistorylist'
         });
     },
     loggedCompany: () => {

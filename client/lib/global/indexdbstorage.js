@@ -187,6 +187,7 @@ openDb = function (dbName) {
       db.createObjectStore("TTerminationSimple", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TDeduction", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TLeaveRequest", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TPayHistory", { keyPath: "EmployeeEmail" });
     }
 
     dbReq.onerror = (event) => reject(new Error('Failed to open DB'));

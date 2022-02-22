@@ -647,41 +647,61 @@ Template.emailsettings.onRendered(function() {
 
     templateObject.getScheduleInfo();
 
-
-    $(document).on("click", "#tblContactlist tbody tr", function(e) {
-        var tableCustomer = $(this);
+    $('#tblContactlist tbody').on( 'click', 'td:not(.chkBox)', function () {
+        //var tableCustomer = $(this);
+        let selectDataID = $('#customerSelectLineID').val()||'';
+        var listData = $(this).closest('tr').find('.colEmail').text()||"";
         $('#customerListModal').modal('toggle');
-        $('#edtRecipients').text(tableCustomer.find(".colEmail").text());
+
+        $('#'+selectDataID).val(listData);
+        //$('#'+selectLineID+" .lineAccountName").val('');
     });
 });
 
 Template.emailsettings.events({
+  'click .btnSelectContact': async function (event) {
+      let templateObject = Template.instance();
+      let selectDataID = $('#customerSelectLineID').val()||'';
+
+
+      var tblContactService = $(".tblContactlist").dataTable();
+
+      let datacontactList = [];
+      $(".chkServiceCard:checked", tblContactService.fnGetNodes()).each(function() {
+        let contactEmail = $(this).closest('tr').find('.colEmail').text()||'';
+        if (contactEmail.replace(/\s/g, '') != '') {
+          datacontactList.push(contactEmail);
+        }
+     });
+     $('#'+selectDataID).val(datacontactList.join("; "));
+    $('#customerListModal').modal('toggle');
+  },
     'click #swtAllCustomers': function() {
-        if ($('.contactlistcol').is(':visible') || $('#swtAllCustomers').is(':checked')) {
-            $('.contactlistcol').css('display', 'none');
-            $('.contactcheckboxcol').css('margin-bottom', '16px');
-        } else if ($('.contactlistcol').is(':hidden') )  {
-            $('.contactlistcol').css('display', 'block');
-            $('.contactcheckboxcol').css('margin-bottom', '0px');
-        } else {}
+        // if ($('.contactlistcol').is(':visible') || $('#swtAllCustomers').is(':checked')) {
+        //     $('.contactlistcol').css('display', 'none');
+        //     $('.contactcheckboxcol').css('margin-bottom', '16px');
+        // } else if ($('.contactlistcol').is(':hidden') )  {
+        //     $('.contactlistcol').css('display', 'block');
+        //     $('.contactcheckboxcol').css('margin-bottom', '0px');
+        // } else {}
     },
     'click #swtAllEmployees': function() {
-        if ($('.contactlistcol').is(':visible') || $('#swtAllEmployees').is(':checked')) {
-            $('.contactlistcol').css('display', 'none');
-            $('.contactcheckboxcol').css('margin-bottom', '16px');
-        } else if ($('.contactlistcol').is(':hidden'))  {
-            $('.contactlistcol').css('display', 'block');
-            $('.contactcheckboxcol').css('margin-bottom', '0px');
-        } else {}
+        // if ($('.contactlistcol').is(':visible') || $('#swtAllEmployees').is(':checked')) {
+        //     $('.contactlistcol').css('display', 'none');
+        //     $('.contactcheckboxcol').css('margin-bottom', '16px');
+        // } else if ($('.contactlistcol').is(':hidden'))  {
+        //     $('.contactlistcol').css('display', 'block');
+        //     $('.contactcheckboxcol').css('margin-bottom', '0px');
+        // } else {}
     },
     'click #swtAllSuppliers': function() {
-        if ($('.contactlistcol').is(':visible') || $('#swtAllSuppliers').is(':checked')) {
-            $('.contactlistcol').css('display', 'none');
-            $('.contactcheckboxcol').css('margin-bottom', '16px');
-        } else if ($('.contactlistcol').is(':hidden'))  {
-            $('.contactlistcol').css('display', 'block');
-            $('.contactcheckboxcol').css('margin-bottom', '0px');
-        } else {}
+        // if ($('.contactlistcol').is(':visible') || $('#swtAllSuppliers').is(':checked')) {
+        //     $('.contactlistcol').css('display', 'none');
+        //     $('.contactcheckboxcol').css('margin-bottom', '16px');
+        // } else if ($('.contactlistcol').is(':hidden'))  {
+        //     $('.contactlistcol').css('display', 'block');
+        //     $('.contactcheckboxcol').css('margin-bottom', '0px');
+        // } else {}
     },
     'click .btnSaveFrequency': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -840,8 +860,10 @@ Template.emailsettings.events({
         $("#frequencyModal").modal('toggle');
 
     },
-    'click #edtRecipients': function() {
-        $("#customerListModal").modal('toggle');
+    'click .edtRecipients': function() {
+      let recipientsID = event.target.id||'';
+      $('#customerSelectLineID').val(recipientsID);
+      $("#customerListModal").modal('toggle');
 
     },
     'click #groupedReports': function() {

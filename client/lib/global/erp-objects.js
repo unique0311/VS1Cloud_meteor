@@ -193,7 +193,8 @@ ERPObjects = function () {
         TEmployeepaysettings: "TEmployeepaysettings",
         TPayRun: "TPayRun",
         TPaybase: "TPaybase",
-        TPayRate: "TPayRate"
+        TPayRate: "TPayRate",
+        TPayHistory: "TPayHistory"
     }
     return objects;
 }

@@ -2735,6 +2735,78 @@ Template.employeescard.onRendered(function () {
         }, 1000);
     }
 
+    templateObject.getEmployeePaySettings = function () {
+        getVS1Data('TEmployeepaysettings').then(function (dataObject) {
+            if (dataObject.length == 0) {
+
+            } else {
+                let data = JSON.parse(dataObject[0].data);
+                let useData = data.temployeepaysettings;
+                let lineItems = [];
+                let lineItemObj = {};
+                //console.log(useData);
+                for (let i = 0; i < data.temployeepaysettings.length; i++) {
+                    if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
+                        console.log(data.temployeepaysettings[i]);
+                        $('.fullScreenSpin').css('display', 'none');
+                        let lineItems = [];
+
+                        let lineEmpPaySettingsItemObj = {
+                            id: data.temployeepaysettings[i].fields.ID,
+                            lid: 'Payroll',
+                            tfn: data.temployeepaysettings[i].Employee.fields.TFN || '',
+                            residencystatus: data.temployeepaysettings[i].Employee.Resident || false,
+                            employeebasis: data.temployeepaysettings[i].Employee.fields.BasisOfPayment || '',
+                            taxfreethreshold: data.temployeepaysettings[i].Employee.fields.TaxFreeThreshold || false,
+                            studytrainingloan: data.temployeepaysettings[i].Employee.fields.StudentLoanIndicator || false,
+                            leaveloading: data.temployeepaysettings[i].Employee.fields.PaySuperonLeaveLoading || false,
+                            statementtext: data.temployeepaysettings[i].Employee.fields.TFN || '',
+                            accountname: data.temployeepaysettings[i].Employee.fields.TFN || '',
+                            bsnnumber: data.temployeepaysettings[i].Employee.fields.TFN || '',
+                            accountnumber: data.temployeepaysettings[i].Employee.fields.TFN || '',
+                            paynotes: data.temployeepaysettings[i].Employee.fields.PayNotes || '',
+                            // middlename: useData[i].fields.MiddleName || '',
+                            // lastname: useData[i].fields.LastName || '',
+                            // company: useData[i].fields.EmployeeName || '',
+                            // 
+                            // priority: useData[i].fields.CustFld5 || 0,
+                            // color: useData[i].fields.CustFld6 || "#00a3d3",
+                            // email: empEmail || '',
+                            // phone: useData[i].fields.Phone || '',
+                            // mobile: useData[i].fields.Mobile || '',
+                            // fax: useData[i].fields.FaxNumber || '',
+                            // skype: useData[i].fields.SkypeName || '',
+                            // gender: useData[i].fields.Sex || '',
+                            // dob: useData[i].fields.DOB ? moment(useData[i].fields.DOB).format('DD/MM/YYYY') : "",
+                            // startdate: useData[i].fields.DateStarted ? moment(useData[i].fields.DateStarted).format('DD/MM/YYYY') : "",
+                            // datefinished: useData[i].fields.DateFinished ? moment(useData[i].fields.DateFinished).format('DD/MM/YYYY') : "",
+                            // position: useData[i].fields.Position || '',
+                            // streetaddress: useData[i].fields.Street || '',
+                            // city: useData[i].fields.Street2 || '',
+                            // state: useData[i].fields.State || '',
+                            // postalcode: useData[i].fields.PostCode || '',
+                            // country: useData[i].fields.Country || LoggedCountry,
+                            // custfield1: useData[i].fields.CustFld1 || '',
+                            // custfield2: useData[i].fields.CustFld2 || '',
+                            // custfield3: useData[i].fields.CustFld3 || '',
+                            // custfield4: useData[i].fields.CustFld4 || '',
+                            // custfield14: useData[i].fields.CustFld14 || '',
+                            // website: '',
+                            // notes: useData[i].fields.Notes || '',
+
+                        };
+
+                    }
+                }
+
+            }
+        }).catch(function (err) {
+          console.log(err);
+        });
+
+    }
+    templateObject.getEmployeePaySettings();
+
 });
 Template.employeescard.events({
     'click #customerShipping-1': function (event) {

@@ -88,29 +88,29 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <tr class="dnd-moved" id="54" style="cursor: pointer;">
                                             <td contenteditable="false" class="arrow">Invoices</td>
                                             <td contenteditable="false" class="colFrequency s-input" id="edtFrequency"></td>
                                             <td contenteditable="false" class="colSend s-input" id="edtBasedOn"></td>
-                                            <td contenteditable="false" class=" s-input" id="edtRecipients"></td>
+                                            <td contenteditable="false"><input id="edtRecipients" name="edtRecipients" class="es-input highlightSelect edtRecipients" type="search"></td>
                                         </tr>
-                                        <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <tr class="dnd-moved" id="139" style="cursor: pointer;">
                                             <td contenteditable="false" class="arrow">Profit and Loss</td>
                                             <td contenteditable="false" class="colFrequency s-input" id="edtFrequency"></td>
                                             <td contenteditable="false" class="colSend s-input" id="edtBasedOn"></td>
-                                            <td contenteditable="false" class=" s-input" id="edtRecipients"></td>
+                                            <td contenteditable="false"><input id="edtRecipients2" name="edtRecipients2" class="es-input highlightSelect edtRecipients" type="search"></td>
                                         </tr>
-                                        <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <tr class="dnd-moved" id="177" style="cursor: pointer;">
                                             <td contenteditable="false" class="arrow">Statements</td>
                                             <td contenteditable="false" class="colFrequency s-input" id="edtFrequency"></td>
                                             <td contenteditable="false" class="colSend s-input" id="edtBasedOn"></td>
-                                            <td contenteditable="false" class=" s-input" id="edtRecipients"></td>
+                                            <td contenteditable="false"><input id="edtRecipients3" name="edtRecipients3" class="es-input highlightSelect edtRecipients" type="search"></td>
                                         </tr>
-                                        <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <tr class="dnd-moved" id="139" style="cursor: pointer;">
                                             <td contenteditable="false" class="arrow pointer" id="groupedReports" style="cursor: pointer !important;">Grouped Reports</td>
                                             <td contenteditable="false" class="colFrequency s-input" id="edtFrequency"></td>
                                             <td contenteditable="false" class="colSend s-input" id="edtBasedOn"></td>
-                                            <td contenteditable="false" class=" s-input" id="edtRecipients"></td>
+                                            <td contenteditable="false"><input id="edtRecipients4" name="edtRecipients4" class="es-input highlightSelect edtRecipients" type="search"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -302,7 +302,8 @@
                                                 <td contenteditable="false" class="arrow">{{item.formname}}</td>
                                                 <td contenteditable="false" class="colFrequency s-input" id="edtFrequency">{{item.frequency}}</td>
                                                 <td contenteditable="false" class="colSend s-input" id="edtBasedOn"></td>
-                                                <td contenteditable="false" class=" s-input" id="edtRecipients"></td>
+                                                <!-- <td contenteditable="false" class=" s-input" id="edtRecipients"></td> -->
+                                                <td contenteditable="false"><input id="edtRecipients-{{item.formID}}" class="es-input highlightSelect edtRecipients" type="search"></td>
                                             </tr>
                                         {{/each}}
 
@@ -841,7 +842,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer"><button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
+                                            <div class="modal-footer">
+                                              <button class="btn btn-primary btnSelectContact" id="btnSelectContact" type="button" autocomplete="off">Select</button>
+                                              <button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
                                             </div>
                                         </div>
                                     </div>
