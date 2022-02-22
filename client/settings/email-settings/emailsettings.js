@@ -817,6 +817,10 @@ Template.emailsettings.events({
         $("#customerListModal").modal('toggle');
 
     },
+    'click #groupedReports': function() {
+        $("#groupedReportsModal").modal('toggle');
+
+    },
     'click input[name="frequencyRadio"]': function() {
         if (event.target.id == "frequencyMonthly") {
             document.getElementById("monthlySettings").style.display = "block";
