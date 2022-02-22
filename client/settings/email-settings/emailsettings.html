@@ -821,8 +821,25 @@
                                             </div>
                                             <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
                                                 <input type="hidden" style="width: 100%; display:none;" id="customerSelectLineID" name="customerSelectLineID" readonly>
-                                                {{> contactlistpop}}
-
+                                                <div class="row">
+                                                    <div class="col-12 contactcheckboxcol" style="padding: 16px 32px 0px 32px; display: inline-flex;">
+                                                        <div class="custom-control custom-switch" style="width: 155px;">
+                                                            <input class="custom-control-input" type="checkbox" value="swtAllCustomers" id="swtAllCustomers" name="swtAllCustomers" style="cursor: pointer;">
+                                                            <label class="custom-control-label" for="swtAllCustomers" style="cursor: pointer;">All Customers</label>
+                                                        </div>
+                                                        <div class="custom-control custom-switch" style="width: 155px;">
+                                                            <input class="custom-control-input" type="checkbox" value="swtAllEmployees" id="swtAllEmployees" name="swtAllEmployees" style="cursor: pointer;">
+                                                            <label class="custom-control-label" for="swtAllEmployees" style="cursor: pointer;">All Employees</label>
+                                                        </div>
+                                                        <div class="custom-control custom-switch" style="width: 155px;">
+                                                            <input class="custom-control-input" type="checkbox" value="swtAllSuppliers" id="swtAllSuppliers" name="swtAllSuppliers" style="cursor: pointer;">
+                                                            <label class="custom-control-label" for="swtAllSuppliers" style="cursor: pointer;">All Suppliers</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 contactlistcol">
+                                                        {{> contactlistpop}}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="modal-footer"><button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
                                             </div>
@@ -862,6 +879,16 @@
                                                 <div class="row">
                                                     <div class="col-12 col-lg-5">
                                                         <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnSave">
+                                                            <label class="form-check-label" for="basedOnSave">
+                                                                On Save
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-5">
+                                                        <div class="form-check">
                                                             <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnTransactionDate">
                                                             <label class="form-check-label" for="basedOnTransactionDate">
                                                                 On Transaction Date
@@ -874,7 +901,17 @@
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnDueDate">
                                                             <label class="form-check-label" for="basedOnDueDate">
-                                                                Due Date
+                                                                On Due Date
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-5">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="basedOnRadio" id="basedOnOutstanding">
+                                                            <label class="form-check-label" for="basedOnOutstanding">
+                                                                If Outstanding
                                                             </label>
                                                         </div>
                                                     </div>

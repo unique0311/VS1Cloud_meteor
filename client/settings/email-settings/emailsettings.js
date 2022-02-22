@@ -656,6 +656,33 @@ Template.emailsettings.onRendered(function() {
 });
 
 Template.emailsettings.events({
+    'click #swtAllCustomers': function() {
+        if ($('.contactlistcol').is(':visible') || $('#swtAllCustomers').is(':checked')) {
+            $('.contactlistcol').css('display', 'none');
+            $('.contactcheckboxcol').css('margin-bottom', '16px');
+        } else if ($('.contactlistcol').is(':hidden') )  {
+            $('.contactlistcol').css('display', 'block');
+            $('.contactcheckboxcol').css('margin-bottom', '0px');
+        } else {}
+    },
+    'click #swtAllEmployees': function() {
+        if ($('.contactlistcol').is(':visible') || $('#swtAllEmployees').is(':checked')) {
+            $('.contactlistcol').css('display', 'none');
+            $('.contactcheckboxcol').css('margin-bottom', '16px');
+        } else if ($('.contactlistcol').is(':hidden'))  {
+            $('.contactlistcol').css('display', 'block');
+            $('.contactcheckboxcol').css('margin-bottom', '0px');
+        } else {}
+    },
+    'click #swtAllSuppliers': function() {
+        if ($('.contactlistcol').is(':visible') || $('#swtAllSuppliers').is(':checked')) {
+            $('.contactlistcol').css('display', 'none');
+            $('.contactcheckboxcol').css('margin-bottom', '16px');
+        } else if ($('.contactlistcol').is(':hidden'))  {
+            $('.contactlistcol').css('display', 'block');
+            $('.contactcheckboxcol').css('margin-bottom', '0px');
+        } else {}
+    },
     'click .btnSaveFrequency': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         let taxRateService = new TaxRateService();
@@ -926,6 +953,8 @@ Template.emailsettings.events({
             $('#edtBasedOnDate').attr('disabled', true);
         } else if (event.target.id == "basedOnDate") {
             $('#edtBasedOnDate').attr('disabled', false);
+        } else if (event.target.id == "basedOnOutstanding") {
+            $('#edtBasedOnDate').attr('disabled', true);
         } else {
             $("#basedOnModal").modal('toggle');
         }
@@ -956,6 +985,11 @@ Template.emailsettings.events({
         } else if (radioFrequency == "basedOnDate") {
             setTimeout(function() {
                 $('#edtBasedOn').html("On Date");
+                $("#basedOnModal").modal('toggle');
+            }, 100);
+        } else if (radioFrequency == "basedOnOutstanding") {
+            setTimeout(function() {
+                $('#edtBasedOn').html("If Outstanding");
                 $("#basedOnModal").modal('toggle');
             }, 100);
         } else {
