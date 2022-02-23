@@ -1,16 +1,16 @@
 <template name="dashboard">
     <div class="container-fluid">
-      {{#if includeDashboard}}
-        <div class="fullScreenSpin" style="display:none;">
-            <div class="spinner"></div>
-        </div>
+        {{#if includeDashboard}}
+            <div class="fullScreenSpin" style="display:none;">
+                <div class="spinner"></div>
+            </div>
 
-        <style>
-            .dimmedChart > div {
-                background-color: #dddfeb !important;
-            }
+            <style>
+                .dimmedChart>div {
+                    background-color: #dddfeb !important;
+                }
 
-            /* .dimmed {
+                /* .dimmed {
                 position: relative;
             }
 
@@ -26,51 +26,22 @@
                 background: rgba(255, 255, 255, 0.75);
             } */
 
-            .hideelement{
-                display: none !important;
-            }
+                .hideelement {
+                    display: none !important;
+                }
 
-            .showelement{
-                display: block;
-            }
+                .showelement {
+                    display: block;
+                }
 
-            .col-area li{
-                list-style-type: none;
-            }
+                .col-area li {
+                    list-style-type: none;
+                }
+            </style>
 
-
-
-        </style>
-
-        <div class="d-sm-flex justify-content-between align-items-center mb-4">
-            <h3 class="text-dark mb-0">Dashboard
-                <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
+            <h3 class="text-dark mb-4">Dashboard
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
-                <!-- <button type="button" class="btnSession btn btn-primary" data-toggle="modal" href="#progressBarModal">
-                    Idle Logout
-                </button>
-
-                <div class="modal fade" role="dialog" tabindex="-1" id="progressBarModal">
-                    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                        <div class="modal-content" style="background-color: rgba(0,0,0,0) !important; border: 0px !important;">
-                            <div class="modal-body">
-                                <div class="row" style="margin-bottom: 32px;">
-                                    <div class="col-12">
-                                        <div class="progress progress-striped active" style="height: 40px;">
-                                            <div class="loadingbar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="font-size: 20px; font-weight: 800;"><span class="progressBarInner"></span></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input name="progressbarcheck" class="progressbarcheck" type="checkbox" value="100">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Start Help View Modal -->
                 <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                     <div class="modal-dialog modal-sm" role="document">
                         <div class="modal-content">
@@ -87,47 +58,37 @@
                         </div>
                     </div>
                 </div>
-                <!-- End Help View Modal -->
+
+                <button class="btn btn-primary btnBatchUpdate float-right" id="btnBatchUpdate" type="button"><i class="fas fa-sync-alt" style="padding-right: 5px; "></i>Update Reporting Tables</button>
+                <button class="btn btn-primary editcharts float-right" id="editcharts" type="button" style="margin-right: 16px;"><i class="fas fa-cogs" style="padding-right: 5px; "></i>Edit Charts</button>
             </h3>
+
             <style>
-                @media screen and (max-width: 420px) {
-                    .btnBatchUpdate {
-                        margin-top: 10px;
-                    }
+                .btn-link.showelement:hover {
+                    background-color: rgba(0,0,0,0) !important;
+                    border-color: rgba(0,0,0,0) !important;
                 }
             </style>
-            <button class="btn btn-primary btnBatchUpdate" id="btnBatchUpdate" type="button" style=""><i class="fas fa-sync-alt" style="padding-right: 5px; "></i>Update Reporting Tables</button>
-        </div>
-        <!-- <div class="row" style="margin-bottom: 32px;">
-            <div class="col-12">
-                <div class="progress progress-striped active" style="height: 35px;">
-                    <div class="loadingbar progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><span class="progressBarInner"></span></div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <input name="progressbarcheck" class="progressbarcheck" type="checkbox" value="50">
-            </div>
-        </div> -->
 
             <div class="row">
                 {{> purchasesaleschart}}
             </div>
             <div class="row">
                 <ul class="col-area col-sm-6" id="col1">
-                <li>{{> monthlyprofitandloss}}</li>
+                    <li>{{> monthlyprofitandloss}}</li>
 
-                <li>
-                    {{> resalescomparision}}
-                </li>
+                    <li>
+                        {{> resalescomparision}}
+                    </li>
 
-                <li>{{> monthlyearnings}}</li>
-            </ul>
-            <ul class="col-area col-sm-6" id="col2">
-                <li>{{> profitandlosschart}}</li>
+                    <li>{{> monthlyearnings}}</li>
+                </ul>
+                <ul class="col-area col-sm-6" id="col2">
+                    <li>{{> profitandlosschart}}</li>
 
-                <li> {{> quotedinvoicedamounts}} </li>
-                <li>{{> expenseschart}} </li>
-            </ul>
+                    <li> {{> quotedinvoicedamounts}} </li>
+                    <li>{{> expenseschart}} </li>
+                </ul>
             </div>
 
             <div class="row" style="Display:none!important;">
@@ -225,15 +186,15 @@
                 </div>
             </div>
 
-<a href="#" id="editcharts" style="width:100px; display: block; margin: 0 auto;">Edit Charts</a>
-<div class="row no-gutters justify-content-center">
-        <button class="btn btn-secondary float-right hideelement" id="btnCancel" type="button" style="margin:16px;margin-top: 0px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
-        <button class="btn btn-success float-right hideelement" id="btnDone" type="button" style="margin:16px;margin-left: 0px;margin-top: 0px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save Changes</button>
-</div>
-<!-- <button class="btn btn-secondary hideelement" id="btnCancel" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-remove" style="margin: 4px;"></i>Cancel</button>
+
+            <div class="row no-gutters justify-content-center">
+                <button class="btn btn-secondary float-right hideelement" id="btnCancel" type="button" style="margin:16px;margin-top: 0px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+                <button class="btn btn-success float-right hideelement" id="btnDone" type="button" style="margin:16px;margin-left: 0px;margin-top: 0px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save Changes</button>
+            </div>
+            <!-- <button class="btn btn-secondary hideelement" id="btnCancel" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-remove" style="margin: 4px;"></i>Cancel</button>
 
  <button class="btn btn-success hideelement" id="btnDone" type="button" style="min-width: 100px; display: block; margin: 0 auto;" autocomplete="off"><i class="fa fa-save" style="margin: 4px;"></i>Save Changes</button> -->
-{{/if}}
+        {{/if}}
     </div>
     <!-- Start Help Video Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
