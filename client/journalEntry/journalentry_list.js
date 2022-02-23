@@ -666,7 +666,7 @@ Template.journalentrylist.events({
  var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
  let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-     sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
+     sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
        addVS1Data('TbillReport',JSON.stringify(data)).then(function (datareturn) {
 
        }).catch(function (err) {

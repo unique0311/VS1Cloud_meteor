@@ -44,9 +44,9 @@ Template.quotedinvoicedamounts.onRendered(() => {
               //         setTimeout(function  (){
               //              $('#quotedinvoicedamounts').hide();
               //         },500)
-                 
+
               //   };
-      
+
         if (!localStorage.getItem('VS1SalesListReport_dash')) {
         let currentDate = new Date();
         let currentMonthDate = currentDate.getMonth() + 1;
@@ -109,7 +109,7 @@ Template.quotedinvoicedamounts.onRendered(() => {
             getVS1Data('TSalesList').then(function (dataObject) {
             if (dataObject.length == 0) {
 
-               sideBarService.getSalesListData(prevMonth11Date,toDate, false).then((data) => {
+               sideBarService.getSalesListData(prevMonth11Date,toDate, false,initialReportLoad,0).then((data) => {
 
                     let filterData = _.filter(data.tsaleslist, function (data) {
                         return data.CustomerName
@@ -210,7 +210,7 @@ Template.quotedinvoicedamounts.onRendered(() => {
                     let prevMonth5 = (moment().subtract(5, 'months')).format("MMMM").substring(0, 3);
                     let prevMonth6 = (moment().subtract(6, 'months')).format("MMMM").substring(0, 3);
                     let prevMonth7 = (moment().subtract(7, 'months')).format("MMMM").substring(0, 3);
-                    
+
                     var ctx = document.getElementById("quotedinvoicedamounts").getContext("2d");
                     var myChart = new Chart(ctx, {
                         type: 'line',
@@ -526,7 +526,7 @@ Template.quotedinvoicedamounts.onRendered(() => {
 
             }
         }).catch(function (err) {
-           sideBarService.getSalesListData(prevMonth11Date,toDate, false).then((data) => {
+           sideBarService.getSalesListData(prevMonth11Date,toDate, false,initialReportLoad,0).then((data) => {
 
                 let filterData = _.filter(data.tsaleslist, function (data) {
                     return data.CustomerName

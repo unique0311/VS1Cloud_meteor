@@ -98,6 +98,10 @@ Template.salesoverview.onRendered(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+    templateObject.resetData = function (dataVal) {
+        window.open('/salesoverview?page=last', '_self');
+    }
     // $('#tblSalesOverview').DataTable();
     templateObject.getAllSalesOrderData = function() {
         var currentBeginDate = new Date();
@@ -119,7 +123,7 @@ Template.salesoverview.onRendered(function() {
 
         getVS1Data('TSalesList').then(function(dataObject) {
             if (dataObject.length == 0) {
-                sideBarService.getSalesListData(prevMonth11Date, toDate, false).then(function(data) {
+                sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TSalesList', JSON.stringify(data));
@@ -271,11 +275,65 @@ Template.salesoverview.onRendered(function() {
                             action: function() {
                                 $('#tblSalesOverview').DataTable().ajax.reload();
                             },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
-                                    MakeNegative();
-                                }, 100);
-                            },
+                            "fnDrawCallback": function (oSettings) {
+                                let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                                if(checkurlIgnoreDate == 'true'){
+
+                                }else{
+                                  $('.paginate_button.page-item').removeClass('disabled');
+                                  $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                                  if (oSettings._iDisplayLength == -1) {
+                                      if (oSettings.fnRecordsDisplay() > 150) {
+                                          $('.paginate_button.page-item.previous').addClass('disabled');
+                                          $('.paginate_button.page-item.next').addClass('disabled');
+                                      }
+                                  } else {}
+                                  if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                      $('.paginate_button.page-item.next').addClass('disabled');
+                                  }
+                                  $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                  .on('click', function () {
+                                      $('.fullScreenSpin').css('display', 'inline-block');
+                                      let dataLenght = oSettings._iDisplayLength;
+
+                                      var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                      var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                      let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                      let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                      sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                          getVS1Data('TSalesList').then(function (dataObjectold) {
+                                              if (dataObjectold.length == 0) {}
+                                              else {
+                                                  let dataOld = JSON.parse(dataObjectold[0].data);
+                                                  var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                                  let objCombineData = {
+                                                      Params: dataObjectnew.Params,
+                                                      tsaleslist: thirdaryData
+                                                  }
+
+                                                  addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                      templateObject.resetData(objCombineData);
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  }).catch(function (err) {
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  });
+
+                                              }
+                                          }).catch(function (err) {});
+
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+
+                                  });
+                                }
+                                  setTimeout(function () {
+                                      MakeNegative();
+                                  }, 100);
+                              },
                             "fnInitComplete": function () {
                                 let urlParametersPage = FlowRouter.current().queryParams.page;
                                 if (urlParametersPage) {
@@ -336,6 +394,7 @@ Template.salesoverview.onRendered(function() {
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/salesoverview?ignoredate=true');
                 } else {
 
                     $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
@@ -495,11 +554,65 @@ Template.salesoverview.onRendered(function() {
                         action: function() {
                             $('#tblSalesOverview').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
+                        "fnDrawCallback": function (oSettings) {
+                            let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                            if(checkurlIgnoreDate == 'true'){
+
+                            }else{
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+                                      $('.paginate_button.page-item.previous').addClass('disabled');
+                                      $('.paginate_button.page-item.next').addClass('disabled');
+                                  }
+                              } else {}
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  let dataLenght = oSettings._iDisplayLength;
+
+                                  var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                  var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                  sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TSalesList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                              let objCombineData = {
+                                                  Params: dataObjectnew.Params,
+                                                  tsaleslist: thirdaryData
+                                              }
+
+                                              addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+
+                              });
+                            }
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
                         "fnInitComplete": function () {
                             let urlParametersPage = FlowRouter.current().queryParams.page;
                             if (urlParametersPage) {
@@ -553,7 +666,7 @@ Template.salesoverview.onRendered(function() {
 
             }
         }).catch(function(err) {
-            sideBarService.getSalesListData(prevMonth11Date, toDate, false).then(function(data) {
+            sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
                 let lineItems = [];
                 let lineItemObj = {};
                 addVS1Data('TSalesList', JSON.stringify(data));
@@ -705,11 +818,65 @@ Template.salesoverview.onRendered(function() {
                         action: function() {
                             $('#tblSalesOverview').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
+                        "fnDrawCallback": function (oSettings) {
+                            let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                            if(checkurlIgnoreDate == 'true'){
+
+                            }else{
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+                                      $('.paginate_button.page-item.previous').addClass('disabled');
+                                      $('.paginate_button.page-item.next').addClass('disabled');
+                                  }
+                              } else {}
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  let dataLenght = oSettings._iDisplayLength;
+
+                                  var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                  var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                  sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TSalesList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                              let objCombineData = {
+                                                  Params: dataObjectnew.Params,
+                                                  tsaleslist: thirdaryData
+                                              }
+
+                                              addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+
+                              });
+                            }
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
                         "fnInitComplete": function () {
                             let urlParametersPage = FlowRouter.current().queryParams.page;
                             if (urlParametersPage) {
@@ -791,7 +958,7 @@ Template.salesoverview.onRendered(function() {
     templateObject.getAllSalesOrderData();
 
     templateObject.getAllFilterSalesOrderData = function(fromDate, toDate, ignoreDate) {
-        sideBarService.getSalesListData(fromDate, toDate, ignoreDate).then(function(data) {
+        sideBarService.getSalesListData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
 
             addVS1Data('TSalesList', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/salesoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
@@ -842,7 +1009,7 @@ Template.salesoverview.events({
         var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        sideBarService.getSalesListData(prevMonth11Date, toDate, false).then(function(data) {
+        sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
             addVS1Data('TSalesList', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/salesoverview', '_self');
             }).catch(function(err) {

@@ -6208,7 +6208,7 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
@@ -6531,7 +6531,7 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
@@ -6849,7 +6849,7 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
@@ -7173,7 +7173,7 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
@@ -7493,7 +7493,7 @@ Template.supplierpaymentcard.events({
                     }).catch(function(err) {});
 
                     addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate) {
+                        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                             addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
                                 window.open('/supplierpayment', '_self');
                             }).catch(function(err) {
@@ -7841,7 +7841,7 @@ Template.supplierpaymentcard.events({
                 }).catch(function(err) {});
                 sideBarService.getAllPurchaseOrderList().then(function(dataUpdate) {
                     addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(dataUpdate2) {
+                        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate2) {
                             addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate2)).then(function(datareturn) {
                                 window.open(newURL,'_self');
                             }).catch(function(err) {
@@ -8552,7 +8552,7 @@ Template.supplierpaymentcard.events({
                     addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(data) {
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
@@ -8591,7 +8591,7 @@ Template.supplierpaymentcard.events({
                         addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
                     }).catch(function(err) {});
 
-                    sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(data) {
+                    sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
                         addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function(datareturn) {}).catch(function(err) {});
                     }).catch(function(err) {});
 

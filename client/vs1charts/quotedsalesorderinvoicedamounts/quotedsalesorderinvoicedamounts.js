@@ -85,7 +85,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
 
     getVS1Data('TSalesList').then(function (dataObject) {
     if(dataObject.length == 0){
-       sideBarService.getSalesListData(prevMonth11Date,toDate, false).then((data) => {
+       sideBarService.getSalesListData(prevMonth11Date,toDate, false,initialReportLoad,0).then((data) => {
 
             let filterData = _.filter(data.tsaleslist, function (data) {
                   return data.CustomerName
@@ -538,7 +538,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
 
     }
     }).catch(function (err) {
-       sideBarService.getSalesListData(prevMonth11Date,toDate, false).then((data) => {
+       sideBarService.getSalesListData(prevMonth11Date,toDate, false,initialReportLoad,0).then((data) => {
 
             let filterData = _.filter(data.tsaleslist, function (data) {
                   return data.CustomerName

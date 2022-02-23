@@ -339,6 +339,10 @@ Template.bankingoverview.onRendered(function() {
         });
     });
 
+    templateObject.resetData = function (dataVal) {
+        //window.open('/bankingoverview?page=last', '_self');
+    }
+
     // $('#tblBankingOverview').DataTable();
     templateObject.getAllBankAccountData = function() {
       var currentBeginDate = new Date();
@@ -360,7 +364,7 @@ Template.bankingoverview.onRendered(function() {
         getVS1Data('TBankAccountReport').then(function(dataObject) {
 
             if (dataObject.length == 0) {
-                sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false).then(function(data) {
+                sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
                     addVS1Data('TBankAccountReport', JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
@@ -541,8 +545,62 @@ Template.bankingoverview.onRendered(function() {
                             action: function() {
                                 $('#tblBankingOverview').DataTable().ajax.reload();
                             },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
+                            "fnDrawCallback": function (oSettings) {
+                              let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                              if(checkurlIgnoreDate == 'true'){
+
+                              }else{
+                                $('.paginate_button.page-item').removeClass('disabled');
+                                $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                                if (oSettings._iDisplayLength == -1) {
+                                    if (oSettings.fnRecordsDisplay() > 150) {
+                                        $('.paginate_button.page-item.previous').addClass('disabled');
+                                        $('.paginate_button.page-item.next').addClass('disabled');
+                                    }
+                                } else {}
+                                if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                                $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                .on('click', function () {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    let dataLenght = oSettings._iDisplayLength;
+
+                                    var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                    var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                    let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                    let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                    sideBarService.getAllBankAccountDetails(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                        getVS1Data('TBankAccountReport').then(function (dataObjectold) {
+                                            if (dataObjectold.length == 0) {}
+                                            else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tbankaccountreport), dataOld.tbankaccountreport);
+                                                let objCombineData = {
+                                                    Params: dataObjectnew.Params,
+                                                    tbankaccountreport: thirdaryData
+                                                }
+
+                                                addVS1Data('TBankAccountReport', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function (err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function (err) {});
+
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+
+                                });
+                              }
+                                setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
@@ -640,6 +698,7 @@ Template.bankingoverview.onRendered(function() {
                 if(data.Params.IgnoreDates == true){
                   $('#dateFrom').attr('readonly', true);
                   $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/bankingoverview?ignoredate=true');
                 }else{
 
                   $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
@@ -847,8 +906,63 @@ Template.bankingoverview.onRendered(function() {
                         action: function() {
                             $('#tblBankingOverview').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                sideBarService.getAllBankAccountDetails(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TBankAccountReport').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tbankaccountreport), dataOld.tbankaccountreport);
+                                            let objCombineData = {
+                                                Params: dataObjectnew.Params,
+                                                tbankaccountreport: thirdaryData
+                                            }
+
+                                            addVS1Data('TBankAccountReport', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                          }
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
@@ -937,7 +1051,7 @@ Template.bankingoverview.onRendered(function() {
 
             }
         }).catch(function(err) {
-            sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false).then(function(data) {
+            sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
                 addVS1Data('TBankAccountReport', JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
@@ -1118,8 +1232,62 @@ Template.bankingoverview.onRendered(function() {
                         action: function() {
                             $('#tblBankingOverview').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                sideBarService.getAllBankAccountDetails(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TBankAccountReport').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tbankaccountreport), dataOld.tbankaccountreport);
+                                            let objCombineData = {
+                                                Params: dataObjectnew.Params,
+                                                tbankaccountreport: thirdaryData
+                                            }
+
+                                            addVS1Data('TBankAccountReport', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                          }
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
@@ -1217,7 +1385,7 @@ Template.bankingoverview.onRendered(function() {
     templateObject.getAllBankAccountData();
 
     templateObject.getAllFilterbankingData = function (fromDate,toDate, ignoreDate) {
-      sideBarService.getAllBankAccountDetails(fromDate,toDate, ignoreDate).then(function(data) {
+      sideBarService.getAllBankAccountDetails(fromDate,toDate, ignoreDate,initialReportLoad,0).then(function(data) {
 
         addVS1Data('TBankAccountReport',JSON.stringify(data)).then(function (datareturn) {
             window.open('/bankingoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
@@ -1268,7 +1436,7 @@ Template.bankingoverview.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let templateObject = Template.instance();
 
-        sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false).then(function(data) {
+        sideBarService.getAllBankAccountDetails(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
             addVS1Data('TBankAccountReport', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/bankingoverview','_self');
             }).catch(function(err) {

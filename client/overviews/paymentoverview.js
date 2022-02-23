@@ -174,7 +174,7 @@ Template.paymentoverview.onRendered(function() {
     if ((!localStorage.getItem('VS1OutstandingInvoiceAmt_dash'))&&(!localStorage.getItem('VS1OutstandingInvoiceQty_dash'))) {
     getVS1Data('TSalesList').then(function (dataObject) {
         if(dataObject.length == 0){
-            sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
+            sideBarService.getSalesListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
                 let itemsAwaitingPaymentcount = [];
                 let itemsOverduePaymentcount = [];
                 let dataListAwaitingCust = {};
@@ -235,7 +235,7 @@ Template.paymentoverview.onRendered(function() {
             $('.custOverdueAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountOverDue));
         }
     }).catch(function (err) {
-      sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
+      sideBarService.getSalesListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
           let itemsAwaitingPaymentcount = [];
           let itemsOverduePaymentcount = [];
           let dataListAwaitingCust = {};
@@ -613,6 +613,7 @@ Template.paymentoverview.onRendered(function() {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.tpaymentlist;
                 if(data.Params.IgnoreDates == true){
+                  FlowRouter.go('/paymentoverview?ignoredate=true');
                   $('#dateFrom').attr('readonly', true);
                   $('#dateTo').attr('readonly', true);
                 }else{
@@ -1362,7 +1363,7 @@ Template.paymentoverview.events({
     var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
     let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false).then(function(data) {
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
             addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
                 sideBarService.getTPaymentList(prevMonth11Date,toDate, false).then(function(data) {
                     addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {

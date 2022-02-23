@@ -1637,7 +1637,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllBankAccountReportData = function() {
 
-        sideBarService.getAllBankAccountDetails(prevMonth11Date, toDate, false).then(function(data) {
+        sideBarService.getAllBankAccountDetails(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
@@ -1920,7 +1920,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllTbillReportData = function() {
 
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false).then(function(data) {
+        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
@@ -1958,7 +1958,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllAwaitingSupplierPaymentData = function() {
 
-        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false).then(function(data) {
+        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
@@ -2385,7 +2385,7 @@ Template.newsidenav.onRendered(function() {
     templateObject.getAllTSalesListData = function() {
 
 
-        sideBarService.getSalesListData(prevMonth11Date, toDate, false).then(function(data) {
+        sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);

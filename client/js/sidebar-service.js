@@ -528,8 +528,9 @@ getCustomersDataByName(dataSearchName) {
 
     return this.getList(this.ERPObjects.TChequeEx, options);
   }
-  getAllPurchaseOrderListAll(dateFrom, dateTo, ignoreDate) {
+  getAllPurchaseOrderListAll(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
     let options = '';
+
     if(ignoreDate == true){
       options = {
         IgnoreDates:true,
@@ -543,13 +544,14 @@ getCustomersDataByName(dataSearchName) {
        IncludeBills:true,
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
-       LimitCount:'"'+initialReportLoad+'"'
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
    };
   }
     return this.getList(this.ERPObjects.TbillReport, options);
   }
 
-  getAllAwaitingSupplierPayment(dateFrom, dateTo, ignoreDate) {
+  getAllAwaitingSupplierPayment(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
     let options = '';
     if(ignoreDate == true){
       options = {
@@ -568,7 +570,8 @@ getCustomersDataByName(dataSearchName) {
        Unpaid:true,
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
-       LimitCount:'"'+initialReportLoad+'"'
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
    };
   }
     return this.getList(this.ERPObjects.TbillReport, options);
@@ -634,7 +637,7 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TCredit, options);
   }
 
-  getSalesListData(dateFrom, dateTo, ignoreDate) {
+  getSalesListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
 
     let options = '';
     if(ignoreDate == true){
@@ -646,7 +649,8 @@ getCustomersDataByName(dataSearchName) {
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
-        LimitCount:'"'+initialReportLoad+'"'
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
     };
    }
 
@@ -1035,7 +1039,7 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TVS1BankDeposit, options);
   }
 
-  getAllBankAccountDetails(dateFrom, dateTo, ignoreDate) {
+  getAllBankAccountDetails(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
     let options = '';
     if(ignoreDate == true){
       options = {
@@ -1048,7 +1052,8 @@ getCustomersDataByName(dataSearchName) {
        select: "[deleted]=false",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
-       LimitCount:'"'+initialReportLoad+'"'
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
     };
     }
     return this.getList(this.ERPObjects.TBankAccountReport, options);

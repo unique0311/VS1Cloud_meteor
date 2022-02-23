@@ -84,6 +84,11 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
+
+    templateObject.resetData = function (dataVal) {
+        window.open('/supplierawaitingpurchaseorder?page=last', '_self');
+    }
+
     // $('#tblSupplierAwaitingPO').DataTable();
     templateObject.getAllSupplierPaymentData = function () {
         getVS1Data('TAwaitingSupplierPayment').then(function (dataObject) {
@@ -324,6 +329,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/supplierawaitingpurchaseorder?ignoredate=true');
                 } else {
 
                     $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
@@ -477,6 +483,60 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                sideBarService.getAllAwaitingSupplierPayment(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TAwaitingSupplierPayment').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
+                                            let objCombineData = {
+                                                Params: dataObjectnew.Params,
+                                                tbillreport: thirdaryData
+                                            }
+
+                                            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                          }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -799,7 +859,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
     });
 
     templateObject.getAllFilterPurchasesData = function(fromDate, toDate, ignoreDate) {
-        sideBarService.getAllAwaitingSupplierPayment(fromDate, toDate, ignoreDate).then(function(data) {
+        sideBarService.getAllAwaitingSupplierPayment(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
             addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/supplierawaitingpurchaseorder?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
             }).catch(function(err) {
@@ -1194,7 +1254,7 @@ Template.supplierawaitingpurchaseorder.events({
         }
         var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
-        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date,toDate, false).then(function (data) {
+        sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
             addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function (datareturn) {
                Meteor._reload.reload();
             }).catch(function (err) {
