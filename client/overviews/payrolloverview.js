@@ -445,7 +445,7 @@ Template.payrolloverview.onRendered(function () {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
-    
+
     templateObject.getPayHistory = function () {
         getVS1Data('TPayHistory').then(function (dataObject) {
 
@@ -907,7 +907,6 @@ Template.payrolloverview.onRendered(function () {
                 });
             }
         }).catch(function (err) {
-          console.log(err);
             sideBarService.getAllPayHistoryDataVS1(initialBaseDataLoad, 0).then(function (data) {
                 addVS1Data('TPayHistory', JSON.stringify(data));
                 let lineItems = [];

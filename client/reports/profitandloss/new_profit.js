@@ -316,7 +316,6 @@ if (moment().quarter() == 4) {
                     templateObject.recordslayout.set(groupsprofitloss);
                     templateObject.records.set(records);
                     if (templateObject.records.get()) {
-                      // console.log(records);
                         setTimeout(function () {
                             $('td a').each(function () {
                                 if ($(this).text().indexOf('-' + Currency) >= 0) {

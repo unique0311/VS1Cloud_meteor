@@ -2744,10 +2744,8 @@ Template.employeescard.onRendered(function () {
                 let useData = data.temployeepaysettings;
                 let lineItems = [];
                 let lineItemObj = {};
-                //console.log(useData);
                 for (let i = 0; i < data.temployeepaysettings.length; i++) {
                     if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
-                        console.log(data.temployeepaysettings[i]);
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
 
@@ -2768,7 +2766,7 @@ Template.employeescard.onRendered(function () {
                             // middlename: useData[i].fields.MiddleName || '',
                             // lastname: useData[i].fields.LastName || '',
                             // company: useData[i].fields.EmployeeName || '',
-                            // 
+                            //
                             // priority: useData[i].fields.CustFld5 || 0,
                             // color: useData[i].fields.CustFld6 || "#00a3d3",
                             // email: empEmail || '',
@@ -2801,7 +2799,7 @@ Template.employeescard.onRendered(function () {
 
             }
         }).catch(function (err) {
-          console.log(err);
+
         });
 
     }

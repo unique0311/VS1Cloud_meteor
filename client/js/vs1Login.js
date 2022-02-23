@@ -219,7 +219,7 @@ Template.vs1login.onRendered(function () {
         }
 
     }).catch(function (err) {
-      console.log(err);
+
     });
    };
     templateObject.checkOpenDbCheckVersion();

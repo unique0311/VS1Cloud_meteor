@@ -1112,7 +1112,6 @@ Template.payrollrules.onRendered(function() {
 
         }
     }).catch(function(err) {
-      console.log(err);
       sideBarService.getDeduction(initialBaseDataLoad, 0).then(function (data) {
           addVS1Data('TDeduction', JSON.stringify(data));
           let lineItems = [];
