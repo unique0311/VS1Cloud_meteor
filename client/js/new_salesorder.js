@@ -2408,7 +2408,8 @@ Template.new_salesorder.onRendered(() => {
                                 balanceDue: totalBalance,
                                 saleCustField1: data.fields.SaleCustField1,
                                 saleCustField2: data.fields.SaleCustField2,
-                                totalPaid: totalPaidAmount
+                                totalPaid: totalPaidAmount,
+                                isConverted: data.fields.Converted
                             };
 
                             $('#edtCustomerName').val(data.fields.CustomerName);
@@ -2741,7 +2742,8 @@ Template.new_salesorder.onRendered(() => {
                                     balanceDue: totalBalance,
                                     saleCustField1: useData[d].fields.SaleCustField1,
                                     saleCustField2: useData[d].fields.SaleCustField2,
-                                    totalPaid: totalPaidAmount
+                                    totalPaid: totalPaidAmount,
+                                    isConverted: useData[d].fields.Converted
                                 };
 
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
@@ -3009,7 +3011,8 @@ Template.new_salesorder.onRendered(() => {
                                         balanceDue: totalBalance,
                                         saleCustField1: data.fields.SaleCustField1,
                                         saleCustField2: data.fields.SaleCustField2,
-                                        totalPaid: totalPaidAmount
+                                        totalPaid: totalPaidAmount,
+                                        isConverted: data.fields.Converted
                                     };
 
                                     $('#edtCustomerName').val(data.fields.CustomerName);
@@ -3285,7 +3288,8 @@ Template.new_salesorder.onRendered(() => {
                             balanceDue: totalBalance,
                             saleCustField1: data.fields.SaleCustField1,
                             saleCustField2: data.fields.SaleCustField2,
-                            totalPaid: totalPaidAmount
+                            totalPaid: totalPaidAmount,
+                            isConverted: data.fields.Converted
                         };
 
                         templateObject.querystring.set(stringQuery);
@@ -3722,7 +3726,8 @@ Template.new_salesorder.onRendered(() => {
                         balanceDue: totalBalance,
                         saleCustField1: data.fields.SaleCustField1,
                         saleCustField2: data.fields.SaleCustField2,
-                        totalPaid: totalPaidAmount
+                        totalPaid: totalPaidAmount,
+                        isConverted: false
                     };
 
                     $('#edtCustomerName').val(data.fields.CustomerName);
@@ -4012,7 +4017,8 @@ Template.new_salesorder.onRendered(() => {
                                 balanceDue: totalBalance,
                                 saleCustField1: data.fields.SaleCustField1,
                                 saleCustField2: data.fields.SaleCustField2,
-                                totalPaid: totalPaidAmount
+                                totalPaid: totalPaidAmount,
+                                isConverted: data.fields.Converted
                             };
 
                             $('#edtCustomerName').val(data.fields.CustomerName);
@@ -4294,7 +4300,8 @@ Template.new_salesorder.onRendered(() => {
                                     balanceDue: totalBalance,
                                     saleCustField1: useData[d].fields.SaleCustField1,
                                     saleCustField2: useData[d].fields.SaleCustField2,
-                                    totalPaid: totalPaidAmount
+                                    totalPaid: totalPaidAmount,
+                                    isConverted: useData[d].fields.Converted
                                 };
 
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
@@ -4559,7 +4566,8 @@ Template.new_salesorder.onRendered(() => {
                             balanceDue: totalBalance,
                             saleCustField1: data.fields.SaleCustField1,
                             saleCustField2: data.fields.SaleCustField2,
-                            totalPaid: totalPaidAmount
+                            totalPaid: totalPaidAmount,
+                            isConverted: data.fields.Converted
                         };
 
                         $('#edtCustomerName').val(data.fields.CustomerName);
@@ -4721,7 +4729,8 @@ Template.new_salesorder.onRendered(() => {
             balanceDue: Currency + '' + 0.00,
             saleCustField1: '',
             saleCustField2: '',
-            totalPaid: Currency + '' + 0.00
+            totalPaid: Currency + '' + 0.00,
+            isConverted: false
         };
 
         $('#edtCustomerName').val('');
@@ -8262,8 +8271,8 @@ Template.new_salesorder.events({
             let pickingInfrmation = $('#txapickmemo').val();
             let total = $('#totalBalanceDue').html() || 0;
             let tax = $('#subtotal_tax').html() || 0;
-            let saleCustField1 = $('#edtSaleCustField1').val();
-            let saleCustField2 = $('#edtSaleCustField2').val();
+            let saleCustField1 = $('#edtSaleCustField1').val()||'';
+            let saleCustField2 = $('#edtSaleCustField2').val()||'';
             var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentSalesOrder = getso_id[getso_id.length - 1];
@@ -9372,8 +9381,8 @@ Template.new_salesorder.events({
                     let pickingInfrmation = $('#txapickmemo').val();
                     let total = $('#totalBalanceDue').html() || 0;
                     let tax = $('#subtotal_tax').html() || 0;
-                    let saleCustField1 = $('#edtSaleCustField1').val();
-                    let saleCustField2 = $('#edtSaleCustField2').val();
+                    let saleCustField1 = $('#edtSaleCustField1').val()||'';
+                    let saleCustField2 = $('#edtSaleCustField2').val()||'';
                     var url = FlowRouter.current().path;
                     var getso_id = url.split('?id=');
                     var currentSalesOrder = getso_id[getso_id.length - 1];
@@ -10044,8 +10053,8 @@ Template.new_salesorder.events({
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
 
-            let saleCustField1 = $('#edtSaleCustField1').val();
-            let saleCustField2 = $('#edtSaleCustField2').val();
+            let saleCustField1 = $('#edtSaleCustField1').val()||'';
+            let saleCustField2 = $('#edtSaleCustField2').val()||'';
             var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentSalesOrder = getso_id[getso_id.length - 1];
@@ -10299,8 +10308,8 @@ Template.new_salesorder.events({
             let comments = $('#txaComment').val();
             let pickingInfrmation = $('#txapickmemo').val();
 
-            let saleCustField1 = $('#edtSaleCustField1').val();
-            let saleCustField2 = $('#edtSaleCustField2').val();
+            let saleCustField1 = $('#edtSaleCustField1').val()||'';
+            let saleCustField2 = $('#edtSaleCustField2').val()||'';
             var url = FlowRouter.current().path;
             var getso_id = url.split('?id=');
             var currentSalesOrder = getso_id[getso_id.length - 1];
@@ -10374,77 +10383,7 @@ Template.new_salesorder.events({
                 };
                 let linesave = objDetails.fields.ID;
 
-                var getcurrentCloudDetails = CloudUser.findOne({
-                    _id: Session.get('mycloudLogonID'),
-                    clouddatabaseID: Session.get('mycloudLogonDBID')
-                });
-                if (getcurrentCloudDetails) {
-                    if (getcurrentCloudDetails._id.length > 0) {
-                        var clientID = getcurrentCloudDetails._id;
-                        var clientUsername = getcurrentCloudDetails.cloudUsername;
-                        var clientEmail = getcurrentCloudDetails.cloudEmail;
-                        var checkPrefDetails = CloudPreference.findOne({
-                            userid: clientID,
-                            PrefName: 'new_salesorder'
-                        });
-                        if (checkPrefDetails) {
-                            CloudPreference.update({
-                                _id: checkPrefDetails._id
-                            }, {
-                                $set: {
-                                    username: clientUsername,
-                                    useremail: clientEmail,
-                                    PrefGroup: 'salesform',
-                                    PrefName: 'new_salesorder',
-                                    published: true,
-                                    customFields: [{
-                                        index: '1',
-                                        label: getcustomField1,
-                                        hidden: getchkcustomField1
-                                    }, {
-                                        index: '2',
-                                        label: getcustomField2,
-                                        hidden: getchkcustomField2
-                                    }],
-                                    updatedAt: new Date()
-                                }
-                            }, function(err, idTag) {
-                                if (err) {
-                                    window.open('/invoicecard?copysoid=' + linesave, '_self');
-                                } else {
-                                    window.open('/invoicecard?copysoid=' + linesave, '_self');
-
-                                }
-                            });
-                        } else {
-                            CloudPreference.insert({
-                                userid: clientID,
-                                username: clientUsername,
-                                useremail: clientEmail,
-                                PrefGroup: 'salesform',
-                                PrefName: 'new_salesorder',
-                                published: true,
-                                customFields: [{
-                                    index: '1',
-                                    label: getcustomField1,
-                                    hidden: getchkcustomField1
-                                }, {
-                                    index: '2',
-                                    label: getcustomField2,
-                                    hidden: getchkcustomField2
-                                }],
-                                createdAt: new Date()
-                            }, function(err, idTag) {
-                                if (err) {
-                                    window.open('/invoicecard?copysoid=' + linesave, '_self');
-                                } else {
-                                    window.open('/invoicecard?copysoid=' + linesave, '_self');
-
-                                }
-                            });
-                        }
-                    }
-                }
+                window.open('/invoicecard?copysoid=' + linesave, '_self');
 
             }).catch(function(err) {
                 swal({

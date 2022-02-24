@@ -90,6 +90,7 @@ Template.quoteslist.onRendered(function() {
                             custfield1: data.tquoteex[i].fields.SaleCustField1 || '',
                             custfield2: data.tquoteex[i].fields.SaleCustField2 || '',
                             comments: data.tquoteex[i].fields.Comments || '',
+                            isConverted: data.tquoteex[i].fields.Converted
                         };
                         if(data.tquoteex[i].fields.CustomerName != ''){
                             dataTableList.push(dataList);
@@ -289,6 +290,7 @@ Template.quoteslist.onRendered(function() {
                         custfield1: useData[i].fields.SaleCustField1 || '',
                         custfield2: useData[i].fields.SaleCustField2 || '',
                         comments: useData[i].fields.Comments || '',
+                        isConverted: useData[i].fields.Converted
                     };
                     if(useData[i].fields.CustomerName != ''){
                         dataTableList.push(dataList);
@@ -570,6 +572,7 @@ Template.quoteslist.onRendered(function() {
                       custfield1: data.tquoteex[i].fields.SaleCustField1 || '',
                       custfield2: data.tquoteex[i].fields.SaleCustField2 || '',
                       comments: data.tquoteex[i].fields.Comments || '',
+                      isConverted: data.tquoteex[i].fields.Converted
                   };
                   if(data.tquoteex[i].fields.CustomerName != ''){
                       dataTableList.push(dataList);
@@ -859,6 +862,7 @@ Template.quoteslist.events({
                             custfield1: data.tquoteex[i].fields.SaleCustField1 || '',
                             custfield2: data.tquoteex[i].fields.SaleCustField2 || '',
                             comments: data.tquoteex[i].fields.Comments || '',
+                            isConverted: data.tquoteex[i].fields.Converted
                             // shipdate:data.tquoteex[i].fields.ShipDate !=''? moment(data.tquoteex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tquoteex[i].fields.ShipDate,
 
                         };

@@ -342,14 +342,11 @@
                     <div class="row justify-content-end">
                         <div class="col-12 col-md-3 col-xl-12" id="colBalanceDue">
                             <div class="text-right" style="font-size: 14px;margin: 16px 24px;;">
+                              {{#if equals quoterecord.isConverted true}}
+                                  <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Converted</p>
+                              {{/if}}
                                 <p style="font-size: 20px; font-weight: 700;color: rgb(84,94,103);">BALANCE DUE</p>
-                                {{#if equals quoterecord.isConverted true}}
-                                    <p style="font-size: 25px;font-weight: 705;color: #e74a3b;">Converted</p>
-                                {{else}}
-                                    <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{quoterecord.balanceDue}}</p>
-                                {{/if}}
-
-
+                                <p style="font-size: 25px;font-weight: 705;color: rgb(56,63,69);" id="balanceDue" name="balanceDue">{{quoterecord.balanceDue}}</p>
                             </div>
                         </div>
                         <div class="col-6 col-md-3 col-xl-12 colBtn  justify-content-center">

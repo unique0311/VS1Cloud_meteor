@@ -91,6 +91,7 @@ Template.salesorderslist.onRendered(function() {
                             custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
                             custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
                             comments: data.tsalesorderex[i].fields.Comments || '',
+                            isConverted: data.tsalesorderex[i].fields.Converted
                         };
 
                         if(data.tsalesorderex[i].fields.Deleted == false && data.tsalesorderex[i].fields.CustomerName.replace(/\s/g, '') != ''){
@@ -290,6 +291,7 @@ Template.salesorderslist.onRendered(function() {
                         custfield1: useData[i].fields.SaleCustField1 || '',
                         custfield2: useData[i].fields.SaleCustField2 || '',
                         comments: useData[i].fields.Comments || '',
+                        isConverted: useData[i].fields.Converted
                     };
 
                     if(useData[i].fields.Deleted == false && useData[i].fields.CustomerName.replace(/\s/g, '') != ''){
@@ -574,6 +576,7 @@ Template.salesorderslist.onRendered(function() {
                       custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
                       custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
                       comments: data.tsalesorderex[i].fields.Comments || '',
+                      isConverted: data.tsalesorderex[i].fields.Converted
                   };
 
                   if(data.tsalesorderex[i].fields.Deleted == false && data.tsalesorderex[i].fields.CustomerName.replace(/\s/g, '') != ''){
@@ -855,6 +858,7 @@ Template.salesorderslist.events({
                             custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
                             custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
                             comments: data.tsalesorderex[i].fields.Comments || '',
+                            isConverted: data.tsalesorderex[i].fields.Converted
                             // shipdate:data.tsalesorderex[i].fields.ShipDate !=''? moment(data.tsalesorderex[i].fields.ShipDate).format("DD/MM/YYYY"): data.tsalesorderex[i].fields.ShipDate,
 
                         };
