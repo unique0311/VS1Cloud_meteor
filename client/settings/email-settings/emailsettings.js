@@ -158,7 +158,7 @@ Template.emailsettings.onRendered(function() {
         });
     };
 
-    $("#date-input,#edtWeeklyStartDate,#dtDueDate,#customdateone").datepicker({
+    $("#date-input,#edtWeeklyStartDate,#dtDueDate,#customdateone,#edtMonthlyStartDate,#edtDailyStartDate,#edtOneTimeOnlyDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
         buttonImageOnly: true,
