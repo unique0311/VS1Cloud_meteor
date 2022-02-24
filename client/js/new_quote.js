@@ -2448,7 +2448,8 @@ Template.new_quote.onRendered(() => {
                                 balanceDue: totalBalance,
                                 saleCustField1: data.fields.SaleCustField1,
                                 saleCustField2: data.fields.SaleCustField2,
-                                totalPaid: totalPaidAmount
+                                totalPaid: totalPaidAmount,
+                                isConverted: data.fields.Converted
                             };
 
                             $('#edtCustomerName').val(data.fields.CustomerName);
@@ -2785,7 +2786,8 @@ Template.new_quote.onRendered(() => {
                                     balanceDue: totalBalance,
                                     saleCustField1: useData[d].fields.SaleCustField1,
                                     saleCustField2: useData[d].fields.SaleCustField2,
-                                    totalPaid: totalPaidAmount
+                                    totalPaid: totalPaidAmount,
+                                    isConverted: useData[d].fields.Converted
                                 };
 
                                 $('#edtCustomerName').val(useData[d].fields.CustomerName);
@@ -3051,7 +3053,8 @@ Template.new_quote.onRendered(() => {
                                     balanceDue: totalBalance,
                                     saleCustField1: data.fields.SaleCustField1,
                                     saleCustField2: data.fields.SaleCustField2,
-                                    totalPaid: totalPaidAmount
+                                    totalPaid: totalPaidAmount,
+                                    isConverted: data.fields.Converted
                                 };
 
                                 $('#edtCustomerName').val(data.fields.CustomerName);
@@ -3325,7 +3328,8 @@ Template.new_quote.onRendered(() => {
                             balanceDue: totalBalance,
                             saleCustField1: data.fields.SaleCustField1,
                             saleCustField2: data.fields.SaleCustField2,
-                            totalPaid: totalPaidAmount
+                            totalPaid: totalPaidAmount,
+                            isConverted: data.fields.Converted
                         };
 
                         templateObject.querystring.set(stringQuery);
@@ -3787,7 +3791,8 @@ Template.new_quote.onRendered(() => {
                             balanceDue: totalBalance,
                             saleCustField1: data.fields.SaleCustField1,
                             saleCustField2: data.fields.SaleCustField2,
-                            totalPaid: totalPaidAmount
+                            totalPaid: totalPaidAmount,
+                            isConverted: data.fields.Converted
                         };
 
                         $('#edtCustomerName').val(data.fields.CustomerName);
@@ -4082,7 +4087,8 @@ Template.new_quote.onRendered(() => {
                                 balanceDue: totalBalance,
                                 saleCustField1: useData[d].fields.SaleCustField1,
                                 saleCustField2: useData[d].fields.SaleCustField2,
-                                totalPaid: totalPaidAmount
+                                totalPaid: totalPaidAmount,
+                                isConverted: useData[d].fields.Converted
                             };
 
                             $('#edtCustomerName').val(useData[d].fields.CustomerName);
@@ -4352,7 +4358,8 @@ Template.new_quote.onRendered(() => {
                                 balanceDue: totalBalance,
                                 saleCustField1: data.fields.SaleCustField1,
                                 saleCustField2: data.fields.SaleCustField2,
-                                totalPaid: totalPaidAmount
+                                totalPaid: totalPaidAmount,
+                                isConverted: data.fields.Converted
                             };
 
                             $('#edtCustomerName').val(data.fields.CustomerName);
@@ -4642,7 +4649,8 @@ Template.new_quote.onRendered(() => {
                         balanceDue: totalBalance,
                         saleCustField1: data.fields.SaleCustField1,
                         saleCustField2: data.fields.SaleCustField2,
-                        totalPaid: totalPaidAmount
+                        totalPaid: totalPaidAmount,
+                        isConverted: data.fields.Converted
                     };
 
                     templateObject.querystring.set(stringQuery);
@@ -4866,7 +4874,8 @@ Template.new_quote.onRendered(() => {
             balanceDue: Currency + '' + 0.00,
             saleCustField1: '',
             saleCustField2: '',
-            totalPaid: Currency + '' + 0.00
+            totalPaid: Currency + '' + 0.00,
+            isConverted: false
         };
 
         $('#edtCustomerName').val('');

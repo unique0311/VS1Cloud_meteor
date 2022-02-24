@@ -649,9 +649,9 @@ Template.paymentoverview.onRendered(function() {
                         type: useData[i].TYPE || '',
                         notes: useData[i].Notes || ''
                     };
-                    if(useData[i].Deleted == false){
+                    //if(useData[i].Deleted == false){
                         dataTableList.push(dataList);
-                    }
+                    //}
 
                 }
 
