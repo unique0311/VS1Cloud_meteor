@@ -6,7 +6,7 @@
         <header style="padding: 16px;">
             <h2 style="margin: 16px;">Aged Payables Report <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o"  style="font-size: 20px;"></i></a></h2>
         </header>
-        
+
         <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -42,7 +42,10 @@
             <div class="col-auto">
                 <div class="card shadow flex-grow-1 mb-3" style="margin-top: 16px;margin-right: 16px;margin-left: 16px;">
                     <div class="card-header py-3" style="background-color: rgb(248,249,252);">
-                        <p class="text-primary m-0 font-weight-bold">Aged Payables</p>
+                        <div class="row no-gutters justify-content-between">
+                            <p class="text-primary m-0 font-weight-bold">Aged Payables</p>
+                            <button type="button" class="btn btn-primary" id="btnSummary"><i class="fas fa-repeat" style="margin-right: 5px;"></i> Summary</button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row no-gutters d-xl-flex align-items-xl-end">

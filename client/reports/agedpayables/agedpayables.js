@@ -525,6 +525,9 @@ Template.agedpayables.onRendered(() => {
 });
 
 Template.agedpayables.events({
+    'click #btnSummary': function() {
+        FlowRouter.go('/agedpayablessummary');
+    },
     'change #dateTo': function () {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');

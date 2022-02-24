@@ -301,6 +301,9 @@ let grandOlder = 0;
   });
 
   Template.agedpayablessummary.events({
+    'click #btnDetails': function() {
+        FlowRouter.go('/agedpayables');
+    },
     'change #dateTo':function(){
         let templateObject = Template.instance();
           $('.fullScreenSpin').css('display','inline-block');
@@ -382,8 +385,7 @@ let grandOlder = 0;
       })
     },
 'click .btnExportReport':function() {
-  $('.fullScreenSpin').css('display','inline-block');
-    let utilityService = new UtilityService();
+  $('.fullScreenSpin').css('display', 'inline-block');    let utilityService = new UtilityService();
     let templateObject = Template.instance();
     var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
     var dateTo = new Date($("#dateTo").datepicker("getDate"));
