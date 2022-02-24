@@ -1223,6 +1223,10 @@ Template.contactoverview.onRendered(function() {
                             $('#tblcontactoverview').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblcontactoverview_ellipsis').addClass('disabled');
 
@@ -1266,6 +1270,7 @@ Template.contactoverview.onRendered(function() {
                               });
 
                           });
+                          }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -1930,6 +1935,20 @@ Template.contactoverview.events({
         }).catch(function(err) {
             window.open('/contactoverview','_self');
         });
+    },
+    'click .allList': function(event) {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      sideBarService.getAllContactCombineVS1('All',0).then(function (data) {
+        addVS1Data('TERPCombinedContactsVS1',JSON.stringify(data)).then(function (datareturn) {
+            window.open('/contactoverview?ignoredate=true','_self');
+        }).catch(function (err) {
+          location.reload();
+        });
+      }).catch(function (err) {
+          $('.fullScreenSpin').css('display','none');
+          // Meteor._reload.reload();
+      });
     },
     'change #dateTo': function () {
         let templateObject = Template.instance();

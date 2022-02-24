@@ -1393,6 +1393,13 @@ Template.paymentoverview.events({
         //
         // });
     },
+    'click .btnAll': function(event) {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', true);
+      $('#dateTo').attr('readonly', true);
+      templateObject.getAllFilterPaymentsData('', '', true);
+    },
     'change #dateTo': function () {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
