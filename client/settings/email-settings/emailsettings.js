@@ -717,9 +717,15 @@ Template.emailsettings.events({
         let id = $('#frequencyid').val() || '';
         let employeeID = Session.get('mySessionEmployeeLoggedID');
         let formId = parseInt($("#formid").val());
+
+        var startdateTimeMonthly = new Date($("#edtMonthlyStartDate").datepicker("getDate"));
+        var startdateTimeWeekly = new Date($("#edtWeeklyStartDate").datepicker("getDate"));
+        var startdateTimeDaily = new Date($("#edtDailyStartDate").datepicker("getDate"));
+        var startdateTimeOneTime = new Date($("#edtOneTimeOnlyDate").datepicker("getDate"));
+
         if ($('#frequencyMonthly').is(":checked")) {
             startTime = $('#edtMonthlyStartTime').val();
-            startDate = moment($('#edtMonthlyStartDate').val()).format('YYYY-MM-DD');
+            startDate = startdateTimeMonthly.getFullYear() + "-" + (startdateTimeMonthly.getMonth() + 1) + "-" + startdateTimeMonthly.getDate()||'';
             every = $('#sltDayOccurence').val();
             frequency = "M";
             monthDays = $('#sltDayOfWeek').val();
@@ -729,7 +735,7 @@ Template.emailsettings.events({
 
         if ($('#frequencyWeekly').is(":checked")) {
             startTime = $('#edtWeeklyStartTime').val();
-            startDate = moment($('#edtWeeklyStartDate').val()).format('YYYY-MM-DD');
+            startDate = startdateTimeWeekly.getFullYear() + "-" + (startdateTimeWeekly.getMonth() + 1) + "-" + startdateTimeWeekly.getDate()||'';
             every = $('#weeklyEveryXWeeks').val();
             frequency = "W";
             date = startDate + ' ' + startTime;
@@ -744,8 +750,16 @@ Template.emailsettings.events({
 
         if ($('#frequencyDaily').is(":checked")) {
             startTime = $('#edtDailyStartTime').val();
-            startDate = moment($('#edtDailyStartDate').val()).format('YYYY-MM-DD');
-            every = $('#dailyEveryXDays').val();
+            startDate = startdateTimeDaily.getFullYear() + "-" + (startdateTimeDaily.getMonth() + 1) + "-" + startdateTimeDaily.getDate()||'';
+            every = $('#dailyEveryXDays').val()||1;
+            frequency = "D";
+            date = startDate + ' ' + startTime;
+        }
+
+        if ($('#frequencyOnetimeonly').is(":checked")) {
+            startTime = $('#edtOneTimeOnlyTime').val();
+            startDate = startdateTimeOneTime.getFullYear() + "-" + (startdateTimeOneTime.getMonth() + 1) + "-" + startdateTimeOneTime.getDate()||'';
+            every = 1;
             frequency = "D";
             date = startDate + ' ' + startTime;
         }
@@ -756,13 +770,13 @@ Template.emailsettings.events({
                 fields: {
                     EmployeeId: employeeID,
                     StartDate: date,
-                    Every: every,
+                    Every: parseInt(every)||0,
                     Frequency: frequency,
                     FormID: formId,
                     MonthDays: monthDays,
                     //NextDueDate: "2022-02-15 00:00:00",
                     // SatAction: "D",
-                    StartDate: date,
+                    //StartDate: date,
                     // SunAction: "A",
                     WeekDay: weekDay,
                 }
@@ -771,16 +785,16 @@ Template.emailsettings.events({
             objDetails = {
                 type: "TReportSchedules",
                 fields: {
-                    ID: id,
+                    ID: parseInt(id)||0,
                     EmployeeId: employeeID,
                     StartDate: date,
-                    Every: every,
+                    Every:  parseInt(every)||0,
                     Frequency: frequency,
                     FormID: formId,
                     MonthDays: monthDays,
                     //NextDueDate: "2022-02-15 00:00:00",
                     // SatAction: "D",
-                    StartDate: date,
+                    //StartDate: date,
                     // SunAction: "A",
                     WeekDay: weekDay,
                 }
@@ -818,11 +832,14 @@ Template.emailsettings.events({
         let templateObject = Template.instance();
         let scheduleData = templateObject.employeescheduledrecord.get();
         let formId = $(event.target).closest("tr").attr("id");
+
+
         $("#formid").val(formId);
         var result = scheduleData.filter(data => {
             return data.formID == formId
         });
         if (result.length > 0) {
+          let startDateVal = result[0].startDate != '' ? moment(result[0].startDate).format("DD/MM/YYYY") : result[0].startDate;
             templateObject.assignFrequency(result[0].frequency);
             templateObject.getMonths(result[0].startDate, result[0].endDate);
             $('#frequencyid').val(result[0].id);
@@ -830,7 +847,7 @@ Template.emailsettings.events({
                 $('#sltDayOccurence').val(result[0].every);
                 $('#sltDayOfWeek').val(result[0].monthDays);
                 $('#edtMonthlyStartTime').val(result[0].startTime);
-                $('#edtMonthlyStartDate').val(result[0].startDate);
+                $('#edtMonthlyStartDate').val(startDateVal);
                 $('#edtFrequency').text("Monthly");
             }
 
@@ -838,7 +855,7 @@ Template.emailsettings.events({
                 setTimeout(function() {
                     $('#weeklyEveryXWeeks').val(result[0].every);
                     $('#edtWeeklyStartTime').val(result[0].startTime);
-                    $('#edtWeeklyStartDate').val(result[0].startDate);
+                    $('#edtWeeklyStartDate').val(startDateVal);
                     templateObject.getDayName(result[0].weekDay);
                     $('#edtFrequency').text("Weekly");
                 }, 500);
@@ -848,7 +865,7 @@ Template.emailsettings.events({
                 setTimeout(function() {
                     $('#dailyEveryXDays').val(result[0].every);
                     $('#edtDailyStartTime').val(result[0].startTime);
-                    $('#edtDailyStartDate').val(result[0].startDate);
+                    $('#edtDailyStartDate').val(startDateVal);
                     $('#edtFrequency').text("Daily");
                 }, 500);
             }

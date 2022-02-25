@@ -2692,8 +2692,10 @@ Template.employeescard.onRendered(function () {
     $(document).on("click", "#tblInventoryService tbody tr", function (e) {
         var table = $(this);
         if(edtProductSelect == "appointment") {
-            let productName = table.find(".productName").text();
+            let productName = table.find(".productName").text()||'';
+            let productID = table.find(".colProuctPOPID").text()||'';
             $('#product-list').val(productName);
+            $('#product-listID').val(productID);
             $('#productListModal').modal('toggle');
         }
 
@@ -2717,7 +2719,9 @@ Template.employeescard.onRendered(function () {
                     $("#showSunday").prop('checked', prefObject.showSun);
 
                     if (prefObject.defaultProduct) {
-                        $('#product-list').prepend('<option selected value=' + prefObject.id + '>' + prefObject.defaultProduct + '</option>');
+                        //$('#product-list').prepend('<option selected value=' + prefObject.id + '>' + prefObject.defaultProduct + '</option>');
+                          $('#product-list').val(prefObject.defaultProduct);
+                          $('#product-listID').val(prefObject.id);
                     }
 
                     if (prefObject.defaultApptDuration) {
@@ -3297,8 +3301,8 @@ Template.employeescard.events({
             }
 
             let defaultTime = parseInt($('#defaultTime').val().split(' ')[0]) || 2;
-            let defaultProduct = $('#product-list').children("option:selected").text().trim() || '';
-            let defaultProductID = $('#product-list').children("option:selected").val() || 0;
+            let defaultProduct = $('#product-list').val() || '';
+            let defaultProductID = $('#product-listID').val() || 0;
 
             let objectData = "";
             if (settingID == "") {

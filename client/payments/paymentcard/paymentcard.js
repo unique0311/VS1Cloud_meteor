@@ -3285,7 +3285,121 @@ Template.paymentcard.onRendered(() => {
                         }
                     }
 
-                    if (!added) {}
+                    if (!added) {
+                      paymentService.getOneInvoicePayment(currentSalesID).then(function(data) {
+                          let lineItems = [];
+                          let lineItemObj = {};
+
+                          let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          var currentDate = new Date();
+                          var begunDate = moment(currentDate).format("DD/MM/YYYY");
+                          let amountDue = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          // Currency+''+data.fields.TotalBalance.toLocaleString(undefined, {minimumFractionDigits: 2});
+                          let paymentAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          let outstandingAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          let originalAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          // Currency+''+data.fields.TotalAmountInc.toLocaleString(undefined, {minimumFractionDigits: 2});
+                          lineItemObj = {
+                              id: data.fields.ID || '',
+                              invoiceid: data.fields.ID || '',
+                              transid: data.fields.ID || '',
+                              invoicedate: data.fields.SaleDate != '' ? moment(data.fields.SaleDate).format("DD/MM/YYYY") : data.fields.SaleDate,
+                              refno: data.fields.ReferenceNo || '',
+                              transtype: "Invoice" || '',
+                              amountdue: amountDue || 0,
+                              paymentamount: paymentAmt || 0,
+                              ouststandingamount: outstandingAmt,
+                              orginalamount: originalAmt,
+                              comments: data.fields.Comments || ''
+                          };
+                          lineItems.push(lineItemObj);
+                          let record = {
+                              lid: '',
+                              customerName: data.fields.CustomerName || '',
+                              paymentDate: begunDate,
+                              reference: data.fields.ReferenceNo || ' ',
+                              bankAccount: Session.get('bankaccount') || data.fields.GLAccountName || '',
+                              paymentAmount: appliedAmt || 0,
+                              notes: data.fields.Comments,
+                              LineItems: lineItems,
+                              checkpayment: Session.get('paymentmethod') || data.fields.PayMethod,
+                              department: Session.get('department') || data.fields.DeptClassName,
+                              applied: appliedAmt.toLocaleString(undefined, {
+                                  minimumFractionDigits: 2
+                              })
+
+                          };
+
+                          let getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod || 'Cash';
+                          $('#sltPaymentMethod').val(getPaymentMethodVal);
+
+                          let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
+                          templateObject.record.set(record);
+                          $('#edtCustomerName').val(data.fields.CustomerName);
+                          $('#sltDept').val(getDepartmentVal);
+                          let bankAccountData = Session.get('bankaccount')||'Bank';
+                          $('#edtSelectBankAccountName').val(bankAccountData);
+                          templateObject.getLastPaymentData();
+                          if (clientList) {
+                              for (var i = 0; i < clientList.length; i++) {
+                                  if (clientList[i].customername == data.fields.CustomerName) {
+                                      $('#edtCustomerEmail').val(clientList[i].customeremail);
+                                      $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+                                      let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                                      $('#txabillingAddress').val(postalAddress);
+                                  }
+                              }
+                          }
+                          Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblPaymentcard', function(error, result) {
+                              if (error) {
+
+                                  //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                              } else {
+                                  if (result) {
+                                      for (let i = 0; i < result.customFields.length; i++) {
+                                          let customcolumn = result.customFields;
+                                          let columData = customcolumn[i].label;
+                                          let columHeaderUpdate = customcolumn[i].thclass;
+                                          let hiddenColumn = customcolumn[i].hidden;
+                                          let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                          let columnWidth = customcolumn[i].width;
+
+                                          $("" + columHeaderUpdate + "").html(columData);
+                                          if (columnWidth != 0) {
+                                              $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                          }
+
+                                          if (hiddenColumn == true) {
+                                              $("." + columnClass + "").addClass('hiddenColumn');
+                                              $("." + columnClass + "").removeClass('showColumn');
+                                              $(".chk" + columnClass + "").removeAttr('checked');
+                                          } else if (hiddenColumn == false) {
+                                              $("." + columnClass + "").removeClass('hiddenColumn');
+                                              $("." + columnClass + "").addClass('showColumn');
+                                              $(".chk" + columnClass + "").attr('checked', 'checked');
+                                          }
+
+                                      }
+                                  }
+
+                              }
+                          });
+                          $('.fullScreenSpin').css('display', 'none');
+                      });
+                    }
                 }
             }).catch(function(err) {
                 paymentService.getOneInvoicePayment(currentSalesID).then(function(data) {

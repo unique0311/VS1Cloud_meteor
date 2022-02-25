@@ -494,6 +494,9 @@ let grandOlder = 0;
   });
 
   Template.agedreceivablessummary.events({
+    'click #btnDetails': function() {
+        FlowRouter.go('/agedreceivables');
+    },
     'click td a':function (event) {
         let id= $(event.target).closest('tr').attr('id').split("item-value-");
         var accountName =id[1].split('_').join(' ');

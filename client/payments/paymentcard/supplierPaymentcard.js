@@ -3695,7 +3695,133 @@ Template.supplierpaymentcard.onRendered(() => {
                             $('.fullScreenSpin').css('display', 'none');
                         }
                     }
-                    if (!added) {}
+                    if (!added) {
+                      paymentService.getOneBillPayment(currentPOID).then(function(data) {
+                          let lineItems = [];
+                          let lineItemObj = {};
+
+                          let total = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          var currentDate = new Date();
+                          var begunDate = moment(currentDate).format("DD/MM/YYYY");
+                          //if (data.fields.Lines.length) {
+                          //for (let i = 0; i < data.fields.Lines.length; i++) {
+                          let amountDue = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          let paymentAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          let outstandingAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+                          let originalAmt = utilityService.modifynegativeCurrencyFormat(data.fields.TotalAmountInc).toLocaleString(undefined, {
+                              minimumFractionDigits: 2
+                          });
+
+                          lineItemObj = {
+                              id: data.fields.ID || '',
+                              invoiceid: data.fields.ID || '',
+                              transid: data.fields.ID || '',
+                              poid: data.fields.ID || '',
+                              invoicedate: data.fields.OrderDate != '' ? moment(data.fields.OrderDate).format("DD/MM/YYYY") : data.fields.OrderDate,
+                              refno: data.fields.CustPONumber || '',
+                              transtype: 'Bill' || '',
+                              amountdue: amountDue || 0,
+                              paymentamount: paymentAmt || 0,
+                              ouststandingamount: outstandingAmt,
+                              orginalamount: originalAmt,
+                              comments: data.fields.Comments || ''
+                          };
+                          lineItems.push(lineItemObj);
+
+                          let record = {
+                              lid: '',
+                              customerName: data.fields.ClientName || '',
+                              paymentDate: begunDate,
+                              reference: data.fields.CustPONumber || ' ',
+                              bankAccount: Session.get('bankaccount') || '',
+                              paymentAmount: appliedAmt || 0,
+                              notes: data.fields.Comments,
+                              LineItems: lineItems,
+                              checkpayment: Session.get('paymentmethod') || data.fields.PayMethod,
+                              department: Session.get('department') || data.fields.DeptClassName,
+                              applied: appliedAmt.toLocaleString(undefined, {
+                                  minimumFractionDigits: 2
+                              })
+
+                          };
+                          templateObject.record.set(record);
+
+                          let getDepartmentVal = Session.get('department') || data.fields.DeptClassName || defaultDept;
+                          let getPaymentMethodVal = '';
+
+                          if (Session.get('paymentmethod')) {
+                              getPaymentMethodVal = Session.get('paymentmethod') || data.fields.PayMethod;
+                          } else {
+                              getPaymentMethodVal = data.fields.PayMethod || '';
+                          }
+
+                          //$('#edtSupplierName').editableSelect('add', data.fields.ClientName);
+                          $('#edtSupplierName').val(data.fields.ClientName);
+                          $('#sltDepartment').val(getDepartmentVal);
+                          $('#sltPaymentMethod').val(getPaymentMethodVal);
+                          //$('#edtBankAccountName').editableSelect('add',record.bankAccount);
+                          let bankAccountData = Session.get('bankaccount') || 'Bank';
+                          $('#edtSelectBankAccountName').val(bankAccountData);
+                          templateObject.getLastPaymentData();
+                          if (clientList) {
+                              for (var i = 0; i < clientList.length; i++) {
+                                  if (clientList[i].customername == data.fields.SupplierName) {
+                                      $('#edtSupplierEmail').val(clientList[i].customeremail);
+                                      $('#edtSupplierEmail').attr('customerid', clientList[i].customerid);
+                                      let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+                                      $('#txabillingAddress').val(postalAddress);
+                                  }
+                              }
+                          }
+
+                          Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierPaymentcard', function(error, result) {
+                              if (error) {
+
+                                  //Bert.alert('<strong>Error:</strong> user-not-found, no user found please try again!', 'danger');
+                              } else {
+                                  if (result) {
+                                      for (let i = 0; i < result.customFields.length; i++) {
+                                          let customcolumn = result.customFields;
+                                          let columData = customcolumn[i].label;
+                                          let columHeaderUpdate = customcolumn[i].thclass;
+                                          let hiddenColumn = customcolumn[i].hidden;
+                                          let columnClass = columHeaderUpdate.substring(columHeaderUpdate.indexOf(".") + 1);
+                                          let columnWidth = customcolumn[i].width;
+
+                                          $("" + columHeaderUpdate + "").html(columData);
+                                          if (columnWidth != 0) {
+                                              $("" + columHeaderUpdate + "").css('width', columnWidth + '%');
+                                          }
+
+                                          if (hiddenColumn == true) {
+                                              $("." + columnClass + "").addClass('hiddenColumn');
+                                              $("." + columnClass + "").removeClass('showColumn');
+                                              $(".chk" + columnClass + "").removeAttr('checked');
+                                          } else if (hiddenColumn == false) {
+                                              $("." + columnClass + "").removeClass('hiddenColumn');
+                                              $("." + columnClass + "").addClass('showColumn');
+                                              $(".chk" + columnClass + "").attr('checked', 'checked');
+                                          }
+
+                                      }
+                                  }
+
+                              }
+                          });
+                          $('.fullScreenSpin').css('display', 'none');
+                      });
+                    }
                 }
 
             }).catch(function(err) {

@@ -516,6 +516,9 @@ Template.agedreceivables.onRendered(() => {
 });
 
 Template.agedreceivables.events({
+    'click #btnSummary': function() {
+        FlowRouter.go('/agedreceivablessummary');
+    },
     'click td a': function (event) {
         let id = $(event.target).closest('tr').attr('id').split("item-value-");
         var accountName = id[1].split('_').join(' ');
