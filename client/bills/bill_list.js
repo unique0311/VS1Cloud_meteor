@@ -24,6 +24,37 @@ Template.billlist.onRendered(function() {
     var splashArray = new Array();
     const dataTableList = [];
     const tableHeaderList = [];
+
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateDay = currentDate.getDate();
+    if ((currentDate.getMonth() + 1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth() + 1);
+    }
+
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
+    
     if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
@@ -139,7 +170,7 @@ Template.billlist.onRendered(function() {
 
                         $('#tblbilllist').DataTable({
 
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
                                 {
                                     extend: 'excelHtml5',
@@ -178,7 +209,7 @@ Template.billlist.onRendered(function() {
                             destroy: true,
                             colReorder: true,
                             pageLength: initialDatatableLoad,
-                            searching: true,
+                            "bLengthChange": false,
                             lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
@@ -193,7 +224,7 @@ Template.billlist.onRendered(function() {
                             },
                              "fnInitComplete": function () {
                              $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
-
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
                          }
 
                         }).on('page', function () {
@@ -326,7 +357,7 @@ Template.billlist.onRendered(function() {
 
                     $('#tblbilllist').DataTable({
 
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -365,7 +396,7 @@ Template.billlist.onRendered(function() {
                         destroy: true,
                         colReorder: true,
                         pageLength: initialDatatableLoad,
-                        searching: true,
+                        "bLengthChange": false,
                         lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
@@ -434,6 +465,7 @@ Template.billlist.onRendered(function() {
                             this.fnPageChange('last');
                           }
                              $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
                          }
                     }).on('page', function () {
                         setTimeout(function () {
@@ -596,7 +628,7 @@ Template.billlist.onRendered(function() {
 
                   $('#tblbilllist').DataTable({
 
-                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       buttons: [
                           {
                               extend: 'excelHtml5',
@@ -635,7 +667,7 @@ Template.billlist.onRendered(function() {
                       destroy: true,
                       colReorder: true,
                       pageLength: initialDatatableLoad,
-                      searching: true,
+                      "bLengthChange": false,
                       lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                       info: true,
                       responsive: true,
@@ -650,7 +682,7 @@ Template.billlist.onRendered(function() {
                       },
                       "fnInitComplete": function () {
                              $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
-
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
                          }
 
                   }).on('page', function () {
