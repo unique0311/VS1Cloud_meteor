@@ -29,10 +29,10 @@ Template.contactlistpop.onRendered(function () {
     //$('.fullScreenSpin').css('display','inline-block');
     let templateObject = Template.instance();
     let contactService = new ContactService();
-    const customerList = [];
+    const contactList = [];
     let salesOrderTable;
     var splashArray = new Array();
-    var splashArrayCustomerList = new Array();
+    var splashArrayContactList = new Array();
 
     const lineCustomerItems = [];
     const dataTableList = [];
@@ -65,7 +65,7 @@ Template.contactlistpop.onRendered(function () {
         location.reload();
     }
 
-    templateObject.getCustomers = function () {
+    templateObject.getContacts = function () {
       var customerpage = 0;
         getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
             if (dataObject.length == 0) {
@@ -133,7 +133,7 @@ Template.contactlistpop.onRendered(function () {
                                 }
 
 
-                        var dataListCustomer = [
+                        var dataListContact = [
                             '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"></label></div>',
                             data.terpcombinedcontactsvs1[i].name || '-',
                             clienttype || '',
@@ -151,7 +151,7 @@ Template.contactlistpop.onRendered(function () {
                             data.terpcombinedcontactsvs1[i].ID || ''
 
                         ];
-                        splashArrayCustomerList.push(dataListCustomer);
+                        splashArrayContactList.push(dataListContact);
                         //}
                     }
 
@@ -202,7 +202,7 @@ Template.contactlistpop.onRendered(function () {
 
                     setTimeout(function () {
                         $('#tblContactlist').DataTable({
-                            data: splashArrayCustomerList,
+                            data: splashArrayContactList,
                             "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             columnDefs: [
                                 {
@@ -283,7 +283,7 @@ Template.contactlistpop.onRendered(function () {
                                 $('.paginate_button.next:not(.disabled)', this.api().table().container())
                                     .on('click', function () {
                                         $('.fullScreenSpin').css('display', 'inline-block');
-                                        var splashArrayCustomerListDupp = new Array();
+                                        var splashArrayContactListDupp = new Array();
                                         let dataLenght = oSettings._iDisplayLength;
                                         let customerSearch = $('#tblContactlist_filter input').val();
 
@@ -343,7 +343,7 @@ Template.contactlistpop.onRendered(function () {
                                                           }
 
 
-                                                        var dataListCustomerDupp = [
+                                                        var dataListContactDupp = [
                                                           '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.terpcombinedcontactsvs1[j].ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.terpcombinedcontactsvs1[j].ID+'"></label></div>',
                                                           dataObjectnew.terpcombinedcontactsvs1[j].name || '-',
                                                           clienttype || '',
@@ -361,11 +361,11 @@ Template.contactlistpop.onRendered(function () {
                                                           dataObjectnew.terpcombinedcontactsvs1[j].ID || ''
                                                         ];
 
-                                                        splashArrayCustomerList.push(dataListCustomerDupp);
+                                                        splashArrayContactList.push(dataListContactDupp);
                                                         //}
                                                     }
 
-                                                    let uniqueChars = [...new Set(splashArrayCustomerList)];
+                                                    let uniqueChars = [...new Set(splashArrayContactList)];
                                                     var datatable = $('#tblContactlist').DataTable();
                                                     datatable.clear();
                                                     datatable.rows.add(uniqueChars);
@@ -388,7 +388,7 @@ Template.contactlistpop.onRendered(function () {
                             },
                             "fnInitComplete": function (oSettings) {
                                 $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblContactlist_filter");
-                                $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
+                                $("<button class='btn btn-primary btnRefreshContact' type='button' id='btnRefreshContact' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
 
                                 let urlParametersPage = FlowRouter.current().queryParams.page;
                                 if (urlParametersPage) {
@@ -519,7 +519,7 @@ Template.contactlistpop.onRendered(function () {
                             }
 
 
-                    var dataListCustomer = [
+                    var dataListContact = [
                         '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"></label></div>',
                         data.terpcombinedcontactsvs1[i].name || '-',
                         clienttype || '',
@@ -537,7 +537,7 @@ Template.contactlistpop.onRendered(function () {
                         data.terpcombinedcontactsvs1[i].ID || ''
 
                     ];
-                    splashArrayCustomerList.push(dataListCustomer);
+                    splashArrayContactList.push(dataListContact);
                     //}
                 }
 
@@ -588,7 +588,7 @@ Template.contactlistpop.onRendered(function () {
 
                 setTimeout(function () {
                     $('#tblContactlist').DataTable({
-                        data: splashArrayCustomerList,
+                        data: splashArrayContactList,
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         columnDefs: [
                             {
@@ -669,7 +669,7 @@ Template.contactlistpop.onRendered(function () {
                             $('.paginate_button.next:not(.disabled)', this.api().table().container())
                                 .on('click', function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
-                                    var splashArrayCustomerListDupp = new Array();
+                                    var splashArrayContactListDupp = new Array();
                                     let dataLenght = oSettings._iDisplayLength;
                                     let customerSearch = $('#tblContactlist_filter input').val();
 
@@ -729,7 +729,7 @@ Template.contactlistpop.onRendered(function () {
                                                       }
 
 
-                                                    var dataListCustomerDupp = [
+                                                    var dataListContactDupp = [
                                                       '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.terpcombinedcontactsvs1[j].ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.terpcombinedcontactsvs1[j].ID+'"></label></div>',
                                                       dataObjectnew.terpcombinedcontactsvs1[j].name || '-',
                                                       clienttype || '',
@@ -747,11 +747,11 @@ Template.contactlistpop.onRendered(function () {
                                                       dataObjectnew.terpcombinedcontactsvs1[j].ID || ''
                                                     ];
 
-                                                    splashArrayCustomerList.push(dataListCustomerDupp);
+                                                    splashArrayContactList.push(dataListContactDupp);
                                                     //}
                                                 }
 
-                                                let uniqueChars = [...new Set(splashArrayCustomerList)];
+                                                let uniqueChars = [...new Set(splashArrayContactList)];
                                                 var datatable = $('#tblContactlist').DataTable();
                                                 datatable.clear();
                                                 datatable.rows.add(uniqueChars);
@@ -774,7 +774,7 @@ Template.contactlistpop.onRendered(function () {
                         },
                         "fnInitComplete": function (oSettings) {
                             $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblContactlist_filter");
-                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
+                            $("<button class='btn btn-primary btnRefreshContact' type='button' id='btnRefreshContact' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
 
                             let urlParametersPage = FlowRouter.current().queryParams.page;
                             if (urlParametersPage) {
@@ -903,7 +903,7 @@ Template.contactlistpop.onRendered(function () {
                             }
 
 
-                    var dataListCustomer = [
+                    var dataListContact = [
                         '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"></label></div>',
                         data.terpcombinedcontactsvs1[i].name || '-',
                         clienttype || '',
@@ -921,7 +921,7 @@ Template.contactlistpop.onRendered(function () {
                         data.terpcombinedcontactsvs1[i].ID || ''
 
                     ];
-                    splashArrayCustomerList.push(dataListCustomer);
+                    splashArrayContactList.push(dataListContact);
                     //}
                 }
 
@@ -972,7 +972,7 @@ Template.contactlistpop.onRendered(function () {
 
                 setTimeout(function () {
                     $('#tblContactlist').DataTable({
-                        data: splashArrayCustomerList,
+                        data: splashArrayContactList,
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         columnDefs: [
                             {
@@ -1053,7 +1053,7 @@ Template.contactlistpop.onRendered(function () {
                             $('.paginate_button.next:not(.disabled)', this.api().table().container())
                                 .on('click', function () {
                                     $('.fullScreenSpin').css('display', 'inline-block');
-                                    var splashArrayCustomerListDupp = new Array();
+                                    var splashArrayContactListDupp = new Array();
                                     let dataLenght = oSettings._iDisplayLength;
                                     let customerSearch = $('#tblContactlist_filter input').val();
 
@@ -1113,7 +1113,7 @@ Template.contactlistpop.onRendered(function () {
                                                       }
 
 
-                                                    var dataListCustomerDupp = [
+                                                    var dataListContactDupp = [
                                                       '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+dataObjectnew.terpcombinedcontactsvs1[j].ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+dataObjectnew.terpcombinedcontactsvs1[j].ID+'"></label></div>',
                                                       dataObjectnew.terpcombinedcontactsvs1[j].name || '-',
                                                       clienttype || '',
@@ -1131,11 +1131,11 @@ Template.contactlistpop.onRendered(function () {
                                                       dataObjectnew.terpcombinedcontactsvs1[j].ID || ''
                                                     ];
 
-                                                    splashArrayCustomerList.push(dataListCustomerDupp);
+                                                    splashArrayContactList.push(dataListContactDupp);
                                                     //}
                                                 }
 
-                                                let uniqueChars = [...new Set(splashArrayCustomerList)];
+                                                let uniqueChars = [...new Set(splashArrayContactList)];
                                                 var datatable = $('#tblContactlist').DataTable();
                                                 datatable.clear();
                                                 datatable.rows.add(uniqueChars);
@@ -1158,7 +1158,7 @@ Template.contactlistpop.onRendered(function () {
                         },
                         "fnInitComplete": function (oSettings) {
                             $("<button class='btn btn-primary btnAddNewCustomer' data-dismiss='modal' data-toggle='modal' data-target='#addCustomerModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblContactlist_filter");
-                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshCustomer' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
+                            $("<button class='btn btn-primary btnRefreshContact' type='button' id='btnRefreshContact' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblContactlist_filter");
 
                             let urlParametersPage = FlowRouter.current().queryParams.page;
                             if (urlParametersPage) {
@@ -1230,7 +1230,7 @@ Template.contactlistpop.onRendered(function () {
 
     }
 
-    templateObject.getCustomers();
+    templateObject.getContacts();
 
 
 
@@ -1251,14 +1251,14 @@ Template.contactlistpop.events({
           $('#tblContactlist_filter .form-control-sm').val('');
         }, 1000);
     },
-    'click .btnRefreshCustomer': function (event) {
+    'click .btnRefreshContact': function (event) {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
-        const customerList = [];
+        const contactList = [];
         const clientList = [];
         let salesOrderTable;
         var splashArray = new Array();
-        var splashArrayCustomerList = new Array();
+        var splashArrayContactList = new Array();
         const dataTableList = [];
         const tableHeaderList = [];
         let dataSearchName = $('#tblContactlist_filter input').val();
@@ -1267,94 +1267,113 @@ Template.contactlistpop.events({
             sideBarService.getAllContactCombineVS1ByName(dataSearchName).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
+                let clienttype = '';
+                let isprospect = false;
+                let iscustomer = false;
+                let isEmployee = false;
+                let issupplier = false;
                 if (data.terpcombinedcontactsvs1.length > 0) {
-                    for (let i = 0; i < data.terpcombinedcontactsvs1.length; i++) {
-                        let arBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].fields.ARBalance) || 0.00;
-                        let creditBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].fields.CreditBalance) || 0.00;
-                        let balance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].fields.Balance) || 0.00;
-                        let creditLimit = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].fields.CreditLimit) || 0.00;
-                        let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].fields.SalesOrderBalance) || 0.00;
-                        var dataList = {
-                            id: data.terpcombinedcontactsvs1[i].fields.ID || '',
-                            clientName: data.terpcombinedcontactsvs1[i].fields.ClientName || '',
-                            company: data.terpcombinedcontactsvs1[i].fields.Companyname || '',
-                            contactname: data.terpcombinedcontactsvs1[i].fields.ContactName || '',
-                            phone: data.terpcombinedcontactsvs1[i].fields.Phone || '',
-                            arbalance: arBalance || 0.00,
-                            creditbalance: creditBalance || 0.00,
-                            balance: balance || 0.00,
-                            creditlimit: creditLimit || 0.00,
-                            salesorderbalance: salesOrderBalance || 0.00,
-                            email: data.terpcombinedcontactsvs1[i].fields.Email || '',
-                            job: data.terpcombinedcontactsvs1[i].fields.JobName || '',
-                            accountno: data.terpcombinedcontactsvs1[i].fields.AccountNo || '',
-                            clientno: data.terpcombinedcontactsvs1[i].fields.ClientNo || '',
-                            jobtitle: data.terpcombinedcontactsvs1[i].fields.JobTitle || '',
-                            notes: data.terpcombinedcontactsvs1[i].fields.Notes || '',
-                            state: data.terpcombinedcontactsvs1[i].fields.State || '',
-                            country: data.terpcombinedcontactsvs1[i].fields.Country || '',
-                            street: data.terpcombinedcontactsvs1[i].fields.Street || ' ',
-                            street2: data.terpcombinedcontactsvs1[i].fields.Street2 || ' ',
-                            street3: data.terpcombinedcontactsvs1[i].fields.Street3 || ' ',
-                            suburb: data.terpcombinedcontactsvs1[i].fields.Suburb || ' ',
-                            postcode: data.terpcombinedcontactsvs1[i].fields.Postcode || ' '
-                        };
 
-                        dataTableList.push(dataList);
-                        var dataListCustomer = [
-                            data.terpcombinedcontactsvs1[i].fields.ClientName || '-',
-                            data.terpcombinedcontactsvs1[i].fields.JobName || '',
-                            data.terpcombinedcontactsvs1[i].fields.Phone || '',
+
+                    for (let i = 0; i < data.terpcombinedcontactsvs1.length; i++) {
+
+                            isprospect = data.terpcombinedcontactsvs1[i].isprospect;
+                            iscustomer = data.terpcombinedcontactsvs1[i].iscustomer;
+                            isEmployee = data.terpcombinedcontactsvs1[i].isEmployee;
+                            issupplier = data.terpcombinedcontactsvs1[i].issupplier;
+
+                            if((isprospect == true) && (iscustomer == true) && (isEmployee == true) && (issupplier == true)){
+                                clienttype = "Customer / Employee / Prospect / Supplier";
+                            }else if((isprospect == true) && (iscustomer ==true) && (issupplier ==true)){
+                                clienttype = "Customer / Prospect / Supplier";
+                            }else if((iscustomer ==true) && (issupplier ==true)){
+                                clienttype = "Customer / Supplier";
+                            }else if((iscustomer ==true)){
+
+                                if (data.terpcombinedcontactsvs1[i].name.toLowerCase().indexOf("^") >= 0){
+                                    clienttype = "Job";
+                                }else{
+                                    clienttype = "Customer";
+                                }
+                                // clienttype = "Customer";
+                            }else if((isEmployee ==true)){
+                                clienttype = "Employee";
+                            }else if((issupplier ==true)){
+                                clienttype = "Supplier";
+                            }else if((isprospect ==true)){
+                                clienttype = "Prospect";
+                            }else{
+                                clienttype = " ";
+                            }
+
+                                let arBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].ARBalance)|| 0.00;
+                                let creditBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditBalance) || 0.00;
+                                let balance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].Balance)|| 0.00;
+                                let creditLimit = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].CreditLimit)|| 0.00;
+                                let salesOrderBalance = utilityService.modifynegativeCurrencyFormat(data.terpcombinedcontactsvs1[i].SalesOrderBalance)|| 0.00;
+                                if (isNaN(data.terpcombinedcontactsvs1[i].ARBalance)) {
+                                    arBalance = Currency + "0.00";
+                                }
+
+                                if (isNaN(data.terpcombinedcontactsvs1[i].CreditBalance)) {
+                                    creditBalance = Currency + "0.00";
+                                }
+                                if (isNaN(data.terpcombinedcontactsvs1[i].Balance)) {
+                                    balance = Currency + "0.00";
+                                }
+                                if (isNaN(data.terpcombinedcontactsvs1[i].CreditLimit)) {
+                                    creditLimit = Currency + "0.00";
+                                }
+
+                                if (isNaN(data.terpcombinedcontactsvs1[i].SalesOrderBalance)) {
+                                    salesOrderBalance = Currency + "0.00";
+                                }
+
+
+                        var dataListContact = [
+                            '<div class="custom-control custom-checkbox chkBox chkBoxContact pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.terpcombinedcontactsvs1[i].ID+'"></label></div>',
+                            data.terpcombinedcontactsvs1[i].name || '-',
+                            clienttype || '',
+                            data.terpcombinedcontactsvs1[i].Phone || '',
+                            data.terpcombinedcontactsvs1[i].mobile || '',
                             arBalance || 0.00,
                             creditBalance || 0.00,
                             balance || 0.00,
                             creditLimit || 0.00,
                             salesOrderBalance || 0.00,
-                            data.terpcombinedcontactsvs1[i].fields.Country || '',
-                            data.terpcombinedcontactsvs1[i].fields.State || '',
-                            data.terpcombinedcontactsvs1[i].fields.Street2 || '',
-                            data.terpcombinedcontactsvs1[i].fields.Street || '',
-                            data.terpcombinedcontactsvs1[i].fields.Postcode || '',
-                            data.terpcombinedcontactsvs1[i].fields.Email || '',
-                            data.terpcombinedcontactsvs1[i].fields.AccountNo || '',
-                            data.terpcombinedcontactsvs1[i].fields.ClientNo || '',
-                            data.terpcombinedcontactsvs1[i].fields.JobTitle || '',
-                            data.terpcombinedcontactsvs1[i].fields.Notes || '',
-                            data.terpcombinedcontactsvs1[i].fields.ID || '',
-                            data.terpcombinedcontactsvs1[i].fields.ClientTypeName || 'Default',
-                            data.terpcombinedcontactsvs1[i].fields.Discount || 0,
-                            data.terpcombinedcontactsvs1[i].fields.TermsName || '',
-                            data.terpcombinedcontactsvs1[i].fields.FirstName || '',
-                            data.terpcombinedcontactsvs1[i].fields.LastName || '',
-                            data.terpcombinedcontactsvs1[i].fields.TaxCodeName || 'E'
-                        ];
+                            data.terpcombinedcontactsvs1[i].email || '',
+                            data.terpcombinedcontactsvs1[i].CUSTFLD1 || '',
+                            data.terpcombinedcontactsvs1[i].CUSTFLD2 || '',
+                            data.terpcombinedcontactsvs1[i].street || '',
+                            data.terpcombinedcontactsvs1[i].ID || ''
 
-                        splashArrayCustomerList.push(dataListCustomer);
+                        ];
+                        splashArrayContactList.push(dataListContact);
                         //}
                     }
+                    console.log(splashArrayContactList);
                     var datatable = $('#tblContactlist').DataTable();
                     datatable.clear();
-                    datatable.rows.add(splashArrayCustomerList);
+                    datatable.rows.add(splashArrayContactList);
                     datatable.draw(false);
 
                     $('.fullScreenSpin').css('display', 'none');
                 } else {
 
                     $('.fullScreenSpin').css('display', 'none');
-                    $('#customerListModal').modal('toggle');
+                    $('#contactListModal').modal('toggle');
                     swal({
                         title: 'Question',
-                        text: "Customer does not exist, would you like to create it?",
+                        text: "Contact does not exist, would you like to create it?",
                         type: 'question',
                         showCancelButton: true,
                         confirmButtonText: 'Yes',
                         cancelButtonText: 'No'
                     }).then((result) => {
                         if (result.value) {
-                            $('#addCustomerModal').modal('toggle');
-                            $('#edtCustomerCompany').val(dataSearchName);
+                            FlowRouter.go('/contactoverview');
                         } else if (result.dismiss === 'cancel') {
-                            $('#customerListModal').modal('toggle');
+                            $('#contactListModal').modal('toggle');
                         }
                     });
 
@@ -1400,7 +1419,7 @@ Template.contactlistpop.events({
                     };
 
                     dataTableList.push(dataList);
-                    var dataListCustomer = [
+                    var dataListContact = [
                         data.terpcombinedcontactsvs1[i].fields.ClientName || '-',
                         data.terpcombinedcontactsvs1[i].fields.JobName || '',
                         data.terpcombinedcontactsvs1[i].fields.Phone || '',
@@ -1428,7 +1447,7 @@ Template.contactlistpop.events({
                         data.terpcombinedcontactsvs1[i].fields.TaxCodeName || 'E'
                     ];
 
-                    splashArrayCustomerList.push(dataListCustomer);
+                    splashArrayContactList.push(dataListContact);
 
                     // var customerrecordObj = {
                     //     customerid: data.terpcombinedcontactsvs1[i].fields.ID || ' ',
@@ -1451,7 +1470,7 @@ Template.contactlistpop.events({
                 }
                 var datatable = $('#tblContactlist').DataTable();
                 datatable.clear();
-                datatable.rows.add(splashArrayCustomerList);
+                datatable.rows.add(splashArrayContactList);
                 datatable.draw(false);
 
                 $('.fullScreenSpin').css('display', 'none');
@@ -1464,7 +1483,7 @@ Template.contactlistpop.events({
     },
     'keyup #tblContactlist_filter input': function (event) {
       if (event.keyCode == 13) {
-         $(".btnRefreshCustomer").trigger("click");
+         $(".btnRefreshContact").trigger("click");
       }
     },
     'click .chkDatatable': function (event) {

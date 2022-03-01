@@ -292,6 +292,15 @@ export class SideBarService extends BaseService {
     return this.getList(this.ERPObjects.TCustomerVS1, options);
   }
 
+  getAllContactCombineVS1ByName(dataSearchName) {
+    let options = '';
+       options = {
+        //ListType: "Detail",
+        select: '[name] f7like "'+dataSearchName+'"'
+       };
+    return this.getList(this.ERPObjects.TERPCombinedContactsVS1, options);
+  }
+
   getAllEmployeesDataVS1ByName(dataSearchName) {
     let options = '';
        options = {

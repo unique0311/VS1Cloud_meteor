@@ -631,21 +631,7 @@ Template.contactoverview.onRendered(function() {
     }
 
     templateObject.getAllContactData = function () {
-      var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = (currentBeginDate.getMonth() + 1);
-      let fromDateDay = currentBeginDate.getDate();
-      if((currentBeginDate.getMonth()+1) < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
         getVS1Data('TERPCombinedContactsVS1').then(function (dataObject) {
             if(dataObject.length == 0){
@@ -1040,6 +1026,7 @@ Template.contactoverview.onRendered(function() {
                     });
 
                 }).catch(function (err) {
+
                     // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                     $('.fullScreenSpin').css('display','none');
                     // Meteor._reload.reload();
@@ -1051,7 +1038,7 @@ Template.contactoverview.onRendered(function() {
                 let lineItems = [];
                 let lineItemObj = {};
                 let clienttype = '';
-
+                console.log(useData);
                 let isprospect = false;
                 let iscustomer = false;
                 let isEmployee = false;
@@ -1484,6 +1471,7 @@ Template.contactoverview.onRendered(function() {
 
             }
         }).catch(function (err) {
+
             sideBarService.getAllContactCombineVS1(initialDataLoad,0).then(function (data) {
 
                 $('.fullScreenSpin').css('display','none');
@@ -1868,6 +1856,7 @@ Template.contactoverview.onRendered(function() {
                 });
 
             }).catch(function (err) {
+
                 // Bert.alert('<strong>' + err + '</strong>!', 'danger');
                 $('.fullScreenSpin').css('display','none');
                 // Meteor._reload.reload();

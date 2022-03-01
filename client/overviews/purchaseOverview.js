@@ -470,6 +470,13 @@ Template.purchasesoverview.onRendered(function() {
                         });
                         $('.fullScreenSpin').css('display', 'none');
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tbillreport.length||1;
+                        }
+                        $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblPurchaseOverview th');
@@ -586,6 +593,8 @@ Template.purchasesoverview.onRendered(function() {
                 let useData = data.tbillreport;
                 let lineItems = [];
                 let lineItemObj = {};
+
+                console.log(data);
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);
@@ -642,9 +651,9 @@ Template.purchasesoverview.onRendered(function() {
                         custfield2: useData[i].InvoiceNumber || '',
                         comments: useData[i].Comments || '',
                     };
-                    if (useData[i].Deleted === false) {
+                    //if (useData[i].Deleted === false) {
                         dataTableList.push(dataList);
-                        if (useData[i].Balance != 0) {
+                        //if (useData[i].Balance != 0) {
                             if (useData[i].Type == 'Purchase Order') {
                                 totAmount += Number(useData[i].Balance);
                             }
@@ -656,8 +665,8 @@ Template.purchasesoverview.onRendered(function() {
                             if (useData[i].Type == 'Credit') {
                                 totAmountCredit += Number(useData[i].Balance);
                             }
-                        }
-                    }
+                        //}
+                    //}
                     $('.suppAwaitingAmt').text(utilityService.modifynegativeCurrencyFormat(totAmount));
                     $('.billAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountBill));
                     $('.creditAmt').text(utilityService.modifynegativeCurrencyFormat(totAmountCredit));
@@ -910,6 +919,13 @@ Template.purchasesoverview.onRendered(function() {
                     });
                     $('.fullScreenSpin').css('display', 'none');
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbillreport.length||1;
+                    }
+                    $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblPurchaseOverview th');
@@ -1292,6 +1308,14 @@ Template.purchasesoverview.onRendered(function() {
                     });
                     $('.fullScreenSpin').css('display', 'none');
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
+
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbillreport.length||1;
+                    }
+                    $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblPurchaseOverview th');
