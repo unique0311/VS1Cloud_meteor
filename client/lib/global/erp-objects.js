@@ -194,7 +194,23 @@ ERPObjects = function () {
         TPayRun: "TPayRun",
         TPaybase: "TPaybase",
         TPayRate: "TPayRate",
-        TPayHistory: "TPayHistory"
+        TPayHistory: "TPayHistory",
+        Tvs1dashboardpreferences:"Tvs1dashboardpreferences",
+        TVs1TabGroups:"TVs1TabGroups",
+        Tvs1charts:"Tvs1charts",
+        TBankDepositList:"TBankDepositList",
+        TReconciliationList:"TReconciliationList",
+        TCustomerPaymentList:"TCustomerPaymentList",
+        TSupplierPaymentList:"TSupplierPaymentList",
+        TPurchaseOrderList:"TPurchaseOrderList",
+        TBillList:"TBillList",
+        TChequeList:"TChequeList",
+        TQuoteList:"TQuoteList",
+        TSalesOrderList:"TSalesOrderList",
+        TInvoiceList:"TInvoiceList",
+        TRefundSaleList:"TRefundSaleList",
+        TSalesBackOrderReport:"TSalesBackOrderReport",
+        TCustomerSummaryReport:"TCustomerSummaryReport"
     }
     return objects;
 }
