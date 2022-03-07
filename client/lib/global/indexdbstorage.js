@@ -177,6 +177,7 @@ openDb = function (dbName) {
       db.createObjectStore("TERPPreference", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TERPPreferenceExtra", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TAwaitingSupplierPayment", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TAwaitingCustomerPayment", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TCustomFieldList", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TReportSchedules", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TPayRun", { keyPath: "EmployeeEmail" });
@@ -188,6 +189,22 @@ openDb = function (dbName) {
       db.createObjectStore("TDeduction", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TLeaveRequest", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TPayHistory", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("Tvs1dashboardpreferences", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TVs1TabGroups", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("Tvs1charts", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TBankDepositList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TReconciliationList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TCustomerPaymentList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TSupplierPaymentList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TPurchaseOrderList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TBillList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TChequeList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TQuoteList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TSalesOrderList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TInvoiceList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TRefundSaleList", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TSalesBackOrderReport", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TCustomerSummaryReport", { keyPath: "EmployeeEmail" });
     }
 
     dbReq.onerror = (event) => reject(new Error('Failed to open DB'));

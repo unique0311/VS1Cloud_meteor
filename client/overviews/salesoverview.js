@@ -354,6 +354,18 @@ Template.salesoverview.onRendered(function() {
 
                         });
 
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tsaleslist.length||1;
+                        }
+                        if(data.tsaleslist.length > 0){
+                          $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
+
                     }, 0);
 
                     var columns = $('#tblSalesOverview th');
@@ -633,6 +645,18 @@ Template.salesoverview.onRendered(function() {
 
                     });
 
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tsaleslist.length||1;
+                    }
+                    if(data.tsaleslist.length > 0){
+                      $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblSalesOverview th');
@@ -897,6 +921,19 @@ Template.salesoverview.onRendered(function() {
 
                     });
 
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tsaleslist.length||1;
+                    }
+
+                    if(data.tsaleslist.length > 0){
+                      $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblSalesOverview th');
@@ -1011,12 +1048,12 @@ Template.salesoverview.events({
 
         sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
             addVS1Data('TSalesList', JSON.stringify(data)).then(function(datareturn) {
-                window.open('/salesoverview', '_self');
+                //window.open('/salesoverview', '_self');
             }).catch(function(err) {
-                window.open('/salesoverview', '_self');
+                //window.open('/salesoverview', '_self');
             });
         }).catch(function(err) {
-            window.open('/salesoverview', '_self');
+            //window.open('/salesoverview', '_self');
         });
 
         sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {

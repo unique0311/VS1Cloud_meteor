@@ -297,13 +297,14 @@ Template.new_invoice.onRendered(() => {
 
 
         templateObject.getSalesCustomFieldsList= function () {
-          getVS1Data('TCustomFieldList').then(function(dataObject) {
+          getVS1Data('TCustomFieldList1').then(function(dataObject) {
               if (dataObject.length == 0) {
             sideBarService.getAllCustomFields().then(function (data) {
                 let customData = {};
                 for(let x = 0; x < data.tcustomfieldlist.length; x++) {
                     if(data.tcustomfieldlist[x].fields.ListType == "ltSales") {
                         customData = {
+                            active: data.tcustomfieldlist[x].fields.Active||false,
                             id: data.tcustomfieldlist[x].fields.ID||0,
                             custfieldlabel: data.tcustomfieldlist[x].fields.Description||'',
                             datatype: data.tcustomfieldlist[x].fields.DataType||'',
@@ -322,6 +323,7 @@ Template.new_invoice.onRendered(() => {
                 for(let r =0 ; r < remainder; r++) {
                   getRemCustomFields = (parseInt(remainder) + parseInt(custField.length) - r);
                     customData = {
+                        active: false,
                         id: "",
                         custfieldlabel: "Custom Field "+getRemCustomFields,
                         datatype: "",
@@ -337,6 +339,19 @@ Template.new_invoice.onRendered(() => {
             templateObject.custfields.set(custField);
             if(templateObject.custfields.get()){
               //Custom Field 1
+              if(custField[0].active){
+                $('.checkbox1div').css('display','block');
+                $('#formCheck-customOne').prop('checked', true);
+              }
+
+              if(custField[1].active){
+                $('.checkbox2div').css('display','block');
+                $('#formCheck-customTwo').prop('checked', true);
+              }
+              if(custField[2].active){
+                $('.checkbox3div').css('display','block');
+                $('#formCheck-customThree').prop('checked', true);
+              }
               if(custField[0].datatype == 'ftString' && custField[0].iscombo == false){
 
                 $('.custField1Text').css('display','block');
@@ -345,7 +360,7 @@ Template.new_invoice.onRendered(() => {
 
                 $('.checkbox1div').empty();
                 $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custField[0].custfieldlabel + '</label>' +
-                    '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value=""> </div>');
+                    '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value="" custfieldid='+ custField[0].id +'> </div>');
                 $('#edtSaleCustField1').attr('datatype',"ftString");
               }else if(custField[0].datatype == 'ftDateTime' && custField[0].iscombo == false){
 
@@ -356,7 +371,7 @@ Template.new_invoice.onRendered(() => {
 
                 $('.checkbox1div').empty();
                 $('.checkbox1div').append('<div class="form-group" data-placement="bottom" title="Date format: DD/MM/YYYY"><label class="lblCustomField1">' + custField[0].custfieldlabel + '<br></label>' +
-                    '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="">' +
+                    '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="" custfieldid='+ custField[0].id +'>' +
                     '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
                     '</div> </div></div>');
                 $('#edtSaleCustField1').attr('datatype','ftDateTime');
@@ -389,7 +404,7 @@ Template.new_invoice.onRendered(() => {
 
                 $('.checkbox1div').empty();
                 $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custField[0].custfieldlabel + '<br></label>' +
-                    ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
+                    ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;" custfieldid='+ custField[0].id +'></select></div>');
                 $('#edtSaleCustField1').attr('datatype','ftString');
                 var splashArrayCustomFieldList = new Array();
                 if(custField[0].dropdown != null){
@@ -447,7 +462,7 @@ Template.new_invoice.onRendered(() => {
                       responsive: true,
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                          $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                          $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                       },
 
                   }).on('page', function () {
@@ -470,8 +485,11 @@ Template.new_invoice.onRendered(() => {
                         var $earch = $(this);
                         var offset = $earch.offset();
                         var fieldDataName = e.target.value || '';
+                        var fieldDataID = $('#edtSaleCustField1').attr('custfieldid') || '';
+                        $('#selectCustFieldID').val(fieldDataID);
                         if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                             $('#customFieldList').modal('toggle');
+
                         } else {
                             if (fieldDataName.replace(/\s/g, '') != '') {
                                 $('#newStatusHeader1').text('Edit '+custField[0].custfieldlabel);
@@ -636,7 +654,7 @@ Template.new_invoice.onRendered(() => {
                       responsive: true,
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                          $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                          $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                       },
 
                   }).on('page', function () {
@@ -660,6 +678,8 @@ Template.new_invoice.onRendered(() => {
                         var $earch = $(this);
                         var offset = $earch.offset();
                         var fieldDataName = e.target.value || '';
+                        var fieldDataID = $('#edtSaleCustField2').attr('custfieldid') || '';
+                        $('#selectCustFieldID').val(fieldDataID);
                         if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                             $('#customFieldList').modal('toggle');
                         } else {
@@ -826,7 +846,7 @@ Template.new_invoice.onRendered(() => {
                       responsive: true,
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                          $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                          $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                       },
 
                   }).on('page', function () {
@@ -851,6 +871,8 @@ Template.new_invoice.onRendered(() => {
                         var $earch = $(this);
                         var offset = $earch.offset();
                         var fieldDataName = e.target.value || '';
+                        var fieldDataID = $('#edtSaleCustField3').attr('custfieldid') || '';
+                        $('#selectCustFieldID').val(fieldDataID);
                         if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                             $('#customFieldList').modal('toggle');
                         } else {
@@ -921,6 +943,7 @@ Template.new_invoice.onRendered(() => {
               for(let x = 0; x < data.tcustomfieldlist.length; x++) {
                   if(data.tcustomfieldlist[x].fields.ListType == "ltSales") {
                       customData = {
+                          active: data.tcustomfieldlist[x].fields.Active||false,
                           id: data.tcustomfieldlist[x].fields.ID||0,
                           custfieldlabel: data.tcustomfieldlist[x].fields.Description||'',
                           datatype: data.tcustomfieldlist[x].fields.DataType||'',
@@ -939,6 +962,7 @@ Template.new_invoice.onRendered(() => {
               for(let r =0 ; r < remainder; r++) {
                 getRemCustomFields = (parseInt(remainder) + parseInt(custField.length) - r);
                   customData = {
+                      active: false,
                       id: "",
                       custfieldlabel: "Custom Field "+getRemCustomFields,
                       datatype: "",
@@ -954,6 +978,19 @@ Template.new_invoice.onRendered(() => {
           templateObject.custfields.set(custField);
           if(templateObject.custfields.get()){
             //Custom Field 1
+            if(custField[0].active){
+              $('.checkbox1div').css('display','block');
+              $('#formCheck-customOne').prop('checked', true);
+            }
+
+            if(custField[1].active){
+              $('.checkbox2div').css('display','block');
+              $('#formCheck-customTwo').prop('checked', true);
+            }
+            if(custField[2].active){
+              $('.checkbox3div').css('display','block');
+              $('#formCheck-customThree').prop('checked', true);
+            }
             if(custField[0].datatype == 'ftString' && custField[0].iscombo == false){
 
               $('.custField1Text').css('display','block');
@@ -962,7 +999,7 @@ Template.new_invoice.onRendered(() => {
 
               $('.checkbox1div').empty();
               $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custField[0].custfieldlabel + '</label>' +
-                  '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value=""> </div>');
+                  '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value="" custfieldid='+ custField[0].id +'> </div>');
               $('#edtSaleCustField1').attr('datatype',"ftString");
             }else if(custField[0].datatype == 'ftDateTime' && custField[0].iscombo == false){
 
@@ -973,7 +1010,7 @@ Template.new_invoice.onRendered(() => {
 
               $('.checkbox1div').empty();
               $('.checkbox1div').append('<div class="form-group" data-placement="bottom" title="Date format: DD/MM/YYYY"><label class="lblCustomField1">' + custField[0].custfieldlabel + '<br></label>' +
-                  '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="">' +
+                  '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="" custfieldid='+ custField[0].id +'>' +
                   '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
                   '</div> </div></div>');
               $('#edtSaleCustField1').attr('datatype','ftDateTime');
@@ -1006,7 +1043,7 @@ Template.new_invoice.onRendered(() => {
 
               $('.checkbox1div').empty();
               $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custField[0].custfieldlabel + '<br></label>' +
-                  ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
+                  ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;" custfieldid='+ custField[0].id +'></select></div>');
               $('#edtSaleCustField1').attr('datatype','ftString');
               var splashArrayCustomFieldList = new Array();
               if(custField[0].dropdown != null){
@@ -1064,7 +1101,7 @@ Template.new_invoice.onRendered(() => {
                     responsive: true,
                     "fnInitComplete": function () {
                         $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                        $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                        $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                     },
 
                 }).on('page', function () {
@@ -1087,6 +1124,8 @@ Template.new_invoice.onRendered(() => {
                       var $earch = $(this);
                       var offset = $earch.offset();
                       var fieldDataName = e.target.value || '';
+                      var fieldDataID = $('#edtSaleCustField1').attr('custfieldid') || '';
+                      $('#selectCustFieldID').val(fieldDataID);
                       if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                           $('#customFieldList').modal('toggle');
                       } else {
@@ -1253,7 +1292,7 @@ Template.new_invoice.onRendered(() => {
                     responsive: true,
                     "fnInitComplete": function () {
                         $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                        $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                        $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                     },
 
                 }).on('page', function () {
@@ -1277,6 +1316,8 @@ Template.new_invoice.onRendered(() => {
                       var $earch = $(this);
                       var offset = $earch.offset();
                       var fieldDataName = e.target.value || '';
+                      var fieldDataID = $('#edtSaleCustField2').attr('custfieldid') || '';
+                      $('#selectCustFieldID').val(fieldDataID);
                       if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                           $('#customFieldList').modal('toggle');
                       } else {
@@ -1443,7 +1484,7 @@ Template.new_invoice.onRendered(() => {
                     responsive: true,
                     "fnInitComplete": function () {
                         $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                        $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                        $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                     },
 
                 }).on('page', function () {
@@ -1468,6 +1509,8 @@ Template.new_invoice.onRendered(() => {
                       var $earch = $(this);
                       var offset = $earch.offset();
                       var fieldDataName = e.target.value || '';
+                      var fieldDataID = $('#edtSaleCustField3').attr('custfieldid') || '';
+                      $('#selectCustFieldID').val(fieldDataID);
                       if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                           $('#customFieldList').modal('toggle');
                       } else {
@@ -1535,9 +1578,11 @@ Template.new_invoice.onRendered(() => {
           }).catch(function(err) {
             sideBarService.getAllCustomFields().then(function (data) {
                 let customData = {};
+                console.log('here now');
                 for(let x = 0; x < data.tcustomfieldlist.length; x++) {
                     if(data.tcustomfieldlist[x].fields.ListType == "ltSales") {
                         customData = {
+                            active: data.tcustomfieldlist[x].fields.Active||false,
                             id: data.tcustomfieldlist[x].fields.ID||0,
                             custfieldlabel: data.tcustomfieldlist[x].fields.Description||'',
                             datatype: data.tcustomfieldlist[x].fields.DataType||'',
@@ -1571,6 +1616,19 @@ Template.new_invoice.onRendered(() => {
             templateObject.custfields.set(custField);
             if(templateObject.custfields.get()){
               //Custom Field 1
+              if(custField[0].active){
+                $('.checkbox1div').css('display','block');
+                $('#formCheck-customOne').prop('checked', true);
+              }
+
+              if(custField[1].active){
+                $('.checkbox2div').css('display','block');
+                $('#formCheck-customTwo').prop('checked', true);
+              }
+              if(custField[2].active){
+                $('.checkbox3div').css('display','block');
+                $('#formCheck-customThree').prop('checked', true);
+              }
               if(custField[0].datatype == 'ftString' && custField[0].iscombo == false){
 
                 $('.custField1Text').css('display','block');
@@ -1579,8 +1637,9 @@ Template.new_invoice.onRendered(() => {
 
                 $('.checkbox1div').empty();
                 $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custField[0].custfieldlabel + '</label>' +
-                    '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value=""> </div>');
+                    '<input class="form-control form-control" type="text" id="edtSaleCustField1" name="edtSaleCustField1" value="" custfieldid='+ custField[0].id +'> </div>');
                 $('#edtSaleCustField1').attr('datatype',"ftString");
+
               }else if(custField[0].datatype == 'ftDateTime' && custField[0].iscombo == false){
 
                 $('.custField1Text').css('display','none');
@@ -1590,7 +1649,7 @@ Template.new_invoice.onRendered(() => {
 
                 $('.checkbox1div').empty();
                 $('.checkbox1div').append('<div class="form-group" data-placement="bottom" title="Date format: DD/MM/YYYY"><label class="lblCustomField1">' + custField[0].custfieldlabel + '<br></label>' +
-                    '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="">' +
+                    '<div class="input-group date" style="cursor: pointer;"><input type="text" class="form-control customField1" style="width: 86% !important; display: inline-flex;" id="edtSaleCustField1" name="edtSaleCustField1" value="" custfieldid='+ custField[0].id +'>' +
                     '<div class="input-group-addon" style=""><span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
                     '</div> </div></div>');
                 $('#edtSaleCustField1').attr('datatype','ftDateTime');
@@ -1623,7 +1682,7 @@ Template.new_invoice.onRendered(() => {
 
                 $('.checkbox1div').empty();
                 $('.checkbox1div').append('<div class="form-group"><label class="lblCustomField1">' + custField[0].custfieldlabel + '<br></label>' +
-                    ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;"></select></div>');
+                    ' <select type="search" class="form-control pointer customField1" id="edtSaleCustField1" name="edtSaleCustField1" style="background-color:rgb(255, 255, 255); border-top-left-radius: 0.35rem; border-bottom-left-radius: 0.35rem;" custfieldid='+ custField[0].id +'></select></div>');
                 $('#edtSaleCustField1').attr('datatype','ftString');
                 var splashArrayCustomFieldList = new Array();
                 if(custField[0].dropdown != null){
@@ -1681,7 +1740,7 @@ Template.new_invoice.onRendered(() => {
                       responsive: true,
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                          $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                          $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                       },
 
                   }).on('page', function () {
@@ -1704,6 +1763,8 @@ Template.new_invoice.onRendered(() => {
                         var $earch = $(this);
                         var offset = $earch.offset();
                         var fieldDataName = e.target.value || '';
+                        var fieldDataID = $('#edtSaleCustField1').attr('custfieldid') || '';
+                        $('#selectCustFieldID').val(fieldDataID);
                         if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                             $('#customFieldList').modal('toggle');
                         } else {
@@ -1765,8 +1826,9 @@ Template.new_invoice.onRendered(() => {
 
               }
 
+              console.log(custField[1].dropdown);
               //Custom Field 2
-              if(custField[1].datatype == 'ftString' && custField[1].iscombo == false){
+              if(custField[1].datatype == 'ftString' && custField[1].iscombo == false && custField[1].dropdown == null){
 
                 $('.custField2Text').css('display','block');
                 $('.custField2Date').css('display','none');
@@ -1776,7 +1838,7 @@ Template.new_invoice.onRendered(() => {
                 $('.checkbox2div').append('<div class="form-group"><label class="lblCustomField2">' + custField[1].custfieldlabel + '</label>' +
                     '<input class="form-control form-control" type="text" id="edtSaleCustField2" name="edtSaleCustField2" value=""> </div>');
                 $('#edtSaleCustField2').attr('datatype',"ftString");
-              }else if(custField[1].datatype == 'ftDateTime' && custField[1].iscombo == false){
+              }else if(custField[1].datatype == 'ftDateTime' && custField[1].iscombo == false && custField[1].dropdown == null){
 
                 $('.custField2Text').css('display','none');
                 $('.custField2Date').css('display','block');
@@ -1807,7 +1869,8 @@ Template.new_invoice.onRendered(() => {
 
                 }, 1500);
 
-              }else if(custField[1].datatype == 'ftString' && custField[1].iscombo == true){
+              }else if(custField[1].datatype == 'ftString' && custField[1].dropdown != null){
+                console.log('2 dropdown');
                 $('.custField2Text').css('display','none');
                 $('.custField2Date').css('display','none');
                 $('.custField2Dropdown').css('display','block');
@@ -1870,7 +1933,7 @@ Template.new_invoice.onRendered(() => {
                       responsive: true,
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                          $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                          $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                       },
 
                   }).on('page', function () {
@@ -1888,12 +1951,15 @@ Template.new_invoice.onRendered(() => {
               }, 10);
 
                 setTimeout(function () {
+                  console.log('2 dropdown set');
                     $('#edtSaleCustField2').editableSelect();
                     $('#edtSaleCustField2').editableSelect()
                     .on('click.editable-select', function (e, li) {
                         var $earch = $(this);
                         var offset = $earch.offset();
                         var fieldDataName = e.target.value || '';
+                        var fieldDataID = $('#edtSaleCustField2').attr('custfieldid') || '';
+                        $('#selectCustFieldID').val(fieldDataID);
                         if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                             $('#customFieldList').modal('toggle');
                         } else {
@@ -1956,7 +2022,7 @@ Template.new_invoice.onRendered(() => {
               }
 
               //Custom Field 3
-              if(custField[2].datatype == 'ftString' && custField[2].iscombo == false){
+              if(custField[2].datatype == 'ftString' && custField[2].iscombo == false && custField[2].dropdown == null){
 
                 $('.custField3Text').css('display','block');
                 $('.custField3Date').css('display','none');
@@ -1966,7 +2032,7 @@ Template.new_invoice.onRendered(() => {
                 $('.checkbox3div').append('<div class="form-group"><label class="lblCustomField3">' + custField[2].custfieldlabel + '</label>' +
                     '<input class="form-control form-control" type="text" id="edtSaleCustField3" name="edtSaleCustField3" value=""> </div>');
                 $('#edtSaleCustField3').attr('datatype',"ftString");
-              }else if(custField[2].datatype == 'ftDateTime' && custField[2].iscombo == false){
+              }else if(custField[2].datatype == 'ftDateTime' && custField[2].iscombo == false && custField[2].Dropdown == null){
 
                 $('.custField3Text').css('display','none');
                 $('.custField3Date').css('display','block');
@@ -1997,7 +2063,7 @@ Template.new_invoice.onRendered(() => {
 
                 }, 1500);
 
-              }else if(custField[2].datatype == 'ftString' && custField[2].iscombo == true){
+              }else if(custField[2].datatype == 'ftString' && custField[2].Dropdown != null){
                 $('.custField3Text').css('display','none');
                 $('.custField3Date').css('display','none');
                 $('.custField3Dropdown').css('display','block');
@@ -2060,7 +2126,7 @@ Template.new_invoice.onRendered(() => {
                       responsive: true,
                       "fnInitComplete": function () {
                           $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                          $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                          $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                       },
 
                   }).on('page', function () {
@@ -2085,6 +2151,8 @@ Template.new_invoice.onRendered(() => {
                         var $earch = $(this);
                         var offset = $earch.offset();
                         var fieldDataName = e.target.value || '';
+                        var fieldDataID = $('#edtSaleCustField3').attr('custfieldid') || '';
+                        $('#selectCustFieldID').val(fieldDataID);
                         if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
                             $('#customFieldList').modal('toggle');
                         } else {
@@ -8303,6 +8371,17 @@ Template.new_invoice.onRendered(() => {
     });
 
     Template.new_invoice.events({
+      'click .btnRefreshCustomField': function (event) {
+          $('.fullScreenSpin').css('display', 'inline-block');
+          let templateObject = Template.instance();
+          sideBarService.getAllCustomFields().then(function (data) {
+              addVS1Data('TCustomFieldList', JSON.stringify(data));
+                templateObject.getSalesCustomFieldsList();
+              $('.fullScreenSpin').css('display', 'none');
+          }).catch(function (err) {
+              $('.fullScreenSpin').css('display', 'none');
+          });
+        },
         'click #edtSaleCustField1': function(event) {
             clickedInput = "one";
             $('#clickedControl').val(clickedInput);
@@ -8317,12 +8396,14 @@ Template.new_invoice.onRendered(() => {
         },
         'click .btnAddNewCustField': function(event) {
             isDropDown = true;
-            $("#statusId1").val("");
+            let statusvalID = $("#selectCustFieldID").val()||'';
+            $("#statusId1").val(statusvalID);
             $('#isdropDown').val(isDropDown);
             $('#newCustomFieldPop').modal('toggle');
+            $('#customFieldList').modal('toggle');
         },
 
-        
+
         'click #edtCustomerName': function (event) {
             $('#edtCustomerName').select();
             $('#edtCustomerName').editableSelect();

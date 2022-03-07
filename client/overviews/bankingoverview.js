@@ -340,7 +340,7 @@ Template.bankingoverview.onRendered(function() {
     });
 
     templateObject.resetData = function (dataVal) {
-        //window.open('/bankingoverview?page=last', '_self');
+        window.open('/bankingoverview?page=last', '_self');
     }
 
     // $('#tblBankingOverview').DataTable();
@@ -551,7 +551,7 @@ Template.bankingoverview.onRendered(function() {
 
                               }else{
                                 $('.paginate_button.page-item').removeClass('disabled');
-                                $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+                                $('#tblBankingOverview_ellipsis').addClass('disabled');
 
                                 if (oSettings._iDisplayLength == -1) {
                                     if (oSettings.fnRecordsDisplay() > 150) {
@@ -625,6 +625,18 @@ Template.bankingoverview.onRendered(function() {
 
                         });
                         $('.fullScreenSpin').css('display', 'none');
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tbankaccountreport.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tbankaccountreport.length||1;
+                        }
+
+                        if(data.tbankaccountreport.length > 0){
+                          $('#tblBankingOverview_info').html('Showing 1 to '+data.tbankaccountreport.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblBankingOverview_info').html('Showing 0 to '+data.tbankaccountreport.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblBankingOverview th');
@@ -913,7 +925,7 @@ Template.bankingoverview.onRendered(function() {
 
                           }else{
                             $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+                            $('#tblBankingOverview_ellipsis').addClass('disabled');
 
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
@@ -987,6 +999,17 @@ Template.bankingoverview.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display', 'none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbankaccountreport.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbankaccountreport.length||1;
+                    }
+                    if(data.tbankaccountreport.length > 0){
+                      $('#tblBankingOverview_info').html('Showing 1 to '+data.tbankaccountreport.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblBankingOverview_info').html('Showing 0 to '+data.tbankaccountreport.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblBankingOverview th');
@@ -1238,7 +1261,7 @@ Template.bankingoverview.onRendered(function() {
 
                           }else{
                             $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+                            $('#tblBankingOverview_ellipsis').addClass('disabled');
 
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
@@ -1312,6 +1335,17 @@ Template.bankingoverview.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display', 'none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbankaccountreport.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbankaccountreport.length||1;
+                    }
+                    if(data.tbankaccountreport.length > 0){
+                      $('#tblBankingOverview_info').html('Showing 1 to '+data.tbankaccountreport.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblBankingOverview_info').html('Showing 0 to '+data.tbankaccountreport.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblBankingOverview th');

@@ -246,6 +246,25 @@ export class SideBarService extends BaseService {
       return this.getList(this.ERPObjects.TCustomerPayment, options);
   }
 
+  getAllTCustomerPaymentListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true
+       };
+     }else{
+       options = {
+         IgnoreDates:false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TCustomerPaymentList, options);
+    }
+
   getTSupplierPaymentList(limitcount, limitfrom){
     let options = '';
     if(limitcount == 'All'){
@@ -264,6 +283,25 @@ export class SideBarService extends BaseService {
     }
       return this.getList(this.ERPObjects.TSupplierPayment, options);
   }
+
+  getAllTSupplierPaymentListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true
+       };
+     }else{
+       options = {
+         IgnoreDates:false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TSupplierPaymentList, options);
+    }
 
   getAllCustomersDataVS1(limitcount, limitfrom) {
     let options = '';
@@ -537,6 +575,26 @@ getCustomersDataByName(dataSearchName) {
 
     return this.getList(this.ERPObjects.TChequeEx, options);
   }
+
+  getAllChequeListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+    let options = '';
+
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates:true
+     };
+   }else{
+     options = {
+       IgnoreDates:true,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TChequeList, options);
+  }
+
   getAllPurchaseOrderListAll(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
     let options = '';
 
@@ -584,6 +642,48 @@ getCustomersDataByName(dataSearchName) {
    };
   }
     return this.getList(this.ERPObjects.TbillReport, options);
+  }
+
+  getAllAwaitingCustomerPayment(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+        IncludeIsCashSale:true,
+        IncludeIsCustomerReturn:false,
+        IncludeIsInvoice:true,
+        IncludeIslayby:false,
+        IncludeIsLaybyPayment:true,
+        IncludeIsPOS:true,
+        IncludeIsQuote:false,
+        IncludeIsRefund:true,
+        IncludeISSalesOrder:false,
+        IncludeIsVoucher:false,
+        Paid:false,
+        Unpaid:true
+     };
+   }else{
+     options = {
+       IgnoreDates:false,
+       IncludeIsCashSale:true,
+       IncludeIsCustomerReturn:false,
+       IncludeIsInvoice:true,
+       IncludeIslayby:false,
+       IncludeIsLaybyPayment:true,
+       IncludeIsPOS:true,
+       IncludeIsQuote:false,
+       IncludeIsRefund:true,
+       IncludeISSalesOrder:false,
+       IncludeIsVoucher:false,
+       Paid:false,
+       Unpaid:true,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TSalesList, options);
   }
 
   getAllBillExList(limitcount, limitfrom) {
@@ -636,7 +736,7 @@ getCustomersDataByName(dataSearchName) {
         };
     }else{
       options = {
-        orderby:'"PurchaseOrderID desc"',
+         orderby:'"PurchaseOrderID desc"',
          ListType: "Detail",
          select: "[Deleted]=false",
          LimitCount:'"'+limitcount+'"',
@@ -651,13 +751,39 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
+         orderby:'"SaleId desc"',
          IgnoreDates:true,
+         IncludeIsCashSale:true,
+         IncludeIsCustomerReturn:true,
+         IncludeIsInvoice:true,
+         IncludeIslayby:true,
+         IncludeIsLaybyPayment:true,
+         IncludeIsPOS:true,
+         IncludeIsQuote:true,
+         IncludeIsRefund:true,
+         IncludeISSalesOrder:true,
+         IncludeIsVoucher:true,
+         Paid:false,
+         Unpaid:true,
      };
    }else{
      options = {
+        orderby:'"SaleId desc"',
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
+        IncludeIsCashSale:true,
+        IncludeIsCustomerReturn:true,
+        IncludeIsInvoice:true,
+        IncludeIslayby:true,
+        IncludeIsLaybyPayment:true,
+        IncludeIsPOS:true,
+        IncludeIsQuote:true,
+        IncludeIsRefund:true,
+        IncludeISSalesOrder:true,
+        IncludeIsVoucher:true,
+        Paid:false,
+        Unpaid:true,
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
     };
@@ -1048,6 +1174,27 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TVS1BankDeposit, options);
   }
 
+  getAllTBankDepositListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates: true,
+        select: "[deleted]=false"
+     };
+    }else{
+     options = {
+       //IgnoreDates: true,
+       orderby:'"DepositID asc"',
+       select: "[deleted]=false",
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+    };
+    }
+    return this.getList(this.ERPObjects.TBankDepositList, options);
+  }
+
   getAllBankAccountDetails(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
     let options = '';
     if(ignoreDate == true){
@@ -1185,6 +1332,25 @@ getCustomersDataByName(dataSearchName) {
      };
     }
     return this.getList(this.ERPObjects.TReconciliation, options);
+  }
+
+  getAllTReconcilationListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+    let options = '';
+
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+     };
+   }else{
+     options = {
+       IgnoreDates:false,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TReconciliationList, options);
   }
 
 

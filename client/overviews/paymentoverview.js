@@ -560,6 +560,17 @@ Template.paymentoverview.onRendered(function() {
 
                         });
                         $('.fullScreenSpin').css('display','none');
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tpaymentlist.length||1;
+                        }
+                        if(data.tpaymentlist.length > 0){
+                          $('#tblPaymentOverview_info').html('Showing 1 to '+data.tpaymentlist.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblPaymentOverview_info').html('Showing 0 to '+data.tpaymentlist.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblPaymentOverview th');
@@ -778,6 +789,17 @@ Template.paymentoverview.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tpaymentlist.length||1;
+                    }
+                    if(data.tpaymentlist.length > 0){
+                      $('#tblPaymentOverview_info').html('Showing 1 to '+data.tpaymentlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblPaymentOverview_info').html('Showing 0 to '+data.tpaymentlist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblPaymentOverview th');
@@ -987,6 +1009,18 @@ Template.paymentoverview.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tpaymentlist.length||1;
+                    }
+                    if(data.tpaymentlist.length > 0){
+                      $('#tblPaymentOverview_info').html('Showing 1 to '+data.tpaymentlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblPaymentOverview_info').html('Showing 0 to '+data.tpaymentlist.length+ ' of 0 entries');
+                    }
+
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblPaymentOverview th');

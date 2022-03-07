@@ -746,7 +746,7 @@ Template.customfieldformpop.events({
      let organisationService = new OrganisationService();
      var url = FlowRouter.current().path;
       let fieldID = parseInt($('#statusId1').val()) || '';
-      let termsName = $('#newStatus1').val();
+      let termsName = $('#newStatus1').val()||'';
       let clickedInput = $('#clickedControl').val();
      let dropDownStatus = $('#isdropDown').val();
      let dropDownData = [];
@@ -774,10 +774,11 @@ Template.customfieldformpop.events({
                     dropDownData.push(dropObj);
                 });
 
-
+                if(termsName !== ''){
                  objDetails1 = {
                     type: "TCustomFieldList",
                     fields: {
+                        Active:true,
                         DataType:"ftString",
                         Description: termsName,
                         Dropdown: dropDownData,
@@ -785,12 +786,26 @@ Template.customfieldformpop.events({
                         listType: listType
                     }
                 };
+              }else{
+                objDetails1 = {
+                   type: "TCustomFieldList",
+                   fields: {
+                       Active:true,
+                       DataType:"ftString",
+                       //Description: termsName,
+                       Dropdown: dropDownData,
+                       IsCombo:true,
+                       listType: listType
+                   }
+               };
+              }
             } else {
                 objDetails1 = {
                     type: "TCustomFieldList",
                     fields: {
                         DataType:"ftString",
                         Description: termsName,
+                        Dropdown: null,
                         IsCombo:false,
                         listType: listType
                     }
@@ -851,32 +866,47 @@ Template.customfieldformpop.events({
                     dropObj = {
                         type: "TCustomFieldListDropDown",
                         fields:{
-                            //Recno: parseInt(countCustom) || 0,
+                            ID: parseInt($(this).attr('token')) || 0,
                             Text: $(this).val()||'',
                         }
                     }
                     dropDownData.push(dropObj);
                 });
 
-
+                if(termsName !== ''){
                  objDetails1 = {
                     type: "TCustomFieldList",
                     fields: {
-                        ID: fieldID,
                         DataType:"ftString",
                         Description: termsName,
                         Dropdown: dropDownData,
+                        ID: fieldID,
                         IsCombo:true,
                         listType: listType
                     }
                 };
+              }else{
+                console.log('here1');
+                objDetails1 = {
+                   type: "TCustomFieldList",
+                   fields: {
+                       DataType:"ftString",
+                       //Description: termsName,
+                       Dropdown: dropDownData,
+                       ID: fieldID,
+                       IsCombo:true,
+                       listType: listType
+                   }
+               };
+              }
             } else {
                 objDetails1 = {
                     type: "TCustomFieldList",
                     fields: {
-                        ID: fieldID,
                         DataType:"ftString",
                         Description: termsName,
+                        ID: fieldID,
+                        Dropdown: null,
                         IsCombo:false,
                         listType: listType
                     }
@@ -885,6 +915,9 @@ Template.customfieldformpop.events({
 
                 organisationService.saveCustomField(objDetails1).then(function(objDetails) {
                     // sideBarService.getTermsVS1().then(function(dataReload) {
+                    sideBarService.getAllCustomFields().then(function (data) {
+                        addVS1Data('TCustomFieldList', JSON.stringify(data));
+                    });
                         if(clickedInput == "one") {
                             $('.lblCustomField1').text(termsName);
                             // $('#edtSaleCustField1').val(termsName);
@@ -933,7 +966,7 @@ Template.customfieldformpop.events({
       var textBoxData = $('#textBoxSection:last').clone(true);
       let tokenid = Random.id();
       textBoxData.find("input:text").val("");
-      textBoxData.attr('token', tokenid);
+      textBoxData.find("input:text").attr('token', '0');
       $('.dropDownSection').append(textBoxData);
     },
     'click .btnRemoveDropOptions': function () {

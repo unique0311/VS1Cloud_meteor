@@ -60,30 +60,86 @@ Template.reconciliationlist.onRendered(function() {
         window.open('/reconciliationlist?page=last','_self');
     }
 
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateDay = currentDate.getDate();
+    if ((currentDate.getMonth()+1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth()+1);
+    }
+
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
+
     templateObject.getAllReconData = function () {
-        getVS1Data('TReconciliation').then(function (dataObject) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if((currentBeginDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        getVS1Data('TReconciliationList').then(function (dataObject) {
             if(dataObject.length == 0){
-              sideBarService.getAllReconcilationList(initialDataLoad,0).then(function (data) {
-                addVS1Data('TReconciliation',JSON.stringify(data));
+              sideBarService.getAllTReconcilationListData(initialDataLoad,0).then(function (data) {
+                addVS1Data('TReconciliationList',JSON.stringify(data));
                   let lineItems = [];
                   let lineItemObj = {};
-                  for(let i=0; i<data.treconciliation.length; i++){
-                      let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.OpenBalance)|| 0.00;
-                      let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.CloseBalance)|| 0.00;
+                  if(data.Params.IgnoreDates == true){
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/reconciliationlist?ignoredate=true');
+                  }else{
+
+                    $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                  }
+
+                  for(let i=0; i<data.treconciliationlist.length; i++){
+                      let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliationlist[i].OpenBalance)|| 0.00;
+                      let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliationlist[i].CloseBalance)|| 0.00;
                       var dataList = {
-                          id: data.treconciliation[i].fields.ID || '',
-                          sortdate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].fields.ReconciliationDate,
-                          recondate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].fields.ReconciliationDate,
-                          accountname:data.treconciliation[i].fields.AccountName || '',
-                          statementno: data.treconciliation[i].fields.StatementNo || '',
-                          department: data.treconciliation[i].fields.DeptName|| '',
+                          id: data.treconciliationlist[i].ReconciliationID || '',
+                          sortdate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("YYYY/MM/DD"): data.treconciliationlist[i].ReconciliationDate,
+                          recondate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliationlist[i].ReconciliationDate,
+                          accountname:data.treconciliationlist[i].AccountName || '',
+                          statementno: data.treconciliationlist[i].StatementNo || '',
+                          department: data.treconciliationlist[i].DeptName|| '',
                           openbalance: openBalance || 0.00,
                           closebalance: closeBalance || 0.00,
-                          employee: data.treconciliation[i].fields.EmployeeName || '',
-                          notes: data.treconciliation[i].fields.Notes || '',
-                          onhold: data.treconciliation[i].fields.OnHold || false,
+                          employee: data.treconciliationlist[i].EmployeeName || '',
+                          notes: data.treconciliationlist[i].Notes || '',
+                          onhold: data.treconciliationlist[i].OnHold || false,
                       };
-                      if(data.treconciliation[i].fields.ReconciliationDate != ''){
+                      if(data.treconciliationlist[i].ReconciliationDate != ''){
                           dataTableList.push(dataList);
                       }
 
@@ -134,7 +190,7 @@ Template.reconciliationlist.onRendered(function() {
                           // columnDefs: [
                           //     {type: 'date', targets: 0}
                           // ],
-                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                           buttons: [
                               {
                                   extend: 'excelHtml5',
@@ -172,10 +228,9 @@ Template.reconciliationlist.onRendered(function() {
                           select: true,
                           destroy: true,
                           colReorder: true,
-                          // bStateSave: true,
-                          // rowId: 0,
-                          pageLength: initialDatatableLoad,
-                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          pageLength: initialReportDatatableLoad,
+                          "bLengthChange": false,
+                          lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                           info: true,
                           responsive: true,
                           "order": [[ 0, "desc" ],[ 4, "desc" ]],
@@ -183,6 +238,11 @@ Template.reconciliationlist.onRendered(function() {
                               $('#tblreconciliationlist').DataTable().ajax.reload();
                           },
                           "fnDrawCallback": function (oSettings) {
+                            let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                            if(checkurlIgnoreDate == 'true'){
+
+                            }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblreconciliationlist_ellipsis').addClass('disabled');
 
@@ -202,21 +262,27 @@ Template.reconciliationlist.onRendered(function() {
                              .on('click', function(){
                                $('.fullScreenSpin').css('display','inline-block');
                                let dataLenght = oSettings._iDisplayLength;
+                               var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                               var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                               sideBarService.getAllReconcilationList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                                 getVS1Data('TReconciliation').then(function (dataObjectold) {
+                               let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                               let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                               sideBarService.getAllTReconcilationListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TReconciliationList').then(function (dataObjectold) {
                                    if(dataObjectold.length == 0){
 
                                    }else{
                                      let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                     var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliation), dataOld.treconciliation);
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliationlist), dataOld.treconciliationlist);
                                      let objCombineData = {
-                                       treconciliation:thirdaryData
+                                       Params: dataObjectnew.Params,
+                                       treconciliationlist:thirdaryData
                                      }
 
 
-                                       addVS1Data('TReconciliation',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       addVS1Data('TReconciliationList',JSON.stringify(objCombineData)).then(function (datareturn) {
                                          templateObject.resetData(objCombineData);
                                        $('.fullScreenSpin').css('display','none');
                                        }).catch(function (err) {
@@ -233,12 +299,20 @@ Template.reconciliationlist.onRendered(function() {
                                });
 
                              });
+
+                           }
                               setTimeout(function () {
                                   MakeNegative();
                               }, 100);
                           },
                           "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnRefreshBankRecon' type='button' id='btnRefreshBankRecon' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage) {
+                                  this.fnPageChange('last');
+                              }
+                              $("<button class='btn btn-primary btnRefreshReconn' type='button' id='btnRefreshReconn' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
+
+                              $('.myvarFilterForm').appendTo(".colDateFilter");
                           }
 
                       }).on('page', function () {
@@ -254,8 +328,22 @@ Template.reconciliationlist.onRendered(function() {
                               MakeNegative();
                           }, 100);
                       });
+
+                      /* Add count functionality to table */
+                      let countTableData = data.Params.Count || 1; //get count from API data
+                      if(data.treconciliationlist.length > countTableData){ //Check if what is on the list is more than API count
+                        countTableData = data.treconciliationlist.length||1;
+                      }
+                      if(data.treconciliationlist.length > 0){
+                        $('#tblreconciliationlist_info').html('Showing 1 to '+data.treconciliationlist.length+ ' of ' +countTableData+ ' entries');
+                      }else{
+                        $('#tblreconciliationlist_info').html('Showing 0 to '+data.treconciliationlist.length+ ' of 0 entries');
+                      }
+                      /* End Add count functionality to table */
+
                       $('.fullScreenSpin').css('display','none');
                   }, 0);
+
 
                   var columns = $('#tblreconciliationlist th');
                   let sTible = "";
@@ -298,26 +386,37 @@ Template.reconciliationlist.onRendered(function() {
               });
             }else{
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.treconciliation;
+                let useData = data.treconciliationlist;
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<data.treconciliation.length; i++){
-                    let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.OpenBalance)|| 0.00;
-                    let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.CloseBalance)|| 0.00;
+                console.log(data);
+                if(data.Params.IgnoreDates == true){
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/reconciliationlist?ignoredate=true');
+                }else{
+
+                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                }
+
+                for(let i=0; i<data.treconciliationlist.length; i++){
+                    let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliationlist[i].OpenBalance)|| 0.00;
+                    let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliationlist[i].CloseBalance)|| 0.00;
                     var dataList = {
-                        id: data.treconciliation[i].fields.ID || '',
-                        sortdate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].fields.ReconciliationDate,
-                        recondate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].fields.ReconciliationDate,
-                        accountname:data.treconciliation[i].fields.AccountName || '',
-                        statementno: data.treconciliation[i].fields.StatementNo || '',
-                        department: data.treconciliation[i].fields.DeptName|| '',
+                        id: data.treconciliationlist[i].ReconciliationID || '',
+                        sortdate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("YYYY/MM/DD"): data.treconciliationlist[i].ReconciliationDate,
+                        recondate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliationlist[i].ReconciliationDate,
+                        accountname:data.treconciliationlist[i].AccountName || '',
+                        statementno: data.treconciliationlist[i].StatementNo || '',
+                        department: data.treconciliationlist[i].DeptName|| '',
                         openbalance: openBalance || 0.00,
                         closebalance: closeBalance || 0.00,
-                        employee: data.treconciliation[i].fields.EmployeeName || '',
-                        notes: data.treconciliation[i].fields.Notes || '',
-                        onhold: data.treconciliation[i].fields.OnHold || false,
+                        employee: data.treconciliationlist[i].EmployeeName || '',
+                        notes: data.treconciliationlist[i].Notes || '',
+                        onhold: data.treconciliationlist[i].OnHold || false,
                     };
-                    if(data.treconciliation[i].fields.ReconciliationDate != ''){
+                    if(data.treconciliationlist[i].ReconciliationDate != ''){
                         dataTableList.push(dataList);
                     }
 
@@ -368,7 +467,7 @@ Template.reconciliationlist.onRendered(function() {
                         // columnDefs: [
                         //     {type: 'date', targets: 0}
                         // ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -406,10 +505,9 @@ Template.reconciliationlist.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
+                        lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 4, "desc" ]],
@@ -417,6 +515,11 @@ Template.reconciliationlist.onRendered(function() {
                             $('#tblreconciliationlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblreconciliationlist_ellipsis').addClass('disabled');
 
@@ -436,21 +539,27 @@ Template.reconciliationlist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllReconcilationList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                               getVS1Data('TReconciliation').then(function (dataObjectold) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                             sideBarService.getAllTReconcilationListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TReconciliationList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
                                  }else{
                                    let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliation), dataOld.treconciliation);
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliationlist), dataOld.treconciliationlist);
                                    let objCombineData = {
-                                     treconciliation:thirdaryData
+                                     Params: dataObjectnew.Params,
+                                     treconciliationlist:thirdaryData
                                    }
 
 
-                                     addVS1Data('TReconciliation',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     addVS1Data('TReconciliationList',JSON.stringify(objCombineData)).then(function (datareturn) {
                                        templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
@@ -467,20 +576,21 @@ Template.reconciliationlist.onRendered(function() {
                              });
 
                            });
+
+                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
-                          }
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshReconn' type='button' id='btnRefreshReconn' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
 
-                         },
-                         "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnRefreshBankRecon' type='button' id='btnRefreshBankRecon' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
-                          }
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -491,47 +601,24 @@ Template.reconciliationlist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                        sideBarService.getAllReconcilationList('All',1).then(function(dataNonBo) {
-
-                          addVS1Data('TReconciliation',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            templateObject.resetData(dataNonBo);
-                          $('.fullScreenSpin').css('display','none');
-                          }).catch(function (err) {
-                          $('.fullScreenSpin').css('display','none');
-                          });
-                        }).catch(function(err) {
-                          $('.fullScreenSpin').css('display','none');
-                        });
-                       }
-                      }else{
-                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                          sideBarService.getAllReconcilationList(dataLenght,0).then(function(dataNonBo) {
-
-                            addVS1Data('TReconciliation',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              templateObject.resetData(dataNonBo);
-                            $('.fullScreenSpin').css('display','none');
-                            }).catch(function (err) {
-                            $('.fullScreenSpin').css('display','none');
-                            });
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                        }
-                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.treconciliationlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.treconciliationlist.length||1;
+                    }
+                    if(data.treconciliationlist.length > 0){
+                      $('#tblreconciliationlist_info').html('Showing 1 to '+data.treconciliationlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblreconciliationlist_info').html('Showing 0 to '+data.treconciliationlist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
+
 
                 var columns = $('#tblreconciliationlist th');
                 let sTible = "";
@@ -570,27 +657,36 @@ Template.reconciliationlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllReconcilationList(initialDataLoad,0).then(function (data) {
-              addVS1Data('TReconciliation',JSON.stringify(data));
+            sideBarService.getAllTReconcilationListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
+            //  addVS1Data('TReconciliationList',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<data.treconciliation.length; i++){
-                    let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.OpenBalance)|| 0.00;
-                    let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliation[i].fields.CloseBalance)|| 0.00;
+                if(data.Params.IgnoreDates == true){
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/reconciliationlist?ignoredate=true');
+                }else{
+
+                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                }
+                for(let i=0; i<data.treconciliationlist.length; i++){
+                    let openBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliationlist[i].OpenBalance)|| 0.00;
+                    let closeBalance = utilityService.modifynegativeCurrencyFormat(data.treconciliationlist[i].CloseBalance)|| 0.00;
                     var dataList = {
-                        id: data.treconciliation[i].fields.ID || '',
-                        sortdate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("YYYY/MM/DD"): data.treconciliation[i].fields.ReconciliationDate,
-                        recondate: data.treconciliation[i].fields.ReconciliationDate !=''? moment(data.treconciliation[i].fields.ReconciliationDate).format("DD/MM/YYYY"): data.treconciliation[i].fields.ReconciliationDate,
-                        accountname:data.treconciliation[i].fields.AccountName || '',
-                        statementno: data.treconciliation[i].fields.StatementNo || '',
-                        department: data.treconciliation[i].fields.DeptName|| '',
+                        id: data.treconciliationlist[i].ReconciliationID || '',
+                        sortdate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("YYYY/MM/DD"): data.treconciliationlist[i].ReconciliationDate,
+                        recondate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliationlist[i].ReconciliationDate,
+                        accountname:data.treconciliationlist[i].AccountName || '',
+                        statementno: data.treconciliationlist[i].StatementNo || '',
+                        department: data.treconciliationlist[i].DeptName|| '',
                         openbalance: openBalance || 0.00,
                         closebalance: closeBalance || 0.00,
-                        employee: data.treconciliation[i].fields.EmployeeName || '',
-                        notes: data.treconciliation[i].fields.Notes || '',
-                        onhold: data.treconciliation[i].fields.OnHold || false,
+                        employee: data.treconciliationlist[i].EmployeeName || '',
+                        notes: data.treconciliationlist[i].Notes || '',
+                        onhold: data.treconciliationlist[i].OnHold || false,
                     };
-                    if(data.treconciliation[i].fields.ReconciliationDate != ''){
+                    if(data.treconciliationlist[i].ReconciliationDate != ''){
                         dataTableList.push(dataList);
                     }
 
@@ -641,7 +737,7 @@ Template.reconciliationlist.onRendered(function() {
                         // columnDefs: [
                         //     {type: 'date', targets: 0}
                         // ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -679,10 +775,9 @@ Template.reconciliationlist.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
+                        lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 4, "desc" ]],
@@ -690,6 +785,11 @@ Template.reconciliationlist.onRendered(function() {
                             $('#tblreconciliationlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblreconciliationlist_ellipsis').addClass('disabled');
 
@@ -709,21 +809,27 @@ Template.reconciliationlist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllReconcilationList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                               getVS1Data('TReconciliation').then(function (dataObjectold) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                             sideBarService.getAllTReconcilationListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TReconciliationList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
                                  }else{
                                    let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliation), dataOld.treconciliation);
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliationlist), dataOld.treconciliationlist);
                                    let objCombineData = {
-                                     treconciliation:thirdaryData
+                                     Params: dataObjectnew.Params,
+                                     treconciliationlist:thirdaryData
                                    }
 
 
-                                     addVS1Data('TReconciliation',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     addVS1Data('TReconciliationList',JSON.stringify(objCombineData)).then(function (datareturn) {
                                        templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
@@ -740,10 +846,21 @@ Template.reconciliationlist.onRendered(function() {
                              });
 
                            });
+
+                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefreshReconn' type='button' id='btnRefreshReconn' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
+
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -759,6 +876,17 @@ Template.reconciliationlist.onRendered(function() {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.treconciliationlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.treconciliationlist.length||1;
+                    }
+                    if(data.treconciliationlist.length > 0){
+                      $('#tblreconciliationlist_info').html('Showing 1 to '+data.treconciliationlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblreconciliationlist_info').html('Showing 0 to '+data.treconciliationlist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblreconciliationlist th');
@@ -804,7 +932,36 @@ Template.reconciliationlist.onRendered(function() {
     }
 
     templateObject.getAllReconData();
+    templateObject.getAllFilterReconData = function (fromDate,toDate, ignoreDate) {
+      sideBarService.getAllTReconcilationListData(fromDate,toDate, ignoreDate,initialReportLoad,0).then(function(data) {
 
+        addVS1Data('TReconciliationList',JSON.stringify(data)).then(function (datareturn) {
+            window.open('/reconciliationlist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
+        }).catch(function (err) {
+          location.reload();
+        });
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                templateObject.datatablerecords.set('');
+                $('.fullScreenSpin').css('display','none');
+                // Meteor._reload.reload();
+            });
+    }
+
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if(urlParametersDateFrom){
+      if(urlParametersIgnoreDate == true){
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+      }else{
+
+        $("#dateFrom").val(urlParametersDateFrom !=''? moment(urlParametersDateFrom).format("DD/MM/YYYY"): urlParametersDateFrom);
+        $("#dateTo").val(urlParametersDateTo !=''? moment(urlParametersDateTo).format("DD/MM/YYYY"): urlParametersDateTo);
+      }
+    }
 
 });
 
@@ -976,6 +1133,23 @@ Template.reconciliationlist.events({
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
         localStorage.setItem('statementdate', '');
+
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
         sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function(data) {
             addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
 
@@ -985,15 +1159,187 @@ Template.reconciliationlist.events({
         }).catch(function(err) {
 
         });
-        sideBarService.getAllReconcilationList(initialDataLoad,0).then(function(data) {
-            addVS1Data('TReconciliation',JSON.stringify(data)).then(function (datareturn) {
-                window.open('/reconciliationlist','_self');
-            }).catch(function (err) {
-                window.open('/reconciliationlist','_self');
+
+        sideBarService.getAllTReconcilationListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataRecon) {
+            addVS1Data('TReconciliationList', JSON.stringify(dataRecon)).then(function(datareturn) {
+              sideBarService.getAllReconcilationList(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TReconciliation',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/reconciliationlist','_self');
+                  }).catch(function (err) {
+                      window.open('/reconciliationlist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/reconciliationlist','_self');
+              });
+            }).catch(function(err) {
+              sideBarService.getAllReconcilationList(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TReconciliation',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/reconciliationlist','_self');
+                  }).catch(function (err) {
+                      window.open('/reconciliationlist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/reconciliationlist','_self');
+              });
             });
         }).catch(function(err) {
             window.open('/reconciliationlist','_self');
         });
+
+
+    },
+    'change #dateTo': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+          templateObject.getAllFilterReconData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterReconData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(toDate);
+
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
+        templateObject.getAllFilterReconData(getDateFrom,getLoadDate, false);
+    },
+    'click #lastQuarter': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterReconData(getDateFrom,getLoadDate, false);
+    },
+    'click #last12Months': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth()+1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterReconData(getDateFrom,getLoadDate, false);
+
+    },
+    'click #ignoreDate': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterReconData('', '', true);
     },
     'click .printConfirm' : function(event){
 

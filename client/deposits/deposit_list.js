@@ -26,6 +26,36 @@ Template.depositlist.onRendered(function() {
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
 
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateDay = currentDate.getDate();
+    if ((currentDate.getMonth()+1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth()+1);
+    }
+
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
+
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositList', function(error, result){
         if(error){
 
@@ -58,255 +88,360 @@ Template.depositlist.onRendered(function() {
         window.open('/depositlist?page=last','_self');
     }
     templateObject.getAllBankDepositData = function () {
-        getVS1Data('TVS1BankDeposit').then(function (dataObject) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if((currentBeginDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        getVS1Data('TBankDepositList').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function (data) {
-                    addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
+              sideBarService.getAllTBankDepositListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
+                  addVS1Data('TBankDepositList',JSON.stringify(data)).then(function (datareturn) {
 
-                    }).catch(function (err) {
+                  }).catch(function (err) {
 
-                    });
-                    let lineItems = [];
-                    let lineItemObj = {};
-                    for(let i=0; i<data.tvs1bankdeposit.length; i++){
-                        let totalAmount = 0;
-                        if(data.tvs1bankdeposit[i].fields.Lines){
-                        if(data.tvs1bankdeposit[i].fields.Lines.length){
-                            for(let d=0; d<data.tvs1bankdeposit[i].fields.Lines.length; d++){
-                                totalAmount += data.tvs1bankdeposit[i].fields.Lines[d].fields.Amount;
-                            }
+                  });
+                  if(data.Params.IgnoreDates == true){
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/depositlist?ignoredate=true');
+                  }else{
 
-                        }else{
-                            totalAmount += data.tvs1bankdeposit[i].fields.Lines.fields.Amount;
-                        }
-                      }
-                        let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(data.tvs1bankdeposit[i].fields.UnDeposittot)|| 0.00;
-                        var dataList = {
-                            id: data.tvs1bankdeposit[i].fields.ID || '',
-                            employee:data.tvs1bankdeposit[i].fields.EmployeeName || '',
-                            sortdate: data.tvs1bankdeposit[i].fields.DepositDate !=''? moment(data.tvs1bankdeposit[i].fields.DepositDate).format("YYYY/MM/DD"): data.tvs1bankdeposit[i].fields.DepositDate,
-                            depositdate: data.tvs1bankdeposit[i].fields.DepositDate !=''? moment(data.tvs1bankdeposit[i].fields.DepositDate).format("DD/MM/YYYY"): data.tvs1bankdeposit[i].fields.DepositDate,
-                            accountname: data.tvs1bankdeposit[i].fields.AccountName || '',
-                            department: data.tvs1bankdeposit[i].fields.DepositClassName || '',
-                            amount: utilityService.modifynegativeCurrencyFormat(data.tvs1bankdeposit[i].fields.Deposit) || 0.00,
-                            employeename: data.tvs1bankdeposit[i].fields.EmployeeName || '',
-                            memo: data.tvs1bankdeposit[i].fields.Notes || '',
-                        };
-                        if(data.tvs1bankdeposit[i].fields.Lines){
-                        if(data.tvs1bankdeposit[i].fields.Lines.length){
-                            if(data.tvs1bankdeposit[i].fields.Lines[0].fields.FromDeposited == true){
-                                dataTableList.push(dataList);
-                            }
-                        }
-                      }
-                    }
-                    templateObject.datatablerecords.set(dataTableList);
-                    if(templateObject.datatablerecords.get()){
+                    $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                  }
 
-                        Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositList', function(error, result){
-                            if(error){
+                  let lineItems = [];
+                  let lineItemObj = {};
+                  for(let i=0; i<data.tbankdepositlist.length; i++){
+                      let totalAmount = 0;
+                    //   if(data.tbankdepositlist[i].Lines){
+                    //   if(data.tbankdepositlist[i].Lines.length){
+                    //       for(let d=0; d<data.tbankdepositlist[i].Lines.length; d++){
+                    //           totalAmount += data.tbankdepositlist[i].Lines[d].fields.Amount;
+                    //       }
+                    //
+                    //   }else{
+                    //       totalAmount += data.tbankdepositlist[i].Lines.fields.Amount;
+                    //   }
+                    // }
+                      let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(data.tbankdepositlist[i].UnDepositTot)|| 0.00;
+                      var dataList = {
+                          id: data.tbankdepositlist[i].DepositID || '',
+                          employee:data.tbankdepositlist[i].EmployeeName || '',
+                          sortdate: data.tbankdepositlist[i].DepositDate !=''? moment(data.tbankdepositlist[i].DepositDate).format("YYYY/MM/DD"): data.tbankdepositlist[i].DepositDate,
+                          depositdate: data.tbankdepositlist[i].DepositDate !=''? moment(data.tbankdepositlist[i].DepositDate).format("DD/MM/YYYY"): data.tbankdepositlist[i].DepositDate,
+                          accountname: data.tbankdepositlist[i].AccountName || '',
+                          department: data.tbankdepositlist[i].DepositClassName || '',
+                          amount: utilityService.modifynegativeCurrencyFormat(data.tbankdepositlist[i].Deposit) || 0.00,
+                          employeename: data.tbankdepositlist[i].EmployeeName || '',
+                          memo: data.tbankdepositlist[i].Notes || '',
+                      };
+                      // if(data.tbankdepositlist[i].Lines){
+                      // if(data.tbankdepositlist[i].Lines.length){
+                      //     if(data.tbankdepositlist[i].Lines[0].fields.FromDeposited == true){
+                              dataTableList.push(dataList);
+                    //       }
+                    //   }
+                    // }
+                  }
+                  templateObject.datatablerecords.set(dataTableList);
+                  if(templateObject.datatablerecords.get()){
 
-                            }else{
-                                if(result){
-                                    for (let i = 0; i < result.customFields.length; i++) {
-                                        let customcolumn = result.customFields;
-                                        let columData = customcolumn[i].label;
-                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                        let hiddenColumn = customcolumn[i].hidden;
-                                        let columnClass = columHeaderUpdate.split('.')[1];
-                                        let columnWidth = customcolumn[i].width;
-                                        let columnindex = customcolumn[i].index + 1;
+                      Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblDepositList', function(error, result){
+                          if(error){
 
-                                        if(hiddenColumn == true){
+                          }else{
+                              if(result){
+                                  for (let i = 0; i < result.customFields.length; i++) {
+                                      let customcolumn = result.customFields;
+                                      let columData = customcolumn[i].label;
+                                      let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                      let hiddenColumn = customcolumn[i].hidden;
+                                      let columnClass = columHeaderUpdate.split('.')[1];
+                                      let columnWidth = customcolumn[i].width;
+                                      let columnindex = customcolumn[i].index + 1;
 
-                                            $("."+columnClass+"").addClass('hiddenColumn');
-                                            $("."+columnClass+"").removeClass('showColumn');
-                                        }else if(hiddenColumn == false){
-                                            $("."+columnClass+"").removeClass('hiddenColumn');
-                                            $("."+columnClass+"").addClass('showColumn');
-                                        }
+                                      if(hiddenColumn == true){
 
-                                    }
-                                }
+                                          $("."+columnClass+"").addClass('hiddenColumn');
+                                          $("."+columnClass+"").removeClass('showColumn');
+                                      }else if(hiddenColumn == false){
+                                          $("."+columnClass+"").removeClass('hiddenColumn');
+                                          $("."+columnClass+"").addClass('showColumn');
+                                      }
 
-                            }
-                        });
-
-
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                    }
-
-                    $('.fullScreenSpin').css('display','none');
-                    setTimeout(function () {
-                        //$.fn.dataTable.moment('DD/MM/YY');
-                        $('#tblDepositList').DataTable({
-                            // dom: 'lBfrtip',
-                            columnDefs: [
-                                {type: 'date', targets: 0}
-                                // ,
-                                // { targets: 0, className: "text-center" }
-
-                            ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [
-                                {
-                                    extend: 'excelHtml5',
-                                    text: '',
-                                    download: 'open',
-                                    className: "btntabletocsv hiddenColumn",
-                                    filename: "Deposited List - "+ moment().format(),
-                                    orientation:'portrait',
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        format: {
-                                            body: function ( data, row, column ) {
-                                                if(data.includes("</span>")){
-                                                    var res = data.split("</span>");
-                                                    data = res[1];
-                                                }
-
-                                                return column === 1 ? data.replace(/<.*?>/ig, ""): data;
-
-                                            }
-                                        }
-                                    }
-                                },{
-                                    extend: 'print',
-                                    download: 'open',
-                                    className: "btntabletopdf hiddenColumn",
-                                    text: '',
-                                    title: 'Deposited List',
-                                    filename: "Deposited List - "+ moment().format(),
-                                    exportOptions: {
-                                        columns: ':visible',
-                                        stripHtml: false
-                                    },
-                                    // customize: function ( win ) {
-                                    //     $(win.document.body)
-                                    //         .css( 'font-size', '10pt' )
-                                    //         .prepend(
-                                    //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                                    //         );
-                                    //
-                                    //     $(win.document.body).find( 'table' )
-                                    //         .addClass( 'compact' )
-                                    //         .css( 'font-size', 'inherit' );
-                                    // }
-                                }],
-                            select: true,
-                            destroy: true,
-                            colReorder: true,
-                            // bStateSave: true,
-                            // rowId: 0,
-                            pageLength: initialDatatableLoad,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                            info: true,
-                            responsive: true,
-                            "order": [[ 0, "desc" ],[ 4, "desc" ]],
-                            // "aaSorting": [[1,'desc']],
-                            action: function () {
-                                $('#tblDepositList').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function (oSettings) {
-                                setTimeout(function () {
-                                    MakeNegative();
-                                }, 100);
-                            },
-                            "fnInitComplete": function () {
-                                      $("<button class='btn btn-primary btnRefreshDeposits' type='button' id='btnRefreshDeposits' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
+                                  }
                               }
 
-                        }).on('page', function () {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                            let draftRecord = templateObject.datatablerecords.get();
-                            templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function () {
+                          }
+                      });
 
-                        });
-                        $('.fullScreenSpin').css('display','none');
-                    }, 0);
 
-                    var columns = $('#tblDepositList th');
-                    let sTible = "";
-                    let sWidth = "";
-                    let sIndex = "";
-                    let sVisible = "";
-                    let columVisible = false;
-                    let sClass = "";
-                    $.each(columns, function(i,v) {
-                        if(v.hidden == false){
-                            columVisible =  true;
-                        }
-                        if((v.className.includes("hiddenColumn"))){
-                            columVisible = false;
-                        }
-                        sWidth = v.style.width.replace('px', "");
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  }
 
-                        let datatablerecordObj = {
-                            sTitle: v.innerText || '',
-                            sWidth: sWidth || '',
-                            sIndex: v.cellIndex || '',
-                            sVisible: columVisible || false,
-                            sClass: v.className || ''
-                        };
-                        tableHeaderList.push(datatablerecordObj);
-                    });
-                    templateObject.tableheaderrecords.set(tableHeaderList);
-                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblDepositList tbody').on( 'click', 'tr', function () {
-                        var listData = $(this).closest('tr').attr('id');
-                        if(listData){
-                            FlowRouter.go('/depositcard?id=' + listData);
-                        }
-                    });
+                  $('.fullScreenSpin').css('display','none');
+                  setTimeout(function () {
+                      //$.fn.dataTable.moment('DD/MM/YY');
+                      $('#tblDepositList').DataTable({
+                          // dom: 'lBfrtip',
+                          columnDefs: [
+                              {type: 'date', targets: 0}
+                              // ,
+                              // { targets: 0, className: "text-center" }
 
-                }).catch(function (err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                    $('.fullScreenSpin').css('display','none');
-                    // Meteor._reload.reload();
-                });
+                          ],
+                          "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          buttons: [
+                              {
+                                  extend: 'excelHtml5',
+                                  text: '',
+                                  download: 'open',
+                                  className: "btntabletocsv hiddenColumn",
+                                  filename: "Deposited List - "+ moment().format(),
+                                  orientation:'portrait',
+                                  exportOptions: {
+                                      columns: ':visible',
+                                      format: {
+                                          body: function ( data, row, column ) {
+                                              if(data.includes("</span>")){
+                                                  var res = data.split("</span>");
+                                                  data = res[1];
+                                              }
+
+                                              return column === 1 ? data.replace(/<.*?>/ig, ""): data;
+
+                                          }
+                                      }
+                                  }
+                              },{
+                                  extend: 'print',
+                                  download: 'open',
+                                  className: "btntabletopdf hiddenColumn",
+                                  text: '',
+                                  title: 'Deposited List',
+                                  filename: "Deposited List - "+ moment().format(),
+                                  exportOptions: {
+                                      columns: ':visible',
+                                      stripHtml: false
+                                  },
+
+                              }],
+                              select: true,
+                              destroy: true,
+                              colReorder: true,
+                              // bStateSave: true,
+                              // rowId: 0,
+                              pageLength: initialReportDatatableLoad,
+                              "bLengthChange": false,
+                              lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                              info: true,
+                              responsive: true,
+                              "order": [
+                                  [0, "desc"]
+                              ],
+                          // "aaSorting": [[1,'desc']],
+                          action: function () {
+                              $('#tblDepositList').DataTable().ajax.reload();
+                          },
+                          "fnDrawCallback": function (oSettings) {
+                            let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                            if(checkurlIgnoreDate == 'true'){
+
+                            }else{
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblDepositList_ellipsis').addClass('disabled');
+
+                              if (oSettings._iDisplayLength == -1) {
+                                  if (oSettings.fnRecordsDisplay() > 150) {
+                                      $('.paginate_button.page-item.previous').addClass('disabled');
+                                      $('.paginate_button.page-item.next').addClass('disabled');
+                                  }
+                              } else {}
+                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                              .on('click', function () {
+                                  $('.fullScreenSpin').css('display', 'inline-block');
+                                  let dataLenght = oSettings._iDisplayLength;
+
+                                  var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                  var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                  sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TBankDepositList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tbankdepositlist), dataOld.tbankdepositlist);
+                                              let objCombineData = {
+                                                  Params: dataObjectnew.Params,
+                                                  tbankdepositlist: thirdaryData
+                                              }
+
+                                              addVS1Data('TBankDepositList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+
+                              });
+                            }
+                              setTimeout(function () {
+                                  MakeNegative();
+                              }, 100);
+                          },
+                          "fnInitComplete": function () {
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage) {
+                                  this.fnPageChange('last');
+                              }
+                              $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
+
+                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                          }
+
+                      }).on('page', function () {
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                          let draftRecord = templateObject.datatablerecords.get();
+                          templateObject.datatablerecords.set(draftRecord);
+                      }).on('column-reorder', function () {
+
+                      });
+                      $('.fullScreenSpin').css('display','none');
+
+                      /* Add count functionality to table */
+                      let countTableData = data.Params.Count || 1; //get count from API data
+                      if(data.tbankdepositlist.length > countTableData){ //Check if what is on the list is more than API count
+                        countTableData = data.tbankdepositlist.length||1;
+                      }
+                      if(data.tbankdepositlist.length > 0){
+                        $('#tblDepositList_info').html('Showing 1 to '+data.tbankdepositlist.length+ ' of ' +countTableData+ ' entries');
+                      }else{
+                        $('#tblDepositList_info').html('Showing 0 to '+data.tbankdepositlist.length+ ' of 0 entries');
+                      }
+                      /* End Add count functionality to table */
+
+                  }, 0);
+
+                  var columns = $('#tblDepositList th');
+                  let sTible = "";
+                  let sWidth = "";
+                  let sIndex = "";
+                  let sVisible = "";
+                  let columVisible = false;
+                  let sClass = "";
+                  $.each(columns, function(i,v) {
+                      if(v.hidden == false){
+                          columVisible =  true;
+                      }
+                      if((v.className.includes("hiddenColumn"))){
+                          columVisible = false;
+                      }
+                      sWidth = v.style.width.replace('px', "");
+
+                      let datatablerecordObj = {
+                          sTitle: v.innerText || '',
+                          sWidth: sWidth || '',
+                          sIndex: v.cellIndex || '',
+                          sVisible: columVisible || false,
+                          sClass: v.className || ''
+                      };
+                      tableHeaderList.push(datatablerecordObj);
+                  });
+                  templateObject.tableheaderrecords.set(tableHeaderList);
+                  $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                  $('#tblDepositList tbody').on( 'click', 'tr', function () {
+                      var listData = $(this).closest('tr').attr('id');
+                      if(listData){
+                          FlowRouter.go('/depositcard?id=' + listData);
+                      }
+                  });
+
+              }).catch(function (err) {
+                  // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                  $('.fullScreenSpin').css('display','none');
+                  // Meteor._reload.reload();
+              });
             }else{
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tvs1bankdeposit;
+                let useData = data.tbankdepositlist;
 
                 $('.fullScreenSpin').css('display','none');
                 let lineItems = [];
                 let lineItemObj = {};
 
-                for(let i=0; i<useData.length; i++){
-                    let totalAmount = 0;
+                if(data.Params.IgnoreDates == true){
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/depositlist?ignoredate=true');
+                }else{
 
-                    // if(useData[i].fields.Lines.length){
-                    //     for(let d=0; d<useData[i].fields.Lines.length; d++){
-                    //       totalAmount += useData[i].fields.Lines[d].fields.Amount;
-                    //     }
-                    //
-                    // }else{
-                    //   totalAmount += useData[i].fields.Lines.fields.Amount;
-                    // }
-                    let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(useData[i].fields.UnDeposittot)|| 0.00;
+                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                }
+
+
+                for(let i=0; i<data.tbankdepositlist.length; i++){
+                    let totalAmount = 0;
+                  //   if(data.tbankdepositlist[i].Lines){
+                  //   if(data.tbankdepositlist[i].Lines.length){
+                  //       for(let d=0; d<data.tbankdepositlist[i].Lines.length; d++){
+                  //           totalAmount += data.tbankdepositlist[i].Lines[d].fields.Amount;
+                  //       }
+                  //
+                  //   }else{
+                  //       totalAmount += data.tbankdepositlist[i].Lines.fields.Amount;
+                  //   }
+                  // }
+                    let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(data.tbankdepositlist[i].UnDepositTot)|| 0.00;
                     var dataList = {
-                        id: useData[i].fields.ID || '',
-                        employee:useData[i].fields.EmployeeName || '',
-                        sortdate: useData[i].fields.DepositDate !=''? moment(useData[i].fields.DepositDate).format("YYYY/MM/DD"): useData[i].fields.DepositDate,
-                        depositdate: useData[i].fields.DepositDate !=''? moment(useData[i].fields.DepositDate).format("DD/MM/YYYY"): useData[i].fields.DepositDate,
-                        accountname: useData[i].fields.AccountName || '',
-                        department: useData[i].fields.DepositClassName || '',
-                        amount: utilityService.modifynegativeCurrencyFormat(useData[i].fields.Deposit) || 0.00,
-                        employeename: useData[i].fields.EmployeeName || '',
-                        memo: useData[i].fields.Notes || '',
+                        id: data.tbankdepositlist[i].DepositID || '',
+                        employee:data.tbankdepositlist[i].EmployeeName || '',
+                        sortdate: data.tbankdepositlist[i].DepositDate !=''? moment(data.tbankdepositlist[i].DepositDate).format("YYYY/MM/DD"): data.tbankdepositlist[i].DepositDate,
+                        depositdate: data.tbankdepositlist[i].DepositDate !=''? moment(data.tbankdepositlist[i].DepositDate).format("DD/MM/YYYY"): data.tbankdepositlist[i].DepositDate,
+                        accountname: data.tbankdepositlist[i].AccountName || '',
+                        department: data.tbankdepositlist[i].DepositClassName || '',
+                        amount: utilityService.modifynegativeCurrencyFormat(data.tbankdepositlist[i].Deposit) || 0.00,
+                        employeename: data.tbankdepositlist[i].EmployeeName || '',
+                        memo: data.tbankdepositlist[i].Notes || '',
                     };
-                    if(useData[i].fields.Lines){
-                    if(useData[i].fields.Lines.length){
-                        if(useData[i].fields.Lines[0].fields.FromDeposited == true){
+                    // if(data.tbankdepositlist[i].Lines){
+                    // if(data.tbankdepositlist[i].Lines.length){
+                    //     if(data.tbankdepositlist[i].Lines[0].fields.FromDeposited == true){
                             dataTableList.push(dataList);
-                        }
-                    }
-                  }
+                  //       }
+                  //   }
+                  // }
                 }
                 templateObject.datatablerecords.set(dataTableList);
                 if(templateObject.datatablerecords.get()){
@@ -357,7 +492,7 @@ Template.depositlist.onRendered(function() {
                             // { targets: 0, className: "text-center" }
 
                         ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -391,95 +526,93 @@ Template.depositlist.onRendered(function() {
                                     columns: ':visible',
                                     stripHtml: false
                                 },
-                                // customize: function ( win ) {
-                                //     $(win.document.body)
-                                //         .css( 'font-size', '10pt' )
-                                //         .prepend(
-                                //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                                //         );
-                                //
-                                //     $(win.document.body).find( 'table' )
-                                //         .addClass( 'compact' )
-                                //         .css( 'font-size', 'inherit' );
-                                // }
+
                             }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        info: true,
-                        responsive: true,
-                        "order": [[ 0, "desc" ],[ 4, "desc" ]],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            // bStateSave: true,
+                            // rowId: 0,
+                            pageLength: initialReportDatatableLoad,
+                            "bLengthChange": false,
+                            lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [
+                                [0, "desc"]
+                            ],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblDepositList').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
-                          $('.paginate_button.page-item').removeClass('disabled');
-                          $('#tblDepositList_ellipsis').addClass('disabled');
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
-                          if(oSettings._iDisplayLength == -1){
-                            if(oSettings.fnRecordsDisplay() > 150){
-                              $('.paginate_button.page-item.previous').addClass('disabled');
-                              $('.paginate_button.page-item.next').addClass('disabled');
-                            }
+                          if(checkurlIgnoreDate == 'true'){
+
                           }else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblDepositList_ellipsis').addClass('disabled');
 
-                          }
-                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
-                              $('.paginate_button.page-item.next').addClass('disabled');
-                          }
-                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                           .on('click', function(){
-                             $('.fullScreenSpin').css('display','inline-block');
-                             let dataLenght = oSettings._iDisplayLength;
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
 
-                             sideBarService.getAllTVS1BankDepositData(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                               getVS1Data('TVS1BankDeposit').then(function (dataObjectold) {
-                                 if(dataObjectold.length == 0){
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                                 }else{
-                                   let dataOld = JSON.parse(dataObjectold[0].data);
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tvs1bankdeposit), dataOld.tvs1bankdeposit);
-                                   let objCombineData = {
-                                     tvs1bankdeposit:thirdaryData
-                                   }
+                                sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TBankDepositList').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tbankdepositlist), dataOld.tbankdepositlist);
+                                            let objCombineData = {
+                                                Params: dataObjectnew.Params,
+                                                tbankdepositlist: thirdaryData
+                                            }
 
+                                            addVS1Data('TBankDepositList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
 
-                                     addVS1Data('TVS1BankDeposit',JSON.stringify(objCombineData)).then(function (datareturn) {
-                                       templateObject.resetData(objCombineData);
-                                     $('.fullScreenSpin').css('display','none');
-                                     }).catch(function (err) {
-                                     $('.fullScreenSpin').css('display','none');
-                                     });
+                                        }
+                                    }).catch(function (err) {});
 
-                                 }
                                 }).catch(function (err) {
-
+                                    $('.fullScreenSpin').css('display', 'none');
                                 });
 
-                             }).catch(function(err) {
-                               $('.fullScreenSpin').css('display','none');
-                             });
-
-                           });
+                            });
+                          }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
-                          }
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
 
-                         },
-                          "fnInitComplete": function () {
-                                      $("<button class='btn btn-primary btnRefreshDeposits' type='button' id='btnRefreshDeposits' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
                         }
 
                     }).on('page', function () {
@@ -490,47 +623,21 @@ Template.depositlist.onRendered(function() {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {
 
-                    }).on( 'length.dt', function ( e, settings, len ) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                        sideBarService.getAllTVS1BankDepositData('All',1).then(function(dataNonBo) {
-
-                          addVS1Data('TVS1BankDeposit',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            templateObject.resetData(dataNonBo);
-                          $('.fullScreenSpin').css('display','none');
-                          }).catch(function (err) {
-                          $('.fullScreenSpin').css('display','none');
-                          });
-                        }).catch(function(err) {
-                          $('.fullScreenSpin').css('display','none');
-                        });
-                       }
-                      }else{
-                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                          sideBarService.getAllTVS1BankDepositData(dataLenght,0).then(function(dataNonBo) {
-
-                            addVS1Data('TVS1BankDeposit',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              templateObject.resetData(dataNonBo);
-                            $('.fullScreenSpin').css('display','none');
-                            }).catch(function (err) {
-                            $('.fullScreenSpin').css('display','none');
-                            });
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                        }
-                      }
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbankdepositlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbankdepositlist.length||1;
+                    }
+                    if(data.tbankdepositlist.length > 0){
+                      $('#tblDepositList_info').html('Showing 1 to '+data.tbankdepositlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblDepositList_info').html('Showing 0 to '+data.tbankdepositlist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblDepositList th');
@@ -569,45 +676,55 @@ Template.depositlist.onRendered(function() {
 
             }
         }).catch(function (err) {
-            sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function (data) {
-                addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
+            sideBarService.getAllTBankDepositListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
+                addVS1Data('TBankDepositList',JSON.stringify(data)).then(function (datareturn) {
 
                 }).catch(function (err) {
 
                 });
+                if(data.Params.IgnoreDates == true){
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/depositlist?ignoredate=true');
+                }else{
+
+                  $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                }
+
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<data.tvs1bankdeposit.length; i++){
+                for(let i=0; i<data.tbankdepositlist.length; i++){
                     let totalAmount = 0;
-                    if(data.tvs1bankdeposit[i].fields.Lines){
-                    if(data.tvs1bankdeposit[i].fields.Lines.length){
-                        for(let d=0; d<data.tvs1bankdeposit[i].fields.Lines.length; d++){
-                            totalAmount += data.tvs1bankdeposit[i].fields.Lines[d].fields.Amount;
-                        }
-
-                    }else{
-                        totalAmount += data.tvs1bankdeposit[i].fields.Lines.fields.Amount;
-                    }
-                  }
-                    let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(data.tvs1bankdeposit[i].fields.UnDeposittot)|| 0.00;
+                  //   if(data.tbankdepositlist[i].Lines){
+                  //   if(data.tbankdepositlist[i].Lines.length){
+                  //       for(let d=0; d<data.tbankdepositlist[i].Lines.length; d++){
+                  //           totalAmount += data.tbankdepositlist[i].Lines[d].fields.Amount;
+                  //       }
+                  //
+                  //   }else{
+                  //       totalAmount += data.tbankdepositlist[i].Lines.fields.Amount;
+                  //   }
+                  // }
+                    let totalAmountUndeposited = utilityService.modifynegativeCurrencyFormat(data.tbankdepositlist[i].UnDepositTot)|| 0.00;
                     var dataList = {
-                        id: data.tvs1bankdeposit[i].fields.ID || '',
-                        employee:data.tvs1bankdeposit[i].fields.EmployeeName || '',
-                        sortdate: data.tvs1bankdeposit[i].fields.DepositDate !=''? moment(data.tvs1bankdeposit[i].fields.DepositDate).format("YYYY/MM/DD"): data.tvs1bankdeposit[i].fields.DepositDate,
-                        depositdate: data.tvs1bankdeposit[i].fields.DepositDate !=''? moment(data.tvs1bankdeposit[i].fields.DepositDate).format("DD/MM/YYYY"): data.tvs1bankdeposit[i].fields.DepositDate,
-                        accountname: data.tvs1bankdeposit[i].fields.AccountName || '',
-                        department: data.tvs1bankdeposit[i].fields.DepositClassName || '',
-                        amount: utilityService.modifynegativeCurrencyFormat(data.tvs1bankdeposit[i].fields.Deposit) || 0.00,
-                        employeename: data.tvs1bankdeposit[i].fields.EmployeeName || '',
-                        memo: data.tvs1bankdeposit[i].fields.Notes || '',
+                        id: data.tbankdepositlist[i].DepositID || '',
+                        employee:data.tbankdepositlist[i].EmployeeName || '',
+                        sortdate: data.tbankdepositlist[i].DepositDate !=''? moment(data.tbankdepositlist[i].DepositDate).format("YYYY/MM/DD"): data.tbankdepositlist[i].DepositDate,
+                        depositdate: data.tbankdepositlist[i].DepositDate !=''? moment(data.tbankdepositlist[i].DepositDate).format("DD/MM/YYYY"): data.tbankdepositlist[i].DepositDate,
+                        accountname: data.tbankdepositlist[i].AccountName || '',
+                        department: data.tbankdepositlist[i].DepositClassName || '',
+                        amount: utilityService.modifynegativeCurrencyFormat(data.tbankdepositlist[i].Deposit) || 0.00,
+                        employeename: data.tbankdepositlist[i].EmployeeName || '',
+                        memo: data.tbankdepositlist[i].Notes || '',
                     };
-                    if(data.tvs1bankdeposit[i].fields.Lines){
-                    if(data.tvs1bankdeposit[i].fields.Lines.length){
-                        if(data.tvs1bankdeposit[i].fields.Lines[0].fields.FromDeposited == true){
+                    // if(data.tbankdepositlist[i].Lines){
+                    // if(data.tbankdepositlist[i].Lines.length){
+                    //     if(data.tbankdepositlist[i].Lines[0].fields.FromDeposited == true){
                             dataTableList.push(dataList);
-                        }
-                    }
-                  }
+                  //       }
+                  //   }
+                  // }
                 }
                 templateObject.datatablerecords.set(dataTableList);
                 if(templateObject.datatablerecords.get()){
@@ -658,7 +775,7 @@ Template.depositlist.onRendered(function() {
                             // { targets: 0, className: "text-center" }
 
                         ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -694,25 +811,92 @@ Template.depositlist.onRendered(function() {
                                 },
 
                             }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
-                        info: true,
-                        responsive: true,
-                        "order": [[ 0, "desc" ],[ 4, "desc" ]],
+                            select: true,
+                            destroy: true,
+                            colReorder: true,
+                            // bStateSave: true,
+                            // rowId: 0,
+                            pageLength: initialReportDatatableLoad,
+                            "bLengthChange": false,
+                            lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
+                            info: true,
+                            responsive: true,
+                            "order": [
+                                [0, "desc"]
+                            ],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblDepositList').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblDepositList_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                                sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TBankDepositList').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tbankdepositlist), dataOld.tbankdepositlist);
+                                            let objCombineData = {
+                                                Params: dataObjectnew.Params,
+                                                tbankdepositlist: thirdaryData
+                                            }
+
+                                            addVS1Data('TBankDepositList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                            });
+                          }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage) {
+                                this.fnPageChange('last');
+                            }
+                            $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
+
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -724,6 +908,19 @@ Template.depositlist.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display','none');
+
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbankdepositlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbankdepositlist.length||1;
+                    }
+                    if(data.tbankdepositlist.length > 0){
+                      $('#tblDepositList_info').html('Showing 1 to '+data.tbankdepositlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblDepositList_info').html('Showing 0 to '+data.tbankdepositlist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblDepositList th');
@@ -769,22 +966,239 @@ Template.depositlist.onRendered(function() {
     }
 
     templateObject.getAllBankDepositData();
+    templateObject.getAllFilterbankingData = function (fromDate,toDate, ignoreDate) {
+      sideBarService.getAllTBankDepositListData(fromDate,toDate, ignoreDate,initialReportLoad,0).then(function(data) {
 
+        addVS1Data('TBankDepositList',JSON.stringify(data)).then(function (datareturn) {
+            window.open('/depositlist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
+        }).catch(function (err) {
+          location.reload();
+        });
+
+            }).catch(function (err) {
+                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+                templateObject.datatablerecords.set('');
+                $('.fullScreenSpin').css('display','none');
+                // Meteor._reload.reload();
+            });
+    }
+
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if(urlParametersDateFrom){
+      if(urlParametersIgnoreDate == true){
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+      }else{
+
+        $("#dateFrom").val(urlParametersDateFrom !=''? moment(urlParametersDateFrom).format("DD/MM/YYYY"): urlParametersDateFrom);
+        $("#dateTo").val(urlParametersDateTo !=''? moment(urlParametersDateTo).format("DD/MM/YYYY"): urlParametersDateTo);
+      }
+    }
 });
 
 Template.depositlist.events({
     'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display','inline-block');
         let templateObject = Template.instance();
-        sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function(data) {
-            addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
-                window.open('/depositlist','_self');
+
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getAllTBankDepositListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
+            addVS1Data('TBankDepositList',JSON.stringify(data)).then(function (datareturn) {
+              sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/depositlist','_self');
+                  }).catch(function (err) {
+                      window.open('/depositlist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/depositlist','_self');
+              });
             }).catch(function (err) {
-                window.open('/depositlist','_self');
+              sideBarService.getAllTVS1BankDepositData(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TVS1BankDeposit',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/depositlist','_self');
+                  }).catch(function (err) {
+                      window.open('/depositlist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/depositlist','_self');
+              });
             });
         }).catch(function(err) {
-            window.open('/depositlist','_self');
+          window.open('/depositlist','_self');
         });
+
+
+    },
+    'change #dateTo': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+          templateObject.getAllFilterbankingData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterbankingData(formatDateFrom,formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(toDate);
+
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
+        templateObject.getAllFilterbankingData(getDateFrom,getLoadDate, false);
+    },
+    'click #lastQuarter': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterbankingData(getDateFrom,getLoadDate, false);
+    },
+    'click #last12Months': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth()+1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth()+1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth()+1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterbankingData(getDateFrom,getLoadDate, false);
+
+    },
+    'click #ignoreDate': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterbankingData('', '', true);
     },
     'click .btnNewDepositEnrty' : function(event){
         FlowRouter.go('/depositcard');

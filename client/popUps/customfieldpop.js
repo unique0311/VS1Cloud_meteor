@@ -88,6 +88,7 @@ Template.customfieldpop.onRendered(() => {
                           if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
 
                               customData = {
+                                  active: data.tcustomfieldlist[x].fields.Active||false,
                                   id: data.tcustomfieldlist[x].fields.ID,
                                   custfieldlabel: data.tcustomfieldlist[x].fields.Description,
                                   isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
@@ -104,6 +105,7 @@ Template.customfieldpop.onRendered(() => {
                       count = count + remainder;
                       for (let r = 0; r < remainder; r++) {
                           customData = {
+                              active: false,
                               id: "",
                               custfieldlabel: "Custom Field " + count,
                               dropdown: ""
@@ -126,6 +128,7 @@ Template.customfieldpop.onRendered(() => {
                       if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
 
                           customData = {
+                              active: data.tcustomfieldlist[x].fields.Active||false,
                               id: data.tcustomfieldlist[x].fields.ID,
                               custfieldlabel: data.tcustomfieldlist[x].fields.Description,
                               isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
@@ -142,6 +145,7 @@ Template.customfieldpop.onRendered(() => {
                   count = count + remainder;
                   for (let r = 0; r < remainder; r++) {
                       customData = {
+                          active: false,
                           id: "",
                           custfieldlabel: "Custom Field " + count,
                           dropdown: ""
@@ -164,6 +168,7 @@ Template.customfieldpop.onRendered(() => {
                       if (data.tcustomfieldlist[x].fields.ListType == "ltSales") {
 
                           customData = {
+                              active: data.tcustomfieldlist[x].fields.Active||false,
                               id: data.tcustomfieldlist[x].fields.ID,
                               custfieldlabel: data.tcustomfieldlist[x].fields.Description,
                               isEmpty: data.tcustomfieldlist[x].fields.ISEmpty,
@@ -180,6 +185,7 @@ Template.customfieldpop.onRendered(() => {
                   count = count + remainder;
                   for (let r = 0; r < remainder; r++) {
                       customData = {
+                          active: false,
                           id: "",
                           custfieldlabel: "Custom Field " + count,
                           dropdown: ""
@@ -206,6 +212,7 @@ Template.customfieldpop.onRendered(() => {
         let lineItems = [];
         let lineItemObj = {};
         let setISCOD = false;
+
         if(fieldsData.length > 0) {
             for (let i = 0; i < fieldsData.length; i++) {
 
@@ -281,7 +288,7 @@ Template.customfieldpop.onRendered(() => {
                     responsive: true,
                     "fnInitComplete": function () {
                         $("<button class='btn btn-primary btnAddNewCustField' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#custListType_filter");
-                        $("<button class='btn btn-primary btnRefreshClientType' type='button' id='btnRefreshClientType' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
+                        $("<button class='btn btn-primary btnRefreshCustomField' type='button' id='btnRefreshCustomField' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#custListType_filter");
                     },
 
                 }).on('page', function () {
@@ -307,6 +314,15 @@ Template.customfieldpop.onRendered(() => {
 });
 
 Template.customfieldpop.events({
+  'click .btnRefreshCustomField': function (event) {
+      $('.fullScreenSpin').css('display', 'inline-block');
+      sideBarService.getAllCustomFields().then(function (data) {
+          addVS1Data('TCustomFieldList', JSON.stringify(data));
+          $('.fullScreenSpin').css('display', 'none');
+      }).catch(function (err) {
+          $('.fullScreenSpin').css('display', 'none');
+      });
+    },
     'click .btnToggleText1': function (event) {
         const templateObject = Template.instance();
         let custfieldarr = templateObject.custfields.get();
@@ -413,7 +429,7 @@ Template.customfieldpop.events({
             for(let x = 0; x < custfieldarr[0].dropdown.length; x++) {
                 $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
-                                        '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown[x].fields.Text+'" autocomplete="off">'+
+                                        '<input type="text" style="" name="customText" class="form-control customText" token="'+custfieldarr[0].dropdown[x].fields.ID+'" value="'+ custfieldarr[0].dropdown[x].fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
                                         '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
@@ -425,7 +441,7 @@ Template.customfieldpop.events({
             $('.btnAddNewTextBox').nextAll().remove();
              $('.dropDownSection').append('<div class="row textBoxSection" id="textBoxSection" style="padding:5px">'+
                                     '<div class="col-10">'+
-                                        '<input type="text" style="" name="customText" class="form-control customText" token="'+tokenid+'" value="'+ custfieldarr[0].dropdown.fields.Text+'" autocomplete="off">'+
+                                        '<input type="text" style="" name="customText" class="form-control customText" token="'+custfieldarr[0].dropdown.fields.ID+'" value="'+ custfieldarr[0].dropdown.fields.Text+'" autocomplete="off">'+
                                     '</div>'+
                                     '<div class="col-2">'+
                                         '<button type="button" class="btn btn-danger btn-rounded btnRemoveDropOptions" autocomplete="off"><i class="fa fa-remove"></i></button>'+
@@ -948,13 +964,21 @@ Template.customfieldpop.events({
         let organisationService = new OrganisationService();
         var url = FlowRouter.current().path;
         let fieldData = [];
-
+        let checkChckBox = false;
         $('.customfieldcommon').each(function(){
+            console.log($(this).closest('.custom-switch').find('[type=checkbox]').val());
+            if ($(this).closest('.custom-switch').find('[type=checkbox]').is(':checked')) {
+              checkChckBox = true;
+            }else{
+              checkChckBox = false;
+            }
             dropObj = {
+                active:checkChckBox,
                 id: $(this).attr('custid') || '',
                 name: $(this).val() || '',
                 datatype: $(this).attr('datatype') || '',
-            }
+            };
+            console.log(dropObj);
             fieldData.push(dropObj);
         });
 
@@ -966,14 +990,15 @@ Template.customfieldpop.events({
        }
 
        for(let i = 0; i < fieldData.length; i++) {
-        let fieldID = fieldData[i].id;
-        let name = fieldData[i].name;
-        let dataType = fieldData[i].datatype;
+        let fieldID = fieldData[i].id||0;
+        let name = fieldData[i].name||'';
+        let dataType = fieldData[i].datatype||'';
         if (fieldID == "") {
           if(dataType == 'ftDateTime'){
             objDetails1 = {
                 type: "TCustomFieldList",
                 fields: {
+                    Active:fieldData[i].active||false,
                     DataType:"ftDateTime",
                     Description: name,
                     listType: listType
@@ -983,6 +1008,7 @@ Template.customfieldpop.events({
             objDetails1 = {
                 type: "TCustomFieldList",
                 fields: {
+                    Active:fieldData[i].active||false,
                     DataType:"ftString",
                     Description: name,
                     listType: listType
@@ -1033,6 +1059,7 @@ Template.customfieldpop.events({
               objDetails1 = {
                   type: "TCustomFieldList",
                   fields: {
+                      Active:fieldData[i].active||false,
                       ID: fieldID,
                       DataType:"ftDateTime",
                       Description: name,
@@ -1043,6 +1070,7 @@ Template.customfieldpop.events({
               objDetails1 = {
                   type: "TCustomFieldList",
                   fields: {
+                      Active:fieldData[i].active||false,
                       ID: fieldID,
                       DataType:"ftString",
                       Description: name,

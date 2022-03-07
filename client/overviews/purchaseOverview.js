@@ -475,7 +475,11 @@ Template.purchasesoverview.onRendered(function() {
                         if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
                           countTableData = data.tbillreport.length||1;
                         }
-                        $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                        if(data.tbillreport.length > 0){
+                          $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblPurchaseOverview_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
+                        }
                         /* End Add count functionality to table */
                     }, 0);
 
@@ -594,7 +598,6 @@ Template.purchasesoverview.onRendered(function() {
                 let lineItems = [];
                 let lineItemObj = {};
 
-                console.log(data);
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);
@@ -924,7 +927,11 @@ Template.purchasesoverview.onRendered(function() {
                     if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
                       countTableData = data.tbillreport.length||1;
                     }
-                    $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                    if(data.tbillreport.length > 0){
+                      $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblPurchaseOverview_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
+                    }
                     /* End Add count functionality to table */
                 }, 0);
 
@@ -1314,7 +1321,13 @@ Template.purchasesoverview.onRendered(function() {
                     if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
                       countTableData = data.tbillreport.length||1;
                     }
-                    $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+
+                    if(data.tbillreport.length > 0){
+                      $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblPurchaseOverview_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
+                    }
+
                     /* End Add count functionality to table */
                 }, 0);
 

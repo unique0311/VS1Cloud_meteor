@@ -271,6 +271,17 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             }, 100);
                         });
                         $('.fullScreenSpin').css('display', 'none');
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tbillreport.length||1;
+                        }
+                        if(data.tbillreport.length > 0){
+                          $('#tblSupplierAwaitingPO_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblSupplierAwaitingPO_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblSupplierAwaitingPO th');
@@ -488,7 +499,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
 
                           }else{
                             $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+                            $('#tblSupplierAwaitingPO_ellipsis').addClass('disabled');
 
                             if (oSettings._iDisplayLength == -1) {
                                 if (oSettings.fnRecordsDisplay() > 150) {
@@ -566,6 +577,18 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
+
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbillreport.length||1;
+                    }
+                    if(data.tbillreport.length > 0){
+                      $('#tblSupplierAwaitingPO_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblSupplierAwaitingPO_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblSupplierAwaitingPO th');
@@ -780,6 +803,17 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbillreport.length||1;
+                    }
+                    if(data.tbillreport.length > 0){
+                      $('#tblSupplierAwaitingPO_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblSupplierAwaitingPO_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblSupplierAwaitingPO th');
@@ -858,7 +892,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
         // }
     });
 
-    templateObject.getAllFilterPurchasesData = function(fromDate, toDate, ignoreDate) {
+    templateObject.getAllFilterAwaitingSuppData = function(fromDate, toDate, ignoreDate) {
         sideBarService.getAllAwaitingSupplierPayment(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
             addVS1Data('TAwaitingSupplierPayment', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/supplierawaitingpurchaseorder?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
@@ -904,7 +938,7 @@ Template.supplierawaitingpurchaseorder.events({
       if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
 
       } else {
-          templateObject.getAllFilterPurchasesData(formatDateFrom, formatDateTo, false);
+          templateObject.getAllFilterAwaitingSuppData(formatDateFrom, formatDateTo, false);
       }
 
   },
@@ -925,7 +959,7 @@ Template.supplierawaitingpurchaseorder.events({
       if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
 
       } else {
-          templateObject.getAllFilterPurchasesData(formatDateFrom, formatDateTo, false);
+          templateObject.getAllFilterAwaitingSuppData(formatDateFrom, formatDateTo, false);
       }
 
   },
@@ -960,7 +994,7 @@ Template.supplierawaitingpurchaseorder.events({
 
       var getLoadDate = formatDateERP(prevMonthLastDate);
       let getDateFrom = formatDateERP(prevMonthFirstDate);
-      templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
+      templateObject.getAllFilterAwaitingSuppData(getDateFrom, getLoadDate, false);
   },
   'click #lastQuarter': function() {
       let templateObject = Template.instance();
@@ -999,7 +1033,7 @@ Template.supplierawaitingpurchaseorder.events({
 
       var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
       let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
-      templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
+      templateObject.getAllFilterAwaitingSuppData(getDateFrom, getLoadDate, false);
   },
   'click #last12Months': function() {
       let templateObject = Template.instance();
@@ -1031,7 +1065,7 @@ Template.supplierawaitingpurchaseorder.events({
       }
       var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
       let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
-      templateObject.getAllFilterPurchasesData(getDateFrom, getLoadDate, false);
+      templateObject.getAllFilterAwaitingSuppData(getDateFrom, getLoadDate, false);
 
   },
   'click #ignoreDate': function() {
@@ -1039,7 +1073,7 @@ Template.supplierawaitingpurchaseorder.events({
       $('.fullScreenSpin').css('display', 'inline-block');
       $('#dateFrom').attr('readonly', true);
       $('#dateTo').attr('readonly', true);
-      templateObject.getAllFilterPurchasesData('', '', true);
+      templateObject.getAllFilterAwaitingSuppData('', '', true);
   },
     'click .chkDatatable': function (event) {
         var columns = $('#tblSupplierAwaitingPO th');

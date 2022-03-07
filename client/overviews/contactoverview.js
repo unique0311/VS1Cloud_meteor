@@ -965,6 +965,19 @@ Template.contactoverview.onRendered(function() {
                             }, 100);
                         });
                         $('.fullScreenSpin').css('display','none');
+
+                        /* Add count functionality to table */
+                          let countTableData = data.Params.Count || 1; //get count from API data
+                          if(data.terpcombinedcontactsvs1.length > countTableData){ //Check if what is on the list is more than API count
+                            countTableData = data.terpcombinedcontactsvs1.length||1;
+                          }
+
+                          if(data.terpcombinedcontactsvs1.length > 0){
+                            $('#tblcontactoverview_info').html('Showing 1 to '+data.terpcombinedcontactsvs1.length+ ' of ' +countTableData+ ' entries');
+                          }else{
+                            $('#tblcontactoverview_info').html('Showing 0 to '+data.terpcombinedcontactsvs1.length+ ' of 0 entries');
+                          }
+                          /* End Add count functionality to table */
                     }, 0);
 
 
@@ -1409,6 +1422,18 @@ Template.contactoverview.onRendered(function() {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                      let countTableData = data.Params.Count || 1; //get count from API data
+                      if(data.terpcombinedcontactsvs1.length > countTableData){ //Check if what is on the list is more than API count
+                        countTableData = data.terpcombinedcontactsvs1.length||1;
+                      }
+
+                      if(data.terpcombinedcontactsvs1.length > 0){
+                        $('#tblcontactoverview_info').html('Showing 1 to '+data.terpcombinedcontactsvs1.length+ ' of ' +countTableData+ ' entries');
+                      }else{
+                        $('#tblcontactoverview_info').html('Showing 0 to '+data.terpcombinedcontactsvs1.length+ ' of 0 entries');
+                      }
+                      /* End Add count functionality to table */
                 }, 0);
 
 
@@ -1795,6 +1820,18 @@ Template.contactoverview.onRendered(function() {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                      let countTableData = data.Params.Count || 1; //get count from API data
+                      if(data.terpcombinedcontactsvs1.length > countTableData){ //Check if what is on the list is more than API count
+                        countTableData = data.terpcombinedcontactsvs1.length||1;
+                      }
+
+                      if(data.terpcombinedcontactsvs1.length > 0){
+                        $('#tblcontactoverview_info').html('Showing 1 to '+data.terpcombinedcontactsvs1.length+ ' of ' +countTableData+ ' entries');
+                      }else{
+                        $('#tblcontactoverview_info').html('Showing 0 to '+data.terpcombinedcontactsvs1.length+ ' of 0 entries');
+                      }
+                      /* End Add count functionality to table */
                 }, 0);
 
 

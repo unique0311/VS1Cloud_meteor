@@ -6511,6 +6511,7 @@ Template.appointments.events({
             document.getElementById("tActualStartTime").value = result[0].aStartTime;
             document.getElementById("tActualEndTime").value = result[0].aEndTime;
             document.getElementById("txtActualHoursSpent").value = hoursFormatted || '';
+
             $('#event-modal').modal();
         } else {
             let bookingDate = new Date();
@@ -6541,16 +6542,35 @@ Template.appointments.events({
             templateObject.getAllProductData();
             }
 
-            // if (calOptions.defaultProduct != "") {
-            //     //$('#product-list').prepend('<option value="' + calOptions.productID + '" selected>' + calOptions.defaultProduct + '</option>');
-            //
-            // } else {
-            //     //$('#product-list').prop('selectedIndex', -1);
-            // }
+            let empData = templateObject.employeeOptions.get().filter(emp => {
+            return emp.EmployeeID == parseInt(resultEmpData[0].id);
+            });
+
+            if (resultEmpData[0].override == "false") {
+
+            } else if (resultEmpData[0].override == "true") {
+
+                if (empData[empData.length - 1].DefaultApptDuration == 120) {
+                    hoursFormattedStartTime = templateObject.timeFormat('2') || '2';
+                } else {
+                    //templateObject.empDuration.set(empData[empData.length - 1].DefaultApptDuration || '1');
+                    hoursFormattedStartTime = templateObject.timeFormat(empData[empData.length - 1].DefaultApptDuration) || '1';
+                }
+
+                document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+                var endTime = moment(startTime, 'HH:mm').add(parseInt(hoursFormattedStartTime), 'hours').format('HH:mm');
+                document.getElementById("endTime").value = endTime;
+            }else{
+              if (calOptions.DefaultApptDuration) {
+                  let hoursFormattedStartTime = templateObject.timeFormat(calOptions.DefaultApptDuration) || '';
+                  document.getElementById("txtBookedHoursSpent").value = hoursFormattedStartTime;
+              }
+            }
+
             document.getElementById("product-list").value = calOptions.defaultProduct || '';
             $(".paused").hide();
             $("#btnHold").prop("disabled", false);
-            $("#btnStartActualTime").prop("disabled", false)
+            $("#btnStartActualTime").prop("disabled", false);
             $("#btnEndActualTime").prop("disabled", false);
             $("#startTime").prop("disabled", false);
             $("#endTime").prop("disabled", false);
