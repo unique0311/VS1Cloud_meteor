@@ -15,6 +15,7 @@ import {
 } from "../vs1charts/vs1charts-service"
 
 import 'gauge-chart';
+
 let _ = require('lodash');
 let vs1chartService = new VS1ChartService();
 let utilityService = new UtilityService();
@@ -43,7 +44,20 @@ Template.dashboard.onRendered(function() {
         templateObject.includeDashboard.set(true);
     }
 
+    $(".connectedSortable").sortable({
+        connectWith: ".connectedSortable",
+        placeholder: "portlet-placeholder ui-corner-all",
+        stop: function(event, ui) {}
+    });
+    $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
 
+    $(".portlet-toggle").on("click", function() {
+        var icon = $(this);
+        icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+        icon.closest(".portlet").find(".portlet-content").toggle();
+    });
+
+    $(".portlet").resizable();
 
     templateObject.deactivateDraggable = function() {
         $('#col1,#col2').sortable({
@@ -193,7 +207,30 @@ Template.dashboard.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         batchUpdateCall();
     },
+    'click .editchartsbtn': function() {
+        $(".btnchartdropdown").addClass('hideelement');
 
+        setTimeout(function() {
+            $(".monthlyprofilelossedit").removeClass('hideelement');
+            $(".monthlyprofilelossedit").addClass('showelement');
+
+            $(".profitlossedit").removeClass('hideelement');
+            $(".profitlossedit").addClass('showelement');
+
+            $(".resalecomparisionedit").removeClass('hideelement');
+            $(".resalecomparisionedit").addClass('showelement');
+
+            $(".quotedinvoicededit").removeClass('hideelement');
+            $(".quotedinvoicededit").addClass('showelement');
+
+            $(".monthlyearningsedit").removeClass('hideelement');
+            $(".monthlyearningsedit").addClass('showelement');
+
+            $(".expensesedit").removeClass('hideelement');
+            $(".expensesedit").addClass('showelement');
+        }, 200);
+
+    },
     'click #editcharts': function() {
         const templateObject = Template.instance();
         templateObject.showChartElements();
@@ -314,20 +351,20 @@ Template.dashboard.events({
         let check = earningschart;
         if (check == "true" || check == true) {
             earningschart = false;
-            $("#hideearnings").text("Show");
+            $(".monthlyearningsedit").text("Show");
         } else {
             earningschart = true;
-            $("#hideearnings").text("Hide");
+            $(".monthlyearningsedit").text("Hide");
         }
     },
     'click #expenseshide': function() {
         let check = expenseschart;
         if (check == "true" || check == true) {
             expenseschart = false;
-            $("#expenseshide").text("Show");
+            $(".expensesedit").text("Show");
             // localStorage.setItem("expenseschart",false);
         } else {
-            $("#expenseshide").text("Hide");
+            $(".expensesedit").text("Hide");
             expenseschart = true;
             // localStorage.setItem("expenseschart",true);
         }
@@ -336,9 +373,9 @@ Template.dashboard.events({
         let check = profitlosschart;
         if (check == "true" || check == true) {
             profitlosschart = false;
-            $("#profitloss1hide").text("Show");
+            $(".profitlossedit").text("Show");
         } else {
-            $("#profitloss1hide").text("Hide");
+            $(".profitlossedit").text("Hide");
             profitlosschart = true
         }
     },
@@ -346,9 +383,9 @@ Template.dashboard.events({
         let check = monthlyprofitlosschart;
         if (check == "true" || check == true) {
             monthlyprofitlosschart = false;
-            $("#profitlosshide").text("Show");
+            $(".monthlyprofilelossedit").text("Show");
         } else {
-            $("#profitlosshide").text("Hide");
+            $(".monthlyprofilelossedit").text("Hide");
             monthlyprofitlosschart = true;
         }
     },
@@ -357,9 +394,9 @@ Template.dashboard.events({
         let check = resalechart;
         if (check == "true" || check == true) {
             resalechart = false;
-            $("#resalehide").text("Show");
+            $(".resalecomparisionedit").text("Show");
         } else {
-            $("#resalehide").text("Hide");
+            $(".resalecomparisionedit").text("Hide");
             resalechart = true
         }
     },
@@ -368,9 +405,9 @@ Template.dashboard.events({
         let check = quotedinvoicedchart;
         if (check == "true" || check == true) {
             quotedinvoicedchart = false;
-            $("#hidesales1").text("Show");
+            $(".quotedinvoicededit").text("Show");
         } else {
-            $("#hidesales1").text("Hide");
+            $(".quotedinvoicededit").text("Hide");
             quotedinvoicedchart = true;
         }
     }
