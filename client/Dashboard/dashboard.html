@@ -215,26 +215,50 @@
                         height: 50px;
                         width: 50px;
                     }
+                    #monthylprofiteandlosscol>div:hover {
+                        box-shadow: 0 0 10px rgba(0,0,0,0.50);
+                        cursor: move;
+                    }
+                    #resalecomparisioncol>div:hover {
+                        box-shadow: 0 0 10px rgba(0,0,0,0.50);
+                        cursor: move;
+                    }
+                    #monthlyearningscol>div:hover {
+                        box-shadow: 0 0 10px rgba(0,0,0,0.50);
+                        cursor: move;
+                    }
+                    #profiteandlosschartcol>div:hover {
+                        box-shadow: 0 0 10px rgba(0,0,0,0.50);
+                        cursor: move;
+                    }
+                    #quotedinvoicedamountscol>div:hover {
+                        box-shadow: 0 0 10px rgba(0,0,0,0.50);
+                        cursor: move;
+                    }
+                    #expenseschartcol>div:hover {
+                        box-shadow: 0 0 10px rgba(0,0,0,0.50);
+                        cursor: move;
+                    }
                 </style>
 
                 <div class="modal-body">
                     <div class="row connectedSortable">
-                        <div class="col-auto" id="">
+                        <div class="col-auto" id="monthylprofiteandlosscol">
                             {{> monthlyprofitandloss}}
                         </div>
-                        <div class="col-auto" id="">
+                        <div class="col-auto" id="resalecomparisioncol">
                             {{> resalescomparision}}
                         </div>
-                        <div class="col-auto" id="">
+                        <div class="col-auto" id="monthlyearningscol">
                             {{> monthlyearnings}}
                         </div>
-                        <div class="col-auto" id="">
+                        <div class="col-auto" id="profiteandlosschartcol">
                             {{> profitandlosschart}}
                         </div>
-                        <div class="col-auto" id="">
+                        <div class="col-auto" id="quotedinvoicedamountscol">
                             {{> quotedinvoicedamounts}}
                         </div>
-                        <div class="col-auto" id="">
+                        <div class="col-auto" id="expenseschartcol">
                             {{> expenseschart}}
                         </div>
                     </div>
