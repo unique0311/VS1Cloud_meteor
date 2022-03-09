@@ -28,6 +28,37 @@ Template.quoteslist.onRendered(function() {
     if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
+
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateDay = currentDate.getDate();
+    if ((currentDate.getMonth() + 1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth() + 1);
+    }
+
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
+
     Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblquotelist', function(error, result){
         if(error){
 
@@ -54,6 +85,10 @@ Template.quoteslist.onRendered(function() {
         $('td').each(function(){
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
+
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
@@ -61,40 +96,70 @@ Template.quoteslist.onRendered(function() {
     }
 
     templateObject.getAllQuoteData = function () {
-        getVS1Data('TQuote').then(function (dataObject) {
+
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if ((currentBeginDate.getMonth() + 1) < 10) {
+          fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+      } else {
+          fromDateMonth = (currentBeginDate.getMonth() + 1);
+      }
+
+      if (currentBeginDate.getDate() < 10) {
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+
+        getVS1Data('TQuoteList').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllQuoteList(initialDataLoad,0).then(function (data) {
+                sideBarService.getAllTQuoteListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
-                    addVS1Data('TQuote',JSON.stringify(data));
-                    for(let i=0; i<data.tquoteex.length; i++){
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalAmount)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalTax) || 0.00;
+                    addVS1Data('TQuoteList',JSON.stringify(data));
+                    if (data.Params.IgnoreDates == true) {
+                        $('#dateFrom').attr('readonly', true);
+                        $('#dateTo').attr('readonly', true);
+                        FlowRouter.go('/quoteslist?ignoredate=true');
+                    } else {
+                        $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                        $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                    }
+                    for(let i=0; i<data.tquotelist.length; i++){
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalAmount)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalTax) || 0.00;
                         // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalAmountInc)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalBalance)|| 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalAmountInc)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalPaid)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalBalance)|| 0.00;
+                        let salestatus = data.tquotelist[i].QuoteStatus || '';
+                        if(data.tquotelist[i].Deleted == true){
+                          salestatus = "Deleted";
+                        }
                         var dataList = {
-                            id: data.tquoteex[i].fields.ID || '',
-                            employee:data.tquoteex[i].fields.EmployeeName || '',
-                            sortdate: data.tquoteex[i].fields.SaleDate !=''? moment(data.tquoteex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tquoteex[i].fields.SaleDate,
-                            saledate: data.tquoteex[i].fields.SaleDate !=''? moment(data.tquoteex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tquoteex[i].fields.SaleDate,
-                            duedate: data.tquoteex[i].fields.DueDate !=''? moment(data.tquoteex[i].fields.DueDate).format("DD/MM/YYYY"): data.tquoteex[i].fields.DueDate,
-                            customername: data.tquoteex[i].fields.CustomerName || '',
+                            id: data.tquotelist[i].SaleID || '',
+                            employee:data.tquotelist[i].EmployeeName || '',
+                            sortdate: data.tquotelist[i].SaleDate !=''? moment(data.tquotelist[i].SaleDate).format("YYYY/MM/DD"): data.tquotelist[i].SaleDate,
+                            saledate: data.tquotelist[i].SaleDate !=''? moment(data.tquotelist[i].SaleDate).format("DD/MM/YYYY"): data.tquotelist[i].SaleDate,
+                            duedate: data.tquotelist[i].DueDate !=''? moment(data.tquotelist[i].DueDate).format("DD/MM/YYYY"): data.tquotelist[i].DueDate,
+                            customername: data.tquotelist[i].CustomerName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.tquoteex[i].fields.SalesStatus || '',
-                            custfield1: data.tquoteex[i].fields.SaleCustField1 || '',
-                            custfield2: data.tquoteex[i].fields.SaleCustField2 || '',
-                            comments: data.tquoteex[i].fields.Comments || '',
-                            isConverted: data.tquoteex[i].fields.Converted
+                            salestatus: salestatus || '',
+                            custfield1: data.tquotelist[i].SaleCustField1 || '',
+                            custfield2: data.tquotelist[i].SaleCustField2 || '',
+                            comments: data.tquotelist[i].Comments || '',
+                            isConverted: data.tquotelist[i].Converted
                         };
-                        if(data.tquoteex[i].fields.CustomerName != ''){
+                        //if(data.tquoteex[i].fields.CustomerName != ''){
                             dataTableList.push(dataList);
-                        }
+                        //}
 
                         // splashArray.push(dataList);
                         //}
@@ -147,7 +212,7 @@ Template.quoteslist.onRendered(function() {
                             select: true,
                             destroy: true,
                             colReorder: true,
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
                                 {
                                     extend: 'excelHtml5',
@@ -185,8 +250,7 @@ Template.quoteslist.onRendered(function() {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: initialDatatableLoad,
-                            searching: true,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            "bLengthChange": false,
                             info: true,
                             responsive: true,
                             "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -194,13 +258,78 @@ Template.quoteslist.onRendered(function() {
                                 $('#tblquotelist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
+                              let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                              if(checkurlIgnoreDate == 'true'){
+
+                              }else{
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblquotelist_ellipsis').addClass('disabled');
+
+                              if(oSettings._iDisplayLength == -1){
+                                if(oSettings.fnRecordsDisplay() > 150){
+                                  $('.paginate_button.page-item.previous').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                              }else{
+
+                              }
+                              if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                               .on('click', function(){
+                                 $('.fullScreenSpin').css('display','inline-block');
+                                 let dataLenght = oSettings._iDisplayLength;
+                                 var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                 var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                 sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TQuoteList').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tquotelist), dataOld.tquotelist);
+                                       let objCombineData = {
+                                         Params: dataOld.Params,
+                                         tquotelist:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TQuoteList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+
+                               });
+                             }
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                              "fnInitComplete": function () {
-                             $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
 
+                               let urlParametersPage = FlowRouter.current().queryParams.page;
+                               if (urlParametersPage) {
+                                   this.fnPageChange('last');
+                               }
+                             $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
                          }
 
                         }).on('page', function () {
@@ -219,6 +348,18 @@ Template.quoteslist.onRendered(function() {
 
                         // $('#tblquotelist').DataTable().column( 0 ).visible( true );
                         $('.fullScreenSpin').css('display','none');
+
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tquotelist.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tquotelist.length||1;
+                        }
+                        if(data.tquotelist.length > 0){
+                          $('#tblquotelist_info').html('Showing 1 to '+data.tquotelist.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblquotelist_info').html('Showing 0 to '+data.tquotelist.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblquotelist th');
@@ -250,8 +391,13 @@ Template.quoteslist.onRendered(function() {
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     $('#tblquotelist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if(listData){
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             FlowRouter.go('/quotecard?id=' + listData);
+                          }
                         }
                     });
 
@@ -262,39 +408,51 @@ Template.quoteslist.onRendered(function() {
                 });
             }else{
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tquoteex;
+                let useData = data.tquotelist;
 
                 let lineItems = [];
                 let lineItemObj = {};
                 $('.fullScreenSpin').css('display','none');
-                for(let i=0; i<useData.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/quoteslist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for(let i=0; i<data.tquotelist.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalAmount)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalTax) || 0.00;
                     // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalAmountInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalPaid)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalBalance)|| 0.00;
+                    let salestatus = data.tquotelist[i].QuoteStatus || '';
+                    if(data.tquotelist[i].Deleted == true){
+                      salestatus = "Deleted";
+                    }
                     var dataList = {
-                        id: useData[i].fields.ID || '',
-                        employee:useData[i].fields.EmployeeName || '',
-                        sortdate: useData[i].fields.SaleDate !=''? moment(useData[i].fields.SaleDate).format("YYYY/MM/DD"): useData[i].fields.SaleDate,
-                        saledate: useData[i].fields.SaleDate !=''? moment(useData[i].fields.SaleDate).format("DD/MM/YYYY"): useData[i].fields.SaleDate,
-                        duedate: useData[i].fields.DueDate !=''? moment(useData[i].fields.DueDate).format("DD/MM/YYYY"): useData[i].fields.DueDate,
-                        customername: useData[i].fields.CustomerName || '',
+                        id: data.tquotelist[i].SaleID || '',
+                        employee:data.tquotelist[i].EmployeeName || '',
+                        sortdate: data.tquotelist[i].SaleDate !=''? moment(data.tquotelist[i].SaleDate).format("YYYY/MM/DD"): data.tquotelist[i].SaleDate,
+                        saledate: data.tquotelist[i].SaleDate !=''? moment(data.tquotelist[i].SaleDate).format("DD/MM/YYYY"): data.tquotelist[i].SaleDate,
+                        duedate: data.tquotelist[i].DueDate !=''? moment(data.tquotelist[i].DueDate).format("DD/MM/YYYY"): data.tquotelist[i].DueDate,
+                        customername: data.tquotelist[i].CustomerName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        salestatus: useData[i].fields.SalesStatus || '',
-                        custfield1: useData[i].fields.SaleCustField1 || '',
-                        custfield2: useData[i].fields.SaleCustField2 || '',
-                        comments: useData[i].fields.Comments || '',
-                        isConverted: useData[i].fields.Converted
+                        salestatus: salestatus || '',
+                        custfield1: data.tquotelist[i].SaleCustField1 || '',
+                        custfield2: data.tquotelist[i].SaleCustField2 || '',
+                        comments: data.tquotelist[i].Comments || '',
+                        isConverted: data.tquotelist[i].Converted
                     };
-                    if(useData[i].fields.CustomerName != ''){
+                    //if(data.tquoteex[i].fields.CustomerName != ''){
                         dataTableList.push(dataList);
-                    }
+                    //}
 
                     // splashArray.push(dataList);
                     //}
@@ -347,7 +505,7 @@ Template.quoteslist.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -385,8 +543,7 @@ Template.quoteslist.onRendered(function() {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: initialDatatableLoad,
-                        searching: true,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        "bLengthChange": false,
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -394,6 +551,10 @@ Template.quoteslist.onRendered(function() {
                             $('#tblquotelist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblquotelist_ellipsis').addClass('disabled');
 
@@ -408,25 +569,31 @@ Template.quoteslist.onRendered(function() {
                           if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
                               $('.paginate_button.page-item.next').addClass('disabled');
                           }
+
                           $('.paginate_button.next:not(.disabled)', this.api().table().container())
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllQuoteList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                               getVS1Data('TQuote').then(function (dataObjectold) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TQuoteList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
                                  }else{
                                    let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tquoteex), dataOld.tquoteex);
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tquotelist), dataOld.tquotelist);
                                    let objCombineData = {
-                                     tquoteex:thirdaryData
+                                     Params: dataOld.Params,
+                                     tquotelist:thirdaryData
                                    }
 
 
-                                     addVS1Data('TQuote',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     addVS1Data('TQuoteList',JSON.stringify(objCombineData)).then(function (datareturn) {
                                        templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
@@ -443,19 +610,20 @@ Template.quoteslist.onRendered(function() {
                              });
 
                            });
-
+                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
-                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
-                          }
-                          $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
+                         "fnInitComplete": function () {
 
-                         }
+                           let urlParametersPage = FlowRouter.current().queryParams.page;
+                           if (urlParametersPage) {
+                               this.fnPageChange('last');
+                           }
+                         $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
+                         $('.myvarFilterForm').appendTo(".colDateFilter");
+                     }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -466,41 +634,6 @@ Template.quoteslist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                let dataLenght = settings._iDisplayLength;
-                if(dataLenght == -1){
-                  if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                    $('.fullScreenSpin').css('display','none');
-                  }else{
-                  sideBarService.getAllQuoteList('All',1).then(function(dataNonBo) {
-
-                    addVS1Data('TQuote',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                      templateObject.resetData(dataNonBo);
-                    $('.fullScreenSpin').css('display','none');
-                    }).catch(function (err) {
-                    $('.fullScreenSpin').css('display','none');
-                    });
-                  }).catch(function(err) {
-                    $('.fullScreenSpin').css('display','none');
-                  });
-                 }
-                }else{
-                  if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                    $('.fullScreenSpin').css('display','none');
-                  }else{
-                    sideBarService.getAllQuoteList(dataLenght,0).then(function(dataNonBo) {
-
-                      addVS1Data('TQuote',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                        templateObject.resetData(dataNonBo);
-                      $('.fullScreenSpin').css('display','none');
-                      }).catch(function (err) {
-                      $('.fullScreenSpin').css('display','none');
-                      });
-                    }).catch(function(err) {
-                      $('.fullScreenSpin').css('display','none');
-                    });
-                  }
-                }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
@@ -508,6 +641,17 @@ Template.quoteslist.onRendered(function() {
 
                     // $('#tblquotelist').DataTable().column( 0 ).visible( true );
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tquotelist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tquotelist.length||1;
+                    }
+                    if(data.tquotelist.length > 0){
+                      $('#tblquotelist_info').html('Showing 1 to '+data.tquotelist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblquotelist_info').html('Showing 0 to '+data.tquotelist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblquotelist th');
@@ -539,44 +683,61 @@ Template.quoteslist.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblquotelist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/quotecard?id=' + listData);
+                      }
                     }
                 });
             }
         }).catch(function (err) {
-          sideBarService.getAllQuoteList(initialDataLoad,0).then(function (data) {
+          sideBarService.getAllTQuoteListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
-              addVS1Data('TQuote',JSON.stringify(data));
-              for(let i=0; i<data.tquoteex.length; i++){
-                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalAmount)|| 0.00;
-                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalTax) || 0.00;
+              addVS1Data('TQuoteList',JSON.stringify(data));
+              if (data.Params.IgnoreDates == true) {
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/quoteslist?ignoredate=true');
+              } else {
+                  $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+              }
+              for(let i=0; i<data.tquotelist.length; i++){
+                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalAmount)|| 0.00;
+                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalTax) || 0.00;
                   // Currency+''+data.tinvoice[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalAmountInc)|| 0.00;
-                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalPaid)|| 0.00;
-                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalBalance)|| 0.00;
+                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalAmountInc)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalPaid)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tquotelist[i].TotalBalance)|| 0.00;
+                  let salestatus = data.tquotelist[i].QuoteStatus || '';
+                  if(data.tquotelist[i].Deleted == true){
+                    salestatus = "Deleted";
+                  }
                   var dataList = {
-                      id: data.tquoteex[i].fields.ID || '',
-                      employee:data.tquoteex[i].fields.EmployeeName || '',
-                      sortdate: data.tquoteex[i].fields.SaleDate !=''? moment(data.tquoteex[i].fields.SaleDate).format("YYYY/MM/DD"): data.tquoteex[i].fields.SaleDate,
-                      saledate: data.tquoteex[i].fields.SaleDate !=''? moment(data.tquoteex[i].fields.SaleDate).format("DD/MM/YYYY"): data.tquoteex[i].fields.SaleDate,
-                      duedate: data.tquoteex[i].fields.DueDate !=''? moment(data.tquoteex[i].fields.DueDate).format("DD/MM/YYYY"): data.tquoteex[i].fields.DueDate,
-                      customername: data.tquoteex[i].fields.CustomerName || '',
+                      id: data.tquotelist[i].SaleID || '',
+                      employee:data.tquotelist[i].EmployeeName || '',
+                      sortdate: data.tquotelist[i].SaleDate !=''? moment(data.tquotelist[i].SaleDate).format("YYYY/MM/DD"): data.tquotelist[i].SaleDate,
+                      saledate: data.tquotelist[i].SaleDate !=''? moment(data.tquotelist[i].SaleDate).format("DD/MM/YYYY"): data.tquotelist[i].SaleDate,
+                      duedate: data.tquotelist[i].DueDate !=''? moment(data.tquotelist[i].DueDate).format("DD/MM/YYYY"): data.tquotelist[i].DueDate,
+                      customername: data.tquotelist[i].CustomerName || '',
                       totalamountex: totalAmountEx || 0.00,
                       totaltax: totalTax || 0.00,
                       totalamount: totalAmount || 0.00,
                       totalpaid: totalPaid || 0.00,
                       totaloustanding: totalOutstanding || 0.00,
-                      salestatus: data.tquoteex[i].fields.SalesStatus || '',
-                      custfield1: data.tquoteex[i].fields.SaleCustField1 || '',
-                      custfield2: data.tquoteex[i].fields.SaleCustField2 || '',
-                      comments: data.tquoteex[i].fields.Comments || '',
-                      isConverted: data.tquoteex[i].fields.Converted
+                      salestatus: salestatus || '',
+                      custfield1: data.tquotelist[i].SaleCustField1 || '',
+                      custfield2: data.tquotelist[i].SaleCustField2 || '',
+                      comments: data.tquotelist[i].Comments || '',
+                      isConverted: data.tquotelist[i].Converted
                   };
-                  if(data.tquoteex[i].fields.CustomerName != ''){
+                  //if(data.tquoteex[i].fields.CustomerName != ''){
                       dataTableList.push(dataList);
-                  }
+                  //}
 
                   // splashArray.push(dataList);
                   //}
@@ -629,7 +790,7 @@ Template.quoteslist.onRendered(function() {
                       select: true,
                       destroy: true,
                       colReorder: true,
-                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       buttons: [
                           {
                               extend: 'excelHtml5',
@@ -667,8 +828,7 @@ Template.quoteslist.onRendered(function() {
                       // bStateSave: true,
                       // rowId: 0,
                       pageLength: initialDatatableLoad,
-                      searching: true,
-                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      "bLengthChange": false,
                       info: true,
                       responsive: true,
                       "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -676,13 +836,79 @@ Template.quoteslist.onRendered(function() {
                           $('#tblquotelist').DataTable().ajax.reload();
                       },
                       "fnDrawCallback": function (oSettings) {
+                        let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                        if(checkurlIgnoreDate == 'true'){
+
+                        }else{
+                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblquotelist_ellipsis').addClass('disabled');
+
+                        if(oSettings._iDisplayLength == -1){
+                          if(oSettings.fnRecordsDisplay() > 150){
+                            $('.paginate_button.page-item.previous').addClass('disabled');
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                        }else{
+
+                        }
+                        if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                         .on('click', function(){
+                           $('.fullScreenSpin').css('display','inline-block');
+                           let dataLenght = oSettings._iDisplayLength;
+                           var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                           var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                           let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                           let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                           sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             getVS1Data('TQuoteList').then(function (dataObjectold) {
+                               if(dataObjectold.length == 0){
+
+                               }else{
+                                 let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                 var thirdaryData = $.merge($.merge([], dataObjectnew.tquotelist), dataOld.tquotelist);
+                                 let objCombineData = {
+                                   Params: dataOld.Params,
+                                   tquotelist:thirdaryData
+                                 }
+
+
+                                   addVS1Data('TQuoteList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     templateObject.resetData(objCombineData);
+                                   $('.fullScreenSpin').css('display','none');
+                                   }).catch(function (err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                   });
+
+                               }
+                              }).catch(function (err) {
+
+                              });
+
+                           }).catch(function(err) {
+                             $('.fullScreenSpin').css('display','none');
+                           });
+
+                         });
+                       }
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
                       },
-                      "fnInitComplete": function () {
-                             $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
-                    }
+                       "fnInitComplete": function () {
+
+                         let urlParametersPage = FlowRouter.current().queryParams.page;
+                         if (urlParametersPage) {
+                             this.fnPageChange('last');
+                         }
+                       $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
+                       $('.myvarFilterForm').appendTo(".colDateFilter");
+                   }
 
                   }).on('page', function () {
                       setTimeout(function () {
@@ -700,6 +926,17 @@ Template.quoteslist.onRendered(function() {
 
                   // $('#tblquotelist').DataTable().column( 0 ).visible( true );
                   $('.fullScreenSpin').css('display','none');
+                  /* Add count functionality to table */
+                  let countTableData = data.Params.Count || 1; //get count from API data
+                  if(data.tquotelist.length > countTableData){ //Check if what is on the list is more than API count
+                    countTableData = data.tquotelist.length||1;
+                  }
+                  if(data.tquotelist.length > 0){
+                    $('#tblquotelist_info').html('Showing 1 to '+data.tquotelist.length+ ' of ' +countTableData+ ' entries');
+                  }else{
+                    $('#tblquotelist_info').html('Showing 0 to '+data.tquotelist.length+ ' of 0 entries');
+                  }
+                  /* End Add count functionality to table */
               }, 0);
 
               var columns = $('#tblquotelist th');
@@ -731,8 +968,13 @@ Template.quoteslist.onRendered(function() {
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
               $('#tblquotelist tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
+                  var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                   if(listData){
+                    if(checkDeleted == "Deleted"){
+                      swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                    }else{
                       FlowRouter.go('/quotecard?id=' + listData);
+                    }
                   }
               });
 
@@ -746,16 +988,31 @@ Template.quoteslist.onRendered(function() {
 
     templateObject.getAllQuoteData();
 
-    $('#tblquotelist tbody').on( 'click', 'tr', function () {
-        //var listData = table.row( this ).id();
-        var listData = $(this).closest('tr').attr('id');
+    templateObject.getAllFilterQuoteData = function(fromDate, toDate, ignoreDate) {
+        sideBarService.getAllTQuoteListData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+            addVS1Data('TQuoteList', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/quoteslist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+            }).catch(function(err) {
+                location.reload();
+            });
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    }
 
-        //for(let i=0 ; i<splashArray.length ;i++){
-        if(listData){
-            FlowRouter.go('/quotecard?id=' + listData);
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if (urlParametersDateFrom) {
+        if (urlParametersIgnoreDate == true) {
+            $('#dateFrom').attr('readonly', true);
+            $('#dateTo').attr('readonly', true);
+        } else {
+
+            $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+            $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
         }
-        //}
-    });
+    }
 
 });
 
@@ -1100,16 +1357,205 @@ Template.quoteslist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllQuoteList(initialDataLoad,0).then(function(data) {
-            addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
-                window.open('/quoteslist','_self');
+
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getAllTQuoteListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataQuote) {
+            addVS1Data('TQuoteList',JSON.stringify(dataQuote)).then(function (datareturn) {
+              sideBarService.getAllQuoteList(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/quoteslist','_self');
+                  }).catch(function (err) {
+                      window.open('/quoteslist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/quoteslist','_self');
+              });
             }).catch(function (err) {
-                window.open('/quoteslist','_self');
+              sideBarService.getAllQuoteList(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TQuote',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/quoteslist','_self');
+                  }).catch(function (err) {
+                      window.open('/quoteslist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/quoteslist','_self');
+              });
             });
         }).catch(function(err) {
             window.open('/quoteslist','_self');
         });
-    }
+
+
+    },
+    'change #dateTo': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterQuoteData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterQuoteData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(toDate);
+
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
+        templateObject.getAllFilterQuoteData(getDateFrom, getLoadDate, false);
+    },
+    'click #lastQuarter': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterQuoteData(getDateFrom, getLoadDate, false);
+    },
+    'click #last12Months': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth() + 1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth() + 1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterQuoteData(getDateFrom, getLoadDate, false);
+
+    },
+    'click #ignoreDate': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterQuoteData('', '', true);
+    },
 
 
 

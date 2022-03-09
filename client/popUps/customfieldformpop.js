@@ -886,7 +886,6 @@ Template.customfieldformpop.events({
                     }
                 };
               }else{
-                console.log('here1');
                 objDetails1 = {
                    type: "TCustomFieldList",
                    fields: {

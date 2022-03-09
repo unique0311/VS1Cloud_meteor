@@ -1578,7 +1578,6 @@ Template.new_invoice.onRendered(() => {
           }).catch(function(err) {
             sideBarService.getAllCustomFields().then(function (data) {
                 let customData = {};
-                console.log('here now');
                 for(let x = 0; x < data.tcustomfieldlist.length; x++) {
                     if(data.tcustomfieldlist[x].fields.ListType == "ltSales") {
                         customData = {
@@ -1826,7 +1825,6 @@ Template.new_invoice.onRendered(() => {
 
               }
 
-              console.log(custField[1].dropdown);
               //Custom Field 2
               if(custField[1].datatype == 'ftString' && custField[1].iscombo == false && custField[1].dropdown == null){
 
@@ -1870,7 +1868,7 @@ Template.new_invoice.onRendered(() => {
                 }, 1500);
 
               }else if(custField[1].datatype == 'ftString' && custField[1].dropdown != null){
-                console.log('2 dropdown');
+
                 $('.custField2Text').css('display','none');
                 $('.custField2Date').css('display','none');
                 $('.custField2Dropdown').css('display','block');
@@ -1951,7 +1949,6 @@ Template.new_invoice.onRendered(() => {
               }, 10);
 
                 setTimeout(function () {
-                  console.log('2 dropdown set');
                     $('#edtSaleCustField2').editableSelect();
                     $('#edtSaleCustField2').editableSelect()
                     .on('click.editable-select', function (e, li) {

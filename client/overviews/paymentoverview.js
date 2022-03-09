@@ -1381,6 +1381,15 @@ Template.paymentoverview.events({
 
         });
 
+        sideBarService.getTSupplierPaymentList(initialDataLoad,0).then(function(data) {
+            addVS1Data('TSupplierPayment',JSON.stringify(data)).then(function (datareturn) {
+            }).catch(function (err) {
+
+            });
+        }).catch(function(err) {
+
+        });
+
         var currentBeginDate = new Date();
     var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
     let fromDateMonth = (currentBeginDate.getMonth() + 1);
@@ -1397,21 +1406,38 @@ Template.paymentoverview.events({
     var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
     let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        sideBarService.getAllPurchaseOrderListAll(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(data) {
-            addVS1Data('TbillReport', JSON.stringify(data)).then(function (datareturn) {
-                sideBarService.getTPaymentList(prevMonth11Date,toDate, false).then(function(data) {
-                    addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
-                        window.open('/paymentoverview','_self');
+
+        sideBarService.getTPaymentList(prevMonth11Date,toDate, false).then(function(dataPaymentList) {
+            addVS1Data('TPaymentList',JSON.stringify(dataPaymentList)).then(function (datareturn) {
+              sideBarService.getAllTSupplierPaymentListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataSuppPay) {
+                  addVS1Data('TSupplierPaymentList', JSON.stringify(dataSuppPay)).then(function (datareturn) {
+                    sideBarService.getAllTCustomerPaymentListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataCustPay) {
+                        addVS1Data('TCustomerPaymentList', JSON.stringify(dataCustPay)).then(function (datareturn) {
+                          window.open('/paymentoverview','_self');
+                        }).catch(function (err) {
+                          window.open('/paymentoverview','_self');
+                        });
                     }).catch(function (err) {
-                        window.open('/paymentoverview','_self');
+                      window.open('/paymentoverview','_self');
                     });
-                }).catch(function(err) {
-                    window.open('/paymentoverview','_self');
-                });
+                  }).catch(function (err) {
+                    sideBarService.getAllTCustomerPaymentListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataCustPay) {
+                        addVS1Data('TCustomerPaymentList', JSON.stringify(dataCustPay)).then(function (datareturn) {
+                          window.open('/paymentoverview','_self');
+                        }).catch(function (err) {
+                          window.open('/paymentoverview','_self');
+                        });
+                    }).catch(function (err) {
+                      window.open('/paymentoverview','_self');
+                    });
+                  });
+              }).catch(function (err) {
+                window.open('/paymentoverview','_self');
+              });
             }).catch(function (err) {
                 window.open('/paymentoverview','_self');
             });
-        }).catch(function (err) {
+        }).catch(function(err) {
             window.open('/paymentoverview','_self');
         });
 

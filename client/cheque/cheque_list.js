@@ -120,6 +120,14 @@ Template.chequelist.onRendered(function() {
                 addVS1Data('TChequeList',JSON.stringify(data));
                   let lineItems = [];
                   let lineItemObj = {};
+                  if (data.Params.IgnoreDates == true) {
+                      $('#dateFrom').attr('readonly', true);
+                      $('#dateTo').attr('readonly', true);
+                      FlowRouter.go('/chequelist?ignoredate=true');
+                  } else {
+                      $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                      $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                  }
                   for (let i = 0; i < data.tchequelist.length; i++) {
                       let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalAmount) || 0.00;
                       let totalTax = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalTax) || 0.00;
@@ -275,7 +283,7 @@ Template.chequelist.onRendered(function() {
 
                                      var thirdaryData = $.merge($.merge([], dataObjectnew.tchequelist), dataOld.tchequelist);
                                      let objCombineData = {
-                                       Params: dataObjectnew.Params,
+                                       Params: dataOld.Params,
                                        tchequelist:thirdaryData
                                      }
 
@@ -372,6 +380,16 @@ Template.chequelist.onRendered(function() {
                 let useData = data.tchequelist;
                 let lineItems = [];
                 let lineItemObj = {};
+
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/chequelist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+
                 for (let i = 0; i < data.tchequelist.length; i++) {
                     let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalAmount) || 0.00;
                     let totalTax = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalTax) || 0.00;
@@ -527,7 +545,7 @@ Template.chequelist.onRendered(function() {
 
                                    var thirdaryData = $.merge($.merge([], dataObjectnew.tchequelist), dataOld.tchequelist);
                                    let objCombineData = {
-                                     Params: dataObjectnew.Params,
+                                     Params: dataOld.Params,
                                      tchequelist:thirdaryData
                                    }
 
@@ -631,6 +649,14 @@ Template.chequelist.onRendered(function() {
               addVS1Data('TChequeList',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/chequelist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
                 for (let i = 0; i < data.tchequelist.length; i++) {
                     let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalAmount) || 0.00;
                     let totalTax = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalTax) || 0.00;
@@ -786,7 +812,7 @@ Template.chequelist.onRendered(function() {
 
                                    var thirdaryData = $.merge($.merge([], dataObjectnew.tchequelist), dataOld.tchequelist);
                                    let objCombineData = {
-                                     Params: dataObjectnew.Params,
+                                     Params: dataOld.Params,
                                      tchequelist:thirdaryData
                                    }
 

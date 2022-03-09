@@ -290,7 +290,7 @@ export class SideBarService extends BaseService {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true
-       };
+      };
      }else{
        options = {
          IgnoreDates:false,
@@ -537,6 +537,26 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TSalesOrderEx, options);
   }
 
+  getAllTSalesOrderListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true
+      };
+     }else{
+       options = {
+         orderby:'"SaleID desc"',
+         IgnoreDates:false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TSalesOrderList, options);
+    }
+
   getAllPurchaseOrderList(limitcount, limitfrom) {
     let options = '';
     if(limitcount == 'All'){
@@ -555,6 +575,26 @@ getCustomersDataByName(dataSearchName) {
     }
     return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
   }
+
+  getAllTPurchaseOrderListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true
+      };
+     }else{
+       options = {
+         orderby:'"PurchaseOrderID desc"',
+         IgnoreDates:false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TPurchaseOrderList, options);
+    }
 
   getAllChequeList(limitcount, limitfrom) {
     let options = '';
@@ -585,7 +625,7 @@ getCustomersDataByName(dataSearchName) {
      };
    }else{
      options = {
-       IgnoreDates:true,
+       IgnoreDates:false,
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
        LimitCount:'"'+limitcount+'"',
@@ -649,32 +689,20 @@ getCustomersDataByName(dataSearchName) {
     if(ignoreDate == true){
       options = {
         IgnoreDates:true,
-        IncludeIsCashSale:true,
-        IncludeIsCustomerReturn:false,
         IncludeIsInvoice:true,
-        IncludeIslayby:false,
-        IncludeIsLaybyPayment:true,
-        IncludeIsPOS:true,
         IncludeIsQuote:false,
         IncludeIsRefund:true,
         IncludeISSalesOrder:false,
-        IncludeIsVoucher:false,
         Paid:false,
         Unpaid:true
      };
    }else{
      options = {
        IgnoreDates:false,
-       IncludeIsCashSale:true,
-       IncludeIsCustomerReturn:false,
        IncludeIsInvoice:true,
-       IncludeIslayby:false,
-       IncludeIsLaybyPayment:true,
-       IncludeIsPOS:true,
        IncludeIsQuote:false,
        IncludeIsRefund:true,
        IncludeISSalesOrder:false,
-       IncludeIsVoucher:false,
        Paid:false,
        Unpaid:true,
        DateFrom:'"'+dateFrom+'"',
@@ -706,6 +734,25 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TBillEx, options);
   }
 
+  getAllBillListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true
+      };
+     }else{
+       options = {
+         orderby:'"PurchaseOrderID desc"',
+         IgnoreDates:false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TBillList, options);
+    }
 
   getAllQuoteList(limitcount, limitfrom) {
     let options = '';
@@ -726,6 +773,26 @@ getCustomersDataByName(dataSearchName) {
     }
     return this.getList(this.ERPObjects.TQuoteEx, options);
   }
+
+  getAllTQuoteListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true
+      };
+     }else{
+       options = {
+         orderby:'"SaleID desc"',
+         IgnoreDates:false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TQuoteList, options);
+    }
 
   getAllCreditList(limitcount, limitfrom) {
     let options = '';
@@ -753,16 +820,10 @@ getCustomersDataByName(dataSearchName) {
       options = {
          orderby:'"SaleId desc"',
          IgnoreDates:true,
-         IncludeIsCashSale:true,
-         IncludeIsCustomerReturn:true,
          IncludeIsInvoice:true,
-         IncludeIslayby:true,
-         IncludeIsLaybyPayment:true,
-         IncludeIsPOS:true,
          IncludeIsQuote:true,
          IncludeIsRefund:true,
          IncludeISSalesOrder:true,
-         IncludeIsVoucher:true,
          Paid:false,
          Unpaid:true,
      };
@@ -772,16 +833,10 @@ getCustomersDataByName(dataSearchName) {
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
-        IncludeIsCashSale:true,
-        IncludeIsCustomerReturn:true,
         IncludeIsInvoice:true,
-        IncludeIslayby:true,
-        IncludeIsLaybyPayment:true,
-        IncludeIsPOS:true,
         IncludeIsQuote:true,
         IncludeIsRefund:true,
         IncludeISSalesOrder:true,
-        IncludeIsVoucher:true,
         Paid:false,
         Unpaid:true,
         LimitCount:'"'+limitcount+'"',
@@ -868,6 +923,26 @@ getCustomersDataByName(dataSearchName) {
  }
     return this.getList(this.ERPObjects.TInvoiceEx, options);
   }
+
+  getAllTInvoiceListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true
+      };
+     }else{
+       options = {
+         orderby:'"SaleID desc"',
+         IgnoreDates:false,
+         DateFrom:'"'+dateFrom+'"',
+         DateTo:'"'+dateTo+'"',
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+    }
+      return this.getList(this.ERPObjects.TInvoiceList, options);
+    }
   // Rasheed Speed Here
   getNewProductListVS1Update(msTimeStamp) {
     let options = {
@@ -1545,6 +1620,26 @@ getCustomersDataByName(dataSearchName) {
  }
   return this.getList(this.ERPObjects.TRefundSale, options);
 }
+
+getAllTRefundSaleListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+let options = '';
+
+if(ignoreDate == true){
+  options = {
+    IgnoreDates:true
+    };
+   }else{
+     options = {
+       orderby:'"SaleID desc"',
+       IgnoreDates:false,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TRefundSaleList, options);
+  }
 
 getNewRefundByNameOrID(dataSearchName) {
   let options = '';

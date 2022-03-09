@@ -277,7 +277,7 @@ Template.reconciliationlist.onRendered(function() {
 
                                      var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliationlist), dataOld.treconciliationlist);
                                      let objCombineData = {
-                                       Params: dataObjectnew.Params,
+                                       Params: dataOld.Params,
                                        treconciliationlist:thirdaryData
                                      }
 
@@ -389,7 +389,6 @@ Template.reconciliationlist.onRendered(function() {
                 let useData = data.treconciliationlist;
                 let lineItems = [];
                 let lineItemObj = {};
-                console.log(data);
                 if(data.Params.IgnoreDates == true){
                   $('#dateFrom').attr('readonly', true);
                   $('#dateTo').attr('readonly', true);
@@ -554,7 +553,7 @@ Template.reconciliationlist.onRendered(function() {
 
                                    var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliationlist), dataOld.treconciliationlist);
                                    let objCombineData = {
-                                     Params: dataObjectnew.Params,
+                                     Params: dataOld.Params,
                                      treconciliationlist:thirdaryData
                                    }
 
@@ -824,7 +823,7 @@ Template.reconciliationlist.onRendered(function() {
 
                                    var thirdaryData = $.merge($.merge([], dataObjectnew.treconciliationlist), dataOld.treconciliationlist);
                                    let objCombineData = {
-                                     Params: dataObjectnew.Params,
+                                     Params: dataOld.Params,
                                      treconciliationlist:thirdaryData
                                    }
 

@@ -44,6 +44,37 @@ Template.refundlist.onRendered(function () {
     if (FlowRouter.current().queryParams.success) {
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
+
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateDay = currentDate.getDate();
+    if ((currentDate.getMonth() + 1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth() + 1);
+    }
+
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
+
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblRefundlist', function (error, result) {
         if (error) {}
         else {
@@ -70,50 +101,82 @@ Template.refundlist.onRendered(function () {
             if ($(this).text().indexOf('-' + Currency) >= 0)
                 $(this).addClass('text-danger')
         });
+
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
         window.open('/refundlist?page=last', '_self');
     }
 
-    templateObject.getAllSalesOrderData = function () {
+    templateObject.getAllRefundData = function () {
 
-        getVS1Data('TRefundSale').then(function (dataObject) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if ((currentBeginDate.getMonth() + 1) < 10) {
+          fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+      } else {
+          fromDateMonth = (currentBeginDate.getMonth() + 1);
+      }
+
+      if (currentBeginDate.getDate() < 10) {
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        getVS1Data('TRefundSaleList').then(function (dataObject) {
             if (dataObject.length == 0) {
-                sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
+                sideBarService.getAllTRefundSaleListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
-                    addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
-                    for (let i = 0; i < data.trefundsale.length; i++) {
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                    addVS1Data('TRefundSaleList', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
+                    if (data.Params.IgnoreDates == true) {
+                        $('#dateFrom').attr('readonly', true);
+                        $('#dateTo').attr('readonly', true);
+                        FlowRouter.go('/refundlist?ignoredate=true');
+                    } else {
+                        $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                        $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                    }
+                    for (let i = 0; i < data.trefundsalelist.length; i++) {
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalAmount) || 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalTax) || 0.00;
                         // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].Payment) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].Balance) || 0.00;
+                        let salestatus = data.trefundsalelist[i].QuoteStatus || '';
+                        if(data.trefundsalelist[i].Deleted == true){
+                          salestatus = "Deleted";
+                        }
                         var dataList = {
-                            id: data.trefundsale[i].fields.ID || '',
-                            employee: data.trefundsale[i].fields.EmployeeName || '',
-                            sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
-                            saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
-                            duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
-                            customername: data.trefundsale[i].fields.CustomerName || '',
+                            id: data.trefundsalelist[i].SaleID || '',
+                            employee: data.trefundsalelist[i].EmployeeName || '',
+                            sortdate: data.trefundsalelist[i].SaleDate != '' ? moment(data.trefundsalelist[i].SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].SaleDate,
+                            saledate: data.trefundsalelist[i].SaleDate != '' ? moment(data.trefundsalelist[i].SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].SaleDate,
+                            duedate: data.trefundsalelist[i].DueDate != '' ? moment(data.trefundsalelist[i].DueDate).format("DD/MM/YYYY") : data.trefundsale[i].DueDate,
+                            customername: data.trefundsalelist[i].CustomerName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.trefundsale[i].fields.SalesStatus || '',
-                            custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
-                            custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
-                            comments: data.trefundsale[i].fields.Comments || '',
+                            salestatus: salestatus || '',
+                            custfield1: data.trefundsalelist[i].SaleCustField1 || '',
+                            custfield2: data.trefundsalelist[i].SaleCustField2 || '',
+                            comments: data.trefundsalelist[i].Comments || '',
                             // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                         };
 
-                        if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
+                        //if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
                             dataTableList.push(dataList);
-                        }
+                        //}
 
                         //}
                     }
@@ -163,7 +226,7 @@ Template.refundlist.onRendered(function () {
                                     targets: 0
                                 }
                             ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
                                     extend: 'excelHtml5',
                                     text: '',
@@ -204,28 +267,84 @@ Template.refundlist.onRendered(function () {
                             // bStateSave: true,
                             // rowId: 0,
                             pageLength: initialDatatableLoad,
-                            lengthMenu: [
-                                [initialDatatableLoad, -1],
-                                [initialDatatableLoad, "All"]
-                            ],
-                            info: false,
+                            "bLengthChange": false,
+                            info: true,
                             responsive: true,
-                            searching: true,
-                            "order": [
-                                [0, "desc"],
-                                [2, "desc"]
-                            ],
                             action: function () {
                                 $('#tblRefundlist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
+                              let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                              if(checkurlIgnoreDate == 'true'){
+
+                              }else{
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblRefundlist_ellipsis').addClass('disabled');
+
+                              if(oSettings._iDisplayLength == -1){
+                                if(oSettings.fnRecordsDisplay() > 150){
+                                  $('.paginate_button.page-item.previous').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                              }else{
+
+                              }
+                              if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                               .on('click', function(){
+                                 $('.fullScreenSpin').css('display','inline-block');
+                                 let dataLenght = oSettings._iDisplayLength;
+                                 var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                 var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                 sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TRefundSaleList').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsalelist), dataOld.trefundsalelist);
+                                       let objCombineData = {
+                                         Params: dataOld.Params,
+                                         trefundsalelist:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TRefundSaleList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+
+                               });
+                             }
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                             "fnInitComplete": function () {
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage) {
+                                  this.fnPageChange('last');
+                              }
                                 $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
-
+                                $('.myvarFilterForm').appendTo(".colDateFilter");
                             }
 
                         }).on('page', function () {
@@ -242,6 +361,17 @@ Template.refundlist.onRendered(function () {
 
                         // $('#tblRefundlist').DataTable().column( 0 ).visible( true );
                         $('.fullScreenSpin').css('display', 'none');
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.trefundsalelist.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.trefundsalelist.length||1;
+                        }
+                        if(data.trefundsalelist.length > 0){
+                          $('#tblRefundlist_info').html('Showing 1 to '+data.trefundsalelist.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblRefundlist_info').html('Showing 0 to '+data.trefundsalelist.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblRefundlist th');
@@ -273,8 +403,13 @@ Template.refundlist.onRendered(function () {
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     $('#tblRefundlist tbody').on('click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if (listData) {
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             FlowRouter.go('/refundcard?id=' + listData);
+                          }
                         }
                     });
 
@@ -289,374 +424,48 @@ Template.refundlist.onRendered(function () {
                 let useData = data;
                 let lineItems = [];
                 let lineItemObj = {};
-
-                for (let i = 0; i < data.trefundsale.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/refundlist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for (let i = 0; i < data.trefundsalelist.length; i++) {
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalAmount) || 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalTax) || 0.00;
                     // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalAmountInc) || 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].Payment) || 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].Balance) || 0.00;
+                    let salestatus = data.trefundsalelist[i].QuoteStatus || '';
+                    if(data.trefundsalelist[i].Deleted == true){
+                      salestatus = "Deleted";
+                    }
                     var dataList = {
-                        id: data.trefundsale[i].fields.ID || '',
-                        employee: data.trefundsale[i].fields.EmployeeName || '',
-                        sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
-                        saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
-                        duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
-                        customername: data.trefundsale[i].fields.CustomerName || '',
+                        id: data.trefundsalelist[i].SaleID || '',
+                        employee: data.trefundsalelist[i].EmployeeName || '',
+                        sortdate: data.trefundsalelist[i].SaleDate != '' ? moment(data.trefundsalelist[i].SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].SaleDate,
+                        saledate: data.trefundsalelist[i].SaleDate != '' ? moment(data.trefundsalelist[i].SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].SaleDate,
+                        duedate: data.trefundsalelist[i].DueDate != '' ? moment(data.trefundsalelist[i].DueDate).format("DD/MM/YYYY") : data.trefundsale[i].DueDate,
+                        customername: data.trefundsalelist[i].CustomerName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.trefundsale[i].fields.SalesStatus || '',
-                        custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
-                        custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
-                        comments: data.trefundsale[i].fields.Comments || '',
+                        salestatus: salestatus || '',
+                        custfield1: data.trefundsalelist[i].SaleCustField1 || '',
+                        custfield2: data.trefundsalelist[i].SaleCustField2 || '',
+                        comments: data.trefundsalelist[i].Comments || '',
                         // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
 
                     };
 
-                    if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
+                    //if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
                         dataTableList.push(dataList);
-                    }
-
                     //}
-                }
-
-                templateObject.datatablerecords.set(dataTableList);
-
-                if (templateObject.datatablerecords.get()) {
-
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblRefundlist', function (error, result) {
-                        if (error) {}
-                        else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if (hiddenColumn == true) {
-
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-
-                    setTimeout(function () {
-                        MakeNegative();
-                    }, 100);
-                }
-
-                $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function () {
-                    tableAll = $('#tblRefundlist').DataTable({
-                        columnDefs: [{
-                                type: 'date',
-                                targets: 0
-                            }
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Refund List excel - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible',
-                                    format: {
-                                        body: function (data, row, column) {
-                                            if (data.includes("</span>")) {
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
-
-                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
-                                        }
-                                    }
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Refund List',
-                                filename: "Refund List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible',
-                                    stripHtml: false
-                                }
-                            }
-                        ],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        paging: true,
-                        // "lengthChange": true,
-                        // "scrollY": "800px",
-                        // "scrollCollapse": true,
-                        info: true,
-                        searching: true,
-                        responsive: true,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [
-                            [initialDatatableLoad, -1],
-                            [initialDatatableLoad, "All"]
-                        ],
-                        "order": [
-                            [0, "desc"],
-                            [2, "desc"]
-                        ],
-                        action: function () {
-                            tableDraft.ajax.reload();
-                            $('#tblRefundlist').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function (oSettings) {
-                            $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblRefundlist_ellipsis').addClass('disabled');
-
-                            if (oSettings._iDisplayLength == -1) {
-                                if (oSettings.fnRecordsDisplay() > 150) {
-                                    $('.paginate_button.page-item.previous').addClass('disabled');
-                                    $('.paginate_button.page-item.next').addClass('disabled');
-                                }
-                            } else {}
-                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                $('.paginate_button.page-item.next').addClass('disabled');
-                            }
-                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                            .on('click', function () {
-                                $('.fullScreenSpin').css('display', 'inline-block');
-                                let dataLenght = oSettings._iDisplayLength;
-
-                                sideBarService.getAllRefundList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-                                    getVS1Data('TRefundSale').then(function (dataObjectold) {
-                                        if (dataObjectold.length == 0) {}
-                                        else {
-                                            let dataOld = JSON.parse(dataObjectold[0].data);
-
-                                            var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsale), dataOld.trefundsale);
-                                            let objCombineData = {
-                                                trefundsale: thirdaryData
-                                            }
-
-                                            addVS1Data('TRefundSale', JSON.stringify(objCombineData)).then(function (datareturn) {
-                                                templateObject.resetData(objCombineData);
-                                                $('.fullScreenSpin').css('display', 'none');
-                                            }).catch(function (err) {
-                                                $('.fullScreenSpin').css('display', 'none');
-                                            });
-
-                                        }
-                                    }).catch(function (err) {});
-
-                                }).catch(function (err) {
-                                    $('.fullScreenSpin').css('display', 'none');
-                                });
-
-                            });
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
-                        },
-                        "fnInitComplete": function () {
-                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
-                                this.fnPageChange('last');
-                            }
-                            $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
-                        }
-                    }).on('page', function () {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('search.dt', function (eventSearch, searchdata) {
-
-                        if (searchdata.fnRecordsDisplay() > 0) {}
-                        else {
-                            // swal({
-                            // title: 'Oooops...',
-                            // text: "No data found! [Coming Soon] - Search API for data.",
-                            // type: 'info',
-                            // showCancelButton: false,
-                            // confirmButtonText: 'Try Again'
-                            // }).then((result) => {
-                            // if (result.value) {
-                            //   //$('input[type=search]').val('').trigger('change');
-                            //  //Meteor._reload.reload();
-                            // } else if (result.dismiss === 'cancel') {
-                            //   //$('input[type=search]').val('').trigger('change');
-                            // }
-                            // });
-                        }
-                        //alert("search");
-                    }).on('length.dt', function (e, settings, len) {
-                        $('.fullScreenSpin').css('display', 'inline-block');
-                        let dataLenght = settings._iDisplayLength;
-                        if (dataLenght == -1) {
-                            if (settings.fnRecordsDisplay() > initialDatatableLoad) {
-                                $('.fullScreenSpin').css('display', 'none');
-                            } else {
-                                sideBarService.getAllRefundList('All', 1).then(function (data) {
-                                    let lineItems = [];
-                                    let lineItemObj = {};
-
-                                    for (let i = 0; i < data.trefundsale.length; i++) {
-                                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
-                                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
-                                        // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
-                                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
-                                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
-                                        var dataList = {
-                                            id: data.trefundsale[i].fields.ID || '',
-                                            employee: data.trefundsale[i].fields.EmployeeName || '',
-                                            sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
-                                            saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
-                                            duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
-                                            customername: data.trefundsale[i].fields.CustomerName || '',
-                                            totalamountex: totalAmountEx || 0.00,
-                                            totaltax: totalTax || 0.00,
-                                            totalamount: totalAmount || 0.00,
-                                            totalpaid: totalPaid || 0.00,
-                                            totaloustanding: totalOutstanding || 0.00,
-                                            salestatus: data.trefundsale[i].fields.SalesStatus || '',
-                                            custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
-                                            custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
-                                            comments: data.trefundsale[i].fields.Comments || '',
-                                            // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
-
-                                        };
-
-                                        if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
-                                            dataTableList.push(dataList);
-                                        }
-
-                                        //}
-                                    }
-
-                                    templateObject.datatablerecords.set(dataTableList);
-                                    $('.dataTables_info').html('Showing 1 to ' + data.trefundsale.length + ' of ' + data.trefundsale.length + ' entries');
-                                    $('.fullScreenSpin').css('display', 'none');
-
-                                }).catch(function (err) {
-                                    $('.fullScreenSpin').css('display', 'none');
-                                });
-                            }
-                        } else {
-                            if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                                $('.fullScreenSpin').css('display', 'none');
-                            } else {
-                                sideBarService.getAllRefundList(dataLenght, 0).then(function (dataNonBo) {
-
-                                    addVS1Data('TRefundSale', JSON.stringify(dataNonBo)).then(function (datareturn) {
-                                        templateObject.resetData(dataNonBo);
-                                    }).catch(function (err) {
-                                        $('.fullScreenSpin').css('display', 'none');
-                                    });
-                                }).catch(function (err) {
-                                    $('.fullScreenSpin').css('display', 'none');
-                                });
-                            }
-                        }
-
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
-                    }).on('column-reorder', function () {});
-
-                    // $('#tblRefundlist').DataTable().column( 0 ).visible( true );
-
-                }, 0);
-
-                var columns = $('#tblRefundlist th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function (i, v) {
-                    if (v.hidden == false) {
-                        columVisible = true;
-                    }
-                    if ((v.className.includes("hiddenColumn"))) {
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
-
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblRefundlist tbody').on('click', 'tr', function () {
-                    var listData = $(this).closest('tr').attr('id');
-                    if (listData) {
-                        FlowRouter.go('/refundcard?id=' + listData);
-                    }
-                });
-
-            }
-        }).catch(function (err) {
-            sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
-                let lineItems = [];
-                let lineItemObj = {};
-                addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
-                for (let i = 0; i < data.trefundsale.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalTax) || 0.00;
-                    // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
-                    var dataList = {
-                        id: data.trefundsale[i].fields.ID || '',
-                        employee: data.trefundsale[i].fields.EmployeeName || '',
-                        sortdate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].fields.SaleDate,
-                        saledate: data.trefundsale[i].fields.SaleDate != '' ? moment(data.trefundsale[i].fields.SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.SaleDate,
-                        duedate: data.trefundsale[i].fields.DueDate != '' ? moment(data.trefundsale[i].fields.DueDate).format("DD/MM/YYYY") : data.trefundsale[i].fields.DueDate,
-                        customername: data.trefundsale[i].fields.CustomerName || '',
-                        totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
-                        totalamount: totalAmount || 0.00,
-                        totalpaid: totalPaid || 0.00,
-                        totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.trefundsale[i].fields.SalesStatus || '',
-                        custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
-                        custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
-                        comments: data.trefundsale[i].fields.Comments || '',
-                        // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
-
-                    };
-
-                    if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
-                        dataTableList.push(dataList);
-                    }
 
                     //}
                 }
@@ -706,7 +515,7 @@ Template.refundlist.onRendered(function () {
                                 targets: 0
                             }
                         ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
@@ -747,25 +556,85 @@ Template.refundlist.onRendered(function () {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [
-                            [initialDatatableLoad, -1],
-                            [initialDatatableLoad, "All"]
-                        ],
-                        info: false,
+                        "bLengthChange": false,
+                        info: true,
                         responsive: true,
-                        searching: true,
-                        "order": [
-                            [0, "desc"],
-                            [2, "desc"]
-                        ],
                         action: function () {
                             $('#tblRefundlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblRefundlist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TRefundSaleList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsalelist), dataOld.trefundsalelist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     trefundsalelist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TRefundSaleList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
+                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage) {
+                              this.fnPageChange('last');
+                          }
+                            $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -781,6 +650,17 @@ Template.refundlist.onRendered(function () {
 
                     // $('#tblRefundlist').DataTable().column( 0 ).visible( true );
                     $('.fullScreenSpin').css('display', 'none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.trefundsalelist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.trefundsalelist.length||1;
+                    }
+                    if(data.trefundsalelist.length > 0){
+                      $('#tblRefundlist_info').html('Showing 1 to '+data.trefundsalelist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblRefundlist_info').html('Showing 0 to '+data.trefundsalelist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblRefundlist th');
@@ -812,29 +692,335 @@ Template.refundlist.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblRefundlist tbody').on('click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if (listData) {
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/refundcard?id=' + listData);
+                      }
                     }
                 });
 
-            }).catch(function (err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
-            });
+            }
+        }).catch(function (err) {
+          sideBarService.getAllTRefundSaleListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
+              let lineItems = [];
+              let lineItemObj = {};
+              addVS1Data('TRefundSaleList', JSON.stringify(data)).then(function (datareturn) {}).catch(function (err) {});
+              if (data.Params.IgnoreDates == true) {
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/refundlist?ignoredate=true');
+              } else {
+                  $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+              }
+              for (let i = 0; i < data.trefundsalelist.length; i++) {
+                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalAmount) || 0.00;
+                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalTax) || 0.00;
+                  // Currency+''+data.trefundsale[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].TotalAmountInc) || 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].Payment) || 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsalelist[i].Balance) || 0.00;
+                  let salestatus = data.trefundsalelist[i].QuoteStatus || '';
+                  if(data.trefundsalelist[i].Deleted == true){
+                    salestatus = "Deleted";
+                  }
+                  var dataList = {
+                      id: data.trefundsalelist[i].SaleID || '',
+                      employee: data.trefundsalelist[i].EmployeeName || '',
+                      sortdate: data.trefundsalelist[i].SaleDate != '' ? moment(data.trefundsalelist[i].SaleDate).format("YYYY/MM/DD") : data.trefundsale[i].SaleDate,
+                      saledate: data.trefundsalelist[i].SaleDate != '' ? moment(data.trefundsalelist[i].SaleDate).format("DD/MM/YYYY") : data.trefundsale[i].SaleDate,
+                      duedate: data.trefundsalelist[i].DueDate != '' ? moment(data.trefundsalelist[i].DueDate).format("DD/MM/YYYY") : data.trefundsale[i].DueDate,
+                      customername: data.trefundsalelist[i].CustomerName || '',
+                      totalamountex: totalAmountEx || 0.00,
+                      totaltax: totalTax || 0.00,
+                      totalamount: totalAmount || 0.00,
+                      totalpaid: totalPaid || 0.00,
+                      totaloustanding: totalOutstanding || 0.00,
+                      salestatus: salestatus || '',
+                      custfield1: data.trefundsalelist[i].SaleCustField1 || '',
+                      custfield2: data.trefundsalelist[i].SaleCustField2 || '',
+                      comments: data.trefundsalelist[i].Comments || '',
+                      // shipdate:data.trefundsale[i].fields.ShipDate !=''? moment(data.trefundsale[i].fields.ShipDate).format("DD/MM/YYYY"): data.trefundsale[i].fields.ShipDate,
+
+                  };
+
+                  //if (data.trefundsale[i].fields.Deleted == false && data.trefundsale[i].fields.CustomerName.replace(/\s/g, '') != '') {
+                      dataTableList.push(dataList);
+                  //}
+
+                  //}
+              }
+
+              templateObject.datatablerecords.set(dataTableList);
+
+              if (templateObject.datatablerecords.get()) {
+
+                  Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblRefundlist', function (error, result) {
+                      if (error) {}
+                      else {
+                          if (result) {
+                              for (let i = 0; i < result.customFields.length; i++) {
+                                  let customcolumn = result.customFields;
+                                  let columData = customcolumn[i].label;
+                                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                  let hiddenColumn = customcolumn[i].hidden;
+                                  let columnClass = columHeaderUpdate.split('.')[1];
+                                  let columnWidth = customcolumn[i].width;
+                                  let columnindex = customcolumn[i].index + 1;
+
+                                  if (hiddenColumn == true) {
+
+                                      $("." + columnClass + "").addClass('hiddenColumn');
+                                      $("." + columnClass + "").removeClass('showColumn');
+                                  } else if (hiddenColumn == false) {
+                                      $("." + columnClass + "").removeClass('hiddenColumn');
+                                      $("." + columnClass + "").addClass('showColumn');
+                                  }
+
+                              }
+                          }
+
+                      }
+                  });
+
+                  setTimeout(function () {
+                      MakeNegative();
+                  }, 100);
+              }
+
+              $('.fullScreenSpin').css('display', 'none');
+              setTimeout(function () {
+                  $('#tblRefundlist').DataTable({
+                      columnDefs: [{
+                              type: 'date',
+                              targets: 0
+                          }
+                      ],
+                      "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      buttons: [{
+                              extend: 'excelHtml5',
+                              text: '',
+                              download: 'open',
+                              className: "btntabletocsv hiddenColumn",
+                              filename: "Refund List excel - " + moment().format(),
+                              orientation: 'portrait',
+                              exportOptions: {
+                                  columns: ':visible',
+                                  format: {
+                                      body: function (data, row, column) {
+                                          if (data.includes("</span>")) {
+                                              var res = data.split("</span>");
+                                              data = res[1];
+                                          }
+
+                                          return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
+                                      }
+                                  }
+                              }
+                          }, {
+                              extend: 'print',
+                              download: 'open',
+                              className: "btntabletopdf hiddenColumn",
+                              text: '',
+                              title: 'Refund List',
+                              filename: "Refund List - " + moment().format(),
+                              exportOptions: {
+                                  columns: ':visible',
+                                  stripHtml: false
+                              }
+                          }
+                      ],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      // bStateSave: true,
+                      // rowId: 0,
+                      pageLength: initialDatatableLoad,
+                      "bLengthChange": false,
+                      info: true,
+                      responsive: true,
+                      action: function () {
+                          $('#tblRefundlist').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                        let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                        if(checkurlIgnoreDate == 'true'){
+
+                        }else{
+                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblRefundlist_ellipsis').addClass('disabled');
+
+                        if(oSettings._iDisplayLength == -1){
+                          if(oSettings.fnRecordsDisplay() > 150){
+                            $('.paginate_button.page-item.previous').addClass('disabled');
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                        }else{
+
+                        }
+                        if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                         .on('click', function(){
+                           $('.fullScreenSpin').css('display','inline-block');
+                           let dataLenght = oSettings._iDisplayLength;
+                           var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                           var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                           let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                           let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                           sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             getVS1Data('TRefundSaleList').then(function (dataObjectold) {
+                               if(dataObjectold.length == 0){
+
+                               }else{
+                                 let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                 var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsalelist), dataOld.trefundsalelist);
+                                 let objCombineData = {
+                                   Params: dataOld.Params,
+                                   trefundsalelist:thirdaryData
+                                 }
+
+
+                                   addVS1Data('TRefundSaleList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     templateObject.resetData(objCombineData);
+                                   $('.fullScreenSpin').css('display','none');
+                                   }).catch(function (err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                   });
+
+                               }
+                              }).catch(function (err) {
+
+                              });
+
+                           }).catch(function(err) {
+                             $('.fullScreenSpin').css('display','none');
+                           });
+
+                         });
+                       }
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        let urlParametersPage = FlowRouter.current().queryParams.page;
+                        if (urlParametersPage) {
+                            this.fnPageChange('last');
+                        }
+                          $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
+                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                      }
+
+                  }).on('page', function () {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                      let draftRecord = templateObject.datatablerecords.get();
+                      templateObject.datatablerecords.set(draftRecord);
+                  }).on('column-reorder', function () {}).on('length.dt', function (e, settings, len) {
+                      setTimeout(function () {
+                          MakeNegative();
+                      }, 100);
+                  });
+
+                  // $('#tblRefundlist').DataTable().column( 0 ).visible( true );
+                  $('.fullScreenSpin').css('display', 'none');
+                  /* Add count functionality to table */
+                  let countTableData = data.Params.Count || 1; //get count from API data
+                  if(data.trefundsalelist.length > countTableData){ //Check if what is on the list is more than API count
+                    countTableData = data.trefundsalelist.length||1;
+                  }
+                  if(data.trefundsalelist.length > 0){
+                    $('#tblRefundlist_info').html('Showing 1 to '+data.trefundsalelist.length+ ' of ' +countTableData+ ' entries');
+                  }else{
+                    $('#tblRefundlist_info').html('Showing 0 to '+data.trefundsalelist.length+ ' of 0 entries');
+                  }
+                  /* End Add count functionality to table */
+              }, 0);
+
+              var columns = $('#tblRefundlist th');
+              let sTible = "";
+              let sWidth = "";
+              let sIndex = "";
+              let sVisible = "";
+              let columVisible = false;
+              let sClass = "";
+              $.each(columns, function (i, v) {
+                  if (v.hidden == false) {
+                      columVisible = true;
+                  }
+                  if ((v.className.includes("hiddenColumn"))) {
+                      columVisible = false;
+                  }
+                  sWidth = v.style.width.replace('px', "");
+
+                  let datatablerecordObj = {
+                      sTitle: v.innerText || '',
+                      sWidth: sWidth || '',
+                      sIndex: v.cellIndex || '',
+                      sVisible: columVisible || false,
+                      sClass: v.className || ''
+                  };
+                  tableHeaderList.push(datatablerecordObj);
+              });
+              templateObject.tableheaderrecords.set(tableHeaderList);
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+              $('#tblRefundlist tbody').on('click', 'tr', function () {
+                  var listData = $(this).closest('tr').attr('id');
+                  var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
+                  if (listData) {
+                    if(checkDeleted == "Deleted"){
+                      swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                    }else{
+                      FlowRouter.go('/refundcard?id=' + listData);
+                    }
+                  }
+              });
+
+          }).catch(function (err) {
+              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              $('.fullScreenSpin').css('display', 'none');
+              // Meteor._reload.reload();
+          });
         });
     }
 
-    templateObject.getAllSalesOrderData();
+    templateObject.getAllRefundData();
 
-    $('#tblRefundlist tbody').on('click', 'tr', function () {
-        var listData = $(this).closest('tr').attr('id');
-        if (listData) {
-            FlowRouter.go('/refundcard?id=' + listData);
+    templateObject.getAllFilterRefundData = function(fromDate, toDate, ignoreDate) {
+        sideBarService.getAllTRefundSaleListData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+            addVS1Data('TRefundSaleList', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/refundlist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+            }).catch(function(err) {
+                location.reload();
+            });
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    }
+
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if (urlParametersDateFrom) {
+        if (urlParametersIgnoreDate == true) {
+            $('#dateFrom').attr('readonly', true);
+            $('#dateTo').attr('readonly', true);
+        } else {
+
+            $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+            $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
         }
-
-    });
-
+    }
 });
 
 Template.refundlist.events({
@@ -1164,16 +1350,204 @@ Template.refundlist.events({
         let month = (currentDate.getMonth() + 1);
         let days = currentDate.getDate();
 
-        sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
-            addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {
-                window.open('/refundlist', '_self');
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getAllTRefundSaleListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (dataRefund) {
+            addVS1Data('TRefundSaleList', JSON.stringify(dataRefund)).then(function (datareturn) {
+              sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
+                  addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/refundlist', '_self');
+                  }).catch(function (err) {
+                      window.open('/refundlist', '_self');
+                  });
+              }).catch(function (err) {
+                  window.open('/refundlist', '_self');
+              });
             }).catch(function (err) {
-                window.open('/refundlist', '_self');
+              sideBarService.getAllRefundList(initialDataLoad, 0).then(function (data) {
+                  addVS1Data('TRefundSale', JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/refundlist', '_self');
+                  }).catch(function (err) {
+                      window.open('/refundlist', '_self');
+                  });
+              }).catch(function (err) {
+                  window.open('/refundlist', '_self');
+              });
             });
         }).catch(function (err) {
             window.open('/refundlist', '_self');
         });
 
+
+
+    },
+    'change #dateTo': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterRefundData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterRefundData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(toDate);
+
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
+        templateObject.getAllFilterRefundData(getDateFrom, getLoadDate, false);
+    },
+    'click #lastQuarter': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterRefundData(getDateFrom, getLoadDate, false);
+    },
+    'click #last12Months': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth() + 1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth() + 1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterRefundData(getDateFrom, getLoadDate, false);
+
+    },
+    'click #ignoreDate': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterRefundData('', '', true);
     },
     'click .printConfirm': function (event) {
 

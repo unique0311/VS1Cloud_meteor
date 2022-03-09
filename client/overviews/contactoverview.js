@@ -1051,7 +1051,6 @@ Template.contactoverview.onRendered(function() {
                 let lineItems = [];
                 let lineItemObj = {};
                 let clienttype = '';
-                console.log(useData);
                 let isprospect = false;
                 let iscustomer = false;
                 let isEmployee = false;

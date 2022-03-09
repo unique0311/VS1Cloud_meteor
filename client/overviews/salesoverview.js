@@ -127,6 +127,14 @@ Template.salesoverview.onRendered(function() {
                     let lineItems = [];
                     let lineItemObj = {};
                     addVS1Data('TSalesList', JSON.stringify(data));
+                    if (data.Params.IgnoreDates == true) {
+                        $('#dateFrom').attr('readonly', true);
+                        $('#dateTo').attr('readonly', true);
+                        FlowRouter.go('/salesoverview?ignoredate=true');
+                    } else {
+                        $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                        $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                    }
                     for (let i = 0; i < data.tsaleslist.length; i++) {
                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalAmount) || 0.00;
                         let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalTax) || 0.00;
@@ -310,7 +318,7 @@ Template.salesoverview.onRendered(function() {
                                                   let dataOld = JSON.parse(dataObjectold[0].data);
                                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
                                                   let objCombineData = {
-                                                      Params: dataObjectnew.Params,
+                                                      Params: dataOld.Params,
                                                       tsaleslist: thirdaryData
                                                   }
 
@@ -601,7 +609,7 @@ Template.salesoverview.onRendered(function() {
                                               let dataOld = JSON.parse(dataObjectold[0].data);
                                               var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
                                               let objCombineData = {
-                                                  Params: dataObjectnew.Params,
+                                                  Params: dataOld.Params,
                                                   tsaleslist: thirdaryData
                                               }
 
@@ -690,285 +698,292 @@ Template.salesoverview.onRendered(function() {
 
             }
         }).catch(function(err) {
-            sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
-                let lineItems = [];
-                let lineItemObj = {};
-                addVS1Data('TSalesList', JSON.stringify(data));
-                for (let i = 0; i < data.tsaleslist.length; i++) {
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalAmount) || 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalTax) || 0.00;
-                    // Currency+''+data.tsaleslist[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalAmountinc) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].Payment) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].Balance) || 0.00;
-                    var dataList = {
-                        id: data.tsaleslist[i].SaleId || '',
-                        employee: data.tsaleslist[i].employeename || '',
-                        sortdate: data.tsaleslist[i].SaleDate != '' ? moment(data.tsaleslist[i].SaleDate).format("YYYY/MM/DD") : data.tsaleslist[i].SaleDate,
-                        saledate: data.tsaleslist[i].SaleDate != '' ? moment(data.tsaleslist[i].SaleDate).format("DD/MM/YYYY") : data.tsaleslist[i].SaleDate,
-                        customername: data.tsaleslist[i].CustomerName || '',
-                        totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
-                        totalamount: totalAmount || 0.00,
-                        totalpaid: totalPaid || 0.00,
-                        totaloustanding: totalOutstanding || 0.00,
-                        salestatus: data.tsaleslist[i].Status || '',
-                        custfield1: '',
-                        custfield2: '',
-                        comments: data.tsaleslist[i].Comments || '',
-                        type: data.tsaleslist[i].Type || '',
-                    };
-                    //if(data.tsaleslist[i].Deleted == false){
-                    dataTableList.push(dataList);
-                    //}
+          sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+              let lineItems = [];
+              let lineItemObj = {};
+              addVS1Data('TSalesList', JSON.stringify(data));
+              if (data.Params.IgnoreDates == true) {
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/salesoverview?ignoredate=true');
+              } else {
+                  $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+              }
+              for (let i = 0; i < data.tsaleslist.length; i++) {
+                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalAmount) || 0.00;
+                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalTax) || 0.00;
+                  // Currency+''+data.tsaleslist[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].TotalAmountinc) || 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].Payment) || 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsaleslist[i].Balance) || 0.00;
+                  var dataList = {
+                      id: data.tsaleslist[i].SaleId || '',
+                      employee: data.tsaleslist[i].employeename || '',
+                      sortdate: data.tsaleslist[i].SaleDate != '' ? moment(data.tsaleslist[i].SaleDate).format("YYYY/MM/DD") : data.tsaleslist[i].SaleDate,
+                      saledate: data.tsaleslist[i].SaleDate != '' ? moment(data.tsaleslist[i].SaleDate).format("DD/MM/YYYY") : data.tsaleslist[i].SaleDate,
+                      customername: data.tsaleslist[i].CustomerName || '',
+                      totalamountex: totalAmountEx || 0.00,
+                      totaltax: totalTax || 0.00,
+                      totalamount: totalAmount || 0.00,
+                      totalpaid: totalPaid || 0.00,
+                      totaloustanding: totalOutstanding || 0.00,
+                      salestatus: data.tsaleslist[i].Status || '',
+                      custfield1: '',
+                      custfield2: '',
+                      comments: data.tsaleslist[i].Comments || '',
+                      type: data.tsaleslist[i].Type || '',
+                  };
+                  //if(data.tsaleslist[i].Deleted == false){
+                  dataTableList.push(dataList);
+                  //}
 
-                }
-                templateObject.datatablerecords.set(dataTableList);
-                if (templateObject.datatablerecords.get()) {
+              }
+              templateObject.datatablerecords.set(dataTableList);
+              if (templateObject.datatablerecords.get()) {
 
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSalesOverview', function(error, result) {
-                        if (error) {
+                  Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSalesOverview', function(error, result) {
+                      if (error) {
 
-                        } else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
+                      } else {
+                          if (result) {
+                              for (let i = 0; i < result.customFields.length; i++) {
+                                  let customcolumn = result.customFields;
+                                  let columData = customcolumn[i].label;
+                                  let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
+                                  let hiddenColumn = customcolumn[i].hidden;
+                                  let columnClass = columHeaderUpdate.split('.')[1];
+                                  let columnWidth = customcolumn[i].width;
+                                  let columnindex = customcolumn[i].index + 1;
 
-                                    if (hiddenColumn == true) {
+                                  if (hiddenColumn == true) {
 
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-
-
-                    setTimeout(function() {
-                        MakeNegative();
-                    }, 100);
-                }
-
-
-                setTimeout(function() {
-                    $('.fullScreenSpin').css('display', 'none');
-                    //$.fn.dataTable.moment('DD/MM/YY');
-                    $('#tblSalesOverview').DataTable({
-                        // dom: 'lBfrtip',
-                        columnDefs: [{
-                                type: 'date',
-                                targets: 0
-                            }
-                            // ,
-                            // { targets: 0, className: "text-center" }
-
-                        ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "Sales Overview List - " + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible',
-                                format: {
-                                    body: function(data, row, column) {
-                                        if (data.includes("</span>")) {
-                                            var res = data.split("</span>");
-                                            data = res[1];
-                                        }
-
-                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
-                                    }
-                                }
-                            }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Sales Overview',
-                            filename: "Sales Overview List - " + moment().format(),
-                            exportOptions: {
-                                columns: ':visible',
-                                stripHtml: false
-                            },
-                            // customize: function ( win ) {
-                            //     $(win.document.body)
-                            //         .css( 'font-size', '10pt' )
-                            //         .prepend(
-                            //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                            //         );
-                            //
-                            //     $(win.document.body).find( 'table' )
-                            //         .addClass( 'compact' )
-                            //         .css( 'font-size', 'inherit' );
-                            // }
-                        }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
-                        pageLength: initialReportDatatableLoad,
-                        "bLengthChange": false,
-                        searching: true,
-                        lengthMenu: [
-                            [initialReportDatatableLoad, -1],
-                            [initialReportDatatableLoad, "All"]
-                        ],
-                        info: true,
-                        responsive: true,
-                        "order": [
-                            [0, "desc"],
-                            [2, "desc"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#tblSalesOverview').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function (oSettings) {
-                            let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                            if(checkurlIgnoreDate == 'true'){
-
-                            }else{
-                              $('.paginate_button.page-item').removeClass('disabled');
-                              $('#tblPurchaseOverview_ellipsis').addClass('disabled');
-
-                              if (oSettings._iDisplayLength == -1) {
-                                  if (oSettings.fnRecordsDisplay() > 150) {
-                                      $('.paginate_button.page-item.previous').addClass('disabled');
-                                      $('.paginate_button.page-item.next').addClass('disabled');
+                                      $("." + columnClass + "").addClass('hiddenColumn');
+                                      $("." + columnClass + "").removeClass('showColumn');
+                                  } else if (hiddenColumn == false) {
+                                      $("." + columnClass + "").removeClass('hiddenColumn');
+                                      $("." + columnClass + "").addClass('showColumn');
                                   }
-                              } else {}
-                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                  $('.paginate_button.page-item.next').addClass('disabled');
+
                               }
-                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                              .on('click', function () {
-                                  $('.fullScreenSpin').css('display', 'inline-block');
-                                  let dataLenght = oSettings._iDisplayLength;
+                          }
 
-                                  var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
-                                  var dateTo = new Date($("#dateTo").datepicker("getDate"));
+                      }
+                  });
 
-                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
-                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 
-                                  sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
-                                      getVS1Data('TSalesList').then(function (dataObjectold) {
-                                          if (dataObjectold.length == 0) {}
-                                          else {
-                                              let dataOld = JSON.parse(dataObjectold[0].data);
-                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
-                                              let objCombineData = {
-                                                  Params: dataObjectnew.Params,
-                                                  tsaleslist: thirdaryData
-                                              }
+                  setTimeout(function() {
+                      MakeNegative();
+                  }, 100);
+              }
 
-                                              addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
-                                                  templateObject.resetData(objCombineData);
-                                                  $('.fullScreenSpin').css('display', 'none');
-                                              }).catch(function (err) {
-                                                  $('.fullScreenSpin').css('display', 'none');
-                                              });
 
-                                          }
-                                      }).catch(function (err) {});
+              setTimeout(function() {
+                  $('.fullScreenSpin').css('display', 'none');
+                  //$.fn.dataTable.moment('DD/MM/YY');
+                  $('#tblSalesOverview').DataTable({
+                      // dom: 'lBfrtip',
+                      columnDefs: [{
+                              type: 'date',
+                              targets: 0
+                          }
+                          // ,
+                          // { targets: 0, className: "text-center" }
 
-                                  }).catch(function (err) {
-                                      $('.fullScreenSpin').css('display', 'none');
-                                  });
+                      ],
+                      "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      buttons: [{
+                          extend: 'excelHtml5',
+                          text: '',
+                          download: 'open',
+                          className: "btntabletocsv hiddenColumn",
+                          filename: "Sales Overview List - " + moment().format(),
+                          orientation: 'portrait',
+                          exportOptions: {
+                              columns: ':visible',
+                              format: {
+                                  body: function(data, row, column) {
+                                      if (data.includes("</span>")) {
+                                          var res = data.split("</span>");
+                                          data = res[1];
+                                      }
 
-                              });
-                            }
-                              setTimeout(function () {
-                                  MakeNegative();
-                              }, 100);
+                                      return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
+                                  }
+                              }
+                          }
+                      }, {
+                          extend: 'print',
+                          download: 'open',
+                          className: "btntabletopdf hiddenColumn",
+                          text: '',
+                          title: 'Sales Overview',
+                          filename: "Sales Overview List - " + moment().format(),
+                          exportOptions: {
+                              columns: ':visible',
+                              stripHtml: false
                           },
-                        "fnInitComplete": function () {
-                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
-                                this.fnPageChange('last');
+                          // customize: function ( win ) {
+                          //     $(win.document.body)
+                          //         .css( 'font-size', '10pt' )
+                          //         .prepend(
+                          //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
+                          //         );
+                          //
+                          //     $(win.document.body).find( 'table' )
+                          //         .addClass( 'compact' )
+                          //         .css( 'font-size', 'inherit' );
+                          // }
+                      }],
+                      select: true,
+                      destroy: true,
+                      colReorder: true,
+                      // bStateSave: true,
+                      // rowId: 0,
+                      pageLength: initialReportDatatableLoad,
+                      "bLengthChange": false,
+                      searching: true,
+                      lengthMenu: [
+                          [initialReportDatatableLoad, -1],
+                          [initialReportDatatableLoad, "All"]
+                      ],
+                      info: true,
+                      responsive: true,
+                      "order": [
+                          [0, "desc"],
+                          [2, "desc"]
+                      ],
+                      // "aaSorting": [[1,'desc']],
+                      action: function() {
+                          $('#tblSalesOverview').DataTable().ajax.reload();
+                      },
+                      "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
                             }
-                            $("<button class='btn btn-primary btnRefreshSalesOverview' type='button' id='btnRefreshSalesOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOverview_filter");
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
 
-                            $('.myvarFilterForm').appendTo(".colDateFilter");
-                        }
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 
-                    });
+                                sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TSalesList').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                            let objCombineData = {
+                                                Params: dataOld.Params,
+                                                tsaleslist: thirdaryData
+                                            }
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tsaleslist.length||1;
-                    }
+                                            addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
 
-                    if(data.tsaleslist.length > 0){
-                      $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+                                        }
+                                    }).catch(function (err) {});
 
-                }, 0);
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
 
-                var columns = $('#tblSalesOverview th');
-                let sTible = "";
-                let sWidth = "";
-                let sIndex = "";
-                let sVisible = "";
-                let columVisible = false;
-                let sClass = "";
-                $.each(columns, function(i, v) {
-                    if (v.hidden == false) {
-                        columVisible = true;
-                    }
-                    if ((v.className.includes("hiddenColumn"))) {
-                        columVisible = false;
-                    }
-                    sWidth = v.style.width.replace('px', "");
+                            });
+                          }
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
+                      "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage) {
+                              this.fnPageChange('last');
+                          }
+                          $("<button class='btn btn-primary btnRefreshSalesOverview' type='button' id='btnRefreshSalesOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOverview_filter");
 
-                    let datatablerecordObj = {
-                        sTitle: v.innerText || '',
-                        sWidth: sWidth || '',
-                        sIndex: v.cellIndex || '',
-                        sVisible: columVisible || false,
-                        sClass: v.className || ''
-                    };
-                    tableHeaderList.push(datatablerecordObj);
-                });
-                templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
+                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                      }
 
-            }).catch(function(err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
-            });
+                  }).on('page', function() {
+                      setTimeout(function() {
+                          MakeNegative();
+                      }, 100);
+                      let draftRecord = templateObject.datatablerecords.get();
+                      templateObject.datatablerecords.set(draftRecord);
+                  }).on('column-reorder', function() {
+
+                  });
+
+                  /* Add count functionality to table */
+                  let countTableData = data.Params.Count || 1; //get count from API data
+                  if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
+                    countTableData = data.tsaleslist.length||1;
+                  }
+                  if(data.tsaleslist.length > 0){
+                    $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
+                  }else{
+                    $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
+                  }
+                  /* End Add count functionality to table */
+
+              }, 0);
+
+              var columns = $('#tblSalesOverview th');
+              let sTible = "";
+              let sWidth = "";
+              let sIndex = "";
+              let sVisible = "";
+              let columVisible = false;
+              let sClass = "";
+              $.each(columns, function(i, v) {
+                  if (v.hidden == false) {
+                      columVisible = true;
+                  }
+                  if ((v.className.includes("hiddenColumn"))) {
+                      columVisible = false;
+                  }
+                  sWidth = v.style.width.replace('px', "");
+
+                  let datatablerecordObj = {
+                      sTitle: v.innerText || '',
+                      sWidth: sWidth || '',
+                      sIndex: v.cellIndex || '',
+                      sVisible: columVisible || false,
+                      sClass: v.className || ''
+                  };
+                  tableHeaderList.push(datatablerecordObj);
+              });
+              templateObject.tableheaderrecords.set(tableHeaderList);
+              $('div.dataTables_filter input').addClass('form-control form-control-sm');
+
+          }).catch(function(err) {
+              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+              $('.fullScreenSpin').css('display', 'none');
+              // Meteor._reload.reload();
+          });
         });
 
         $('#tblSalesOverview tbody').on('click', 'tr', function() {
@@ -1046,25 +1061,33 @@ Template.salesoverview.events({
         var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
         let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
-            addVS1Data('TSalesList', JSON.stringify(data)).then(function(datareturn) {
-                //window.open('/salesoverview', '_self');
+        sideBarService.getSalesListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataSales) {
+            addVS1Data('TSalesList', JSON.stringify(dataSales)).then(function(datareturn) {
+              sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
+                  addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function(datareturn) {
+                      window.open('/salesoverview', '_self');
+                  }).catch(function(err) {
+                    window.open('/salesoverview', '_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/salesoverview', '_self');
+              });
             }).catch(function(err) {
-                //window.open('/salesoverview', '_self');
+              sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
+                  addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function(datareturn) {
+                      window.open('/salesoverview', '_self');
+                  }).catch(function(err) {
+                    window.open('/salesoverview', '_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/salesoverview', '_self');
+              });
             });
         }).catch(function(err) {
-            //window.open('/salesoverview', '_self');
+            window.open('/salesoverview', '_self');
         });
 
-        sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
-            addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function(datareturn) {
-                //Meteor._reload.reload();
-            }).catch(function(err) {
-                //Meteor._reload.reload();
-            });
-        }).catch(function(err) {
-            //Meteor._reload.reload();
-        });
+
     },
     'change #dateTo': function() {
         let templateObject = Template.instance();

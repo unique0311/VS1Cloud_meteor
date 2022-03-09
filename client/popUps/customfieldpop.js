@@ -966,7 +966,6 @@ Template.customfieldpop.events({
         let fieldData = [];
         let checkChckBox = false;
         $('.customfieldcommon').each(function(){
-            console.log($(this).closest('.custom-switch').find('[type=checkbox]').val());
             if ($(this).closest('.custom-switch').find('[type=checkbox]').is(':checked')) {
               checkChckBox = true;
             }else{
@@ -978,7 +977,6 @@ Template.customfieldpop.events({
                 name: $(this).val() || '',
                 datatype: $(this).attr('datatype') || '',
             };
-            console.log(dropObj);
             fieldData.push(dropObj);
         });
 

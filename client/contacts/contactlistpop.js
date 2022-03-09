@@ -837,7 +837,6 @@ Template.contactlistpop.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }
         }).catch(function (err) {
-          console.log(err);
             sideBarService.getAllContactCombineVS1(initialBaseDataLoad, 0).then(function (data) {
                 addVS1Data('TERPCombinedContactsVS1', JSON.stringify(data));
 
@@ -1351,7 +1350,7 @@ Template.contactlistpop.events({
                         splashArrayContactList.push(dataListContact);
                         //}
                     }
-                    console.log(splashArrayContactList);
+
                     var datatable = $('#tblContactlist').DataTable();
                     datatable.clear();
                     datatable.rows.add(splashArrayContactList);

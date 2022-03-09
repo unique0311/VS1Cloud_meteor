@@ -580,7 +580,7 @@ Template.bankingoverview.onRendered(function() {
                                                 let dataOld = JSON.parse(dataObjectold[0].data);
                                                 var thirdaryData = $.merge($.merge([], dataObjectnew.tbankaccountreport), dataOld.tbankaccountreport);
                                                 let objCombineData = {
-                                                    Params: dataObjectnew.Params,
+                                                    Params: dataOld.Params,
                                                     tbankaccountreport: thirdaryData
                                                 }
 
@@ -954,7 +954,7 @@ Template.bankingoverview.onRendered(function() {
                                             let dataOld = JSON.parse(dataObjectold[0].data);
                                             var thirdaryData = $.merge($.merge([], dataObjectnew.tbankaccountreport), dataOld.tbankaccountreport);
                                             let objCombineData = {
-                                                Params: dataObjectnew.Params,
+                                                Params: dataOld.Params,
                                                 tbankaccountreport: thirdaryData
                                             }
 
@@ -1290,7 +1290,7 @@ Template.bankingoverview.onRendered(function() {
                                             let dataOld = JSON.parse(dataObjectold[0].data);
                                             var thirdaryData = $.merge($.merge([], dataObjectnew.tbankaccountreport), dataOld.tbankaccountreport);
                                             let objCombineData = {
-                                                Params: dataObjectnew.Params,
+                                                Params: dataOld.Params,
                                                 tbankaccountreport: thirdaryData
                                             }
 

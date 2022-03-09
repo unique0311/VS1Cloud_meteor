@@ -1637,7 +1637,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getAllBankAccountReportData = function() {
 
-        sideBarService.TBankDepositList(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+        sideBarService.getAllBankAccountDetails(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
@@ -1682,13 +1682,48 @@ Template.newsidenav.onRendered(function() {
     }
 
     templateObject.getAllInvoiceListData = function() {
-        sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
+        // sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function(data) {
+        //   countObjectTimes++;
+        //   progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+        //   $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+        //   //$(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+        //   $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+        //   $(".progressName").text("Invoice ");
+        //   if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+        //     if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+        //       $('.headerprogressbar').removeClass('headerprogressbarHidden');
+        //     }else{
+        //       $('.headerprogressbar').addClass('headerprogressbarShow');
+        //       $('.headerprogressbar').removeClass('headerprogressbarHidden');
+        //     }
+        //
+        //   }else if(Math.round(progressPercentage) == 100){
+        //       $('.checkmarkwrapper').removeClass("hide");
+        //     setTimeout(function() {
+        //       if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+        //         $('.headerprogressbar').removeClass('headerprogressbarShow');
+        //         $('.headerprogressbar').addClass('headerprogressbarHidden');
+        //       }else{
+        //         $('.headerprogressbar').removeClass('headerprogressbarShow');
+        //         $('.headerprogressbar').addClass('headerprogressbarHidden');
+        //       }
+        //
+        //     }, 1000);
+        //   }
+        //     //localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
+        //     addVS1Data('TInvoiceEx', JSON.stringify(data));
+        //     $("<span class='process'>Invoices Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        // }).catch(function(err) {
+        //
+        // });
+
+        sideBarService.getAllTInvoiceListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          //$(".progressBarInner").text("Invoice "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
           $(".progressBarInner").text(Math.round(progressPercentage)+"%");
-          $(".progressName").text("Invoice ");
+          $(".progressName").text("Invoice List");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1710,9 +1745,12 @@ Template.newsidenav.onRendered(function() {
 
             }, 1000);
           }
-            //localStorage.setItem('VS1TInvoiceList', JSON.stringify(data) || '');
-            addVS1Data('TInvoiceEx', JSON.stringify(data));
-            $("<span class='process'>Invoices Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            addVS1Data('TInvoiceList', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Invoice List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
         }).catch(function(err) {
 
         });
@@ -1749,6 +1787,44 @@ Template.newsidenav.onRendered(function() {
           }
             addVS1Data('TRefundSale', JSON.stringify(data));
             $("<span class='process'>Refunds Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+
+        sideBarService.getAllTRefundSaleListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Refund List");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TRefundSaleList', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Refund List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
         }).catch(function(err) {
 
         });
@@ -1876,6 +1952,44 @@ Template.newsidenav.onRendered(function() {
             //localStorage.setItem('VS1TPurchaseOrderList', JSON.stringify(data) || '');
             addVS1Data('TPurchaseOrderEx', JSON.stringify(data));
             $("<span class='process'>Purchase Orders Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+
+        sideBarService.getAllTPurchaseOrderListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Purchase Order List");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TPurchaseOrderList', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Purchase Order List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
         }).catch(function(err) {
 
         });
@@ -2387,6 +2501,44 @@ Template.newsidenav.onRendered(function() {
         }).catch(function(err) {
 
         });
+
+        sideBarService.getAllTQuoteListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Quote List");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TQuoteList', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Quote List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
+        }).catch(function(err) {
+
+        });
     }
 
     templateObject.getAllTsalesOrderNonBackOrderData = function() {
@@ -2438,6 +2590,44 @@ Template.newsidenav.onRendered(function() {
           }
             addVS1Data('TBillEx', JSON.stringify(data));
             $("<span class='process'>Bills Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+
+        sideBarService.getAllBillListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Bill List");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TBillList', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Bill List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
         }).catch(function(err) {
 
         });
@@ -2530,6 +2720,44 @@ Template.newsidenav.onRendered(function() {
             //localStorage.setItem('VS1TSalesList', JSON.stringify(data) || '');
             addVS1Data('TSalesList', JSON.stringify(data));
             $("<span class='process'>Sales List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+
+        sideBarService.getAllTSalesOrderListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Sales Order List");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TSalesOrderList', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Sales Order List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
         }).catch(function(err) {
 
         });
@@ -4637,7 +4865,7 @@ Template.newsidenav.onRendered(function() {
                         //}, 3000);
                     });
                 });
-
+                templateObject.getAllInvoiceListData();
                 getVS1Data('TSalesOrderEx').then(function(dataObject) {
                     if (dataObject.length == 0) {
                         templateObject.getAllSalesOrderExListData();

@@ -54,7 +54,7 @@ Template.billlist.onRendered(function() {
 
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
-    
+
     if(FlowRouter.current().queryParams.success){
         $('.btnRefresh').addClass('btnRefreshAlert');
     }
@@ -86,6 +86,10 @@ Template.billlist.onRendered(function() {
         $('td').each(function(){
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
+
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
@@ -94,34 +98,63 @@ Template.billlist.onRendered(function() {
 
     templateObject.getAllBillData = function () {
 
-        getVS1Data('TBillEx').then(function (dataObject) {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if ((currentBeginDate.getMonth() + 1) < 10) {
+          fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+      } else {
+          fromDateMonth = (currentBeginDate.getMonth() + 1);
+      }
+
+      if (currentBeginDate.getDate() < 10) {
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        getVS1Data('TBillList').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllBillExList(initialDataLoad,0).then(function (data) {
+                sideBarService.getAllBillListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
-                    addVS1Data('TBillEx',JSON.stringify(data));
-                    for(let i=0; i<data.tbillex.length; i++){
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalAmount)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalTax) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalAmountInc)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalBalance)|| 0.00;
+                    addVS1Data('TBillList',JSON.stringify(data));
+                    if (data.Params.IgnoreDates == true) {
+                        $('#dateFrom').attr('readonly', true);
+                        $('#dateTo').attr('readonly', true);
+                        FlowRouter.go('/billlist?ignoredate=true');
+                    } else {
+                        $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                        $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                    }
+
+                    for(let i=0; i<data.tbilllist.length; i++){
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalAmount)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalTax) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalAmountInc)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].Payment)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].Balance)|| 0.00;
+                        let orderstatus = data.tbilllist[i].OrderStatus || '';
+                        if(data.tbilllist[i].Deleted == true){
+                          orderstatus = "Deleted";
+                        }
                         var dataList = {
-                            id: data.tbillex[i].fields.ID || '',
-                            employee:data.tbillex[i].fields.EmployeeName || '',
-                            accountname:data.tbillex[i].fields.AccountName || '',
-                            sortdate: data.tbillex[i].fields.OrderDate !=''? moment(data.tbillex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tbillex[i].fields.OrderDate,
-                            orderdate: data.tbillex[i].fields.OrderDate !=''? moment(data.tbillex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tbillex[i].fields.OrderDate,
-                            suppliername: data.tbillex[i].fields.SupplierName || '',
+                            id: data.tbilllist[i].PurchaseOrderID || '',
+                            employee:data.tbilllist[i].EmployeeName || '',
+                            accountname:data.tbilllist[i].Account || '',
+                            sortdate: data.tbilllist[i].OrderDate !=''? moment(data.tbilllist[i].OrderDate).format("YYYY/MM/DD"): data.tbilllist[i].OrderDate,
+                            orderdate: data.tbilllist[i].OrderDate !=''? moment(data.tbilllist[i].OrderDate).format("DD/MM/YYYY"): data.tbilllist[i].OrderDate,
+                            suppliername: data.tbilllist[i].SupplierName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tbillex[i].fields.OrderStatus || '',
+                            orderstatus: orderstatus || '',
                             custfield1: '' || '',
                             custfield2: '' || '',
-                            comments: data.tbillex[i].fields.Comments || '',
+                            comments: data.tbilllist[i].Comments || '',
                         };
                         dataTableList.push(dataList);
 
@@ -218,11 +251,76 @@ Template.billlist.onRendered(function() {
                                 $('#tblbilllist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
+                              let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                              if(checkurlIgnoreDate == 'true'){
+
+                              }else{
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblbilllist_ellipsis').addClass('disabled');
+
+                              if(oSettings._iDisplayLength == -1){
+                                if(oSettings.fnRecordsDisplay() > 150){
+                                  $('.paginate_button.page-item.previous').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                              }else{
+
+                              }
+                              if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                               .on('click', function(){
+                                 $('.fullScreenSpin').css('display','inline-block');
+                                 let dataLenght = oSettings._iDisplayLength;
+                                 var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                 var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                 sideBarService.getAllBillListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TBillList').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tbilllist), dataOld.tbilllist);
+                                       let objCombineData = {
+                                         Params: dataOld.Params,
+                                         tbilllist:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TBillList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+
+                               });
+                             }
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                              "fnInitComplete": function () {
+                               let urlParametersPage = FlowRouter.current().queryParams.page;
+                               if (urlParametersPage) {
+                                   this.fnPageChange('last');
+                               }
+
                              $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
                          }
@@ -241,6 +339,18 @@ Template.billlist.onRendered(function() {
                             }, 100);
                         });
                         $('.fullScreenSpin').css('display','none');
+
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tbilllist.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tbilllist.length||1;
+                        }
+                        if(data.tbilllist.length > 0){
+                          $('#tblbilllist_info').html('Showing 1 to '+data.tbilllist.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblbilllist_info').html('Showing 0 to '+data.tbilllist.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblbilllist th');
@@ -272,8 +382,13 @@ Template.billlist.onRendered(function() {
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     $('#tblbilllist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if(listData){
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             FlowRouter.go('/billcard?id=' + listData);
+                          }
                         }
                     });
 
@@ -284,31 +399,44 @@ Template.billlist.onRendered(function() {
                 });
             }else{
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tbillex;
+                let useData = data.tbilllist;
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<useData.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalTax) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].fields.TotalBalance)|| 0.00;
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/billlist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+
+                for(let i=0; i<data.tbilllist.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalAmount)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalTax) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalAmountInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].Payment)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].Balance)|| 0.00;
+                    let orderstatus = data.tbilllist[i].OrderStatus || '';
+                    if(data.tbilllist[i].Deleted == true){
+                      orderstatus = "Deleted";
+                    }
                     var dataList = {
-                        id: useData[i].fields.ID || '',
-                        employee:useData[i].fields.EmployeeName || '',
-                        accountname:useData[i].fields.AccountName || '',
-                        sortdate: useData[i].fields.OrderDate !=''? moment(useData[i].fields.OrderDate).format("YYYY/MM/DD"): useData[i].fields.OrderDate,
-                        orderdate: useData[i].fields.OrderDate !=''? moment(useData[i].fields.OrderDate).format("DD/MM/YYYY"): useData[i].fields.OrderDate,
-                        suppliername: useData[i].fields.SupplierName || '',
+                        id: data.tbilllist[i].PurchaseOrderID || '',
+                        employee:data.tbilllist[i].EmployeeName || '',
+                        accountname:data.tbilllist[i].Account || '',
+                        sortdate: data.tbilllist[i].OrderDate !=''? moment(data.tbilllist[i].OrderDate).format("YYYY/MM/DD"): data.tbilllist[i].OrderDate,
+                        orderdate: data.tbilllist[i].OrderDate !=''? moment(data.tbilllist[i].OrderDate).format("DD/MM/YYYY"): data.tbilllist[i].OrderDate,
+                        suppliername: data.tbilllist[i].SupplierName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: useData[i].fields.OrderStatus || '',
+                        orderstatus: orderstatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
-                        comments: useData[i].fields.Comments || '',
+                        comments: data.tbilllist[i].Comments || '',
                     };
                     dataTableList.push(dataList);
 
@@ -405,6 +533,10 @@ Template.billlist.onRendered(function() {
                             $('#tblbilllist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblbilllist_ellipsis').addClass('disabled');
 
@@ -424,21 +556,26 @@ Template.billlist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllBillExList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                               getVS1Data('TBillEx').then(function (dataObjectold) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             sideBarService.getAllBillListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TBillList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
                                  }else{
                                    let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tbillex), dataOld.tbillex);
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tbilllist), dataOld.tbilllist);
                                    let objCombineData = {
-                                     tbillex:thirdaryData
+                                     Params: dataOld.Params,
+                                     tbilllist:thirdaryData
                                    }
 
 
-                                     addVS1Data('TBillEx',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     addVS1Data('TBillList',JSON.stringify(objCombineData)).then(function (datareturn) {
                                        templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
@@ -455,18 +592,21 @@ Template.billlist.onRendered(function() {
                              });
 
                            });
+                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
-                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
-                          }
-                             $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
-                             $('.myvarFilterForm').appendTo(".colDateFilter");
-                         }
+                         "fnInitComplete": function () {
+                           let urlParametersPage = FlowRouter.current().queryParams.page;
+                           if (urlParametersPage) {
+                               this.fnPageChange('last');
+                           }
+
+                         $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
+                         $('.myvarFilterForm').appendTo(".colDateFilter");
+                     }
+
                     }).on('page', function () {
                         setTimeout(function () {
                             MakeNegative();
@@ -476,46 +616,23 @@ Template.billlist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                        sideBarService.getAllBillExList('All',1).then(function(dataNonBo) {
-
-                          addVS1Data('TBillEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            templateObject.resetData(dataNonBo);
-                          $('.fullScreenSpin').css('display','none');
-                          }).catch(function (err) {
-                          $('.fullScreenSpin').css('display','none');
-                          });
-                        }).catch(function(err) {
-                          $('.fullScreenSpin').css('display','none');
-                        });
-                       }
-                      }else{
-                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                          sideBarService.getAllBillExList(dataLenght,0).then(function(dataNonBo) {
-
-                            addVS1Data('TBillEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              templateObject.resetData(dataNonBo);
-                            $('.fullScreenSpin').css('display','none');
-                            }).catch(function (err) {
-                            $('.fullScreenSpin').css('display','none');
-                            });
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                        }
-                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tbilllist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tbilllist.length||1;
+                    }
+                    if(data.tbilllist.length > 0){
+                      $('#tblbilllist_info').html('Showing 1 to '+data.tbilllist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblbilllist_info').html('Showing 0 to '+data.tbilllist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblbilllist th');
@@ -547,39 +664,57 @@ Template.billlist.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblbilllist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/billcard?id=' + listData);
+                      }
                     }
                 });
 
             }
         }).catch(function (err) {
-          sideBarService.getAllBillExList(initialDataLoad,0).then(function (data) {
+          sideBarService.getAllBillListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
               let lineItems = [];
               let lineItemObj = {};
-              addVS1Data('TBillEx',JSON.stringify(data));
-              for(let i=0; i<data.tbillex.length; i++){
-                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalAmount)|| 0.00;
-                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalTax) || 0.00;
-                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalAmountInc)|| 0.00;
-                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalPaid)|| 0.00;
-                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalBalance)|| 0.00;
+              addVS1Data('TBillList',JSON.stringify(data));
+              if (data.Params.IgnoreDates == true) {
+                  $('#dateFrom').attr('readonly', true);
+                  $('#dateTo').attr('readonly', true);
+                  FlowRouter.go('/billlist?ignoredate=true');
+              } else {
+                  $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                  $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+              }
+
+              for(let i=0; i<data.tbilllist.length; i++){
+                  let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalAmount)|| 0.00;
+                  let totalTax = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalTax) || 0.00;
+                  let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].TotalAmountInc)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].Payment)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbilllist[i].Balance)|| 0.00;
+                  let orderstatus = data.tbilllist[i].OrderStatus || '';
+                  if(data.tbilllist[i].Deleted == true){
+                    orderstatus = "Deleted";
+                  }
                   var dataList = {
-                      id: data.tbillex[i].fields.ID || '',
-                      employee:data.tbillex[i].fields.EmployeeName || '',
-                      accountname:data.tbillex[i].fields.AccountName || '',
-                      sortdate: data.tbillex[i].fields.OrderDate !=''? moment(data.tbillex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tbillex[i].fields.OrderDate,
-                      orderdate: data.tbillex[i].fields.OrderDate !=''? moment(data.tbillex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tbillex[i].fields.OrderDate,
-                      suppliername: data.tbillex[i].fields.SupplierName || '',
+                      id: data.tbilllist[i].PurchaseOrderID || '',
+                      employee:data.tbilllist[i].EmployeeName || '',
+                      accountname:data.tbilllist[i].Account || '',
+                      sortdate: data.tbilllist[i].OrderDate !=''? moment(data.tbilllist[i].OrderDate).format("YYYY/MM/DD"): data.tbilllist[i].OrderDate,
+                      orderdate: data.tbilllist[i].OrderDate !=''? moment(data.tbilllist[i].OrderDate).format("DD/MM/YYYY"): data.tbilllist[i].OrderDate,
+                      suppliername: data.tbilllist[i].SupplierName || '',
                       totalamountex: totalAmountEx || 0.00,
                       totaltax: totalTax || 0.00,
                       totalamount: totalAmount || 0.00,
                       totalpaid: totalPaid || 0.00,
                       totaloustanding: totalOutstanding || 0.00,
-                      orderstatus: data.tbillex[i].fields.OrderStatus || '',
+                      orderstatus: orderstatus || '',
                       custfield1: '' || '',
                       custfield2: '' || '',
-                      comments: data.tbillex[i].fields.Comments || '',
+                      comments: data.tbilllist[i].Comments || '',
                   };
                   dataTableList.push(dataList);
 
@@ -676,14 +811,81 @@ Template.billlist.onRendered(function() {
                           $('#tblbilllist').DataTable().ajax.reload();
                       },
                       "fnDrawCallback": function (oSettings) {
+                        let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                        if(checkurlIgnoreDate == 'true'){
+
+                        }else{
+                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblbilllist_ellipsis').addClass('disabled');
+
+                        if(oSettings._iDisplayLength == -1){
+                          if(oSettings.fnRecordsDisplay() > 150){
+                            $('.paginate_button.page-item.previous').addClass('disabled');
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                        }else{
+
+                        }
+                        if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                         .on('click', function(){
+                           $('.fullScreenSpin').css('display','inline-block');
+                           let dataLenght = oSettings._iDisplayLength;
+
+                           var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                           var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                           let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                           let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                           sideBarService.getAllBillListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             getVS1Data('TBillList').then(function (dataObjectold) {
+                               if(dataObjectold.length == 0){
+
+                               }else{
+                                 let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                 var thirdaryData = $.merge($.merge([], dataObjectnew.tbilllist), dataOld.tbilllist);
+                                 let objCombineData = {
+                                   Params: dataOld.Params,
+                                   tbilllist:thirdaryData
+                                 }
+
+
+                                   addVS1Data('TBillList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     templateObject.resetData(objCombineData);
+                                   $('.fullScreenSpin').css('display','none');
+                                   }).catch(function (err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                   });
+
+                               }
+                              }).catch(function (err) {
+
+                              });
+
+                           }).catch(function(err) {
+                             $('.fullScreenSpin').css('display','none');
+                           });
+
+                         });
+                       }
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
                       },
-                      "fnInitComplete": function () {
-                             $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
-                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                       "fnInitComplete": function () {
+                         let urlParametersPage = FlowRouter.current().queryParams.page;
+                         if (urlParametersPage) {
+                             this.fnPageChange('last');
                          }
+
+                       $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
+                       $('.myvarFilterForm').appendTo(".colDateFilter");
+                   }
 
                   }).on('page', function () {
                       setTimeout(function () {
@@ -699,6 +901,18 @@ Template.billlist.onRendered(function() {
                       }, 100);
                   });
                   $('.fullScreenSpin').css('display','none');
+
+                  /* Add count functionality to table */
+                  let countTableData = data.Params.Count || 1; //get count from API data
+                  if(data.tbilllist.length > countTableData){ //Check if what is on the list is more than API count
+                    countTableData = data.tbilllist.length||1;
+                  }
+                  if(data.tbilllist.length > 0){
+                    $('#tblbilllist_info').html('Showing 1 to '+data.tbilllist.length+ ' of ' +countTableData+ ' entries');
+                  }else{
+                    $('#tblbilllist_info').html('Showing 0 to '+data.tbilllist.length+ ' of 0 entries');
+                  }
+                  /* End Add count functionality to table */
               }, 0);
 
               var columns = $('#tblbilllist th');
@@ -730,8 +944,13 @@ Template.billlist.onRendered(function() {
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
               $('#tblbilllist tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
+                  var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                   if(listData){
+                    if(checkDeleted == "Deleted"){
+                      swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                    }else{
                       FlowRouter.go('/billcard?id=' + listData);
+                    }
                   }
               });
 
@@ -745,7 +964,31 @@ Template.billlist.onRendered(function() {
 
     templateObject.getAllBillData();
 
+    templateObject.getAllFilterBillData = function(fromDate, toDate, ignoreDate) {
+        sideBarService.getAllBillListData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+            addVS1Data('TBillList', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/billlist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+            }).catch(function(err) {
+                location.reload();
+            });
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    }
 
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if (urlParametersDateFrom) {
+        if (urlParametersIgnoreDate == true) {
+            $('#dateFrom').attr('readonly', true);
+            $('#dateTo').attr('readonly', true);
+        } else {
+
+            $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+            $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
+        }
+    }
 });
 
 Template.billlist.events({
@@ -1035,16 +1278,204 @@ Template.billlist.events({
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
 
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if((currentBeginDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
 
-        sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataBill) {
-            addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
-                window.open('/billlist','_self');
-            }).catch(function (err) {
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+
+      sideBarService.getAllBillListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataBill) {
+          addVS1Data('TBillList',JSON.stringify(dataBill)).then(function (datareturn) {
+            sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataBill) {
+                addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
+                    window.open('/billlist','_self');
+                }).catch(function (err) {
+                    window.open('/billlist','_self');
+                });
+            }).catch(function(err) {
                 window.open('/billlist','_self');
             });
-        }).catch(function(err) {
-            window.open('/billlist','_self');
-        });
+          }).catch(function (err) {
+            sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataBill) {
+                addVS1Data('TBillEx',JSON.stringify(dataBill)).then(function (datareturn) {
+                    window.open('/billlist','_self');
+                }).catch(function (err) {
+                    window.open('/billlist','_self');
+                });
+            }).catch(function(err) {
+                window.open('/billlist','_self');
+            });
+          });
+      }).catch(function(err) {
+        window.open('/billlist','_self');
+      });
+
+
+    },
+    'change #dateTo': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterBillData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterBillData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(toDate);
+
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
+        templateObject.getAllFilterBillData(getDateFrom, getLoadDate, false);
+    },
+    'click #lastQuarter': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterBillData(getDateFrom, getLoadDate, false);
+    },
+    'click #last12Months': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth() + 1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth() + 1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterBillData(getDateFrom, getLoadDate, false);
+
+    },
+    'click #ignoreDate': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterBillData('', '', true);
     },
     'click .printConfirm' : function(event){
 

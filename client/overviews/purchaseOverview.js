@@ -426,7 +426,7 @@ Template.purchasesoverview.onRendered(function() {
                                                 let dataOld = JSON.parse(dataObjectold[0].data);
                                                 var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
                                                 let objCombineData = {
-                                                    Params: dataObjectnew.Params,
+                                                    Params: dataOld.Params,
                                                     tbillreport: thirdaryData
                                                 }
 
@@ -878,7 +878,7 @@ Template.purchasesoverview.onRendered(function() {
                                             let dataOld = JSON.parse(dataObjectold[0].data);
                                             var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
                                             let objCombineData = {
-                                                Params: dataObjectnew.Params,
+                                                Params: dataOld.Params,
                                                 tbillreport: thirdaryData
                                             }
 
@@ -1271,7 +1271,7 @@ Template.purchasesoverview.onRendered(function() {
                                               let dataOld = JSON.parse(dataObjectold[0].data);
                                               var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
                                               let objCombineData = {
-                                                  Params: dataObjectnew.Params,
+                                                  Params: dataOld.Params,
                                                   tbillreport: thirdaryData
                                               }
 

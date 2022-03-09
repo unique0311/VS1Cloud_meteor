@@ -83,7 +83,11 @@ Template.purchaseorderlist.onRendered(function() {
 
     function MakeNegative() {
         $('td').each(function(){
-            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+            if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger');
+        });
+
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
         });
     };
 
@@ -109,37 +113,49 @@ Template.purchaseorderlist.onRendered(function() {
       var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        getVS1Data('TPurchaseOrderEx').then(function (dataObject) {
+        getVS1Data('TPurchaseOrderList').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function (data) {
+                sideBarService.getAllTPurchaseOrderListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
-                    addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
-                    for(let i=0; i<data.tpurchaseorderex.length; i++){
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmountInc)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalBalance)|| 0.00;
+                    addVS1Data('TPurchaseOrderList',JSON.stringify(data));
+                    if (data.Params.IgnoreDates == true) {
+                        $('#dateFrom').attr('readonly', true);
+                        $('#dateTo').attr('readonly', true);
+                        FlowRouter.go('/purchaseorderlist?ignoredate=true');
+                    } else {
+                        $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                        $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                    }
+                    for(let i=0; i<data.tpurchaseorderlist.length; i++){
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalAmount)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalTax) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalAmountInc)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].Payment)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].Balance)|| 0.00;
+                        let orderstatus = data.tpurchaseorderlist[i].OrderStatus || '';
+                        if(data.tpurchaseorderlist[i].Deleted == true){
+                          orderstatus = "Deleted";
+                        }
                         var dataList = {
-                            id: data.tpurchaseorderex[i].fields.ID || '',
-                            employee:data.tpurchaseorderex[i].fields.EmployeeName || '',
-                            sortdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderex[i].fields.OrderDate,
-                            orderdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderex[i].fields.OrderDate,
-                            suppliername: data.tpurchaseorderex[i].fields.SupplierName || '',
+                            id: data.tpurchaseorderlist[i].PurchaseOrderID || '',
+                            employee:data.tpurchaseorderlist[i].EmployeeName || '',
+                            sortdate: data.tpurchaseorderlist[i].OrderDate !=''? moment(data.tpurchaseorderlist[i].OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderlist[i].OrderDate,
+                            orderdate: data.tpurchaseorderlist[i].OrderDate !=''? moment(data.tpurchaseorderlist[i].OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderlist[i].OrderDate,
+                            suppliername: data.tpurchaseorderlist[i].SupplierName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tpurchaseorderex[i].fields.OrderStatus || '',
+                            orderstatus: orderstatus || '',
                             custfield1: '' || '',
                             custfield2: '' || '',
-                            comments: data.tpurchaseorderex[i].fields.Comments || '',
+                            comments: data.tpurchaseorderlist[i].Comments || '',
                         };
-                        if(data.tpurchaseorderex[i].fields.Deleted === false && data.tpurchaseorderex[i].fields.SupplierName.replace(/\s/g, '') != ''){
+                        //if(data.tpurchaseorderlist[i].Deleted === false && data.tpurchaseorderlist[i].SupplierName.replace(/\s/g, '') != ''){
                             dataTableList.push(dataList);
-                        }
+                        //}
                         // dataTableList.push(dataList);
 
                     }
@@ -187,7 +203,7 @@ Template.purchaseorderlist.onRendered(function() {
                             columnDefs: [
                                 {type: 'date', targets: 0}
                             ],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
                                 {
                                     extend: 'excelHtml5',
@@ -227,8 +243,8 @@ Template.purchaseorderlist.onRendered(function() {
                             colReorder: true,
                             // bStateSave: true,
                             // rowId: 0,
-                            pageLength: initialDatatableLoad,
-                            lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                            pageLength: initialReportDatatableLoad,
+                            "bLengthChange": false,
                             info: true,
                             responsive: true,
                             "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -236,14 +252,81 @@ Template.purchaseorderlist.onRendered(function() {
                                 $('#tblpurchaseorderlist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
+                              let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                              if(checkurlIgnoreDate == 'true'){
+
+                              }else{
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblpurchaseorderlist_ellipsis').addClass('disabled');
+
+                              if(oSettings._iDisplayLength == -1){
+                                if(oSettings.fnRecordsDisplay() > 150){
+                                  $('.paginate_button.page-item.previous').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                              }else{
+
+                              }
+                              if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                               .on('click', function(){
+                                 $('.fullScreenSpin').css('display','inline-block');
+                                 let dataLenght = oSettings._iDisplayLength;
+
+                                 var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                 var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+
+                                 sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderlist), dataOld.tpurchaseorderlist);
+                                       let objCombineData = {
+                                         Params: dataOld.Params,
+                                         tpurchaseorderlist:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TPurchaseOrderList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+
+                               });
+                             }
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
-                            "fnInitComplete": function () {
-                             $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");
-
-                         }
+                             "fnInitComplete": function () {
+                               let urlParametersPage = FlowRouter.current().queryParams.page;
+                               if (urlParametersPage) {
+                                   this.fnPageChange('last');
+                               }
+                                 $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");
+                                 $('.myvarFilterForm').appendTo(".colDateFilter");
+                             }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -259,6 +342,17 @@ Template.purchaseorderlist.onRendered(function() {
                             }, 100);
                         });
                         $('.fullScreenSpin').css('display','none');
+                        /* Add count functionality to table */
+                        let countTableData = data.Params.Count || 1; //get count from API data
+                        if(data.tpurchaseorderlist.length > countTableData){ //Check if what is on the list is more than API count
+                          countTableData = data.tpurchaseorderlist.length||1;
+                        }
+                        if(data.tpurchaseorderlist.length > 0){
+                          $('#tblpurchaseorderlist_info').html('Showing 1 to '+data.tpurchaseorderlist.length+ ' of ' +countTableData+ ' entries');
+                        }else{
+                          $('#tblpurchaseorderlist_info').html('Showing 0 to '+data.tpurchaseorderlist.length+ ' of 0 entries');
+                        }
+                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblpurchaseorderlist th');
@@ -290,8 +384,14 @@ Template.purchaseorderlist.onRendered(function() {
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     $('#tblpurchaseorderlist tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if(listData){
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             FlowRouter.go('/purchaseordercard?id=' + listData);
+                          }
+
                         }
                     });
 
@@ -302,34 +402,46 @@ Template.purchaseorderlist.onRendered(function() {
                 });
             }else{
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tpurchaseorderex;
+                let useData = data.tpurchaseorderlist;
                 let lineItems = [];
                 let lineItemObj = {};
-                for(let i=0; i<data.tpurchaseorderex.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalBalance)|| 0.00;
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/purchaseorderlist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for(let i=0; i<data.tpurchaseorderlist.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalAmount)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalTax) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalAmountInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].Payment)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].Balance)|| 0.00;
+                    let orderstatus = data.tpurchaseorderlist[i].OrderStatus || '';
+                    if(data.tpurchaseorderlist[i].Deleted == true){
+                      orderstatus = "Deleted";
+                    }
                     var dataList = {
-                        id: data.tpurchaseorderex[i].fields.ID || '',
-                        employee:data.tpurchaseorderex[i].fields.EmployeeName || '',
-                        sortdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderex[i].fields.OrderDate,
-                        orderdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderex[i].fields.OrderDate,
-                        suppliername: data.tpurchaseorderex[i].fields.SupplierName || '',
+                        id: data.tpurchaseorderlist[i].PurchaseOrderID || '',
+                        employee:data.tpurchaseorderlist[i].EmployeeName || '',
+                        sortdate: data.tpurchaseorderlist[i].OrderDate !=''? moment(data.tpurchaseorderlist[i].OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderlist[i].OrderDate,
+                        orderdate: data.tpurchaseorderlist[i].OrderDate !=''? moment(data.tpurchaseorderlist[i].OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderlist[i].OrderDate,
+                        suppliername: data.tpurchaseorderlist[i].SupplierName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tpurchaseorderex[i].fields.OrderStatus || '',
+                        orderstatus: orderstatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
-                        comments: data.tpurchaseorderex[i].fields.Comments || '',
+                        comments: data.tpurchaseorderlist[i].Comments || '',
                     };
-                    if(data.tpurchaseorderex[i].fields.Deleted === false && data.tpurchaseorderex[i].fields.SupplierName.replace(/\s/g, '') != ''){
+                    //if(data.tpurchaseorderlist[i].Deleted === false && data.tpurchaseorderlist[i].SupplierName.replace(/\s/g, '') != ''){
                         dataTableList.push(dataList);
-                    }
+                    //}
                     // dataTableList.push(dataList);
 
                 }
@@ -377,7 +489,7 @@ Template.purchaseorderlist.onRendered(function() {
                         columnDefs: [
                             {type: 'date', targets: 0}
                         ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -417,9 +529,8 @@ Template.purchaseorderlist.onRendered(function() {
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: initialDatatableLoad,
+                        pageLength: initialReportDatatableLoad,
                         "bLengthChange": false,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -427,6 +538,10 @@ Template.purchaseorderlist.onRendered(function() {
                             $('#tblpurchaseorderlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblpurchaseorderlist_ellipsis').addClass('disabled');
 
@@ -446,21 +561,27 @@ Template.purchaseorderlist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllPurchaseOrderList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                               getVS1Data('TPurchaseOrderEx').then(function (dataObjectold) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                             sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
                                  }else{
                                    let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderex), dataOld.tpurchaseorderex);
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderlist), dataOld.tpurchaseorderlist);
                                    let objCombineData = {
-                                     tpurchaseorderex:thirdaryData
+                                     Params: dataOld.Params,
+                                     tpurchaseorderlist:thirdaryData
                                    }
 
 
-                                     addVS1Data('TPurchaseOrderEx',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     addVS1Data('TPurchaseOrderList',JSON.stringify(objCombineData)).then(function (datareturn) {
                                        templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
@@ -477,18 +598,19 @@ Template.purchaseorderlist.onRendered(function() {
                              });
 
                            });
+
+                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
-                        "fnInitComplete": function () {
-                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
-                          }
-                        $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");
-
-                        $('.myvarFilterForm').appendTo(".colDateFilter");
+                         "fnInitComplete": function () {
+                           let urlParametersPage = FlowRouter.current().queryParams.page;
+                           if (urlParametersPage) {
+                               this.fnPageChange('last');
+                           }
+                             $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
                          }
 
                     }).on('page', function () {
@@ -500,46 +622,22 @@ Template.purchaseorderlist.onRendered(function() {
                     }).on('column-reorder', function () {
 
                     }).on( 'length.dt', function ( e, settings, len ) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                        sideBarService.getAllPurchaseOrderList('All',1).then(function(dataNonBo) {
-
-                          addVS1Data('TPurchaseOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            templateObject.resetData(dataNonBo);
-                          $('.fullScreenSpin').css('display','none');
-                          }).catch(function (err) {
-                          $('.fullScreenSpin').css('display','none');
-                          });
-                        }).catch(function(err) {
-                          $('.fullScreenSpin').css('display','none');
-                        });
-                       }
-                      }else{
-                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                          sideBarService.getAllPurchaseOrderList(dataLenght,0).then(function(dataNonBo) {
-
-                            addVS1Data('TPurchaseOrderEx',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              templateObject.resetData(dataNonBo);
-                            $('.fullScreenSpin').css('display','none');
-                            }).catch(function (err) {
-                            $('.fullScreenSpin').css('display','none');
-                            });
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                        }
-                      }
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tpurchaseorderlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tpurchaseorderlist.length||1;
+                    }
+                    if(data.tpurchaseorderlist.length > 0){
+                      $('#tblpurchaseorderlist_info').html('Showing 1 to '+data.tpurchaseorderlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblpurchaseorderlist_info').html('Showing 0 to '+data.tpurchaseorderlist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblpurchaseorderlist th');
@@ -571,42 +669,60 @@ Template.purchaseorderlist.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblpurchaseorderlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/purchaseordercard?id=' + listData);
+                      }
+
                     }
                 });
 
             }
         }).catch(function (err) {
-            sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function (data) {
+            sideBarService.getAllTPurchaseOrderListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
-                addVS1Data('TPurchaseOrderEx',JSON.stringify(data));
-                for(let i=0; i<data.tpurchaseorderex.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmount)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalTax) || 0.00;
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderex[i].fields.TotalBalance)|| 0.00;
+                addVS1Data('TPurchaseOrderList',JSON.stringify(data));
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/purchaseorderlist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for(let i=0; i<data.tpurchaseorderlist.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalAmount)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalTax) || 0.00;
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].TotalAmountInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].Payment)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tpurchaseorderlist[i].Balance)|| 0.00;
+                    let orderstatus = data.tpurchaseorderlist[i].OrderStatus || '';
+                    if(data.tpurchaseorderlist[i].Deleted == true){
+                      orderstatus = "Deleted";
+                    }
                     var dataList = {
-                        id: data.tpurchaseorderex[i].fields.ID || '',
-                        employee:data.tpurchaseorderex[i].fields.EmployeeName || '',
-                        sortdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderex[i].fields.OrderDate,
-                        orderdate: data.tpurchaseorderex[i].fields.OrderDate !=''? moment(data.tpurchaseorderex[i].fields.OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderex[i].fields.OrderDate,
-                        suppliername: data.tpurchaseorderex[i].fields.SupplierName || '',
+                        id: data.tpurchaseorderlist[i].PurchaseOrderID || '',
+                        employee:data.tpurchaseorderlist[i].EmployeeName || '',
+                        sortdate: data.tpurchaseorderlist[i].OrderDate !=''? moment(data.tpurchaseorderlist[i].OrderDate).format("YYYY/MM/DD"): data.tpurchaseorderlist[i].OrderDate,
+                        orderdate: data.tpurchaseorderlist[i].OrderDate !=''? moment(data.tpurchaseorderlist[i].OrderDate).format("DD/MM/YYYY"): data.tpurchaseorderlist[i].OrderDate,
+                        suppliername: data.tpurchaseorderlist[i].SupplierName || '',
                         totalamountex: totalAmountEx || 0.00,
                         totaltax: totalTax || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tpurchaseorderex[i].fields.OrderStatus || '',
+                        orderstatus: orderstatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
-                        comments: data.tpurchaseorderex[i].fields.Comments || '',
+                        comments: data.tpurchaseorderlist[i].Comments || '',
                     };
-                    if(data.tpurchaseorderex[i].fields.Deleted === false && data.tpurchaseorderex[i].fields.SupplierName.replace(/\s/g, '') != ''){
+                    //if(data.tpurchaseorderlist[i].Deleted === false && data.tpurchaseorderlist[i].SupplierName.replace(/\s/g, '') != ''){
                         dataTableList.push(dataList);
-                    }
+                    //}
                     // dataTableList.push(dataList);
 
                 }
@@ -654,7 +770,7 @@ Template.purchaseorderlist.onRendered(function() {
                         columnDefs: [
                             {type: 'date', targets: 0}
                         ],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -694,8 +810,8 @@ Template.purchaseorderlist.onRendered(function() {
                         colReorder: true,
                         // bStateSave: true,
                         // rowId: 0,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        pageLength: initialReportDatatableLoad,
+                        "bLengthChange": false,
                         info: true,
                         responsive: true,
                         "order": [[ 0, "desc" ],[ 2, "desc" ]],
@@ -703,13 +819,78 @@ Template.purchaseorderlist.onRendered(function() {
                             $('#tblpurchaseorderlist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          if(checkurlIgnoreDate == 'true'){
+
+                          }else{
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblpurchaseorderlist_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+                             sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderlist), dataOld.tpurchaseorderlist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     tpurchaseorderlist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TPurchaseOrderList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+
+                           });
+                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                          "fnInitComplete": function () {
+                           let urlParametersPage = FlowRouter.current().queryParams.page;
+                           if (urlParametersPage) {
+                               this.fnPageChange('last');
+                           }
                              $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");
-
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
                          }
 
                     }).on('page', function () {
@@ -726,6 +907,17 @@ Template.purchaseorderlist.onRendered(function() {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display','none');
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tpurchaseorderlist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tpurchaseorderlist.length||1;
+                    }
+                    if(data.tpurchaseorderlist.length > 0){
+                      $('#tblpurchaseorderlist_info').html('Showing 1 to '+data.tpurchaseorderlist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblpurchaseorderlist_info').html('Showing 0 to '+data.tpurchaseorderlist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblpurchaseorderlist th');
@@ -757,8 +949,14 @@ Template.purchaseorderlist.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblpurchaseorderlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/purchaseordercard?id=' + listData);
+                      }
+
                     }
                 });
 
@@ -773,7 +971,31 @@ Template.purchaseorderlist.onRendered(function() {
 
     templateObject.getAllPurchaseOrderData();
 
+    templateObject.getAllFilterPurchaseOrderData = function(fromDate, toDate, ignoreDate) {
+        sideBarService.getAllTPurchaseOrderListData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+            addVS1Data('TPurchaseOrderList', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/purchaseorderlist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+            }).catch(function(err) {
+                location.reload();
+            });
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    }
 
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if (urlParametersDateFrom) {
+        if (urlParametersIgnoreDate == true) {
+            $('#dateFrom').attr('readonly', true);
+            $('#dateTo').attr('readonly', true);
+        } else {
+
+            $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+            $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
+        }
+    }
 });
 
 Template.purchaseorderlist.events({
@@ -953,41 +1175,7 @@ Template.purchaseorderlist.events({
             lineItems.push(lineItemObj);
         });
 
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
-            if (getcurrentCloudDetails._id.length > 0) {
-                var clientID = getcurrentCloudDetails._id;
-                var clientUsername = getcurrentCloudDetails.cloudUsername;
-                var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblpurchaseorderlist'});
-                if (checkPrefDetails) {
-                    CloudPreference.update({_id: checkPrefDetails._id},{$set: { userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                                               PrefGroup:'salesform',PrefName:'tblpurchaseorderlist',published:true,
-                                                                               customFields:lineItems,
-                                                                               updatedAt: new Date() }}, function(err, idTag) {
-                        if (err) {
-                            $('#myModal2').modal('toggle');
-                        } else {
-                            $('#myModal2').modal('toggle');
-                        }
-                    });
-
-                }else{
-                    CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                            PrefGroup:'salesform',PrefName:'tblpurchaseorderlist',published:true,
-                                            customFields:lineItems,
-                                            createdAt: new Date() }, function(err, idTag) {
-                        if (err) {
-                            $('#myModal2').modal('toggle');
-                        } else {
-                            $('#myModal2').modal('toggle');
-
-                        }
-                    });
-
-                }
-            }
-        }
+      $('#myModal2').modal('toggle');
 
     },
     'blur .divcolumn' : function(event){
@@ -1073,15 +1261,7 @@ Template.purchaseorderlist.events({
         }
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
-            addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
-                window.open('/purchaseorderlist','_self');
-            }).catch(function (err) {
-                window.open('/purchaseorderlist','_self');
-            });
-        }).catch(function(err) {
-            window.open('/purchaseorderlist','_self');
-        });
+
 
         var currentBeginDate = new Date();
       var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
@@ -1108,6 +1288,194 @@ Template.purchaseorderlist.events({
         }).catch(function(err) {
 
         });
+
+        sideBarService.getAllTPurchaseOrderListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (dataPO) {
+            addVS1Data('TPurchaseOrderList', JSON.stringify(dataPO)).then(function (datareturn) {
+              sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/purchaseorderlist','_self');
+                  }).catch(function (err) {
+                      window.open('/purchaseorderlist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/purchaseorderlist','_self');
+              });
+            }).catch(function (err) {
+              sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
+                  addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
+                      window.open('/purchaseorderlist','_self');
+                  }).catch(function (err) {
+                      window.open('/purchaseorderlist','_self');
+                  });
+              }).catch(function(err) {
+                  window.open('/purchaseorderlist','_self');
+              });
+            });
+        }).catch(function (err) {
+          sideBarService.getAllPurchaseOrderList(initialDataLoad,0).then(function(data) {
+              addVS1Data('TPurchaseOrderEx',JSON.stringify(data)).then(function (datareturn) {
+                  window.open('/purchaseorderlist','_self');
+              }).catch(function (err) {
+                  window.open('/purchaseorderlist','_self');
+              });
+          }).catch(function(err) {
+              window.open('/purchaseorderlist','_self');
+          });
+        });
+    },
+    'change #dateTo': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterPurchaseOrderData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterPurchaseOrderData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'click #lastMonth': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(toDate);
+
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
+        templateObject.getAllFilterPurchaseOrderData(getDateFrom, getLoadDate, false);
+    },
+    'click #lastQuarter': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterPurchaseOrderData(getDateFrom, getLoadDate, false);
+    },
+    'click #last12Months': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth() + 1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth() + 1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterPurchaseOrderData(getDateFrom, getLoadDate, false);
+
+    },
+    'click #ignoreDate': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterPurchaseOrderData('', '', true);
     }
 });
 
