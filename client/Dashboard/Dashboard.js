@@ -48,7 +48,9 @@ Template.dashboard.onRendered(function() {
         $(".connectedSortable").sortable({
             connectWith: ".connectedSortable",
             placeholder: "portlet-placeholder ui-corner-all",
-            stop: function(event, ui) {}
+            stop: function(event, ui) {
+
+            }
         });
         $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
 
@@ -58,7 +60,9 @@ Template.dashboard.onRendered(function() {
             icon.closest(".portlet").find(".portlet-content").toggle();
         });
 
-        $(".portlet").resizable();
+        $(".portlet").resizable({
+            handles: 'e'
+        });
     }, 200);
 
     templateObject.deactivateDraggable = function() {
