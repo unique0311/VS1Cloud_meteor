@@ -1462,3 +1462,12 @@ authenticatedRoutes.route('/backuprestore', {
         });
     }
 });
+
+authenticatedRoutes.route('/receiptsoverview', {
+    name: 'receiptsoverview',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'receiptsoverview'
+        });
+    }
+});

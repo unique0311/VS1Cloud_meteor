@@ -44,20 +44,22 @@ Template.dashboard.onRendered(function() {
         templateObject.includeDashboard.set(true);
     }
 
-    $(".connectedSortable").sortable({
-        connectWith: ".connectedSortable",
-        placeholder: "portlet-placeholder ui-corner-all",
-        stop: function(event, ui) {}
-    });
-    $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
+    setTimeout(function() {
+        $(".connectedSortable").sortable({
+            connectWith: ".connectedSortable",
+            placeholder: "portlet-placeholder ui-corner-all",
+            stop: function(event, ui) {}
+        });
+        $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
 
-    $(".portlet-toggle").on("click", function() {
-        var icon = $(this);
-        icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-        icon.closest(".portlet").find(".portlet-content").toggle();
-    });
+        $(".portlet-toggle").on("click", function() {
+            var icon = $(this);
+            icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+            icon.closest(".portlet").find(".portlet-content").toggle();
+        });
 
-    $(".portlet").resizable();
+        $(".portlet").resizable();
+    }, 200);
 
     templateObject.deactivateDraggable = function() {
         $('#col1,#col2').sortable({
