@@ -102,7 +102,7 @@ Template.salesoverview.onRendered(function() {
     templateObject.resetData = function (dataVal) {
         window.open('/salesoverview?page=last', '_self');
     }
-    // $('#tblSalesOverview').DataTable();
+
     templateObject.getAllSalesOrderData = function() {
         var currentBeginDate = new Date();
         var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
