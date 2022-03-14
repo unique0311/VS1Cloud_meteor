@@ -10,15 +10,101 @@ Template.backuprestore.onCreated(() => {
   templateObject.restorerecords = new ReactiveVar();
 });
 Template.backuprestore.onRendered(function(){
-  // $('.fullScreenSpin').css('display', 'inline-block');
+  $('.fullScreenSpin').css('display', 'inline-block');
   let templateObject = Template.instance();
   let backupService = new TaxRateService();
+  var erpGet = erpDb();
+
   const restoreList = [];
   var erpGet = erpDb();
   let objDetails = {
-      Name: "VS1_BackupList"
+      name: "VS1_BackupList",
+      databasename:erpGet.ERPDatabase,
+      AllDBBackups:true
   };
-  var myString = '"JsonIn"'+':'+JSON.stringify(objDetails);
+  var myString = '"jsonin"'+':'+JSON.stringify(objDetails);
+
+  var oPost = new XMLHttpRequest();
+  oPost.open("POST",URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name=VS1_BackupList', true);
+  oPost.setRequestHeader("database",'vs1_clientdb_admin');
+  oPost.setRequestHeader("username",'VS1_Cloud_Admin');
+  oPost.setRequestHeader("password",'DptfGw83mFl1j&9');
+  oPost.setRequestHeader("Accept", "application/json");
+  oPost.setRequestHeader("Accept", "application/html");
+  oPost.setRequestHeader("Content-type", "application/json");
+
+  oPost.send(myString);
+  oPost.onreadystatechange = function() {
+  if(oPost.readyState == 4 && oPost.status == 200) {
+
+     $('.fullScreenSpin').css('display','none');
+     var myArrResponse = JSON.parse(oPost.responseText);
+     if(myArrResponse.ProcessLog.Error){
+       swal('Oooops...', myArrResponse.ProcessLog.Error, 'error');
+     }else{
+       let data = myArrResponse.ProcessLog.BackupList.Files;
+
+       for (let i in data) {
+         let segData = data[i].FileName.split('Backup_');
+         let getDateTime = segData[1].replace('.7z', '') || '';
+         let segGetDateTime = getDateTime.split('_');
+         let getDataDate = segGetDateTime[0];
+         let geDateTime = segGetDateTime[1].replace('-', ':');
+
+         var dateFormat = new Date(getDataDate+':'+geDateTime);
+
+         let getFormatValue = moment(dateFormat).format("ddd MMM D, YYYY, HH:mm:ss");
+         //dateFormat.getDate() + " " + (dateFormat.getMonth() + 1) + "," + dateFormat.getFullYear();
+
+
+           let recordObj = {
+               filename: data[i].FileName || ' ',
+               formateedname:getFormatValue||'',
+               sortdatename:dateFormat||''
+           };
+           restoreList.push(recordObj);
+
+       }
+       templateObject.restorerecords.set(restoreList);
+       $('.fullScreenSpin').css('display','none');
+
+     }
+
+  }else if(oPost.readyState == 4 && oPost.status == 403){
+  $('.fullScreenSpin').css('display','none');
+  swal({
+  title: 'Oooops...',
+  text: oPost.getResponseHeader('errormessage'),
+  type: 'error',
+  showCancelButton: false,
+  confirmButtonText: 'Try Again'
+  }).then((result) => {
+  if (result.value) {
+
+  } else if (result.dismiss === 'cancel') {
+
+  }
+  });
+  }else if(oPost.readyState == 4 && oPost.status == 406){
+   $('.fullScreenSpin').css('display','none');
+   var ErrorResponse = oPost.getResponseHeader('errormessage');
+   var segError = ErrorResponse.split(':');
+
+  if((segError[1]) == ' "Unable to lock object'){
+
+   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+  }else{
+
+   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+  }
+
+  }else if(oPost.readyState == '') {
+  $('.fullScreenSpin').css('display','none');
+
+  swal('Connection Failed', oPost.getResponseHeader('errormessage') +' Please try again!', 'error');
+  }
+ }
+/*
   backupService.pullBackupData(myString).then(function (objDetails) {
     let data = objDetails.ProcessLog.BackupList.Files;
 
@@ -64,7 +150,7 @@ Template.backuprestore.onRendered(function(){
       $('.fullScreenSpin').css('display','none');
   });
 
-
+*/
 
 });
 Template.backuprestore.events({
@@ -72,15 +158,86 @@ Template.backuprestore.events({
   let backupService = new TaxRateService();
   var erpGet = erpDb();
   $('.fullScreenSpin').css('display','inline-block');
-  let restorePoint = $('.sltRestorePoint').val();
+  let restorePoint = $('.sltRestorePoint').val()||'';
 
   let objDetails = {
       Name: "VS1_DatabaseRestore",
       Params: {
-        ArchiveName: restorePoint||''
+        ArchiveName: restorePoint||'',
+        BackupFirst:true
     }
   };
   var myString = '"JsonIn"'+':'+JSON.stringify(objDetails);
+  var erpGet = erpDb();
+
+  var oPost = new XMLHttpRequest();
+  oPost.open("POST",URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name=VS1_DatabaseRestore', true);
+  oPost.setRequestHeader("database",'vs1_clientdb_admin');
+  oPost.setRequestHeader("username",'VS1_Cloud_Admin');
+  oPost.setRequestHeader("password",'DptfGw83mFl1j&9');
+  oPost.setRequestHeader("Accept", "application/json");
+  oPost.setRequestHeader("Accept", "application/html");
+  oPost.setRequestHeader("Content-type", "application/json");
+
+  oPost.send(myString);
+  oPost.onreadystatechange = function() {
+  if(oPost.readyState == 4 && oPost.status == 200) {
+
+     $('.fullScreenSpin').css('display','none');
+     var myArrResponse = JSON.parse(oPost.responseText);
+     if(myArrResponse.ProcessLog.Error){
+       swal('Oooops...', myArrResponse.ProcessLog.Error, 'error');
+     }else{
+       let dataSuccess = myArrResponse.ProcessLog.ResponseStatus;
+       swal({
+       title: dataSuccess,
+       text: '',
+       type: 'success',
+       showCancelButton: false,
+       confirmButtonText: 'OK'
+       }).then((result) => {
+         window.open('/backuprestore','_self');
+       });
+
+       $('.fullScreenSpin').css('display','none');
+
+     }
+
+  }else if(oPost.readyState == 4 && oPost.status == 403){
+  $('.fullScreenSpin').css('display','none');
+  swal({
+  title: 'Oooops...',
+  text: oPost.getResponseHeader('errormessage'),
+  type: 'error',
+  showCancelButton: false,
+  confirmButtonText: 'Try Again'
+  }).then((result) => {
+  if (result.value) {
+
+  } else if (result.dismiss === 'cancel') {
+
+  }
+  });
+  }else if(oPost.readyState == 4 && oPost.status == 406){
+   $('.fullScreenSpin').css('display','none');
+   var ErrorResponse = oPost.getResponseHeader('errormessage');
+   var segError = ErrorResponse.split(':');
+
+  if((segError[1]) == ' "Unable to lock object'){
+
+   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+  }else{
+
+   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+  }
+
+  }else if(oPost.readyState == '') {
+  $('.fullScreenSpin').css('display','none');
+
+  swal('Connection Failed', oPost.getResponseHeader('errormessage') +' Please try again!', 'error');
+  }
+ }
+  /*
   backupService.restoreBackupData(myString).then(function (objDetails) {
     window.open('/backuprestore','_self');
   }).catch(function (err) {
@@ -100,14 +257,86 @@ Template.backuprestore.events({
 
       $('.fullScreenSpin').css('display','none');
   });
+  */
 },'click .btnCreateBackup': function () {
   let backupService = new TaxRateService();
   $('.fullScreenSpin').css('display','inline-block');
-
+  var erpGet = erpDb();
   let objDetails = {
-      Name: "VS1_DatabaseBackup"
+      name: "VS1_DatabaseBackup",
+      databasename:erpGet.ERPDatabase,
   };
   var myString = '"JsonIn"'+':'+JSON.stringify(objDetails);
+
+
+  var oPost = new XMLHttpRequest();
+  oPost.open("POST",URLRequest + erpGet.ERPIPAddress + ':' + erpGet.ERPPort + '/' + 'erpapi/VS1_Cloud_Task/Method?Name=VS1_DatabaseRestore', true);
+  oPost.setRequestHeader("database",'vs1_clientdb_admin');
+  oPost.setRequestHeader("username",'VS1_Cloud_Admin');
+  oPost.setRequestHeader("password",'DptfGw83mFl1j&9');
+  oPost.setRequestHeader("Accept", "application/json");
+  oPost.setRequestHeader("Accept", "application/html");
+  oPost.setRequestHeader("Content-type", "application/json");
+
+  oPost.send(myString);
+  oPost.onreadystatechange = function() {
+  if(oPost.readyState == 4 && oPost.status == 200) {
+
+     $('.fullScreenSpin').css('display','none');
+     var myArrResponse = JSON.parse(oPost.responseText);
+     if(myArrResponse.ProcessLog.Error){
+       swal('Oooops...', myArrResponse.ProcessLog.Error, 'error');
+     }else{
+       let dataSuccess = myArrResponse.ProcessLog.ResponseStatus;
+       swal({
+       title: dataSuccess,
+       text: '',
+       type: 'success',
+       showCancelButton: false,
+       confirmButtonText: 'OK'
+       }).then((result) => {
+         window.open('/backuprestore','_self');
+       });
+
+       $('.fullScreenSpin').css('display','none');
+
+     }
+
+  }else if(oPost.readyState == 4 && oPost.status == 403){
+  $('.fullScreenSpin').css('display','none');
+  swal({
+  title: 'Oooops...',
+  text: oPost.getResponseHeader('errormessage'),
+  type: 'error',
+  showCancelButton: false,
+  confirmButtonText: 'Try Again'
+  }).then((result) => {
+  if (result.value) {
+
+  } else if (result.dismiss === 'cancel') {
+
+  }
+  });
+  }else if(oPost.readyState == 4 && oPost.status == 406){
+   $('.fullScreenSpin').css('display','none');
+   var ErrorResponse = oPost.getResponseHeader('errormessage');
+   var segError = ErrorResponse.split(':');
+
+  if((segError[1]) == ' "Unable to lock object'){
+
+   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+  }else{
+
+   swal('WARNING', oPost.getResponseHeader('errormessage')+'Please try again!', 'error');
+  }
+
+  }else if(oPost.readyState == '') {
+  $('.fullScreenSpin').css('display','none');
+
+  swal('Connection Failed', oPost.getResponseHeader('errormessage') +' Please try again!', 'error');
+  }
+ }
+  /*
   backupService.saveBackupData(myString).then(function (objDetails) {
     window.open('/backuprestore','_self');
   }).catch(function (err) {
@@ -127,6 +356,7 @@ Template.backuprestore.events({
 
       $('.fullScreenSpin').css('display','none');
   });
+  */
 },
 'click .btnBack':function(event){
   event.preventDefault();

@@ -6077,6 +6077,9 @@ Template.purchaseordercard.events({
             $(".attchment-tooltip").show();
         }
     },
+    'click .save-to-library': function(event, ui) {
+      $('.confirm-delete-attachment').trigger('click');
+    },
     'click #btn_Attachment': function() {
         let templateInstance = Template.instance();
         let uploadedFileArray = templateInstance.uploadedFiles.get();
@@ -8351,7 +8354,7 @@ Template.purchaseordercard.events({
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
         for(let x=0; x < paymentData.length; x++){
-            
+
             if(paymentData[x].lines != null && paymentData[x].lines != "") {
                 if(paymentData[x].lines.length > 1){
                     for(let y = 0; y < paymentData[x].lines.length; y++) {

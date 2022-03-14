@@ -9188,6 +9188,9 @@ Template.new_quote.events({
             $(".attchment-tooltip").show();
         }
     },
+    'click .save-to-library': function(event, ui) {
+      $('.confirm-delete-attachment').trigger('click');
+    },
     'click #btn_Attachment': function() {
         let templateInstance = Template.instance();
         let uploadedFileArray = templateInstance.uploadedFiles.get();

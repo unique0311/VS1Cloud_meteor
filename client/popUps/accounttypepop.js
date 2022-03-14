@@ -1997,8 +1997,8 @@ Template.accounttypepop.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
-                            LastName: bankname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname
@@ -2097,7 +2097,8 @@ Template.accounttypepop.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname
@@ -2198,8 +2199,8 @@ Template.accounttypepop.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
-                            LastName: bankname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname

@@ -44,44 +44,69 @@ Template.dashboard.onRendered(function() {
         templateObject.includeDashboard.set(true);
     }
 
-    setTimeout(function() {
+    templateObject.deactivateDraggable = function() {
+
+      setTimeout(function() {
         $(".connectedSortable").sortable({
+            disabled: true,
             connectWith: ".connectedSortable",
             placeholder: "portlet-placeholder ui-corner-all",
             stop: function(event, ui) {
 
             }
-        });
-        $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
+        }).disableSelection();
 
-        $(".portlet-toggle").on("click", function() {
-            var icon = $(this);
-            icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-            icon.closest(".portlet").find(".portlet-content").toggle();
-        });
-
-        $(".portlet").resizable({
-            handles: 'e'
-        });
+        // $(".portlet-toggle").on("click", function() {
+        //     var icon = $(this);
+        //     icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+        //     icon.closest(".portlet").find(".portlet-content").toggle();
+        // });
+        //
+        // $(".portlet").resizable({
+        //     handles: 'e'
+        // });
+        $(".portlet").resizable('disable').removeClass('ui-state-disabled');
     }, 200);
 
-    templateObject.deactivateDraggable = function() {
-        $('#col1,#col2').sortable({
-            disabled: true,
-            connectWith: '.col-area',
-            placeholder: 'highlight',
-            cursor: 'grabbing',
-            handle: '.card'
-        }).disableSelection();
+        // $('#col1,#col2').sortable({
+        //     disabled: true,
+        //     connectWith: '.col-area',
+        //     placeholder: 'highlight',
+        //     cursor: 'grabbing',
+        //     handle: '.card'
+        // }).disableSelection();
     }
     templateObject.activateDraggable = function() {
-        $('#col1,#col2').sortable({
-            disabled: false,
-            connectWith: '.col-area',
-            placeholder: 'highlight',
-            cursor: 'grabbing',
-            handle: '.card'
-        }).disableSelection();
+      setTimeout(function() {
+          $(".connectedSortable").sortable({
+              disabled: false,
+              connectWith: ".connectedSortable",
+              placeholder: "portlet-placeholder ui-corner-all",
+              stop: function(event, ui) {
+
+              }
+          }).disableSelection();
+          $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
+
+          $(".portlet-toggle").on("click", function() {
+              var icon = $(this);
+              icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+              icon.closest(".portlet").find(".portlet-content").toggle();
+          });
+
+          $(".portlet").resizable({
+              handles: 'e'
+          });
+      }, 200);
+
+
+      // $('#col1,#col2').sortable({
+      //     disabled: false,
+      //     connectWith: '.col-area',
+      //     placeholder: 'highlight',
+      //     cursor: 'grabbing',
+      //     handle: '.card'
+      // }).disableSelection();
     }
 
     templateObject.hideChartElements = function() {
@@ -214,30 +239,31 @@ Template.dashboard.events({
         batchUpdateCall();
     },
     'click .editchartsbtn': function() {
-        $(".btnchartdropdown").addClass('hideelement');
-
-        setTimeout(function() {
-            $(".monthlyprofilelossedit").removeClass('hideelement');
-            $(".monthlyprofilelossedit").addClass('showelement');
-
-            $(".profitlossedit").removeClass('hideelement');
-            $(".profitlossedit").addClass('showelement');
-
-            $(".resalecomparisionedit").removeClass('hideelement');
-            $(".resalecomparisionedit").addClass('showelement');
-
-            $(".quotedinvoicededit").removeClass('hideelement');
-            $(".quotedinvoicededit").addClass('showelement');
-
-            $(".monthlyearningsedit").removeClass('hideelement');
-            $(".monthlyearningsedit").addClass('showelement');
-
-            $(".expensesedit").removeClass('hideelement');
-            $(".expensesedit").addClass('showelement');
-        }, 200);
+      $('.editcharts').trigger('click');
+        // $(".btnchartdropdown").addClass('hideelement');
+        //
+        // setTimeout(function() {
+        //     $(".monthlyprofilelossedit").removeClass('hideelement');
+        //     $(".monthlyprofilelossedit").addClass('showelement');
+        //
+        //     $(".profitlossedit").removeClass('hideelement');
+        //     $(".profitlossedit").addClass('showelement');
+        //
+        //     $(".resalecomparisionedit").removeClass('hideelement');
+        //     $(".resalecomparisionedit").addClass('showelement');
+        //
+        //     $(".quotedinvoicededit").removeClass('hideelement');
+        //     $(".quotedinvoicededit").addClass('showelement');
+        //
+        //     $(".monthlyearningsedit").removeClass('hideelement');
+        //     $(".monthlyearningsedit").addClass('showelement');
+        //
+        //     $(".expensesedit").removeClass('hideelement');
+        //     $(".expensesedit").addClass('showelement');
+        // }, 200);
 
     },
-    'click #editcharts': function() {
+    'click .editcharts': function() {
         const templateObject = Template.instance();
         templateObject.showChartElements();
 
@@ -245,8 +271,8 @@ Template.dashboard.events({
         $("#btnDone").removeClass('hideelement');
         $("#btnCancel").addClass('showelement');
         $("#btnCancel").removeClass('hideelement');
-        $("#editcharts").addClass('hideelement')
-        $("#editcharts").removeClass('showelement');
+        // $("#editcharts").addClass('hideelement')
+        // $("#editcharts").removeClass('showelement');
         $(".btnchartdropdown").addClass('hideelement');
         $(".btnchartdropdown").removeClass('showelement');
 
@@ -267,8 +293,8 @@ Template.dashboard.events({
         $("#btnDone").removeClass('showelement');
         $("#btnCancel").addClass('hideelement');
         $("#btnCancel").removeClass('showelement');
-        $("#editcharts").addClass('showelement')
-        $("#editcharts").removeClass('hideelement');
+        // $("#editcharts").addClass('showelement')
+        // $("#editcharts").removeClass('hideelement');
         $(".btnchartdropdown").removeClass('hideelement');
         $(".btnchartdropdown").addClass('showelement');
 
@@ -282,8 +308,8 @@ Template.dashboard.events({
         $("#btnDone").removeClass('showelement');
         $("#btnCancel").addClass('hideelement');
         $("#btnCancel").removeClass('showelement');
-        $("#editcharts").addClass('showelement')
-        $("#editcharts").removeClass('hideelement');
+        // $("#editcharts").addClass('showelement')
+        // $("#editcharts").removeClass('hideelement');
         $(".btnchartdropdown").removeClass('hideelement');
         $(".btnchartdropdown").addClass('showelement');
 

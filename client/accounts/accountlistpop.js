@@ -158,7 +158,7 @@ Template.accountlistpop.onRendered(function() {
             } else {
                 let data = JSON.parse(dataObject[0].data);
                 let useData = data.taccountvs1;
-                
+
                 let records = [];
                 let inventoryData = [];
                 for (let i = 0; i < useData.length; i++) {
@@ -1938,6 +1938,9 @@ Template.accountlistpop.events({
         } else {
             $(".attchment-tooltip").show();
         }
+    },
+    'click .save-to-library': function(event, ui) {
+      $('.confirm-delete-attachment').trigger('click');
     },
     'click #btn_Attachment': function() {
         let templateInstance = Template.instance();

@@ -1469,7 +1469,7 @@ Template.productview.onRendered(function () {
 
                     for (let i = 0; i < useData.length; i++) {
                         if (parseInt(useData[i].fields.ID) === currentProductID) {
-  
+
                             added = true;
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
@@ -3678,7 +3678,7 @@ Template.productview.events({
         if (taxcodeList) {
             for (var i = 0; i < taxcodeList.length; i++) {
                 if (taxcodeList[i].codename == taxRate) {
-                    taxrateamount = taxcodeList[i].coderate;
+                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                 }
             }
         }
@@ -3723,8 +3723,9 @@ Template.productview.events({
         }
 
         let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
-        costPrice = (parseFloat(costPriceInc) / (taxRateAmountCalc)) || Currency + '0';
-        $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+        costPrice = (parseFloat(costPriceInc) / (taxRateAmountCalc)) || 0;
+        let costPriceTotal = costPriceInc - costPrice|| Currency + '0';
+        $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPriceTotal));
 
     },
     'change #slttaxcodepurchase': function () {
@@ -3766,7 +3767,7 @@ Template.productview.events({
         if (taxcodeList) {
             for (var i = 0; i < taxcodeList.length; i++) {
                 if (taxcodeList[i].codename == taxRate) {
-                    taxrateamount = taxcodeList[i].coderate;
+                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                 }
             }
         }
@@ -3823,7 +3824,8 @@ Template.productview.events({
 
         let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
         sellPrice = (parseFloat(sellPriceInc) / (taxRateAmountCalc)) || Currency + '0';
-        $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+        let sellPriceTotal = sellPriceInc - sellPrice|| Currency + '0';
+        $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPriceTotal));
 
         $('.itemExtraSellRow').each(function () {
             var lineID = this.id;
