@@ -322,17 +322,31 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-12">
+                            <div class="row justify-content-end">
+                                <!-- <div class="col-1">
+                                    <div style="padding: 5px;">
+                                        <i class="fa fa-money"></i> Cash
+                                    </div>
+                                </div> -->
+                                <div class="col-3" style="display: inline-flex; max-width: 210px;">
+                                    <div style="padding: 6px; width: 75px;">
+                                        <i class="fa fa-money"></i> Cash
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" style="float: right; margin-bottom: 16px;">Unreported</button>
+                                    <button type="button" class="btn btn-primary" style="display: none; float: right; margin-bottom: 16px;">View Report</button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 col-md-6">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Employee</label>
                                         <select class="form-control" id="sltMerchant">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            <option>Josef Steyn</option>
+                                            <option>Rasheed Ariyibi</option>
+                                            <option>Bruno Braga</option>
                                         </select>
                                     </div>
                                 </div>
@@ -340,11 +354,10 @@
                                     <div class="form-group">
                                         <label>Transaction Type</label>
                                         <select class="form-control" id="sltMerchant">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            <option>Cash</option>
+                                            <option>Card</option>
+                                            <option>EFT</option>
+                                            <option>Cheque</option>
                                         </select>
                                     </div>
                                 </div>
@@ -352,11 +365,9 @@
                                     <div class="form-group">
                                         <label>Merchant</label>
                                         <select class="form-control" id="sltMerchant">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            <option>Pick n Pay</option>
+                                            <option>Woolworths</option>
+                                            <option>Spar</option>
                                         </select>
                                     </div>
                                 </div>
@@ -381,11 +392,10 @@
                                     <div class="form-group">
                                         <label>Currency</label>
                                         <select class="form-control" id="sltCategory">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            <option>ZAR</option>
+                                            <option>AUD</option>
+                                            <option>USD</option>
+                                            <option>EUR</option>
                                         </select>
                                     </div>
                                 </div>
@@ -399,23 +409,22 @@
                                     <div class="form-group">
                                         <label>Category</label>
                                         <select class="form-control" id="sltCategory">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            <option>Office Supplies</option>
+                                            <option>Benefits</option>
+                                            <option>Car</option>
+                                            <option>Equipment</option>
+                                            <option>Insurance</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>Linked Report</label>
+                                        <label>Grouped Report</label>
                                         <select class="form-control" id="sltLinkedReport">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                            <option>Trip to Europe</option>
+                                            <option>Trip to SA</option>
+                                            <option>Trip to Australia</option>
+                                            <option>Trip to Europe 2</option>
                                         </select>
                                     </div>
                                 </div>
@@ -475,6 +484,246 @@
                         <div class="col-12 ">
                             <button type="button" class="btn btn-primary" style="float: right; margin-left: 8px; margin-top: 16px;"><i class="fa fa-cloud-upload" style="margin-right: 8px;"></i>Upload</button>
                             <button type="button" class="btn btn-primary" style="float: right; margin-right: 8px; margin-top: 16px;"><i class="fa fa-cloud-download" style="margin-right: 8px;"></i>Download</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="justify-content: space-between;">
+                    <div style="float: left;">
+                        <!-- Detach receipt removes the currently attached receipt -->
+                        <button type="button float-left" class="btn btn-secondary">Detach Receipt</button>
+                        <button type="button float-left" class="btn btn-secondary" data-toggle="modal" data-target="#splitExpenseModal" data-dismiss="modal">Split Expense</button>
+                        <button type="button float-left" class="btn btn-secondary" data-toggle="modal" data-target="#mergeModal" data-dismiss="modal">Merge</button>
+                        <button type="button float-left" class="btn btn-secondary">Duplicate</button>
+                        <button type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                    <div style="float: right;">
+                        <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="splitExpenseModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Split Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Split your expense from merchant [Merchant Name]. <a href="">View the receipt.</a></p>
+                            <p><i class="fas fa-exclamation-triangle" style="color: #f6c23e; margin-right: 5px;"></i> Please note that splitting an expense cannot be undone. <a href="">More info...</a></p>
+                        </div>
+                        <div class="col-12">
+                            <div class="row no-gutters d-xl-flex align-items-xl-end">
+                                <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
+
+                                </div>
+                                <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end myvarFilterFormSplit">
+                                    <div class="dropdown" style="margin: 8px; margin-top: 0px;">
+                                        <style>
+                                            .dropdown-toggle::after {
+                                                display: none;
+                                            }
+                                        </style>
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                        <div class="dropdown-menu" role="menu">
+                                            <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                            <a class="dropdown-item lastMonth" id="lastMonth" role="presentation" href="#">Last Month</a>
+                                            <a class="dropdown-item lastQuarter" id="lastQuarter" role="presentation" href="#">Last Quarter</a>
+                                            <a class="dropdown-item last12Months" id="last12Months" role="presentation" href="#">Last 12 Months</a>
+                                            <a class="dropdown-item ignoreDate" id="ignoreDate" role="presentation" href="#">Ignore Date</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin: 8px; margin-top: 0px; display: inline-flex;">
+                                        <label style="margin-top: 8px; margin-right: 16px;">From</label>
+                                        <div class="input-group date" style="width: 160px;">
+                                            <input type="text" class="form-control" id="dateFrom" name="dateFrom">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin: 8px; margin-right: 0px; margin-top: 0px; display: inline-flex;">
+                                        <label style="margin-top: 8px; margin-right: 16px;">To</label>
+                                        <div class="input-group date" style="width: 160px;">
+                                            <input type="text" class="form-control" id="dateTo" name="dateTo">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="tblSplitExpense" style="width:100%" class="dataTable table table-striped table-bordered tblSplitExpense">
+                                <thead>
+                                    <tr class="dnd-moved">
+                                        <th class="th colReceiptDate" style="width: 6%;">Date</th>
+                                        <th class="th colReceiptCategory" style="width:;">Category</th>
+                                        <th class="th colReceiptAmount" style="width: 20%;">Amount</th>
+                                        <th class="th colDelete" style="width: 3%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="dnd-moved" id="receiptentry1" style="cursor: pointer;">
+                                        <td contenteditable="false" class="colReceiptDate" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="colReceiptCategory" style="width: ;">Travel</td>
+                                        <td contenteditable="false" class="colReceiptAmount" style="width: 20%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="colDelete" style="width: 3%;">
+                                            <span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="justify-content: space-between;">
+                    <div style="float: left;">
+
+                        <!-- Add Split adds a new line to the table -->
+                        <button type="button float-left" class="btn btn-secondary">Add Split</button>
+                        <div class="dropdown float-left" style="margin-right: 4px;">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Split by Days
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="padding: 8px; width: 195px;">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <div class="input-group date" style="cursor: pointer;">
+                                        <input type="text" class="form-control" id="dtReceiptDate" name="dtReceiptDate" value="">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>End Date</label>
+                                    <div class="input-group date" style="cursor: pointer;">
+                                        <input type="text" class="form-control" id="dtReceiptDate" name="dtReceiptDate" value="">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Cancel</button>
+                            </div>
+                        </div>
+                        <!-- Splits the amount evenly between all entries on the table -->
+                        <button type="button float-left" class="btn btn-secondary">Split Even</button>
+                    </div>
+                    <div style="float: right;">
+                        <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="mergeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Merge an Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                <label>Filter by Cards</label>
+                                <select class="form-control" id="sltCategory">
+                                    <option>Card 1</option>
+                                    <option>Card 2</option>
+                                    <option>Card 3</option>
+                                    <option>Card 4</option>
+                                    <option>Card 5</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Filter by Category</label>
+                                <select class="form-control" id="sltCategory">
+                                    <option>Office Supplies</option>
+                                    <option>Benefits</option>
+                                    <option>Car</option>
+                                    <option>Equipment</option>
+                                    <option>Insurance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <div class="row no-gutters d-xl-flex align-items-xl-end">
+                                <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
+
+                                </div>
+                                <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end myvarFilterFormMerge">
+                                    <div class="dropdown" style="margin: 8px; margin-top: 0px;">
+                                        <style>
+                                            .dropdown-toggle::after {
+                                                display: none;
+                                            }
+                                        </style>
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
+                                        <div class="dropdown-menu" role="menu">
+                                            <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                            <a class="dropdown-item lastMonth" id="lastMonth" role="presentation" href="#">Last Month</a>
+                                            <a class="dropdown-item lastQuarter" id="lastQuarter" role="presentation" href="#">Last Quarter</a>
+                                            <a class="dropdown-item last12Months" id="last12Months" role="presentation" href="#">Last 12 Months</a>
+                                            <a class="dropdown-item ignoreDate" id="ignoreDate" role="presentation" href="#">Ignore Date</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin: 8px; margin-top: 0px; display: inline-flex;">
+                                        <label style="margin-top: 8px; margin-right: 16px;">From</label>
+                                        <div class="input-group date" style="width: 160px;">
+                                            <input type="text" class="form-control" id="dateFrom" name="dateFrom">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin: 8px; margin-right: 0px; margin-top: 0px; display: inline-flex;">
+                                        <label style="margin-top: 8px; margin-right: 16px;">To</label>
+                                        <div class="input-group date" style="width: 160px;">
+                                            <input type="text" class="form-control" id="dateTo" name="dateTo">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="tblMerge" style="width:100%" class="dataTable table table-striped table-bordered tblMerge">
+                                <thead>
+                                    <tr class="dnd-moved">
+                                        <th class="th col" style="width: 6%;">Date</th>
+                                        <th class="th col" style="width: ;">Merchant</th>
+                                        <th class="th col" style="width: 20%;">Total</th>
+                                        <th class="th col" style="width: ;">Category</th>
+                                        <th class="th col" style="width: ;">Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="dnd-moved" id="receiptentry1" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: ;"></td>
+                                        <td contenteditable="false" class="col" style="width: 20%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: ;"></td>
+                                        <td contenteditable="false" class="col" style="width: ;"></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

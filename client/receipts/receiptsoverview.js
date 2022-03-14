@@ -100,69 +100,10 @@ Template.receiptsoverview.onRendered(function() {
             action: function() {
                 $('#tblReceiptList').DataTable().ajax.reload();
             },
-            "fnDrawCallback": function(oSettings) {
-                let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                if (checkurlIgnoreDate == 'true') {
-
-                } else {
-                    $('.paginate_button.page-item').removeClass('disabled');
-                    $('#tblcustomerAwaitingPayment_ellipsis').addClass('disabled');
-
-                    if (oSettings._iDisplayLength == -1) {
-                        if (oSettings.fnRecordsDisplay() > 150) {
-                            $('.paginate_button.page-item.previous').addClass('disabled');
-                            $('.paginate_button.page-item.next').addClass('disabled');
-                        }
-                    } else {}
-                    if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                        $('.paginate_button.page-item.next').addClass('disabled');
-                    }
-                    $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                        .on('click', function() {
-                            $('.fullScreenSpin').css('display', 'inline-block');
-                            let dataLenght = oSettings._iDisplayLength;
-
-                            var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
-                            var dateTo = new Date($("#dateTo").datepicker("getDate"));
-
-                            let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
-                            let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
-
-                            sideBarService.getAllAwaitingCustomerPayment(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                                getVS1Data('TAwaitingCustomerPayment').then(function(dataObjectold) {
-                                    if (dataObjectold.length == 0) {} else {
-                                        let dataOld = JSON.parse(dataObjectold[0].data);
-                                        var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
-                                        let objCombineData = {
-                                            Params: dataObjectnew.Params,
-                                            tsaleslist: thirdaryData
-                                        }
-
-                                        addVS1Data('TAwaitingCustomerPayment', JSON.stringify(objCombineData)).then(function(datareturn) {
-                                            templateObject.resetData(objCombineData);
-                                            $('.fullScreenSpin').css('display', 'none');
-                                        }).catch(function(err) {
-                                            $('.fullScreenSpin').css('display', 'none');
-                                        });
-
-                                    }
-                                }).catch(function(err) {});
-
-                            }).catch(function(err) {
-                                $('.fullScreenSpin').css('display', 'none');
-                            });
-
-                        });
-                }
-                setTimeout(function() {
-                    MakeNegative();
-                }, 100);
-            },
             "fnInitComplete": function() {
                 $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblReceiptList_filter");
                 $('.myvarFilterForm').appendTo(".colDateFilter");
             }
-
         }).on('page', function() {
             setTimeout(function() {
                 MakeNegative();
@@ -176,6 +117,159 @@ Template.receiptsoverview.onRendered(function() {
         });
         $('.fullScreenSpin').css('display', 'none');
     }, 0);
+    setTimeout(function() {
+        //$.fn.dataTable.moment('DD/MM/YY');
+        $('#tblSplitExpense').DataTable({
+            columnDefs: [{
+                "orderable": false,
+                "targets": 3
+            }, {
+                type: 'date',
+                targets: 0
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilterSplit'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "Awaiting Customer Payments List - " + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible:not(.chkBox)',
+                    format: {
+                        body: function(data, row, column) {
+                            if (data.includes("</span>")) {
+                                var res = data.split("</span>");
+                                data = res[1];
+                            }
+
+                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
+                        }
+                    }
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Supplier Payment',
+                filename: "Awaiting Customer Payments List - " + moment().format(),
+                exportOptions: {
+                    columns: ':visible:not(.chkBox)',
+                    stripHtml: false
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            colReorder: {
+                fixedColumnsLeft: 0
+            },
+            pageLength: initialReportDatatableLoad,
+            "bLengthChange": false,
+            info: true,
+            responsive: true,
+            "order": [
+                [1, "desc"]
+            ],
+            action: function() {
+                $('#tblSplitExpense').DataTable().ajax.reload();
+            },
+            "fnInitComplete": function() {
+                $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshSplit' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSplitExpense_filter");
+                $('.myvarFilterFormSplit').appendTo(".colDateFilterSplit");
+            }
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
+    setTimeout(function() {
+        //$.fn.dataTable.moment('DD/MM/YY');
+        $('#tblMerge').DataTable({
+            columnDefs: [{
+                type: 'date',
+                targets: 0
+            }],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilterMerge'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+            buttons: [{
+                extend: 'excelHtml5',
+                text: '',
+                download: 'open',
+                className: "btntabletocsv hiddenColumn",
+                filename: "Awaiting Customer Payments List - " + moment().format(),
+                orientation: 'portrait',
+                exportOptions: {
+                    columns: ':visible:not(.chkBox)',
+                    format: {
+                        body: function(data, row, column) {
+                            if (data.includes("</span>")) {
+                                var res = data.split("</span>");
+                                data = res[1];
+                            }
+
+                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
+
+                        }
+                    }
+                }
+            }, {
+                extend: 'print',
+                download: 'open',
+                className: "btntabletopdf hiddenColumn",
+                text: '',
+                title: 'Supplier Payment',
+                filename: "Awaiting Customer Payments List - " + moment().format(),
+                exportOptions: {
+                    columns: ':visible:not(.chkBox)',
+                    stripHtml: false
+                }
+            }],
+            select: true,
+            destroy: true,
+            colReorder: true,
+            // colReorder: {
+            //     fixedColumnsLeft: 0
+            // },
+            pageLength: initialReportDatatableLoad,
+            "bLengthChange": false,
+            info: true,
+            responsive: true,
+            "order": [
+                [1, "desc"]
+            ],
+            action: function() {
+                $('#tblMerge').DataTable().ajax.reload();
+            },
+            "fnInitComplete": function() {
+                $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshMerge' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus'></i></button>").insertAfter("#tblMerge_filter");
+                $('.myvarFilterFormMerge').appendTo(".colDateFilterMerge");
+            }
+        }).on('page', function() {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+            let draftRecord = templateObject.datatablerecords.get();
+            templateObject.datatablerecords.set(draftRecord);
+        }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+            setTimeout(function() {
+                MakeNegative();
+            }, 100);
+        });
+        $('.fullScreenSpin').css('display', 'none');
+    }, 0);
+
 
     $('.imageParent')
         // tile mouse actions
