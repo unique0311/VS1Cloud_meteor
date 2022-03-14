@@ -97,7 +97,7 @@ export class StockAdjust extends BaseService {
 
     getCompanyInfo(){
         let options = {
-            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn,CompanyNumber",
+            PropertyList: "PoBox,PoBox2,PoBox3,PoCity,PoState,PoPostcode,PoCountry,abn,CompanyNumber,BankName,BankAccountName",
         };
         return this.getList(this.ERPObjects.TCompanyInfo, options);
     }

@@ -1308,8 +1308,10 @@ Template.supplierawaitingpurchaseorder.events({
     'click .chkBoxAll': function () {
         if ($(event.target).is(':checked')) {
             $(".chkBox").prop("checked", true);
+            $(".btnSuppPayment").addClass('btnSearchAlert');
         } else {
             $(".chkBox").prop("checked", false);
+            $(".btnSuppPayment").removeClass('btnSearchAlert');
         }
     },
     'click .chkPaymentCard': function () {
@@ -1344,6 +1346,14 @@ Template.supplierawaitingpurchaseorder.events({
         });
         templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
 
+        setTimeout(function () {
+          let selectClient = templateObject.selectedAwaitingPayment.get();
+          if (selectClient.length === 0) {
+            $(".btnSuppPayment").removeClass('btnSearchAlert');
+          } else {
+            $(".btnSuppPayment").addClass('btnSearchAlert');
+          };
+        }, 100);
     },
     'click .btnSuppPayment': function () {
         const templateObject = Template.instance();

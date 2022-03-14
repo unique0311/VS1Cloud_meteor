@@ -1386,8 +1386,10 @@ Template.customerawaitingpayments.events({
     'click .chkBoxAll': function () {
         if ($(event.target).is(':checked')) {
             $(".chkBox").prop("checked", true);
+            $(".btnCustPayment").addClass('btnSearchAlert');
         } else {
             $(".chkBox").prop("checked", false);
+            $(".btnCustPayment").removeClass('btnSearchAlert');
         }
     },
     'click .chkPaymentCard': function () {
@@ -1421,6 +1423,16 @@ Template.customerawaitingpayments.events({
         });
         Session.setPersistent('paymentsArray',JSON.stringify(selectedAwaitingPayment));
         templateObject.selectedAwaitingPayment.set(selectedAwaitingPayment);
+
+        setTimeout(function () {
+          let selectClient = templateObject.selectedAwaitingPayment.get();
+          if (selectClient.length === 0) {
+            $(".btnCustPayment").removeClass('btnSearchAlert');
+          } else {
+            $(".btnCustPayment").addClass('btnSearchAlert');
+          };
+        }, 100);
+
 
     },
     'click .btnCustPayment': function (e) {

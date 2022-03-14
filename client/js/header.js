@@ -1464,8 +1464,8 @@ Template.header.onRendered(function() {
             let companyURL = data.tcompanyinfo[0].Url
             let accNo = data.tcompanyinfo[0].AccountNo || '';
             let swiftCode = data.tcompanyinfo[0].BankBranch || '';
-            let bankName = data.tcompanyinfo[0].LastName || '';
-            let accountName = data.tcompanyinfo[0].Firstname || '';
+            let bankName = data.tcompanyinfo[0].BankName || '';
+            let accountName = data.tcompanyinfo[0].BankAccountName || '';
             let bsb = data.tcompanyinfo[0].Bsb || '';
             let poBox = data.tcompanyinfo[0].PoPostcode || '';
             let companyCity = data.tcompanyinfo[0].PoCity || '';

@@ -42,7 +42,7 @@ Template.profitandlosschart.onRendered(()=>{
     $('#profitloss1hide').text("Hide");
   }
     },1000);
-  
+
   if((currentDate.getMonth()+1) < 10){
     fromDateMonth = "0" + (currentDate.getMonth()+1);
   }

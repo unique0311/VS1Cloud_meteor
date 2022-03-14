@@ -5737,6 +5737,9 @@ Template.timesheet.onRendered(function () {
                         $('.fullScreenSpin').css('display', 'none');
                     }
                 },
+                'click .btnInvoice': function () {
+                  swal('Coming Soon', '', 'info');
+                },
 
                 'click .processTimesheet': function () {
                     $('.fullScreenSpin').css('display', 'inline-block');
