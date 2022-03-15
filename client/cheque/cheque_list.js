@@ -196,11 +196,7 @@ Template.chequelist.onRendered(function() {
 
                   setTimeout(function() {
                       $('.fullScreenSpin').css('display', 'none');
-                      //$.fn.dataTable.moment('DD/MM/YY');
                       $('#tblchequelist').DataTable({
-                          // columnDefs: [
-                          //     {type: 'date', targets: 0}
-                          // ],
                           "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                           buttons: [{
                               extend: 'excelHtml5',
@@ -251,9 +247,7 @@ Template.chequelist.onRendered(function() {
                           },
                           "fnDrawCallback": function (oSettings) {
                             let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                            if(checkurlIgnoreDate == 'true'){
 
-                            }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblchequelist_ellipsis').addClass('disabled');
 
@@ -273,8 +267,44 @@ Template.chequelist.onRendered(function() {
                              .on('click', function(){
                                $('.fullScreenSpin').css('display','inline-block');
                                let dataLenght = oSettings._iDisplayLength;
+                               var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                               var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                               sideBarService.getAllChequeListData(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                               let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                               if(checkurlIgnoreDate == 'true'){
+                                 sideBarService.getAllChequeListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TChequeList').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tchequelist), dataOld.tchequelist);
+                                       let objCombineData = {
+                                         Params: dataOld.Params,
+                                         tchequelist:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TChequeList',JSON.stringify(objCombineData)).then(function (datareturn) {
+
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+                               }else{
+                               sideBarService.getAllChequeListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                  getVS1Data('TChequeList').then(function (dataObjectold) {
                                    if(dataObjectold.length == 0){
 
@@ -304,25 +334,22 @@ Template.chequelist.onRendered(function() {
                                }).catch(function(err) {
                                  $('.fullScreenSpin').css('display','none');
                                });
-
+                             }
                              });
 
-                           }
+
                               setTimeout(function () {
                                   MakeNegative();
                               }, 100);
                           },
                           "fnInitComplete": function () {
                             let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if(urlParametersPage){
-                              this.fnPageChange('last');
+                            if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                                this.fnPageChange('last');
                             }
-
-                           },
-                           "fnInitComplete": function () {
-                                $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
-                                $('.myvarFilterForm').appendTo(".colDateFilter");
-                          }
+                            $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                           }
 
                       }).on('page', function() {
                           setTimeout(function() {
@@ -334,6 +361,18 @@ Template.chequelist.onRendered(function() {
 
                       });
                       $('.fullScreenSpin').css('display', 'none');
+
+                      /* Add count functionality to table */
+                      let countTableData = data.Params.Count || 1; //get count from API data
+                      if(data.tchequelist.length > countTableData){ //Check if what is on the list is more than API count
+                        countTableData = data.tchequelist.length||1;
+                      }
+                      if(data.tchequelist.length > 0){
+                        $('#tblchequelist_info').html('Showing 1 to '+data.tchequelist.length+ ' of ' +countTableData+ ' entries');
+                      }else{
+                        $('#tblchequelist_info').html('Showing 0 to '+data.tchequelist.length+ ' of 0 entries');
+                      }
+                      /* End Add count functionality to table */
                   }, 0);
 
                   var columns = $('#tblchequelist th');
@@ -458,11 +497,7 @@ Template.chequelist.onRendered(function() {
 
                 setTimeout(function() {
                     $('.fullScreenSpin').css('display', 'none');
-                    //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblchequelist').DataTable({
-                        // columnDefs: [
-                        //     {type: 'date', targets: 0}
-                        // ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
                             extend: 'excelHtml5',
@@ -513,9 +548,7 @@ Template.chequelist.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblchequelist_ellipsis').addClass('disabled');
 
@@ -535,8 +568,44 @@ Template.chequelist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllChequeListData(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getAllChequeListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TChequeList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tchequelist), dataOld.tchequelist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tchequelist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TChequeList',JSON.stringify(objCombineData)).then(function (datareturn) {
+
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
+                             sideBarService.getAllChequeListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TChequeList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
@@ -566,25 +635,22 @@ Template.chequelist.onRendered(function() {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
-
+                           }
                            });
 
-                         }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
                           }
-
-                         },
-                         "fnInitComplete": function () {
-                              $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
-                              $('.myvarFilterForm').appendTo(".colDateFilter");
-                        }
+                          $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
+                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                         }
 
                     }).on('page', function() {
                         setTimeout(function() {
@@ -596,7 +662,6 @@ Template.chequelist.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display', 'none');
-
                     /* Add count functionality to table */
                     let countTableData = data.Params.Count || 1; //get count from API data
                     if(data.tchequelist.length > countTableData){ //Check if what is on the list is more than API count
@@ -725,11 +790,7 @@ Template.chequelist.onRendered(function() {
 
                 setTimeout(function() {
                     $('.fullScreenSpin').css('display', 'none');
-                    //$.fn.dataTable.moment('DD/MM/YY');
                     $('#tblchequelist').DataTable({
-                        // columnDefs: [
-                        //     {type: 'date', targets: 0}
-                        // ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
                             extend: 'excelHtml5',
@@ -780,9 +841,7 @@ Template.chequelist.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblchequelist_ellipsis').addClass('disabled');
 
@@ -802,8 +861,44 @@ Template.chequelist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllChequeListData(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getAllChequeListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TChequeList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tchequelist), dataOld.tchequelist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tchequelist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TChequeList',JSON.stringify(objCombineData)).then(function (datareturn) {
+
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
+                             sideBarService.getAllChequeListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TChequeList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
@@ -833,25 +928,22 @@ Template.chequelist.onRendered(function() {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
-
+                           }
                            });
 
-                         }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
                           }
-
-                         },
-                         "fnInitComplete": function () {
-                              $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
-                              $('.myvarFilterForm').appendTo(".colDateFilter");
-                        }
+                          $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
+                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                         }
 
                     }).on('page', function() {
                         setTimeout(function() {
@@ -862,9 +954,19 @@ Template.chequelist.onRendered(function() {
                     }).on('column-reorder', function() {
 
                     });
+                    /* Add count functionality to table */
+                    let countTableData = data.Params.Count || 1; //get count from API data
+                    if(data.tchequelist.length > countTableData){ //Check if what is on the list is more than API count
+                      countTableData = data.tchequelist.length||1;
+                    }
+                    if(data.tchequelist.length > 0){
+                      $('#tblchequelist_info').html('Showing 1 to '+data.tchequelist.length+ ' of ' +countTableData+ ' entries');
+                    }else{
+                      $('#tblchequelist_info').html('Showing 0 to '+data.tchequelist.length+ ' of 0 entries');
+                    }
+                    /* End Add count functionality to table */
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
-
                 var columns = $('#tblchequelist th');
                 let sTible = "";
                 let sWidth = "";

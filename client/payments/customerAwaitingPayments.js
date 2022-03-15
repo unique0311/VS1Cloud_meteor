@@ -256,9 +256,7 @@ Template.customerawaitingpayments.onRendered(function () {
                           },
                           "fnDrawCallback": function (oSettings) {
                             let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                            if(checkurlIgnoreDate == 'true'){
 
-                            }else{
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblcustomerAwaitingPayment_ellipsis').addClass('disabled');
 
@@ -281,7 +279,32 @@ Template.customerawaitingpayments.onRendered(function () {
 
                                   let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                   let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                  if(checkurlIgnoreDate == 'true'){
+                                    sideBarService.getAllAwaitingCustomerPayment(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                        getVS1Data('TAwaitingCustomerPayment').then(function (dataObjectold) {
+                                            if (dataObjectold.length == 0) {}
+                                            else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                                let objCombineData = {
+                                                    Params: dataOld.Params,
+                                                    tsaleslist: thirdaryData
+                                                }
 
+                                                addVS1Data('TAwaitingCustomerPayment', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function (err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function (err) {});
+
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                  }else{
                                   sideBarService.getAllAwaitingCustomerPayment(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                       getVS1Data('TAwaitingCustomerPayment').then(function (dataObjectold) {
                                           if (dataObjectold.length == 0) {}
@@ -306,16 +329,16 @@ Template.customerawaitingpayments.onRendered(function () {
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
-
+                                }
                               });
-                            }
+
                               setTimeout(function () {
                                   MakeNegative();
                               }, 100);
                           },
                           "fnInitComplete": function () {
                             let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
+                            if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                 this.fnPageChange('last');
                             }
                                $("<button class='btn btn-primary btnRefreshCustomerAwaiting' type='button' id='btnRefreshCustomerAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
@@ -535,9 +558,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblcustomerAwaitingPayment_ellipsis').addClass('disabled');
 
@@ -560,7 +581,32 @@ Template.customerawaitingpayments.onRendered(function () {
 
                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getAllAwaitingCustomerPayment(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TAwaitingCustomerPayment').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tsaleslist: thirdaryData
+                                              }
 
+                                              addVS1Data('TAwaitingCustomerPayment', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
                                 sideBarService.getAllAwaitingCustomerPayment(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                     getVS1Data('TAwaitingCustomerPayment').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
@@ -585,16 +631,16 @@ Template.customerawaitingpayments.onRendered(function () {
                                 }).catch(function (err) {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
-
+                              }
                             });
-                          }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if (urlParametersPage) {
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                               this.fnPageChange('last');
                           }
                              $("<button class='btn btn-primary btnRefreshCustomerAwaiting' type='button' id='btnRefreshCustomerAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
@@ -612,7 +658,7 @@ Template.customerawaitingpayments.onRendered(function () {
                             MakeNegative();
                         }, 100);
                     });
-
+                    $('.fullScreenSpin').css('display', 'none');
                     /* Add count functionality to table */
                     let countTableData = data.Params.Count || 1; //get count from API data
                     if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
@@ -624,7 +670,6 @@ Template.customerawaitingpayments.onRendered(function () {
                       $('#tblcustomerAwaitingPayment_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
                     }
                     /* End Add count functionality to table */
-                    $('.fullScreenSpin').css('display', 'none');
                 }, 0);
 
                 var columns = $('#tblcustomerAwaitingPayment th');
@@ -811,9 +856,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblcustomerAwaitingPayment_ellipsis').addClass('disabled');
 
@@ -836,7 +879,32 @@ Template.customerawaitingpayments.onRendered(function () {
 
                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getAllAwaitingCustomerPayment(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TAwaitingCustomerPayment').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tsaleslist: thirdaryData
+                                              }
 
+                                              addVS1Data('TAwaitingCustomerPayment', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
                                 sideBarService.getAllAwaitingCustomerPayment(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                     getVS1Data('TAwaitingCustomerPayment').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
@@ -861,16 +929,16 @@ Template.customerawaitingpayments.onRendered(function () {
                                 }).catch(function (err) {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
-
+                              }
                             });
-                          }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if (urlParametersPage) {
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                               this.fnPageChange('last');
                           }
                              $("<button class='btn btn-primary btnRefreshCustomerAwaiting' type='button' id='btnRefreshCustomerAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
@@ -889,7 +957,6 @@ Template.customerawaitingpayments.onRendered(function () {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
-
                     /* Add count functionality to table */
                     let countTableData = data.Params.Count || 1; //get count from API data
                     if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count

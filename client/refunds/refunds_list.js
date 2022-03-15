@@ -275,9 +275,7 @@ Template.refundlist.onRendered(function () {
                             },
                             "fnDrawCallback": function (oSettings) {
                               let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                              if(checkurlIgnoreDate == 'true'){
 
-                              }else{
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblRefundlist_ellipsis').addClass('disabled');
 
@@ -302,6 +300,37 @@ Template.refundlist.onRendered(function () {
 
                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                 if(checkurlIgnoreDate == 'true'){
+                                   sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                     getVS1Data('TRefundSaleList').then(function (dataObjectold) {
+                                       if(dataObjectold.length == 0){
+
+                                       }else{
+                                         let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                         var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsalelist), dataOld.trefundsalelist);
+                                         let objCombineData = {
+                                           Params: dataOld.Params,
+                                           trefundsalelist:thirdaryData
+                                         }
+
+
+                                           addVS1Data('TRefundSaleList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                             templateObject.resetData(objCombineData);
+                                           $('.fullScreenSpin').css('display','none');
+                                           }).catch(function (err) {
+                                           $('.fullScreenSpin').css('display','none');
+                                           });
+
+                                       }
+                                      }).catch(function (err) {
+
+                                      });
+
+                                   }).catch(function(err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                   });
+                                 }else{
                                  sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                    getVS1Data('TRefundSaleList').then(function (dataObjectold) {
                                      if(dataObjectold.length == 0){
@@ -331,16 +360,16 @@ Template.refundlist.onRendered(function () {
                                  }).catch(function(err) {
                                    $('.fullScreenSpin').css('display','none');
                                  });
-
+                               }
                                });
-                             }
+
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                             "fnInitComplete": function () {
                               let urlParametersPage = FlowRouter.current().queryParams.page;
-                              if (urlParametersPage) {
+                              if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                   this.fnPageChange('last');
                               }
                                 $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
@@ -564,9 +593,7 @@ Template.refundlist.onRendered(function () {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblRefundlist_ellipsis').addClass('disabled');
 
@@ -591,6 +618,37 @@ Template.refundlist.onRendered(function () {
 
                              let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                              let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TRefundSaleList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsalelist), dataOld.trefundsalelist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       trefundsalelist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TRefundSaleList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
                              sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TRefundSaleList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
@@ -620,16 +678,16 @@ Template.refundlist.onRendered(function () {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
-
+                           }
                            });
-                         }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if (urlParametersPage) {
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                               this.fnPageChange('last');
                           }
                             $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");
@@ -848,9 +906,7 @@ Template.refundlist.onRendered(function () {
                       },
                       "fnDrawCallback": function (oSettings) {
                         let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                        if(checkurlIgnoreDate == 'true'){
 
-                        }else{
                         $('.paginate_button.page-item').removeClass('disabled');
                         $('#tblRefundlist_ellipsis').addClass('disabled');
 
@@ -875,6 +931,37 @@ Template.refundlist.onRendered(function () {
 
                            let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                            let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                           if(checkurlIgnoreDate == 'true'){
+                             sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TRefundSaleList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.trefundsalelist), dataOld.trefundsalelist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     trefundsalelist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TRefundSaleList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                           }else{
                            sideBarService.getAllTRefundSaleListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                              getVS1Data('TRefundSaleList').then(function (dataObjectold) {
                                if(dataObjectold.length == 0){
@@ -904,16 +991,16 @@ Template.refundlist.onRendered(function () {
                            }).catch(function(err) {
                              $('.fullScreenSpin').css('display','none');
                            });
-
+                         }
                          });
-                       }
+
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
                       },
                       "fnInitComplete": function () {
                         let urlParametersPage = FlowRouter.current().queryParams.page;
-                        if (urlParametersPage) {
+                        if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                             this.fnPageChange('last');
                         }
                           $("<button class='btn btn-primary btnRefreshRefundList' type='button' id='btnRefreshRefundList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblRefundlist_filter");

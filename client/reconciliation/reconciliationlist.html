@@ -258,11 +258,16 @@
                                     <td contenteditable="false" class="colEmployee">{{item.employee}}</td>
                                     <!-- <td contenteditable="false" class="colFinished hiddenColumn">{{item.finished}}</td> -->
                                     <td contenteditable="false" class="colNotes" >{{item.notes}}</td>
-                                    {{#if equals item.onhold true}}
+                                    {{#if equals item.finished true}}
+                                    <td class="colStatus" style="background-color: #1cc88a !important; color:#fff">Processed</td>
+                                    {{else}}
+                                    <td class="colStatus" style="background-color: #f6c23e !important; color:#fff">On Hold</td>
+                                    {{/if}}
+                                    <!-- {{#if equals item.onhold true}}
                                     <td class="colStatus" style="background-color: #f6c23e !important; color:#fff">On Hold</td>
                                     {{else}}
                                     <td class="colStatus" style="background-color: #1cc88a !important; color:#fff">Processed</td>
-                                    {{/if}}
+                                    {{/if}} -->
                                 </tr>
                                 {{/each}}
                                 {{/if}}

@@ -1385,7 +1385,7 @@ Template.vs1login.onRendered(function () {
 
         let userLoginEmail = $("#email").val();
         let userLoginPassword = escape($('#erppassword').val());
-        let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
+        let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword.toUpperCase().toString());
         var counterUserRec = null;
         let employeeUserID = '';
         let loggedUserEventFired = false;

@@ -253,9 +253,7 @@ Template.purchaseorderlist.onRendered(function() {
                             },
                             "fnDrawCallback": function (oSettings) {
                               let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                              if(checkurlIgnoreDate == 'true'){
 
-                              }else{
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblpurchaseorderlist_ellipsis').addClass('disabled');
 
@@ -282,7 +280,37 @@ Template.purchaseorderlist.onRendered(function() {
                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 
+                                 if(checkurlIgnoreDate == 'true'){
+                                   sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                     getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
+                                       if(dataObjectold.length == 0){
 
+                                       }else{
+                                         let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                         var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderlist), dataOld.tpurchaseorderlist);
+                                         let objCombineData = {
+                                           Params: dataOld.Params,
+                                           tpurchaseorderlist:thirdaryData
+                                         }
+
+
+                                           addVS1Data('TPurchaseOrderList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                             templateObject.resetData(objCombineData);
+                                           $('.fullScreenSpin').css('display','none');
+                                           }).catch(function (err) {
+                                           $('.fullScreenSpin').css('display','none');
+                                           });
+
+                                       }
+                                      }).catch(function (err) {
+
+                                      });
+
+                                   }).catch(function(err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                   });
+                                 }else{
                                  sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                    getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
                                      if(dataObjectold.length == 0){
@@ -312,16 +340,16 @@ Template.purchaseorderlist.onRendered(function() {
                                  }).catch(function(err) {
                                    $('.fullScreenSpin').css('display','none');
                                  });
-
+                               }
                                });
-                             }
+
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                              "fnInitComplete": function () {
                                let urlParametersPage = FlowRouter.current().queryParams.page;
-                               if (urlParametersPage) {
+                               if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                    this.fnPageChange('last');
                                }
                                  $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");
@@ -539,9 +567,7 @@ Template.purchaseorderlist.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblpurchaseorderlist_ellipsis').addClass('disabled');
 
@@ -561,12 +587,44 @@ Template.purchaseorderlist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+
                              var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
                              var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
                              let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                              let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderlist), dataOld.tpurchaseorderlist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tpurchaseorderlist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TPurchaseOrderList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
                              sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
@@ -596,17 +654,16 @@ Template.purchaseorderlist.onRendered(function() {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
-
+                           }
                            });
 
-                         }
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                          "fnInitComplete": function () {
                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                           if (urlParametersPage) {
+                           if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                this.fnPageChange('last');
                            }
                              $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");
@@ -820,9 +877,7 @@ Template.purchaseorderlist.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblpurchaseorderlist_ellipsis').addClass('disabled');
 
@@ -842,12 +897,44 @@ Template.purchaseorderlist.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+
                              var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
                              var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
                              let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                              let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
 
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tpurchaseorderlist), dataOld.tpurchaseorderlist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tpurchaseorderlist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TPurchaseOrderList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
                              sideBarService.getAllTPurchaseOrderListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TPurchaseOrderList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
@@ -877,16 +964,16 @@ Template.purchaseorderlist.onRendered(function() {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
-
+                           }
                            });
-                         }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                          "fnInitComplete": function () {
                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                           if (urlParametersPage) {
+                           if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                this.fnPageChange('last');
                            }
                              $("<button class='btn btn-primary btnRefreshPOList' type='button' id='btnRefreshPOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblpurchaseorderlist_filter");

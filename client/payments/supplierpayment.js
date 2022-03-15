@@ -236,9 +236,7 @@ Template.supplierpayment.onRendered(function() {
                             },
                             "fnDrawCallback": function (oSettings) {
                               let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                              if(checkurlIgnoreDate == 'true'){
 
-                              }else{
                                 $('.paginate_button.page-item').removeClass('disabled');
                                 $('#tblSupplierPayment_ellipsis').addClass('disabled');
 
@@ -261,7 +259,32 @@ Template.supplierpayment.onRendered(function() {
 
                                     let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                     let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                    if(checkurlIgnoreDate == 'true'){
+                                      sideBarService.getAllTSupplierPaymentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                          getVS1Data('TSupplierPaymentList').then(function (dataObjectold) {
+                                              if (dataObjectold.length == 0) {}
+                                              else {
+                                                  let dataOld = JSON.parse(dataObjectold[0].data);
+                                                  var thirdaryData = $.merge($.merge([], dataObjectnew.tsupplierpaymentlist), dataOld.tsupplierpaymentlist);
+                                                  let objCombineData = {
+                                                      Params: dataOld.Params,
+                                                      tsupplierpaymentlist: thirdaryData
+                                                  }
 
+                                                  addVS1Data('TSupplierPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                      templateObject.resetData(objCombineData);
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  }).catch(function (err) {
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  });
+
+                                              }
+                                          }).catch(function (err) {});
+
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+                                    }else{
                                     sideBarService.getAllTSupplierPaymentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                         getVS1Data('TSupplierPaymentList').then(function (dataObjectold) {
                                             if (dataObjectold.length == 0) {}
@@ -286,16 +309,17 @@ Template.supplierpayment.onRendered(function() {
                                     }).catch(function (err) {
                                         $('.fullScreenSpin').css('display', 'none');
                                     });
+                                  }
 
                                 });
-                              }
+
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                              "fnInitComplete": function () {
                                let urlParametersPage = FlowRouter.current().queryParams.page;
-                               if (urlParametersPage) {
+                               if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                    this.fnPageChange('last');
                                }
                                    $("<button class='btn btn-primary btnRefreshSupplierPayment' type='button' id='btnRefreshSupplierPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierPayment_filter");
@@ -502,9 +526,7 @@ Template.supplierpayment.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblSupplierPayment_ellipsis').addClass('disabled');
 
@@ -527,7 +549,32 @@ Template.supplierpayment.onRendered(function() {
 
                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getAllTSupplierPaymentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TSupplierPaymentList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tsupplierpaymentlist), dataOld.tsupplierpaymentlist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tsupplierpaymentlist: thirdaryData
+                                              }
 
+                                              addVS1Data('TSupplierPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
                                 sideBarService.getAllTSupplierPaymentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                     getVS1Data('TSupplierPaymentList').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
@@ -552,16 +599,17 @@ Template.supplierpayment.onRendered(function() {
                                 }).catch(function (err) {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
+                              }
 
                             });
-                          }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                          "fnInitComplete": function () {
                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                           if (urlParametersPage) {
+                           if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                this.fnPageChange('last');
                            }
                                $("<button class='btn btn-primary btnRefreshSupplierPayment' type='button' id='btnRefreshSupplierPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierPayment_filter");
@@ -764,9 +812,7 @@ Template.supplierpayment.onRendered(function() {
                       },
                       "fnDrawCallback": function (oSettings) {
                         let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                        if(checkurlIgnoreDate == 'true'){
 
-                        }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblSupplierPayment_ellipsis').addClass('disabled');
 
@@ -789,7 +835,32 @@ Template.supplierpayment.onRendered(function() {
 
                               let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                               let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                              if(checkurlIgnoreDate == 'true'){
+                                sideBarService.getAllTSupplierPaymentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TSupplierPaymentList').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tsupplierpaymentlist), dataOld.tsupplierpaymentlist);
+                                            let objCombineData = {
+                                                Params: dataOld.Params,
+                                                tsupplierpaymentlist: thirdaryData
+                                            }
 
+                                            addVS1Data('TSupplierPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                              }else{
                               sideBarService.getAllTSupplierPaymentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                   getVS1Data('TSupplierPaymentList').then(function (dataObjectold) {
                                       if (dataObjectold.length == 0) {}
@@ -814,16 +885,17 @@ Template.supplierpayment.onRendered(function() {
                               }).catch(function (err) {
                                   $('.fullScreenSpin').css('display', 'none');
                               });
+                            }
 
                           });
-                        }
+
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
                       },
                        "fnInitComplete": function () {
                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                         if (urlParametersPage) {
+                         if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                              this.fnPageChange('last');
                          }
                              $("<button class='btn btn-primary btnRefreshSupplierPayment' type='button' id='btnRefreshSupplierPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierPayment_filter");

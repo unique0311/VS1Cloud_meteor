@@ -251,7 +251,9 @@ export class SideBarService extends BaseService {
 
   if(ignoreDate == true){
     options = {
-      IgnoreDates:true
+      IgnoreDates:true,
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
        };
      }else{
        options = {
@@ -289,7 +291,9 @@ export class SideBarService extends BaseService {
 
   if(ignoreDate == true){
     options = {
-      IgnoreDates:true
+      IgnoreDates:true,
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
@@ -542,7 +546,10 @@ getCustomersDataByName(dataSearchName) {
 
   if(ignoreDate == true){
     options = {
-      IgnoreDates:true
+      IgnoreDates:true,
+      orderby:'"SaleID desc"',
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
@@ -581,7 +588,10 @@ getCustomersDataByName(dataSearchName) {
 
   if(ignoreDate == true){
     options = {
-      IgnoreDates:true
+      IgnoreDates:true,
+      orderby:'"PurchaseOrderID desc"',
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
@@ -621,7 +631,9 @@ getCustomersDataByName(dataSearchName) {
 
     if(ignoreDate == true){
       options = {
-        IgnoreDates:true
+        IgnoreDates:true,
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
@@ -642,7 +654,9 @@ getCustomersDataByName(dataSearchName) {
       options = {
         IgnoreDates:true,
         IncludePOs:true,
-        IncludeBills:true
+        IncludeBills:true,
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
@@ -666,7 +680,9 @@ getCustomersDataByName(dataSearchName) {
         IncludePOs:true,
         IncludeBills:true,
         Paid:false,
-        Unpaid:true
+        Unpaid:true,
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
@@ -694,7 +710,9 @@ getCustomersDataByName(dataSearchName) {
         IncludeIsRefund:true,
         IncludeISSalesOrder:false,
         Paid:false,
-        Unpaid:true
+        Unpaid:true,
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
@@ -739,7 +757,10 @@ getCustomersDataByName(dataSearchName) {
 
   if(ignoreDate == true){
     options = {
-      IgnoreDates:true
+      IgnoreDates:true,
+      orderby:'"PurchaseOrderID desc"',
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
@@ -779,7 +800,10 @@ getCustomersDataByName(dataSearchName) {
 
   if(ignoreDate == true){
     options = {
-      IgnoreDates:true
+      IgnoreDates:true,
+      orderby:'"SaleID desc"',
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
@@ -826,6 +850,8 @@ getCustomersDataByName(dataSearchName) {
          IncludeISSalesOrder:true,
          Paid:false,
          Unpaid:true,
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
@@ -929,7 +955,10 @@ getCustomersDataByName(dataSearchName) {
 
   if(ignoreDate == true){
     options = {
-      IgnoreDates:true
+      IgnoreDates:true,
+      orderby:'"SaleID desc"',
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
@@ -1254,7 +1283,10 @@ getCustomersDataByName(dataSearchName) {
     if(ignoreDate == true){
       options = {
         IgnoreDates: true,
-        select: "[deleted]=false"
+        select: "[deleted]=false",
+        orderby:'"DepositID asc"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
     }else{
      options = {
@@ -1275,7 +1307,9 @@ getCustomersDataByName(dataSearchName) {
     if(ignoreDate == true){
       options = {
         IgnoreDates: true,
-        select: "[deleted]=false"
+        select: "[deleted]=false",
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
     }else{
      options = {
@@ -1415,6 +1449,8 @@ getCustomersDataByName(dataSearchName) {
     if(ignoreDate == true){
       options = {
         IgnoreDates:true,
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
@@ -1626,7 +1662,10 @@ let options = '';
 
 if(ignoreDate == true){
   options = {
-    IgnoreDates:true
+    IgnoreDates:true,
+    orderby:'"SaleID desc"',
+    LimitCount:'"'+limitcount+'"',
+    LimitFrom:'"'+limitfrom+'"'
     };
    }else{
      options = {

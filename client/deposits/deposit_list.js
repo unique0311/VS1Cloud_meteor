@@ -200,11 +200,7 @@ Template.depositlist.onRendered(function() {
                       $('#tblDepositList').DataTable({
                           // dom: 'lBfrtip',
                           columnDefs: [
-                              {type: 'date', targets: 0}
-                              // ,
-                              // { targets: 0, className: "text-center" }
-
-                          ],
+                              {type: 'date', targets: 0}],
                           "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                           buttons: [
                               {
@@ -261,9 +257,7 @@ Template.depositlist.onRendered(function() {
                           "fnDrawCallback": function (oSettings) {
                             let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
-                            if(checkurlIgnoreDate == 'true'){
 
-                            }else{
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblDepositList_ellipsis').addClass('disabled');
 
@@ -286,7 +280,32 @@ Template.depositlist.onRendered(function() {
 
                                   let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                   let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                  if(checkurlIgnoreDate == 'true'){
+                                    sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                        getVS1Data('TBankDepositList').then(function (dataObjectold) {
+                                            if (dataObjectold.length == 0) {}
+                                            else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tbankdepositlist), dataOld.tbankdepositlist);
+                                                let objCombineData = {
+                                                    Params: dataOld.Params,
+                                                    tbankdepositlist: thirdaryData
+                                                }
 
+                                                addVS1Data('TBankDepositList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function (err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function (err) {});
+
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                  }else{
                                   sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                       getVS1Data('TBankDepositList').then(function (dataObjectold) {
                                           if (dataObjectold.length == 0) {}
@@ -311,18 +330,18 @@ Template.depositlist.onRendered(function() {
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
-
+                                }
                               });
-                            }
+
                               setTimeout(function () {
                                   MakeNegative();
                               }, 100);
                           },
                           "fnInitComplete": function () {
-                              let urlParametersPage = FlowRouter.current().queryParams.page;
-                              if (urlParametersPage) {
-                                  this.fnPageChange('last');
-                              }
+                            let urlParametersPage = FlowRouter.current().queryParams.page;
+                            if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                                this.fnPageChange('last');
+                            }
                               $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
 
                               $('.myvarFilterForm').appendTo(".colDateFilter");
@@ -487,11 +506,7 @@ Template.depositlist.onRendered(function() {
                     $('#tblDepositList').DataTable({
                         // dom: 'lBfrtip',
                         columnDefs: [
-                            {type: 'date', targets: 0}
-                            // ,
-                            // { targets: 0, className: "text-center" }
-
-                        ],
+                            {type: 'date', targets: 0}],
                         "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
@@ -548,9 +563,7 @@ Template.depositlist.onRendered(function() {
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblDepositList_ellipsis').addClass('disabled');
 
@@ -573,7 +586,32 @@ Template.depositlist.onRendered(function() {
 
                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TBankDepositList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tbankdepositlist), dataOld.tbankdepositlist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tbankdepositlist: thirdaryData
+                                              }
 
+                                              addVS1Data('TBankDepositList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
                                 sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                     getVS1Data('TBankDepositList').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
@@ -598,18 +636,18 @@ Template.depositlist.onRendered(function() {
                                 }).catch(function (err) {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
-
+                              }
                             });
-                          }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
-                                this.fnPageChange('last');
-                            }
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
+                          }
                             $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
@@ -770,11 +808,7 @@ Template.depositlist.onRendered(function() {
                     $('#tblDepositList').DataTable({
                         // dom: 'lBfrtip',
                         columnDefs: [
-                            {type: 'date', targets: 0}
-                            // ,
-                            // { targets: 0, className: "text-center" }
-
-                        ],
+                            {type: 'date', targets: 0}],
                         "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
@@ -831,9 +865,7 @@ Template.depositlist.onRendered(function() {
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblDepositList_ellipsis').addClass('disabled');
 
@@ -856,7 +888,32 @@ Template.depositlist.onRendered(function() {
 
                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TBankDepositList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tbankdepositlist), dataOld.tbankdepositlist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tbankdepositlist: thirdaryData
+                                              }
 
+                                              addVS1Data('TBankDepositList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
                                 sideBarService.getAllTBankDepositListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                     getVS1Data('TBankDepositList').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
@@ -881,18 +938,18 @@ Template.depositlist.onRendered(function() {
                                 }).catch(function (err) {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
-
+                              }
                             });
-                          }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
-                                this.fnPageChange('last');
-                            }
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
+                          }
                             $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
