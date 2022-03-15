@@ -422,14 +422,11 @@ Template.timesheet.onRendered(function () {
                                   className: "colStatus",
                                   "targets": [13]
                               }, {
-                                  className: "colInvoiced",
+                                  className: "hiddenColumn hourlyrate",
                                   "targets": [14]
                               }, {
-                                  className: "hiddenColumn hourlyrate",
-                                  "targets": [15]
-                              }, {
                                   className: "viewTimeLog",
-                                  "targets": [16]
+                                  "targets": [15]
                               }, {
                                   targets: 'sorting_disabled',
                                   orderable: false
@@ -876,14 +873,11 @@ Template.timesheet.onRendered(function () {
                                 className: "colStatus",
                                 "targets": [13]
                             }, {
-                                className: "colInvoiced",
+                                className: "hiddenColumn hourlyrate",
                                 "targets": [14]
                             }, {
-                                className: "hiddenColumn hourlyrate",
-                                "targets": [15]
-                            }, {
                                 className: "viewTimeLog",
-                                "targets": [16]
+                                "targets": [15]
                             }, {
                                 targets: 'sorting_disabled',
                                 orderable: false
@@ -1229,14 +1223,11 @@ Template.timesheet.onRendered(function () {
                               className: "colStatus",
                               "targets": [13]
                           }, {
-                              className: "colInvoiced",
+                              className: "hiddenColumn hourlyrate",
                               "targets": [14]
                           }, {
-                              className: "hiddenColumn hourlyrate",
-                              "targets": [15]
-                          }, {
                               className: "viewTimeLog",
-                              "targets": [16]
+                              "targets": [15]
                           }, {
                               targets: 'sorting_disabled',
                               orderable: false
@@ -2599,7 +2590,7 @@ Template.timesheet.onRendered(function () {
       $('#sltJobOne').editableSelect();
       $('#product-listone').editableSelect();
         //$('#tblTimeSheet tbody').on('click', 'tr td:not(:first-child)', function (event) {
-        $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colProduct, tr .colRegHours, tr .colNotes, tr .colStatus, tr .colInvoiced', async function () {
+        $('#tblTimeSheet tbody').on('click', 'tr .colName, tr .colDate, tr .colJob, tr .colProduct, tr .colRegHours, tr .colNotes, tr .colStatus', async function () {
             event.preventDefault();
             // templateObject.getAllProductData();
             if (canClockOnClockOff == true) {
