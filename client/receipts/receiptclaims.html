@@ -9,7 +9,7 @@
             }
         </style> -->
         <header style="padding: 16px;padding-bottom: 0px;">
-            <h2 style="margin: 14px;margin-bottom: 0px;">Receipts Overview
+            <h2 style="margin: 14px;margin-bottom: 0px;">Receipt Claims
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
@@ -37,6 +37,23 @@
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 16px;">
             <div class="col-7 d-xl-flex flex-grow-1 align-items-xl-start">
                 <button id="btnRefresh" class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+                <!-- <button id="btnRefresh" class="btn btn-primary btnNewReceipt" type="button" style="margin: 16px;"><i class="icon ion-plus" style="margin-right: 5px;"></i>New Receipt</button> -->
+                <div class="btn-group" style="margin: 16px;">
+                    <button type="button" class="btn btn-primary btnNewReceipt" data-toggle="modal" data-target="#newReceiptModal"><i class="icon ion-plus" style="margin-right: 5px;"></i>New Receipt</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <h6 class="dropdown-header">Expense</h6>
+                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#newReceiptModal">Manually Create</a>
+                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#scanReceiptModal">Scan Receipt</a>
+                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#newReceiptModal">Create Multiple</a>
+                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#newReceiptModal">Time</a>
+                        <div class="dropdown-divider"></div>
+                        <h6 class="dropdown-header">Distance</h6>
+                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#newReceiptModal">Manually Create</a>
+                    </div>
+                </div>
             </div>
             <div class="col-5 d-xl-flex justify-content-xl-end align-items-end">
                 <button id="exportbtn" class="btn btn-primary float-right" type="button" style="margin: 16px;"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
@@ -311,7 +328,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="receiptModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade" id="viewReceiptModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -342,7 +359,7 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label>Employee</label>
+                                        <label>Employee(s)</label>
                                         <select class="form-control" id="sltMerchant">
                                             <option>Josef Steyn</option>
                                             <option>Rasheed Ariyibi</option>
@@ -477,7 +494,7 @@
                         </script>
 
                         <div class="col-12 col-md-6">
-                            <div class="col-12 imageGrand">
+                            <div class="imageGrand" style="padding-right: 0.75rem; padding-left: 0.75rem;">
                                 <div class="imageParent" data-scale="2.4" data-image="images/receipt1.jpg"></div>
                             </div>
                         </div>
@@ -642,8 +659,20 @@
                     <div class="row">
                         <div class="col-12 col-md-3">
                             <div class="form-group">
+                                <label>Filter by Merchant</label>
+                                <select class="form-control" id="sltCategory">
+                                    <option>All Merchants</option>
+                                    <option>Merchant 1</option>
+                                    <option>Merchant 2</option>
+                                    <option>Merchant 3</option>
+                                    <option>Merchant 4</option>
+                                    <option>Merchant 5</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label>Filter by Cards</label>
                                 <select class="form-control" id="sltCategory">
+                                    <option>All Cards</option>
                                     <option>Card 1</option>
                                     <option>Card 2</option>
                                     <option>Card 3</option>
@@ -654,6 +683,7 @@
                             <div class="form-group">
                                 <label>Filter by Category</label>
                                 <select class="form-control" id="sltCategory">
+                                    <option>All Categories</option>
                                     <option>Office Supplies</option>
                                     <option>Benefits</option>
                                     <option>Car</option>
@@ -726,6 +756,470 @@
                             </table>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newReceiptModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="nav-expense-tab" data-toggle="tab" href="#nav-expense" type="button" role="tab" aria-controls="expense" aria-selected="true">Expense</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" id="nav-distance-tab" data-toggle="tab" href="#nav-distance" type="button" role="tab" aria-controls="distance" aria-selected="false">Distance</a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav-time-tab" data-toggle="tab" href="#nav-time" type="button" role="tab" aria-controls="time" aria-selected="false">Time</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="nav-multiple-tab" data-toggle="tab" href="#nav-multiple" type="button" role="tab" aria-controls="multiple" aria-selected="false">Multiple</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="nav-tabContent" style="border: 1px solid #dddfeb; border-top: 0px solid #dddfeb;">
+                        <div class="tab-pane fade show active" id="nav-expense" role="tabpanel" aria-labelledby="nav-expense-tab">
+                            <div class="row" style="padding: 16px;">
+                                <div class="col-12 col-md-6">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Employee(s)</label>
+                                                <select class="form-control" id="">
+                                                    <option>Josef Steyn</option>
+                                                    <option>Rasheed Ariyibi</option>
+                                                    <option>Bruno Braga</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Transaction Type</label>
+                                                <select class="form-control" id="">
+                                                    <option>Cash</option>
+                                                    <option>Card</option>
+                                                    <option>EFT</option>
+                                                    <option>Cheque</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Merchant</label>
+                                                <select class="form-control" id="">
+                                                    <option>Pick n Pay</option>
+                                                    <option>Woolworths</option>
+                                                    <option>Spar</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Date</label>
+                                                <div class="input-group date" style="cursor: pointer;">
+                                                    <input type="text" class="form-control" id="dtExpenseDate" name="dtExpenseDate" value="">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="form-group">
+                                                <label>Total Amount</label>
+                                                <input class="form-control form-control" type="text" id="edtTotal" name="edtTotal" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label>Currency</label>
+                                                <select class="form-control" id="sltCategory">
+                                                    <option>ZAR</option>
+                                                    <option>AUD</option>
+                                                    <option>USD</option>
+                                                    <option>EUR</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <div class="custom-control custom-switch">
+                                                <input class="custom-control-input" type="checkbox" value="swtReiumbursable" id="swtReiumbursable" name="swtReiumbursable" style="cursor: pointer;">
+                                                <label class="custom-control-label" for="swtReiumbursable" style="cursor: pointer;">Reiumbursable</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Category</label>
+                                                <select class="form-control" id="sltCategory">
+                                                    <option>Office Supplies</option>
+                                                    <option>Benefits</option>
+                                                    <option>Car</option>
+                                                    <option>Equipment</option>
+                                                    <option>Insurance</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Grouped Report</label>
+                                                <select class="form-control" id="sltLinkedReport">
+                                                    <option>Trip to Europe</option>
+                                                    <option>Trip to SA</option>
+                                                    <option>Trip to Australia</option>
+                                                    <option>Trip to Europe 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea class="form-control" rows="3" id="txaDescription" name="txaDescription"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <style>
+                                    .imageGrand {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        cursor: crosshair;
+                                    }
+
+                                    .imageParent {
+                                        width: 100%;
+                                        // border-top-left-radius: 15px;
+                                        // border-top-right-radius: 15px;
+                                        border-radius: 15px;
+                                        position: relative;
+                                        float: left;
+                                        height: 100%;
+                                        overflow: hidden;
+                                    }
+
+                                    .receiptPhoto {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 140%;
+                                        background-repeat: no-repeat;
+                                        background-position: center;
+                                        background-size: cover;
+                                        transition: transform .5s ease-out;
+                                    }
+                                </style>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="row">
+                                        <div class="col-12" style="text-align: center;">
+                                            <img src="/icons/nofiles_icon.png" style="display: block; margin-left: auto; margin-right: auto;">
+                                            <p>Upload files or add files from the file library</p>
+                                        </div>
+                                    </div>
+                                    <div class="imageGrand" style="padding-right: 0.75rem; padding-left: 0.75rem; display: none;">
+                                        <div class="imageParent" data-scale="2.4" data-image="images/receipt1.jpg"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="">
+                                    <button type="button" class="btn btn-secondary" style="float: right; margin-left: 8px; margin-top: 16px;"><i class="fas fa-remove" style="margin-right: 8px;"></i>Detach</button>
+                                    <button type="button" class="btn btn-primary" style="float: right; margin-right: 8px; margin-top: 16px;"><i class="fa fa-cloud-upload" style="margin-right: 8px;"></i>Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-distance" role="tabpanel" aria-labelledby="nav-distance-tab">
+
+                        </div>
+                        <div class="tab-pane fade" id="nav-time" role="tabpanel" aria-labelledby="nav-time-tab">
+                            <div class="row" style="padding: 16px;">
+                                <div class="col-12 col-md-6">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Hours</span>
+                                                </div>
+                                                <input type="text" class="form-control">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">at</span>
+                                                </div>
+                                                <input type="text" class="form-control" style="border-left: 0px;">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">per hour</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Employee(s)</label>
+                                                <select class="form-control" id="">
+                                                    <option>Josef Steyn</option>
+                                                    <option>Rasheed Ariyibi</option>
+                                                    <option>Bruno Braga</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Date</label>
+                                                <div class="input-group date" style="cursor: pointer;">
+                                                    <input type="text" class="form-control" id="dtTimeDate" name="dtTimeDate" value="">
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="form-group">
+                                                <label>Total Amount</label>
+                                                <input class="form-control form-control" type="text" id="edtTotal" name="edtTotal" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label>Currency</label>
+                                                <select class="form-control" id="">
+                                                    <option>ZAR</option>
+                                                    <option>AUD</option>
+                                                    <option>USD</option>
+                                                    <option>EUR</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <div class="custom-control custom-switch">
+                                                <input class="custom-control-input" type="checkbox" value="swtReiumbursable" id="swtReiumbursable" name="swtReiumbursable" style="cursor: pointer;">
+                                                <label class="custom-control-label" for="swtReiumbursable" style="cursor: pointer;">Reiumbursable</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Category</label>
+                                                <select class="form-control" id="">
+                                                    <option>Office Supplies</option>
+                                                    <option>Benefits</option>
+                                                    <option>Car</option>
+                                                    <option>Equipment</option>
+                                                    <option>Insurance</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>Grouped Report</label>
+                                                <select class="form-control" id="">
+                                                    <option>Trip to Europe</option>
+                                                    <option>Trip to SA</option>
+                                                    <option>Trip to Australia</option>
+                                                    <option>Trip to Europe 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea class="form-control" rows="3" id="txaDescription" name="txaDescription"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <style>
+                                    .imageGrand {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        cursor: crosshair;
+                                    }
+
+                                    .imageParent {
+                                        width: 100%;
+                                        // border-top-left-radius: 15px;
+                                        // border-top-right-radius: 15px;
+                                        border-radius: 15px;
+                                        position: relative;
+                                        float: left;
+                                        height: 100%;
+                                        overflow: hidden;
+                                    }
+
+                                    .receiptPhoto {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 140%;
+                                        background-repeat: no-repeat;
+                                        background-position: center;
+                                        background-size: cover;
+                                        transition: transform .5s ease-out;
+                                    }
+                                </style>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="row">
+                                        <div class="col-12" style="text-align: center;">
+                                            <img src="/icons/nofiles_icon.png" style="display: block; margin-left: auto; margin-right: auto;">
+                                            <p>Upload files or add files from the file library</p>
+                                        </div>
+                                    </div>
+                                    <div class="imageGrand" style="padding-right: 0.75rem; padding-left: 0.75rem; display: none;">
+                                        <div class="imageParent" data-scale="2.4" data-image="images/receipt1.jpg"></div>
+                                    </div>
+                                </div>
+                                <div class="col-12" style="">
+                                    <button type="button" class="btn btn-secondary" style="float: right; margin-left: 8px; margin-top: 16px;"><i class="fas fa-remove" style="margin-right: 8px;"></i>Detach</button>
+                                    <button type="button" class="btn btn-primary" style="float: right; margin-right: 8px; margin-top: 16px;"><i class="fa fa-cloud-upload" style="margin-right: 8px;"></i>Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-multiple" role="tabpanel" aria-labelledby="nav-multiple-tab">
+                            <table id="tblReceiptList" style="width:100%; margin-top: 0px !important; margin-bottom: 0px !important;" class="dataTable table table-striped table-bordered tblReceiptList">
+                                <thead>
+                                    <tr class="dnd-moved">
+                                        <th class="th col" style="width: 6%;">Date</th>
+                                        <th class="th col" style="width: 20%;">Merchant</th>
+                                        <th class="th col" style="width: 10%;">Amount</th>
+                                        <th class="th col" style="width: 10%;">Currency</th>
+                                        <th class="th col" style="width: 3%;"></th>
+                                        <th class="th col" style="width: 10%;">Category</th>
+                                        <th class="th col" style="width: %;">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                    <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                        <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
+                                        <td contenteditable="false" class="col" style="width: 20%;">Rynfield BP</td>
+                                        <td contenteditable="false" class="col" style="width: 10%; text-align: right;">$500.00</td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
+                                        <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
+                                        <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
+                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="scanReceiptModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Scan Receipt</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>

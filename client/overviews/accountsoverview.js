@@ -327,7 +327,68 @@ Template.accountsoverview.onRendered(function () {
         templateObject.getAllTaxCodes();
     }, 500);
 
+    // templateObject.getAllTaxCodes = function () {
+    //     getVS1Data('TTaxcodeVS1').then(function (dataObject) {
+    //         if (dataObject.length == 0) {
+    //             accountService.getTaxCodesVS1().then(function (data) {
 
+    //                 let records = [];
+    //                 let inventoryData = [];
+    //                 for (let i = 0; i < data.ttaxcodevs1.length; i++) {
+
+    //                     let taxcoderecordObj = {
+    //                         codename: data.ttaxcodevs1[i].CodeName || ' ',
+    //                         coderate: data.ttaxcodevs1[i].Rate || ' ',
+    //                         description: data.ttaxcodevs1[i].Description || ' '
+    //                     };
+
+    //                     taxCodesList.push(taxcoderecordObj);
+
+    //                 }
+    //                 templateObject.taxraterecords.set(taxCodesList);
+
+    //             });
+    //         } else {
+    //             let data = JSON.parse(dataObject[0].data);
+    //             let useData = data.ttaxcodevs1;
+    //             let records = [];
+    //             let inventoryData = [];
+    //             for (let i = 0; i < useData.length; i++) {
+
+    //                 let taxcoderecordObj = {
+    //                     codename: useData[i].CodeName || ' ',
+    //                     coderate: useData[i].Rate || ' ',
+    //                     description: useData[i].Description || ' '
+    //                 };
+
+    //                 taxCodesList.push(taxcoderecordObj);
+
+    //             }
+    //             templateObject.taxraterecords.set(taxCodesList);
+
+    //         }
+    //     }).catch(function (err) {
+    //         accountService.getTaxCodesVS1().then(function (data) {
+
+    //             let records = [];
+    //             let inventoryData = [];
+    //             for (let i = 0; i < data.ttaxcodevs1.length; i++) {
+
+    //                 let taxcoderecordObj = {
+    //                     codename: data.ttaxcodevs1[i].CodeName || ' ',
+    //                     coderate: data.ttaxcodevs1[i].Rate || ' ',
+    //                     description: data.ttaxcodevs1[i].Description || ' '
+    //                 };
+
+    //                 taxCodesList.push(taxcoderecordObj);
+
+    //             }
+    //             templateObject.taxraterecords.set(taxCodesList);
+
+    //         });
+    //     });
+
+    // }
 
    // templateObject.getAllTaxCodes();
     // $('#tblAccountOverview').DataTable();
@@ -1804,6 +1865,10 @@ Template.accountsoverview.onRendered(function () {
 Template.accountsoverview.events({
     'click #btnJournalEntries': function (event) {
         FlowRouter.go('/journalentrylist');
+    },
+
+    'click #btnReceiptClaims': function (event) {
+        FlowRouter.go('/receiptsoverview');
     },
 
     'click .chkDatatable': function (event) {

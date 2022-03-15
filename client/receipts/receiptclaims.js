@@ -27,7 +27,7 @@ Template.receiptsoverview.onCreated(function() {
 });
 
 Template.receiptsoverview.onRendered(function() {
-    $("#date-input,#dateTo,#dateFrom,#dtReceiptDate").datepicker({
+    $("#date-input,#dateTo,#dateFrom,#dtReceiptDate,#dtExpenseDate,#dtTimeDate").datepicker({
         showOn: 'button',
         buttonText: 'Show Date',
         buttonImageOnly: true,
@@ -302,7 +302,7 @@ Template.receiptsoverview.onRendered(function() {
 
 Template.receiptsoverview.events({
     'click #receiptentry1': function() {
-        $('#receiptModal').modal('toggle');
+        $('#viewReceiptModal').modal('toggle');
     }
 });
 
