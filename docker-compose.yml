@@ -1,0 +1,17 @@
+version: "3.3"
+
+volumes:
+  db-data:
+
+services:
+  app:
+    # image: node:14
+    build: docker/node
+    volumes:
+      - ./:/app
+    networks:
+      - dev
+
+networks:
+  dev:
+

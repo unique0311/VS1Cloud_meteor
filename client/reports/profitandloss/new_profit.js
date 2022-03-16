@@ -1,6 +1,7 @@
 import { ReportService } from "../report-service";
 import "jQuery.print/jQuery.print.js";
 import { UtilityService } from "../../utility-service";
+import layoutEditor from "./layoutEditor";
 let utilityService = new UtilityService();
 let reportService = new ReportService();
 const templateObject = Template.instance();
@@ -387,39 +388,29 @@ Template.newprofitandloss.onRendered(function () {
               } else {
                 records.push(dataList);
                 let dataToDisplay = accountData[i]["AccountType"] || "";
-                if (accountData[i]["AccountType"] == "AP") {
-                  dataToDisplay = "Accounts Payable";
-                } else if (accountData[i]["AccountType"] == "AR") {
-                  dataToDisplay = "Accounts Receivable";
-                } else if (accountData[i]["AccountType"] == "EQUITY") {
-                  dataToDisplay = "Capital / Equity";
-                } else if (accountData[i]["AccountType"] == "BANK") {
-                  dataToDisplay = "Cheque or Saving";
-                } else if (accountData[i]["AccountType"] == "COGS") {
-                  dataToDisplay = "Cost of Goods Sold";
-                } else if (accountData[i]["AccountType"] == "CCARD") {
-                  dataToDisplay = "Credit Card Account";
-                } else if (accountData[i]["AccountType"] == "EXP") {
-                  dataToDisplay = "Expense";
-                } else if (accountData[i]["AccountType"] == "FIXASSET") {
-                  dataToDisplay = "Fixed Asset";
-                } else if (accountData[i]["AccountType"] == "INC") {
-                  dataToDisplay = "Income";
-                } else if (accountData[i]["AccountType"] == "LTLIAB") {
-                  dataToDisplay = "Long Term Liability";
-                } else if (accountData[i]["AccountType"] == "OASSET") {
-                  dataToDisplay = "Other Asset";
-                } else if (accountData[i]["AccountType"] == "OCASSET") {
-                  dataToDisplay = "Other Current Asset";
-                } else if (accountData[i]["AccountType"] == "OCLIAB") {
-                  dataToDisplay = "Other Current Liability";
-                } else if (accountData[i]["AccountType"] == "EXEXP") {
-                  dataToDisplay = "Other Expense";
-                } else if (accountData[i]["AccountType"] == "EXINC") {
-                  dataToDisplay = "Other Income";
-                } else if (accountData[i]["AccountType"] == "NI") {
-                  dataToDisplay = "Net Income";
-                }
+
+                const _accountType = accountData[i]["AccountType"];
+
+                const _accountTypes = {
+                  AP: "Accounts Payable",
+                  AR: "Accounts Receivable",
+                  EQUITY: "Capital / Equity",
+                  BANK: "Cheque or Saving",
+                  COGS: "Cost of Goods Sold",
+                  CCARD: "Credit Card Account",
+                  EXP: "Expense",
+                  FIXASSET: "Fixed Asset",
+                  INC: "Income",
+                  LTLIAB: "Long Term Liability",
+                  OASSET: "Other Current Asset",
+                  OCLIAB: "Other Current Liability",
+                  EXEXP: "Other Expense",
+                  EXINC: "Other Income",
+                  NI: "Net Income",
+                };
+
+                dataToDisplay = _accountTypes[_accountType];
+
                 //if(accountType != ''){
                 var groupName = dataToDisplay || accountType || "";
                 if (!groupsprofitloss[groupName]) {
@@ -432,6 +423,12 @@ Template.newprofitandloss.onRendered(function () {
             }
 
             templateObject.recordslayout.set(groupsprofitloss);
+
+            if (templateObject.recordslayout.get()) {
+            //   console.log(groupsprofitloss);
+            //   layoutEditor.setupTree();
+            }
+
             templateObject.records.set(records);
             if (templateObject.records.get()) {
               setTimeout(function () {
@@ -459,7 +456,7 @@ Template.newprofitandloss.onRendered(function () {
               }, 100);
 
               setTimeout(function () {
-                var currentIndex;
+                let currentIndex;
                 $(".sortableAccountParent").sortable({
                   revert: true,
                   cancel: ".undraggableDate,.accdate,.edtInfo",
@@ -467,8 +464,9 @@ Template.newprofitandloss.onRendered(function () {
                 $(".sortableAccount").sortable({
                   revert: true,
                   handle: ".avoid",
-                  start: function (event, ui) {
+                  start: (event, ui) => {
                     currentIndex = ui.helper.index();
+                    console.log(currentIndex);
                   },
                 });
                 $(".draggable").draggable({
@@ -650,20 +648,8 @@ Template.newprofitandloss.onRendered(function () {
   //Dragable items in edit layout screen
   //This works now: break at your own peril
   setTimeout(function () {
-    $(".sortableAccountParent").sortable({
-      revert: true,
-      cancel: ".undraggableDate,.accdate,.edtInfo",
-    });
-    $(".sortableAccount").sortable({
-      revert: true,
-      handle: ".avoid",
-    });
-    $(".draggable").draggable({
-      connectToSortable: ".sortableAccount",
-      helper: "none",
-      revert: "true",
-    });
-  }, 1500);
+    new layoutEditor(document.querySelector("#nplEditLayoutScreen"));
+  }, 1000);
   /*
   setTimeout(function(){
 
