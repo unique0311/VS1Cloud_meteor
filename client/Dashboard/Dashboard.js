@@ -46,27 +46,27 @@ Template.dashboard.onRendered(function() {
 
     templateObject.deactivateDraggable = function() {
 
-      setTimeout(function() {
-        $(".connectedSortable").sortable({
-            disabled: true,
-            connectWith: ".connectedSortable",
-            placeholder: "portlet-placeholder ui-corner-all",
-            stop: function(event, ui) {
+        setTimeout(function() {
+            $(".connectedSortable").sortable({
+                disabled: true,
+                connectWith: ".connectedSortable",
+                placeholder: "portlet-placeholder ui-corner-all",
+                stop: function(event, ui) {
 
-            }
-        }).disableSelection();
+                }
+            }).disableSelection();
 
-        // $(".portlet-toggle").on("click", function() {
-        //     var icon = $(this);
-        //     icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-        //     icon.closest(".portlet").find(".portlet-content").toggle();
-        // });
-        //
-        // $(".portlet").resizable({
-        //     handles: 'e'
-        // });
-        $(".portlet").resizable('disable').removeClass('ui-state-disabled');
-    }, 200);
+            // $(".portlet-toggle").on("click", function() {
+            //     var icon = $(this);
+            //     icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+            //     icon.closest(".portlet").find(".portlet-content").toggle();
+            // });
+            //
+            // $(".portlet").resizable({
+            //     handles: 'e'
+            // });
+            $(".portlet").resizable('disable').removeClass('ui-state-disabled');
+        }, 200);
 
         // $('#col1,#col2').sortable({
         //     disabled: true,
@@ -77,36 +77,36 @@ Template.dashboard.onRendered(function() {
         // }).disableSelection();
     }
     templateObject.activateDraggable = function() {
-      setTimeout(function() {
-          $(".connectedSortable").sortable({
-              disabled: false,
-              connectWith: ".connectedSortable",
-              placeholder: "portlet-placeholder ui-corner-all",
-              stop: function(event, ui) {
+        setTimeout(function() {
+            $(".connectedSortable").sortable({
+                disabled: false,
+                connectWith: ".connectedSortable",
+                placeholder: "portlet-placeholder ui-corner-all",
+                stop: function(event, ui) {
 
-              }
-          }).disableSelection();
-          $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
+                }
+            }).disableSelection();
+            $(".portlet").addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all").find(".portlet-header").addClass("ui-widget-header ui-corner-all");
 
-          $(".portlet-toggle").on("click", function() {
-              var icon = $(this);
-              icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-              icon.closest(".portlet").find(".portlet-content").toggle();
-          });
+            $(".portlet-toggle").on("click", function() {
+                var icon = $(this);
+                icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+                icon.closest(".portlet").find(".portlet-content").toggle();
+            });
 
-          $(".portlet").resizable({
-              handles: 'e'
-          });
-      }, 200);
+            $(".portlet").resizable({
+                handles: 'e'
+            });
+        }, 200);
 
 
-      // $('#col1,#col2').sortable({
-      //     disabled: false,
-      //     connectWith: '.col-area',
-      //     placeholder: 'highlight',
-      //     cursor: 'grabbing',
-      //     handle: '.card'
-      // }).disableSelection();
+        // $('#col1,#col2').sortable({
+        //     disabled: false,
+        //     connectWith: '.col-area',
+        //     placeholder: 'highlight',
+        //     cursor: 'grabbing',
+        //     handle: '.card'
+        // }).disableSelection();
     }
 
     templateObject.hideChartElements = function() {
@@ -234,12 +234,61 @@ Template.dashboard.helpers({
 
 // Listen to event to update reactive variable
 Template.dashboard.events({
+    'mouseover .monthlycardheader': function() {
+        $('#monthlyprofitlossstatus').css('box-shadow', '0 0 10px rgba(0, 0, 0, 0.50)');
+        $('#monthlyprofitlossstatus').css('cursor', 'move');
+    },
+    'mouseleave .monthlycardheader': function() {
+        $('#monthlyprofitlossstatus').css('box-shadow', '0 0 0 rgba(0, 0, 0, 0)');
+        $('#monthlyprofitlossstatus').css('cursor', 'context-menu');
+    },
+    'mouseover .employeesalesheader': function() {
+        $('#resalecomparision').css('box-shadow', '0 0 10px rgba(0, 0, 0, 0.50)');
+        $('#resalecomparision').css('cursor', 'move');
+    },
+    'mouseleave .employeesalesheader': function() {
+        $('#resalecomparision').css('box-shadow', '0 0 0 rgba(0, 0, 0, 0)');
+        $('#resalecomparision').css('cursor', 'context-menu');
+    },
+    'mouseover .monthlyearningsheader': function() {
+        $('#showearningchat').css('box-shadow', '0 0 10px rgba(0, 0, 0, 0.50)');
+        $('#showearningchat').css('cursor', 'move');
+    },
+    'mouseleave .monthlyearningsheader': function() {
+        $('#showearningchat').css('box-shadow', '0 0 0 rgba(0, 0, 0, 0)');
+        $('#showearningchat').css('cursor', 'context-menu');
+    },
+    'mouseover .profitlossheader': function() {
+        $('#profitandlosschartparent').css('box-shadow', '0 0 10px rgba(0, 0, 0, 0.50)');
+        $('#profitandlosschartparent').css('cursor', 'move');
+    },
+    'mouseleave .profitlossheader': function() {
+        $('#profitandlosschartparent').css('box-shadow', '0 0 0 rgba(0, 0, 0, 0)');
+        $('#profitandlosschartparent').css('cursor', 'context-menu');
+    },
+    'mouseover .quotedamountsheader': function() {
+        $('#quotedinvoicedamount').css('box-shadow', '0 0 10px rgba(0, 0, 0, 0.50)');
+        $('#quotedinvoicedamount').css('cursor', 'move');
+    },
+    'mouseleave .quotedamountsheader': function() {
+        $('#quotedinvoicedamount').css('box-shadow', '0 0 0 rgba(0, 0, 0, 0)');
+        $('#quotedinvoicedamount').css('cursor', 'context-menu');
+    },
+    'mouseover .expensesheader': function() {
+        $('#expensechart').css('box-shadow', '0 0 10px rgba(0, 0, 0, 0.50)');
+        $('#expensechart').css('cursor', 'move');
+    },
+    'mouseleave .expensesheader': function() {
+        $('#expensechart').css('box-shadow', '0 0 0 rgba(0, 0, 0, 0)');
+        $('#expensechart').css('cursor', 'context-menu');
+    },
+
     'click .btnBatchUpdate': function() {
         $('.fullScreenSpin').css('display', 'inline-block');
         batchUpdateCall();
     },
     'click .editchartsbtn': function() {
-      $('.editcharts').trigger('click');
+        $('.editcharts').trigger('click');
         // $(".btnchartdropdown").addClass('hideelement');
         //
         // setTimeout(function() {
