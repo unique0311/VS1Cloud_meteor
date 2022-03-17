@@ -111,10 +111,10 @@ Template.singletouchpayroll.onRendered(function() {
 });
 
 Template.singletouchpayroll.events({
-    'click .colPayRunDetailsFirstName': function (event) {
+    'click #btnClose': function(event) {
         $('.modal-backdrop').css('display', 'none');
-        FlowRouter.go('/payslip');
-    },
+        FlowRouter.go('/payrun');
+    }
 });
 
 Template.singletouchpayroll.helpers({

@@ -4,7 +4,7 @@
             <div class="spinner"></div>
         </div>
         <header style="padding: 16px; background-color: #ededed;">
-            <h2 style="margin: 16px; margin-bottom: 0px;" class="timesheetHeader">Single Touch Payroll
+            <h2 style="margin: 16px; margin-bottom: 0px;" class="timesheetHeader">Single Touch Payroll No 100
                 <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
                 <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
@@ -47,14 +47,18 @@
         </style>
 
         <div class="row" style="background-color: #ededed; padding-top: 0px; padding: 24px;">
-            <div class="col-6">
-                <button class="btn btn-primary btnRefreshOne btnNav" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh </button>
+            <div class="col-6" style="display: inline-flex;">
+                <button class="btn btn-primary btnRefreshOne btnNav" type="button" style="margin: 16px; margin-top: 32px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh </button>
+                <div class="form-group" style="margin-bottom: 0px; width: 175px; float: left; margin-left: 16px;">
+                    <label for="createdBy">Created By</label>
+                    <input type="text" class="form-control" id="createdBy">
+                </div>
             </div>
             <div class="col-6">
-                <a class="btn btnOpenSettings float-right btnNav" style="margin: 16px;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
-                <button class="btn btn-primary float-right printConfirm btnNav" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
-                <button class="btn btn-primary float-right export exportbtn btnNav" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
-                <a class="btn btnOpenSettings float-right btnOpenSettingsMobile" style="margin: 16px; display: none;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
+                <a class="btn btnOpenSettings float-right btnNav" style="margin: 16px; margin-top: 32px;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
+                <button class="btn btn-primary float-right printConfirm btnNav" type="button" style="margin: 16px; margin-top: 32px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                <button class="btn btn-primary float-right export exportbtn btnNav" type="button" style="margin: 16px; margin-top: 32px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
+                <a class="btn btnOpenSettings float-right btnOpenSettingsMobile" style="margin: 16px; margin-top: 32px; display: none;" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
             </div>
         </div>
 
@@ -213,7 +217,7 @@
 
         <div class="row">
             <div class="col-12">
-                <h4 style="font-weight: 600; margin-left: 32px;"><span>1 Employee</span> Included</h4>
+                <h4 style="font-weight: 600; margin-left: 32px;"><span>3 Employees</span> Included</h4>
             </div>
             <div class="col-12">
                 <div class="card-body p-5 rounded" style="padding: 0rem 2rem !important;">
@@ -302,8 +306,40 @@
                                     <td class="colPayRunDetailsNetPay" contenteditable="false" style="text-align: right;">$1,060.00</td>
                                     <td class="colPayRunDetailsDropdown" contenteditable="false" style="width: 3%;">
                                         <div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-left: 22px;">
-                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-" value="">
-                                            <label class="custom-control-label chkBox pointer" for="formCheck-"></label>
+                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-1" value="" checked>
+                                            <label class="custom-control-label chkBox pointer" for="formCheck-1"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="dnd-moved" id="" name="">
+                                    <td class="colPayRunDetailsFirstName" contenteditable="false">Dene</td>
+                                    <td class="colPayRunDetailsLastName" contenteditable="false">Mills</td>
+                                    <td class="colPayRunDetailsEmployeeGroup" contenteditable="false"></td>
+                                    <td class="colPayRunDetailsLastEdited" contenteditable="false"></td>
+                                    <td class="colPayRunDetailsEarnings" contenteditable="false" style="text-align: right;">$2,000.00</td>
+                                    <td class="colPayRunDetailsTax" contenteditable="false" style="text-align: right;">$940.00</td>
+                                    <td class="colPayRunDetailsSuper" contenteditable="false" style="text-align: right;">$0.00</td>
+                                    <td class="colPayRunDetailsNetPay" contenteditable="false" style="text-align: right;">$1,060.00</td>
+                                    <td class="colPayRunDetailsDropdown" contenteditable="false" style="width: 3%;">
+                                        <div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-left: 22px;">
+                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-2" value="" checked>
+                                            <label class="custom-control-label chkBox pointer" for="formCheck-2"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="dnd-moved" id="" name="">
+                                    <td class="colPayRunDetailsFirstName" contenteditable="false">Josef</td>
+                                    <td class="colPayRunDetailsLastName" contenteditable="false">Steyn</td>
+                                    <td class="colPayRunDetailsEmployeeGroup" contenteditable="false"></td>
+                                    <td class="colPayRunDetailsLastEdited" contenteditable="false"></td>
+                                    <td class="colPayRunDetailsEarnings" contenteditable="false" style="text-align: right;">$2,000.00</td>
+                                    <td class="colPayRunDetailsTax" contenteditable="false" style="text-align: right;">$940.00</td>
+                                    <td class="colPayRunDetailsSuper" contenteditable="false" style="text-align: right;">$0.00</td>
+                                    <td class="colPayRunDetailsNetPay" contenteditable="false" style="text-align: right;">$1,060.00</td>
+                                    <td class="colPayRunDetailsDropdown" contenteditable="false" style="width: 3%;">
+                                        <div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-left: 22px;">
+                                            <input class="custom-control-input chkBox pointer" type="checkbox" id="formCheck-3" value="" checked>
+                                            <label class="custom-control-label chkBox pointer" for="formCheck-3"></label>
                                         </div>
                                     </td>
                                 </tr>
@@ -322,9 +358,9 @@
             }
         </style>
 
-        <div class="row" style="margin: 0px 4px;">
+        <div class="row" style="margin: 0px 4px; display: ;">
             <div class="col-12">
-                <button class="btn btn-secondary float-right btnFooter" data-dismiss="modal" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
+                <button class="btn btn-secondary float-right btnFooter" id="btnClose" data-dismiss="modal" type="button" style="margin: 16px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                 <button type="button" class="btn btn-success float-right btnFooter" style="margin: 16px;"><i class="fas fa-check" style="margin-right: 5px;"></i> File</button>
                 <div class="btn-group float-right btnFooter" style="margin: 16px;">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
