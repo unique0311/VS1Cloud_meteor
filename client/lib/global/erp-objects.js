@@ -210,7 +210,8 @@ ERPObjects = function () {
         TInvoiceList:"TInvoiceList",
         TRefundSaleList:"TRefundSaleList",
         TSalesBackOrderReport:"TSalesBackOrderReport",
-        TCustomerSummaryReport:"TCustomerSummaryReport"
+        TCustomerSummaryReport:"TCustomerSummaryReport",
+        TStatementForCustomerRunnBalance:"TStatementForCustomerRunnBalance"
     }
     return objects;
 }

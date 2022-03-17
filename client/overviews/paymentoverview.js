@@ -393,18 +393,44 @@ Template.paymentoverview.onRendered(function() {
   }
 
 
-
+  templateObject.resetData = function (dataVal) {
+      window.open('/paymentoverview?page=last', '_self');
+  }
 
     // $('#tblPaymentOverview').DataTable();
     templateObject.getAllPaymentsData = function () {
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if ((currentBeginDate.getMonth() + 1) < 10) {
+          fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+      } else {
+          fromDateMonth = (currentBeginDate.getMonth() + 1);
+      }
+
+      if (currentBeginDate.getDate() < 10) {
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+      let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
         getVS1Data('TPaymentList').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getTPaymentList(prevMonth11Date,toDate, false).then(function (data) {
+                sideBarService.getTPaymentList(prevMonth11Date, toDate, false,initialReportLoad,0).then(function (data) {
                     let lineItems = [];
                     let lineItemObj = {};
 
                         addVS1Data('TPaymentList',JSON.stringify(data));
+                        if(data.Params.IgnoreDates == true){
+                          FlowRouter.go('/paymentoverview?ignoredate=true');
+                          $('#dateFrom').attr('readonly', true);
+                          $('#dateTo').attr('readonly', true);
+                        }else{
 
+                          $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                          $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                        }
                     for(let i=0; i<data.tpaymentlist.length; i++){
                         let amount = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].PaymentAmount)|| 0.00;
                         let openningBalance = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].OpeningBalance) || 0.00;
@@ -480,10 +506,8 @@ Template.paymentoverview.onRendered(function() {
                     $('.fullScreenSpin').css('display','none');
                     setTimeout(function () {
                         $('#tblPaymentOverview').DataTable({
-                            // dom: 'lBfrtip',
-
                             "columnDefs" : [{"targets":0, "type":"date"}],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [
                                 {
                                     extend: 'excelHtml5',
@@ -521,8 +545,6 @@ Template.paymentoverview.onRendered(function() {
                             select: true,
                             destroy: true,
                             colReorder: true,
-                            // bStateSave: true,
-                            // rowId: 0,
                             pageLength: initialReportDatatableLoad,
                             "bLengthChange": false,
                             searching: true,
@@ -535,15 +557,97 @@ Template.paymentoverview.onRendered(function() {
                                 $('#tblPaymentOverview').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
+                              let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                              //if(checkurlIgnoreDate == 'true'){
+
+                              //}else{
+                                $('.paginate_button.page-item').removeClass('disabled');
+                                $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                                if (oSettings._iDisplayLength == -1) {
+                                    if (oSettings.fnRecordsDisplay() > 150) {
+                                        $('.paginate_button.page-item.previous').addClass('disabled');
+                                        $('.paginate_button.page-item.next').addClass('disabled');
+                                    }
+                                } else {}
+                                if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                                $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                                .on('click', function () {
+                                    $('.fullScreenSpin').css('display', 'inline-block');
+                                    let dataLenght = oSettings._iDisplayLength;
+
+                                    var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                    var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                    let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                    let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                    if(checkurlIgnoreDate == 'true'){
+                                      sideBarService.getTPaymentList(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                          getVS1Data('TPaymentList').then(function (dataObjectold) {
+                                              if (dataObjectold.length == 0) {}
+                                              else {
+                                                  let dataOld = JSON.parse(dataObjectold[0].data);
+                                                  var thirdaryData = $.merge($.merge([], dataObjectnew.tpaymentlist), dataOld.tpaymentlist);
+                                                  let objCombineData = {
+                                                      Params: dataOld.Params,
+                                                      tpaymentlist: thirdaryData
+                                                  }
+
+                                                  addVS1Data('TPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                      templateObject.resetData(objCombineData);
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  }).catch(function (err) {
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  });
+
+                                              }
+                                          }).catch(function (err) {});
+
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+                                    }else{
+                                    sideBarService.getTPaymentList(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                        getVS1Data('TPaymentList').then(function (dataObjectold) {
+                                            if (dataObjectold.length == 0) {}
+                                            else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tpaymentlist), dataOld.tpaymentlist);
+                                                let objCombineData = {
+                                                    Params: dataOld.Params,
+                                                    tpaymentlist: thirdaryData
+                                                }
+
+                                                addVS1Data('TPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function (err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function (err) {});
+
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+
+                                  }
+
+                                });
+
+                              //}
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                             "fnInitComplete": function () {
-                                let urlParametersPage = FlowRouter.current().queryParams.page;
-                                if (urlParametersPage) {
-                                    this.fnPageChange('last');
-                                }
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                                  this.fnPageChange('last');
+                              }
                                 $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
 
                                 $('.myvarFilterForm').appendTo(".colDateFilter");
@@ -709,7 +813,6 @@ Template.paymentoverview.onRendered(function() {
                 $('.fullScreenSpin').css('display','none');
                 setTimeout(function () {
                     $('#tblPaymentOverview').DataTable({
-                        // dom: 'lBfrtip',
                         "columnDefs" : [{"targets":0, "type":"date"}],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
@@ -749,8 +852,6 @@ Template.paymentoverview.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
                         pageLength: initialReportDatatableLoad,
                         "bLengthChange": false,
                         searching: true,
@@ -763,16 +864,97 @@ Template.paymentoverview.onRendered(function() {
                             $('#tblPaymentOverview').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          //if(checkurlIgnoreDate == 'true'){
 
+                          //}else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getTPaymentList(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TPaymentList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tpaymentlist), dataOld.tpaymentlist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tpaymentlist: thirdaryData
+                                              }
+
+                                              addVS1Data('TPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
+                                sideBarService.getTPaymentList(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TPaymentList').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpaymentlist), dataOld.tpaymentlist);
+                                            let objCombineData = {
+                                                Params: dataOld.Params,
+                                                tpaymentlist: thirdaryData
+                                            }
+
+                                            addVS1Data('TPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                              }
+
+                            });
+
+                          //}
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
-                                this.fnPageChange('last');
-                            }
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
+                          }
                             $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
@@ -845,12 +1027,20 @@ Template.paymentoverview.onRendered(function() {
                 });
             }
         }).catch(function (err) {
-            sideBarService.getTPaymentList(prevMonth11Date,toDate, false).then(function (data) {
+            sideBarService.getTPaymentList(prevMonth11Date, toDate, false,initialReportLoad,0).then(function (data) {
                 let lineItems = [];
                 let lineItemObj = {};
 
                     addVS1Data('TPaymentList',JSON.stringify(data));
+                    if(data.Params.IgnoreDates == true){
+                      FlowRouter.go('/paymentoverview?ignoredate=true');
+                      $('#dateFrom').attr('readonly', true);
+                      $('#dateTo').attr('readonly', true);
+                    }else{
 
+                      $("#dateFrom").val(data.Params.DateFrom !=''? moment(data.Params.DateFrom).format("DD/MM/YYYY"): data.Params.DateFrom);
+                      $("#dateTo").val(data.Params.DateTo !=''? moment(data.Params.DateTo).format("DD/MM/YYYY"): data.Params.DateTo);
+                    }
                 for(let i=0; i<data.tpaymentlist.length; i++){
                     let amount = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].PaymentAmount)|| 0.00;
                     let openningBalance = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].OpeningBalance) || 0.00;
@@ -930,7 +1120,6 @@ Template.paymentoverview.onRendered(function() {
                 $('.fullScreenSpin').css('display','none');
                 setTimeout(function () {
                     $('#tblPaymentOverview').DataTable({
-                        // dom: 'lBfrtip',
                         "columnDefs" : [{"targets":0, "type":"date"}],
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
@@ -970,8 +1159,6 @@ Template.paymentoverview.onRendered(function() {
                         select: true,
                         destroy: true,
                         colReorder: true,
-                        // bStateSave: true,
-                        // rowId: 0,
                         pageLength: initialReportDatatableLoad,
                         "bLengthChange": false,
                         searching: true,
@@ -984,15 +1171,97 @@ Template.paymentoverview.onRendered(function() {
                             $('#tblPaymentOverview').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          //if(checkurlIgnoreDate == 'true'){
+
+                          //}else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
+
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getTPaymentList(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TPaymentList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tpaymentlist), dataOld.tpaymentlist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tpaymentlist: thirdaryData
+                                              }
+
+                                              addVS1Data('TPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
+                                sideBarService.getTPaymentList(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TPaymentList').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tpaymentlist), dataOld.tpaymentlist);
+                                            let objCombineData = {
+                                                Params: dataOld.Params,
+                                                tpaymentlist: thirdaryData
+                                            }
+
+                                            addVS1Data('TPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                              }
+
+                            });
+
+                          //}
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
-                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
-                                this.fnPageChange('last');
-                            }
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
+                          }
                             $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
@@ -1019,7 +1288,6 @@ Template.paymentoverview.onRendered(function() {
                     }else{
                       $('#tblPaymentOverview_info').html('Showing 0 to '+data.tpaymentlist.length+ ' of 0 entries');
                     }
-
                     /* End Add count functionality to table */
                 }, 0);
 
@@ -1099,7 +1367,7 @@ Template.paymentoverview.onRendered(function() {
     }, 500);
 
     templateObject.getAllFilterPaymentsData = function (fromDate,toDate, ignoreDate) {
-      sideBarService.getTPaymentList(fromDate,toDate, ignoreDate).then(function (data) {
+      sideBarService.getTPaymentList(fromDate,toDate, ignoreDate,initialReportLoad,0).then(function (data) {
         addVS1Data('TPaymentList',JSON.stringify(data)).then(function (datareturn) {
             window.open('/paymentoverview?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate='+ignoreDate,'_self');
         }).catch(function (err) {
@@ -1407,7 +1675,7 @@ Template.paymentoverview.events({
     let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
 
-        sideBarService.getTPaymentList(prevMonth11Date,toDate, false).then(function(dataPaymentList) {
+        sideBarService.getTPaymentList(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataPaymentList) {
             addVS1Data('TPaymentList',JSON.stringify(dataPaymentList)).then(function (datareturn) {
               sideBarService.getAllTSupplierPaymentListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataSuppPay) {
                   addVS1Data('TSupplierPaymentList', JSON.stringify(dataSuppPay)).then(function (datareturn) {
@@ -1441,17 +1709,6 @@ Template.paymentoverview.events({
             window.open('/paymentoverview','_self');
         });
 
-
-
-        // sideBarService.getSalesListData(prevMonth11Date,toDate, false).then(function(data) {
-        //     addVS1Data('TSalesList',JSON.stringify(data)).then(function (datareturn) {
-        //
-        //     }).catch(function (err) {
-        //
-        //     });
-        // }).catch(function(err) {
-        //
-        // });
     },
     'click .btnAll': function(event) {
       let templateObject = Template.instance();

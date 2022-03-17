@@ -207,12 +207,14 @@ export class SideBarService extends BaseService {
       return this.getList(this.ERPObjects.TJobVS1, options);
   }
 
-  getTPaymentList(dateFrom, dateTo, ignoreDate){
+  getTPaymentList(dateFrom, dateTo, ignoreDate, limitcount, limitfrom){
     let options = '';
     if(ignoreDate == true){
        options = {
           IgnoreDates:true,
-          select: '[Deleted]=false'
+          select: '[Deleted]=false',
+          LimitCount:'"'+limitcount+'"',
+          LimitFrom:'"'+limitfrom+'"'
         };
     }else{
       options = {
@@ -221,7 +223,8 @@ export class SideBarService extends BaseService {
          IgnoreDates: false,
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
-         LimitCount:'"'+initialReportLoad+'"'
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
      };
     }
       return this.getList(this.ERPObjects.TPaymentList, options);
@@ -758,13 +761,17 @@ getCustomersDataByName(dataSearchName) {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true,
+      IsBill: true,
       orderby:'"PurchaseOrderID desc"',
+      Search:"IsBill = true",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
          orderby:'"PurchaseOrderID desc"',
+         IsBill: true,
+         Search:"IsBill = true",
          IgnoreDates:false,
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
@@ -1270,7 +1277,6 @@ getCustomersDataByName(dataSearchName) {
        orderby:'"DepositID desc"',
        ListType: "Detail",
        select: "[Deleted]=false",
-       // LimitCount:'"'+initialReportLoad+'"'
        LimitCount:'"'+limitcount+'"',
        LimitFrom:'"'+limitfrom+'"'
    };
