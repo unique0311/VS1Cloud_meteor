@@ -431,7 +431,6 @@ Template.billlist.onRendered(function() {
                 let useData = data.tbilllist;
                 let lineItems = [];
                 let lineItemObj = {};
-                console.log(data);
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);

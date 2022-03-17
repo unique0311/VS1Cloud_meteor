@@ -169,6 +169,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                     }
 
+                    if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                      setTimeout(function () {
+                          $('#edtSupplierName').trigger("click");
+                      }, 200);
+                    }else{
+
+                    }
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
@@ -204,7 +211,13 @@ Template.supplierpaymentcard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                 }
+                if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                  setTimeout(function () {
+                      $('#edtSupplierName').trigger("click");
+                  }, 200);
+                }else{
 
+                }
             }
         }).catch(function(err) {
             clientsService.getSupplierVS1().then(function(data) {
@@ -239,7 +252,13 @@ Template.supplierpaymentcard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                 }
+                if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                  setTimeout(function () {
+                      $('#edtSupplierName').trigger("click");
+                  }, 200);
+                }else{
 
+                }
             });
         });
 
@@ -508,7 +527,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             },
                             "fnInitComplete": function() {
                                 $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
-                                $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+                                $("<button class='btn btn-primary btnRefreshSupplierPayList' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
                             }
 
@@ -732,7 +751,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         },
                         "fnInitComplete": function() {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
-                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+                            $("<button class='btn btn-primary btnRefreshSupplierPayList' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
                         }
 
@@ -1226,6 +1245,7 @@ Template.supplierpaymentcard.onRendered(() => {
     $(document).on("click", "#tblSupplierlist tbody tr", function(e) {
         let suppliers = templateObject.clientrecords.get();
         var tableSupplier = $(this);
+          let $tblrows = $("#tblSupplierPaymentcard tbody tr");
         $('#edtSupplierName').val(tableSupplier.find(".colCompany").text());
         // $('#edtSupplierName').attr("custid", tableSupplier.find(".colID").text());
         $('#supplierListModal').modal('toggle');
@@ -1244,11 +1264,29 @@ Template.supplierpaymentcard.onRendered(() => {
         //     let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
         //     $('#txabillingAddress').val(postalAddress);
         // }
+        let isEmptyData = false;
+
+        if(jQuery.isEmptyObject(FlowRouter.current().queryParams) == true){
+          $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            if ($tblrow.find(".colTransNo").val() == '') {
+                isEmptyData = true;
+            }else{
+              isEmptyData = false;
+            }
+          });
+          setTimeout(function() {
+            if(isEmptyData){
+              $('#addRow').trigger('click');
+            }
+          }, 500);
+
+        }
 
 
         $('#tblSupplierlist_filter .form-control-sm').val('');
         setTimeout(function() {
-            $('.btnRefreshCustomer').trigger('click');
+            $('.btnRefreshSupplier').trigger('click');
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
     });
@@ -5606,12 +5644,12 @@ Template.supplierpaymentcard.onRendered(() => {
                // $('#sltBankAccountName').val('Bank');
              }
 
-             setTimeout(function () {
-                 $('#edtSupplierName').trigger("click");
-             }, 500);
+             // setTimeout(function () {
+             //     $('#edtSupplierName').trigger("click");
+             // }, 500);
          },500);
 
-         $("#form :input").prop("disabled", false);
+         // $("#form :input").prop("disabled", false);
          templateObject.record.set(paymentrecord);
     }
 
@@ -8663,7 +8701,7 @@ Template.supplierpaymentcard.events({
                 $("#tblSupplierPaymentcard tbody").append(rowData);
                 total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace(/[^0-9.-]+/g, ""));
             }
-            $('.appliedAmount').text(Currency + total.toFixed(2));
+            $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
 
         }
         templateObject.selectedAwaitingPayment.set([]);
@@ -8724,12 +8762,17 @@ Template.supplierpaymentcard.events({
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id')||0; // table row ID
         $('#selectDeleteLineID').val(targetID);
 
         times++;
         if (times == 1) {
-            $('#deleteLineModal').modal('toggle');
+          if(targetID == 0){
+            $(event.target).closest('tr').remove();
+          }else{
+              $('#deleteLineModal').modal('toggle');
+          }
+
         } else {
             if ($('#tblSupplierPaymentcard tbody>tr').length > 1) {
                 this.click;
@@ -8741,11 +8784,15 @@ Template.supplierpaymentcard.events({
                     var $tblrow = $(this);
                     total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
                 });
-                $('.appliedAmount').text(Currency + total.toFixed(2));
+                $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
                 return false;
 
             } else {
-                $('#deleteLineModal').modal('toggle');
+              if(targetID == 0){
+                $(event.target).closest('tr').remove();
+              }else{
+                  $('#deleteLineModal').modal('toggle');
+              }
             }
 
         }
@@ -8864,7 +8911,7 @@ Template.supplierpaymentcard.events({
     'click .btnDeleteLine': function(event) {
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
-        let selectLineID = $('#selectDeleteLineID').val();
+        let selectLineID = $('#selectDeleteLineID').val()||0;
         if ($('#tblSupplierPaymentcard tbody>tr').length > 1) {
             this.click;
             let total = 0;
@@ -8874,7 +8921,7 @@ Template.supplierpaymentcard.events({
                 var $tblrow = $(this);
                 total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
             });
-            $('.appliedAmount').text(Currency + total.toFixed(2));
+            $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
 
         } else {
             this.click;

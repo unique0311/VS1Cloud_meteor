@@ -1510,7 +1510,8 @@ Template.customerawaitingpayments.events({
         let allDataObj = {};
         let selectClient = templateObject.selectedAwaitingPayment.get();
         if (selectClient.length === 0) {
-            swal('Please select Customer to pay for!', '', 'info');
+            window.open('/paymentcard','_self');
+            //swal('Please select Customer to pay for!', '', 'info');
         } else {
             let custName = selectClient[0].clientname;
             if (selectClient.every(v => v.clientname === custName) == true) {

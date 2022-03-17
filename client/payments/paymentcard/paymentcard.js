@@ -166,7 +166,13 @@ Template.paymentcard.onRendered(() => {
                     for (var i = 0; i < clientList.length; i++) {
                         //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                     }
+                    if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                      setTimeout(function () {
+                          $('#edtCustomerName').trigger("click");
+                      }, 200);
+                    }else{
 
+                    }
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
@@ -203,6 +209,14 @@ Template.paymentcard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
+
+                if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                  setTimeout(function () {
+                      $('#edtCustomerName').trigger("click");
+                  }, 200);
+                }else{
+
+                }
             }
         }).catch(function(err) {
             clientsService.getClientVS1().then(function(data) {
@@ -238,6 +252,13 @@ Template.paymentcard.onRendered(() => {
                     //  $('#edtCustomerName').editableSelect('add', clientList[i].customername);
                 }
 
+                if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                  setTimeout(function () {
+                      $('#edtCustomerName').trigger("click");
+                  }, 200);
+                }else{
+
+                }
             });
         });
 
@@ -1086,15 +1107,25 @@ Template.paymentcard.onRendered(() => {
         $('#txabillingAddress').val(postalAddress);
 
         let selectedCustomer = $('#edtCustomerName').val();
+        let isEmptyData = false;
 
-        $tblrows.each(function (index) {
-          var $tblrow = $(this);
-          if ($tblrow.find(".colTransNo").val() == '') {
-              $('#addRow').addClass('boldtablealertsborder');
-              //$tblrow.find(".colTransNo").addClass('boldtablealertsborder');
-          }
+        if(jQuery.isEmptyObject(FlowRouter.current().queryParams) == true){
+          $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            if ($tblrow.find(".colTransNo").val() == '') {
+                isEmptyData = true;
+            }else{
+              isEmptyData = false;
+            }
+          });
+          setTimeout(function() {
 
-        });
+            if(isEmptyData){
+              $('#addRow').trigger('click');
+            }
+          }, 500);
+
+        }
         // if (clientList) {
         //     $('#edtCustomerEmail').val(clientList[i].customeremail);
         //     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
@@ -4090,9 +4121,9 @@ Template.paymentcard.onRendered(() => {
               // $('#sltBankAccountName').val('Bank');
             }
 
-            setTimeout(function () {
-                $('#edtCustomerName').trigger("click");
-            }, 500);
+            // setTimeout(function () {
+            //     $('#edtCustomerName').trigger("click");
+            // }, 500);
         },500);
 
         $("#form :input").prop("disabled", false);
@@ -6648,9 +6679,9 @@ Template.paymentcard.events({
                       type: 'TGuiCustPaymentLines',
                       fields: {
                           TransType: linetype,
+                          TransID: lineID,
                           Paid: true,
                           Payment: parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) || 0,
-                          TransID: lineID
                       }
                   };
                   paymentData.push(Line);
@@ -6660,17 +6691,17 @@ Template.paymentcard.events({
               let objDetails = {
                   type: "TCustPayments",
                   fields: {
-                      AccountName: bankAccount,
-                      ClientPrintName: customer,
-                      CompanyName: customer,
-                      EmployeeName: empName || ' ',
-                      GUILines: paymentData,
-                      Notes: notes,
-                      PaymentDate: paymentDate,
-                      PayMethodName: payMethod,
-                      Payment: true,
-                      ReferenceNo: reference,
-                      Notes: notes
+                    AccountName: bankAccount,
+                    ClientPrintName: customer,
+                    CompanyName: customer,
+                    DeptClassName: department,
+                    // EmployeeName: empName || ' ',
+                    GUILines: paymentData,
+                    Notes: notes,
+                    Payment: true,
+                    PaymentDate: paymentDate,
+                    PayMethodName: payMethod,
+                    ReferenceNo: reference
                   }
               };
 
@@ -6711,7 +6742,7 @@ Template.paymentcard.events({
                           let amountDueEmail = $('#totalBalanceDue').html();
                           let emailDueDate = $("#dtDueDate").val();
                           let mailSubject = 'Payment ' + erpInvoiceId + ' from ' + mailFromName + ' for ' + customerEmailName;
-                          let mailBody = "Hi " + customerEmailName + ",\n\n Here's Payment " + erpInvoiceId + " for  " + grandtotal + "." +
+                          let mailBody = "Hi " + customerEmailName + ",\n\n Here's payment " + erpInvoiceId + " for  " + grandtotal + "." +
                               // "\n\nThe amount outstanding of "+amountDueEmail+" is due on "+emailDueDate+"." +
                               "\n\nIf you have any questions, please let us know : " + mailFrom + ".\n\nThanks,\n" + mailFromName;
 
@@ -6770,7 +6801,7 @@ Template.paymentcard.events({
                                   attachments: attachment
                               }, function(error, result) {
                                   if (error && error.error === "error") {
-                                      //window.open('/salesorderslist','_self');
+                                      FlowRouter.go('/paymentoverview?success=true');
 
                                   } else {}
                               });
@@ -6784,7 +6815,7 @@ Template.paymentcard.events({
                                   attachments: attachment
                               }, function(error, result) {
                                   if (error && error.error === "error") {
-                                      //window.open('/salesorderslist', '_self');
+                                      FlowRouter.go('/paymentoverview?success=true');
                                   } else {
                                       $('#html-2-pdfwrapper').css('display', 'none');
                                       swal({
@@ -6795,7 +6826,7 @@ Template.paymentcard.events({
                                           confirmButtonText: 'OK'
                                       }).then((result) => {
                                           if (result.value) {
-                                              // window.open('/salesorderslist','_self');
+                                              FlowRouter.go('/paymentoverview?success=true');
                                           } else if (result.dismiss === 'cancel') {}
                                       });
 
@@ -6813,7 +6844,7 @@ Template.paymentcard.events({
                                   attachments: attachment
                               }, function(error, result) {
                                   if (error && error.error === "error") {
-                                      //window.open('/salesorderslist','_self');
+                                      FlowRouter.go('/paymentoverview?success=true');
 
                                   } else {
                                       $('#html-2-pdfwrapper').css('display', 'none');
@@ -6825,7 +6856,7 @@ Template.paymentcard.events({
                                           confirmButtonText: 'OK'
                                       }).then((result) => {
                                           if (result.value) {
-                                              //window.open('/salesorderslist','_self');
+                                              FlowRouter.go('/paymentoverview?success=true');
                                           } else if (result.dismiss === 'cancel') {}
                                       });
 
@@ -6843,7 +6874,7 @@ Template.paymentcard.events({
                                   attachments: attachment
                               }, function(error, result) {
                                   if (error && error.error === "error") {
-                                      //window.open('/salesorderslist','_self');
+                                      FlowRouter.go('/paymentoverview?success=true');
                                   } else {
                                       $('#html-2-pdfwrapper').css('display', 'none');
                                       swal({
@@ -6854,7 +6885,7 @@ Template.paymentcard.events({
                                           confirmButtonText: 'OK'
                                       }).then((result) => {
                                           if (result.value) {
-                                              //window.open('/salesorderslist','_self');
+                                              FlowRouter.go('/paymentoverview?success=true');
                                           } else if (result.dismiss === 'cancel') {}
                                       });
 
@@ -6863,7 +6894,7 @@ Template.paymentcard.events({
                               });
 
                           } else {
-                              //window.open('/salesorderslist','_self');
+                              FlowRouter.go('/paymentoverview?success=true');
                           };
                       };
 
@@ -7139,8 +7170,9 @@ Template.paymentcard.events({
                 rowData.attr('name', selectedSupplierPayments[x].awaitingId);
                 $("#tblPaymentcard tbody").append(rowData);
                 total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace(/[^0-9.-]+/g, "")) || 0;
-                $('.appliedAmount').text(Currency + total.toFixed(2));
+                //$('.appliedAmount').text(Currency + total.toFixed(2));
             }
+            $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
         }
         templateObject.selectedAwaitingPayment.set([]);
         $('#customerPaymentListModal').modal('hide');
@@ -7206,12 +7238,17 @@ Template.paymentcard.events({
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id')||0; // table row ID
         $('#selectDeleteLineID').val(targetID);
 
         times++;
         if (times == 1) {
-            $('#deleteLineModal').modal('toggle');
+          if(targetID == 0){
+            $(event.target).closest('tr').remove();
+          }else{
+              $('#deleteLineModal').modal('toggle');
+          }
+
         } else {
             if ($('#tblPaymentcard tbody>tr').length > 1) {
                 this.click;
@@ -7223,11 +7260,15 @@ Template.paymentcard.events({
                     var $tblrow = $(this);
                     total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
                 });
-                $('.appliedAmount').text(Currency + total.toFixed(2));
+                $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
                 return false;
 
             } else {
-                $('#deleteLineModal').modal('toggle');
+              if(targetID == 0){
+                $(event.target).closest('tr').remove();
+              }else{
+                  $('#deleteLineModal').modal('toggle');
+              }
             }
 
         }
@@ -7280,7 +7321,7 @@ Template.paymentcard.events({
     'click .btnDeleteLine': function(event) {
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
-        let selectLineID = $('#selectDeleteLineID').val();
+        let selectLineID = $('#selectDeleteLineID').val()||0;
         if ($('#tblPaymentcard tbody>tr').length > 1) {
             this.click;
             let total = 0;
@@ -7290,11 +7331,19 @@ Template.paymentcard.events({
                 var $tblrow = $(this);
                 total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
             });
-            $('.appliedAmount').text(Currency + total.toFixed(2));
+            $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
 
         } else {
             this.click;
+            $('#' + selectLineID + " .colTransDate").text('');
+            $('#' + selectLineID + " .colType").text('');
+            $('#' + selectLineID + " .colTransNo").text('');
+            $('#' + selectLineID + " .lineOrginalamount").text('');
+            $('#' + selectLineID + " .lineAmountdue").text('');
+            $('#' + selectLineID + " .lineOutstandingAmount").text('');
+            $('#' + selectLineID + " .colComments").text('');
 
+            $('.appliedAmount').val(Currency + '0.00');
         }
 
         $('#deleteLineModal').modal('toggle');

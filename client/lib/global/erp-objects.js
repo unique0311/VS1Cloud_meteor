@@ -211,7 +211,10 @@ ERPObjects = function () {
         TRefundSaleList:"TRefundSaleList",
         TSalesBackOrderReport:"TSalesBackOrderReport",
         TCustomerSummaryReport:"TCustomerSummaryReport",
-        TStatementForCustomerRunnBalance:"TStatementForCustomerRunnBalance"
+        TStatementForCustomerRunnBalance:"TStatementForCustomerRunnBalance",
+        TCreditList:"TCreditList",
+        TAppointmentList:"TAppointmentList",
+        TJournalEntryList:"TJournalEntryList"
     }
     return objects;
 }

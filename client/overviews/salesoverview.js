@@ -422,6 +422,7 @@ Template.salesoverview.onRendered(function() {
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
+                console.log(data);
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);

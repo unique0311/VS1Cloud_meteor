@@ -844,6 +844,79 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TCredit, options);
   }
 
+  getTCreditListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+         orderby:'"PurchaseOrderID desc"',
+         IgnoreDates:true,
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+   }else{
+     options = {
+        orderby:'"PurchaseOrderID desc"',
+        IgnoreDates:false,
+        DateFrom:'"'+dateFrom+'"',
+        DateTo:'"'+dateTo+'"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+    };
+   }
+
+  return this.getList(this.ERPObjects.TCreditList, options);
+  }
+
+  getTAppointmentListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+         orderby:'"AppointID desc"',
+         IgnoreDates:true,
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+   }else{
+     options = {
+        orderby:'"AppointID desc"',
+        IgnoreDates:false,
+        DateFrom:'"'+dateFrom+'"',
+        DateTo:'"'+dateTo+'"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+    };
+   }
+
+  return this.getList(this.ERPObjects.TAppointmentList, options);
+  }
+
+  getTJournalEntryListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+
+    let options = '';
+    if(ignoreDate == true){
+      options = {
+         orderby:'"GJID desc"',
+         IgnoreDates:true,
+         IsDetailReport:true,
+         LimitCount:'"'+limitcount+'"',
+         LimitFrom:'"'+limitfrom+'"'
+     };
+   }else{
+     options = {
+        orderby:'"GJID desc"',
+        IgnoreDates:false,
+        DateFrom:'"'+dateFrom+'"',
+        DateTo:'"'+dateTo+'"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+    };
+   }
+
+  return this.getList(this.ERPObjects.TJournalEntryList, options);
+  }
+
   getSalesListData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
 
     let options = '';
@@ -855,6 +928,7 @@ getCustomersDataByName(dataSearchName) {
          IncludeIsQuote:true,
          IncludeIsRefund:true,
          IncludeISSalesOrder:true,
+         IsDetailReport:false,
          Paid:false,
          Unpaid:true,
          LimitCount:'"'+limitcount+'"',
@@ -866,6 +940,7 @@ getCustomersDataByName(dataSearchName) {
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
+        IsDetailReport:false,
         IncludeIsInvoice:true,
         IncludeIsQuote:true,
         IncludeIsRefund:true,

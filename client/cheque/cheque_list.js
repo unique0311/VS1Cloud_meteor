@@ -419,7 +419,6 @@ Template.chequelist.onRendered(function() {
                 let useData = data.tchequelist;
                 let lineItems = [];
                 let lineItemObj = {};
-
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);

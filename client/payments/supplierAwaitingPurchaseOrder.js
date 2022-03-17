@@ -1558,7 +1558,8 @@ Template.supplierawaitingpurchaseorder.events({
         let selectClient = templateObject.selectedAwaitingPayment.get();
 
           if (selectClient.length === 0) {
-            swal('Please select Supplier to pay for!', '', 'info');
+            //swal('Please select Supplier to pay for!', '', 'info');
+            window.open('/supplierpaymentcard','_self');
         } else {
             let custName = selectClient[0].clientname;
             var resultPO = [];
