@@ -42,7 +42,7 @@ export default class layoutEditor {
 
     const jsonExpected = [
       {
-        "account-type": "type",
+        "account-type": "my-type",
         position: 8,
         "sub-accounts": [
           {
@@ -57,6 +57,22 @@ export default class layoutEditor {
           },
         ],
       },
+      {
+        "account-type": "my-type-2",
+        position: 8,
+        "sub-accounts": [
+          {
+            "account-id": 7,
+            "account-type": "my-type-2",
+            position: 1,
+          },
+          {
+            "account-id": 7,
+            "account-type": "my-type-2",
+            position: 1,
+          },
+        ],
+      }
     ];
 
     sortableAccounts.forEach((el) => {

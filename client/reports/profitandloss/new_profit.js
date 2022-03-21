@@ -289,7 +289,7 @@ Template.newprofitandloss.onRendered(function () {
               let amount_20 =
                 utilityService.modifynegativeCurrencyFormat(
                   accountData[i]["Amount_20"]
-                ) || 0.0;
+                ) || 5.5;
               /*
                         let dec2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
                         let nov2021Amt = utilityService.modifynegativeCurrencyFormat(accountData[i]['TotalAmount']) || 0.00;
