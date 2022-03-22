@@ -392,6 +392,7 @@ Template.stocktransfercard.onRendered(function() {
                             let lineItemsTable = [];
                             let lineItemTableObj = {};
                             let initialTransferData = 0;
+                          if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                   if(data.fields.Lines[i].fields.TransferSerialnos){
@@ -421,7 +422,7 @@ Template.stocktransfercard.onRendered(function() {
                                     lineItems.push(lineItemObj);
                                 }
                             }
-
+                          }
                             let record = {
                                 id: data.fields.ID,
                                 lid: 'Edit Stock Transfer' + ' ' + data.fields.ID,
@@ -759,6 +760,7 @@ Template.stocktransfercard.onRendered(function() {
                                 let lineItemsTable = [];
                                 let lineItemTableObj = {};
                                 let initialTransferData = 0;
+                              if(data.fields.Lines != null){
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
                                       if(data.fields.Lines[i].fields.TransferSerialnos){
@@ -787,7 +789,7 @@ Template.stocktransfercard.onRendered(function() {
                                         lineItems.push(lineItemObj);
                                     }
                                 }
-
+                              }
                                 let record = {
                                     id: data.fields.ID,
                                     lid: 'Edit Stock Transfer' + ' ' + data.fields.ID,
@@ -933,6 +935,7 @@ Template.stocktransfercard.onRendered(function() {
                         let lineItemsTable = [];
                         let lineItemTableObj = {};
                         let initialTransferData = 0;
+                      if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                               if(data.fields.Lines[i].fields.TransferSerialnos){
@@ -962,7 +965,7 @@ Template.stocktransfercard.onRendered(function() {
                                 lineItems.push(lineItemObj);
                             }
                         }
-
+                      }
                         let record = {
                             id: data.fields.ID,
                             lid: 'Edit Stock Transfer' + ' ' + data.fields.ID,

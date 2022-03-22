@@ -469,7 +469,7 @@ Template.shippingdocket.onRendered(function() {
             if (oPost.readyState == 4 && oPost.status == 200) {
                 var dataReturnRes = JSON.parse(oPost.responseText);
                 if (dataReturnRes.Reports) {
-    
+
                     for (let i = 0; i < dataReturnRes.Reports.length; i++) {
                         let mimecodetoConvert = dataReturnRes.Reports[i].MimeEncodedFile;
                         let mimecodeName = dataReturnRes.Reports[i].ReportType;
@@ -784,6 +784,7 @@ Template.shippingdocket.onRendered(function() {
                 let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                     minimumFractionDigits: 2
                 });
+                if(data.fields.Lines != null){
                 if (data.fields.Lines.length) {
                     for (let i = 0; i < data.fields.Lines.length; i++) {
                         let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -851,7 +852,7 @@ Template.shippingdocket.onRendered(function() {
                     };
                     lineItems.push(lineItemObj);
                 }
-
+                 }
                 let shippingrecord = {
                     id: data.fields.ID,
                     lid: 'Edit Invoice' + ' ' + data.fields.ID,

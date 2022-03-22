@@ -274,7 +274,7 @@ Template.stockadjustmentcard.onRendered(() => {
                         let lineItemObj = {};
                         let lineItemsTable = [];
                         let lineItemTableObj = {};
-
+                        if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                                 productcost = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
@@ -297,6 +297,7 @@ Template.stockadjustmentcard.onRendered(() => {
 
                                 lineItems.push(lineItemObj);
                             }
+                        }
                         }
 
                         let record = {
@@ -537,7 +538,7 @@ Template.stockadjustmentcard.onRendered(() => {
                     let lineItemObj = {};
                     let lineItemsTable = [];
                     let lineItemTableObj = {};
-
+                    if(data.fields.Lines != null){
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             productcost = utilityService.modifynegativeCurrencyFormat(data.tstatementforcustomer[i].Amount).toLocaleString(undefined, {
@@ -561,7 +562,7 @@ Template.stockadjustmentcard.onRendered(() => {
                             lineItems.push(lineItemObj);
                         }
                     }
-
+                  }
                     let record = {
                         id: data.fields.ID,
                         lid: 'Edit Stock Adjustment' + ' ' + data.fields.ID,

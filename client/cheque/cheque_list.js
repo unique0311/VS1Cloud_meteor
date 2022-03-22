@@ -349,6 +349,11 @@ Template.chequelist.onRendered(function() {
                             }
                             $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                           },
+                           "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                             let countTableData = data.Params.Count || 0; //get count from API data
+
+                               return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                            }
 
                       }).on('page', function() {
@@ -362,17 +367,6 @@ Template.chequelist.onRendered(function() {
                       });
                       $('.fullScreenSpin').css('display', 'none');
 
-                      /* Add count functionality to table */
-                      let countTableData = data.Params.Count || 1; //get count from API data
-                      if(data.tchequelist.length > countTableData){ //Check if what is on the list is more than API count
-                        countTableData = data.tchequelist.length||1;
-                      }
-                      if(data.tchequelist.length > 0){
-                        $('#tblchequelist_info').html('Showing 1 to '+data.tchequelist.length+ ' of ' +countTableData+ ' entries');
-                      }else{
-                        $('#tblchequelist_info').html('Showing 0 to '+data.tchequelist.length+ ' of 0 entries');
-                      }
-                      /* End Add count functionality to table */
                   }, 0);
 
                   var columns = $('#tblchequelist th');
@@ -649,6 +643,11 @@ Template.chequelist.onRendered(function() {
                           }
                           $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
                           $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                     }).on('page', function() {
@@ -661,17 +660,7 @@ Template.chequelist.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display', 'none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tchequelist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tchequelist.length||1;
-                    }
-                    if(data.tchequelist.length > 0){
-                      $('#tblchequelist_info').html('Showing 1 to '+data.tchequelist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblchequelist_info').html('Showing 0 to '+data.tchequelist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblchequelist th');
@@ -942,6 +931,11 @@ Template.chequelist.onRendered(function() {
                           }
                           $("<button class='btn btn-primary btnRefreshCheque' type='button' id='btnRefreshCheque' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblchequelist_filter");
                           $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                     }).on('page', function() {
@@ -953,17 +947,7 @@ Template.chequelist.onRendered(function() {
                     }).on('column-reorder', function() {
 
                     });
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tchequelist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tchequelist.length||1;
-                    }
-                    if(data.tchequelist.length > 0){
-                      $('#tblchequelist_info').html('Showing 1 to '+data.tchequelist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblchequelist_info').html('Showing 0 to '+data.tchequelist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
                 var columns = $('#tblchequelist th');

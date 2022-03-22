@@ -241,7 +241,7 @@ Template.journalentrycard.onRendered(() => {
                             let totalDebit = 0;
                             let totalCreditInc = 0;
                             let totalDebitInc = 0;
-
+                            if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let creditAmountEx = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.CreditAmount) || 0.00;
@@ -285,7 +285,7 @@ Template.journalentrycard.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
                             }
-
+                            }
                             let record = {
                                 id: data.fields.ID,
                                 lid: 'Edit Journal Entry' + ' ' + data.fields.ID,
@@ -531,12 +531,7 @@ Template.journalentrycard.onRendered(() => {
                                 let department = data.fields.Lines[0].fields.DeptName;
                                 let totalCredit = 0;
                                 let totalDebit = 0;
-
-
-
-
-
-
+                                if(data.fields.Lines != null){
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
                                         let creditAmountEx = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.CreditAmount) || 0.00;
@@ -567,6 +562,7 @@ Template.journalentrycard.onRendered(() => {
 
                                         lineItems.push(lineItemObj);
                                     }
+                                }
                                 }
 
                                 let record = {
@@ -658,12 +654,7 @@ Template.journalentrycard.onRendered(() => {
                         let department = data.fields.Lines[0].fields.DeptName;
                         let totalCredit = 0;
                         let totalDebit = 0;
-
-
-
-
-
-
+                        if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                                 let creditAmountEx = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.CreditAmount) || 0.00;
@@ -695,7 +686,7 @@ Template.journalentrycard.onRendered(() => {
                                 lineItems.push(lineItemObj);
                             }
                         }
-
+                         }
                         let record = {
                             id: data.fields.ID,
                             lid: 'Edit Journal Entry' + ' ' + data.fields.ID,

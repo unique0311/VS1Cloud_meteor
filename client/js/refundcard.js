@@ -2393,6 +2393,7 @@ Template.refundcard.onRendered(() => {
                     let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
+                  if(data.fields.Lines != null){
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, {
@@ -2460,7 +2461,7 @@ Template.refundcard.onRendered(() => {
                         };
                         lineItems.push(lineItemObj);
                     }
-
+                  }
                     let invoicerecord = {
                         id: data.fields.ID,
                         lid: 'Refund' + ' ' + data.fields.ID,
@@ -3023,6 +3024,7 @@ Template.refundcard.onRendered(() => {
                     let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
+                  if(data.fields.Lines != null){
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, {
@@ -3090,7 +3092,7 @@ Template.refundcard.onRendered(() => {
                         };
                         lineItems.push(lineItemObj);
                     }
-
+                  }
                     let invoicerecord = {
                         id: data.fields.ID,
                         lid: 'Refund' + ' ' + data.fields.ID,
@@ -3346,6 +3348,7 @@ Template.refundcard.onRendered(() => {
                     let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
+                  if(data.fields.Lines != null){
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, {
@@ -3413,7 +3416,7 @@ Template.refundcard.onRendered(() => {
                         };
                         lineItems.push(lineItemObj);
                     }
-
+                  }
                     let invoicerecord = {
                         id: data.fields.ID,
                         lid: 'Refund' + ' ' + data.fields.ID,

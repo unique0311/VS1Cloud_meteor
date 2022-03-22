@@ -2373,6 +2373,7 @@ Template.new_salesorder.onRendered(() => {
                             let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
+                          if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -2440,7 +2441,7 @@ Template.new_salesorder.onRendered(() => {
                                 };
                                 lineItems.push(lineItemObj);
                             }
-
+                          }
                             let salesorderrecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Sales Order' + ' ' + data.fields.ID,
@@ -2987,6 +2988,7 @@ Template.new_salesorder.onRendered(() => {
                                     let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     });
+                                  if(data.fields.Lines != null){
                                     if (data.fields.Lines.length) {
                                         for (let i = 0; i < data.fields.Lines.length; i++) {
                                             let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -3055,7 +3057,7 @@ Template.new_salesorder.onRendered(() => {
                                         };
                                         lineItems.push(lineItemObj);
                                     }
-
+                                  }
                                     let salesorderrecord = {
                                         id: data.fields.ID,
                                         lid: 'Edit Sales Order' + ' ' + data.fields.ID,
@@ -3271,6 +3273,7 @@ Template.new_salesorder.onRendered(() => {
                         let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
+                      if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                                 let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -3339,7 +3342,7 @@ Template.new_salesorder.onRendered(() => {
                             };
                             lineItems.push(lineItemObj);
                         }
-
+                      }
                         let salesorderrecord = {
                             id: data.fields.ID,
                             lid: 'Edit Quote' + ' ' + data.fields.ID,
@@ -3716,6 +3719,7 @@ Template.new_salesorder.onRendered(() => {
                     let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
+                  if(data.fields.Lines != null){
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -3784,7 +3788,7 @@ Template.new_salesorder.onRendered(() => {
                         };
                         lineItems.push(lineItemObj);
                     }
-
+                  }
                     let salesorderrecord = {
                         id: data.fields.ID,
                         lid: 'New Sales Order',
@@ -4014,6 +4018,7 @@ Template.new_salesorder.onRendered(() => {
                             let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
+                          if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -4082,7 +4087,7 @@ Template.new_salesorder.onRendered(() => {
                                 };
                                 lineItems.push(lineItemObj);
                             }
-
+                          }
                             let salesorderrecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Sales Order' + ' ' + data.fields.ID,
@@ -4575,6 +4580,7 @@ Template.new_salesorder.onRendered(() => {
                         let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
+                      if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                                 let AmountGbp = currencySymbol + '' + data.fields.Lines[i].fields.TotalLineAmount.toLocaleString(undefined, {
@@ -4643,7 +4649,7 @@ Template.new_salesorder.onRendered(() => {
                             };
                             lineItems.push(lineItemObj);
                         }
-
+                      }
                         let salesorderrecord = {
                             id: data.fields.ID,
                             lid: 'Edit Sales Order' + ' ' + data.fields.ID,

@@ -352,6 +352,11 @@ Template.billlist.onRendered(function() {
 
                              $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                         }).on('page', function () {
@@ -369,17 +374,6 @@ Template.billlist.onRendered(function() {
                         });
                         $('.fullScreenSpin').css('display','none');
 
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tbilllist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tbilllist.length||1;
-                        }
-                        if(data.tbilllist.length > 0){
-                          $('#tblbilllist_info').html('Showing 1 to '+data.tbilllist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblbilllist_info').html('Showing 0 to '+data.tbilllist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
                     }, 0);
 
                     var columns = $('#tblbilllist th');
@@ -663,6 +657,11 @@ Template.billlist.onRendered(function() {
 
                          $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                     },
+                     "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                       let countTableData = data.Params.Count || 0; //get count from API data
+
+                         return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                      }
 
                     }).on('page', function () {
@@ -680,17 +679,7 @@ Template.billlist.onRendered(function() {
                     });
                     $('.fullScreenSpin').css('display','none');
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tbilllist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tbilllist.length||1;
-                    }
-                    if(data.tbilllist.length > 0){
-                      $('#tblbilllist_info').html('Showing 1 to '+data.tbilllist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblbilllist_info').html('Showing 0 to '+data.tbilllist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblbilllist th');
@@ -970,6 +959,11 @@ Template.billlist.onRendered(function() {
 
                        $("<button class='btn btn-primary btnRefreshBillList' type='button' id='btnRefreshBillList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblbilllist_filter");
                        $('.myvarFilterForm').appendTo(".colDateFilter");
+                   },
+                   "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                     let countTableData = data.Params.Count || 0; //get count from API data
+
+                       return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                    }
 
                   }).on('page', function () {
@@ -987,17 +981,7 @@ Template.billlist.onRendered(function() {
                   });
                   $('.fullScreenSpin').css('display','none');
 
-                  /* Add count functionality to table */
-                  let countTableData = data.Params.Count || 1; //get count from API data
-                  if(data.tbilllist.length > countTableData){ //Check if what is on the list is more than API count
-                    countTableData = data.tbilllist.length||1;
-                  }
-                  if(data.tbilllist.length > 0){
-                    $('#tblbilllist_info').html('Showing 1 to '+data.tbilllist.length+ ' of ' +countTableData+ ' entries');
-                  }else{
-                    $('#tblbilllist_info').html('Showing 0 to '+data.tbilllist.length+ ' of 0 entries');
-                  }
-                  /* End Add count functionality to table */
+
               }, 0);
 
               var columns = $('#tblbilllist th');

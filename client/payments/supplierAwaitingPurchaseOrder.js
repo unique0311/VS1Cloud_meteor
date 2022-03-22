@@ -333,6 +333,11 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
 
                                  $('.myvarFilterForm').appendTo(".colDateFilter");
 
+                             },
+                             "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                               let countTableData = data.Params.Count || 0; //get count from API data
+
+                                 return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                              }
 
                         }).on('page', function () {
@@ -350,17 +355,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         });
                         $('.fullScreenSpin').css('display', 'none');
 
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tbillreport.length||1;
-                        }
-                        if(data.tbillreport.length > 0){
-                          $('#tblSupplierAwaitingPO_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblSupplierAwaitingPO_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
                     }, 0);
 
 
@@ -665,6 +660,11 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
 
                              $('.myvarFilterForm').appendTo(".colDateFilter");
 
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                     }).on('page', function () {
@@ -682,17 +682,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                     });
                     $('.fullScreenSpin').css('display', 'none');
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tbillreport.length||1;
-                    }
-                    if(data.tbillreport.length > 0){
-                      $('#tblSupplierAwaitingPO_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblSupplierAwaitingPO_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
 
@@ -980,6 +970,11 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
 
                              $('.myvarFilterForm').appendTo(".colDateFilter");
 
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                     }).on('page', function () {
@@ -997,17 +992,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                     });
                     $('.fullScreenSpin').css('display', 'none');
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tbillreport.length||1;
-                    }
-                    if(data.tbillreport.length > 0){
-                      $('#tblSupplierAwaitingPO_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblSupplierAwaitingPO_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
 

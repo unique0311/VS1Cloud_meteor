@@ -132,8 +132,8 @@ Template.supplierpayment.onRendered(function() {
                             paymentamount: amount || 0.00,
                             applied: applied || 0.00,
                             balance: balance || 0.00,
-                            bankaccount: data.tsupplierpaymentlist[i].AccountName || '',
-                            department: data.tsupplierpaymentlist[i].DeptClassName || '',
+                            bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
+                            department: data.tsupplierpaymentlist[i].Department || '',
                             refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
                             paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
                             notes: data.tsupplierpaymentlist[i].Notes || ''
@@ -324,6 +324,11 @@ Template.supplierpayment.onRendered(function() {
                                }
                                    $("<button class='btn btn-primary btnRefreshSupplierPayment' type='button' id='btnRefreshSupplierPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierPayment_filter");
                                    $('.myvarFilterForm').appendTo(".colDateFilter");
+                               },
+                               "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                                 let countTableData = data.Params.Count || 0; //get count from API data
+
+                                   return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                                }
 
                         }).on('page', function () {
@@ -341,17 +346,7 @@ Template.supplierpayment.onRendered(function() {
                         });
                         $('.fullScreenSpin').css('display','none');
 
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tsupplierpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tsupplierpaymentlist.length||1;
-                        }
-                        if(data.tsupplierpaymentlist.length > 0){
-                          $('#tblSupplierPayment_info').html('Showing 1 to '+data.tsupplierpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblSupplierPayment_info').html('Showing 0 to '+data.tsupplierpaymentlist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
 
                     }, 0);
 
@@ -422,8 +417,8 @@ Template.supplierpayment.onRendered(function() {
                         paymentamount: amount || 0.00,
                         applied: applied || 0.00,
                         balance: balance || 0.00,
-                        bankaccount: data.tsupplierpaymentlist[i].AccountName || '',
-                        department: data.tsupplierpaymentlist[i].DeptClassName || '',
+                        bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
+                        department: data.tsupplierpaymentlist[i].Department || '',
                         refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
                         paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
                         notes: data.tsupplierpaymentlist[i].Notes || ''
@@ -614,6 +609,11 @@ Template.supplierpayment.onRendered(function() {
                            }
                                $("<button class='btn btn-primary btnRefreshSupplierPayment' type='button' id='btnRefreshSupplierPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierPayment_filter");
                                $('.myvarFilterForm').appendTo(".colDateFilter");
+                           },
+                           "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                             let countTableData = data.Params.Count || 0; //get count from API data
+
+                               return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                            }
 
                     }).on('page', function () {
@@ -631,17 +631,7 @@ Template.supplierpayment.onRendered(function() {
                     });
                     $('.fullScreenSpin').css('display','none');
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tsupplierpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tsupplierpaymentlist.length||1;
-                    }
-                    if(data.tsupplierpaymentlist.length > 0){
-                      $('#tblSupplierPayment_info').html('Showing 1 to '+data.tsupplierpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblSupplierPayment_info').html('Showing 0 to '+data.tsupplierpaymentlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
 
                 }, 0);
 
@@ -708,8 +698,8 @@ Template.supplierpayment.onRendered(function() {
                       paymentamount: amount || 0.00,
                       applied: applied || 0.00,
                       balance: balance || 0.00,
-                      bankaccount: data.tsupplierpaymentlist[i].AccountName || '',
-                      department: data.tsupplierpaymentlist[i].DeptClassName || '',
+                      bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
+                      department: data.tsupplierpaymentlist[i].Department || '',
                       refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
                       paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
                       notes: data.tsupplierpaymentlist[i].Notes || ''
@@ -900,6 +890,11 @@ Template.supplierpayment.onRendered(function() {
                          }
                              $("<button class='btn btn-primary btnRefreshSupplierPayment' type='button' id='btnRefreshSupplierPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierPayment_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                   }).on('page', function () {
@@ -917,17 +912,7 @@ Template.supplierpayment.onRendered(function() {
                   });
                   $('.fullScreenSpin').css('display','none');
 
-                  /* Add count functionality to table */
-                  let countTableData = data.Params.Count || 1; //get count from API data
-                  if(data.tsupplierpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                    countTableData = data.tsupplierpaymentlist.length||1;
-                  }
-                  if(data.tsupplierpaymentlist.length > 0){
-                    $('#tblSupplierPayment_info').html('Showing 1 to '+data.tsupplierpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                  }else{
-                    $('#tblSupplierPayment_info').html('Showing 0 to '+data.tsupplierpaymentlist.length+ ' of 0 entries');
-                  }
-                  /* End Add count functionality to table */
+
 
               }, 0);
 
@@ -1065,8 +1050,8 @@ Template.supplierpayment.events({
                       paymentamount: amount || 0.00,
                       applied: applied || 0.00,
                       balance: balance || 0.00,
-                      bankaccount: data.tsupplierpaymentlist[i].AccountName || '',
-                      department: data.tsupplierpaymentlist[i].DeptClassName || '',
+                      bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
+                      department: data.tsupplierpaymentlist[i].Department || '',
                       refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
                       paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
                       notes: data.tsupplierpaymentlist[i].Notes || ''
@@ -1281,7 +1266,7 @@ Template.supplierpayment.events({
 
     },
     'click .btnNewPayment': function () {
-        FlowRouter.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierpaymentcard');
     },
     'click .btnAwaitingPayment': function () {
         FlowRouter.go('/supplierawaitingpurchaseorder');

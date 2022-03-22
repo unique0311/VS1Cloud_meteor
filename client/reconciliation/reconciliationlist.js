@@ -132,7 +132,7 @@ Template.reconciliationlist.onRendered(function() {
                           recondate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliationlist[i].ReconciliationDate,
                           accountname:data.treconciliationlist[i].AccountName || '',
                           statementno: data.treconciliationlist[i].StatementNo || '',
-                          department: data.treconciliationlist[i].DeptName|| '',
+                          department: data.treconciliationlist[i].Department|| '',
                           openbalance: openBalance || 0.00,
                           closebalance: closeBalance || 0.00,
                           employee: data.treconciliationlist[i].EmployeeName || '',
@@ -343,6 +343,11 @@ Template.reconciliationlist.onRendered(function() {
                               $("<button class='btn btn-primary btnRefreshReconn' type='button' id='btnRefreshReconn' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
 
                               $('.myvarFilterForm').appendTo(".colDateFilter");
+                          },
+                          "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                            let countTableData = data.Params.Count || 0; //get count from API data
+
+                              return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                           }
 
                       }).on('page', function () {
@@ -359,17 +364,7 @@ Template.reconciliationlist.onRendered(function() {
                           }, 100);
                       });
 
-                      /* Add count functionality to table */
-                      let countTableData = data.Params.Count || 1; //get count from API data
-                      if(data.treconciliationlist.length > countTableData){ //Check if what is on the list is more than API count
-                        countTableData = data.treconciliationlist.length||1;
-                      }
-                      if(data.treconciliationlist.length > 0){
-                        $('#tblreconciliationlist_info').html('Showing 1 to '+data.treconciliationlist.length+ ' of ' +countTableData+ ' entries');
-                      }else{
-                        $('#tblreconciliationlist_info').html('Showing 0 to '+data.treconciliationlist.length+ ' of 0 entries');
-                      }
-                      /* End Add count functionality to table */
+
 
                       $('.fullScreenSpin').css('display','none');
                   }, 0);
@@ -438,7 +433,7 @@ Template.reconciliationlist.onRendered(function() {
                         recondate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliationlist[i].ReconciliationDate,
                         accountname:data.treconciliationlist[i].AccountName || '',
                         statementno: data.treconciliationlist[i].StatementNo || '',
-                        department: data.treconciliationlist[i].DeptName|| '',
+                        department: data.treconciliationlist[i].Department|| '',
                         openbalance: openBalance || 0.00,
                         closebalance: closeBalance || 0.00,
                         employee: data.treconciliationlist[i].EmployeeName || '',
@@ -649,6 +644,11 @@ Template.reconciliationlist.onRendered(function() {
                             $("<button class='btn btn-primary btnRefreshReconn' type='button' id='btnRefreshReconn' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function () {
@@ -665,17 +665,7 @@ Template.reconciliationlist.onRendered(function() {
                         }, 100);
                     });
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.treconciliationlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.treconciliationlist.length||1;
-                    }
-                    if(data.treconciliationlist.length > 0){
-                      $('#tblreconciliationlist_info').html('Showing 1 to '+data.treconciliationlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblreconciliationlist_info').html('Showing 0 to '+data.treconciliationlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
 
                     $('.fullScreenSpin').css('display','none');
                 }, 0);
@@ -740,7 +730,7 @@ Template.reconciliationlist.onRendered(function() {
                         recondate: data.treconciliationlist[i].ReconciliationDate !=''? moment(data.treconciliationlist[i].ReconciliationDate).format("DD/MM/YYYY"): data.treconciliationlist[i].ReconciliationDate,
                         accountname:data.treconciliationlist[i].AccountName || '',
                         statementno: data.treconciliationlist[i].StatementNo || '',
-                        department: data.treconciliationlist[i].DeptName|| '',
+                        department: data.treconciliationlist[i].Department|| '',
                         openbalance: openBalance || 0.00,
                         closebalance: closeBalance || 0.00,
                         employee: data.treconciliationlist[i].EmployeeName || '',
@@ -951,6 +941,11 @@ Template.reconciliationlist.onRendered(function() {
                             $("<button class='btn btn-primary btnRefreshReconn' type='button' id='btnRefreshReconn' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblreconciliationlist_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function () {
@@ -967,17 +962,7 @@ Template.reconciliationlist.onRendered(function() {
                         }, 100);
                     });
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.treconciliationlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.treconciliationlist.length||1;
-                    }
-                    if(data.treconciliationlist.length > 0){
-                      $('#tblreconciliationlist_info').html('Showing 1 to '+data.treconciliationlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblreconciliationlist_info').html('Showing 0 to '+data.treconciliationlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
 
                     $('.fullScreenSpin').css('display','none');
                 }, 0);

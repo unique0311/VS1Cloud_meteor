@@ -651,6 +651,11 @@ Template.paymentoverview.onRendered(function() {
                                 $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
 
                                 $('.myvarFilterForm').appendTo(".colDateFilter");
+                            },
+                            "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                              let countTableData = data.Params.Count || 0; //get count from API data
+
+                                return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                             }
 
                         }).on('page', function () {
@@ -664,17 +669,7 @@ Template.paymentoverview.onRendered(function() {
 
                         });
                         $('.fullScreenSpin').css('display','none');
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tpaymentlist.length||1;
-                        }
-                        if(data.tpaymentlist.length > 0){
-                          $('#tblPaymentOverview_info').html('Showing 1 to '+data.tpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblPaymentOverview_info').html('Showing 0 to '+data.tpaymentlist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
                     }, 0);
 
                     var columns = $('#tblPaymentOverview th');
@@ -726,6 +721,7 @@ Template.paymentoverview.onRendered(function() {
                 });
             }else{
                 let data = JSON.parse(dataObject[0].data);
+                console.log(data);
                 let useData = data.tpaymentlist;
                 if(data.Params.IgnoreDates == true){
                   FlowRouter.go('/paymentoverview?ignoredate=true');
@@ -958,6 +954,11 @@ Template.paymentoverview.onRendered(function() {
                             $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function () {
@@ -971,17 +972,7 @@ Template.paymentoverview.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display','none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tpaymentlist.length||1;
-                    }
-                    if(data.tpaymentlist.length > 0){
-                      $('#tblPaymentOverview_info').html('Showing 1 to '+data.tpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblPaymentOverview_info').html('Showing 0 to '+data.tpaymentlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblPaymentOverview th');
@@ -1265,6 +1256,11 @@ Template.paymentoverview.onRendered(function() {
                             $("<button class='btn btn-primary btnRefreshPaymentOverview' type='button' id='btnRefreshPaymentOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPaymentOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function () {
@@ -1278,17 +1274,7 @@ Template.paymentoverview.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display','none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tpaymentlist.length||1;
-                    }
-                    if(data.tpaymentlist.length > 0){
-                      $('#tblPaymentOverview_info').html('Showing 1 to '+data.tpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblPaymentOverview_info').html('Showing 0 to '+data.tpaymentlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblPaymentOverview th');

@@ -510,6 +510,7 @@ Template.purchaseordercard.onRendered(() => {
                             let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax);
                             let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance);
                             let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid);
+                          if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount);
@@ -566,7 +567,7 @@ Template.purchaseordercard.onRendered(() => {
                                 };
                                 lineItems.push(lineItemObj);
                             }
-
+                          }
                             let purchaseorderrecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit Purchase Order' + ' ' + data.fields.ID,
@@ -928,6 +929,7 @@ Template.purchaseordercard.onRendered(() => {
                                 let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax);
                                 let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance);
                                 let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid);
+                              if(data.fields.Lines != null){
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
                                         let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount);
@@ -984,7 +986,7 @@ Template.purchaseordercard.onRendered(() => {
                                     };
                                     lineItems.push(lineItemObj);
                                 }
-
+                              }
                                 let purchaseorderrecord = {
                                     id: data.fields.ID,
                                     lid: 'Edit Purchase Order' + ' ' + data.fields.ID,
@@ -1125,6 +1127,7 @@ Template.purchaseordercard.onRendered(() => {
                         let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax);
                         let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance);
                         let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid);
+                        if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                                 let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount);
@@ -1181,7 +1184,7 @@ Template.purchaseordercard.onRendered(() => {
                             };
                             lineItems.push(lineItemObj);
                         }
-
+                        }
                         let purchaseorderrecord = {
                             id: data.fields.ID,
                             lid: 'Edit Purchase Order' + ' ' + data.fields.ID,
@@ -1352,6 +1355,7 @@ Template.purchaseordercard.onRendered(() => {
                 let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax);
                 let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance);
                 let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid);
+                if(data.fields.Lines != null){
                 if (data.fields.Lines.length) {
                     for (let i = 0; i < data.fields.Lines.length; i++) {
                         let AmountGbp = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount);
@@ -1408,7 +1412,7 @@ Template.purchaseordercard.onRendered(() => {
                     };
                     lineItems.push(lineItemObj);
                 }
-
+              }
                 let purchaseorderrecord = {
                     id: data.fields.ID,
                     lid: 'New Purchase Order',

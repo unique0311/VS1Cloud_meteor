@@ -345,6 +345,11 @@ Template.depositlist.onRendered(function() {
                               $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
 
                               $('.myvarFilterForm').appendTo(".colDateFilter");
+                          },
+                          "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                            let countTableData = data.Params.Count || 0; //get count from API data
+
+                              return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                           }
 
                       }).on('page', function () {
@@ -357,18 +362,6 @@ Template.depositlist.onRendered(function() {
 
                       });
                       $('.fullScreenSpin').css('display','none');
-
-                      /* Add count functionality to table */
-                      let countTableData = data.Params.Count || 1; //get count from API data
-                      if(data.tbankdepositlist.length > countTableData){ //Check if what is on the list is more than API count
-                        countTableData = data.tbankdepositlist.length||1;
-                      }
-                      if(data.tbankdepositlist.length > 0){
-                        $('#tblDepositList_info').html('Showing 1 to '+data.tbankdepositlist.length+ ' of ' +countTableData+ ' entries');
-                      }else{
-                        $('#tblDepositList_info').html('Showing 0 to '+data.tbankdepositlist.length+ ' of 0 entries');
-                      }
-                      /* End Add count functionality to table */
 
                   }, 0);
 
@@ -651,6 +644,11 @@ Template.depositlist.onRendered(function() {
                             $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function () {
@@ -663,19 +661,6 @@ Template.depositlist.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display','none');
-
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tbankdepositlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tbankdepositlist.length||1;
-                    }
-                    if(data.tbankdepositlist.length > 0){
-                      $('#tblDepositList_info').html('Showing 1 to '+data.tbankdepositlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblDepositList_info').html('Showing 0 to '+data.tbankdepositlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
-
                 }, 0);
 
                 var columns = $('#tblDepositList th');
@@ -953,6 +938,11 @@ Template.depositlist.onRendered(function() {
                             $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefresh' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblDepositList_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function () {
@@ -965,18 +955,6 @@ Template.depositlist.onRendered(function() {
 
                     });
                     $('.fullScreenSpin').css('display','none');
-
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tbankdepositlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tbankdepositlist.length||1;
-                    }
-                    if(data.tbankdepositlist.length > 0){
-                      $('#tblDepositList_info').html('Showing 1 to '+data.tbankdepositlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblDepositList_info').html('Showing 0 to '+data.tbankdepositlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
 
                 }, 0);
 

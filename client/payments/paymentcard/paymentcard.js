@@ -112,22 +112,26 @@ Template.paymentcard.onRendered(() => {
 
     templateObject.getLastPaymentData = function() {
       let lastBankAccount = "Bank";
+      let lastDepartment = Session.get('department') || "";
         paymentService.getAllCustomerPaymentData1().then(function(data) {
             if(data.tcustomerpayment.length > 0){
                 lastCheque = data.tcustomerpayment[data.tcustomerpayment.length - 1]
                 lastBankAccount = lastCheque.AccountName;
+                lastDepartment = lastCheque.DeptClassName;
             } else{
 
             }
             setTimeout(function(){
                   $('#edtSelectBankAccountName').val(lastBankAccount);
+                  $('#sltDept').val(lastDepartment);
             },50);
         }).catch(function(err) {
           if(Session.get('bankaccount')){
             $('#edtSelectBankAccountName').val(Session.get('bankaccount'));
           }else{
             $('#edtSelectBankAccountName').val(lastBankAccount);
-          }
+          };
+          $('#sltDept').val(lastDepartment);
         });
     };
 
@@ -169,7 +173,7 @@ Template.paymentcard.onRendered(() => {
                     if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
                       setTimeout(function () {
                           $('#edtCustomerName').trigger("click");
-                      }, 200);
+                      }, 400);
                     }else{
 
                     }
@@ -213,7 +217,7 @@ Template.paymentcard.onRendered(() => {
                 if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
                   setTimeout(function () {
                       $('#edtCustomerName').trigger("click");
-                  }, 200);
+                  }, 400);
                 }else{
 
                 }
@@ -255,7 +259,7 @@ Template.paymentcard.onRendered(() => {
                 if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
                   setTimeout(function () {
                       $('#edtCustomerName').trigger("click");
-                  }, 200);
+                  }, 400);
                 }else{
 
                 }
@@ -1110,6 +1114,7 @@ Template.paymentcard.onRendered(() => {
         let isEmptyData = false;
 
         if(jQuery.isEmptyObject(FlowRouter.current().queryParams) == true){
+          if($tblrows.length > 0){
           $tblrows.each(function (index) {
             var $tblrow = $(this);
             if ($tblrow.find(".colTransNo").val() == '') {
@@ -1118,6 +1123,9 @@ Template.paymentcard.onRendered(() => {
               isEmptyData = false;
             }
           });
+        }else{
+          isEmptyData = true;
+        }
           setTimeout(function() {
 
             if(isEmptyData){
@@ -2132,7 +2140,7 @@ Template.paymentcard.onRendered(() => {
                         let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.Applied).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
-
+                        if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                                 let amountDue = Currency + '' + data.fields.Lines[i].fields.AmountDue.toLocaleString(undefined, {
@@ -2190,6 +2198,7 @@ Template.paymentcard.onRendered(() => {
                                 orginalamount: originalAmt
                             };
                             lineItems.push(lineItemObj);
+                        }
                         }
                         let record = {
                             lid: data.fields.ID || '',
@@ -2494,7 +2503,7 @@ Template.paymentcard.onRendered(() => {
                             let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.Applied).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
-
+                            if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let amountDue = Currency + '' + data.fields.Lines[i].fields.AmountDue.toLocaleString(undefined, {
@@ -2552,6 +2561,7 @@ Template.paymentcard.onRendered(() => {
                                 };
                                 lineItems.push(lineItemObj);
                             }
+                           }
                             let record = {
                                 lid: data.fields.ID || '',
                                 customerName: data.fields.CompanyName || '',
@@ -2671,6 +2681,7 @@ Template.paymentcard.onRendered(() => {
                         minimumFractionDigits: 2
                     });
 
+                    if(data.fields.Lines != null){
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             let amountDue = Currency + '' + data.fields.Lines[i].fields.AmountDue.toLocaleString(undefined, {
@@ -2727,6 +2738,7 @@ Template.paymentcard.onRendered(() => {
                             orginalamount: originalAmt
                         };
                         lineItems.push(lineItemObj);
+                    }
                     }
                     let record = {
                         lid: data.fields.ID || '',
@@ -4060,15 +4072,17 @@ Template.paymentcard.onRendered(() => {
             0.00 || 0.00,
             '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
         ];
-        lineItemsTable.push(dataListTable);
-        lineItems.push(lineItemObj);
+        // lineItemsTable.push(dataListTable);
+        // lineItems.push(lineItemObj);
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
 
         let paymentrecord = {
             id: '',
             lid: '',
-            bankaccount: 'Bank',
+            bankAccount: Session.get('bankaccount') ||'Bank',
+            checkpayment: Session.get('paymentmethod') || '',
+            department: Session.get('department') || '',
             accountname: '',
             memo: '',
             sosupplier: '',
@@ -4128,7 +4142,14 @@ Template.paymentcard.onRendered(() => {
 
         $("#form :input").prop("disabled", false);
         templateObject.record.set(paymentrecord);
+        let getDepartmentVal = Session.get('department') || defaultDept;
 
+        let getPaymentMethodVal = Session.get('paymentmethod') || '';
+        $('#sltPaymentMethod').val(getPaymentMethodVal);
+        $('#sltDept').val(getDepartmentVal);
+        let bankAccountData = Session.get('bankaccount')||'Bank';
+        $('#edtSelectBankAccountName').val(bankAccountData);
+        templateObject.getLastPaymentData();
 
     }
 
@@ -4182,7 +4203,7 @@ Template.paymentcard.onRendered(() => {
               e.preventDefault();
         } else {
             $(".chkBox").prop("checked", false);
-            let paymentList = [];
+            let paymentList = [''];
             $('.tblPaymentcard tbody tr').each(function() {
                 paymentList.push(this.id);
 
@@ -6965,7 +6986,7 @@ Template.paymentcard.events({
     if($('#addRow').prop('disabled') == false) {
         let templateObject = Template.instance();
         $(".chkBox").prop("checked", false);
-        let paymentList = [];
+        let paymentList = [''];
         $('.tblPaymentcard tbody tr').each(function() {
             paymentList.push(this.id);
 
@@ -7157,17 +7178,29 @@ Template.paymentcard.events({
             currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
             let total = currentApplied;
             for (let x = 0; x < selectedSupplierPayments.length; x++) {
-                var rowData = $('#tblPaymentcard tbody>tr:last').clone(true);
-                $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
-                $(".colType", rowData).text("Invoice");
-                $(".colTransNo", rowData).text(selectedSupplierPayments[x].awaitingId);
-                $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
-                $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
-                $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
-                $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
-                $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
-                rowData.attr('id', selectedSupplierPayments[x].awaitingId);
-                rowData.attr('name', selectedSupplierPayments[x].awaitingId);
+                var rowData = '<tr class="dnd-moved" id="'+selectedSupplierPayments[x].awaitingId+'" name="'+selectedSupplierPayments[x].awaitingId+'">\n'+
+                              '	<td contenteditable="false" class="colTransDate">'+selectedSupplierPayments[x].date+'</td>\n'+
+                              '	<td contenteditable="false" class="colType" style="color:#00a3d3; cursor: pointer; white-space: nowrap;">Invoice</td>\n'+
+                              '	<td contenteditable="false" class="colTransNo" style="color:#00a3d3">'+selectedSupplierPayments[x].awaitingId+'</td>\n'+
+                              '	<td contenteditable="false" class="lineOrginalamount" style="text-align: right!important;">'+selectedSupplierPayments[x].originalAmount+'</td>\n'+
+                              '	<td contenteditable="false" class="lineAmountdue" style="text-align: right!important;">'+selectedSupplierPayments[x].outstandingAmount+'</td>\n'+
+                              '	<td><input class="linePaymentamount highlightInput" type="text" value="'+selectedSupplierPayments[x].paymentAmount+'"></td>\n'+
+                              '	<td contenteditable="false" class="lineOutstandingAmount" style="text-align: right!important;">'+selectedSupplierPayments[x].paymentAmount+'</td>\n'+
+                              '	<td contenteditable="true" class="colComments">'+selectedSupplierPayments[x].comments+'</td>\n'+
+                              '	<td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>\n'+
+                              '</tr>';
+
+                //$('#tblPaymentcard tbody>tr:last').clone(true);
+                // $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
+                // $(".colType", rowData).text("Invoice");
+                // $(".colTransNo", rowData).text(selectedSupplierPayments[x].awaitingId);
+                // $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
+                // $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
+                // $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
+                // $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
+                // $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
+                // rowData.attr('id', selectedSupplierPayments[x].awaitingId);
+                // rowData.attr('name', selectedSupplierPayments[x].awaitingId);
                 $("#tblPaymentcard tbody").append(rowData);
                 total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace(/[^0-9.-]+/g, "")) || 0;
                 //$('.appliedAmount').text(Currency + total.toFixed(2));

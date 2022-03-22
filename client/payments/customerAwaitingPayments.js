@@ -343,6 +343,11 @@ Template.customerawaitingpayments.onRendered(function () {
                             }
                                $("<button class='btn btn-primary btnRefreshCustomerAwaiting' type='button' id='btnRefreshCustomerAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
                                $('.myvarFilterForm').appendTo(".colDateFilter");
+                           },
+                           "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                             let countTableData = data.Params.Count || 0; //get count from API data
+
+                               return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                            }
 
                       }).on('page', function () {
@@ -357,17 +362,7 @@ Template.customerawaitingpayments.onRendered(function () {
                           }, 100);
                       });
                       $('.fullScreenSpin').css('display', 'none');
-                      /* Add count functionality to table */
-                      let countTableData = data.Params.Count || 1; //get count from API data
-                      if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
-                        countTableData = data.tsaleslist.length||1;
-                      }
-                      if(data.tsaleslist.length > 0){
-                        $('#tblcustomerAwaitingPayment_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
-                      }else{
-                        $('#tblcustomerAwaitingPayment_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
-                      }
-                      /* End Add count functionality to table */
+
                   }, 0);
 
                   var columns = $('#tblcustomerAwaitingPayment th');
@@ -645,6 +640,11 @@ Template.customerawaitingpayments.onRendered(function () {
                           }
                              $("<button class='btn btn-primary btnRefreshCustomerAwaiting' type='button' id='btnRefreshCustomerAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                     }).on('page', function () {
@@ -659,17 +659,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tsaleslist.length||1;
-                    }
-                    if(data.tsaleslist.length > 0){
-                      $('#tblcustomerAwaitingPayment_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblcustomerAwaitingPayment_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblcustomerAwaitingPayment th');
@@ -943,6 +933,11 @@ Template.customerawaitingpayments.onRendered(function () {
                           }
                              $("<button class='btn btn-primary btnRefreshCustomerAwaiting' type='button' id='btnRefreshCustomerAwaiting' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblcustomerAwaitingPayment_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                     }).on('page', function () {
@@ -957,17 +952,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tsaleslist.length||1;
-                    }
-                    if(data.tsaleslist.length > 0){
-                      $('#tblcustomerAwaitingPayment_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblcustomerAwaitingPayment_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblcustomerAwaitingPayment th');

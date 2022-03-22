@@ -421,6 +421,7 @@ Template.chequecard.onRendered(() => {
                             let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            if(data.fields.Lines != null){
                             if (data.fields.Lines) {
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -498,7 +499,7 @@ Template.chequecard.onRendered(() => {
 
                                 lineItems.push(lineItemObj);
                             }
-
+                          }
                             let chequerecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit ' + chequeSpelling + ' ' + data.fields.ID,
@@ -879,6 +880,7 @@ Template.chequecard.onRendered(() => {
                                 let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                if(data.fields.Lines != null){
                                 if (data.fields.Lines) {
                                     if (data.fields.Lines.length) {
                                         for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -956,7 +958,7 @@ Template.chequecard.onRendered(() => {
 
                                     lineItems.push(lineItemObj);
                                 }
-
+                              }
                                 let chequerecord = {
                                     id: data.fields.ID,
                                     lid: 'Edit ' + chequeSpelling + ' ' + data.fields.ID,
@@ -1114,6 +1116,7 @@ Template.chequecard.onRendered(() => {
                         let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        if(data.fields.Lines != null){
                         if (data.fields.Lines) {
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -1191,7 +1194,7 @@ Template.chequecard.onRendered(() => {
 
                             lineItems.push(lineItemObj);
                         }
-
+                        }
                         let chequerecord = {
                             id: data.fields.ID,
                             lid: 'Edit ' + chequeSpelling + ' ' + data.fields.ID,

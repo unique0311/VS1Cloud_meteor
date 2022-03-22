@@ -18,7 +18,7 @@ export class PaymentsService extends BaseService {
 
   getAllCustomerPaymentData1() {
     let options = {
-      PropertyList: "ID,AccountName",
+      PropertyList: "ID,AccountName,DeptClassName",
       orderby:'"PaymentID desc"',
       LimitCount:'"1"',
     };
@@ -27,7 +27,7 @@ export class PaymentsService extends BaseService {
 
   getAllSupplierPaymentData1() {
     let options = {
-        PropertyList:'ID,AccountName',
+        PropertyList:'ID,AccountName,DeptClassName',
         orderby:'"PaymentID desc"',
         LimitCount:'"1"',
     };

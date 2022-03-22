@@ -359,6 +359,11 @@ Template.salesorderslist.onRendered(function() {
                               }
                              $("<button class='btn btn-primary btnRefreshSOList' type='button' id='btnRefreshSOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOrderlist_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                         }).on('page', function () {
@@ -377,17 +382,7 @@ Template.salesorderslist.onRendered(function() {
 
                         // $('#tblSalesOrderlist').DataTable().column( 0 ).visible( true );
                         $('.fullScreenSpin').css('display','none');
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tsalesorderlist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tsalesorderlist.length||1;
-                        }
-                        if(data.tsalesorderlist.length > 0){
-                          $('#tblSalesOrderlist_info').html('Showing 1 to '+data.tsalesorderlist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblSalesOrderlist_info').html('Showing 0 to '+data.tsalesorderlist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
                     }, 0);
 
                     var columns = $('#tblSalesOrderlist th');
@@ -679,6 +674,11 @@ Template.salesorderslist.onRendered(function() {
                           }
                          $("<button class='btn btn-primary btnRefreshSOList' type='button' id='btnRefreshSOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOrderlist_filter");
                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                     },
+                     "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                       let countTableData = data.Params.Count || 0; //get count from API data
+
+                         return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                      }
 
                     }).on('page', function () {
@@ -697,17 +697,7 @@ Template.salesorderslist.onRendered(function() {
 
                     // $('#tblSalesOrderlist').DataTable().column( 0 ).visible( true );
                     $('.fullScreenSpin').css('display','none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tsalesorderlist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tsalesorderlist.length||1;
-                    }
-                    if(data.tsalesorderlist.length > 0){
-                      $('#tblSalesOrderlist_info').html('Showing 1 to '+data.tsalesorderlist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblSalesOrderlist_info').html('Showing 0 to '+data.tsalesorderlist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblSalesOrderlist th');
@@ -996,6 +986,11 @@ Template.salesorderslist.onRendered(function() {
                         }
                        $("<button class='btn btn-primary btnRefreshSOList' type='button' id='btnRefreshSOList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOrderlist_filter");
                        $('.myvarFilterForm').appendTo(".colDateFilter");
+                   },
+                   "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                     let countTableData = data.Params.Count || 0; //get count from API data
+
+                       return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                    }
 
                   }).on('page', function () {
@@ -1014,17 +1009,7 @@ Template.salesorderslist.onRendered(function() {
 
                   // $('#tblSalesOrderlist').DataTable().column( 0 ).visible( true );
                   $('.fullScreenSpin').css('display','none');
-                  /* Add count functionality to table */
-                  let countTableData = data.Params.Count || 1; //get count from API data
-                  if(data.tsalesorderlist.length > countTableData){ //Check if what is on the list is more than API count
-                    countTableData = data.tsalesorderlist.length||1;
-                  }
-                  if(data.tsalesorderlist.length > 0){
-                    $('#tblSalesOrderlist_info').html('Showing 1 to '+data.tsalesorderlist.length+ ' of ' +countTableData+ ' entries');
-                  }else{
-                    $('#tblSalesOrderlist_info').html('Showing 0 to '+data.tsalesorderlist.length+ ' of 0 entries');
-                  }
-                  /* End Add count functionality to table */
+
               }, 0);
 
               var columns = $('#tblSalesOrderlist th');

@@ -873,14 +873,14 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
-         orderby:'"AppointID desc"',
+         // OrderBy:'"AppointID desc"',
          IgnoreDates:true,
          LimitCount:'"'+limitcount+'"',
          LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
-        orderby:'"AppointID desc"',
+        // OrderBy:'"AppointID desc"',
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
@@ -897,7 +897,7 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
-         orderby:'"GJID desc"',
+         //orderby:'"GJID desc"',
          IgnoreDates:true,
          IsDetailReport:true,
          LimitCount:'"'+limitcount+'"',
@@ -905,7 +905,7 @@ getCustomersDataByName(dataSearchName) {
      };
    }else{
      options = {
-        orderby:'"GJID desc"',
+        //orderby:'"GJID desc"',
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
