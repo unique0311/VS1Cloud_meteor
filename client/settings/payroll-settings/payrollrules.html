@@ -60,40 +60,52 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+
                                                 <div class="col-12 col-md-4">
+                                                    <div class="form-group mb-0">
+                                                        <label for="edtAllowanceType">Bank Account</label>
+                                                        <input type="search" class="form-control" id="editbankaccount" name="editbankaccount" placeholder="Select Bank Account">
+                                                    </div>
+                                                    
+                                                </div>
+                                                <!-- <div class="col-12 col-md-4">
                                                     <div class="form-group">
                                                         <label for="edtRateName">Bank Account</label>
                                                         <input type="text" class="form-control" id="">
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">PAYG Liability Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editpaygbankaccount">PAYG Liability Account</label>
+                                                        <input type="search" class="form-control" id="editpaygbankaccount" name="editpaygbankaccount" placeholder="Select PAYG Liability Account">
+                                                        <!-- <input type="text" class="form-control" id=""> -->
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">Wages Expense Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editwagesexpbankaccount">Wages Expense Account</label>
+                                                        <input type="search" class="form-control" id="editwagesexpbankaccount" name="editwagesexpbankaccount" placeholder="Select Wages Expense Account">
+                                                        <!-- <input type="text" class="form-control" id=""> -->
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="editwagespaybankaccount">Wages Payable Account</label>
+                                                        <input type="search" class="form-control" id="editwagespaybankaccount" name="editwagespaybankaccount" placeholder="Select Wages Payable Account">
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">Wages Payable Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editsuperliabbankaccount">Superannuation Liability Account</label>
+                                                        <input type="search" class="form-control" id="editsuperliabbankaccount" name="editsuperliabbankaccount" placeholder="Select Superannuation Liability Account">
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">Superannuation Liability Account</label>
-                                                        <input type="text" class="form-control" id="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="edtRateName">Superannuation Expense Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editsuperexpbankaccount">Superannuation Expense Account</label>
+                                                        <input type="search" class="form-control" id="editsuperexpbankaccount" name="editsuperexpbankaccount" placeholder="Select Superannuation Expense Account">
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,8 +143,8 @@
                                                         <div class="modal-body">
                                                             <div class="row no-gutters d-xl-flex flex-row justify-content-xl-start align-items-xl-start">
                                                                 <p class="maximums">The maximum file size is 1MB. For best results, upload the largest logo you have, at
-                                                                    least 140 pixels on its shortest side.</p>
-
+                                                                    least 140 pixels on its shortest side.
+                                                                </p>
                                                             </div>
                                                             <hr>
 
@@ -165,8 +177,9 @@
                                                                     }
                                                                 </style>
                                                                 <div id="row1">
-                                                                    <div id="column1"></div><button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;"><i class="fa fa-cloud-upload"
-                                                                            style="margin-right: 5px;"></i>Browse</button>
+                                                                    <div id="column1"></div>
+                                                                    <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;">
+                                                                    <i class="fa fa-cloud-upload" style="margin-right: 5px;"></i> Browse </button>
                                                                     <div class="file-name" id="column2"></div>
                                                                 </div>
                                                             </div>
@@ -196,13 +209,15 @@
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-group">
                                                         <label for="edtRateName">Employee Group <span><span style="font-weight: 200;">(optional)</span></span></label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <input type="search" class="form-control" id="employegroup" name="employegroup" placeholder="Select Employee Group">
+                                                      
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-group">
                                                         <label for="edtRateName">Timesheet Categories <span><span style="font-weight: 200;">(optional)</span></span></label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <input type="search" class="form-control" id="timesheetcat" name="timesheetcat" placeholder="Select Timesheet Categories">
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -306,7 +321,7 @@
                                                                 <div class="col-12">
                                                                     <div class="form-group">
                                                                         <label for="edtRateName">Pay Period</label>
-                                                                        <input type="text" class="form-control" id="">
+                                                                        <input type="search" class="form-control" id="payperiod" name="payperiod" placeholder="How often will you pay your employees?">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
@@ -854,13 +869,13 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtRateType">Rate Type</label>
-                                                                            <input type="text" class="form-control" id="edtRateType">
+                                                                            <input type="search" class="form-control" id="edtRateType" name="edtRateType">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccount">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccount">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccount" name="edtExpenseAccount">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -919,7 +934,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountOvertime">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountOvertime">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountOvertime" name="edtExpenseAccountOvertime">
+                                                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -978,7 +994,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountTermnination">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountTermnination">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountTermnination" name="edtExpenseAccountTermnination">
+                                                                           
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1037,7 +1054,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountLumpSumE">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumE">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumE" name="edtExpenseAccountLumpSumE">
+                                                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1099,7 +1117,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountBonusesCommissions">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountBonusesCommissions">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountBonusesCommissions" name="edtExpenseAccountBonusesCommissions">
+                                                                        
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1155,13 +1174,14 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtRateTypeLumpSumW">Rate Type</label>
-                                                                            <input type="text" class="form-control" id="edtRateTypeLumpSumW">
+                                                                            <input type="search" class="form-control" id="edtRateTypeLumpSumW">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountLumpSumW">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumW">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumW" name="edtExpenseAccountLumpSumW">
+                                                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1223,7 +1243,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountDirectorsFees">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountDirectorsFees">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountDirectorsFees" name="edtExpenseAccountDirectorsFees">
+                                                                        
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1630,7 +1651,8 @@
                                                                     <div class="col-12 mb-1">
                                                                         <div class="form-group mb-0">
                                                                             <label for="edtTypeOfUnits">Typers of Units</label>
-                                                                            <input type="text" class="form-control" id="edtTypeOfUnits">
+                                                                            <input type="search" class="form-control" id="edtTypeOfUnits" name="edtTypeOfUnits" placeholder="Typers of Units">
+                                                                          
                                                                         </div>
                                                                         <span style="font-size: 12px;">The type of units by which leave entitlements are normally tracked. These are typically the same as the type of units used for the employee's ordinary earnings rate.</span>
                                                                     </div>
@@ -1683,7 +1705,8 @@
                                                                     <div class="col-12 mb-1">
                                                                         <div class="form-group mb-0">
                                                                             <label for="edtUnpaidTypeOfUnits">Typers of Units</label>
-                                                                            <input type="text" class="form-control" id="edtUnpaidTypeOfUnits">
+                                                                           <input type="search" class="form-control" id="edtUnpaidTypeOfUnits" name="edtUnpaidTypeOfUnits" placeholder="Typers of Units">
+                                                                         
                                                                         </div>
                                                                         <span style="font-size: 12px;">The type of units by which leave entitlements are normally tracked. These are typically the same as the type of units used for the employee's ordinary earnings rate.</span>
                                                                     </div>
