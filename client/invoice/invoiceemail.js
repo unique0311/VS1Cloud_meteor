@@ -59,7 +59,7 @@ Template.invoiceemail.onRendered(function() {
     $("#dateFrom").val(fromDate);
     $("#dateTo").val(begunDate);
 
-    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelist', function(error, result){
+    Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelistemail', function(error, result){
     if(error){
 
     }else{
@@ -166,7 +166,7 @@ Template.invoiceemail.onRendered(function() {
 
             if(templateObject.datatablerecords.get()){
 
-              Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelist', function(error, result){
+              Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelistemail', function(error, result){
               if(error){
 
               }else{
@@ -203,7 +203,7 @@ Template.invoiceemail.onRendered(function() {
 
             $('.fullScreenSpin').css('display','none');
             setTimeout(function () {
-                $('#tblInvoicelist').DataTable({
+                $('#tblInvoicelistemail').DataTable({
                   columnDefs: [
                       {"orderable": false,"targets": 0},
                       {type: 'date', targets: 1}
@@ -242,7 +242,7 @@ Template.invoiceemail.onRendered(function() {
                       responsive: true,
                       "order": [[ 1, "desc" ],[ 3, "desc" ]],
                       action: function () {
-                          $('#tblInvoicelist').DataTable().ajax.reload();
+                          $('#tblInvoicelistemail').DataTable().ajax.reload();
                       },
                       "fnDrawCallback": function (oSettings) {
                         setTimeout(function () {
@@ -254,7 +254,7 @@ Template.invoiceemail.onRendered(function() {
                         if (urlParametersPage) {
                             this.fnPageChange('last');
                         }
-                          $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
+                          $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelistemail_filter");
                           $('.myvarFilterForm').appendTo(".colDateFilter");
                       }
 
@@ -272,11 +272,11 @@ Template.invoiceemail.onRendered(function() {
                     }, 100);
                   });
 
-                  // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
+                  // $('#tblInvoicelistemail').DataTable().column( 0 ).visible( true );
                   $('.fullScreenSpin').css('display','none');
               }, 0);
 
-              var columns = $('#tblInvoicelist th');
+              var columns = $('#tblInvoicelistemail th');
               let sTible = "";
               let sWidth = "";
               let sIndex = "";
@@ -303,7 +303,7 @@ Template.invoiceemail.onRendered(function() {
               });
             templateObject.tableheaderrecords.set(tableHeaderList);
              $('div.dataTables_filter input').addClass('form-control form-control-sm');
-             $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
+             $('#tblInvoicelistemail tbody').on( 'click', 'tr', function () {
              var listData = $(this).closest('tr').attr('id');
              if(listData){
                FlowRouter.go('/invoicecard?id=' + listData);
@@ -359,7 +359,7 @@ templateObject.datatablerecords.set(dataTableList);
 
 if(templateObject.datatablerecords.get()){
 
-  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelist', function(error, result){
+  Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelistemail', function(error, result){
   if(error){
 
   }else{
@@ -396,7 +396,7 @@ if(templateObject.datatablerecords.get()){
 
 $('.fullScreenSpin').css('display','none');
 setTimeout(function () {
-    $('#tblInvoicelist').DataTable({
+    $('#tblInvoicelistemail').DataTable({
       columnDefs: [
           {"orderable": false,"targets": 0},
           {type: 'date', targets: 1}
@@ -435,7 +435,7 @@ setTimeout(function () {
           responsive: true,
           "order": [[ 1, "desc" ],[ 3, "desc" ]],
           action: function () {
-              $('#tblInvoicelist').DataTable().ajax.reload();
+              $('#tblInvoicelistemail').DataTable().ajax.reload();
           },
           "fnDrawCallback": function (oSettings) {
             setTimeout(function () {
@@ -447,7 +447,7 @@ setTimeout(function () {
             if (urlParametersPage) {
                 this.fnPageChange('last');
             }
-              $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
+              $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelistemail_filter");
               $('.myvarFilterForm').appendTo(".colDateFilter");
           }
 
@@ -465,11 +465,11 @@ setTimeout(function () {
         }, 100);
       });
 
-      // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
+      // $('#tblInvoicelistemail').DataTable().column( 0 ).visible( true );
       $('.fullScreenSpin').css('display','none');
   }, 0);
 
-  var columns = $('#tblInvoicelist th');
+  var columns = $('#tblInvoicelistemail th');
   let sTible = "";
   let sWidth = "";
   let sIndex = "";
@@ -496,7 +496,7 @@ setTimeout(function () {
   });
 templateObject.tableheaderrecords.set(tableHeaderList);
  $('div.dataTables_filter input').addClass('form-control form-control-sm');
- $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
+ $('#tblInvoicelistemail tbody').on( 'click', 'tr', function () {
  var listData = $(this).closest('tr').attr('id');
  if(listData){
    FlowRouter.go('/invoicecard?id=' + listData);
@@ -547,7 +547,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 
             if(templateObject.datatablerecords.get()){
 
-              Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelist', function(error, result){
+              Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblInvoicelistemail', function(error, result){
               if(error){
 
               }else{
@@ -584,7 +584,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 
             $('.fullScreenSpin').css('display','none');
             setTimeout(function () {
-                $('#tblInvoicelist').DataTable({
+                $('#tblInvoicelistemail').DataTable({
                   columnDefs: [
                       {"orderable": false,"targets": 0},
                       {type: 'date', targets: 1}
@@ -623,7 +623,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                       responsive: true,
                       "order": [[ 1, "desc" ],[ 3, "desc" ]],
                       action: function () {
-                          $('#tblInvoicelist').DataTable().ajax.reload();
+                          $('#tblInvoicelistemail').DataTable().ajax.reload();
                       },
                       "fnDrawCallback": function (oSettings) {
                         setTimeout(function () {
@@ -635,7 +635,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                         if (urlParametersPage) {
                             this.fnPageChange('last');
                         }
-                          $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
+                          $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelistemail_filter");
                           $('.myvarFilterForm').appendTo(".colDateFilter");
                       }
 
@@ -653,11 +653,11 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                     }, 100);
                   });
 
-                  // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
+                  // $('#tblInvoicelistemail').DataTable().column( 0 ).visible( true );
                   $('.fullScreenSpin').css('display','none');
               }, 0);
 
-              var columns = $('#tblInvoicelist th');
+              var columns = $('#tblInvoicelistemail th');
               let sTible = "";
               let sWidth = "";
               let sIndex = "";
@@ -684,7 +684,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
               });
             templateObject.tableheaderrecords.set(tableHeaderList);
              $('div.dataTables_filter input').addClass('form-control form-control-sm');
-             $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
+             $('#tblInvoicelistemail tbody').on( 'click', 'tr', function () {
              var listData = $(this).closest('tr').attr('id');
              if(listData){
                FlowRouter.go('/invoicecard?id=' + listData);
@@ -701,7 +701,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 
     templateObject.getAllSalesOrderData();
 
-    $('#tblInvoicelist tbody').on( 'click', 'tr', function () {
+    $('#tblInvoicelistemail tbody').on( 'click', 'tr', function () {
     var listData = $(this).closest('tr').attr('id');
     if(listData){
       FlowRouter.go('/invoicecard?id=' + listData);
@@ -738,7 +738,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
 });
 
 
-Template.invoicelist.events({
+Template.invoiceemail.events({
     'click #btnNewInvoice':function(event){
         FlowRouter.go('/invoicecard');
     },
@@ -746,7 +746,7 @@ Template.invoicelist.events({
         FlowRouter.go('/invoicelistBO');
     },
     'click .chkDatatable' : function(event){
-      var columns = $('#tblInvoicelist th');
+      var columns = $('#tblInvoicelistemail th');
       let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
 
       $.each(columns, function(i,v) {
@@ -771,7 +771,7 @@ Template.invoicelist.events({
           var clientID = getcurrentCloudDetails._id;
           var clientUsername = getcurrentCloudDetails.cloudUsername;
           var clientEmail = getcurrentCloudDetails.cloudEmail;
-          var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblInvoicelist'});
+          var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblInvoicelistemail'});
           if (checkPrefDetails) {
             CloudPreference.remove({_id:checkPrefDetails._id}, function(err, idTag) {
             if (err) {
@@ -815,10 +815,10 @@ Template.invoicelist.events({
           var clientID = getcurrentCloudDetails._id;
           var clientUsername = getcurrentCloudDetails.cloudUsername;
           var clientEmail = getcurrentCloudDetails.cloudEmail;
-          var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblInvoicelist'});
+          var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblInvoicelistemail'});
           if (checkPrefDetails) {
             CloudPreference.update({_id: checkPrefDetails._id},{$set: { userid: clientID,username:clientUsername,useremail:clientEmail,
-              PrefGroup:'salesform',PrefName:'tblInvoicelist',published:true,
+              PrefGroup:'salesform',PrefName:'tblInvoicelistemail',published:true,
               customFields:lineItems,
               updatedAt: new Date() }}, function(err, idTag) {
               if (err) {
@@ -830,7 +830,7 @@ Template.invoicelist.events({
 
           }else{
             CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-              PrefGroup:'salesform',PrefName:'tblInvoicelist',published:true,
+              PrefGroup:'salesform',PrefName:'tblInvoicelistemail',published:true,
               customFields:lineItems,
               createdAt: new Date() }, function(err, idTag) {
               if (err) {
@@ -849,7 +849,7 @@ Template.invoicelist.events({
       let columData = $(event.target).text();
 
       let columnDatanIndex = $(event.target).closest("div.columnSettings").attr('id');
-      var datable = $('#tblInvoicelist').DataTable();
+      var datable = $('#tblInvoicelistemail').DataTable();
       var title = datable.column( columnDatanIndex ).header();
       $(title).html(columData);
 
@@ -860,7 +860,7 @@ Template.invoicelist.events({
 
       let columData = $(event.target).closest("div.divColWidth").find(".spWidth").attr("value");
       let columnDataValue = $(event.target).closest("div").prev().find(".divcolumn").text();
-      var datable = $('#tblInvoicelist th');
+      var datable = $('#tblInvoicelistemail th');
       $.each(datable, function(i,v) {
 
       if(v.innerText == columnDataValue){
@@ -874,7 +874,7 @@ Template.invoicelist.events({
     },
     'click .btnOpenSettings' : function(event){
       let templateObject = Template.instance();
-      var columns = $('#tblInvoicelist th');
+      var columns = $('#tblInvoicelistemail th');
 
       const tableHeaderList = [];
       let sTible = "";
@@ -905,20 +905,59 @@ Template.invoicelist.events({
     },
   'click #exportbtn': function () {
     $('.fullScreenSpin').css('display','inline-block');
-    jQuery('#tblInvoicelist_wrapper .dt-buttons .btntabletocsv').click();
+    jQuery('#tblInvoicelistemail_wrapper .dt-buttons .btntabletocsv').click();
      $('.fullScreenSpin').css('display','none');
 
   },
   'click .btnRefresh': function () {
-    $('.fullScreenSpin').css('display','inline-block');
-    sideBarService.getAllInvoiceList(initialDataLoad,0).then(function(data) {
-      addVS1Data('TInvoiceEx',JSON.stringify(data)).then(function (datareturn) {
-      window.open('/invoiceemail','_self');
-      }).catch(function (err) {
-      window.open('/invoiceemail','_self');
-      });
-    }).catch(function(err) {
-      window.open('/invoiceemail','_self');
+    $('.fullScreenSpin').css('display', 'inline-block');
+    let currentDate = new Date();
+    let hours = currentDate.getHours(); //returns 0-23
+    let minutes = currentDate.getMinutes(); //returns 0-59
+    let seconds = currentDate.getSeconds(); //returns 0-59
+    let month = (currentDate.getMonth() + 1);
+    let days = currentDate.getDate();
+
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentBeginDate.getMonth() + 1);
+    let fromDateDay = currentBeginDate.getDate();
+    if((currentBeginDate.getMonth()+1) < 10){
+        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+    }else{
+      fromDateMonth = (currentBeginDate.getMonth()+1);
+    }
+
+    if(currentBeginDate.getDate() < 10){
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+    sideBarService.getAllTInvoiceListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (dataInvoice) {
+        addVS1Data('TInvoiceList', JSON.stringify(dataInvoice)).then(function (datareturn) {
+          sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
+              addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                  window.open('/invoiceemail', '_self');
+              }).catch(function (err) {
+                  window.open('/invoiceemail', '_self');
+              });
+          }).catch(function (err) {
+              window.open('/invoiceemail', '_self');
+          });
+        }).catch(function (err) {
+          sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
+              addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                  window.open('/invoiceemail', '_self');
+              }).catch(function (err) {
+                  window.open('/invoiceemail', '_self');
+              });
+          }).catch(function (err) {
+              window.open('/invoiceemail', '_self');
+          });
+        });
+    }).catch(function (err) {
+        window.open('/invoicelist', '_self');
     });
 
   },
@@ -1079,7 +1118,7 @@ Template.invoicelist.events({
   'click .printConfirm' : function(event){
 
     $('.fullScreenSpin').css('display','inline-block');
-    jQuery('#tblInvoicelist_wrapper .dt-buttons .btntabletopdf').click();
+    jQuery('#tblInvoicelistemail_wrapper .dt-buttons .btntabletopdf').click();
      $('.fullScreenSpin').css('display','none');
    }
 
@@ -1103,6 +1142,6 @@ Template.invoiceemail.helpers({
      return Template.instance().tableheaderrecords.get();
   },
   salesCloudPreferenceRec: () => {
-  return CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblInvoicelist'});
+  return CloudPreference.findOne({userid:Session.get('mycloudLogonID'),PrefName:'tblInvoicelistemail'});
 }
 });

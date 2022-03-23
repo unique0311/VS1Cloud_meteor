@@ -270,6 +270,7 @@ Template.refundlist.onRendered(function () {
                             "bLengthChange": false,
                             info: true,
                             responsive: true,
+                            "order": [[ 0, "desc" ],[ 2, "desc" ]],
                             action: function () {
                                 $('#tblRefundlist').DataTable().ajax.reload();
                             },
@@ -583,6 +584,7 @@ Template.refundlist.onRendered(function () {
                         "bLengthChange": false,
                         info: true,
                         responsive: true,
+                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
                         action: function () {
                             $('#tblRefundlist').DataTable().ajax.reload();
                         },
@@ -891,6 +893,7 @@ Template.refundlist.onRendered(function () {
                       "bLengthChange": false,
                       info: true,
                       responsive: true,
+                      "order": [[ 0, "desc" ],[ 2, "desc" ]],
                       action: function () {
                           $('#tblRefundlist').DataTable().ajax.reload();
                       },

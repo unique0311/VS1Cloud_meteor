@@ -214,7 +214,21 @@ ERPObjects = function () {
         TStatementForCustomerRunnBalance:"TStatementForCustomerRunnBalance",
         TCreditList:"TCreditList",
         TAppointmentList:"TAppointmentList",
-        TJournalEntryList:"TJournalEntryList"
+        TJournalEntryList:"TJournalEntryList",
+
+        //August
+        TLumpSumW: "TLumpSumW",
+        TLumpSumE: "TLumpSumE",
+        TDirectorsFees: "TDirectorsFees",
+        TUnionAssociationFee: "TUnionAssociationFee",
+        TWorkplaceGiving: "TWorkplaceGiving",
+        TEarningsBonusesCommissions: "TEarningsBonusesCommissions",
+        TEmployeeTerminations: "TEmployeeTerminations",
+        TOrdinaryTimeEarnings: "TOrdinaryTimeEarnings",
+        TUnpaidLeave: "TUnpaidLeave",
+        TEmployeePayrollSettings: "TEmployeePayrollSettings",
+        TPayrollNotes: "TPayrollNotes",
+        TPayrollTaxes: "TPayrollTaxes",
     }
     return objects;
 }

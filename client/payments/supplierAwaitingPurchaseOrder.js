@@ -236,7 +236,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                             // "scrollCollapse": true,
                             info: true,
                             responsive: true,
-                            "order": [[1, "desc"]],
+                            "order": [[ 1, "desc" ],[ 3, "desc" ]],
                             // "aaSorting": [[1,'desc']],
                             action: function () {
                                 $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
@@ -563,7 +563,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         // "scrollCollapse": true,
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [[ 1, "desc" ],[ 3, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
@@ -873,7 +873,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
                         // "scrollCollapse": true,
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [[ 1, "desc" ],[ 3, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblSupplierAwaitingPO').DataTable().ajax.reload();

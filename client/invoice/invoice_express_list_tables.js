@@ -270,7 +270,7 @@ Template.invoicelist.onRendered(function () {
                             "bLengthChange": false,
                             info: true,
                             responsive: true,
-
+                            "order": [[ 0, "desc" ],[ 2, "desc" ]],
                             action: function () {
                                 $('#tblInvoicelist').DataTable().ajax.reload();
                             },
@@ -584,7 +584,7 @@ Template.invoicelist.onRendered(function () {
                         "bLengthChange": false,
                         info: true,
                         responsive: true,
-
+                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
                         action: function () {
                             $('#tblInvoicelist').DataTable().ajax.reload();
                         },
@@ -892,7 +892,7 @@ Template.invoicelist.onRendered(function () {
                       "bLengthChange": false,
                       info: true,
                       responsive: true,
-
+                      "order": [[ 0, "desc" ],[ 2, "desc" ]],
                       action: function () {
                           $('#tblInvoicelist').DataTable().ajax.reload();
                       },

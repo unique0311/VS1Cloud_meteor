@@ -530,9 +530,7 @@ Template.bankingoverview.onRendered(function() {
                             lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [
-                                [0, "desc"]
-                            ],
+                            "order": [[ 0, "desc" ],[ 2, "desc" ]],
                             // "aaSorting": [[1,'desc']],
                             action: function() {
                                 $('#tblBankingOverview').DataTable().ajax.reload();
@@ -889,9 +887,7 @@ Template.bankingoverview.onRendered(function() {
                         lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [
-                            [0, "desc"]
-                        ],
+                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function() {
                             $('#tblBankingOverview').DataTable().ajax.reload();
@@ -1235,9 +1231,7 @@ Template.bankingoverview.onRendered(function() {
                         lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [
-                            [0, "desc"]
-                        ],
+                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function() {
                             $('#tblBankingOverview').DataTable().ajax.reload();

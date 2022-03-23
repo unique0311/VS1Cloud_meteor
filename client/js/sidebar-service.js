@@ -213,6 +213,7 @@ export class SideBarService extends BaseService {
        options = {
           IgnoreDates:true,
           select: '[Deleted]=false',
+          OrderBy:"PaymentDate desc",
           LimitCount:'"'+limitcount+'"',
           LimitFrom:'"'+limitfrom+'"'
         };
@@ -221,6 +222,7 @@ export class SideBarService extends BaseService {
          orderby:'"PaymentID desc"',
          ListType: "Detail",
          IgnoreDates: false,
+         OrderBy:"PaymentDate desc",
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
          LimitCount:'"'+limitcount+'"',
@@ -255,12 +257,14 @@ export class SideBarService extends BaseService {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true,
+      OrderBy:"PaymentDate desc",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
        };
      }else{
        options = {
          IgnoreDates:false,
+         OrderBy:"PaymentDate desc",
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
          LimitCount:'"'+limitcount+'"',
@@ -295,12 +299,14 @@ export class SideBarService extends BaseService {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true,
+      OrderBy:"PaymentDate desc",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
          IgnoreDates:false,
+         OrderBy:"PaymentDate desc",
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
          LimitCount:'"'+limitcount+'"',
@@ -508,13 +514,13 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(limitcount == 'All'){
        options = {
-        orderby:'"SaleID desc"',
+        OrderBy:"SaleID desc",
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
 
       };
     }else{
        options = {
-        orderby:'"SaleID desc"',
+        OrderBy:"SaleID desc",
         PropertyList: "ID,EmployeeName,SaleClassName,SaleDate,CustomerName,TotalAmount,SalesStatus,ShipDate,SalesDescription,CustPONumber,TermsName,TotalTax,TotalAmountInc,TotalPaid,TotalBalance,Comments,Deleted",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
@@ -528,13 +534,13 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(limitcount == 'All'){
        options = {
-          orderby:'"SaleID desc"',
+          OrderBy:"SaleID desc",
           ListType: "Detail",
           select: '[Deleted]=false'
         };
     }else{
       options = {
-         orderby:'"SaleID desc"',
+         OrderBy:"SaleID desc",
          ListType: "Detail",
          select: "[Deleted]=false",
          LimitCount:'"'+limitcount+'"',
@@ -550,13 +556,13 @@ getCustomersDataByName(dataSearchName) {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true,
-      orderby:'"SaleID desc"',
+      OrderBy:"SaleID desc",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
-         orderby:'"SaleID desc"',
+         OrderBy:"SaleID desc",
          IgnoreDates:false,
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
@@ -592,13 +598,13 @@ getCustomersDataByName(dataSearchName) {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true,
-      orderby:'"PurchaseOrderID desc"',
+      OrderBy:"PurchaseOrderID desc",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
-         orderby:'"PurchaseOrderID desc"',
+         OrderBy:"PurchaseOrderID desc",
          IgnoreDates:false,
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
@@ -635,12 +641,14 @@ getCustomersDataByName(dataSearchName) {
     if(ignoreDate == true){
       options = {
         IgnoreDates:true,
+        OrderBy:"PurchaseOrderID desc",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
        IgnoreDates:false,
+       OrderBy:"PurchaseOrderID desc",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
        LimitCount:'"'+limitcount+'"',
@@ -658,6 +666,7 @@ getCustomersDataByName(dataSearchName) {
         IgnoreDates:true,
         IncludePOs:true,
         IncludeBills:true,
+        OrderBy:"PurchaseOrderID desc",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
      };
@@ -666,6 +675,7 @@ getCustomersDataByName(dataSearchName) {
        IgnoreDates:false,
        IncludePOs:true,
        IncludeBills:true,
+       OrderBy:"PurchaseOrderID desc",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
        LimitCount:'"'+limitcount+'"',
@@ -684,6 +694,7 @@ getCustomersDataByName(dataSearchName) {
         IncludeBills:true,
         Paid:false,
         Unpaid:true,
+        OrderBy:"PurchaseOrderID desc",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
      };
@@ -694,6 +705,7 @@ getCustomersDataByName(dataSearchName) {
        IncludeBills:true,
        Paid:false,
        Unpaid:true,
+       OrderBy:"PurchaseOrderID desc",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
        LimitCount:'"'+limitcount+'"',
@@ -714,6 +726,7 @@ getCustomersDataByName(dataSearchName) {
         IncludeISSalesOrder:false,
         Paid:false,
         Unpaid:true,
+        OrderBy:"SaleID desc",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
      };
@@ -726,6 +739,7 @@ getCustomersDataByName(dataSearchName) {
        IncludeISSalesOrder:false,
        Paid:false,
        Unpaid:true,
+       OrderBy:"SaleID desc",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
        LimitCount:'"'+limitcount+'"',
@@ -762,14 +776,14 @@ getCustomersDataByName(dataSearchName) {
     options = {
       IgnoreDates:true,
       IsBill: true,
-      orderby:'"PurchaseOrderID desc"',
+      OrderBy:"PurchaseOrderID desc",
       Search:"IsBill = true",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
-         orderby:'"PurchaseOrderID desc"',
+         oOrderBy:"PurchaseOrderID desc",
          IsBill: true,
          Search:"IsBill = true",
          IgnoreDates:false,
@@ -786,13 +800,13 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(limitcount == 'All'){
        options = {
-          orderby:'"SaleID desc"',
+          OrderBy:"SaleID desc",
           ListType: "Detail",
           select: '[Deleted]=false'
         };
     }else{
       options = {
-         orderby:'"SaleID desc"',
+         OrderBy:"SaleID desc",
          ListType: "Detail",
          select: "[Deleted]=false",
          LimitCount:'"'+limitcount+'"',
@@ -808,13 +822,13 @@ getCustomersDataByName(dataSearchName) {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true,
-      orderby:'"SaleID desc"',
+      OrderBy:"SaleID desc",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
-         orderby:'"SaleID desc"',
+         OrderBy:"SaleID desc",
          IgnoreDates:false,
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
@@ -849,14 +863,14 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
-         orderby:'"PurchaseOrderID desc"',
+         OrderBy:"PurchaseOrderID desc",
          IgnoreDates:true,
          LimitCount:'"'+limitcount+'"',
          LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
-        orderby:'"PurchaseOrderID desc"',
+        OrderBy:"PurchaseOrderID desc",
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
@@ -922,7 +936,7 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
-         orderby:'"SaleId desc"',
+         OrderBy:"SaleID desc",
          IgnoreDates:true,
          IncludeIsInvoice:true,
          IncludeIsQuote:true,
@@ -936,7 +950,7 @@ getCustomersDataByName(dataSearchName) {
      };
    }else{
      options = {
-        orderby:'"SaleId desc"',
+        OrderBy:"SaleID desc",
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
@@ -1016,13 +1030,13 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
  if(limitcount == 'All'){
     options = {
-       orderby:'"SaleID desc"',
+       OrderBy:"SaleID desc",
        ListType: "Detail",
        select: '[Deleted]=false'
      };
  }else{
    options = {
-      orderby:'"SaleID desc"',
+      OrderBy:"SaleID desc",
       ListType: "Detail",
       select: "[Deleted]=false",
       LimitCount:'"'+limitcount+'"',
@@ -1038,13 +1052,13 @@ getCustomersDataByName(dataSearchName) {
   if(ignoreDate == true){
     options = {
       IgnoreDates:true,
-      orderby:'"SaleID desc"',
+      OrderBy:"SaleID desc",
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
      }else{
        options = {
-         orderby:'"SaleID desc"',
+         OrderBy:"SaleID desc",
          IgnoreDates:false,
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
@@ -1365,14 +1379,14 @@ getCustomersDataByName(dataSearchName) {
       options = {
         IgnoreDates: true,
         select: "[deleted]=false",
-        orderby:'"DepositID asc"',
+        OrderBy:"DepositDate desc",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
      };
     }else{
      options = {
        //IgnoreDates: true,
-       orderby:'"DepositID asc"',
+       OrderBy:"DepositDate desc",
        select: "[deleted]=false",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
@@ -1389,6 +1403,7 @@ getCustomersDataByName(dataSearchName) {
       options = {
         IgnoreDates: true,
         select: "[deleted]=false",
+        OrderBy:"Date desc",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
      };
@@ -1396,6 +1411,7 @@ getCustomersDataByName(dataSearchName) {
      options = {
        IgnoreDates: false,
        select: "[deleted]=false",
+       OrderBy:"Date desc",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
        LimitCount:'"'+limitcount+'"',
@@ -1409,7 +1425,7 @@ getCustomersDataByName(dataSearchName) {
 
   getAllInvoiceListUpdate(msTimeStamp) {
     let options = {
-      orderby:'"SaleID desc"',
+      OrderBy:"SaleID desc",
       ListType: "Detail",
       select: '[Deleted]=false and [MsTimeStamp]>"'+msTimeStamp+'"',
       //LimitCount:'"50"'
@@ -1426,7 +1442,7 @@ getCustomersDataByName(dataSearchName) {
     };
   }else{
     options = {
-     orderby:'"SaleID desc"',
+     OrderBy:"SaleID desc",
      FilterString: "SaleType='Invoice'",
      select: "[Deleted]=false",
      LimitCount:'"'+limitcount+'"',
@@ -1440,12 +1456,12 @@ getCustomersDataByName(dataSearchName) {
   //   let options = '';
   //   if(limitcount == 'All'){
   //    options = {
-  //      orderby:'"SaleID desc"',
+  //      OrderBy:"SaleID desc",
   //      PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
   //   };
   // }else{
   //   options = {
-  //     orderby:'"SaleID desc"',
+  //     OrderBy:"SaleID desc",
   //     PropertyList: "Id,ClientName,EmployeeName,SaleClassName,SaleDate",
   //    //  select: "[Deleted]=false",
   //    // //  LimitCount:'"'+limitcount+'"',
@@ -1459,13 +1475,13 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
      if(limitcount == 'All'){
         options = {
-           orderby:'"SaleID desc"',
+           OrderBy:"SaleID desc",
            ListType: "Detail",
            // select: '[Deleted]=false'
          };
      }else{
        options = {
-          orderby:'"SaleID desc"',
+          OrderBy:"SaleID desc",
           ListType: "Detail",
           // select: '[Deleted]=false',
           LimitCount:'"'+limitcount+'"',
@@ -1722,13 +1738,13 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
  if(limitcount == 'All'){
     options = {
-       orderby:'"SaleID desc"',
+       OrderBy:"SaleID desc",
        ListType: "Detail",
        select: '[Deleted]=false'
      };
  }else{
    options = {
-      orderby:'"SaleID desc"',
+      OrderBy:"SaleID desc",
       ListType: "Detail",
       select: "[Deleted]=false",
       LimitCount:'"'+limitcount+'"',
@@ -1744,13 +1760,13 @@ let options = '';
 if(ignoreDate == true){
   options = {
     IgnoreDates:true,
-    orderby:'"SaleID desc"',
+    OrderBy:"SaleID desc",
     LimitCount:'"'+limitcount+'"',
     LimitFrom:'"'+limitfrom+'"'
     };
    }else{
      options = {
-       orderby:'"SaleID desc"',
+       OrderBy:"SaleID desc",
        IgnoreDates:false,
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
@@ -1821,4 +1837,56 @@ getAllPayHistoryDataVS1(limitcount, limitfrom) {
     return this.getList(this.ERPObjects.TPayHistory, options);
 }
 
+getCalender(limitcount, limitfrom) {
+  let options = '';
+  if(limitcount == 'All'){
+     options = {
+      ListType: "Detail"
+     };
+  }else{
+    options = {
+     // orderby:'"ClientID desc"',
+     ListType: "Detail",
+     LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+    };
+  }
+    return this.getList(this.ERPObjects.TPayrollCalendars, options);
+}
+
+getSuperannuation(limitcount, limitfrom) {
+  let options = '';
+  if(limitcount == 'All'){
+     options = {
+      ListType: "Detail"
+     };
+  }else{
+    options = {
+     // orderby:'"ClientID desc"',
+       ListType: "Detail",
+
+    };
+  }
+    return this.getList(this.ERPObjects.TSuperannuation, options);
+}
+
+getPaidLeave() {
+   let options = '';
+
+     options = {
+      ListType: "Detail",
+      select: '[PayItemsLeavePaidActive]=true'
+     };
+     return this.getList(this.ERPObjects.TPaidLeave, options);
+ }
+
+ getUnPaidLeave() {
+  let options = '';
+
+    options = {
+     ListType: "Detail",
+     select: '[PayItemsLeaveUnpaidActive]=true'
+    };
+    return this.getList(this.ERPObjects.TUnpaidLeave, options);
+}
 }

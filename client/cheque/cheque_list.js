@@ -239,9 +239,7 @@ Template.chequelist.onRendered(function() {
                           lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                           info: true,
                           responsive: true,
-                          "order": [
-                              [0, "desc"]
-                          ],
+                          "order": [[ 0, "desc" ],[ 2, "desc" ]],
                           action: function() {
                               $('#tblchequelist').DataTable().ajax.reload();
                           },
@@ -533,9 +531,7 @@ Template.chequelist.onRendered(function() {
                         lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [
-                            [0, "desc"]
-                        ],
+                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
                         action: function() {
                             $('#tblchequelist').DataTable().ajax.reload();
                         },
@@ -821,9 +817,7 @@ Template.chequelist.onRendered(function() {
                         lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [
-                            [0, "desc"]
-                        ],
+                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
                         action: function() {
                             $('#tblchequelist').DataTable().ajax.reload();
                         },

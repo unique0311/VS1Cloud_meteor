@@ -249,7 +249,7 @@ Template.customerawaitingpayments.onRendered(function () {
                           // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                           info: true,
                           responsive: true,
-                          "order": [[1, "desc"]],
+                          "order": [[ 1, "desc" ],[ 3, "desc" ]],
                           // "aaSorting": [[1,'desc']],
                           action: function () {
                               $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
@@ -546,7 +546,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [[ 1, "desc" ],[ 3, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();
@@ -839,7 +839,7 @@ Template.customerawaitingpayments.onRendered(function () {
                         // lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [[ 1, "desc" ],[ 3, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblcustomerAwaitingPayment').DataTable().ajax.reload();

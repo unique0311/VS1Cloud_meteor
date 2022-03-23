@@ -6827,12 +6827,12 @@ Template.supplierpaymentcard.events({
 
                 sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        window.open('/supplierawaitingpurchaseorder', '_self');
+                      //  window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
-                        window.open('/supplierawaitingpurchaseorder', '_self');
+                        //window.open('/supplierawaitingpurchaseorder', '_self');
                     });
                 }).catch(function(err) {
-                    window.open('/supplierawaitingpurchaseorder', '_self');
+                    //window.open('/supplierawaitingpurchaseorder', '_self');
                 });
 
                 //window.history.go(-2);
@@ -8715,7 +8715,7 @@ Template.supplierpaymentcard.events({
             for (let x = 0; x < selectedSupplierPayments.length; x++) {
               var rowData = '<tr class="dnd-moved" id="'+selectedSupplierPayments[x].awaitingId+'" name="'+selectedSupplierPayments[x].awaitingId+'">\n'+
                             '	<td contenteditable="false" class="colTransDate">'+selectedSupplierPayments[x].date+'</td>\n'+
-                            '	<td contenteditable="false" class="colType" style="color:#00a3d3; cursor: pointer; white-space: nowrap;">Invoice</td>\n'+
+                            '	<td contenteditable="false" class="colType" style="color:#00a3d3; cursor: pointer; white-space: nowrap;">'+selectedSupplierPayments[x].type+'</td>\n'+
                             '	<td contenteditable="false" class="colTransNo" style="color:#00a3d3">'+selectedSupplierPayments[x].awaitingId+'</td>\n'+
                             '	<td contenteditable="false" class="lineOrginalamount" style="text-align: right!important;">'+selectedSupplierPayments[x].originalAmount+'</td>\n'+
                             '	<td contenteditable="false" class="lineAmountdue" style="text-align: right!important;">'+selectedSupplierPayments[x].outstandingAmount+'</td>\n'+

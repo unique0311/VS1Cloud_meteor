@@ -247,9 +247,7 @@ Template.depositlist.onRendered(function() {
                               lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                               info: true,
                               responsive: true,
-                              "order": [
-                                  [0, "desc"]
-                              ],
+                              "order": [[ 0, "desc" ],[ 4, "desc" ]],
                           // "aaSorting": [[1,'desc']],
                           action: function () {
                               $('#tblDepositList').DataTable().ajax.reload();
@@ -546,9 +544,7 @@ Template.depositlist.onRendered(function() {
                             lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [
-                                [0, "desc"]
-                            ],
+                            "order": [[ 0, "desc" ],[ 4, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblDepositList').DataTable().ajax.reload();
@@ -840,9 +836,7 @@ Template.depositlist.onRendered(function() {
                             lengthMenu: [ [initialReportDatatableLoad, -1], [initialReportDatatableLoad, "All"] ],
                             info: true,
                             responsive: true,
-                            "order": [
-                                [0, "desc"]
-                            ],
+                            "order": [[ 0, "desc" ],[ 4, "desc" ]],
                         // "aaSorting": [[1,'desc']],
                         action: function () {
                             $('#tblDepositList').DataTable().ajax.reload();
