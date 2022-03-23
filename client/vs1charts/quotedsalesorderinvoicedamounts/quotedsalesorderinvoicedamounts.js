@@ -27,6 +27,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
   let topTenSuppData1 = [];
   let topData = this;
 
+
   getInvSales(function (data) {
 
     let currentDate = new Date();

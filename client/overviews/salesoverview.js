@@ -212,8 +212,6 @@ Template.salesoverview.onRendered(function() {
                                     type: 'date',
                                     targets: 0
                                 }
-                                // ,
-                                // { targets: 0, className: "text-center" }
 
                             ],
                             "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -249,17 +247,7 @@ Template.salesoverview.onRendered(function() {
                                     columns: ':visible',
                                     stripHtml: false
                                 },
-                                // customize: function ( win ) {
-                                //     $(win.document.body)
-                                //         .css( 'font-size', '10pt' )
-                                //         .prepend(
-                                //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                                //         );
-                                //
-                                //     $(win.document.body).find( 'table' )
-                                //         .addClass( 'compact' )
-                                //         .css( 'font-size', 'inherit' );
-                                // }
+
                             }],
                             select: true,
                             destroy: true,
@@ -285,9 +273,7 @@ Template.salesoverview.onRendered(function() {
                             },
                             "fnDrawCallback": function (oSettings) {
                                 let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                                if(checkurlIgnoreDate == 'true'){
 
-                                }else{
                                   $('.paginate_button.page-item').removeClass('disabled');
                                   $('#tblPurchaseOverview_ellipsis').addClass('disabled');
 
@@ -310,7 +296,32 @@ Template.salesoverview.onRendered(function() {
 
                                       let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                       let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                      if(checkurlIgnoreDate == 'true'){
+                                        sideBarService.getSalesListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                            getVS1Data('TSalesList').then(function (dataObjectold) {
+                                                if (dataObjectold.length == 0) {}
+                                                else {
+                                                    let dataOld = JSON.parse(dataObjectold[0].data);
+                                                    var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                                    let objCombineData = {
+                                                        Params: dataOld.Params,
+                                                        tsaleslist: thirdaryData
+                                                    }
 
+                                                    addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                        templateObject.resetData(objCombineData);
+                                                        $('.fullScreenSpin').css('display', 'none');
+                                                    }).catch(function (err) {
+                                                        $('.fullScreenSpin').css('display', 'none');
+                                                    });
+
+                                                }
+                                            }).catch(function (err) {});
+
+                                        }).catch(function (err) {
+                                            $('.fullScreenSpin').css('display', 'none');
+                                        });
+                                      }else{
                                       sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                           getVS1Data('TSalesList').then(function (dataObjectold) {
                                               if (dataObjectold.length == 0) {}
@@ -335,21 +346,26 @@ Template.salesoverview.onRendered(function() {
                                       }).catch(function (err) {
                                           $('.fullScreenSpin').css('display', 'none');
                                       });
-
+                                    }
                                   });
-                                }
+
                                   setTimeout(function () {
                                       MakeNegative();
                                   }, 100);
                               },
                             "fnInitComplete": function () {
-                                let urlParametersPage = FlowRouter.current().queryParams.page;
-                                if (urlParametersPage) {
-                                    this.fnPageChange('last');
-                                }
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                                  this.fnPageChange('last');
+                              }
                                 $("<button class='btn btn-primary btnRefreshSalesOverview' type='button' id='btnRefreshSalesOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOverview_filter");
 
                                 $('.myvarFilterForm').appendTo(".colDateFilter");
+                            },
+                            "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                              let countTableData = data.Params.Count || 0; //get count from API data
+
+                                return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                             }
 
                         }).on('page', function() {
@@ -362,17 +378,7 @@ Template.salesoverview.onRendered(function() {
 
                         });
 
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tsaleslist.length||1;
-                        }
-                        if(data.tsaleslist.length > 0){
-                          $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
 
                     }, 0);
 
@@ -411,6 +417,7 @@ Template.salesoverview.onRendered(function() {
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
+
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);
@@ -503,8 +510,6 @@ Template.salesoverview.onRendered(function() {
                                 type: 'date',
                                 targets: 0
                             }
-                            // ,
-                            // { targets: 0, className: "text-center" }
 
                         ],
                         "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -540,17 +545,7 @@ Template.salesoverview.onRendered(function() {
                                 columns: ':visible',
                                 stripHtml: false
                             },
-                            // customize: function ( win ) {
-                            //     $(win.document.body)
-                            //         .css( 'font-size', '10pt' )
-                            //         .prepend(
-                            //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                            //         );
-                            //
-                            //     $(win.document.body).find( 'table' )
-                            //         .addClass( 'compact' )
-                            //         .css( 'font-size', 'inherit' );
-                            // }
+
                         }],
                         select: true,
                         destroy: true,
@@ -576,9 +571,7 @@ Template.salesoverview.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                             let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                            if(checkurlIgnoreDate == 'true'){
 
-                            }else{
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblPurchaseOverview_ellipsis').addClass('disabled');
 
@@ -601,7 +594,32 @@ Template.salesoverview.onRendered(function() {
 
                                   let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                   let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                  if(checkurlIgnoreDate == 'true'){
+                                    sideBarService.getSalesListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                        getVS1Data('TSalesList').then(function (dataObjectold) {
+                                            if (dataObjectold.length == 0) {}
+                                            else {
+                                                let dataOld = JSON.parse(dataObjectold[0].data);
+                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                                let objCombineData = {
+                                                    Params: dataOld.Params,
+                                                    tsaleslist: thirdaryData
+                                                }
 
+                                                addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                    templateObject.resetData(objCombineData);
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                }).catch(function (err) {
+                                                    $('.fullScreenSpin').css('display', 'none');
+                                                });
+
+                                            }
+                                        }).catch(function (err) {});
+
+                                    }).catch(function (err) {
+                                        $('.fullScreenSpin').css('display', 'none');
+                                    });
+                                  }else{
                                   sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                       getVS1Data('TSalesList').then(function (dataObjectold) {
                                           if (dataObjectold.length == 0) {}
@@ -626,21 +644,26 @@ Template.salesoverview.onRendered(function() {
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
-
+                                }
                               });
-                            }
+
                               setTimeout(function () {
                                   MakeNegative();
                               }, 100);
                           },
                         "fnInitComplete": function () {
-                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
-                                this.fnPageChange('last');
-                            }
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
+                          }
                             $("<button class='btn btn-primary btnRefreshSalesOverview' type='button' id='btnRefreshSalesOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function() {
@@ -653,17 +676,7 @@ Template.salesoverview.onRendered(function() {
 
                     });
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tsaleslist.length||1;
-                    }
-                    if(data.tsaleslist.length > 0){
-                      $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
 
                 }, 0);
 
@@ -787,8 +800,6 @@ Template.salesoverview.onRendered(function() {
                               type: 'date',
                               targets: 0
                           }
-                          // ,
-                          // { targets: 0, className: "text-center" }
 
                       ],
                       "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
@@ -824,17 +835,7 @@ Template.salesoverview.onRendered(function() {
                               columns: ':visible',
                               stripHtml: false
                           },
-                          // customize: function ( win ) {
-                          //     $(win.document.body)
-                          //         .css( 'font-size', '10pt' )
-                          //         .prepend(
-                          //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                          //         );
-                          //
-                          //     $(win.document.body).find( 'table' )
-                          //         .addClass( 'compact' )
-                          //         .css( 'font-size', 'inherit' );
-                          // }
+
                       }],
                       select: true,
                       destroy: true,
@@ -860,9 +861,7 @@ Template.salesoverview.onRendered(function() {
                       },
                       "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblPurchaseOverview_ellipsis').addClass('disabled');
 
@@ -885,7 +884,32 @@ Template.salesoverview.onRendered(function() {
 
                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getSalesListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TSalesList').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tsaleslist), dataOld.tsaleslist);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tsaleslist: thirdaryData
+                                              }
 
+                                              addVS1Data('TSalesList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
                                 sideBarService.getSalesListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                     getVS1Data('TSalesList').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
@@ -910,21 +934,26 @@ Template.salesoverview.onRendered(function() {
                                 }).catch(function (err) {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
-
+                              }
                             });
-                          }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                       "fnInitComplete": function () {
-                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if (urlParametersPage) {
-                              this.fnPageChange('last');
-                          }
+                        let urlParametersPage = FlowRouter.current().queryParams.page;
+                        if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                            this.fnPageChange('last');
+                        }
                           $("<button class='btn btn-primary btnRefreshSalesOverview' type='button' id='btnRefreshSalesOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSalesOverview_filter");
 
                           $('.myvarFilterForm').appendTo(".colDateFilter");
+                      },
+                      "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                        let countTableData = data.Params.Count || 0; //get count from API data
+
+                          return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                       }
 
                   }).on('page', function() {
@@ -937,17 +966,7 @@ Template.salesoverview.onRendered(function() {
 
                   });
 
-                  /* Add count functionality to table */
-                  let countTableData = data.Params.Count || 1; //get count from API data
-                  if(data.tsaleslist.length > countTableData){ //Check if what is on the list is more than API count
-                    countTableData = data.tsaleslist.length||1;
-                  }
-                  if(data.tsaleslist.length > 0){
-                    $('#tblSalesOverview_info').html('Showing 1 to '+data.tsaleslist.length+ ' of ' +countTableData+ ' entries');
-                  }else{
-                    $('#tblSalesOverview_info').html('Showing 0 to '+data.tsaleslist.length+ ' of 0 entries');
-                  }
-                  /* End Add count functionality to table */
+
 
               }, 0);
 

@@ -60,40 +60,52 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+
                                                 <div class="col-12 col-md-4">
+                                                    <div class="form-group mb-0">
+                                                        <label for="edtAllowanceType">Bank Account</label>
+                                                        <input type="text" class="form-control" id="editbankaccount" name="editbankaccount">
+                                        
+                                                   </div>
+                                                    
+                                                </div>
+                                                <!-- <div class="col-12 col-md-4">
                                                     <div class="form-group">
                                                         <label for="edtRateName">Bank Account</label>
                                                         <input type="text" class="form-control" id="">
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">PAYG Liability Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editpaygbankaccount">PAYG Liability Account</label>
+                                                        <input type="text" class="form-control" id="editpaygbankaccount" name="editpaygbankaccount">
+                                                      
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">Wages Expense Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editwagesexpbankaccount">Wages Expense Account</label>
+                                                        <input type="text" class="form-control" id="editwagesexpbankaccount" name="editwagesexpbankaccount">    
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="editwagespaybankaccount">Wages Payable Account</label>
+                                                        <input type="text" class="form-control" id="editwagespaybankaccount" name="editwagespaybankaccount">
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">Wages Payable Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editsuperliabbankaccount">Superannuation Liability Account</label>
+                                                        <input type="text" class="form-control" id="editsuperliabbankaccount" name="editsuperliabbankaccount">                                                       
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="form-group">
-                                                        <label for="edtRateName">Superannuation Liability Account</label>
-                                                        <input type="text" class="form-control" id="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-md-4">
-                                                    <div class="form-group">
-                                                        <label for="edtRateName">Superannuation Expense Account</label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <label for="editsuperexpbankaccount">Superannuation Expense Account</label>
+                                                        <input type="text" class="form-control" id="editsuperexpbankaccount" name="editsuperexpbankaccount">                                                     
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,8 +143,8 @@
                                                         <div class="modal-body">
                                                             <div class="row no-gutters d-xl-flex flex-row justify-content-xl-start align-items-xl-start">
                                                                 <p class="maximums">The maximum file size is 1MB. For best results, upload the largest logo you have, at
-                                                                    least 140 pixels on its shortest side.</p>
-
+                                                                    least 140 pixels on its shortest side.
+                                                                </p>
                                                             </div>
                                                             <hr>
 
@@ -165,8 +177,9 @@
                                                                     }
                                                                 </style>
                                                                 <div id="row1">
-                                                                    <div id="column1"></div><button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;"><i class="fa fa-cloud-upload"
-                                                                            style="margin-right: 5px;"></i>Browse</button>
+                                                                    <div id="column1"></div>
+                                                                    <button class="btn btn-primary btnUploadFile new_attachment_btn" type="button" style="margin: 16px;">
+                                                                    <i class="fa fa-cloud-upload" style="margin-right: 5px;"></i> Browse </button>
                                                                     <div class="file-name" id="column2"></div>
                                                                 </div>
                                                             </div>
@@ -196,13 +209,15 @@
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-group">
                                                         <label for="edtRateName">Employee Group <span><span style="font-weight: 200;">(optional)</span></span></label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <input type="search" class="form-control" id="employegroup" name="employegroup" placeholder="Select Employee Group">
+                                                      
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-6">
                                                     <div class="form-group">
                                                         <label for="edtRateName">Timesheet Categories <span><span style="font-weight: 200;">(optional)</span></span></label>
-                                                        <input type="text" class="form-control" id="">
+                                                        <input type="search" class="form-control" id="timesheetcat" name="timesheetcat" placeholder="Select Timesheet Categories">
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
@@ -306,13 +321,13 @@
                                                                 <div class="col-12">
                                                                     <div class="form-group">
                                                                         <label for="edtRateName">Pay Period</label>
-                                                                        <input type="text" class="form-control" id="">
+                                                                        <input type="search" class="form-control" id="payperiod" name="payperiod" placeholder="How often will you pay your employees?">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <div class="form-group">
                                                                         <label for="edtRateName">Name</label>
-                                                                        <input type="text" class="form-control" id="">
+                                                                        <input type="text" class="form-control" id="calender_name">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-6">
@@ -342,7 +357,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                            <button type="button" class="btn btn-success savenewcalender"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                         </div>
                                                     </div>
@@ -854,13 +869,13 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtRateType">Rate Type</label>
-                                                                            <input type="text" class="form-control" id="edtRateType">
+                                                                            <input type="search" class="form-control" id="edtRateType" name="edtRateType">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccount">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccount">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccount" name="edtExpenseAccount">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -880,7 +895,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveExemptReportable"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -919,7 +934,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountOvertime">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountOvertime">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountOvertime" name="edtExpenseAccountOvertime">
+                                                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -939,7 +955,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveExemptReportableOvertime"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -978,7 +994,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountTermnination">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountTermnination">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountTermnination" name="edtExpenseAccountTermnination">
+                                                                           
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -998,7 +1015,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveExemptReportableTermnination"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1037,7 +1054,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountLumpSumE">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumE">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumE" name="edtExpenseAccountLumpSumE">
+                                                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1057,7 +1075,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveExemptReportableLumpSumE"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1099,7 +1117,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountBonusesCommissions">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountBonusesCommissions">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountBonusesCommissions" name="edtExpenseAccountBonusesCommissions">
+                                                                        
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1119,7 +1138,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveSuperannuationBonusesCommissions"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1155,13 +1174,14 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtRateTypeLumpSumW">Rate Type</label>
-                                                                            <input type="text" class="form-control" id="edtRateTypeLumpSumW">
+                                                                            <input type="search" class="form-control" id="edtRateTypeLumpSumW">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountLumpSumW">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumW">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountLumpSumW" name="edtExpenseAccountLumpSumW">
+                                                                          
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1181,7 +1201,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveLumpSumW"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1223,7 +1243,8 @@
                                                                     <div class="col-12">
                                                                         <div class="form-group">
                                                                             <label for="edtExpenseAccountDirectorsFees">Expense Account</label>
-                                                                            <input type="text" class="form-control" id="edtExpenseAccountDirectorsFees">
+                                                                            <input type="text" class="form-control" id="edtExpenseAccountDirectorsFees" name="edtExpenseAccountDirectorsFees">
+                                                                        
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-12">
@@ -1243,7 +1264,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveDirectorFee"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1542,10 +1563,11 @@
                                                                             <input type="text" class="form-control" id="edtReimbursementAccount">
                                                                         </div>
                                                                     </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success newreiumbursement"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1630,7 +1652,8 @@
                                                                     <div class="col-12 mb-1">
                                                                         <div class="form-group mb-0">
                                                                             <label for="edtTypeOfUnits">Typers of Units</label>
-                                                                            <input type="text" class="form-control" id="edtTypeOfUnits">
+                                                                            <input type="search" class="form-control" id="edtTypeOfUnits" name="edtTypeOfUnits" placeholder="Typers of Units">
+                                                                          
                                                                         </div>
                                                                         <span style="font-size: 12px;">The type of units by which leave entitlements are normally tracked. These are typically the same as the type of units used for the employee's ordinary earnings rate.</span>
                                                                     </div>
@@ -1656,7 +1679,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success savePaidLeave"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1683,7 +1706,8 @@
                                                                     <div class="col-12 mb-1">
                                                                         <div class="form-group mb-0">
                                                                             <label for="edtUnpaidTypeOfUnits">Typers of Units</label>
-                                                                            <input type="text" class="form-control" id="edtUnpaidTypeOfUnits">
+                                                                           <input type="search" class="form-control" id="edtUnpaidTypeOfUnits" name="edtUnpaidTypeOfUnits" placeholder="Typers of Units">
+                                                                         
                                                                         </div>
                                                                         <span style="font-size: 12px;">The type of units by which leave entitlements are normally tracked. These are typically the same as the type of units used for the employee's ordinary earnings rate.</span>
                                                                     </div>
@@ -1709,7 +1733,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                                <button type="button" class="btn btn-success saveUnpaidLeave"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                             </div>
                                                         </div>
@@ -1804,14 +1828,14 @@
                                                                 <div class="col-12">
                                                                     <div class="form-group">
                                                                         <label for="edtFundName">Employer Number <span style="font-weight: 200;">(optional)</span></label>
-                                                                        <input type="text" class="form-control" id="edtFundName">
+                                                                        <input type="text" class="form-control" id="edtEmployerNumber">
                                                                     </div>
                                                                     <span style="font-size: 12px;">Some funds assign a unique number to each employer. If you do not have one, leave this blank.</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-success"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                                            <button type="button" class="btn btn-success saveSuperannuation"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close" style="margin-right: 5px;"></i>Close</button>
                                                         </div>
                                                     </div>
@@ -2164,6 +2188,37 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger float-right btnDeleteAllowance" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Delete</button>
+                    <button class="btn btn-secondary float-right btnBack" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="deleteDeductionLineModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                
+                <input type="hidden" style="width: 100%; display:none;" id="selectDeleteLineID" name="selectDeleteLineID" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectAccountid" name="selectAccountid" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectAccountname" name="selectAccountname" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectIsWorkPlacegiving" name="selectIsWorkPlacegiving" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectisTaxexempt" name="selectisTaxexempt" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectisUnionfees" name="selectisUnionfees" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectdeductionAmount" name="selectdeductionAmount" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectideductionName" name="selectideductionName" readonly>
+                <input type="hidden" style="width: 100%; display:none;" id="selectdisplayName" name="selectdisplayName" readonly>
+
+                <div class="modal-header">
+                    <h4 style="margin-bottom: 0px;">Delete Deduction</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="text-align: center;"> Are you sure you want to delete this Deduction? </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger float-right btnDeleteDeduction" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Delete</button>
                     <button class="btn btn-secondary float-right btnBack" type="button"><i class="fa fa-close" style="margin-right: 5px;"></i>Cancel</button>
                 </div>
             </div>

@@ -1867,6 +1867,10 @@ Template.accountsoverview.events({
         FlowRouter.go('/journalentrylist');
     },
 
+    'click #btnReceiptClaims': function (event) {
+        FlowRouter.go('/receiptsoverview');
+    },
+
     'click .chkDatatable': function (event) {
         var columns = $('#tblAccountOverview th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();
@@ -2165,8 +2169,8 @@ Template.accountsoverview.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
-                            LastName: bankname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname
@@ -2265,7 +2269,8 @@ Template.accountsoverview.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname
@@ -2366,8 +2371,8 @@ Template.accountsoverview.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
-                            LastName: bankname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname

@@ -774,7 +774,7 @@ Template.depositcard.onRendered(()=>{
                     let currencySymbol = Currency;
                     let department = data.fields.Lines[0].fields.DeptName;
                     let totalDeposit = utilityService.modifynegativeCurrencyFormat(data.fields.Deposit)|| 0.00;
-
+                    if(data.fields.Lines != null){
                     if(data.fields.Lines.length){
                         for(let i=0; i<data.fields.Lines.length; i++){
                             let lineAmount = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.Amount)|| 0.00;
@@ -794,6 +794,7 @@ Template.depositcard.onRendered(()=>{
 
                             lineItems.push(lineItemObj);
                         }
+                    }
                     }
 
                     let record = {

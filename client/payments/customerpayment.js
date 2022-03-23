@@ -133,8 +133,8 @@ Template.customerpayment.onRendered(function() {
                             paymentamount: amount || 0.00,
                             applied: applied || 0.00,
                             balance: balance || 0.00,
-                            bankaccount: data.tcustomerpaymentlist[i].AccountName || '',
-                            department: data.tcustomerpaymentlist[i].DeptClassName || '',
+                            bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
+                            department: data.tcustomerpaymentlist[i].Department || '',
                             refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
                             paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
                             notes: data.tcustomerpaymentlist[i].Notes || ''
@@ -241,9 +241,7 @@ Template.customerpayment.onRendered(function() {
                             },
                             "fnDrawCallback": function (oSettings) {
                               let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                              if(checkurlIgnoreDate == 'true'){
 
-                              }else{
                                 $('.paginate_button.page-item').removeClass('disabled');
                                 $('#tblCustomerPayment_ellipsis').addClass('disabled');
 
@@ -266,7 +264,32 @@ Template.customerpayment.onRendered(function() {
 
                                     let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                     let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                    if(checkurlIgnoreDate == 'true'){
+                                      sideBarService.getAllTCustomerPaymentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                          getVS1Data('TCustomerPaymentList').then(function (dataObjectold) {
+                                              if (dataObjectold.length == 0) {}
+                                              else {
+                                                  let dataOld = JSON.parse(dataObjectold[0].data);
+                                                  var thirdaryData = $.merge($.merge([], dataObjectnew.tcustomerpaymentlist), dataOld.tcustomerpaymentlist);
+                                                  let objCombineData = {
+                                                      Params: dataOld.Params,
+                                                      tcustomerpaymentlist: thirdaryData
+                                                  }
 
+                                                  addVS1Data('TCustomerPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                      templateObject.resetData(objCombineData);
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  }).catch(function (err) {
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  });
+
+                                              }
+                                          }).catch(function (err) {});
+
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+                                    }else{
                                     sideBarService.getAllTCustomerPaymentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                         getVS1Data('TCustomerPaymentList').then(function (dataObjectold) {
                                             if (dataObjectold.length == 0) {}
@@ -291,20 +314,25 @@ Template.customerpayment.onRendered(function() {
                                     }).catch(function (err) {
                                         $('.fullScreenSpin').css('display', 'none');
                                     });
-
+                                  }
                                 });
-                              }
+
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                             "fnInitComplete": function () {
                               let urlParametersPage = FlowRouter.current().queryParams.page;
-                              if (urlParametersPage) {
+                              if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                   this.fnPageChange('last');
                               }
                                $("<button class='btn btn-primary btnRefreshCustomerPayment' type='button' id='btnRefreshCustomerPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerPayment_filter");
                                $('.myvarFilterForm').appendTo(".colDateFilter");
+                            },
+                            "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                              let countTableData = data.Params.Count || 0; //get count from API data
+
+                                return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                             }
 
 
@@ -323,19 +351,8 @@ Template.customerpayment.onRendered(function() {
                         });
                         $('.fullScreenSpin').css('display','none');
 
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tcustomerpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tcustomerpaymentlist.length||1;
-                        }
-                        if(data.tcustomerpaymentlist.length > 0){
-                          $('#tblCustomerPayment_info').html('Showing 1 to '+data.tcustomerpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblCustomerPayment_info').html('Showing 0 to '+data.tcustomerpaymentlist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
-                    }, 0);
 
+                    }, 0);
                     var columns = $('#tblCustomerPayment th');
                     let sTible = "";
                     let sWidth = "";
@@ -404,8 +421,8 @@ Template.customerpayment.onRendered(function() {
                     paymentamount: amount || 0.00,
                     applied: applied || 0.00,
                     balance: balance || 0.00,
-                    bankaccount: data.tcustomerpaymentlist[i].AccountName || '',
-                    department: data.tcustomerpaymentlist[i].DeptClassName || '',
+                    bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
+                    department: data.tcustomerpaymentlist[i].Department || '',
                     refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
                     paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
                     notes: data.tcustomerpaymentlist[i].Notes || ''
@@ -512,9 +529,7 @@ Template.customerpayment.onRendered(function() {
                     },
                     "fnDrawCallback": function (oSettings) {
                       let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                      if(checkurlIgnoreDate == 'true'){
 
-                      }else{
                         $('.paginate_button.page-item').removeClass('disabled');
                         $('#tblCustomerPayment_ellipsis').addClass('disabled');
 
@@ -537,7 +552,32 @@ Template.customerpayment.onRendered(function() {
 
                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                            if(checkurlIgnoreDate == 'true'){
+                              sideBarService.getAllTCustomerPaymentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                  getVS1Data('TCustomerPaymentList').then(function (dataObjectold) {
+                                      if (dataObjectold.length == 0) {}
+                                      else {
+                                          let dataOld = JSON.parse(dataObjectold[0].data);
+                                          var thirdaryData = $.merge($.merge([], dataObjectnew.tcustomerpaymentlist), dataOld.tcustomerpaymentlist);
+                                          let objCombineData = {
+                                              Params: dataOld.Params,
+                                              tcustomerpaymentlist: thirdaryData
+                                          }
 
+                                          addVS1Data('TCustomerPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                              templateObject.resetData(objCombineData);
+                                              $('.fullScreenSpin').css('display', 'none');
+                                          }).catch(function (err) {
+                                              $('.fullScreenSpin').css('display', 'none');
+                                          });
+
+                                      }
+                                  }).catch(function (err) {});
+
+                              }).catch(function (err) {
+                                  $('.fullScreenSpin').css('display', 'none');
+                              });
+                            }else{
                             sideBarService.getAllTCustomerPaymentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                 getVS1Data('TCustomerPaymentList').then(function (dataObjectold) {
                                     if (dataObjectold.length == 0) {}
@@ -562,20 +602,25 @@ Template.customerpayment.onRendered(function() {
                             }).catch(function (err) {
                                 $('.fullScreenSpin').css('display', 'none');
                             });
-
+                          }
                         });
-                      }
+
                         setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     },
                     "fnInitComplete": function () {
                       let urlParametersPage = FlowRouter.current().queryParams.page;
-                      if (urlParametersPage) {
+                      if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                           this.fnPageChange('last');
                       }
                        $("<button class='btn btn-primary btnRefreshCustomerPayment' type='button' id='btnRefreshCustomerPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerPayment_filter");
                        $('.myvarFilterForm').appendTo(".colDateFilter");
+                    },
+                    "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                      let countTableData = data.Params.Count || 0; //get count from API data
+
+                        return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                     }
 
 
@@ -594,17 +639,7 @@ Template.customerpayment.onRendered(function() {
                 });
                 $('.fullScreenSpin').css('display','none');
 
-                /* Add count functionality to table */
-                let countTableData = data.Params.Count || 1; //get count from API data
-                if(data.tcustomerpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                  countTableData = data.tcustomerpaymentlist.length||1;
-                }
-                if(data.tcustomerpaymentlist.length > 0){
-                  $('#tblCustomerPayment_info').html('Showing 1 to '+data.tcustomerpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                }else{
-                  $('#tblCustomerPayment_info').html('Showing 0 to '+data.tcustomerpaymentlist.length+ ' of 0 entries');
-                }
-                /* End Add count functionality to table */
+
             }, 0);
 
                 var columns = $('#tblCustomerPayment th');
@@ -671,8 +706,8 @@ Template.customerpayment.onRendered(function() {
                       paymentamount: amount || 0.00,
                       applied: applied || 0.00,
                       balance: balance || 0.00,
-                      bankaccount: data.tcustomerpaymentlist[i].AccountName || '',
-                      department: data.tcustomerpaymentlist[i].DeptClassName || '',
+                      bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
+                      department: data.tcustomerpaymentlist[i].Department || '',
                       refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
                       paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
                       notes: data.tcustomerpaymentlist[i].Notes || ''
@@ -779,9 +814,7 @@ Template.customerpayment.onRendered(function() {
                       },
                       "fnDrawCallback": function (oSettings) {
                         let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                        if(checkurlIgnoreDate == 'true'){
 
-                        }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblCustomerPayment_ellipsis').addClass('disabled');
 
@@ -804,7 +837,32 @@ Template.customerpayment.onRendered(function() {
 
                               let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                               let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                              if(checkurlIgnoreDate == 'true'){
+                                sideBarService.getAllTCustomerPaymentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TCustomerPaymentList').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tcustomerpaymentlist), dataOld.tcustomerpaymentlist);
+                                            let objCombineData = {
+                                                Params: dataOld.Params,
+                                                tcustomerpaymentlist: thirdaryData
+                                            }
 
+                                            addVS1Data('TCustomerPaymentList', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+                              }else{
                               sideBarService.getAllTCustomerPaymentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                   getVS1Data('TCustomerPaymentList').then(function (dataObjectold) {
                                       if (dataObjectold.length == 0) {}
@@ -829,20 +887,25 @@ Template.customerpayment.onRendered(function() {
                               }).catch(function (err) {
                                   $('.fullScreenSpin').css('display', 'none');
                               });
-
+                            }
                           });
-                        }
+
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
                       },
                       "fnInitComplete": function () {
                         let urlParametersPage = FlowRouter.current().queryParams.page;
-                        if (urlParametersPage) {
+                        if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                             this.fnPageChange('last');
                         }
                          $("<button class='btn btn-primary btnRefreshCustomerPayment' type='button' id='btnRefreshCustomerPayment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblCustomerPayment_filter");
                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                      },
+                      "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                        let countTableData = data.Params.Count || 0; //get count from API data
+
+                          return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                       }
 
 
@@ -861,17 +924,7 @@ Template.customerpayment.onRendered(function() {
                   });
                   $('.fullScreenSpin').css('display','none');
 
-                  /* Add count functionality to table */
-                  let countTableData = data.Params.Count || 1; //get count from API data
-                  if(data.tcustomerpaymentlist.length > countTableData){ //Check if what is on the list is more than API count
-                    countTableData = data.tcustomerpaymentlist.length||1;
-                  }
-                  if(data.tcustomerpaymentlist.length > 0){
-                    $('#tblCustomerPayment_info').html('Showing 1 to '+data.tcustomerpaymentlist.length+ ' of ' +countTableData+ ' entries');
-                  }else{
-                    $('#tblCustomerPayment_info').html('Showing 0 to '+data.tcustomerpaymentlist.length+ ' of 0 entries');
-                  }
-                  /* End Add count functionality to table */
+
               }, 0);
 
               var columns = $('#tblCustomerPayment th');
@@ -1024,7 +1077,7 @@ Template.customerpayment.events({
                       applied: applied || 0.00,
                       balance: balance || 0.00,
                       bankaccount: data.tcustomerpaymentlist[i].AccountName || '',
-                      department: data.tcustomerpaymentlist[i].DeptClassName || '',
+                      department: data.tcustomerpaymentlist[i].Department || '',
                       refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
                       paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
                       notes: data.tcustomerpaymentlist[i].Notes || ''
@@ -1244,7 +1297,7 @@ Template.customerpayment.events({
 
     },
     'click .btnNewPayment': function () {
-        FlowRouter.go('/customerawaitingpayments');
+        FlowRouter.go('/paymentcard');
     },
     'click .btnAwaitingPayment': function () {
         FlowRouter.go('/customerawaitingpayments');

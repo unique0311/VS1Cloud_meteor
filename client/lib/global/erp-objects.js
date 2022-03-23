@@ -210,7 +210,25 @@ ERPObjects = function () {
         TInvoiceList:"TInvoiceList",
         TRefundSaleList:"TRefundSaleList",
         TSalesBackOrderReport:"TSalesBackOrderReport",
-        TCustomerSummaryReport:"TCustomerSummaryReport"
+        TCustomerSummaryReport:"TCustomerSummaryReport",
+        TStatementForCustomerRunnBalance:"TStatementForCustomerRunnBalance",
+        TCreditList:"TCreditList",
+        TAppointmentList:"TAppointmentList",
+        TJournalEntryList:"TJournalEntryList",
+
+        //August
+        TLumpSumW: "TLumpSumW",
+        TLumpSumE: "TLumpSumE",
+        TDirectorsFees: "TDirectorsFees",
+        TUnionAssociationFee: "TUnionAssociationFee",
+        TWorkplaceGiving: "TWorkplaceGiving",
+        TEarningsBonusesCommissions: "TEarningsBonusesCommissions",
+        TEmployeeTerminations: "TEmployeeTerminations",
+        TOrdinaryTimeEarnings: "TOrdinaryTimeEarnings",
+        TUnpaidLeave: "TUnpaidLeave",
+        TEmployeePayrollSettings: "TEmployeePayrollSettings",
+        TPayrollNotes: "TPayrollNotes",
+        TPayrollTaxes: "TPayrollTaxes",
     }
     return objects;
 }

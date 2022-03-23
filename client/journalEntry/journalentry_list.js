@@ -26,6 +26,36 @@ Template.journalentrylist.onRendered(function() {
     $('.btnRefresh').addClass('btnRefreshAlert');
   }
 
+  var today = moment().format('DD/MM/YYYY');
+  var currentDate = new Date();
+  var begunDate = moment(currentDate).format("DD/MM/YYYY");
+  let fromDateMonth = (currentDate.getMonth() + 1);
+  let fromDateDay = currentDate.getDate();
+  if ((currentDate.getMonth() + 1) < 10) {
+      fromDateMonth = "0" + (currentDate.getMonth() + 1);
+  }
+
+  if (currentDate.getDate() < 10) {
+      fromDateDay = "0" + currentDate.getDate();
+  }
+  var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+  $("#date-input,#dateTo,#dateFrom").datepicker({
+      showOn: 'button',
+      buttonText: 'Show Date',
+      buttonImageOnly: true,
+      buttonImage: '/img/imgCal2.png',
+      dateFormat: 'dd/mm/yy',
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-90:+10",
+  });
+
+  $("#dateFrom").val(fromDate);
+  $("#dateTo").val(begunDate);
+
   Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblJournalList', function(error, result){
   if(error){
 
@@ -53,13 +83,43 @@ Template.journalentrylist.onRendered(function() {
           if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
          });
   };
+
+  templateObject.resetData = function (dataVal) {
+      window.open('/journalentrylist?page=last', '_self');
+  }
+
   templateObject.getAllJournalEntryData = function () {
+
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentBeginDate.getMonth() + 1);
+    let fromDateDay = currentBeginDate.getDate();
+    if ((currentBeginDate.getMonth() + 1) < 10) {
+        fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+    } else {
+        fromDateMonth = (currentBeginDate.getMonth() + 1);
+    }
+
+    if (currentBeginDate.getDate() < 10) {
+        fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+    let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
     getVS1Data('TJournalEntryLines').then(function (dataObject) {
         if(dataObject.length == 0){
           sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
             addVS1Data('TJournalEntryLines',JSON.stringify(data));
+            if (data.Params.IgnoreDates == true) {
+                $('#dateFrom').attr('readonly', true);
+                $('#dateTo').attr('readonly', true);
+                FlowRouter.go('/invoicelist?ignoredate=true');
+            } else {
+                $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+            }
             for(let i=0; i<data.tjournalentry.length; i++){
 
               if(data.tjournalentry[i].fields.Lines.length){
@@ -140,7 +200,7 @@ Template.journalentrylist.onRendered(function() {
                           // { targets: 0, className: "text-center" }
 
                       ],
-                      "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                      "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       buttons: [
                             {
                          extend: 'excelHtml5',
@@ -180,7 +240,7 @@ Template.journalentrylist.onRendered(function() {
                       // bStateSave: true,
                       // rowId: 0,
                       pageLength: initialDatatableLoad,
-                      lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                      "bLengthChange": false,
                       info: true,
                       responsive: true,
                       "order": [[ 0, "desc" ],[ 4, "desc" ]],
@@ -195,6 +255,7 @@ Template.journalentrylist.onRendered(function() {
                       },
                         "fnInitComplete": function () {
                             $("<button class='btn btn-primary btnRefreshJournalEntry' type='button' id='btnRefreshJournalEntry' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblJournalList_filter");
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
                       }
 
 
@@ -335,7 +396,7 @@ Template.journalentrylist.onRendered(function() {
                         // { targets: 0, className: "text-center" }
 
                     ],
-                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                    "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     buttons: [
                           {
                        extend: 'excelHtml5',
@@ -375,7 +436,7 @@ Template.journalentrylist.onRendered(function() {
                     // bStateSave: true,
                     // rowId: 0,
                     pageLength: initialDatatableLoad,
-                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                    "bLengthChange": false,
                     info: true,
                     responsive: true,
                     "order": [[ 0, "desc" ],[ 4, "desc" ]],
@@ -390,6 +451,7 @@ Template.journalentrylist.onRendered(function() {
                     },
                     "fnInitComplete": function () {
                        $("<button class='btn btn-primary btnRefreshJournalEntry' type='button' id='btnRefreshJournalEntry' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblJournalList_filter");
+                       $('.myvarFilterForm').appendTo(".colDateFilter");
                     }
 
                 }).on('page', function () {
@@ -524,7 +586,7 @@ Template.journalentrylist.onRendered(function() {
                         // { targets: 0, className: "text-center" }
 
                     ],
-                    "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                    "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     buttons: [
                           {
                        extend: 'excelHtml5',
@@ -564,7 +626,7 @@ Template.journalentrylist.onRendered(function() {
                     // bStateSave: true,
                     // rowId: 0,
                     pageLength: initialDatatableLoad,
-                    lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                    "bLengthChange": false,
                     info: true,
                     responsive: true,
                     "order": [[ 0, "desc" ],[ 4, "desc" ]],
@@ -634,6 +696,32 @@ Template.journalentrylist.onRendered(function() {
 
   templateObject.getAllJournalEntryData();
 
+  templateObject.getAllFilterJournalEntryData = function(fromDate, toDate, ignoreDate) {
+      sideBarService.getAllJournalEnrtryLinesList(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+          addVS1Data('TJournalEntryLines', JSON.stringify(data)).then(function(datareturn) {
+              window.open('/journalentrylist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+          }).catch(function(err) {
+              location.reload();
+          });
+      }).catch(function(err) {
+          $('.fullScreenSpin').css('display', 'none');
+      });
+  }
+
+  let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+  let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+  let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+  if (urlParametersDateFrom) {
+      if (urlParametersIgnoreDate == true) {
+          $('#dateFrom').attr('readonly', true);
+          $('#dateTo').attr('readonly', true);
+      } else {
+
+          $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+          $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
+      }
+  }
+
 });
 
 Template.journalentrylist.events({
@@ -675,6 +763,160 @@ Template.journalentrylist.events({
      }).catch(function(err) {
 
      });
+  },
+  'change #dateTo': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+      var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+      let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+      let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+      //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+      var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+      //templateObject.dateAsAt.set(formatDate);
+      if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+      } else {
+          templateObject.getAllFilterJournalEntryData(formatDateFrom, formatDateTo, false);
+      }
+
+  },
+  'change #dateFrom': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+      var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+      let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+      let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+      //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+      var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+      //templateObject.dateAsAt.set(formatDate);
+      if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+      } else {
+          templateObject.getAllFilterJournalEntryData(formatDateFrom, formatDateTo, false);
+      }
+
+  },
+  'click #lastMonth': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentDate = new Date();
+
+      var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+      var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+      var formatDateComponent = function(dateComponent) {
+        return (dateComponent < 10 ? '0' : '') + dateComponent;
+      };
+
+      var formatDate = function(date) {
+        return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+      };
+
+      var formatDateERP = function(date) {
+        return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+      };
+
+
+      var fromDate = formatDate(prevMonthFirstDate);
+      var toDate = formatDate(prevMonthLastDate);
+
+      $("#dateFrom").val(fromDate);
+      $("#dateTo").val(toDate);
+
+      var getLoadDate = formatDateERP(prevMonthLastDate);
+      let getDateFrom = formatDateERP(prevMonthFirstDate);
+      templateObject.getAllFilterJournalEntryData(getDateFrom, getLoadDate, false);
+  },
+  'click #lastQuarter': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentDate = new Date();
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      function getQuarter(d) {
+          d = d || new Date();
+          var m = Math.floor(d.getMonth() / 3) + 2;
+          return m > 4 ? m - 4 : m;
+      }
+
+      var quarterAdjustment = (moment().month() % 3) + 1;
+      var lastQuarterEndDate = moment().subtract({
+          months: quarterAdjustment
+      }).endOf('month');
+      var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+          months: 2
+      }).startOf('month');
+
+      var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+      var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+      $("#dateFrom").val(lastQuarterStartDateFormat);
+      $("#dateTo").val(lastQuarterEndDateFormat);
+
+      let fromDateMonth = getQuarter(currentDate);
+      var quarterMonth = getQuarter(currentDate);
+      let fromDateDay = currentDate.getDate();
+
+      var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+      let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+      templateObject.getAllFilterJournalEntryData(getDateFrom, getLoadDate, false);
+  },
+  'click #last12Months': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentDate = new Date();
+      var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+      let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+      let fromDateDay = currentDate.getDate();
+      if ((currentDate.getMonth() + 1) < 10) {
+          fromDateMonth = "0" + (currentDate.getMonth() + 1);
+      }
+      if (currentDate.getDate() < 10) {
+          fromDateDay = "0" + currentDate.getDate();
+      }
+
+      var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+      $("#dateFrom").val(fromDate);
+      $("#dateTo").val(begunDate);
+
+      var currentDate2 = new Date();
+      if ((currentDate2.getMonth() + 1) < 10) {
+          fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+      }
+      if (currentDate2.getDate() < 10) {
+          fromDateDay2 = "0" + currentDate2.getDate();
+      }
+      var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+      let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+      templateObject.getAllFilterJournalEntryData(getDateFrom, getLoadDate, false);
+
+  },
+  'click #ignoreDate': function() {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', true);
+      $('#dateTo').attr('readonly', true);
+      templateObject.getAllFilterJournalEntryData('', '', true);
   },
   'click #btnNewJournalEntry' : function(event){
   FlowRouter.go('/journalentrycard');

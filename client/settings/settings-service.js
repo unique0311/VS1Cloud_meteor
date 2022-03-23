@@ -107,6 +107,56 @@ export class TaxRateService extends BaseService {
         return this.getList(this.ERPObjects.TAllowance, options);
     }
 
+    checkCalenderName(calendarname)
+    {
+        let options = {
+            select: "[PayrollCalendarName]='" + calendarname + "'"
+        };
+        return this.getList(this.ERPObjects.TAllowance, options);
+    }
+
+    checkSuperannuationName(Superannuation)
+    {
+        let options = {
+            select: "[Superfund]='" + Superannuation + "'"
+        };
+        return this.getList(this.ERPObjects.TSuperannuation, options);
+    }
+
+    checkReimbursementByName(reimbursementName) {
+        let options = {
+            select: "[PayItemsReiumbursementName]='" + reimbursementName + "'"
+        };
+        return this.getList(this.ERPObjects.TReimbursement, options);
+
+
+    }
+
+    checkPaidLeaveByName(leavename) {
+        let options = {
+            select: "[PayItemsLeavePaidName]='" + leavename + "'"
+        };
+        return this.getList(this.ERPObjects.TPaidLeave, options);
+
+
+    }
+    checkunPaidLeaveByName(leavename) {
+        let options = {
+            select: "[PayItemsLeaveUnpaidName]='" + leavename + "'"
+        };
+        return this.getList(this.ERPObjects.TUnpaidLeave, options);
+    }
+
+
+    checkordinaryEarningByName(earningName) {
+        let options = {
+            select: "[PayItemsEarningsOrdinaryTimeEarningsName]='" + earningName + "'"
+        };
+        return this.getList(this.ERPObjects.TOrdinaryTimeEarnings, options);
+
+
+    }
+
 
     checkDeductionByName(deductionName) {
         let options = {
@@ -164,6 +214,16 @@ export class TaxRateService extends BaseService {
 
     saveDepartment(data) {
         return this.POST(this.ERPObjects.TDeptClass, data);
+    }
+
+    savePaidLeave(data){
+        
+        return this.POST(this.ERPObjects.TPaidLeave, data);
+    }
+
+    saveUnPaidLeave(data){
+        
+        return this.POST(this.ERPObjects.TUnpaidLeave, data);
     }
 
     checkDepartmentByName(deptName) {
@@ -291,9 +351,101 @@ export class TaxRateService extends BaseService {
         return this.POST(this.ERPObjects.TAllowance, data);
     }
 
+    saveCalender(data) {
+        return this.POST(this.ERPObjects.TPayrollCalendars, data);
+    }
+    saveSuperannuation(data) {
+        return this.POST(this.ERPObjects.TSuperannuation, data);
+    }
 
+    saveReimbursement(data)
+    {
+        return this.POST(this.ERPObjects.TReimbursement, data);
+    }
+
+    saveordinaryEarningByName(data)
+    {
+        return this.POST(this.ERPObjects.TOrdinaryTimeEarnings, data);
+    }
+
+    saveExemptReportableOvertime(data)
+    {
+        return this.POST(this.ERPObjects.TOvertimeEarnigns, data);
+    }
+    saveSuperannuationBonusesCommissions(data)
+    {
+        return this.POST(this.ERPObjects.TEarningsBonusesCommissions, data);
+    }
+    saveExemptReportableLumpSumE(data)
+    {
+        return this.POST(this.ERPObjects.TLumpSumE, data);
+    }
+    saveExemptReportableTermnination(data)
+    {
+        return this.POST(this.ERPObjects.TEmployeeTerminations, data);
+    }
+    saveDirectorFee(data)
+    {
+        return this.POST(this.ERPObjects.TDirectorsFees, data);
+    }
+    saveLumpSumW(data)
+    {
+        return this.POST(this.ERPObjects.TLumpSumW, data);
+    }
     saveDeduction(data) {
         return this.POST(this.ERPObjects.TDeduction, data);
+    }
+
+
+    checkordinaryEarningByName(earningname)
+    {
+        let options = {
+            select: "[PayItemsEarningsOrdinaryTimeEarningsName]='" + earningname + "'"
+        };
+        return this.getList(this.ERPObjects.TOrdinaryTimeEarnings, options);
+    }
+
+    checkExemptReportableOvertime(earningname)
+    {
+        let options = {
+            select: "[PayItemsEarningsOvertimeEarningsName]='" + earningname + "'"
+        };
+        return this.getList(this.ERPObjects.TOvertimeEarnigns, options);
+    }
+    checkSuperannuationBonusesCommissions(earningname)
+    {
+        let options = {
+            select: "[EarningsBonusesCommissionsName]='" + earningname + "'"
+        };
+        return this.getList(this.ERPObjects.TEarningsBonusesCommissions , options);
+    }
+    checkExemptReportableLumpSumE(earningname)
+    {
+        let options = {
+            select: "[LumpSumEName]='" + earningname + "'"
+        };
+        return this.getList(this.ERPObjects.TLumpSumE, options);
+    }
+    checkExemptReportableTermnination(earningname)
+    {
+        let options = {
+            select: "[EmployeeTerminationPaymentsName]='" + earningname + "'"
+        };
+        return this.getList(this.ERPObjects.TEmployeeTerminations, options);
+    }
+    checkDirectorFee(earningname)
+    {
+        let options = {
+            select: "[DirectorsFeesName]='" + earningname + "'"
+        };
+        return this.getList(this.ERPObjects.TDirectorsFees, options);
+    }
+    checkLumpSumW(earningname)
+    {
+        let options = {
+            select: "[LumpSumWName]='" + earningname + "'"
+        };
+        return this.getList(this.ERPObjects.TLumpSumW, options);
     }
 
     checkPaymentMethodByName(paymentName) {
@@ -302,7 +454,7 @@ export class TaxRateService extends BaseService {
         };
         return this.getList(this.ERPObjects.TPaymentMethod, options);
     }
-
+  
     getEmployees() {
         let options = {
             PropertyList: "PropertyList==ID,EmployeeName",

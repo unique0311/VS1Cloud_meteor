@@ -119,7 +119,7 @@ Template.newsidenav.onCreated(function() {
 });
 Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
-    let allDataToLoad = 64;
+    let allDataToLoad = 67;
     let progressPercentage = 0;
 
     let templateObject = Template.instance();
@@ -1633,6 +1633,41 @@ Template.newsidenav.onRendered(function() {
         }).catch(function(err) {
 
         });
+
+        sideBarService.getTJournalEntryListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Journal Entry List ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
+            addVS1Data('TJournalEntryList', JSON.stringify(data));
+            $("<span class='process'>Journal Entry List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
     }
 
     templateObject.getAllBankAccountReportData = function() {
@@ -2667,6 +2702,41 @@ Template.newsidenav.onRendered(function() {
         }).catch(function(err) {
 
         });
+
+        sideBarService.getTCreditListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Credit List ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
+            addVS1Data('TCreditList', JSON.stringify(data));
+            $("<span class='process'>Credit List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
     }
 
     templateObject.getAllTpurchaseOrderNonBackOrderData = function() {
@@ -2797,8 +2867,79 @@ Template.newsidenav.onRendered(function() {
         }).catch(function(err) {
 
         });
-    }
 
+        sideBarService.getTAppointmentListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Appointment List ");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
+            addVS1Data('TAppointmentList', JSON.stringify(data));
+            $("<span class='process'>Appointment List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+
+    }
+    templateObject.getAllAppointmentListData = function() {
+      sideBarService.getTAppointmentListData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+        countObjectTimes++;
+        progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+        $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+        //$(".progressBarInner").text("Bank Account Report "+Math.round(progressPercentage)+"%");
+        $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+        $(".progressName").text("Appointment List ");
+        if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+          if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+          }else{
+            $('.headerprogressbar').addClass('headerprogressbarShow');
+            $('.headerprogressbar').removeClass('headerprogressbarHidden');
+          }
+
+        }else if(Math.round(progressPercentage) == 100){
+            $('.checkmarkwrapper').removeClass("hide");
+          setTimeout(function() {
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarShow');
+              $('.headerprogressbar').addClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').removeClass('headerprogressbarShow');
+              $('.headerprogressbar').addClass('headerprogressbarHidden');
+            }
+
+          }, 1000);
+        }
+          //localStorage.setItem('VS1BankAccountReportList', JSON.stringify(data) || '');
+          addVS1Data('TAppointmentList', JSON.stringify(data));
+          $("<span class='process'>Appointment List Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+      }).catch(function(err) {
+
+      });
+    }
     templateObject.getAllTERPPreferenceData = function() {
         sideBarService.getGlobalSettings().then(function(data) {
           countObjectTimes++;
@@ -2913,7 +3054,7 @@ Template.newsidenav.onRendered(function() {
 
     templateObject.getTPaymentListData = function() {
 
-        sideBarService.getTPaymentList(prevMonth11Date, toDate, false).then(function(data) {
+        sideBarService.getTPaymentList(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
@@ -4507,10 +4648,12 @@ Template.newsidenav.onRendered(function() {
 
                             setTimeout(function() {
                             templateObject.getFollowedPurchaseDetailsPull();
+                            templateObject.getAllAppointmentListData();
                           }, 1000);
                         }).catch(function(err) {
                             setTimeout(function() {
                             templateObject.getFollowedPurchaseDetailsPull();
+                            templateObject.getAllAppointmentListData();
                           }, 1000);
                         });
 
@@ -4551,15 +4694,18 @@ Template.newsidenav.onRendered(function() {
                                         $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                                         setTimeout(function() {
                                         templateObject.getFollowedPurchaseDetailsPull();
+                                        templateObject.getAllAppointmentListData();
                                       }, 1000);
                                     }).catch(function(err) {
                                         setTimeout(function() {
                                         templateObject.getFollowedPurchaseDetailsPull();
+                                        templateObject.getAllAppointmentListData();
                                       }, 1000);
                                     });
                                 }else{
                                   setTimeout(function() {
                                   templateObject.getFollowedPurchaseDetailsPull();
+                                  templateObject.getAllAppointmentListData();
                                 }, 1000);
                                 }
                             }
@@ -4598,10 +4744,12 @@ Template.newsidenav.onRendered(function() {
                         $("<span class='process'>Appointments Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
                         setTimeout(function() {
                         templateObject.getFollowedPurchaseDetailsPull();
+                        templateObject.getAllAppointmentListData();
                       }, 1000);
                     }).catch(function(err) {
                         setTimeout(function() {
                         templateObject.getFollowedPurchaseDetailsPull();
+                        templateObject.getAllAppointmentListData();
                       }, 1000);
                     });
                 });
@@ -6699,7 +6847,7 @@ Template.newsidenav.events({
     'click #sidenavnewcustomerP': function(event) {
 
         event.preventDefault();
-        FlowRouter.go('/customerawaitingpayments');
+        FlowRouter.go('/paymentcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
@@ -6713,7 +6861,7 @@ Template.newsidenav.events({
     'click #sidenavnewsupplierP': function(event) {
 
         event.preventDefault();
-        FlowRouter.go('/supplierawaitingpurchaseorder');
+        FlowRouter.go('/supplierpaymentcard');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },

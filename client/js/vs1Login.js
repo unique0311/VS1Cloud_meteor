@@ -1062,7 +1062,7 @@ Template.vs1login.onRendered(function () {
 
         let userLoginEmail = $("#email").val();
         let userLoginPassword = escape($('#erppassword').val());
-        let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
+        let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword.toUpperCase()).toString();
         var counterUserRec = null;
         let employeeUserID = '';
         let loggedUserEventFired = false;
@@ -1144,7 +1144,7 @@ Template.vs1login.onRendered(function () {
                                 getERPLicenceInfo(erpdbname);
                                 var useremail = userLoginEmail;
                                 var password = $("#erppassword").val();
-                                var hashPassword = CryptoJS.MD5(password).toString().toUpperCase();
+                                var hashPassword = CryptoJS.MD5(password.toUpperCase()).toString();
                                 var cloudPassword = regUserDetails[i].password;
                                 if (hashPassword == cloudUserpassword) {
                                     $('.loginSpinner').css('display', 'inline-block');
@@ -1385,7 +1385,7 @@ Template.vs1login.onRendered(function () {
 
         let userLoginEmail = $("#email").val();
         let userLoginPassword = escape($('#erppassword').val());
-        let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword).toString().toUpperCase();
+        let hashUserLoginPassword = CryptoJS.MD5(userLoginPassword.toUpperCase()).toString();
         var counterUserRec = null;
         let employeeUserID = '';
         let loggedUserEventFired = false;

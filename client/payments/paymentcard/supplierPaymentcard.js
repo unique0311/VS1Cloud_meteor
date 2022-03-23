@@ -114,22 +114,26 @@ Template.supplierpaymentcard.onRendered(() => {
 
     templateObject.getLastPaymentData = function() {
       let lastBankAccount = "Bank";
+      let lastDepartment = Session.get('department') || "";
         paymentService.getAllSupplierPaymentData1().then(function(data) {
             if(data.tsupplierpayment.length > 0){
                 lastCheque = data.tsupplierpayment[data.tsupplierpayment.length - 1]
                 lastBankAccount = lastCheque.AccountName;
+                lastDepartment = lastCheque.DeptClassName;
             } else{
 
             }
             setTimeout(function(){
                   $('#edtSelectBankAccountName').val(lastBankAccount);
+                  $('#sltDepartment').val(lastDepartment);
             },50);
         }).catch(function(err) {
           if(Session.get('bankaccount')){
             $('#edtSelectBankAccountName').val(Session.get('bankaccount'));
           }else{
             $('#edtSelectBankAccountName').val(lastBankAccount);
-          }
+          };
+          $('#sltDepartment').val(lastDepartment);
         });
     };
 
@@ -169,6 +173,13 @@ Template.supplierpaymentcard.onRendered(() => {
                         //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                     }
 
+                    if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                      setTimeout(function () {
+                          $('#edtSupplierName').trigger("click");
+                      }, 200);
+                    }else{
+
+                    }
                 });
             } else {
                 let data = JSON.parse(dataObject[0].data);
@@ -204,7 +215,13 @@ Template.supplierpaymentcard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                 }
+                if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                  setTimeout(function () {
+                      $('#edtSupplierName').trigger("click");
+                  }, 200);
+                }else{
 
+                }
             }
         }).catch(function(err) {
             clientsService.getSupplierVS1().then(function(data) {
@@ -239,7 +256,13 @@ Template.supplierpaymentcard.onRendered(() => {
                 for (var i = 0; i < clientList.length; i++) {
                     //$('#edtSupplierName').editableSelect('add', clientList[i].customername);
                 }
+                if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+                  setTimeout(function () {
+                      $('#edtSupplierName').trigger("click");
+                  }, 200);
+                }else{
 
+                }
             });
         });
 
@@ -508,7 +531,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             },
                             "fnInitComplete": function() {
                                 $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
-                                $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+                                $("<button class='btn btn-primary btnRefreshSupplierPayList' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
                             }
 
@@ -732,7 +755,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         },
                         "fnInitComplete": function() {
                             $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
-                            $("<button class='btn btn-primary btnRefreshCustomer' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
+                            $("<button class='btn btn-primary btnRefreshSupplierPayList' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
 
                         }
 
@@ -1226,6 +1249,7 @@ Template.supplierpaymentcard.onRendered(() => {
     $(document).on("click", "#tblSupplierlist tbody tr", function(e) {
         let suppliers = templateObject.clientrecords.get();
         var tableSupplier = $(this);
+          let $tblrows = $("#tblSupplierPaymentcard tbody tr");
         $('#edtSupplierName').val(tableSupplier.find(".colCompany").text());
         // $('#edtSupplierName').attr("custid", tableSupplier.find(".colID").text());
         $('#supplierListModal').modal('toggle');
@@ -1238,17 +1262,38 @@ Template.supplierpaymentcard.onRendered(() => {
         $('#txabillingAddress').val(postalAddress);
 
         let selectedCustomer = $('#edtSupplierName').val();
-        if (clientList) {
-            $('#edtCustomerEmail').val(clientList[i].customeremail);
-            $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
-            let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
-            $('#txabillingAddress').val(postalAddress);
+        // if (clientList) {
+        //     $('#edtCustomerEmail').val(clientList[i].customeremail);
+        //     $('#edtCustomerEmail').attr('customerid', clientList[i].customerid);
+        //     let postalAddress = clientList[i].customername + '\n' + clientList[i].street + '\n' + clientList[i].street2 + '\n' + clientList[i].street3 + '\n' + clientList[i].suburb + '\n' + clientList[i].statecode + '\n' + clientList[i].country;
+        //     $('#txabillingAddress').val(postalAddress);
+        // }
+        let isEmptyData = false;
+        if(jQuery.isEmptyObject(FlowRouter.current().queryParams) == true){
+          if($tblrows.length > 0){
+          $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            if ($tblrow.find(".colTransNo").val() == '') {
+                isEmptyData = true;
+            }else{
+              isEmptyData = false;
+            }
+          });
+        }else{
+          isEmptyData = true;
+        }
+          setTimeout(function() {
+            if(isEmptyData){
+              $('#addRow').trigger('click');
+            }
+          }, 500);
+
         }
 
 
         $('#tblSupplierlist_filter .form-control-sm').val('');
         setTimeout(function() {
-            $('.btnRefreshCustomer').trigger('click');
+            $('.btnRefreshSupplier').trigger('click');
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
     });
@@ -2212,7 +2257,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.Applied).toLocaleString(undefined, {
                             minimumFractionDigits: 2
                         });
-
+                        if(data.fields.Lines != null){
                         if (data.fields.Lines.length) {
                             for (let i = 0; i < data.fields.Lines.length; i++) {
                                 let amountDue = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.AmountDue).toLocaleString(undefined, {
@@ -2272,6 +2317,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             };
                             lineItems.push(lineItemObj);
                         }
+                       }
                         let record = {
                             lid: data.fields.ID || '',
                             customerName: data.fields.CompanyName || '',
@@ -2561,7 +2607,7 @@ Template.supplierpaymentcard.onRendered(() => {
                             let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.Applied).toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             });
-
+                            if(data.fields.Lines != null){
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
                                     let amountDue = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.AmountDue).toLocaleString(undefined, {
@@ -2620,6 +2666,8 @@ Template.supplierpaymentcard.onRendered(() => {
                                     orginalamount: originalAmt
                                 };
                                 lineItems.push(lineItemObj);
+                            }
+
                             }
                             let record = {
                                 lid: data.fields.ID || '',
@@ -2731,7 +2779,7 @@ Template.supplierpaymentcard.onRendered(() => {
                     let appliedAmt = utilityService.modifynegativeCurrencyFormat(data.fields.Applied).toLocaleString(undefined, {
                         minimumFractionDigits: 2
                     });
-
+                    if(data.fields.Lines != null){
                     if (data.fields.Lines.length) {
                         for (let i = 0; i < data.fields.Lines.length; i++) {
                             let amountDue = utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.AmountDue).toLocaleString(undefined, {
@@ -2791,6 +2839,7 @@ Template.supplierpaymentcard.onRendered(() => {
                         };
                         lineItems.push(lineItemObj);
                     }
+                  }
                     let record = {
                         lid: data.fields.ID || '',
                         customerName: data.fields.CompanyName || '',
@@ -5512,6 +5561,122 @@ Template.supplierpaymentcard.onRendered(() => {
                 });
             }
         }
+    }else{
+         $('.fullScreenSpin').css('display', 'none');
+         let lineItems = [];
+         let lineItemsTable = [];
+         let lineItemObj = {};
+         lineItemObj = {
+             id: Random.id(),
+             lineID: Random.id(),
+             item: '',
+             accountname: '',
+             memo: '',
+             description: '',
+             quantity: '',
+             unitPrice: 0,
+             unitPriceInc: 0,
+             taxRate: 0,
+             taxCode: '',
+             TotalAmt: 0,
+             curTotalAmt: 0,
+             TaxTotal: 0,
+             TaxRate: 0,
+
+         };
+
+         var dataListTable = [
+             ' ' || '',
+             ' ' || '',
+             0 || 0,
+             0.00 || 0.00,
+             ' ' || '',
+             0.00 || 0.00,
+             '<span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0 btnRemove"><i class="fa fa-remove"></i></button></span>'
+         ];
+         // lineItemsTable.push(dataListTable);
+         // lineItems.push(lineItemObj);
+         var currentDate = new Date();
+         var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+         let paymentrecord = {
+             id: '',
+             lid: '',
+             bankAccount: Session.get('bankaccount') ||'Bank',
+             checkpayment: Session.get('paymentmethod') || '',
+             department: Session.get('department') || '',
+             accountname: '',
+             memo: '',
+             sosupplier: '',
+             billto: '',
+             shipto: '',
+             shipping: '',
+             docnumber: '',
+             custPONumber: '',
+             paymentDate: begunDate,
+             duedate: '',
+             employeename: '',
+             status: '',
+             invoicenumber: '',
+             category: '',
+             comments: '',
+             pickmemo: '',
+             ponumber: '',
+             via: '',
+             connote: '',
+             reference: '',
+             currency: '',
+             branding: '',
+             invoiceToDesc: '',
+             shipToDesc: '',
+             termsName: '',
+             Total: Currency + '' + 0.00,
+             LineItems: lineItems,
+             isReconciled:false,
+             TotalTax: Currency + '' + 0.00,
+             SubTotal: Currency + '' + 0.00,
+             applied: Currency + '' + 0.00,
+             balanceDue: Currency + '' + 0.00,
+             saleCustField1: '',
+             saleCustField2: '',
+             totalPaid: Currency + '' + 0.00,
+             ispaid: false
+         };
+
+         $('#edtSupplierName').val('');
+         $('#edtSupplierName').attr('readonly', false);
+         $('#edtSupplierName').css('background-color', 'rgb(255, 255, 255)');
+
+         $('#edtSelectBankAccountName').removeAttr('disabled');
+         $('#edtSelectBankAccountName').attr('readonly', false);
+         $('#edtSelectBankAccountName').attr('readonly', false);
+         setTimeout(function(){
+             if(localStorage.getItem('check_acc')){
+               $('#sltBankAccountName').val(localStorage.getItem('check_acc'));
+             }else{
+               // $('#sltBankAccountName').val('Bank');
+             }
+
+             // setTimeout(function () {
+             //     $('#edtSupplierName').trigger("click");
+             // }, 500);
+         },500);
+
+         // $("#form :input").prop("disabled", false);
+         templateObject.record.set(paymentrecord);
+         let getDepartmentVal = Session.get('department') || defaultDept;
+          let getPaymentMethodVal = '';
+
+          if (Session.get('paymentmethod')) {
+              getPaymentMethodVal = Session.get('paymentmethod') || '';
+          }
+
+          let bankAccountData = Session.get('bankaccount') || 'Bank';
+          $('#edtSelectBankAccountName').val(bankAccountData);
+          templateObject.getLastPaymentData();
+
+          $('#sltDepartment').val(getDepartmentVal);
+          $('#sltPaymentMethod').val(getPaymentMethodVal);
     }
 
     exportSalesToPdf = function() {
@@ -5553,23 +5718,17 @@ Template.supplierpaymentcard.onRendered(() => {
         $('#sltPaymentMethod').editableSelect();
 
         $('#addRow').on('click', function() {
-            // let $tblrows = $("#tblSupplierPaymentcard tbody tr");
-            // $('.fullScreenSpin').css('display','inline-block');
-            // let paymentData = templateObject.datatablerecords1.get();
-            // let paymentDataList = [];
-            // let custname = $('#edtSupplierName').val();
-            //  for(let x = 0; x < paymentData.length; x++) {
-            //   if(custname == paymentData[x].customername) {
-            //       paymentDataList.push(paymentData[x]);
-            //   }
-            // }
-
+          let custname = $('#edtSupplierName').val();
+          if (custname === '') {
+              swal('Supplier has not been selected!', '', 'warning');
+              e.preventDefault();
+        } else {
             $(".chkBox").prop("checked", false);
-            let paymentList = [];
+            let paymentList = [''];
             $('.tblSupplierPaymentcard tbody tr').each(function() {
                 paymentList.push(this.id);
 
-            })
+            });
             let geturl = location.href;
             let id = "";
             if (geturl.indexOf('?selectsupppo') > 0 && geturl.indexOf('&selectsuppbill') > 0 && geturl.indexOf('&selectsuppcredit') > 0) {
@@ -5591,16 +5750,25 @@ Template.supplierpaymentcard.onRendered(() => {
             $('.fullScreenSpin').css('display', 'inline-block');
             let paymentData = templateObject.datatablerecords1.get();
             let paymentDataList = [];
-            let custname = $('#edtSupplierName').val();
+            if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+            for (let x = 0; x < paymentData.length; x++) {
+                let found = paymentList.some(emp => emp == paymentData[x].id);
+                if (custname == paymentData[x].customername && found == false) {
+                    paymentDataList.push(paymentData[x]);
+                }
+            }
+          }else{
             for (let x = 0; x < paymentData.length; x++) {
                 let found = paymentList.some(emp => emp == paymentData[x].id);
                 if (custname == paymentData[x].customername && id.includes(paymentData[x].id) == false && found == false) {
                     paymentDataList.push(paymentData[x]);
                 }
             }
+          }
             $('.dataTables_info').hide();
             templateObject.datatablerecords.set(paymentDataList);
             $('#supplierPaymentListModal').modal();
+          }
             $('.fullScreenSpin').css('display', 'none');
         })
         // var rowData = $('#tblPaymentcard tbody>tr:last').clone(true);
@@ -6659,12 +6827,12 @@ Template.supplierpaymentcard.events({
 
                 sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        window.open('/supplierawaitingpurchaseorder', '_self');
+                      //  window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
-                        window.open('/supplierawaitingpurchaseorder', '_self');
+                        //window.open('/supplierawaitingpurchaseorder', '_self');
                     });
                 }).catch(function(err) {
-                    window.open('/supplierawaitingpurchaseorder', '_self');
+                    //window.open('/supplierawaitingpurchaseorder', '_self');
                 });
 
                 //window.history.go(-2);
@@ -8008,17 +8176,15 @@ Template.supplierpaymentcard.events({
                 });
                 $('.fullScreenSpin').css('display', 'none');
             });
-        } else if ((url.indexOf('?selectsuppb=') > 0)) {
-            var getsale_id = url.split('?selectsuppb=');
-            var currentSalesID = getsale_id[getsale_id.length - 1];
-            // let paymentID = parseInt(currentSalesID);;
+        } else {
 
 
             $('.tblSupplierPaymentcard > tbody > tr').each(function() {
+              if ($(this).closest('tr').find('.colType').text() != '') {
                 var lineID = this.id;
-                let linetype = $('#' + lineID + " .colType").text();
-                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text();
-                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val();
+                let linetype = $('#' + lineID + " .colType").text() || $(this).closest('tr').find('.colType').text();
+                let lineAmountDue = $('#' + lineID + " .lineAmountdue").text() || $(this).closest('tr').find('.lineAmountdue').text();
+                let linePaymentAmt = $('#' + lineID + " .linePaymentamount").val() || $(this).closest('tr').find('.linePaymentamount').val();
                 let Line = {
                     type: 'TGuiSuppPaymentLines',
                     fields: {
@@ -8029,11 +8195,10 @@ Template.supplierpaymentcard.events({
                         //ForeignPayment:parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
                     }
                 };
-                if (parseFloat(linePaymentAmt.replace(/[^0-9.-]+/g, "")) != 0) {
+
                     paymentData.push(Line);
                 }
             });
-
             let objDetails = '';
             if (paymentData.length === 0) {
                 $('.fullScreenSpin').css('display', 'none');
@@ -8054,14 +8219,16 @@ Template.supplierpaymentcard.events({
                 objDetails = {
                     type: "TSuppPayments",
                     fields: {
+                        ID: 0,
                         // Amount:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
                         // Applied:parseFloat(paymentAmt.replace(/[^0-9.-]+/g,"")) || 0,
-                        ID: 0,
                         Deleted: false,
 
                         ClientPrintName: customer,
                         CompanyName: customer,
                         DeptClassName: department,
+                        //ForeignExchangeCode: CountryAbbr,
+                        //ForeignExchangeRate: 1,
                         // EmployeeName: empName || ' ',
                         GUILines: paymentData,
                         Notes: notes,
@@ -8074,6 +8241,7 @@ Template.supplierpaymentcard.events({
                     }
                 };
             }
+
             paymentService.saveSuppDepositData(objDetails).then(function(data) {
                 var customerID = $('#edtSupplierEmail').attr('customerid');
                 // Start End Send Email
@@ -8183,7 +8351,7 @@ Template.supplierpaymentcard.events({
                                 attachments: attachment
                             }, function(error, result) {
                                 if (error && error.error === "error") {
-                                    //  window.open('/supplierawaitingpurchaseorder', '_self');
+                                    //window.open('/supplierawaitingpurchaseorder', '_self');
                                 } else {
                                     $('#html-2-pdfwrapper').css('display', 'none');
                                     swal({
@@ -8224,7 +8392,7 @@ Template.supplierpaymentcard.events({
                                         confirmButtonText: 'OK'
                                     }).then((result) => {
                                         if (result.value) {
-                                            //window.open('/supplierawaitingpurchaseorder', '_self');
+                                            //  window.open('/supplierawaitingpurchaseorder', '_self');
                                         } else if (result.dismiss === 'cancel') {}
                                     });
 
@@ -8298,31 +8466,26 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierawaitingpurchaseorder','_self');
+                sideBarService.getAllPurchaseOrderList().then(function(dataUpdate) {
+                    addVS1Data('TPurchaseOrderEx', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
+                }).catch(function(err) {});
 
                 sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
-                sideBarService.getAllBillExList().then(function(dataUpdate) {
-                    addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                        sideBarService.getAllAwaitingSupplierPayment().then(function(dataUpdate2) {
-                            addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate2)).then(function(datareturn) {
-                                window.open('/supplierawaitingpurchaseorder', '_self');
-                            }).catch(function(err) {
-                                window.open('/supplierawaitingpurchaseorder', '_self');
-                            });
-                        }).catch(function(err) {
-                            window.open('/supplierawaitingpurchaseorder', '_self');
-                        });
+
+                sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
+                    addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
+                        window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
                         window.open('/supplierawaitingpurchaseorder', '_self');
                     });
                 }).catch(function(err) {
                     window.open('/supplierawaitingpurchaseorder', '_self');
                 });
-                //window.history.go(-2);
+
             }).catch(function(err) {
-                //window.open('/supplierawaitingpurchaseorder','_self');
-                //window.history.go(-2);
+                //window.open('/paymentoverview','_self');
                 swal({
                     title: 'Oooops...',
                     text: err,
@@ -8340,11 +8503,16 @@ Template.supplierpaymentcard.events({
 
     },
     'click #tblSupplierPaymentcard tr .colTransNo': function(event) {
+        let custname = $('#edtSupplierName').val()||'';
+        if (custname === '') {
+            swal('Supplier has not been selected!', '', 'warning');
+            e.preventDefault();
+      } else {
         if($('#addRow').prop('disabled') == false) {
         let templateObject = Template.instance();
         $('.fullScreenSpin').css('display', 'inline-block');
         $(".chkBox").prop("checked", false);
-        let paymentList = [];
+        let paymentList = [''];
         $('.tblSupplierPaymentcard tbody tr').each(function() {
             paymentList.push(this.id);
 
@@ -8370,18 +8538,27 @@ Template.supplierpaymentcard.events({
         $('.fullScreenSpin').css('display', 'inline-block');
         let paymentData = templateObject.datatablerecords1.get();
         let paymentDataList = [];
-        let custname = $('#edtSupplierName').val();
+        if(jQuery.isEmptyObject( FlowRouter.current().queryParams) == true){
+          for (let x = 0; x < paymentData.length; x++) {
+              let found = paymentList.some(emp => emp == paymentData[x].id);
+              if (custname == paymentData[x].customername && found == false) {
+                  paymentDataList.push(paymentData[x]);
+              }
+          }
+        }else{
         for (let x = 0; x < paymentData.length; x++) {
             let found = paymentList.some(emp => emp == paymentData[x].id);
             if (custname == paymentData[x].customername && id.includes(paymentData[x].id) == false && found == false) {
                 paymentDataList.push(paymentData[x]);
             }
         }
+      }
         $('.dataTables_info').hide();
         templateObject.datatablerecords.set(paymentDataList);
         $('#supplierPaymentListModal').modal();
         $('.fullScreenSpin').css('display', 'none');
     }
+  }
     },
     'click .chkPaymentCard': function() {
         var listData = $(this).closest('tr').attr('id');
@@ -8536,21 +8713,33 @@ Template.supplierpaymentcard.events({
             currentApplied = parseFloat(currentApplied.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0])
             let total = parseFloat(currentApplied);
             for (let x = 0; x < selectedSupplierPayments.length; x++) {
-                var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
-                $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
-                $(".colType", rowData).text(selectedSupplierPayments[x].type);
-                $(".colTransNo", rowData).text(selectedSupplierPayments[x].orderNo);
-                $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
-                $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
-                $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
-                $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
-                $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
-                rowData.attr('id', selectedSupplierPayments[x].awaitingId);
-                rowData.attr('name', selectedSupplierPayments[x].awaitingId);
+              var rowData = '<tr class="dnd-moved" id="'+selectedSupplierPayments[x].awaitingId+'" name="'+selectedSupplierPayments[x].awaitingId+'">\n'+
+                            '	<td contenteditable="false" class="colTransDate">'+selectedSupplierPayments[x].date+'</td>\n'+
+                            '	<td contenteditable="false" class="colType" style="color:#00a3d3; cursor: pointer; white-space: nowrap;">'+selectedSupplierPayments[x].type+'</td>\n'+
+                            '	<td contenteditable="false" class="colTransNo" style="color:#00a3d3">'+selectedSupplierPayments[x].awaitingId+'</td>\n'+
+                            '	<td contenteditable="false" class="lineOrginalamount" style="text-align: right!important;">'+selectedSupplierPayments[x].originalAmount+'</td>\n'+
+                            '	<td contenteditable="false" class="lineAmountdue" style="text-align: right!important;">'+selectedSupplierPayments[x].outstandingAmount+'</td>\n'+
+                            '	<td><input class="linePaymentamount highlightInput" type="text" value="'+selectedSupplierPayments[x].paymentAmount+'"></td>\n'+
+                            '	<td contenteditable="false" class="lineOutstandingAmount" style="text-align: right!important;">'+selectedSupplierPayments[x].paymentAmount+'</td>\n'+
+                            '	<td contenteditable="true" class="colComments">'+selectedSupplierPayments[x].comments+'</td>\n'+
+                            '	<td><span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span></td>\n'+
+                            '</tr>';
+
+                // var rowData = $('#tblSupplierPaymentcard tbody>tr:last').clone(true);
+                // $(".colTransDate", rowData).text(selectedSupplierPayments[x].date);
+                // $(".colType", rowData).text(selectedSupplierPayments[x].type);
+                // $(".colTransNo", rowData).text(selectedSupplierPayments[x].orderNo);
+                // $(".lineOrginalamount", rowData).text(selectedSupplierPayments[x].originalAmount);
+                // $(".lineAmountdue", rowData).text(selectedSupplierPayments[x].outstandingAmount);
+                // $(".linePaymentamount", rowData).val(selectedSupplierPayments[x].paymentAmount);
+                // $(".lineOutstandingAmount", rowData).text(selectedSupplierPayments[x].paymentAmount);
+                // $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
+                // rowData.attr('id', selectedSupplierPayments[x].awaitingId);
+                // rowData.attr('name', selectedSupplierPayments[x].awaitingId);
                 $("#tblSupplierPaymentcard tbody").append(rowData);
                 total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace(/[^0-9.-]+/g, ""));
             }
-            $('.appliedAmount').text(Currency + total.toFixed(2));
+            $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
 
         }
         templateObject.selectedAwaitingPayment.set([]);
@@ -8611,12 +8800,17 @@ Template.supplierpaymentcard.events({
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
         var clicktimes = 0;
-        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        var targetID = $(event.target).closest('tr').attr('id')||0; // table row ID
         $('#selectDeleteLineID').val(targetID);
 
         times++;
         if (times == 1) {
-            $('#deleteLineModal').modal('toggle');
+          if(targetID == 0){
+            $(event.target).closest('tr').remove();
+          }else{
+              $('#deleteLineModal').modal('toggle');
+          }
+
         } else {
             if ($('#tblSupplierPaymentcard tbody>tr').length > 1) {
                 this.click;
@@ -8628,11 +8822,15 @@ Template.supplierpaymentcard.events({
                     var $tblrow = $(this);
                     total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
                 });
-                $('.appliedAmount').text(Currency + total.toFixed(2));
+                $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
                 return false;
 
             } else {
-                $('#deleteLineModal').modal('toggle');
+              if(targetID == 0){
+                $(event.target).closest('tr').remove();
+              }else{
+                  $('#deleteLineModal').modal('toggle');
+              }
             }
 
         }
@@ -8751,7 +8949,7 @@ Template.supplierpaymentcard.events({
     'click .btnDeleteLine': function(event) {
         let templateObject = Template.instance();
         let utilityService = new UtilityService();
-        let selectLineID = $('#selectDeleteLineID').val();
+        let selectLineID = $('#selectDeleteLineID').val()||0;
         if ($('#tblSupplierPaymentcard tbody>tr').length > 1) {
             this.click;
             let total = 0;
@@ -8761,7 +8959,7 @@ Template.supplierpaymentcard.events({
                 var $tblrow = $(this);
                 total += parseFloat($tblrow.find(".linePaymentamount ").val().replace(/[^0-9.-]+/g, "")) || 0;
             });
-            $('.appliedAmount').text(Currency + total.toFixed(2));
+            $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
 
         } else {
             this.click;

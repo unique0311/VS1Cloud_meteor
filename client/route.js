@@ -355,6 +355,15 @@ authenticatedRoutes.route('/payslip', {
     }
 });
 
+authenticatedRoutes.route('/singletouchpayroll', {
+    name: 'singletouchpayroll',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'singletouchpayroll'
+        });
+    }
+});
+
 authenticatedRoutes.route('/purchasesoverview', {
     name: 'purchasesoverview',
     action() {

@@ -317,7 +317,14 @@ Template.customfieldpop.events({
   'click .btnRefreshCustomField': function (event) {
       $('.fullScreenSpin').css('display', 'inline-block');
       sideBarService.getAllCustomFields().then(function (data) {
-          addVS1Data('TCustomFieldList', JSON.stringify(data));
+          //addVS1Data('TCustomFieldList', JSON.stringify(data));
+          addVS1Data('TCustomFieldList', JSON.stringify(data)).then(function (datareturn) {
+              Meteor._reload.reload();
+          }).catch(function (err) {
+              Meteor._reload.reload();
+          });
+
+
           $('.fullScreenSpin').css('display', 'none');
       }).catch(function (err) {
           $('.fullScreenSpin').css('display', 'none');

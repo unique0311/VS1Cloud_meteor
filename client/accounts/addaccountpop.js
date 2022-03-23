@@ -425,8 +425,8 @@ Template.addaccountpop.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
-                            LastName: bankname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname
@@ -634,7 +634,9 @@ Template.addaccountpop.events({
                             Id: companyID,
                             AccountNo: bankacountno,
                             BankBranch: swiftCode,
-                            Firstname: bankaccountname,
+                            // Firstname: bankaccountname,
+                            BankAccountName: bankaccountname,
+                            BankName: bankname,
                             Bsb: bankbsb,
                             SiteCode: routingNo,
                             FileReference: accountname

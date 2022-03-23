@@ -1,7 +1,7 @@
 <template name="profitandlosschart">
-    <div class="" id="">
+    <div class="" id="profitandlosschartparent">
         <div class="card shadow mb-4 portlet" id="profitandlossmove" style="max-width: 100% !important; width: 860px; min-width: 275px !important;">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header profitlossheader d-flex justify-content-between align-items-center">
                 <h6 class="text-primary font-weight-bold m-0">Profit and Loss&nbsp;</h6>
                 <div class="dropdown no-arrow" style="display: inline-flex;">
                     <a id="profitloss1hide" class="btn btn-link profitlossedit hideelement" role="presentation" href="">Hide</a>
@@ -37,6 +37,14 @@
                 }
 
                 .showprofitchat {
+                    display: block;
+                }
+
+                .hideelement {
+                    display: none !important;
+                }
+
+                .showelement {
                     display: block;
                 }
             </style>

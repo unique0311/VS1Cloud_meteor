@@ -270,15 +270,13 @@ Template.invoicelist.onRendered(function () {
                             "bLengthChange": false,
                             info: true,
                             responsive: true,
-
+                            "order": [[ 0, "desc" ],[ 2, "desc" ]],
                             action: function () {
                                 $('#tblInvoicelist').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
                               let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                              if(checkurlIgnoreDate == 'true'){
 
-                              }else{
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblInvoicelist_ellipsis').addClass('disabled');
 
@@ -303,6 +301,37 @@ Template.invoicelist.onRendered(function () {
 
                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                 if(checkurlIgnoreDate == 'true'){
+                                   sideBarService.getAllTInvoiceListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                     getVS1Data('TInvoiceList').then(function (dataObjectold) {
+                                       if(dataObjectold.length == 0){
+
+                                       }else{
+                                         let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                         var thirdaryData = $.merge($.merge([], dataObjectnew.tinvoicelist), dataOld.tinvoicelist);
+                                         let objCombineData = {
+                                           Params: dataOld.Params,
+                                           tinvoicelist:thirdaryData
+                                         }
+
+
+                                           addVS1Data('TInvoiceList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                             templateObject.resetData(objCombineData);
+                                           $('.fullScreenSpin').css('display','none');
+                                           }).catch(function (err) {
+                                           $('.fullScreenSpin').css('display','none');
+                                           });
+
+                                       }
+                                      }).catch(function (err) {
+
+                                      });
+
+                                   }).catch(function(err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                   });
+                                 }else{
                                  sideBarService.getAllTInvoiceListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                    getVS1Data('TInvoiceList').then(function (dataObjectold) {
                                      if(dataObjectold.length == 0){
@@ -332,20 +361,25 @@ Template.invoicelist.onRendered(function () {
                                  }).catch(function(err) {
                                    $('.fullScreenSpin').css('display','none');
                                  });
-
+                                }
                                });
-                             }
+
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                             "fnInitComplete": function () {
                               let urlParametersPage = FlowRouter.current().queryParams.page;
-                              if (urlParametersPage) {
+                              if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                   this.fnPageChange('last');
                               }
                                 $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
                                 $('.myvarFilterForm').appendTo(".colDateFilter");
+                            },
+                            "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                              let countTableData = data.Params.Count || 0; //get count from API data
+
+                                return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                             }
 
                         }).on('page', function () {
@@ -362,17 +396,7 @@ Template.invoicelist.onRendered(function () {
 
                         // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
                         $('.fullScreenSpin').css('display', 'none');
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tinvoicelist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tinvoicelist.length||1;
-                        }
-                        if(data.tinvoicelist.length > 0){
-                          $('#tblInvoicelist_info').html('Showing 1 to '+data.tinvoicelist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblInvoicelist_info').html('Showing 0 to '+data.tinvoicelist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
                     }, 0);
 
                     var columns = $('#tblInvoicelist th');
@@ -560,15 +584,13 @@ Template.invoicelist.onRendered(function () {
                         "bLengthChange": false,
                         info: true,
                         responsive: true,
-
+                        "order": [[ 0, "desc" ],[ 2, "desc" ]],
                         action: function () {
                             $('#tblInvoicelist').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblInvoicelist_ellipsis').addClass('disabled');
 
@@ -593,6 +615,37 @@ Template.invoicelist.onRendered(function () {
 
                              let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                              let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getAllTInvoiceListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TInvoiceList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tinvoicelist), dataOld.tinvoicelist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tinvoicelist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TInvoiceList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
                              sideBarService.getAllTInvoiceListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TInvoiceList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
@@ -622,20 +675,25 @@ Template.invoicelist.onRendered(function () {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
-
+                            }
                            });
-                         }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if (urlParametersPage) {
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                               this.fnPageChange('last');
                           }
                             $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function () {
@@ -652,19 +710,8 @@ Template.invoicelist.onRendered(function () {
 
                     // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
                     $('.fullScreenSpin').css('display', 'none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tinvoicelist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tinvoicelist.length||1;
-                    }
-                    if(data.tinvoicelist.length > 0){
-                      $('#tblInvoicelist_info').html('Showing 1 to '+data.tinvoicelist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblInvoicelist_info').html('Showing 0 to '+data.tinvoicelist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
-                }, 0);
 
+                }, 0);
                 var columns = $('#tblInvoicelist th');
                 let sTible = "";
                 let sWidth = "";
@@ -845,15 +892,13 @@ Template.invoicelist.onRendered(function () {
                       "bLengthChange": false,
                       info: true,
                       responsive: true,
-
+                      "order": [[ 0, "desc" ],[ 2, "desc" ]],
                       action: function () {
                           $('#tblInvoicelist').DataTable().ajax.reload();
                       },
                       "fnDrawCallback": function (oSettings) {
                         let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                        if(checkurlIgnoreDate == 'true'){
 
-                        }else{
                         $('.paginate_button.page-item').removeClass('disabled');
                         $('#tblInvoicelist_ellipsis').addClass('disabled');
 
@@ -878,6 +923,37 @@ Template.invoicelist.onRendered(function () {
 
                            let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                            let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                           if(checkurlIgnoreDate == 'true'){
+                             sideBarService.getAllTInvoiceListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TInvoiceList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tinvoicelist), dataOld.tinvoicelist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     tinvoicelist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TInvoiceList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                           }else{
                            sideBarService.getAllTInvoiceListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                              getVS1Data('TInvoiceList').then(function (dataObjectold) {
                                if(dataObjectold.length == 0){
@@ -907,20 +983,25 @@ Template.invoicelist.onRendered(function () {
                            }).catch(function(err) {
                              $('.fullScreenSpin').css('display','none');
                            });
-
+                          }
                          });
-                       }
+
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
                       },
                       "fnInitComplete": function () {
                         let urlParametersPage = FlowRouter.current().queryParams.page;
-                        if (urlParametersPage) {
+                        if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                             this.fnPageChange('last');
                         }
                           $("<button class='btn btn-primary btnRefreshInvoiceList' type='button' id='btnRefreshInvoiceList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelist_filter");
                           $('.myvarFilterForm').appendTo(".colDateFilter");
+                      },
+                      "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                        let countTableData = data.Params.Count || 0; //get count from API data
+
+                          return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                       }
 
                   }).on('page', function () {
@@ -937,17 +1018,7 @@ Template.invoicelist.onRendered(function () {
 
                   // $('#tblInvoicelist').DataTable().column( 0 ).visible( true );
                   $('.fullScreenSpin').css('display', 'none');
-                  /* Add count functionality to table */
-                  let countTableData = data.Params.Count || 1; //get count from API data
-                  if(data.tinvoicelist.length > countTableData){ //Check if what is on the list is more than API count
-                    countTableData = data.tinvoicelist.length||1;
-                  }
-                  if(data.tinvoicelist.length > 0){
-                    $('#tblInvoicelist_info').html('Showing 1 to '+data.tinvoicelist.length+ ' of ' +countTableData+ ' entries');
-                  }else{
-                    $('#tblInvoicelist_info').html('Showing 0 to '+data.tinvoicelist.length+ ' of 0 entries');
-                  }
-                  /* End Add count functionality to table */
+
               }, 0);
 
               var columns = $('#tblInvoicelist th');

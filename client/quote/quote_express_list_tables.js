@@ -259,9 +259,7 @@ Template.quoteslist.onRendered(function() {
                             },
                             "fnDrawCallback": function (oSettings) {
                               let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                              if(checkurlIgnoreDate == 'true'){
 
-                              }else{
                               $('.paginate_button.page-item').removeClass('disabled');
                               $('#tblquotelist_ellipsis').addClass('disabled');
 
@@ -286,6 +284,37 @@ Template.quoteslist.onRendered(function() {
 
                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                 if(checkurlIgnoreDate == 'true'){
+                                   sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                     getVS1Data('TQuoteList').then(function (dataObjectold) {
+                                       if(dataObjectold.length == 0){
+
+                                       }else{
+                                         let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                         var thirdaryData = $.merge($.merge([], dataObjectnew.tquotelist), dataOld.tquotelist);
+                                         let objCombineData = {
+                                           Params: dataOld.Params,
+                                           tquotelist:thirdaryData
+                                         }
+
+
+                                           addVS1Data('TQuoteList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                             templateObject.resetData(objCombineData);
+                                           $('.fullScreenSpin').css('display','none');
+                                           }).catch(function (err) {
+                                           $('.fullScreenSpin').css('display','none');
+                                           });
+
+                                       }
+                                      }).catch(function (err) {
+
+                                      });
+
+                                   }).catch(function(err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                   });
+                                 }else{
                                  sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                    getVS1Data('TQuoteList').then(function (dataObjectold) {
                                      if(dataObjectold.length == 0){
@@ -315,9 +344,9 @@ Template.quoteslist.onRendered(function() {
                                  }).catch(function(err) {
                                    $('.fullScreenSpin').css('display','none');
                                  });
-
+                               }
                                });
-                             }
+
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
@@ -325,11 +354,16 @@ Template.quoteslist.onRendered(function() {
                              "fnInitComplete": function () {
 
                                let urlParametersPage = FlowRouter.current().queryParams.page;
-                               if (urlParametersPage) {
+                               if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                    this.fnPageChange('last');
                                }
                              $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                         }).on('page', function () {
@@ -349,17 +383,7 @@ Template.quoteslist.onRendered(function() {
                         // $('#tblquotelist').DataTable().column( 0 ).visible( true );
                         $('.fullScreenSpin').css('display','none');
 
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tquotelist.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tquotelist.length||1;
-                        }
-                        if(data.tquotelist.length > 0){
-                          $('#tblquotelist_info').html('Showing 1 to '+data.tquotelist.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblquotelist_info').html('Showing 0 to '+data.tquotelist.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
                     }, 0);
 
                     var columns = $('#tblquotelist th');
@@ -552,9 +576,7 @@ Template.quoteslist.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
 
-                          }else{
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblquotelist_ellipsis').addClass('disabled');
 
@@ -579,6 +601,37 @@ Template.quoteslist.onRendered(function() {
 
                              let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                              let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TQuoteList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tquotelist), dataOld.tquotelist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tquotelist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TQuoteList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
                              sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                                getVS1Data('TQuoteList').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
@@ -608,9 +661,9 @@ Template.quoteslist.onRendered(function() {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
-
+                           }
                            });
-                         }
+
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
@@ -618,11 +671,16 @@ Template.quoteslist.onRendered(function() {
                          "fnInitComplete": function () {
 
                            let urlParametersPage = FlowRouter.current().queryParams.page;
-                           if (urlParametersPage) {
+                           if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                this.fnPageChange('last');
                            }
                          $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
                          $('.myvarFilterForm').appendTo(".colDateFilter");
+                     },
+                     "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                       let countTableData = data.Params.Count || 0; //get count from API data
+
+                         return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                      }
 
                     }).on('page', function () {
@@ -641,17 +699,8 @@ Template.quoteslist.onRendered(function() {
 
                     // $('#tblquotelist').DataTable().column( 0 ).visible( true );
                     $('.fullScreenSpin').css('display','none');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tquotelist.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tquotelist.length||1;
-                    }
-                    if(data.tquotelist.length > 0){
-                      $('#tblquotelist_info').html('Showing 1 to '+data.tquotelist.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblquotelist_info').html('Showing 0 to '+data.tquotelist.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
+
                 }, 0);
 
                 var columns = $('#tblquotelist th');
@@ -837,9 +886,7 @@ Template.quoteslist.onRendered(function() {
                       },
                       "fnDrawCallback": function (oSettings) {
                         let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                        if(checkurlIgnoreDate == 'true'){
 
-                        }else{
                         $('.paginate_button.page-item').removeClass('disabled');
                         $('#tblquotelist_ellipsis').addClass('disabled');
 
@@ -864,6 +911,37 @@ Template.quoteslist.onRendered(function() {
 
                            let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                            let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                           if(checkurlIgnoreDate == 'true'){
+                             sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TQuoteList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tquotelist), dataOld.tquotelist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     tquotelist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TQuoteList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                           }else{
                            sideBarService.getAllTQuoteListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
                              getVS1Data('TQuoteList').then(function (dataObjectold) {
                                if(dataObjectold.length == 0){
@@ -893,9 +971,9 @@ Template.quoteslist.onRendered(function() {
                            }).catch(function(err) {
                              $('.fullScreenSpin').css('display','none');
                            });
-
+                         }
                          });
-                       }
+
                           setTimeout(function () {
                               MakeNegative();
                           }, 100);
@@ -903,11 +981,16 @@ Template.quoteslist.onRendered(function() {
                        "fnInitComplete": function () {
 
                          let urlParametersPage = FlowRouter.current().queryParams.page;
-                         if (urlParametersPage) {
+                         if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                              this.fnPageChange('last');
                          }
                        $("<button class='btn btn-primary btnRefreshQuoteList' type='button' id='btnRefreshQuoteList' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblquotelist_filter");
                        $('.myvarFilterForm').appendTo(".colDateFilter");
+                   },
+                   "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                     let countTableData = data.Params.Count || 0; //get count from API data
+
+                       return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                    }
 
                   }).on('page', function () {
@@ -926,17 +1009,8 @@ Template.quoteslist.onRendered(function() {
 
                   // $('#tblquotelist').DataTable().column( 0 ).visible( true );
                   $('.fullScreenSpin').css('display','none');
-                  /* Add count functionality to table */
-                  let countTableData = data.Params.Count || 1; //get count from API data
-                  if(data.tquotelist.length > countTableData){ //Check if what is on the list is more than API count
-                    countTableData = data.tquotelist.length||1;
-                  }
-                  if(data.tquotelist.length > 0){
-                    $('#tblquotelist_info').html('Showing 1 to '+data.tquotelist.length+ ' of ' +countTableData+ ' entries');
-                  }else{
-                    $('#tblquotelist_info').html('Showing 0 to '+data.tquotelist.length+ ' of 0 entries');
-                  }
-                  /* End Add count functionality to table */
+
+
               }, 0);
 
               var columns = $('#tblquotelist th');

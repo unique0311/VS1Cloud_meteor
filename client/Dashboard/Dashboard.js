@@ -36,49 +36,117 @@ Template.dashboard.onRendered(function () {
     templateObject.includeDashboard.set(true);
   }
 
-  setTimeout(function () {
-    $(".connectedSortable").sortable({
-      connectWith: ".connectedSortable",
-      placeholder: "portlet-placeholder ui-corner-all",
-      stop: function (event, ui) {},
-    });
-    $(".portlet")
-      .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
-      .find(".portlet-header")
-      .addClass("ui-widget-header ui-corner-all");
+  // setTimeout(function () {
+  //   $(".connectedSortable").sortable({
+  //     connectWith: ".connectedSortable",
+  //     placeholder: "portlet-placeholder ui-corner-all",
+  //     stop: function (event, ui) {},
+  //   });
+  //   $(".portlet")
+  //     .addClass("ui-widget ui-widget-content ui-helper-clearfix ui-corner-all")
+  //     .find(".portlet-header")
+  //     .addClass("ui-widget-header ui-corner-all");
 
-    $(".portlet-toggle").on("click", function () {
-      var icon = $(this);
-      icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-      icon.closest(".portlet").find(".portlet-content").toggle();
-    });
+  //   $(".portlet-toggle").on("click", function () {
+  //     var icon = $(this);
+  //     icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+  //     icon.closest(".portlet").find(".portlet-content").toggle();
+  //   });
 
-    $(".portlet").resizable({
-      handles: "e",
-    });
-  }, 200);
+  //   $(".portlet").resizable({
+  //     handles: "e",
+  //   });
+  // }, 200);
+
+  // templateObject.deactivateDraggable = function () {
+  //   $("#col1,#col2")
+  //     .sortable({
+  //       disabled: true,
+  //       connectWith: ".col-area",
+  //       placeholder: "highlight",
+  //       cursor: "grabbing",
+  //       handle: ".card",
+  //     })
+  //     .disableSelection();
+  // };
+  // templateObject.activateDraggable = function () {
+  //   $("#col1,#col2")
+  //     .sortable({
+  //       disabled: false,
+  //       connectWith: ".col-area",
+  //       placeholder: "highlight",
+  //       cursor: "grabbing",
+  //       handle: ".card",
+  //     })
+  //     .disableSelection();
+  // };
 
   templateObject.deactivateDraggable = function () {
-    $("#col1,#col2")
-      .sortable({
-        disabled: true,
-        connectWith: ".col-area",
-        placeholder: "highlight",
-        cursor: "grabbing",
-        handle: ".card",
-      })
-      .disableSelection();
+    setTimeout(function () {
+      $(".connectedSortable")
+        .sortable({
+          disabled: true,
+          connectWith: ".connectedSortable",
+          placeholder: "portlet-placeholder ui-corner-all",
+          stop: function (event, ui) {},
+        })
+        .disableSelection();
+
+      // $(".portlet-toggle").on("click", function() {
+      //     var icon = $(this);
+      //     icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+      //     icon.closest(".portlet").find(".portlet-content").toggle();
+      // });
+      //
+      // $(".portlet").resizable({
+      //     handles: 'e'
+      // });
+      $(".portlet").resizable("disable").removeClass("ui-state-disabled");
+    }, 200);
+
+    // $('#col1,#col2').sortable({
+    //     disabled: true,
+    //     connectWith: '.col-area',
+    //     placeholder: 'highlight',
+    //     cursor: 'grabbing',
+    //     handle: '.card'
+    // }).disableSelection();
   };
   templateObject.activateDraggable = function () {
-    $("#col1,#col2")
-      .sortable({
-        disabled: false,
-        connectWith: ".col-area",
-        placeholder: "highlight",
-        cursor: "grabbing",
-        handle: ".card",
-      })
-      .disableSelection();
+    setTimeout(function () {
+      $(".connectedSortable")
+        .sortable({
+          disabled: false,
+          connectWith: ".connectedSortable",
+          placeholder: "portlet-placeholder ui-corner-all",
+          stop: function (event, ui) {},
+        })
+        .disableSelection();
+      $(".portlet")
+        .addClass(
+          "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"
+        )
+        .find(".portlet-header")
+        .addClass("ui-widget-header ui-corner-all");
+
+      $(".portlet-toggle").on("click", function () {
+        var icon = $(this);
+        icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
+        icon.closest(".portlet").find(".portlet-content").toggle();
+      });
+
+      $(".portlet").resizable({
+        handles: "e",
+      });
+    }, 200);
+
+    // $('#col1,#col2').sortable({
+    //     disabled: false,
+    //     connectWith: '.col-area',
+    //     placeholder: 'highlight',
+    //     cursor: 'grabbing',
+    //     handle: '.card'
+    // }).disableSelection();
   };
 
   templateObject.hideChartElements = function () {
@@ -136,158 +204,169 @@ Template.dashboard.onRendered(function () {
   };
 
   templateObject.checkChartToDisplay = async () => {
-    // const dashboardApis = new DashboardApi();
-    // const chartsEndpoint = dashboardApis.collection.findByName(
-    //   dashboardApis.collectionNames.vs1charts
-    // );
-    // const response = await chartsEndpoint.fetch(); // here i should get from database all charts to be displayed
-    // if (response.ok == true) {
-    //   const jsonResponse = await response.json();
+    const dashboardApis = new DashboardApi();
+    const chartsEndpoint = dashboardApis.collection.findByName(
+      dashboardApis.collectionNames.vs1charts
+    );
+    const response = await chartsEndpoint.fetch(); // here i should get from database all charts to be displayed
+    if (response.ok == true) {
+      const jsonResponse = await response.json();
 
-    //   let tvs1charts = Tvs1chart.fromList(jsonResponse.tvs1charts);
+      let tvs1charts = Tvs1chart.fromList(jsonResponse.tvs1charts);
 
-    //   tvs1charts.forEach((tvs1chart) => {
-    //     const itemName =
-    //       tvs1chart.type.toLowerCase() +
-    //       "__" +
-    //       tvs1chart.fields.chartName.toLowerCase().split(" ").join("_");
+      tvs1charts.forEach((tvs1chart) => {
+        const itemName =
+          tvs1chart.type.toLowerCase() +
+          "__" +
+          tvs1chart.fields.chartName.toLowerCase().split(" ").join("_");
 
-    //     if (tvs1chart.fields.chartGroup == "Dashboard") {
-    //       localStorage.setItem(itemName, tvs1chart.fields.active);
-    //       console.log(`Adding ${itemName} to local storage`);
+        if (tvs1chart.fields.chartGroup == "Dashboard") {
+          localStorage.setItem(itemName, tvs1chart.fields.active);
+          console.log(`Adding ${itemName} to local storage`);
 
-    //       if (itemName == "tvs1charts__monthyl_profit_and_loss") {
-    //         if (tvs1chart.fields.active == true) {
-    //           $("#profitlosshide").text("Hide");
-    //           $("#monthlyprofitlossstatus").removeClass("hideelement");
-    //         } else {
-    //           $("#profitlosshide").text("Show");
-    //           $("#monthlyprofitlossstatus").addClass("hideelement");
-    //         }
-    //       } else if (itemName == "tvs1charts__profit_and_loss") {
-    //         if (tvs1chart.fields.active == true) {
-    //           $("#profitloss1hide").text("Hide");
-    //           $("#profitlossstatus").removeClass("hideelement");
-    //         } else {
-    //           $("#profitloss1hide").text("Show");
-    //           $("#profitlossstatus").addClass("hideelement");
-    //         }
-    //       } else if (itemName == "tvs1charts__expenses") {
-    //         if (tvs1chart.fields.active == true) {
-    //           $("#expenseshide").text("Hide");
-    //           $("#expensechart").removeClass("hideelement");
-    //         } else {
-    //           $("#expenseshide").text("Show");
-    //           $("#expensechart").addClass("hideelement");
-    //         }
-    //       } else if (
-    //         itemName == "tvs1charts__quoted_amounts_/_invoiced_amounts"
-    //       ) {
-    //         if (tvs1chart.fields.active == true) {
-    //           $("#hidesales1").text("Hide");
-    //           $("#quotedinvoicedamount").removeClass("hideelement");
-    //         } else {
-    //           $("#hidesales1").text("Show");
-    //           $("#quotedinvoicedamount").addClass("hideelement");
-    //         }
-    //       } else if (itemName == "tvs1charts__monthly_earnings") {
-    //         if (tvs1chart.fields.active == true) {
-    //           $("#hideearnings").text("Hide");
-    //           $("#showearningchat").removeClass("hideelement");
-    //         } else {
-    //           $("#hideearnings").text("Show");
-    //           $("#showearningchat").addClass("hideelement");
-    //         }
-    //       } else if (itemName == "tvs1charts__employee_sales_comparison") {
-    //         if (tvs1chart.fields.active == true) {
-    //           $("#resalehide").text("Hide");
-    //           $("#resalecomparision").removeClass("hideelement");
-    //         } else {
-    //           $("#resalehide").text("Show");
-    //           $("#resalecomparision").addClass("hideelement");
-    //         }
-    //       }
-    //     }
-    //   });
+          if (itemName == "tvs1charts__monthyl_profit_and_loss") {
+            $("#monthlyprofitlossstatus").attr("key", itemName);
+
+            if (tvs1chart.fields.active == true) {
+              $("#profitlosshide").text("Hide");
+              $("#monthlyprofitlossstatus").removeClass("hideelement");
+            } else {
+              $("#profitlosshide").text("Show");
+              $("#monthlyprofitlossstatus").addClass("hideelement");
+            }
+          } else if (itemName == "tvs1charts__profit_and_loss") {
+            $("#profitlossstatus").attr("key", itemName);
+            if (tvs1chart.fields.active == true) {
+              $("#profitloss1hide").text("Hide");
+              $("#profitlossstatus").removeClass("hideelement");
+            } else {
+              $("#profitloss1hide").text("Show");
+              $("#profitlossstatus").addClass("hideelement");
+            }
+          } else if (itemName == "tvs1charts__expenses") {
+            $("#expensechart").attr("key", itemName);
+
+            if (tvs1chart.fields.active == true) {
+              $("#expenseshide").text("Hide");
+              $("#expensechart").removeClass("hideelement");
+            } else {
+              $("#expenseshide").text("Show");
+              $("#expensechart").addClass("hideelement");
+            }
+          } else if (
+            itemName == "tvs1charts__quoted_amounts_/_invoiced_amounts"
+          ) {
+            $("#quotedinvoicedamount").attr("key", itemName);
+
+            if (tvs1chart.fields.active == true) {
+              $("#hidesales1").text("Hide");
+              $("#quotedinvoicedamount").removeClass("hideelement");
+            } else {
+              $("#hidesales1").text("Show");
+              $("#quotedinvoicedamount").addClass("hideelement");
+            }
+          } else if (itemName == "tvs1charts__monthly_earnings") {
+            $("#showearningchat").attr("key", itemName);
+
+            if (tvs1chart.fields.active == true) {
+              $("#hideearnings").text("Hide");
+              $("#showearningchat").removeClass("hideelement");
+            } else {
+              $("#hideearnings").text("Show");
+              $("#showearningchat").addClass("hideelement");
+            }
+          } else if (itemName == "tvs1charts__employee_sales_comparison") {
+            $("#resalecomparision").attr("key", itemName);
+            if (tvs1chart.fields.active == true) {
+              $("#resalehide").text("Hide");
+              $("#resalecomparision").removeClass("hideelement");
+            } else {
+              $("#resalehide").text("Show");
+              $("#resalecomparision").addClass("hideelement");
+            }
+          }
+        }
+      });
+    }
+
+    // if (
+    //   localStorage.getItem("profitchat") == "true" ||
+    //   localStorage.getItem("profitchat") == true ||
+    //   localStorage.getItem("profitchat") == null
+    // ) {
+    //   $("#profitlosshide").text("Hide");
+    //   $("#monthlyprofitlossstatus").removeClass("hideelement");
+    // } else {
+    //   $("#profitlosshide").text("Show");
+    //   $("#monthlyprofitlossstatus").addClass("hideelement");
     // }
 
-    if (
-      localStorage.getItem("profitchat") == "true" ||
-      localStorage.getItem("profitchat") == true ||
-      localStorage.getItem("profitchat") == null
-    ) {
-      $("#profitlosshide").text("Hide");
-      $("#monthlyprofitlossstatus").removeClass("hideelement");
-    } else {
-      $("#profitlosshide").text("Show");
-      $("#monthlyprofitlossstatus").addClass("hideelement");
-    }
+    // if (
+    //   localStorage.getItem("expenseschart") == "true" ||
+    //   localStorage.getItem("expensechart") == true ||
+    //   localStorage.getItem("expensechart") == null
+    // ) {
+    //   $("#expenseshide").text("Hide");
+    //   $("#expensechart").removeClass("hideelement");
+    // } else {
+    //   $("#expenseshide").text("Show");
+    //   $("#expensechart").addClass("hideelement");
 
-    if (
-      localStorage.getItem("expenseschart") == "true" ||
-      localStorage.getItem("expensechart") == true ||
-      localStorage.getItem("expensechart") == null
-    ) {
-      $("#expenseshide").text("Hide");
-      $("#expensechart").removeClass("hideelement");
-    } else {
-      $("#expenseshide").text("Show");
-      $("#expensechart").addClass("hideelement");
-    }
+    // if (
+    //   localStorage.getItem("profitloss") == "true" ||
+    //   localStorage.getItem("profitloss") == true ||
+    //   localStorage.getItem("profitloss") == null
+    // ) {
+    //   $("#profitloss1hide").text("Hide");
+    //   $("#profitlossstatus").removeClass("hideelement");
+    // } else {
+    //   $("#profitloss1hide").text("Show");
+    //   $("#profitlossstatus").addClass("hideelement");
+    // }
 
-    if (
-      localStorage.getItem("profitloss") == "true" ||
-      localStorage.getItem("profitloss") == true ||
-      localStorage.getItem("profitloss") == null
-    ) {
-      $("#profitloss1hide").text("Hide");
-      $("#profitlossstatus").removeClass("hideelement");
-    } else {
-      $("#profitloss1hide").text("Show");
-      $("#profitlossstatus").addClass("hideelement");
-    }
+    // if (
+    //   localStorage.getItem("quotedinvoicedchart") == "true" ||
+    //   localStorage.getItem("quotedinvoicedchart") == true ||
+    //   localStorage.getItem("quotedinvoicedchart") == null
+    // ) {
+    //   $("#hidesales1").text("Hide");
+    //   $("#quotedinvoicedamount").removeClass("hideelement");
+    // } else {
+    //   $("#hidesales1").text("Show");
+    //   $("#quotedinvoicedamount").addClass("hideelement");
+    // }
 
-    if (
-      localStorage.getItem("quotedinvoicedchart") == "true" ||
-      localStorage.getItem("quotedinvoicedchart") == true ||
-      localStorage.getItem("quotedinvoicedchart") == null
-    ) {
-      $("#hidesales1").text("Hide");
-      $("#quotedinvoicedamount").removeClass("hideelement");
-    } else {
-      $("#hidesales1").text("Show");
-      $("#quotedinvoicedamount").addClass("hideelement");
-    }
+    // if (
+    //   localStorage.getItem("resaleschat") == "true" ||
+    //   localStorage.getItem("resaleschat") == true ||
+    //   localStorage.getItem("resaleschat") == null
+    // ) {
+    //   $("#resalehide").text("Hide");
+    //   $("#resalecomparision").removeClass("hideelement");
+    // } else {
+    //   $("#resalehide").text("Show");
+    //   $("#resalecomparision").addClass("hideelement");
+    // }
 
-    if (
-      localStorage.getItem("resaleschat") == "true" ||
-      localStorage.getItem("resaleschat") == true ||
-      localStorage.getItem("resaleschat") == null
-    ) {
-      $("#resalehide").text("Hide");
-      $("#resalecomparision").removeClass("hideelement");
-    } else {
-      $("#resalehide").text("Show");
-      $("#resalecomparision").addClass("hideelement");
-    }
-
-    if (
-      localStorage.getItem("earningschat") == "true" ||
-      localStorage.getItem("earningschat") == true ||
-      localStorage.getItem("earningschat") == null
-    ) {
-      $("#hideearnings").text("Hide");
-      $("#showearningchat").removeClass("hideelement");
-    } else {
-      $("#hideearnings").text("Show");
-      $("#showearningchat").addClass("hideelement");
-    }
+    // if (
+    //   localStorage.getItem("earningschat") == "true" ||
+    //   localStorage.getItem("earningschat") == true ||
+    //   localStorage.getItem("earningschat") == null
+    // ) {
+    //   $("#hideearnings").text("Hide");
+    //   $("#showearningchat").removeClass("hideelement");
+    // } else {
+    //   $("#hideearnings").text("Show");
+    //   $("#showearningchat").addClass("hideelement");
+    // }
   };
 });
 
 Template.dashboard.helpers({
   includeDashboard: () => {
-    return Template.instance().includeDashboard.get();
+    const res = Template.instance().includeDashboard.get();
+    console.log(res);
+    return res;
   },
   loggedDb: function () {
     return Template.instance().loggedDb.get();
@@ -299,34 +378,93 @@ Template.dashboard.helpers({
 
 // Listen to event to update reactive variable
 Template.dashboard.events({
+  "mouseover .monthlycardheader": function () {
+    $("#monthlyprofitlossstatus").css(
+      "box-shadow",
+      "0 0 10px rgba(0, 0, 0, 0.50)"
+    );
+    $("#monthlyprofitlossstatus").css("cursor", "move");
+  },
+  "mouseleave .monthlycardheader": function () {
+    $("#monthlyprofitlossstatus").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
+    $("#monthlyprofitlossstatus").css("cursor", "context-menu");
+  },
+  "mouseover .employeesalesheader": function () {
+    $("#resalecomparision").css("box-shadow", "0 0 10px rgba(0, 0, 0, 0.50)");
+    $("#resalecomparision").css("cursor", "move");
+  },
+  "mouseleave .employeesalesheader": function () {
+    $("#resalecomparision").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
+    $("#resalecomparision").css("cursor", "context-menu");
+  },
+  "mouseover .monthlyearningsheader": function () {
+    $("#showearningchat").css("box-shadow", "0 0 10px rgba(0, 0, 0, 0.50)");
+    $("#showearningchat").css("cursor", "move");
+  },
+  "mouseleave .monthlyearningsheader": function () {
+    $("#showearningchat").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
+    $("#showearningchat").css("cursor", "context-menu");
+  },
+  "mouseover .profitlossheader": function () {
+    $("#profitandlosschartparent").css(
+      "box-shadow",
+      "0 0 10px rgba(0, 0, 0, 0.50)"
+    );
+    $("#profitandlosschartparent").css("cursor", "move");
+  },
+  "mouseleave .profitlossheader": function () {
+    $("#profitandlosschartparent").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
+    $("#profitandlosschartparent").css("cursor", "context-menu");
+  },
+  "mouseover .quotedamountsheader": function () {
+    $("#quotedinvoicedamount").css(
+      "box-shadow",
+      "0 0 10px rgba(0, 0, 0, 0.50)"
+    );
+    $("#quotedinvoicedamount").css("cursor", "move");
+  },
+  "mouseleave .quotedamountsheader": function () {
+    $("#quotedinvoicedamount").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
+    $("#quotedinvoicedamount").css("cursor", "context-menu");
+  },
+  "mouseover .expensesheader": function () {
+    $("#expensechart").css("box-shadow", "0 0 10px rgba(0, 0, 0, 0.50)");
+    $("#expensechart").css("cursor", "move");
+  },
+  "mouseleave .expensesheader": function () {
+    $("#expensechart").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
+    $("#expensechart").css("cursor", "context-menu");
+  },
+
   "click .btnBatchUpdate": function () {
     $(".fullScreenSpin").css("display", "inline-block");
     batchUpdateCall();
   },
-  "click .editchartsbtn": function () {
-    $(".btnchartdropdown").addClass("hideelement");
+  // "click .editchartsbtn": function () {
+  //   // $(".editcharts").trigger("click");
+  //   $(".btnchartdropdown").addClass('hideelement');
 
-    setTimeout(function () {
-      $(".monthlyprofilelossedit").removeClass("hideelement");
-      $(".monthlyprofilelossedit").addClass("showelement");
+  //   setTimeout(function() {
+  //       $(".monthlyprofilelossedit").removeClass('hideelement');
+  //       $(".monthlyprofilelossedit").addClass('showelement');
 
-      $(".profitlossedit").removeClass("hideelement");
-      $(".profitlossedit").addClass("showelement");
+  //       $(".profitlossedit").removeClass('hideelement');
+  //       $(".profitlossedit").addClass('showelement');
 
-      $(".resalecomparisionedit").removeClass("hideelement");
-      $(".resalecomparisionedit").addClass("showelement");
+  //       $(".resalecomparisionedit").removeClass('hideelement');
+  //       $(".resalecomparisionedit").addClass('showelement');
 
-      $(".quotedinvoicededit").removeClass("hideelement");
-      $(".quotedinvoicededit").addClass("showelement");
+  //       $(".quotedinvoicededit").removeClass('hideelement');
+  //       $(".quotedinvoicededit").addClass('showelement');
 
-      $(".monthlyearningsedit").removeClass("hideelement");
-      $(".monthlyearningsedit").addClass("showelement");
+  //       $(".monthlyearningsedit").removeClass('hideelement');
+  //       $(".monthlyearningsedit").addClass('showelement');
 
-      $(".expensesedit").removeClass("hideelement");
-      $(".expensesedit").addClass("showelement");
-    }, 200);
-  },
-  "click #editcharts": function () {
+  //       $(".expensesedit").removeClass('hideelement');
+  //       $(".expensesedit").addClass('showelement');
+  //   }, 200);
+  // },
+  "click .editcharts": function () {
     const templateObject = Template.instance();
     templateObject.showChartElements();
 
@@ -347,8 +485,10 @@ Template.dashboard.events({
     $("#showearningchat").removeClass("hideelement");
 
     $("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
+
     templateObject.activateDraggable();
   },
+
   "click #resetcharts": () => {
     const templateObject = Template.instance();
 
@@ -387,15 +527,12 @@ Template.dashboard.events({
     $("#editcharts").removeClass("hideelement");
     $(".btnchartdropdown").removeClass("hideelement");
     $(".btnchartdropdown").addClass("showelement");
-
     $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
 
     templateObject.deactivateDraggable();
   },
 
-  "click #btnDone": async () => {
-    // this is the button when you want to save hidden/showing charts
-
+  "click #btnDone": function () {
     const templateObject = Template.instance();
     templateObject.hideChartElements();
     $("#btnDone").addClass("hideelement");
@@ -461,6 +598,7 @@ Template.dashboard.events({
     templateObject.deactivateDraggable();
     templateObject.checkChartToDisplay();
   },
+
   "click .progressbarcheck": function () {
     var valeur = 0;
     $(".loadingbar")

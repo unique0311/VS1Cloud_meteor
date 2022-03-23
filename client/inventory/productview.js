@@ -842,7 +842,7 @@ Template.productview.onRendered(function () {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxRate) {
-                            taxrateamount = taxcodeList[i].coderate || 0;
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                         }
                     }
                 }
@@ -883,7 +883,7 @@ Template.productview.onRendered(function () {
                 if (taxcodeList) {
                     for (var i = 0; i < taxcodeList.length; i++) {
                         if (taxcodeList[i].codename == taxRate) {
-                            taxrateamount = taxcodeList[i].coderate || 0;
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
                         }
                     }
                 }
@@ -1469,7 +1469,7 @@ Template.productview.onRendered(function () {
 
                     for (let i = 0; i < useData.length; i++) {
                         if (parseInt(useData[i].fields.ID) === currentProductID) {
-  
+
                             added = true;
                             $('.fullScreenSpin').css('display', 'none');
                             let lineItems = [];
@@ -3678,7 +3678,7 @@ Template.productview.events({
         if (taxcodeList) {
             for (var i = 0; i < taxcodeList.length; i++) {
                 if (taxcodeList[i].codename == taxRate) {
-                    taxrateamount = taxcodeList[i].coderate;
+                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100||0;
                 }
             }
         }
@@ -3693,7 +3693,7 @@ Template.productview.events({
         }
 
         var taxTotal = parseFloat(costPrice.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-        costPriceInc = parseFloat(costPrice.replace(/[^0-9.-]+/g, "")) + taxTotal;
+        costPriceInc = parseFloat(costPrice.replace(/[^0-9.-]+/g, "")) + taxTotal||0;
         $('#edtbuyqty1costInc').val(utilityService.modifynegativeCurrencyFormat(costPriceInc));
 
     },
@@ -3708,7 +3708,7 @@ Template.productview.events({
         if (taxcodeList) {
             for (var i = 0; i < taxcodeList.length; i++) {
                 if (taxcodeList[i].codename == taxRate) {
-                    taxrateamount = taxcodeList[i].coderate * 100;
+                    taxrateamount = taxcodeList[i].coderate * 100||0;
                 }
             }
         }
@@ -3723,8 +3723,9 @@ Template.productview.events({
         }
 
         let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
-        costPrice = (parseFloat(costPriceInc) / (taxRateAmountCalc)) || Currency + '0';
-        $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
+        costPrice = (parseFloat(costPriceInc) / (taxRateAmountCalc)) || 0;
+        let costPriceTotal = costPriceInc - costPrice|| 0;
+        $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPriceTotal));
 
     },
     'change #slttaxcodepurchase': function () {
@@ -3750,8 +3751,8 @@ Template.productview.events({
             costPrice = parseFloat($('#edtbuyqty1cost').val().replace(/[^0-9.-]+/g, "")) || 0;
             $('#edtbuyqty1cost').val(utilityService.modifynegativeCurrencyFormat(costPrice));
         }
-        var taxTotal = parseFloat(costPrice) * parseFloat(taxrateamount);
-        costPriceInc = parseFloat(costPrice) + taxTotal;
+        var taxTotal = parseFloat(costPrice) * parseFloat(taxrateamount)||0;
+        costPriceInc = parseFloat(costPrice) + taxTotal||0;
         if (!isNaN(costPriceInc)) {
             $('#edtbuyqty1costInc').val(utilityService.modifynegativeCurrencyFormat(costPriceInc));
         }
@@ -3766,7 +3767,7 @@ Template.productview.events({
         if (taxcodeList) {
             for (var i = 0; i < taxcodeList.length; i++) {
                 if (taxcodeList[i].codename == taxRate) {
-                    taxrateamount = taxcodeList[i].coderate;
+                    taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100||0;
                 }
             }
         }
@@ -3777,12 +3778,12 @@ Template.productview.events({
         if (!isNaN(sellPrice)) {
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
         } else {
-            sellPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, ""));
+            sellPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, ""))||0;
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
         }
 
-        var taxTotal = Number(sellPrice) * parseFloat(taxrateamount);
-        sellPriceInc = Number(sellPrice) + taxTotal;
+        var taxTotal = Number(sellPrice) * parseFloat(taxrateamount)||0;
+        sellPriceInc = Number(sellPrice) + taxTotal||0;
         $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
 
         $('.itemExtraSellRow').each(function () {
@@ -3817,13 +3818,14 @@ Template.productview.events({
         if (!isNaN(sellPriceInc)) {
             $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
         } else {
-            sellPriceInc = Number($(event.target).val().replace(/[^0-9.-]+/g, ""));
+            sellPriceInc = Number($(event.target).val().replace(/[^0-9.-]+/g, ""))||0;
             $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
         }
 
-        let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
-        sellPrice = (parseFloat(sellPriceInc) / (taxRateAmountCalc)) || Currency + '0';
-        $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
+        let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100||0;
+        sellPrice = (parseFloat(sellPriceInc) / (taxRateAmountCalc)) || 0;
+        let sellPriceTotal = sellPriceInc - sellPrice|| 0;
+        $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPriceTotal));
 
         $('.itemExtraSellRow').each(function () {
             var lineID = this.id;
@@ -3857,12 +3859,12 @@ Template.productview.events({
         if (!isNaN(sellPrice)) {
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
         } else {
-            sellPrice = parseFloat(sellPrice.replace(/[^0-9.-]+/g, ""));
+            sellPrice = parseFloat(sellPrice.replace(/[^0-9.-]+/g, ""))||0;
             $('#edtsellqty1price').val(utilityService.modifynegativeCurrencyFormat(sellPrice));
         }
 
-        var taxTotal = parseFloat(sellPrice) * parseFloat(taxrateamount);
-        sellPriceInc = parseFloat(sellPrice) + taxTotal;
+        var taxTotal = parseFloat(sellPrice) * parseFloat(taxrateamount)||0;
+        sellPriceInc = parseFloat(sellPrice) + taxTotal||0;
         if (!isNaN(sellPriceInc)) {
             $('#edtsellqty1priceInc').val(utilityService.modifynegativeCurrencyFormat(sellPriceInc));
         }

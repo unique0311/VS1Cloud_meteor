@@ -337,7 +337,7 @@ Template.purchasesoverview.onRendered(function() {
                                 type: 'date',
                                 targets: 0
                             }],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                            "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                             buttons: [{
                                 extend: 'excelHtml5',
                                 text: '',
@@ -376,11 +376,11 @@ Template.purchasesoverview.onRendered(function() {
                             colReorder: true,
                             // bStateSave: true,
                             // rowId: 0,
-                            pageLength: initialReportDatatableLoad,
+                            pageLength: initialDatatableLoad,
                             "bLengthChange": false,
                             lengthMenu: [
-                                [initialReportDatatableLoad, -1],
-                                [initialReportDatatableLoad, "All"]
+                                [initialDatatableLoad, -1],
+                                [initialDatatableLoad, "All"]
                             ],
                             info: true,
                             responsive: true,
@@ -393,9 +393,9 @@ Template.purchasesoverview.onRendered(function() {
                             },
                             "fnDrawCallback": function (oSettings) {
                               let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                              if(checkurlIgnoreDate == 'true'){
+                              //if(checkurlIgnoreDate == 'true'){
 
-                              }else{
+                              //}else{
                                 $('.paginate_button.page-item').removeClass('disabled');
                                 $('#tblPurchaseOverview_ellipsis').addClass('disabled');
 
@@ -418,7 +418,32 @@ Template.purchasesoverview.onRendered(function() {
 
                                     let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                     let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                    if(checkurlIgnoreDate == 'true'){
+                                      sideBarService.getAllPurchaseOrderListAll(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                          getVS1Data('TbillReport').then(function (dataObjectold) {
+                                              if (dataObjectold.length == 0) {}
+                                              else {
+                                                  let dataOld = JSON.parse(dataObjectold[0].data);
+                                                  var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
+                                                  let objCombineData = {
+                                                      Params: dataOld.Params,
+                                                      tbillreport: thirdaryData
+                                                  }
 
+                                                  addVS1Data('TbillReport', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                      templateObject.resetData(objCombineData);
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  }).catch(function (err) {
+                                                      $('.fullScreenSpin').css('display', 'none');
+                                                  });
+
+                                              }
+                                          }).catch(function (err) {});
+
+                                      }).catch(function (err) {
+                                          $('.fullScreenSpin').css('display', 'none');
+                                      });
+                                    }else{
                                     sideBarService.getAllPurchaseOrderListAll(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                         getVS1Data('TbillReport').then(function (dataObjectold) {
                                             if (dataObjectold.length == 0) {}
@@ -444,20 +469,28 @@ Template.purchasesoverview.onRendered(function() {
                                         $('.fullScreenSpin').css('display', 'none');
                                     });
 
+                                  }
+
                                 });
-                              }
+
+                              //}
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                             "fnInitComplete": function() {
                                 let urlParametersPage = FlowRouter.current().queryParams.page;
-                                if (urlParametersPage) {
+                                if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                     this.fnPageChange('last');
                                 }
                                 $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
                                 $('.myvarFilterForm').appendTo(".colDateFilter");
+                            },
+                            "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                              let countTableData = data.Params.Count || 0; //get count from API data
+
+                                return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                             }
 
                         }).on('page', function() {
@@ -470,17 +503,7 @@ Template.purchasesoverview.onRendered(function() {
                         });
                         $('.fullScreenSpin').css('display', 'none');
                         $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                        /* Add count functionality to table */
-                        let countTableData = data.Params.Count || 1; //get count from API data
-                        if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
-                          countTableData = data.tbillreport.length||1;
-                        }
-                        if(data.tbillreport.length > 0){
-                          $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
-                        }else{
-                          $('#tblPurchaseOverview_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
-                        }
-                        /* End Add count functionality to table */
+
                     }, 0);
 
                     var columns = $('#tblPurchaseOverview th');
@@ -845,9 +868,9 @@ Template.purchasesoverview.onRendered(function() {
                         },
                         "fnDrawCallback": function (oSettings) {
                           let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                          if(checkurlIgnoreDate == 'true'){
+                          //if(checkurlIgnoreDate == 'true'){
 
-                          }else{
+                          //}else{
                             $('.paginate_button.page-item').removeClass('disabled');
                             $('#tblPurchaseOverview_ellipsis').addClass('disabled');
 
@@ -870,7 +893,32 @@ Template.purchasesoverview.onRendered(function() {
 
                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getAllPurchaseOrderListAll(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                      getVS1Data('TbillReport').then(function (dataObjectold) {
+                                          if (dataObjectold.length == 0) {}
+                                          else {
+                                              let dataOld = JSON.parse(dataObjectold[0].data);
+                                              var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
+                                              let objCombineData = {
+                                                  Params: dataOld.Params,
+                                                  tbillreport: thirdaryData
+                                              }
 
+                                              addVS1Data('TbillReport', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                  templateObject.resetData(objCombineData);
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              }).catch(function (err) {
+                                                  $('.fullScreenSpin').css('display', 'none');
+                                              });
+
+                                          }
+                                      }).catch(function (err) {});
+
+                                  }).catch(function (err) {
+                                      $('.fullScreenSpin').css('display', 'none');
+                                  });
+                                }else{
                                 sideBarService.getAllPurchaseOrderListAll(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                     getVS1Data('TbillReport').then(function (dataObjectold) {
                                         if (dataObjectold.length == 0) {}
@@ -896,20 +944,28 @@ Template.purchasesoverview.onRendered(function() {
                                     $('.fullScreenSpin').css('display', 'none');
                                 });
 
+                              }
+
                             });
-                          }
+
+                          //}
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function() {
                             let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
+                            if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                 this.fnPageChange('last');
                             }
                             $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function() {
@@ -922,17 +978,7 @@ Template.purchasesoverview.onRendered(function() {
                     });
                     $('.fullScreenSpin').css('display', 'none');
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tbillreport.length||1;
-                    }
-                    if(data.tbillreport.length > 0){
-                      $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblPurchaseOverview_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
-                    }
-                    /* End Add count functionality to table */
+
                 }, 0);
 
                 var columns = $('#tblPurchaseOverview th');
@@ -1237,34 +1283,34 @@ Template.purchasesoverview.onRendered(function() {
                             $('#tblPurchaseOverview').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
-                            let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
-                            if(checkurlIgnoreDate == 'true'){
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          //if(checkurlIgnoreDate == 'true'){
 
-                            }else{
-                              $('.paginate_button.page-item').removeClass('disabled');
-                              $('#tblPurchaseOverview_ellipsis').addClass('disabled');
+                          //}else{
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblPurchaseOverview_ellipsis').addClass('disabled');
 
-                              if (oSettings._iDisplayLength == -1) {
-                                  if (oSettings.fnRecordsDisplay() > 150) {
-                                      $('.paginate_button.page-item.previous').addClass('disabled');
-                                      $('.paginate_button.page-item.next').addClass('disabled');
-                                  }
-                              } else {}
-                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                  $('.paginate_button.page-item.next').addClass('disabled');
-                              }
-                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                              .on('click', function () {
-                                  $('.fullScreenSpin').css('display', 'inline-block');
-                                  let dataLenght = oSettings._iDisplayLength;
+                            if (oSettings._iDisplayLength == -1) {
+                                if (oSettings.fnRecordsDisplay() > 150) {
+                                    $('.paginate_button.page-item.previous').addClass('disabled');
+                                    $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                            } else {}
+                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                            .on('click', function () {
+                                $('.fullScreenSpin').css('display', 'inline-block');
+                                let dataLenght = oSettings._iDisplayLength;
 
-                                  var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
-                                  var dateTo = new Date($("#dateTo").datepicker("getDate"));
+                                var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                                  let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
-                                  let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
-
-                                  sideBarService.getAllPurchaseOrderListAll(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                if(checkurlIgnoreDate == 'true'){
+                                  sideBarService.getAllPurchaseOrderListAll(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
                                       getVS1Data('TbillReport').then(function (dataObjectold) {
                                           if (dataObjectold.length == 0) {}
                                           else {
@@ -1288,21 +1334,54 @@ Template.purchasesoverview.onRendered(function() {
                                   }).catch(function (err) {
                                       $('.fullScreenSpin').css('display', 'none');
                                   });
+                                }else{
+                                sideBarService.getAllPurchaseOrderListAll(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function (dataObjectnew) {
+                                    getVS1Data('TbillReport').then(function (dataObjectold) {
+                                        if (dataObjectold.length == 0) {}
+                                        else {
+                                            let dataOld = JSON.parse(dataObjectold[0].data);
+                                            var thirdaryData = $.merge($.merge([], dataObjectnew.tbillreport), dataOld.tbillreport);
+                                            let objCombineData = {
+                                                Params: dataOld.Params,
+                                                tbillreport: thirdaryData
+                                            }
 
-                              });
-                            }
-                              setTimeout(function () {
-                                  MakeNegative();
-                              }, 100);
-                          },
+                                            addVS1Data('TbillReport', JSON.stringify(objCombineData)).then(function (datareturn) {
+                                                templateObject.resetData(objCombineData);
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            }).catch(function (err) {
+                                                $('.fullScreenSpin').css('display', 'none');
+                                            });
+
+                                        }
+                                    }).catch(function (err) {});
+
+                                }).catch(function (err) {
+                                    $('.fullScreenSpin').css('display', 'none');
+                                });
+
+                              }
+
+                            });
+
+                          //}
+                            setTimeout(function () {
+                                MakeNegative();
+                            }, 100);
+                        },
                         "fnInitComplete": function() {
                             let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
+                            if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                 this.fnPageChange('last');
                             }
                             $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshPurchaseOverview' style='padding: 4px 10px; font-size: 16px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblPurchaseOverview_filter");
 
                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
+
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                         }
 
                     }).on('page', function() {
@@ -1316,19 +1395,6 @@ Template.purchasesoverview.onRendered(function() {
                     $('.fullScreenSpin').css('display', 'none');
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
-                    /* Add count functionality to table */
-                    let countTableData = data.Params.Count || 1; //get count from API data
-                    if(data.tbillreport.length > countTableData){ //Check if what is on the list is more than API count
-                      countTableData = data.tbillreport.length||1;
-                    }
-
-                    if(data.tbillreport.length > 0){
-                      $('#tblPurchaseOverview_info').html('Showing 1 to '+data.tbillreport.length+ ' of ' +countTableData+ ' entries');
-                    }else{
-                      $('#tblPurchaseOverview_info').html('Showing 0 to '+data.tbillreport.length+ ' of 0 entries');
-                    }
-
-                    /* End Add count functionality to table */
                 }, 0);
 
                 var columns = $('#tblPurchaseOverview th');

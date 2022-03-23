@@ -114,6 +114,7 @@ Template.chequecard.onRendered(() => {
             $('.heading').html('New ' + chequeSpelling + ' #' + newChequeID + '<a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px; margin-left: 8px;"></i></a>  <a class="btn" role="button" data-toggle="modal" href="#myModal4" style="float: right;"><i class="icon ion-android-more-horizontal"></i></a><!--<button class="btn float-right" type="button" id="btnCustomFileds" name="btnCustomFileds"><i class="icon ion-android-more-horizontal"></i></button>-->');
             setTimeout(function(){
                   $('#sltBankAccountName').val(lastBankAccount);
+                  $('#ponumber').val(newChequeID);
             },500);
         }).catch(function(err) {
           if(localStorage.getItem('check_acc')){
@@ -420,6 +421,7 @@ Template.chequecard.onRendered(() => {
                             let totalTax = utilityService.modifynegativeCurrencyFormat(data.fields.TotalTax).toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalBalance = utilityService.modifynegativeCurrencyFormat(data.fields.TotalBalance).toLocaleString(undefined, { minimumFractionDigits: 2 });
                             let totalPaidAmount = utilityService.modifynegativeCurrencyFormat(data.fields.TotalPaid).toLocaleString(undefined, { minimumFractionDigits: 2 });
+                            if(data.fields.Lines != null){
                             if (data.fields.Lines) {
                                 if (data.fields.Lines.length) {
                                     for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -497,7 +499,7 @@ Template.chequecard.onRendered(() => {
 
                                 lineItems.push(lineItemObj);
                             }
-
+                          }
                             let chequerecord = {
                                 id: data.fields.ID,
                                 lid: 'Edit ' + chequeSpelling + ' ' + data.fields.ID,
@@ -878,6 +880,7 @@ Template.chequecard.onRendered(() => {
                                 let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
                                 let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                                if(data.fields.Lines != null){
                                 if (data.fields.Lines) {
                                     if (data.fields.Lines.length) {
                                         for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -955,7 +958,7 @@ Template.chequecard.onRendered(() => {
 
                                     lineItems.push(lineItemObj);
                                 }
-
+                              }
                                 let chequerecord = {
                                     id: data.fields.ID,
                                     lid: 'Edit ' + chequeSpelling + ' ' + data.fields.ID,
@@ -1113,6 +1116,7 @@ Template.chequecard.onRendered(() => {
                         let totalTax = currencySymbol + '' + data.fields.TotalTax.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalBalance = currencySymbol + '' + data.fields.TotalBalance.toLocaleString(undefined, { minimumFractionDigits: 2 });
                         let totalPaidAmount = currencySymbol + '' + data.fields.TotalPaid.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                        if(data.fields.Lines != null){
                         if (data.fields.Lines) {
                             if (data.fields.Lines.length) {
                                 for (let i = 0; i < data.fields.Lines.length; i++) {
@@ -1190,7 +1194,7 @@ Template.chequecard.onRendered(() => {
 
                             lineItems.push(lineItemObj);
                         }
-
+                        }
                         let chequerecord = {
                             id: data.fields.ID,
                             lid: 'Edit ' + chequeSpelling + ' ' + data.fields.ID,
@@ -1783,7 +1787,7 @@ Template.chequecard.onRendered(() => {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                    document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
                 }
             });
@@ -1909,7 +1913,7 @@ Template.chequecard.onRendered(() => {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                    document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
                 }
             });
@@ -2589,7 +2593,7 @@ Template.chequecard.onRendered(() => {
                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                 document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                 //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                //document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
             }
         });
@@ -3428,14 +3432,14 @@ Template.chequecard.events({
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100||0;
                     }
                 }
             }
 
 
             var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
               $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
@@ -3451,10 +3455,10 @@ Template.chequecard.events({
             }
 
             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
-                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal))||0;
                 document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                 //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                //document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
             }
         });
@@ -3555,7 +3559,7 @@ Template.chequecard.events({
                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                 document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
 
-                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                //document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
 
             }
         });
@@ -4232,7 +4236,7 @@ Template.chequecard.events({
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                        document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                        //document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
                     }
                 });
@@ -4382,7 +4386,7 @@ Template.chequecard.events({
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                    document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    //document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
 
                 }
             });
@@ -4446,7 +4450,7 @@ Template.chequecard.events({
             document.getElementById("subtotal_tax").innerHTML = Currency + '0.00';
             document.getElementById("subtotal_total").innerHTML = Currency + '0.00';
             document.getElementById("grandTotal").innerHTML = Currency + '0.00';
-            document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
+            //document.getElementById("totalBalanceDue").innerHTML = Currency + '0.00';
 
 
 
@@ -5276,6 +5280,9 @@ Template.chequecard.events({
         } else {
             $(".attchment-tooltip").show();
         }
+    },
+    'click .save-to-library': function(event, ui) {
+      $('.confirm-delete-attachment').trigger('click');
     },
     'click #btn_Attachment': function() {
         let templateInstance = Template.instance();
