@@ -48,7 +48,6 @@ export class BaseService {
       if (response.statusCode === 200) {
         try {
           var content = JSON.parse(response.content);
-          console.log("API Request done");
 
           return content;
         } catch (e) {}

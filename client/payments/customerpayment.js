@@ -79,6 +79,9 @@ Template.customerpayment.onRendered(function() {
         $('td').each(function(){
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
@@ -117,30 +120,37 @@ Template.customerpayment.onRendered(function() {
                             $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
                             $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
                         }
-                    for(let i=0; i<data.tcustomerpaymentlist.length; i++){
+                        for(let i=0; i<data.tcustomerpaymentlist.length; i++){
 
-                        let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Amount)|| 0.00;
-                        let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Applied) || 0.00;
-                        // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Balance)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalBalance)|| 0.00;
-                        var dataList = {
-                            id: data.tcustomerpaymentlist[i].PaymentID || '',
-                            sortdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tcustomerpaymentlist[i].PaymentDate,
-                            paymentdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("DD/MM/YYYY"): data.tcustomerpaymentlist[i].PaymentDate,
-                            customername: data.tcustomerpaymentlist[i].CompanyName || '',
-                            paymentamount: amount || 0.00,
-                            applied: applied || 0.00,
-                            balance: balance || 0.00,
-                            bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
-                            department: data.tcustomerpaymentlist[i].Department || '',
-                            refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
-                            paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
-                            notes: data.tcustomerpaymentlist[i].Notes || ''
-                        };
-                        dataTableList.push(dataList);
-                    }
+                            let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Amount)|| 0.00;
+                            let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Applied) || 0.00;
+                            // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                            let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Balance)|| 0.00;
+                            let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalPaid)|| 0.00;
+                            let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalBalance)|| 0.00;
+
+                            let paystatus = data.tcustomerpaymentlist[i].QuoteStatus || '';
+                            if(data.tcustomerpaymentlist[i].Deleted == true){
+                              paystatus = "Deleted";
+                            }
+
+                            var dataList = {
+                                id: data.tcustomerpaymentlist[i].PaymentID || '',
+                                sortdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tcustomerpaymentlist[i].PaymentDate,
+                                paymentdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("DD/MM/YYYY"): data.tcustomerpaymentlist[i].PaymentDate,
+                                customername: data.tcustomerpaymentlist[i].CompanyName || '',
+                                paymentamount: amount || 0.00,
+                                applied: applied || 0.00,
+                                balance: balance || 0.00,
+                                bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
+                                department: data.tcustomerpaymentlist[i].Department || '',
+                                paystatus: paystatus || '',
+                                refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
+                                paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
+                                notes: data.tcustomerpaymentlist[i].Notes || ''
+                            };
+                            dataTableList.push(dataList);
+                        }
                     templateObject.datatablerecords.set(dataTableList);
                     if(templateObject.datatablerecords.get()){
 
@@ -413,6 +423,12 @@ Template.customerpayment.onRendered(function() {
                 let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Balance)|| 0.00;
                 let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalPaid)|| 0.00;
                 let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalBalance)|| 0.00;
+
+                let paystatus = data.tcustomerpaymentlist[i].QuoteStatus || '';
+                if(data.tcustomerpaymentlist[i].Deleted == true){
+                  paystatus = "Deleted";
+                }
+
                 var dataList = {
                     id: data.tcustomerpaymentlist[i].PaymentID || '',
                     sortdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tcustomerpaymentlist[i].PaymentDate,
@@ -423,6 +439,7 @@ Template.customerpayment.onRendered(function() {
                     balance: balance || 0.00,
                     bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
                     department: data.tcustomerpaymentlist[i].Department || '',
+                    paystatus: paystatus || '',
                     refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
                     paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
                     notes: data.tcustomerpaymentlist[i].Notes || ''
@@ -690,30 +707,37 @@ Template.customerpayment.onRendered(function() {
                       $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
                       $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
                   }
-              for(let i=0; i<data.tcustomerpaymentlist.length; i++){
+                  for(let i=0; i<data.tcustomerpaymentlist.length; i++){
 
-                  let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Amount)|| 0.00;
-                  let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Applied) || 0.00;
-                  // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                  let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Balance)|| 0.00;
-                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalPaid)|| 0.00;
-                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalBalance)|| 0.00;
-                  var dataList = {
-                      id: data.tcustomerpaymentlist[i].PaymentID || '',
-                      sortdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tcustomerpaymentlist[i].PaymentDate,
-                      paymentdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("DD/MM/YYYY"): data.tcustomerpaymentlist[i].PaymentDate,
-                      customername: data.tcustomerpaymentlist[i].CompanyName || '',
-                      paymentamount: amount || 0.00,
-                      applied: applied || 0.00,
-                      balance: balance || 0.00,
-                      bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
-                      department: data.tcustomerpaymentlist[i].Department || '',
-                      refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
-                      paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
-                      notes: data.tcustomerpaymentlist[i].Notes || ''
-                  };
-                  dataTableList.push(dataList);
-              }
+                      let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Amount)|| 0.00;
+                      let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Applied) || 0.00;
+                      // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                      let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Balance)|| 0.00;
+                      let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalPaid)|| 0.00;
+                      let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalBalance)|| 0.00;
+
+                      let paystatus = data.tcustomerpaymentlist[i].QuoteStatus || '';
+                      if(data.tcustomerpaymentlist[i].Deleted == true){
+                        paystatus = "Deleted";
+                      }
+
+                      var dataList = {
+                          id: data.tcustomerpaymentlist[i].PaymentID || '',
+                          sortdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tcustomerpaymentlist[i].PaymentDate,
+                          paymentdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("DD/MM/YYYY"): data.tcustomerpaymentlist[i].PaymentDate,
+                          customername: data.tcustomerpaymentlist[i].CompanyName || '',
+                          paymentamount: amount || 0.00,
+                          applied: applied || 0.00,
+                          balance: balance || 0.00,
+                          bankaccount: data.tcustomerpaymentlist[i].BankAccountName || '',
+                          department: data.tcustomerpaymentlist[i].Department || '',
+                          paystatus: paystatus || '',
+                          refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
+                          paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
+                          notes: data.tcustomerpaymentlist[i].Notes || ''
+                      };
+                      dataTableList.push(dataList);
+                  }
               templateObject.datatablerecords.set(dataTableList);
               if(templateObject.datatablerecords.get()){
 
