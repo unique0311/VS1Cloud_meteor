@@ -1867,10 +1867,6 @@ Template.accountsoverview.events({
         FlowRouter.go('/journalentrylist');
     },
 
-    'click #btnReceiptClaims': function (event) {
-        FlowRouter.go('/receiptsoverview');
-    },
-
     'click .chkDatatable': function (event) {
         var columns = $('#tblAccountOverview th');
         let columnDataValue = $(event.target).closest("div").find(".divcolumn").text();

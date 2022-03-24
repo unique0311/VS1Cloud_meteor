@@ -193,6 +193,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/appointments") || (currentLoc == "/appointmentlist") || (currentLoc == "/appointmenttimelist")) {
                 $('#sidenavaccounts').removeClass('active');
@@ -211,6 +212,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/accountsoverview") || (currentLoc == "/journalentrylist") ||
                 (currentLoc == "/journalentrycard")) {
@@ -231,6 +233,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/bankingoverview") || (currentLoc == "/chequelist") ||
                 (currentLoc == "/chequecard") || (currentLoc == "/reconciliation") ||
@@ -252,6 +255,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/contactoverview") ||
                 (currentLoc == "/employeelist") || (currentLoc == "/employeescard") ||
@@ -275,6 +279,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/expenseclaims")) {
                 $('#sidenavaccounts').removeClass('active');
@@ -294,6 +299,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/inventorylist") || (currentLoc == '/productview') ||
                 (currentLoc == "/stockadjustmentcard") ||
@@ -316,6 +322,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/paymentoverview") ||
                 (currentLoc == "/customerawaitingpayments") || (currentLoc == "/customerpayment") ||
@@ -330,6 +337,27 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavexpenseclaims').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').addClass('active');
+                $('#sidenavpurchases').removeClass('active');
+                $('#sidenavreports').removeClass('active');
+                $('#sidenavreports').removeClass('active');
+                $('#sidenavsales').removeClass('active');
+                $('#sidenavsettings').removeClass('active');
+                $('#sidenavstocktake').removeClass('active');
+                $('#sidenavpayroll').removeClass('active');
+                $('#sidenavseedtosale').removeClass('active');
+                $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
+                $('.collapse').collapse('hide');
+            } else if (currentLoc == "/receiptsoverview") {
+                $('#sidenavreceipt').addClass('active');
+                $('#sidenavaccounts').removeClass('active');
+                $('#sidenavbanking').removeClass('active');
+                $('#sidenavdashbaord').removeClass('active');
+                $('#sidenavappointment').removeClass('active');
+                $('#sidenavcontacts').removeClass('active');
+                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavinventory').removeClass('active');
+                $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
                 $('#sidenavreports').removeClass('active');
                 $('#sidenavreports').removeClass('active');
@@ -362,6 +390,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/allreports") ||
                 (currentLoc == "/balancesheetreport") || (currentLoc == "/balancetransactionlist") ||
@@ -390,6 +419,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/salesoverview") ||
                 (currentLoc == "/quotecard") || (currentLoc == "/quoteslist") ||
@@ -413,6 +443,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/settings") ||
                 (currentLoc == "/accesslevel") || (currentLoc == "/companyappsettings") || (currentLoc == "/organisationsettings") ||
@@ -436,6 +467,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/timesheet") || (currentLoc == "/adpapi") ||
                 (currentLoc == "/squareapi") || (currentLoc == "/employeetimeclock") || (currentLoc == "/payrolloverview")) {
@@ -456,6 +488,7 @@ Template.newsidenav.onRendered(function() {
                   $('#sidenavpayroll').addClass('active');
                   $('#sidenavseedtosale').removeClass('active');
                   $('#sidenavshipping').removeClass('active');
+                  $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             } else if ((currentLoc == "/stsdashboard") || (currentLoc == "/stsplants") ||
                 (currentLoc == "/stsharvests") || (currentLoc == "/stspackages") ||
@@ -480,6 +513,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').addClass('active');
                 $('#sidenavshipping').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
             }else if ((currentLoc == "/vs1shipping")) {
                 $('#sidenavaccounts').removeClass('active');
@@ -498,6 +532,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavstocktake').removeClass('active');
                 $('#sidenavpayroll').removeClass('active');
                 $('#sidenavseedtosale').removeClass('active');
+                $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
                 $('#sidenavshipping').addClass('active');
             }
@@ -7225,6 +7260,12 @@ Template.newsidenav.events({
         FlowRouter.go('/payrolloverview');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
+    },
+    'click .receiptLiHeader': function(event) {
+      event.preventDefault();
+      FlowRouter.go('/receiptsoverview');
+      let templateObject = Template.instance();
+      templateObject.getSetSideNavFocus();
     },
     'click .purchasesLiHeader': function(event) {
         event.preventDefault();
