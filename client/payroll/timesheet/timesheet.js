@@ -309,6 +309,7 @@ Template.timesheet.onRendered(function () {
                           '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                           data.ttimesheet[t].fields.Notes || '',
                           checkStatus || '',
+                          '',
                           data.ttimesheet[t].fields.HourlyRate || '',
                           '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                       ];
@@ -422,11 +423,14 @@ Template.timesheet.onRendered(function () {
                                   className: "colStatus",
                                   "targets": [13]
                               }, {
-                                  className: "hiddenColumn hourlyrate",
+                                  className: "hiddenColumn colInvoiced",
                                   "targets": [14]
                               }, {
-                                  className: "viewTimeLog",
+                                  className: "hiddenColumn hourlyrate",
                                   "targets": [15]
+                              }, {
+                                  className: "viewTimeLog",
+                                  "targets": [16]
                               }, {
                                   targets: 'sorting_disabled',
                                   orderable: false
@@ -658,6 +662,7 @@ Template.timesheet.onRendered(function () {
                             '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                             data.ttimesheet[t].fields.Notes || '',
                             checkStatus || '',
+                            '',
                             data.ttimesheet[t].fields.HourlyRate || '',
                             '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                         ];
@@ -756,6 +761,7 @@ Template.timesheet.onRendered(function () {
                                 '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                                 data.ttimesheet[t].fields.Notes || '',
                                 checkStatus || '',
+                                '',
                                 data.ttimesheet[t].fields.HourlyRate || '',
                                 '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                             ];
@@ -873,11 +879,14 @@ Template.timesheet.onRendered(function () {
                                 className: "colStatus",
                                 "targets": [13]
                             }, {
-                                className: "hiddenColumn hourlyrate",
+                                className: "hiddenColumn colInvoiced",
                                 "targets": [14]
                             }, {
-                                className: "viewTimeLog",
+                                className: "hiddenColumn hourlyrate",
                                 "targets": [15]
+                            }, {
+                                className: "viewTimeLog",
+                                "targets": [16]
                             }, {
                                 targets: 'sorting_disabled',
                                 orderable: false
@@ -1110,6 +1119,7 @@ Template.timesheet.onRendered(function () {
                       '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                       data.ttimesheet[t].fields.Notes || '',
                       checkStatus || '',
+                      '',
                       data.ttimesheet[t].fields.HourlyRate || '',
                       '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                   ];
@@ -1223,11 +1233,14 @@ Template.timesheet.onRendered(function () {
                               className: "colStatus",
                               "targets": [13]
                           }, {
-                              className: "hiddenColumn hourlyrate",
+                              className: "hiddenColumn colInvoiced",
                               "targets": [14]
                           }, {
-                              className: "viewTimeLog",
+                              className: "hiddenColumn hourlyrate",
                               "targets": [15]
+                          }, {
+                              className: "viewTimeLog",
+                              "targets": [16]
                           }, {
                               targets: 'sorting_disabled',
                               orderable: false
@@ -3669,6 +3682,7 @@ Template.timesheet.onRendered(function () {
                             '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                             data.ttimesheet[w].fields.Notes || '',
                             checkStatus || '',
+                            '',
                             data.ttimesheet[w].fields.HourlyRate || '',
                             '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                         ];
@@ -3800,6 +3814,7 @@ Template.timesheet.onRendered(function () {
                               '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                               data.ttimesheet[w].fields.Notes || '',
                               checkStatus || '',
+                              '',
                               data.ttimesheet[w].fields.HourlyRate || '',
                               '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                           ];
@@ -3898,6 +3913,7 @@ Template.timesheet.onRendered(function () {
                                   '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                                   data.ttimesheet[w].fields.Notes || '',
                                   checkStatus || '',
+                                  '',
                                   data.ttimesheet[w].fields.HourlyRate || '',
                                   '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                               ];
@@ -4031,6 +4047,7 @@ Template.timesheet.onRendered(function () {
                         '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                         data.ttimesheet[w].fields.Notes || '',
                         checkStatus || '',
+                        '',
                         data.ttimesheet[w].fields.HourlyRate || '',
                         '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                     ];
