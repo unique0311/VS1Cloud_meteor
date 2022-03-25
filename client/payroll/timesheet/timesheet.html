@@ -741,10 +741,6 @@
                             -moz-appearance: textfield !important;
                         }
 
-                        .colFlag {
-                            width: 1% !important;
-                        }
-
                         .tdEmpty {
                             width: 3% !important;
                         }
@@ -843,7 +839,7 @@
                                 background: none;
                             }
                             .colFlag {
-                                width: 3% !important;
+                                width: 2% !important;
                             }
                             .colID {
                                 width: 3% !important;
@@ -855,7 +851,10 @@
                                 width: 5% !important;
                             }
                             .colJob {
-                                width: 20% !important;
+                                width: 10% !important;
+                            }
+                            .colRate {
+                                width: 10% !important;
                             }
                             .colNotes {
                                 width: 10% !important;
@@ -867,8 +866,8 @@
                         <table id="tblTimeSheet" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblTimeSheet">
                             <thead>
                                 <tr class="dnd-moved">
-                                    <th class="th colFlag noExport" style="width: 3% !important;">
-                                        <div class="custom-control custom-checkbox">
+                                    <th class="th colFlag noExport" style="width: 2% !important;">
+                                        <div class="custom-control custom-checkbox" style="width:15px;margin-right: -6px;">
                                             <input class="custom-control-input n" type="checkbox" id="check-all">
                                             <label class="custom-control-label" for="check-all"></label>
                                         </div>
@@ -876,8 +875,8 @@
                                     <th class="th colID" style="width: 3% !important;">ID</th>
                                     <th class="th colName" style="width:100px;">Employee</th>
                                     <th class="th colDate" style="width:4% !important;">Date</th>
-                                    <th class="th colJob" style="width: 20% !important;">Job</th>
-                                    <th class="th colRate" style="width:50px;">Product</th>
+                                    <th class="th colJob" style="width: 10% !important;">Job</th>
+                                    <th class="th colRate" style="width: 10% !important;">Product</th>
                                     <th class="th colRegHours hiddenColumn" style="width:50px;">HiddenHours</th>
                                     <th class="th colRegHoursOne thColHours noExport" style="width:4% !important;">Hours</th>
                                     <th class="th colOvertime " style="width: 3% !important;">Overtime</th>

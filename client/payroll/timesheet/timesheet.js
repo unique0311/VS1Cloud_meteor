@@ -2004,7 +2004,7 @@ Template.timesheet.onRendered(function () {
                         }
 
                         var prodservicedataList = [
-                             '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                             '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                             data.tproductvs1[i].fields.ProductName || '-',
                             data.tproductvs1[i].fields.SalesDescription || '',
                             data.tproductvs1[i].fields.BARCODE || '',
@@ -2106,7 +2106,7 @@ Template.timesheet.onRendered(function () {
                                         for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                            var dataListDupp = [
-                                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                              data.tproductvs1[i].fields.ProductName || '-',
                                              data.tproductvs1[i].fields.SalesDescription || '',
                                              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -2183,7 +2183,7 @@ Template.timesheet.onRendered(function () {
                     };
 
                     var prodservicedataList = [
-                         '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                         '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
                         data.tproductvs1[i].fields.BARCODE || '',
@@ -2284,7 +2284,7 @@ Template.timesheet.onRendered(function () {
                                     for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                        var dataListDupp = [
-                                         '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                         '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                          data.tproductvs1[i].fields.ProductName || '-',
                                          data.tproductvs1[i].fields.SalesDescription || '',
                                          utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -2360,7 +2360,7 @@ Template.timesheet.onRendered(function () {
                   }
 
                   var prodservicedataList = [
-                       '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                       '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                       data.tproductvs1[i].fields.ProductName || '-',
                       data.tproductvs1[i].fields.SalesDescription || '',
                       data.tproductvs1[i].fields.BARCODE || '',
@@ -2462,7 +2462,7 @@ Template.timesheet.onRendered(function () {
                                   for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                      var dataListDupp = [
-                                       '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                       '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                        data.tproductvs1[i].fields.ProductName || '-',
                                        data.tproductvs1[i].fields.SalesDescription || '',
                                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
