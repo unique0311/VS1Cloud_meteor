@@ -453,6 +453,14 @@ Template.accountlistpop.helpers({
 });
 
 Template.accountlistpop.events({
+    "mouseover .card-header":  (element) => {
+        $(element).parent().css("box-shadow", "0 0 10px rgba(0, 0, 0, 0.50)");
+        $(element).parent().css("cursor", "move");
+      },
+      "mouseleave .card-header": (element) => {
+        $(element).parent().css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
+        $(element).parent().css("cursor", "context-menu");
+      },
     'click .btnAddNewAccount': function(event) {
       $('#add-account-title').text('Add New Account');
       $('#edtAccountID').val('');

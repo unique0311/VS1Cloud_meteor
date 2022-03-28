@@ -1,4 +1,20 @@
 <template name="purchasesoverview">
+    <style>
+        .ui-sortable .card.hovered {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
+            cursor: move;
+            transition-duration: 300ms;
+
+        }
+
+        .ui-sortable-disabled .card.hovered {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
+            cursor: default;
+            transition-duration: 300ms;
+
+        }
+    </style>
+
     <div style="margin-top: -24px;">
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
@@ -108,13 +124,14 @@
 
                 }
 
-              
+
                 @media screen and (max-width: 1306px) {
                     .sortableExpenseBreakdown {
                         width: 100%;
                         max-width: 512px;
                     }
                 }
+
                 @media screen and (max-width: 768px) {
                     .sortableExpenseBreakdown {
                         width: 100%;
@@ -129,11 +146,15 @@
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-info font-weight-bold m-0">Expenses Breakdown</h6>
                         <div class="dropdown no-arrow">
-                            <button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
-                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu" style="min-width: 170px;">
+                            <button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown"
+                                aria-expanded="false" type="button"><i
+                                    class="fas fa-ellipsis-v text-gray-400"></i></button>
+                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu"
+                                style="min-width: 170px;">
                                 <a class="dropdown-item" role="presentation" href="#">&nbsp;More Details</a>
                                 <div class="dropdown-divider"></div>
-                                <a id="" class="dropdown-item pointer" role="presentation" data-toggle="modal" data-target="#">&nbsp;Edit Chart</a>
+                                <a id="" class="dropdown-item pointer" role="presentation" data-toggle="modal"
+                                    data-target="#">&nbsp;Edit Chart</a>
                                 <a id="" class="dropdown-item pointer" role="presentation">&nbsp;Reset Chart</a>
                             </div>
                         </div>

@@ -8,6 +8,9 @@ import "gauge-chart";
 
 import DashboardApi from "../js/Api/DashboardApi";
 import Tvs1chart from "../js/Api/Model/Tvs1Chart";
+import resizableCharts from "../js/Charts/resizableCharts";
+import ChartsEditor from "../js/Charts/ChartsEditor";
+import draggableCharts from "../js/Charts/draggableCharts";
 
 let _ = require("lodash");
 let vs1chartService = new VS1ChartService();
@@ -18,6 +21,43 @@ let resalechart = localStorage.getItem("hideresalechat") || true;
 let quotedinvoicedchart = localStorage.getItem("quotedinvoicedchart") || true;
 let earningschart = localStorage.getItem("earningschat") || true;
 let expenseschart = localStorage.getItem("expenseschart") || true;
+
+
+const chartsEditor = new ChartsEditor(
+  () => {
+    $("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
+
+    $("#btnDone").addClass("showelement");
+    $("#btnDone").removeClass("hideelement");
+    $("#btnCancel").addClass("showelement");
+    $("#btnCancel").removeClass("hideelement");
+    $("#editcharts").addClass("hideelement");
+    $("#editcharts").removeClass("showelement");
+    $(".btnchartdropdown").addClass("hideelement");
+    $(".btnchartdropdown").removeClass("showelement");
+
+    $("#resalecomparision").removeClass("hideelement");
+    $("#quotedinvoicedamount").removeClass("hideelement");
+    $("#expensechart").removeClass("hideelement");
+    $("#monthlyprofitlossstatus").removeClass("hideelement");
+    $("#resalecomparision").removeClass("hideelement");
+    $("#showearningchat").removeClass("hideelement");
+   
+  }, 
+  () => {
+    $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
+    $("#btnDone").addClass("hideelement");
+    $("#btnDone").removeClass("showelement");
+    $("#btnCancel").addClass("hideelement");
+    $("#btnCancel").removeClass("showelement");
+    $("#editcharts").addClass("showelement");
+    $("#editcharts").removeClass("hideelement");
+    $(".btnchartdropdown").removeClass("hideelement");
+    $(".btnchartdropdown").addClass("showelement");
+   
+  }
+);
+
 Template.dashboard.onCreated(function () {
   this.loggedDb = new ReactiveVar("");
   const templateObject = Template.instance();
@@ -81,74 +121,7 @@ Template.dashboard.onRendered(function () {
   //     .disableSelection();
   // };
 
-  templateObject.deactivateDraggable = function () {
-    setTimeout(function () {
-      $(".connectedSortable")
-        .sortable({
-          disabled: true,
-          connectWith: ".connectedSortable",
-          placeholder: "portlet-placeholder ui-corner-all",
-          stop: function (event, ui) {},
-        })
-        .disableSelection();
-
-      // $(".portlet-toggle").on("click", function() {
-      //     var icon = $(this);
-      //     icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-      //     icon.closest(".portlet").find(".portlet-content").toggle();
-      // });
-      //
-      // $(".portlet").resizable({
-      //     handles: 'e'
-      // });
-      $(".portlet").resizable("disable").removeClass("ui-state-disabled");
-    }, 200);
-
-    // $('#col1,#col2').sortable({
-    //     disabled: true,
-    //     connectWith: '.col-area',
-    //     placeholder: 'highlight',
-    //     cursor: 'grabbing',
-    //     handle: '.card'
-    // }).disableSelection();
-  };
-  templateObject.activateDraggable = function () {
-    setTimeout(function () {
-      $(".connectedSortable")
-        .sortable({
-          disabled: false,
-          connectWith: ".connectedSortable",
-          placeholder: "portlet-placeholder ui-corner-all",
-          stop: function (event, ui) {},
-        })
-        .disableSelection();
-      $(".portlet")
-        .addClass(
-          "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"
-        )
-        .find(".portlet-header")
-        .addClass("ui-widget-header ui-corner-all");
-
-      $(".portlet-toggle").on("click", function () {
-        var icon = $(this);
-        icon.toggleClass("ui-icon-minusthick ui-icon-plusthick");
-        icon.closest(".portlet").find(".portlet-content").toggle();
-      });
-
-      $(".portlet").resizable({
-        handles: "e",
-      });
-    }, 200);
-
-    // $('#col1,#col2').sortable({
-    //     disabled: false,
-    //     connectWith: '.col-area',
-    //     placeholder: 'highlight',
-    //     cursor: 'grabbing',
-    //     handle: '.card'
-    // }).disableSelection();
-  };
-
+ 
   templateObject.hideChartElements = function () {
     $("#profitlosshide").addClass("hideelement");
     $("#profitlosshide").removeClass("showelement");
@@ -209,6 +182,7 @@ Template.dashboard.onRendered(function () {
       dashboardApis.collectionNames.vs1charts
     );
     const response = await chartsEndpoint.fetch(); // here i should get from database all charts to be displayed
+
     if (response.ok == true) {
       const jsonResponse = await response.json();
 
@@ -360,6 +334,19 @@ Template.dashboard.onRendered(function () {
     //   $("#showearningchat").addClass("hideelement");
     // }
   };
+ 
+  templateObject.deactivateDraggable = () => chartsEditor.disable();
+  templateObject.activateDraggable = () => {
+
+  };
+
+
+
+  templateObject.checkChartToDisplay();
+  
+  draggableCharts.enable();
+  resizableCharts.enable(); // this will enable charts resiable features
+
 });
 
 Template.dashboard.helpers({
@@ -378,121 +365,58 @@ Template.dashboard.helpers({
 
 // Listen to event to update reactive variable
 Template.dashboard.events({
-  "mouseover .monthlycardheader": function () {
-    $("#monthlyprofitlossstatus").css(
-      "box-shadow",
-      "0 0 10px rgba(0, 0, 0, 0.50)"
-    );
-    $("#monthlyprofitlossstatus").css("cursor", "move");
+  "mouseover .card-header": (e) => {
+    $(e.currentTarget).parent(".card").addClass("hovered");
   },
-  "mouseleave .monthlycardheader": function () {
-    $("#monthlyprofitlossstatus").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
-    $("#monthlyprofitlossstatus").css("cursor", "context-menu");
+  "mouseleave .card-header": (e) => {
+    $(e.currentTarget).parent(".card").removeClass("hovered");
   },
-  "mouseover .employeesalesheader": function () {
-    $("#resalecomparision").css("box-shadow", "0 0 10px rgba(0, 0, 0, 0.50)");
-    $("#resalecomparision").css("cursor", "move");
-  },
-  "mouseleave .employeesalesheader": function () {
-    $("#resalecomparision").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
-    $("#resalecomparision").css("cursor", "context-menu");
-  },
-  "mouseover .monthlyearningsheader": function () {
-    $("#showearningchat").css("box-shadow", "0 0 10px rgba(0, 0, 0, 0.50)");
-    $("#showearningchat").css("cursor", "move");
-  },
-  "mouseleave .monthlyearningsheader": function () {
-    $("#showearningchat").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
-    $("#showearningchat").css("cursor", "context-menu");
-  },
-  "mouseover .profitlossheader": function () {
-    $("#profitandlosschartparent").css(
-      "box-shadow",
-      "0 0 10px rgba(0, 0, 0, 0.50)"
-    );
-    $("#profitandlosschartparent").css("cursor", "move");
-  },
-  "mouseleave .profitlossheader": function () {
-    $("#profitandlosschartparent").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
-    $("#profitandlosschartparent").css("cursor", "context-menu");
-  },
-  "mouseover .quotedamountsheader": function () {
-    $("#quotedinvoicedamount").css(
-      "box-shadow",
-      "0 0 10px rgba(0, 0, 0, 0.50)"
-    );
-    $("#quotedinvoicedamount").css("cursor", "move");
-  },
-  "mouseleave .quotedamountsheader": function () {
-    $("#quotedinvoicedamount").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
-    $("#quotedinvoicedamount").css("cursor", "context-menu");
-  },
-  "mouseover .expensesheader": function () {
-    $("#expensechart").css("box-shadow", "0 0 10px rgba(0, 0, 0, 0.50)");
-    $("#expensechart").css("cursor", "move");
-  },
-  "mouseleave .expensesheader": function () {
-    $("#expensechart").css("box-shadow", "0 0 0 rgba(0, 0, 0, 0)");
-    $("#expensechart").css("cursor", "context-menu");
-  },
-
   "click .btnBatchUpdate": function () {
     $(".fullScreenSpin").css("display", "inline-block");
     batchUpdateCall();
   },
-  // "click .editchartsbtn": function () {
-  //   // $(".editcharts").trigger("click");
-  //   $(".btnchartdropdown").addClass('hideelement');
+  "click .editchartsbtn": () => {
+    $(".editcharts").trigger("click");
+    chartsEditor.enable();
+    // $(".btnchartdropdown").addClass('hideelement');
 
-  //   setTimeout(function() {
-  //       $(".monthlyprofilelossedit").removeClass('hideelement');
-  //       $(".monthlyprofilelossedit").addClass('showelement');
+    // setTimeout(function() {
+    //     $(".monthlyprofilelossedit").removeClass('hideelement');
+    //     $(".monthlyprofilelossedit").addClass('showelement');
 
-  //       $(".profitlossedit").removeClass('hideelement');
-  //       $(".profitlossedit").addClass('showelement');
+    //     $(".profitlossedit").removeClass('hideelement');
+    //     $(".profitlossedit").addClass('showelement');
 
-  //       $(".resalecomparisionedit").removeClass('hideelement');
-  //       $(".resalecomparisionedit").addClass('showelement');
+    //     $(".resalecomparisionedit").removeClass('hideelement');
+    //     $(".resalecomparisionedit").addClass('showelement');
 
-  //       $(".quotedinvoicededit").removeClass('hideelement');
-  //       $(".quotedinvoicededit").addClass('showelement');
+    //     $(".quotedinvoicededit").removeClass('hideelement');
+    //     $(".quotedinvoicededit").addClass('showelement');
 
-  //       $(".monthlyearningsedit").removeClass('hideelement');
-  //       $(".monthlyearningsedit").addClass('showelement');
+    //     $(".monthlyearningsedit").removeClass('hideelement');
+    //     $(".monthlyearningsedit").addClass('showelement');
 
-  //       $(".expensesedit").removeClass('hideelement');
-  //       $(".expensesedit").addClass('showelement');
-  //   }, 200);
-  // },
-  "click .editcharts": function () {
+    //     $(".expensesedit").removeClass('hideelement');
+    //     $(".expensesedit").addClass('showelement');
+    // }, 200);
+  },
+  "click .editcharts": () => {
+    chartsEditor.enable();
+
     const templateObject = Template.instance();
     templateObject.showChartElements();
 
-    $("#btnDone").addClass("showelement");
-    $("#btnDone").removeClass("hideelement");
-    $("#btnCancel").addClass("showelement");
-    $("#btnCancel").removeClass("hideelement");
-    $("#editcharts").addClass("hideelement");
-    $("#editcharts").removeClass("showelement");
-    $(".btnchartdropdown").addClass("hideelement");
-    $(".btnchartdropdown").removeClass("showelement");
+   
 
-    $("#resalecomparision").removeClass("hideelement");
-    $("#quotedinvoicedamount").removeClass("hideelement");
-    $("#expensechart").removeClass("hideelement");
-    $("#monthlyprofitlossstatus").removeClass("hideelement");
-    $("#resalecomparision").removeClass("hideelement");
-    $("#showearningchat").removeClass("hideelement");
 
-    $("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
-
-    templateObject.activateDraggable();
+    //templateObject.activateDraggable();
   },
 
   "click #resetcharts": () => {
+    chartsEditor.disable();
     const templateObject = Template.instance();
 
-    $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
+    
 
     $("#btnDone").addClass("hideelement");
     $("#btnDone").removeClass("showelement");
@@ -513,26 +437,22 @@ Template.dashboard.events({
 
     templateObject.hideChartElements();
     templateObject.checkChartToDisplay();
-    templateObject.deactivateDraggable();
+   // templateObject.deactivateDraggable();
   },
   "click #btnCancel": function () {
+    chartsEditor.disable();
+
     const templateObject = Template.instance();
     templateObject.hideChartElements();
     templateObject.checkChartToDisplay();
-    $("#btnDone").addClass("hideelement");
-    $("#btnDone").removeClass("showelement");
-    $("#btnCancel").addClass("hideelement");
-    $("#btnCancel").removeClass("showelement");
-    $("#editcharts").addClass("showelement");
-    $("#editcharts").removeClass("hideelement");
-    $(".btnchartdropdown").removeClass("hideelement");
-    $(".btnchartdropdown").addClass("showelement");
-    $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
+   
+   
 
-    templateObject.deactivateDraggable();
+    //templateObject.deactivateDraggable();
   },
 
   "click #btnDone": function () {
+    chartsEditor.disable();
     const templateObject = Template.instance();
     templateObject.hideChartElements();
     $("#btnDone").addClass("hideelement");
@@ -543,8 +463,6 @@ Template.dashboard.events({
     $("#editcharts").removeClass("hideelement");
     $(".btnchartdropdown").removeClass("hideelement");
     $(".btnchartdropdown").addClass("showelement");
-
-    $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
 
     //monthlyprofitloss
     if (monthlyprofitlosschart == "true" || monthlyprofitlosschart == true) {
@@ -595,7 +513,7 @@ Template.dashboard.events({
       localStorage.setItem("expenseschart", false);
     }
 
-    templateObject.deactivateDraggable();
+   // templateObject.deactivateDraggable();
     templateObject.checkChartToDisplay();
   },
 
