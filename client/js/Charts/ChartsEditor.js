@@ -11,7 +11,7 @@ export default class ChartsEditor {
     this.onEnable = onEnable;
     this.onDisable = onDisable;
 
-    this.debug = true;
+    this.debug = false;
 
     this.bindEvent();
   }
