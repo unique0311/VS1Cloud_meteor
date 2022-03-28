@@ -356,6 +356,7 @@ Template.addaccountpop.onRendered(function () {
 });
 
 Template.addaccountpop.events({
+    
     'click .btnSaveAccountPOP': function () {
         var url = FlowRouter.current().path;
         $('.fullScreenSpin').css('display', 'inline-block');

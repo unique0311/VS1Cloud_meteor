@@ -1,48 +1,80 @@
 <template name="contactoverview">
-    <div style="margin-top: -24px;">
+    <style>
+        .hideelement {
+            display: none !important;
+        }
+
+        .showelement {
+            display: block;
+        }
+
+        .card.hovered {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
+            cursor: move;
+            transition-duration: 300ms;
+
+        }
+    </style>
+    <div class="container-fluid">
 
         <div class="fullScreenSpin" style="display:none;">
             <div class="spinner"></div>
         </div>
+
         <!-- <style>
             .dataTables_filter {
                 display: none;
             }
         </style> -->
-        <header style="padding: 16px;padding-bottom: 0px;">
-            <h2 style="margin: 14px;margin-bottom: 0px;">Contact Overview
-                <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
-                <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+        <div class="text-dark mb-4 d-flex align-items-center">
+            <h3 class="m-0 mr-2">Contact Overview</h3>
 
-                <!-- Start Help View Modal -->
-                <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
-                    <div class="modal-dialog modal-sm" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header" style="padding-bottom: 8px;">
-                                <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                            <div class="modal-body">
-                                <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
-                                <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=35" target="_blank" class="btn btn-primary">Download Help File</a></p>
-                                <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
-                                <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
-                            </div>
-                            <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+            <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i
+                    class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+            <!-- Start Help View Modal -->
+            <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding-bottom: 8px;">
+                            <h4>Help</h4><button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close"><span aria-hidden="true">×</span></button>
                         </div>
+                        <div class="modal-body">
+                            <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal"
+                                    class="btn btn-primary helpModal">View Help Video</a></p>
+                            <p class="text-center text-muted"><a href="https://vs1forum.com/viewtopic.php?f=6&t=35"
+                                    target="_blank" class="btn btn-primary">Download Help File</a></p>
+                            <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ
+                                    Advisor</button></p>
+                            <p class="text-center text-muted" style="margin: 0px;"><a
+                                    href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}"
+                                    target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                        </div>
+                        <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light"
+                                data-dismiss="modal" type="button">Close</button></div>
                     </div>
                 </div>
-                <!-- End Help View Modal -->
-            </h2>
-        </header>
+            </div>
+            <!-- End Help View Modal -->
 
-        <div class="row" style="padding: 30px; padding-bottom: 0px;">
+           
+        </div>
+
+
+
+        <div class="row connectedSortable widgets-area" style="padding: 1.5rem;">
             <div class="col-lg-4 col-xl-4">
-                <div class="card shadow mb-4">
+                <div
+                    class="card shadow mb-4  portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-resizable">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary font-weight-bold m-0" style=" ">Top 10 Customers</h6>
                         <div class="dropdown no-arrow">
                             <!-- <button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button> -->
-                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu"><a class="dropdown-item" role="presentation" href="#">&nbsp;Last Month</a><a class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#">&nbsp;More Details</a>
+                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu"><a
+                                    class="dropdown-item" role="presentation" href="#">&nbsp;Last Month</a><a
+                                    class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation"
+                                    href="#">&nbsp;More Details</a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +82,7 @@
 
                         <!-- {{/each}} -->
                         <!-- /{{#each itemData in topTenData}} -->
-                        <div class="chart-area" style=" " >
+                        <div class="chart-area" style=" ">
 
                             <canvas id="myChartCustomer" name="myChartCustomer"></canvas>
                             <!-- data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;{{topTenData.[0].name}}&quot;,&quot;Josef&quot;,&quot;Bruno&quot;,&quot;Dene&quot;,&quot;Shanika&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;backgroundColor&quot;:&quot;#f6c23e&quot;,&quot;borderColor&quot;:&quot;rgba(78,115,223,0)&quot;,&quot;data&quot;:[&quot;10000&quot;,&quot;9000&quot;,&quot;8000&quot;,&quot;15000&quot;,&quot;10000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;beginAtZero&quot;:true,&quot;padding&quot;:20}}]}}}" -->
@@ -62,13 +94,17 @@
                 </div>
             </div>
             <div class="col-lg-4 col-xl-4">
-                <div class="card shadow mb-4">
+                <div
+                    class="card shadow mb-4  portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-resizable">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary font-weight-bold m-0" style=" ">Top 10 Suppliers</h6>
                         <div class="dropdown no-arrow">
                             <!-- <button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button> -->
-                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu"><a class="dropdown-item" role="presentation" href="#">&nbsp;Last Month</a><a class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#">&nbsp;More Details</a>
+                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu"><a
+                                    class="dropdown-item" role="presentation" href="#">&nbsp;Last Month</a><a
+                                    class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation"
+                                    href="#">&nbsp;More Details</a>
                             </div>
                         </div>
                     </div>
@@ -85,13 +121,17 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                 </div>
             </div>
             <div class="col-lg-4 col-xl-4">
-                <div class="card shadow mb-4">
+                <div
+                    class="card shadow mb-4 portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-resizable">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h6 class="text-primary font-weight-bold m-0" style=" ">Active Employees</h6>
                         <div class="dropdown no-arrow">
                             <!-- <button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button> -->
-                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu"><a class="dropdown-item" role="presentation" href="#">&nbsp;Last Month</a><a class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a>
-                                <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#">&nbsp;More Details</a>
+                            <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in" role="menu"><a
+                                    class="dropdown-item" role="presentation" href="#">&nbsp;Last Month</a><a
+                                    class="dropdown-item" role="presentation" href="#">&nbsp;Current Month</a>
+                                <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation"
+                                    href="#">&nbsp;More Details</a>
                             </div>
                         </div>
                     </div>
@@ -116,7 +156,15 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                             {{#if loggeduserdata}}
                             {{#each itemloggeduser in loggeduserdata}}
                             <div class="col-6">
-                                <div class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3"><a href="/employeescard?id={{itemloggeduser.id}}"><p style="text-overflow: ellipsis; overflow: hidden; width: 100%; white-space: nowrap;"><img src="img/avatar.png" style="width: 45px;margin-right: 10px; margin-bottom: 10px; ">{{itemloggeduser.employeename}}</p></a>
+                                <div
+                                    class="text-dark d-xl-flex flex-column justify-content-xl-center font-weight-bold h5 mb-0 mr-3">
+                                    <a href="/employeescard?id={{itemloggeduser.id}}">
+                                        <p
+                                            style="text-overflow: ellipsis; overflow: hidden; width: 100%; white-space: nowrap;">
+                                            <img src="img/avatar.png"
+                                                style="width: 45px;margin-right: 10px; margin-bottom: 10px; ">{{itemloggeduser.employeename}}
+                                        </p>
+                                    </a>
                                 </div>
                             </div>
                             {{/each}}
@@ -133,21 +181,32 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
 
             <div class="col-9 d-xl-flex flex-grow-1 align-items-xl-start">
 
-                <button id="btnRefresh" class="btn btn-primary btnRefresh" type="button" style="min-width: 117.016px;margin: 16px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+                <button id="btnRefresh" class="btn btn-primary btnRefresh" type="button"
+                    style="min-width: 117.016px;margin: 16px;"><i class="la la-lightbulb-o"
+                        style="margin-right: 5px;"></i>Refresh</button>
 
                 <div class="btn-group" style="margin: 16px;">
-                    <a class="btn btn-primary allList" role="button" href="#" style="min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;">All</a>
-                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                    <a class="btn btn-primary allList" role="button" href="#"
+                        style="min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;">All</a>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                        aria-expanded="false" type="button"
+                        style="background-color: #00A3D3; border-color: #00A3D3;"></button>
                     <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item newCustomer" role="presentation" href="/customerscard">+ New Customer</a>
-                        <a class="dropdown-item newEmployee" role="presentation" href="/employeescard">+ New Employee</a>
-                        <a class="dropdown-item newSupplier" role="presentation" href="/supplierscard">+ New Supplier</a>
+                        <a class="dropdown-item newCustomer" role="presentation" href="/customerscard">+ New
+                            Customer</a>
+                        <a class="dropdown-item newEmployee" role="presentation" href="/employeescard">+ New
+                            Employee</a>
+                        <a class="dropdown-item newSupplier" role="presentation" href="/supplierscard">+ New
+                            Supplier</a>
                     </div>
                 </div>
 
                 <div class="btn-group" style="margin: 16px;">
-                    <a class="btn btn-primary" role="button" href="/customerlist" style="min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;">Customers</a>
-                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                    <a class="btn btn-primary" role="button" href="/customerlist"
+                        style="min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;">Customers</a>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                        aria-expanded="false" type="button"
+                        style="background-color: #00A3D3; border-color: #00A3D3;"></button>
                     <div class="dropdown-menu" role="menu">
                         <a class="dropdown-item" role="presentation" href="/customerlist" style=" ">Customers</a>
                         <a class="dropdown-item" role="presentation" href="/customerscard" style=" ">+ New Customer</a>
@@ -155,7 +214,12 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                 </div>
 
                 <div class="btn-group" style="margin: 16px;">
-                    <a class="btn btn-primary" role="button" style="color: rgb(255,255,255);min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;" href="/employeelist">Employees</a><button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                    <a class="btn btn-primary" role="button"
+                        style="color: rgb(255,255,255);min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;"
+                        href="/employeelist">Employees</a><button
+                        class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                        aria-expanded="false" type="button"
+                        style="background-color: #00A3D3; border-color: #00A3D3;"></button>
                     <div class="dropdown-menu" role="menu">
                         <a class="dropdown-item" role="presentation" href="/employeelist" style=" ">Employees</a>
                         <a class="dropdown-item" role="presentation" href="/employeescard" style=" ">+ New Employee</a>
@@ -163,8 +227,11 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                 </div>
 
                 <div class="btn-group" style="margin: 16px;">
-                    <a class="btn btn-primary" role="button" href="/supplierlist" style="min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;">Suppliers</a>
-                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false" type="button" style="background-color: #00A3D3; border-color: #00A3D3;"></button>
+                    <a class="btn btn-primary" role="button" href="/supplierlist"
+                        style="min-width: 117.016px; background-color: #00A3D3; border-color: #00A3D3;">Suppliers</a>
+                    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                        aria-expanded="false" type="button"
+                        style="background-color: #00A3D3; border-color: #00A3D3;"></button>
                     <div class="dropdown-menu" role="menu">
                         <a class="dropdown-item" role="presentation" href="/supplierlist" style=" ">Suppliers</a>
                         <a class="dropdown-item" role="presentation" href="/supplierscard" style=" ">+ New Supplier</a>
@@ -173,9 +240,12 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
             </div>
 
             <div class="col-3 d-xl-flex justify-content-xl-end align-items-xl-start">
-                <button class="btn btn-primary export float-right" type="button" style="margin: 16px;" id="exportbtn" name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
-                <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
-                 <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
+                <button class="btn btn-primary export float-right" type="button" style="margin: 16px;" id="exportbtn"
+                    name="exportbtn"><i class="fas fa-file-export" style="padding-right: 5px;"></i>Export</button>
+                <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i
+                        class="fa fa-print" style="padding-right: 5px;"></i>Print</button>
+                <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2"
+                    style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
             </div>
 
         </div>
@@ -189,7 +259,10 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                             <div class="modal-dialog modal-dialog-centered" role="document" style="float: right;">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4>Display Settings</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                                        <h4>Display Settings</h4><button type="button" class="close"
+                                            data-dismiss="modal" aria-label="Close"><span
+                                                aria-hidden="true">×</span></button>
+                                    </div>
                                     <div class="modal-body">
                                         <div>
                                             {{#if tableheaderrecords}}
@@ -203,9 +276,11 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                                                             padding: 2px;
                                                             border-radius: .35rem;
                                                         }
-                                                        .custom-control-label{
+
+                                                        .custom-control-label {
                                                             position: absolute;
                                                         }
+
                                                         .rngRange {
                                                             position: relative;
                                                             display: flex;
@@ -221,42 +296,56 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                                                             padding: 2px;
                                                             border-radius: .35rem;
                                                             color: rgb(128, 128, 128);
-                                                            height:inherit!important;
+                                                            height: inherit !important;
                                                         }
+
                                                         @media only screen and (max-width: 480px) {
-                                                            .modal.show .modal-dialog{
-                                                                float: inherit!important;
-                                                                left: inherit!important;
-                                                                top: auto!important;
+                                                            .modal.show .modal-dialog {
+                                                                float: inherit !important;
+                                                                left: inherit !important;
+                                                                top: auto !important;
 
                                                             }
                                                         }
-
                                                     </style>
                                                     {{#each item in tableheaderrecords}}
                                                     {{#if equals item.sTitle "id"}}
                                                     {{else}}
 
                                                     <div id="{{item.sIndex}}" class="columnSettings">
-                                                        <div class="custom-control custom-switch" style="margin: 8px; float:left;">
-                                                            <input class="custom-control-input chkDatatable" type="checkbox" id="chkSalesNo-{{item.sIndex}}" name="chkSalesNo-{{item.sIndex}}" checked="{{#if item.sVisible}}checked{{else}}{{/if}}" value="{{item.sTitle}}">
-                                                            <label class="custom-control-label" for="chkSalesNo-{{item.sIndex}}"></label>
-                                                            <div contenteditable="true" class="groove divcolumn" type="text" value="{{item.sTitle}}" valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
+                                                        <div class="custom-control custom-switch"
+                                                            style="margin: 8px; float:left;">
+                                                            <input class="custom-control-input chkDatatable"
+                                                                type="checkbox" id="chkSalesNo-{{item.sIndex}}"
+                                                                name="chkSalesNo-{{item.sIndex}}"
+                                                                checked="{{#if item.sVisible}}checked{{else}}{{/if}}"
+                                                                value="{{item.sTitle}}">
+                                                            <label class="custom-control-label"
+                                                                for="chkSalesNo-{{item.sIndex}}"></label>
+                                                            <div contenteditable="true" class="groove divcolumn"
+                                                                type="text" value="{{item.sTitle}}"
+                                                                valueupdate="{{item.sClass}}">{{item.sTitle}}</div>
                                                         </div>
-                                                        <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                            <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>--></label>
-                                                            <input class="custom-range rngRange" type="number" style="margin: 8px; width: 75px;" value="{{item.sWidth}}" min="0" max="1000">
+                                                        <div class="d-xl-flex align-items-xl-center divColWidth"
+                                                            style="margin: 8px;">
+                                                            <label class="text-nowrap"
+                                                                style="padding-left: 0px;margin-top: 8px;">Width:
+                                                                <!--<span class="spWidth" value="{{item.sTitle}}">{{item.sWidth}}px</span>-->
+                                                            </label>
+                                                            <input class="custom-range rngRange" type="number"
+                                                                style="margin: 8px; width: 75px;"
+                                                                value="{{item.sWidth}}" min="0" max="1000">
                                                             <!-- <div contenteditable="true" class="groove rngRange" type="text" value="{{item.sWidth}}" min="0" max="1000">{{item.sWidth}}px</div> -->
                                                         </div>
                                                     </div>
 
                                                     {{#if equals item.sVisible true}}
                                                     <script>
-                                                        $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
+                                                        $("#" + {{ item.sIndex }}+".chkDatatable").attr("checked", "checked");
                                                     </script>
                                                     {{else}}
                                                     <script>
-                                                        $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
+                                                        $("#" + {{ item.sIndex }}+".chkDatatable").removeAttr("checked");
                                                     </script>
                                                     {{/if}}
 
@@ -268,9 +357,12 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-primary saveTable" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
-                                        <button class="btn btn-warning resetTable" data-dismiss="modal" type="reset"><i class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
-                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        <button class="btn btn-primary saveTable" type="button"><i class="fa fa-save"
+                                                style="margin-right: 5px;"></i>Save</button>
+                                        <button class="btn btn-warning resetTable" data-dismiss="modal" type="reset"><i
+                                                class="fa fa-repeat" style="margin-right: 5px;"></i>Reset</button>
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button"><i
+                                                class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -283,6 +375,7 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                         th {
                             background-color: #ededed;
                         }
+
                         .table-striped tbody tr:nth-of-type(odd) {
                             background-color: white !important;
                         }
@@ -291,16 +384,19 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                             background-color: #0000000d !important;
                         }
 
-                        .JColResizer > tbody > tr > td, .JColResizer > tbody > tr > th {
-                            padding: .75rem!important;
+                        .JColResizer>tbody>tr>td,
+                        .JColResizer>tbody>tr>th {
+                            padding: .75rem !important;
                         }
-                        .hiddenColumn{
-                            display:none;
+
+                        .hiddenColumn {
+                            display: none;
                         }
+
                         .showColumn {
-                            display:table-cell;
-                            padding:.75rem;
-                            vertical-align:top;
+                            display: table-cell;
+                            padding: .75rem;
+                            vertical-align: top;
                         }
 
                         input[type=number]::-webkit-inner-spin-button,
@@ -348,7 +444,8 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                             </div>
                         </div>
                     </div> -->
-                    <table id="tblcontactoverview" style="width:100%" class="dataTable table table-striped table-bordered tblcontactoverview">
+                    <table id="tblcontactoverview" style="width:100%"
+                        class="dataTable table table-striped table-bordered tblcontactoverview">
                         <thead>
                             <tr class="dnd-moved">
                                 <th class="th colClientName" style="width:200px;">Contact Name</th>
@@ -372,15 +469,20 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
                             {{#each item in datatablerecords}}
                             <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                 <!-- <td contenteditable="false" class="colClientNo" >{{item.id}}</td> -->
-                                <td contenteditable="false" class="colClientName" >{{item.clientname}}</td>
-                                <td contenteditable="false" class="colType" >{{item.type}}</td>
+                                <td contenteditable="false" class="colClientName">{{item.clientname}}</td>
+                                <td contenteditable="false" class="colType">{{item.type}}</td>
                                 <td contenteditable="false" class="colPhone">{{item.phone}}</td>
                                 <td contenteditable="false" class="colMobile hiddenColumn">{{item.mobile}}</td>
-                                <td contenteditable="false" class="colARBalance" style="text-align: right!important;">{{item.arbalance}}</td>
-                                <td contenteditable="false" class="colCreditBalance" style="text-align: right!important;">{{item.creditbalance}}</td>
-                                <td contenteditable="false" class="colBalance" style="text-align: right!important;">{{item.balance}}</td>
-                                <td contenteditable="false" class="colCreditLimit" style="text-align: right!important;">{{item.creditlimit}}</td>
-                                <td contenteditable="false" class="colSalesOrderBalance" style="text-align: right!important;">{{item.salesorderbalance}}</td>
+                                <td contenteditable="false" class="colARBalance" style="text-align: right!important;">
+                                    {{item.arbalance}}</td>
+                                <td contenteditable="false" class="colCreditBalance"
+                                    style="text-align: right!important;">{{item.creditbalance}}</td>
+                                <td contenteditable="false" class="colBalance" style="text-align: right!important;">
+                                    {{item.balance}}</td>
+                                <td contenteditable="false" class="colCreditLimit" style="text-align: right!important;">
+                                    {{item.creditlimit}}</td>
+                                <td contenteditable="false" class="colSalesOrderBalance"
+                                    style="text-align: right!important;">{{item.salesorderbalance}}</td>
                                 <td contenteditable="false" class="colEmail hiddenColumn">{{item.email}}</td>
                                 <!-- <td contenteditable="false" class="colCountry hiddenColumn">{{item.country}}</td> -->
                                 <td contenteditable="false" class="colCustFld1 hiddenColumn">{{item.custFld1}}</td>
@@ -398,16 +500,18 @@ data-bs-chart="{&quot;type&quot;:&quot;horizontalBar&quot;,&quot;data&quot;:{&qu
         <!-- Start Help Video Modal -->
         <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
             <div class="modal-dialog" role="document" style="max-width: 670px!important;">
-                <div class="modal-content" >
-                    <div class="modal-header" >
+                <div class="modal-content">
+                    <div class="modal-header">
 
-                        <h4 class="title-header" >Contact Overview</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="title-header">Contact Overview</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
                         <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
                         <!-- <iframe width="640" height="360" src="https://erphelpes.com/vs1videos/contactsoverview.mp4" frameborder="0" allowfullscreen=""></iframe> -->
-                        <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <video id="myVideo" width="640" height="360" controls="" name="media"
+                            style="border: solid 5px #999999f0; height: auto; outline: none;">
                             <source src="https://erphelpes.com/vs1videos/contactoverview.mp4" type="video/mp4">
                         </video>
                     </div>
