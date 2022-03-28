@@ -6306,6 +6306,12 @@ Template.payrolloverview.events({
       },
     });
   },
+  "mouseover .card-header": (e) => {
+    $(e.currentTarget).parent(".card").addClass("hovered");
+  },
+  "mouseleave .card-header": (e) => {
+    $(e.currentTarget).parent(".card").removeClass("hovered");
+  },
 });
 
 Template.payrolloverview.helpers({

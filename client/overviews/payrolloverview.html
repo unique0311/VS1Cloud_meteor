@@ -1,6 +1,6 @@
 <template name="payrolloverview">
     <style>
-        .ui-sortable .card.hovered {
+        .card.hovered {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
             cursor: move;
             transition-duration: 300ms;
@@ -209,7 +209,7 @@
                     </div>
                 </div>
             </header>
-            <div class="row connectedSortable" style="padding: 0px 30px;">
+            <div class="row connectedSortable ui-sortable" style="padding: 0px 30px;">
 
                 {{> employeecompletedjobs}}
 
