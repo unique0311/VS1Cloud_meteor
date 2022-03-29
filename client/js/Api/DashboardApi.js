@@ -30,7 +30,7 @@ export default class DashboardApi {
       }),
       new ApiEndpoint({
         name: this.collectionNames.Tvs1dashboardpreferences,
-        endpoint: ApiService.getBaseUrl({ endpoint: "Tvs1dashboardpreferences" }),
+        endpoint: ApiService.getBaseUrl({ endpoint: "Tvs1dashboardpreferences?ListType='Detail'" }),
         headers: ApiService.getHeaders()
       }),
     ]);

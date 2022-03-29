@@ -11,6 +11,7 @@ import Tvs1chart from "../js/Api/Model/Tvs1Chart";
 import resizableCharts from "../js/Charts/resizableCharts";
 import ChartsEditor from "../js/Charts/ChartsEditor";
 import draggableCharts from "../js/Charts/draggableCharts";
+import Tvs1ChartDashboardPreference from "../js/Api/Model/Tvs1ChartDashboardPreference";
 
 let _ = require("lodash");
 let vs1chartService = new VS1ChartService();
@@ -180,115 +181,68 @@ Template.dashboard.onRendered(function () {
   templateObject.checkChartToDisplay = async () => {
     const dashboardApis = new DashboardApi();
     const chartsEndpoint = dashboardApis.collection.findByName(
-      dashboardApis.collectionNames.vs1charts
+      dashboardApis.collectionNames.Tvs1dashboardpreferences
     );
+
+    // this is the default list (hardcoded)
+    let itemList = [
+      "tvs1dashboardpreferences__monthyl_profit_and_loss",
+      "tvs1dashboardpreferences__profit_and_loss",
+      "tvs1dashboardpreferences__expenses",
+      "tvs1dashboardpreferences__quoted_amounts_/_invoiced_amounts",
+      "tvs1dashboardpreferences__monthly_earnings",
+      "tvs1dashboardpreferences__employee_sales_comparison",
+    ];
+
     const response = await chartsEndpoint.fetch(); // here i should get from database all charts to be displayed
 
     if (response.ok == true) {
       const jsonResponse = await response.json();
 
-      let tvs1charts = Tvs1chart.fromList(jsonResponse.tvs1charts);
+      let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
+        jsonResponse.tvs1dashboardpreferences
+      );
 
-      tvs1charts.forEach((tvs1chart) => {
-        const itemName =
-          tvs1chart.type.toLowerCase() +
-          "__" +
-          tvs1chart.fields.chartName.toLowerCase().split(" ").join("_"); // this is the new item name
 
-        if (tvs1chart.fields.chartGroup == "Dashboard") {
-          // localStorage.setItem(itemName, tvs1chart.fields.active);
-          console.log(`Adding ${itemName} to local storage`);
+      if (tvs1ChartDashboardPreference.length > 0) {
+        // if charts to be displayed are specified
+        tvs1ChartDashboardPreference.forEach((tvs1chart) => {
+          const itemName =
+            tvs1chart.type.toLowerCase() +
+            "__" +
+            tvs1chart.fields.chartName.toLowerCase().split(" ").join("_"); // this is the new item name
 
-          if (
-            itemName == "tvs1charts__monthyl_profit_and_loss" ||
-            itemName == "tvs1charts__profit_and_loss" ||
-            itemName == "tvs1charts__expenses" ||
-            itemName == "tvs1charts__quoted_amounts_/_invoiced_amounts" ||
-            itemName == "tvs1charts__monthly_earnings" ||
-            itemName == "tvs1charts__employee_sales_comparison"
-          ) {
-            if (tvs1chart.fields.active == true) {
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
-              $(`[key='${itemName}']`).removeClass("hideelement");
-            } else {
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
-              $(`[key='${itemName}']`).addClass("hideelement");
+          console.log(tvs1chart);
+
+          if (tvs1chart.fields.chartGroup == "Dashboard") {
+            localStorage.setItem(itemName, tvs1chart);
+            console.log(`Adding ${itemName} to local storage`);
+
+            if (itemList.includes(itemName) == true) {
+              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
+              $(`[key='${itemName}']`).attr(
+                "chart-group",
+                tvs1chart.fields.chartGroup
+              );
+
+              if (tvs1chart.fields.active == true) {
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+                $(`[key='${itemName}']`).removeClass("hideelement");
+              } else {
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
+                $(`[key='${itemName}']`).addClass("hideelement");
+              }
             }
           }
-        }
-      });
+        });
+      } else {
+        // this will show all by default
+        itemList.forEach((item) => {
+          $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
+          $(`[key='${item}']`).removeClass("hideelement");
+        });
+      }
     }
-
-    // if (
-    //   localStorage.getItem("profitchat") == "true" ||
-    //   localStorage.getItem("profitchat") == true ||
-    //   localStorage.getItem("profitchat") == null
-    // ) {
-    //   $("#profitlosshide").text("Hide");
-    //   $("#monthlyprofitlossstatus").removeClass("hideelement");
-    // } else {
-    //   $("#profitlosshide").text("Show");
-    //   $("#monthlyprofitlossstatus").addClass("hideelement");
-    // }
-
-    // if (
-    //   localStorage.getItem("expenseschart") == "true" ||
-    //   localStorage.getItem("expensechart") == true ||
-    //   localStorage.getItem("expensechart") == null
-    // ) {
-    //   $("#expenseshide").text("Hide");
-    //   $("#expensechart").removeClass("hideelement");
-    // } else {
-    //   $("#expenseshide").text("Show");
-    //   $("#expensechart").addClass("hideelement");
-
-    // if (
-    //   localStorage.getItem("profitloss") == "true" ||
-    //   localStorage.getItem("profitloss") == true ||
-    //   localStorage.getItem("profitloss") == null
-    // ) {
-    //   $("#profitloss1hide").text("Hide");
-    //   $("#profitlossstatus").removeClass("hideelement");
-    // } else {
-    //   $("#profitloss1hide").text("Show");
-    //   $("#profitlossstatus").addClass("hideelement");
-    // }
-
-    // if (
-    //   localStorage.getItem("quotedinvoicedchart") == "true" ||
-    //   localStorage.getItem("quotedinvoicedchart") == true ||
-    //   localStorage.getItem("quotedinvoicedchart") == null
-    // ) {
-    //   $("#hidesales1").text("Hide");
-    //   $("#quotedinvoicedamount").removeClass("hideelement");
-    // } else {
-    //   $("#hidesales1").text("Show");
-    //   $("#quotedinvoicedamount").addClass("hideelement");
-    // }
-
-    // if (
-    //   localStorage.getItem("resaleschat") == "true" ||
-    //   localStorage.getItem("resaleschat") == true ||
-    //   localStorage.getItem("resaleschat") == null
-    // ) {
-    //   $("#resalehide").text("Hide");
-    //   $("#resalecomparision").removeClass("hideelement");
-    // } else {
-    //   $("#resalehide").text("Show");
-    //   $("#resalecomparision").addClass("hideelement");
-    // }
-
-    // if (
-    //   localStorage.getItem("earningschat") == "true" ||
-    //   localStorage.getItem("earningschat") == true ||
-    //   localStorage.getItem("earningschat") == null
-    // ) {
-    //   $("#hideearnings").text("Hide");
-    //   $("#showearningchat").removeClass("hideelement");
-    // } else {
-    //   $("#hideearnings").text("Show");
-    //   $("#showearningchat").addClass("hideelement");
-    // }
   };
 
   templateObject.deactivateDraggable = () => {
@@ -334,36 +288,18 @@ Template.dashboard.events({
   "click .editchartsbtn": () => {
     $(".editcharts").trigger("click");
     chartsEditor.enable();
-    // $(".btnchartdropdown").addClass('hideelement');
-
-    // setTimeout(function() {
-    //     $(".monthlyprofilelossedit").removeClass('hideelement');
-    //     $(".monthlyprofilelossedit").addClass('showelement');
-
-    //     $(".profitlossedit").removeClass('hideelement');
-    //     $(".profitlossedit").addClass('showelement');
-
-    //     $(".resalecomparisionedit").removeClass('hideelement');
-    //     $(".resalecomparisionedit").addClass('showelement');
-
-    //     $(".quotedinvoicededit").removeClass('hideelement');
-    //     $(".quotedinvoicededit").addClass('showelement');
-
-    //     $(".monthlyearningsedit").removeClass('hideelement');
-    //     $(".monthlyearningsedit").addClass('showelement');
-
-    //     $(".expensesedit").removeClass('hideelement');
-    //     $(".expensesedit").addClass('showelement');
-    // }, 200);
-  },
-  "click .editcharts": () => {
-    chartsEditor.enable();
 
     const templateObject = Template.instance();
     templateObject.showChartElements();
-
-    //templateObject.activateDraggable();
   },
+  // "click .editcharts": () => {
+  //   chartsEditor.enable();
+
+  //   const templateObject = Template.instance();
+  //   templateObject.showChartElements();
+
+  //   //templateObject.activateDraggable();
+  // },
 
   "click #resetcharts": () => {
     chartsEditor.disable();

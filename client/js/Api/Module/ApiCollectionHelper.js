@@ -42,7 +42,7 @@ export default class ApiCollectionHelper {
 
     this.collection.forEach((apiEndpoint) => {
       this.debugMe(`Searching endpoint: ${name}`);
-      if (apiEndpoint.name == name) {
+      if (apiEndpoint.name.toLocaleLowerCase() == name.toLocaleLowerCase()) {
         this.debugMe(`${name} endpoint found`);
         endpoint = apiEndpoint;
       }

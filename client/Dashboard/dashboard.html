@@ -53,9 +53,9 @@
                 </div>
             </div>
             <div class="buttons" style="margin-left: auto; display: flex; gap: 0.5rem; flex-direction: row;">
-                <button class="btn btn-primary editcharts float-right" id="editcharts" type="button">
+                <!-- <button class="btn btn-primary editcharts float-right" id="editcharts" type="button">
                     <i class="fas fa-cogs" style="padding-right: 5px; "></i>
-                    Edit Charts</button>
+                    Edit Charts</button> -->
 
                 <button class="btn btn-primary resetcharts float-right hideelement" id="resetcharts" type="button">
                     <i class="fas fa-rotate-right" style="padding-right: 5px; "></i>
@@ -103,22 +103,22 @@
             }
         </style>
         <div class="row connectedSortable" id="connectedSortable">
-            <div class="col-auto sortable-chart-widget-js hideelement" id="monthylprofiteandlosscol" key="tvs1charts__monthyl_profit_and_loss">
+            <div class="col-auto sortable-chart-widget-js hideelement" id="monthylprofiteandlosscol" key="tvs1dashboardpreferences__monthyl_profit_and_loss">
                 {{> monthlyprofitandloss}}
             </div>
-            <div class="col-auto sortable-chart-widget-js hideelement" id="resalecomparisioncol" key="tvs1charts__employee_sales_comparison">
+            <div class="col-auto sortable-chart-widget-js hideelement" id="resalecomparisioncol" key="tvs1dashboardpreferences__employee_sales_comparison">
                 {{> resalescomparision}}
             </div>
-            <div class="col-auto sortable-chart-widget-js hideelement" id="monthlyearningscol" key="tvs1charts__monthly_earnings">
+            <div class="col-auto sortable-chart-widget-js hideelement" id="monthlyearningscol" key="tvs1dashboardpreferences__monthly_earnings">
                 {{> monthlyearnings}}
             </div>
-            <div class="col-auto sortable-chart-widget-js hideelement" id="profiteandlosschartcol" key="tvs1charts__profit_and_loss">
+            <div class="col-auto sortable-chart-widget-js hideelement" id="profiteandlosschartcol" key="tvs1dashboardpreferences__profit_and_loss">
                 {{> profitandlosschart}}
             </div>
-            <div class="col-auto sortable-chart-widget-js hideelement" id="quotedinvoicedamountscol" key="tvs1charts__quoted_amounts_/_invoiced_amounts">
+            <div class="col-auto sortable-chart-widget-js hideelement" id="quotedinvoicedamountscol" key="tvs1dashboardpreferences__quoted_amounts_/_invoiced_amounts">
                 {{> quotedinvoicedamounts}}
             </div>
-            <div class="col-auto sortable-chart-widget-js hideelement" id="expenseschartcol" key="tvs1charts__expenses">
+            <div class="col-auto sortable-chart-widget-js hideelement" id="expenseschartcol" key="tvs1dashboardpreferences__expenses">
                 {{> expenseschart}}
             </div>
         </div>
