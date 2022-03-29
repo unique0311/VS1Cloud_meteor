@@ -711,6 +711,7 @@ Template.purchaseordercard.onRendered(() => {
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
+
                         let useData = data.tpurchaseorderex;
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
