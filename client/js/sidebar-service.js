@@ -715,6 +715,23 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TbillReport, options);
   }
 
+  getAllOverDueAwaitingSupplierPayment(currentDate, limitcount, limitfrom) {
+    let options = '';
+      options = {
+        IgnoreDates:true,
+        IncludePOs:true,
+        IncludeBills:true,
+        Paid:false,
+        Unpaid:true,
+        OrderBy:"PurchaseOrderID desc",
+        Search:'DueDate < "'+currentDate+'"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+
+    return this.getList(this.ERPObjects.TbillReport, options);
+  }
+
   getAllAwaitingCustomerPayment(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
     let options = '';
     if(ignoreDate == true){
@@ -746,6 +763,32 @@ getCustomersDataByName(dataSearchName) {
        LimitFrom:'"'+limitfrom+'"'
    };
   }
+    return this.getList(this.ERPObjects.TSalesList, options);
+  }
+
+  getAllOverDueAwaitingCustomerPayment(currentDate, limitcount, limitfrom) {
+    let options = '';
+    //if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+        IncludeIsCashSale:false,
+        IncludeIsCustomerReturn:false,
+        IncludeIsInvoice:true,
+        IncludeIslayby:false,
+        IncludeIsLaybyPayment:false,
+        IncludeIsPOS:false,
+        IncludeIsQuote:false,
+        IncludeIsRefund:false,
+        IncludeISSalesOrder:false,
+        IncludeIsVoucher:false,
+        Paid:false,
+        Unpaid:true,
+        OrderBy:"SaleID desc",
+        Search:'dueDate < "'+currentDate+'"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+   //}
     return this.getList(this.ERPObjects.TSalesList, options);
   }
 

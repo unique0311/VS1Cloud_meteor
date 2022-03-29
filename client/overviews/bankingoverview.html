@@ -72,7 +72,7 @@
                 <button class="btn btn-primary btnReconList" id="btnReconList" type="button" style="margin: 16px;" autocomplete="off"><i class="fas fa-list-ol" style="padding-right: 5px;"></i>Reconcilation List</button>
             </div>
             <div class="col-5 d-xl-flex justify-content-xl-end align-items-end">
-                <button id="exportbtn" class="btn btn-primary float-right" type="button" style="margin: 16px;"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button> 
+                <button id="exportbtn" class="btn btn-primary float-right" type="button" style="margin: 16px;"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
                 <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
                 <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
             </div>
@@ -239,6 +239,8 @@
                                 <button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                 <div class="dropdown-menu" role="menu">
                                     <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                    <a class="dropdown-item today"  id="today" role="presentation" href="#">Today</a>
+                                    <a class="dropdown-item lastweek"  id="lastweek" role="presentation" href="#">Last Week</a>
                                     <a class="dropdown-item lastMonth"  id="lastMonth" role="presentation" href="#">Last Month</a>
                                     <a class="dropdown-item lastQuarter"  id="lastQuarter" role="presentation" href="#">Last Quarter</a>
                                     <a class="dropdown-item last12Months"  id="last12Months" role="presentation" href="#">Last 12 Months</a>
