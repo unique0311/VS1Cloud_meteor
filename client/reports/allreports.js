@@ -112,6 +112,9 @@ Template.allreports.onRendered(() => {
     });
 });
 Template.allreports.events({
+    'click .reportComingSoon': function (event) {
+        swal('Coming Soon', '', 'info');
+    },
     'click .chkBalanceSheet': function (event) {
         let templateObject = Template.instance();
         if ($(event.target).is(':checked')){
