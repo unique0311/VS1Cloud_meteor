@@ -113,43 +113,56 @@ Template.invoicelistBO.onRendered(function() {
       var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        getVS1Data('BackOrderSalesList').then(function (dataObject) {
+        getVS1Data('TSalesBackOrderReport').then(function (dataObject) {
             if(dataObject.length == 0){
-                sideBarService.getAllBOInvoiceList(initialDataLoad,0).then(function (data) {
-                  addVS1Data('BackOrderSalesList',JSON.stringify(data));
+                sideBarService.getAllTSalesBackOrderReportData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
+                  addVS1Data('TSalesBackOrderReport',JSON.stringify(data));
                     let lineItems = [];
                     let lineItemObj = {};
 
-                    for(let i=0; i<data.BackOrderSalesList.length; i++){
-                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
-                        // Currency+''+data.BackOrderSalesList[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc)|| 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalPaid)|| 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalBalance)|| 0.00;
+                    if (data.Params.IgnoreDates == true) {
+                        $('#dateFrom').attr('readonly', true);
+                        $('#dateTo').attr('readonly', true);
+                        FlowRouter.go('/invoicelistBO?ignoredate=true');
+                    } else {
+                        $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                        $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                    }
+                    for(let i=0; i<data.tsalesbackorderreport.length; i++){
+                        let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePrice)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalTax) || 0.00;
+                        // Currency+''+data.tsalesbackorderreport[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePriceInc)|| 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalPaid)|| 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalBalance)|| 0.00;
+                        let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
+                        if(data.tsalesbackorderreport[i].Deleted == true){
+                          salestatus = "Deleted";
+                        }
                         var dataList = {
-                            id: data.BackOrderSalesList[i].SaleID || '',
-                            employee:data.BackOrderSalesList[i].SaleEnteredBy || '',
-                            sortdate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("YYYY/MM/DD"): data.BackOrderSalesList[i].SaleDate,
-                            saledate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].SaleDate,
-                            duedate: data.BackOrderSalesList[i].DueDate !=''? moment(data.BackOrderSalesList[i].DueDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].DueDate,
-                            customername: data.BackOrderSalesList[i].CustomerPrintName || '',
+                            id: data.tsalesbackorderreport[i].SaleID || '',
+                            employee:data.tsalesbackorderreport[i].EnteredBy || '',
+                            sortdate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("YYYY/MM/DD"): data.tsalesbackorderreport[i].SaleDate,
+                            saledate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].SaleDate,
+                            duedate: data.tsalesbackorderreport[i].DueDate !=''? moment(data.tsalesbackorderreport[i].DueDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].DueDate,
+                            customername: data.tsalesbackorderreport[i].CustomerName || '',
                             totalamountex: totalAmountEx || 0.00,
-                            totaltax: totalTax || 0.00,
+                            totaltax: 0.00 || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            department: data.BackOrderSalesList[i].Department || '',
-                            custfield1: data.BackOrderSalesList[i].UOM || '',
-                            custfield2: data.BackOrderSalesList[i].SaleTerms || '',
-                            comments: data.BackOrderSalesList[i].SaleComments || '',
-                            qtybackorder: data.BackOrderSalesList[i].QtyBackOrder || '',
-                            product: data.BackOrderSalesList[i].ProductPrintName || '',
-                            // shipdate:data.BackOrderSalesList[i].ShipDate !=''? moment(data.BackOrderSalesList[i].ShipDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].ShipDate,
+                            department: data.tsalesbackorderreport[i].class || '',
+                            custfield1: data.tsalesbackorderreport[i].UOM || '',
+                            custfield2: data.tsalesbackorderreport[i].SaleTerms || '',
+                            comments: data.tsalesbackorderreport[i].PickMemo || '',
+                            qtybackorder: data.tsalesbackorderreport[i].BackOrder || '',
+                            product: data.tsalesbackorderreport[i].ProductName || '',
+                            salestatus: salestatus || '',
+                            // shipdate:data.tsalesbackorderreport[i].ShipDate !=''? moment(data.tsalesbackorderreport[i].ShipDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].ShipDate,
 
                         };
 
-                        //if(data.BackOrderSalesList[i].IsBackOrder == true){
+                        //if(data.tsalesbackorderreport[i].IsBackOrder == true){
                         dataTableList.push(dataList);
                         //}
                         //}
@@ -249,14 +262,108 @@ Template.invoicelistBO.onRendered(function() {
                                 $('#tblInvoicelistBO').DataTable().ajax.reload();
                             },
                             "fnDrawCallback": function (oSettings) {
+                              let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                              $('.paginate_button.page-item').removeClass('disabled');
+                              $('#tblInvoicelistBO_ellipsis').addClass('disabled');
+
+                              if(oSettings._iDisplayLength == -1){
+                                if(oSettings.fnRecordsDisplay() > 150){
+                                  $('.paginate_button.page-item.previous').addClass('disabled');
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                                }
+                              }else{
+
+                              }
+                              if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                  $('.paginate_button.page-item.next').addClass('disabled');
+                              }
+
+                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                               .on('click', function(){
+                                 $('.fullScreenSpin').css('display','inline-block');
+                                 let dataLenght = oSettings._iDisplayLength;
+                                 var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                                 var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                                 let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                                 let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                                 if(checkurlIgnoreDate == 'true'){
+                                 sideBarService.getAllTSalesBackOrderReportData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TSalesBackOrderReport').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tsalesbackorderreport), dataOld.tsalesbackorderreport);
+                                       let objCombineData = {
+                                         tsalesbackorderreport:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TSalesBackOrderReport',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+                               }else{
+                                 sideBarService.getAllTSalesBackOrderReportData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TSalesBackOrderReport').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
+
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tsalesbackorderreport), dataOld.tsalesbackorderreport);
+                                       let objCombineData = {
+                                         tsalesbackorderreport:thirdaryData
+                                       }
+
+
+                                         addVS1Data('TSalesBackOrderReport',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+                               }
+                               });
                                 setTimeout(function () {
                                     MakeNegative();
                                 }, 100);
                             },
                             "fnInitComplete": function () {
-                             $("<button class='btn btn-primary btnRefreshInvoiceListBO' type='button' id='btnRefreshInvoiceListBO' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelistBO_filter");
-                             $('.myvarFilterForm').appendTo(".colDateFilter");
-                      }
+                              let urlParametersPage = FlowRouter.current().queryParams.page;
+                              if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                                  this.fnPageChange('last');
+                              }
+                                 $("<button class='btn btn-primary btnRefreshInvoiceListBO' type='button' id='btnRefreshInvoiceListBO' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelistBO_filter");
+                                 $('.myvarFilterForm').appendTo(".colDateFilter");
+                             },
+                             "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                               let countTableData = data.Params.Count || 0; //get count from API data
+
+                                 return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
+                             }
 
                         }).on('page', function () {
                             setTimeout(function () {
@@ -266,10 +373,6 @@ Template.invoicelistBO.onRendered(function() {
                             templateObject.datatablerecords.set(draftRecord);
                         }).on('column-reorder', function () {
 
-                        }).on( 'length.dt', function ( e, settings, len ) {
-                            setTimeout(function () {
-                                MakeNegative();
-                            }, 100);
                         });
 
                         // $('#tblInvoicelistBO').DataTable().column( 0 ).visible( true );
@@ -305,9 +408,15 @@ Template.invoicelistBO.onRendered(function() {
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if(listData){
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             FlowRouter.go('/invoicecard?id=' + listData);
+                          }
                         }
+
                     });
 
                 }).catch(function (err) {
@@ -317,40 +426,53 @@ Template.invoicelistBO.onRendered(function() {
                 });
             }else{
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.BackOrderSalesList;
+                let useData = data.tsalesbackorderreport;
                 let lineItems = [];
                 let lineItemObj = {};
-
-                for(let i=0; i<data.BackOrderSalesList.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
-                    // Currency+''+data.BackOrderSalesList[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalBalance)|| 0.00;
+                console.log(data);
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/invoicelistBO?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for(let i=0; i<data.tsalesbackorderreport.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePrice)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalTax) || 0.00;
+                    // Currency+''+data.tsalesbackorderreport[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePriceInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalPaid)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalBalance)|| 0.00;
+                    let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
+                    if(data.tsalesbackorderreport[i].Deleted == true){
+                      salestatus = "Deleted";
+                    }
                     var dataList = {
-                        id: data.BackOrderSalesList[i].SaleID || '',
-                        employee:data.BackOrderSalesList[i].SaleEnteredBy || '',
-                        sortdate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("YYYY/MM/DD"): data.BackOrderSalesList[i].SaleDate,
-                        saledate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].SaleDate,
-                        duedate: data.BackOrderSalesList[i].DueDate !=''? moment(data.BackOrderSalesList[i].DueDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].DueDate,
-                        customername: data.BackOrderSalesList[i].CustomerPrintName || '',
+                        id: data.tsalesbackorderreport[i].SaleID || '',
+                        employee:data.tsalesbackorderreport[i].EnteredBy || '',
+                        sortdate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("YYYY/MM/DD"): data.tsalesbackorderreport[i].SaleDate,
+                        saledate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].SaleDate,
+                        duedate: data.tsalesbackorderreport[i].DueDate !=''? moment(data.tsalesbackorderreport[i].DueDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].DueDate,
+                        customername: data.tsalesbackorderreport[i].CustomerName || '',
                         totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
+                        totaltax: 0.00 || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        department: data.BackOrderSalesList[i].Department || '',
-                        custfield1: data.BackOrderSalesList[i].UOM || '',
-                        custfield2: data.BackOrderSalesList[i].SaleTerms || '',
-                        comments: data.BackOrderSalesList[i].SaleComments || '',
-                        qtybackorder: data.BackOrderSalesList[i].QtyBackOrder || '',
-                        product: data.BackOrderSalesList[i].ProductPrintName || '',
-                        // shipdate:data.BackOrderSalesList[i].ShipDate !=''? moment(data.BackOrderSalesList[i].ShipDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].ShipDate,
+                        department: data.tsalesbackorderreport[i].class || '',
+                        custfield1: data.tsalesbackorderreport[i].UOM || '',
+                        custfield2: data.tsalesbackorderreport[i].SaleTerms || '',
+                        comments: data.tsalesbackorderreport[i].PickMemo || '',
+                        qtybackorder: data.tsalesbackorderreport[i].BackOrder || '',
+                        product: data.tsalesbackorderreport[i].ProductName || '',
+                        salestatus: salestatus || '',
+                        // shipdate:data.tsalesbackorderreport[i].ShipDate !=''? moment(data.tsalesbackorderreport[i].ShipDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].ShipDate,
 
                     };
 
-                    //if(data.BackOrderSalesList[i].IsBackOrder == true){
+                    //if(data.tsalesbackorderreport[i].IsBackOrder == true){
                     dataTableList.push(dataList);
                     //}
                     //}
@@ -450,6 +572,7 @@ Template.invoicelistBO.onRendered(function() {
                             $('#tblInvoicelistBO').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
                           $('.paginate_button.page-item').removeClass('disabled');
                           $('#tblInvoicelistBO_ellipsis').addClass('disabled');
 
@@ -469,21 +592,26 @@ Template.invoicelistBO.onRendered(function() {
                            .on('click', function(){
                              $('.fullScreenSpin').css('display','inline-block');
                              let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                             sideBarService.getAllBOInvoiceList(initialDatatableLoad,oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                               getVS1Data('BackOrderSalesList').then(function (dataObjectold) {
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                             sideBarService.getAllTSalesBackOrderReportData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TSalesBackOrderReport').then(function (dataObjectold) {
                                  if(dataObjectold.length == 0){
 
                                  }else{
                                    let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                   var thirdaryData = $.merge($.merge([], dataObjectnew.BackOrderSalesList), dataOld.BackOrderSalesList);
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tsalesbackorderreport), dataOld.tsalesbackorderreport);
                                    let objCombineData = {
-                                     BackOrderSalesList:thirdaryData
+                                     tsalesbackorderreport:thirdaryData
                                    }
 
 
-                                     addVS1Data('BackOrderSalesList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     addVS1Data('TSalesBackOrderReport',JSON.stringify(objCombineData)).then(function (datareturn) {
                                        templateObject.resetData(objCombineData);
                                      $('.fullScreenSpin').css('display','none');
                                      }).catch(function (err) {
@@ -498,7 +626,36 @@ Template.invoicelistBO.onRendered(function() {
                              }).catch(function(err) {
                                $('.fullScreenSpin').css('display','none');
                              });
+                           }else{
+                             sideBarService.getAllTSalesBackOrderReportData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TSalesBackOrderReport').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
 
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tsalesbackorderreport), dataOld.tsalesbackorderreport);
+                                   let objCombineData = {
+                                     tsalesbackorderreport:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TSalesBackOrderReport',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                           }
                            });
                             setTimeout(function () {
                                 MakeNegative();
@@ -506,11 +663,16 @@ Template.invoicelistBO.onRendered(function() {
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if(urlParametersPage){
-                            this.fnPageChange('last');
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
                           }
                              $("<button class='btn btn-primary btnRefreshInvoiceListBO' type='button' id='btnRefreshInvoiceListBO' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelistBO_filter");
                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                          }
 
                     }).on('page', function () {
@@ -521,45 +683,6 @@ Template.invoicelistBO.onRendered(function() {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {
 
-                    }).on( 'length.dt', function ( e, settings, len ) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      if(dataLenght == -1){
-                        if(settings.fnRecordsDisplay() > initialDatatableLoad){
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                        sideBarService.getAllBOInvoiceList('All',1).then(function(dataNonBo) {
-
-                          addVS1Data('BackOrderSalesList',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            templateObject.resetData(dataNonBo);
-                          $('.fullScreenSpin').css('display','none');
-                          }).catch(function (err) {
-                          $('.fullScreenSpin').css('display','none');
-                          });
-                        }).catch(function(err) {
-                          $('.fullScreenSpin').css('display','none');
-                        });
-                       }
-                      }else{
-                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                          sideBarService.getAllBOInvoiceList(dataLenght,0).then(function(dataNonBo) {
-
-                            addVS1Data('BackOrderSalesList',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              templateObject.resetData(dataNonBo);
-                            $('.fullScreenSpin').css('display','none');
-                            }).catch(function (err) {
-                            $('.fullScreenSpin').css('display','none');
-                            });
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                        }
-                      }
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
                     });
 
                     // $('#tblInvoicelistBO').DataTable().column( 0 ).visible( true );
@@ -595,48 +718,67 @@ Template.invoicelistBO.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/invoicecard?id=' + listData);
+                      }
                     }
+
                 });
 
             }
         }).catch(function (err) {
-              sideBarService.getAllBOInvoiceList(initialDataLoad,0).then(function (data) {
-                addVS1Data('BackOrderSalesList',JSON.stringify(data));
+              sideBarService.getAllTSalesBackOrderReportData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
+                addVS1Data('TSalesBackOrderReport',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
 
-                for(let i=0; i<data.BackOrderSalesList.length; i++){
-                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
-                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
-                    // Currency+''+data.BackOrderSalesList[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc)|| 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalPaid)|| 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalBalance)|| 0.00;
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/invoicelistBO?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for(let i=0; i<data.tsalesbackorderreport.length; i++){
+                    let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePrice)|| 0.00;
+                    let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalTax) || 0.00;
+                    // Currency+''+data.tsalesbackorderreport[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                    let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePriceInc)|| 0.00;
+                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalPaid)|| 0.00;
+                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalBalance)|| 0.00;
+                    let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
+                    if(data.tsalesbackorderreport[i].Deleted == true){
+                      salestatus = "Deleted";
+                    }
                     var dataList = {
-                        id: data.BackOrderSalesList[i].SaleID || '',
-                        employee:data.BackOrderSalesList[i].SaleEnteredBy || '',
-                        sortdate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("YYYY/MM/DD"): data.BackOrderSalesList[i].SaleDate,
-                        saledate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].SaleDate,
-                        duedate: data.BackOrderSalesList[i].DueDate !=''? moment(data.BackOrderSalesList[i].DueDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].DueDate,
-                        customername: data.BackOrderSalesList[i].CustomerPrintName || '',
+                        id: data.tsalesbackorderreport[i].SaleID || '',
+                        employee:data.tsalesbackorderreport[i].EnteredBy || '',
+                        sortdate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("YYYY/MM/DD"): data.tsalesbackorderreport[i].SaleDate,
+                        saledate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].SaleDate,
+                        duedate: data.tsalesbackorderreport[i].DueDate !=''? moment(data.tsalesbackorderreport[i].DueDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].DueDate,
+                        customername: data.tsalesbackorderreport[i].CustomerName || '',
                         totalamountex: totalAmountEx || 0.00,
-                        totaltax: totalTax || 0.00,
+                        totaltax: 0.00 || 0.00,
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        department: data.BackOrderSalesList[i].Department || '',
-                        custfield1: data.BackOrderSalesList[i].UOM || '',
-                        custfield2: data.BackOrderSalesList[i].SaleTerms || '',
-                        comments: data.BackOrderSalesList[i].SaleComments || '',
-                        qtybackorder: data.BackOrderSalesList[i].QtyBackOrder || '',
-                        product: data.BackOrderSalesList[i].ProductPrintName || '',
-                        // shipdate:data.BackOrderSalesList[i].ShipDate !=''? moment(data.BackOrderSalesList[i].ShipDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].ShipDate,
+                        department: data.tsalesbackorderreport[i].class || '',
+                        custfield1: data.tsalesbackorderreport[i].UOM || '',
+                        custfield2: data.tsalesbackorderreport[i].SaleTerms || '',
+                        comments: data.tsalesbackorderreport[i].PickMemo || '',
+                        qtybackorder: data.tsalesbackorderreport[i].BackOrder || '',
+                        product: data.tsalesbackorderreport[i].ProductName || '',
+                        salestatus: salestatus || '',
+                        // shipdate:data.tsalesbackorderreport[i].ShipDate !=''? moment(data.tsalesbackorderreport[i].ShipDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].ShipDate,
 
                     };
 
-                    //if(data.BackOrderSalesList[i].IsBackOrder == true){
+                    //if(data.tsalesbackorderreport[i].IsBackOrder == true){
                     dataTableList.push(dataList);
                     //}
                     //}
@@ -736,10 +878,108 @@ Template.invoicelistBO.onRendered(function() {
                             $('#tblInvoicelistBO').DataTable().ajax.reload();
                         },
                         "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblInvoicelistBO_ellipsis').addClass('disabled');
+
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                            }
+                          }else{
+
+                          }
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                             sideBarService.getAllTSalesBackOrderReportData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TSalesBackOrderReport').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tsalesbackorderreport), dataOld.tsalesbackorderreport);
+                                   let objCombineData = {
+                                     tsalesbackorderreport:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TSalesBackOrderReport',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                           }else{
+                             sideBarService.getAllTSalesBackOrderReportData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TSalesBackOrderReport').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tsalesbackorderreport), dataOld.tsalesbackorderreport);
+                                   let objCombineData = {
+                                     tsalesbackorderreport:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TSalesBackOrderReport',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                           }
+                           });
                             setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
+                        "fnInitComplete": function () {
+                          let urlParametersPage = FlowRouter.current().queryParams.page;
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                              this.fnPageChange('last');
+                          }
+                             $("<button class='btn btn-primary btnRefreshInvoiceListBO' type='button' id='btnRefreshInvoiceListBO' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblInvoicelistBO_filter");
+                             $('.myvarFilterForm').appendTo(".colDateFilter");
+                         },
+                         "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                           let countTableData = data.Params.Count || 0; //get count from API data
+
+                             return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
+                         }
 
                     }).on('page', function () {
                         setTimeout(function () {
@@ -749,10 +989,6 @@ Template.invoicelistBO.onRendered(function() {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {
 
-                    }).on( 'length.dt', function ( e, settings, len ) {
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
                     });
 
                     // $('#tblInvoicelistBO').DataTable().column( 0 ).visible( true );
@@ -788,9 +1024,15 @@ Template.invoicelistBO.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/invoicecard?id=' + listData);
+                      }
                     }
+
                 });
 
             }).catch(function (err) {
@@ -806,16 +1048,21 @@ Template.invoicelistBO.onRendered(function() {
 
     $('#tblInvoicelistBO tbody').on( 'click', 'tr', function () {
         var listData = $(this).closest('tr').attr('id');
+        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
         if(listData){
+          if(checkDeleted == "Deleted"){
+            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+          }else{
             FlowRouter.go('/invoicecard?id=' + listData);
+          }
         }
 
     });
 
 
     templateObject.getAllFilterBOInvoiceData = function(fromDate, toDate, ignoreDate) {
-        sideBarService.getAllBOInvoiceList(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
-            addVS1Data('BackOrderSalesList', JSON.stringify(data)).then(function(datareturn) {
+        sideBarService.getAllTSalesBackOrderReportData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+            addVS1Data('TSalesBackOrderReport', JSON.stringify(data)).then(function(datareturn) {
                 window.open('/invoicelistBO?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
             }).catch(function(err) {
                 location.reload();
@@ -899,32 +1146,32 @@ Template.invoicelistBO.events({
                 $(".btnRefreshInvoiceListBO").removeClass('btnSearchAlert');
                 let lineItems = [];
                 let lineItemObj = {};
-                if (data.BackOrderSalesList.length > 0) {
-                    for (let i = 0; i < data.BackOrderSalesList.length; i++) {
-                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
+                if (data.tsalesbackorderreport.length > 0) {
+                    for (let i = 0; i < data.tsalesbackorderreport.length; i++) {
+                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePrice)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalTax) || 0.00;
                         // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalBalance) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePriceInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalPaid) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalBalance) || 0.00;
                         var dataList = {
-                           id: data.BackOrderSalesList[i].SaleID || '',
-                            employee:data.BackOrderSalesList[i].SaleEnteredBy || '',
-                            sortdate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("YYYY/MM/DD"): data.BackOrderSalesList[i].SaleDate,
-                            saledate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].SaleDate,
-                            duedate: data.BackOrderSalesList[i].DueDate !=''? moment(data.BackOrderSalesList[i].DueDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].DueDate,
-                            customername: data.BackOrderSalesList[i].CustomerPrintName || '',
+                           id: data.tsalesbackorderreport[i].SaleID || '',
+                            employee:data.tsalesbackorderreport[i].EnteredBy || '',
+                            sortdate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("YYYY/MM/DD"): data.tsalesbackorderreport[i].SaleDate,
+                            saledate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].SaleDate,
+                            duedate: data.tsalesbackorderreport[i].DueDate !=''? moment(data.tsalesbackorderreport[i].DueDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].DueDate,
+                            customername: data.tsalesbackorderreport[i].CustomerName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            department: data.BackOrderSalesList[i].Department || '',
-                            custfield1: data.BackOrderSalesList[i].UOM || '',
-                            custfield2: data.BackOrderSalesList[i].SaleTerms || '',
-                            comments: data.BackOrderSalesList[i].SaleComments || '',
-                            qtybackorder: data.BackOrderSalesList[i].QtyBackOrder || '',
-                            product: data.BackOrderSalesList[i].ProductPrintName || '',
+                            department: data.tsalesbackorderreport[i].class || '',
+                            custfield1: data.tsalesbackorderreport[i].UOM || '',
+                            custfield2: data.tsalesbackorderreport[i].SaleTerms || '',
+                            comments: data.tsalesbackorderreport[i].PickMemo || '',
+                            qtybackorder: data.tsalesbackorderreport[i].BackOrder || '',
+                            product: data.tsalesbackorderreport[i].ProductName || '',
 
                         };
 
@@ -964,7 +1211,7 @@ Template.invoicelistBO.events({
                                 '</tr>');
 
                         }
-                        $('.dataTables_info').html('Showing 1 to ' + data.BackOrderSalesList.length + ' of ' + data.BackOrderSalesList.length + ' entries');
+                        $('.dataTables_info').html('Showing 1 to ' + data.tsalesbackorderreport.length + ' of ' + data.tsalesbackorderreport.length + ' entries');
 
                     }
 
@@ -1156,13 +1403,47 @@ Template.invoicelistBO.events({
         if(currentDate.getDate() < 10){
             days = "0" + currentDate.getDate();
         }
+
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+
         let currenctTodayDate = currentDate.getFullYear() + "-" + month + "-" + days + " "+ hours+ ":"+ minutes+ ":"+ seconds;
         let templateObject = Template.instance();
-        sideBarService.getAllBOInvoiceList(initialDataLoad,0).then(function (dataBO) {
-          addVS1Data('BackOrderSalesList',JSON.stringify(dataBO)).then(function (datareturn) {
-              window.open('/invoicelistBO','_self');
+        sideBarService.getAllTSalesBackOrderReportData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (dataBO) {
+          addVS1Data('TSalesBackOrderReport',JSON.stringify(dataBO)).then(function (datareturn) {
+            sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
+                addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                    window.open('/invoicelistBO', '_self');
+                }).catch(function (err) {
+                    window.open('/invoicelistBO', '_self');
+                });
+            }).catch(function (err) {
+                window.open('/invoicelistBO', '_self');
+            });
           }).catch(function (err) {
-              window.open('/invoicelistBO','_self');
+            sideBarService.getAllInvoiceList(initialDataLoad, 0).then(function (data) {
+                addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
+                    window.open('/invoicelistBO', '_self');
+                }).catch(function (err) {
+                    window.open('/invoicelistBO', '_self');
+                });
+            }).catch(function (err) {
+                window.open('/invoicelistBO', '_self');
+            });
           });
         }).catch(function(err) {
             window.open('/invoicelistBO','_self');
@@ -1210,6 +1491,62 @@ Template.invoicelistBO.events({
             templateObject.getAllFilterBOInvoiceData(formatDateFrom, formatDateTo, false);
         }
 
+    },
+    'click #today': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterBOInvoiceData(toDateERPFrom,toDateERPTo, false);
+    },
+    'click #lastweek': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterBOInvoiceData(toDateERPFrom,toDateERPTo, false);
     },
     'click #lastMonth': function() {
         let templateObject = Template.instance();

@@ -1432,9 +1432,9 @@ Template.paymentoverview.events({
         $('.modal-backdrop').css('display','none');
         FlowRouter.go('/customerawaitingpayments');
     },
-    'click .customerOverdue' : function(event){
+    'click .customerOverdue, click .custOverdueAmt' : function(event){
         $('.modal-backdrop').css('display','none');
-        FlowRouter.go('/customerawaitingpayments?status="overdue"');
+        FlowRouter.go('/customerawaitingpayments?overdue=true');
     },
     'click .supplierAwaitingPayment' : function(event){
         $('.modal-backdrop').css('display','none');
@@ -1442,7 +1442,7 @@ Template.paymentoverview.events({
     },
     'click .supplierOverdue' : function(event){
         $('.modal-backdrop').css('display','none');
-        FlowRouter.go('/supplierawaitingpurchaseorder?status="overdue"');
+        FlowRouter.go('/supplierawaitingpurchaseorder?overdue=true');
     },
 
     'click .chkDatatable' : function(event){
@@ -1746,6 +1746,62 @@ Template.paymentoverview.events({
             templateObject.getAllFilterPaymentsData(formatDateFrom,formatDateTo, false);
         }
 
+    },
+    'click #today': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterPaymentsData(toDateERPFrom,toDateERPTo, false);
+    },
+    'click #lastweek': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterPaymentsData(toDateERPFrom,toDateERPTo, false);
     },
     'click #lastMonth': function () {
         let templateObject = Template.instance();
