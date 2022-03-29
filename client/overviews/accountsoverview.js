@@ -17,7 +17,7 @@ let sideBarService = new SideBarService();
 const chartsEditor = new ChartsEditor(
   () => {
     $("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
-    
+
     $("#btnDone").addClass("showelement");
     $("#btnDone").removeClass("hideelement");
     $("#btnCancel").addClass("showelement");
@@ -26,8 +26,7 @@ const chartsEditor = new ChartsEditor(
     $("#editcharts").removeClass("showelement");
     $(".btnchartdropdown").addClass("hideelement");
     $(".btnchartdropdown").removeClass("showelement");
-
-  }, 
+  },
   () => {
     $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
     $("#btnDone").addClass("hideelement");
@@ -38,7 +37,6 @@ const chartsEditor = new ChartsEditor(
     $("#editcharts").removeClass("hideelement");
     $(".btnchartdropdown").removeClass("hideelement");
     $(".btnchartdropdown").addClass("showelement");
-   
   }
 );
 
@@ -2126,8 +2124,8 @@ Template.accountsoverview.onRendered(function () {
     });
   });
 
-   draggableCharts.enable();
-   resizableCharts.enable();
+  draggableCharts.enable();
+  resizableCharts.enable();
 });
 
 Template.accountsoverview.events({
@@ -2137,7 +2135,7 @@ Template.accountsoverview.events({
   "click #editcharts": () => {
     chartsEditor.enable();
   },
-  'click #resetcharts': () => {
+  "click #resetcharts": () => {
     chartsEditor.disable();
   },
   "mouseover .card-header": (e) => {
@@ -2148,10 +2146,6 @@ Template.accountsoverview.events({
   },
   "click #btnJournalEntries": function (event) {
     FlowRouter.go("/journalentrylist");
-  },
-
-  "click #btnReceiptClaims": function (event) {
-    FlowRouter.go("/receiptsoverview");
   },
 
   "click .chkDatatable": function (event) {
@@ -2175,6 +2169,36 @@ Template.accountsoverview.events({
         }
       }
     });
+  },
+  "click .resetTable": function (event) {
+    var getcurrentCloudDetails = CloudUser.findOne({
+      _id: Session.get("mycloudLogonID"),
+      clouddatabaseID: Session.get("mycloudLogonDBID"),
+    });
+    if (getcurrentCloudDetails) {
+      if (getcurrentCloudDetails._id.length > 0) {
+        var clientID = getcurrentCloudDetails._id;
+        var clientUsername = getcurrentCloudDetails.cloudUsername;
+        var clientEmail = getcurrentCloudDetails.cloudEmail;
+        var checkPrefDetails = CloudPreference.findOne({
+          userid: clientID,
+          PrefName: "tblAccountOverview",
+        });
+        if (checkPrefDetails) {
+          CloudPreference.remove(
+            {
+              _id: checkPrefDetails._id,
+            },
+            function (err, idTag) {
+              if (err) {
+              } else {
+                Meteor._reload.reload();
+              }
+            }
+          );
+        }
+      }
+    }
   },
   "click .resetTable": function (event) {
     var getcurrentCloudDetails = CloudUser.findOne({

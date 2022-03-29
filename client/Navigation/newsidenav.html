@@ -710,6 +710,12 @@
               </li>
             {{/if}}
 
+            {{#if includeAccounts}}
+                <li class="receiptLi" id="sidenavreceipt">
+                    <a class="liHeader receiptLiHeader"><i class="fas fa-receipt faHeader"></i> Receipt Claims</a>
+                </li>
+            {{/if}}
+
             {{#if includePurchases}}
                 <li class="purchasesLi" id="sidenavpurchases">
                     <a href="#purchasesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle liHeader purchasesLiHeader"><i class="fa fa-arrow-circle-down faHeader"></i> Purchases</a>

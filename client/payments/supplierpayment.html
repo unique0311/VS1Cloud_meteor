@@ -177,6 +177,9 @@
                             input[type=number]::-webkit-outer-spin-button {
                                 opacity: 1;
                             }
+                            .text-deleted{
+                              background-color: #e74a3b !important; color:#fff;
+                            }
                         </style>
                         <div class="row no-gutters d-xl-flex align-items-xl-end">
                             <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
@@ -231,6 +234,7 @@
                                     <th class="th colCustomerName" style="width:200px;">Supplier Name</th>
                                     <th class="th colBankAccount" style="width:80px;">Bank</th>
                                     <th class="th colDepartment" style="width:80px;">Department</th>
+                                    <th class="th colStatus" style="width: 5% !important;">Status</th>
                                     <th class="th colRefNo hiddenColumn">Custom Field 1</th>
                                     <th class="th colPaymentMethod hiddenColumn">Custom Field 2</th>
                                     <th class="th colNotes">Comments</th>
@@ -250,6 +254,7 @@
                                     <td contenteditable="false" class="colCustomerName">{{item.customername}}</td>
                                     <td contenteditable="false" class="colBankAccount">{{item.bankaccount}}</td>
                                     <td contenteditable="false" class="colDepartment">{{item.department}}</td>
+                                    <td contenteditable="false" class="colStatus">{{item.paystatus}}</td>
                                     <td contenteditable="false" class="colRefNo hiddenColumn">{{item.refno}}</td>
                                     <td contenteditable="false" class="colPaymentMethod hiddenColumn">{{item.paymentmethod}}</td>
                                     <td contenteditable="false" class="colNotes" >{{item.notes}}</td>
