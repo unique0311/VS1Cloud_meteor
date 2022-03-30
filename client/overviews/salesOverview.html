@@ -1,10 +1,21 @@
 <template name="salesoverview">
     <style>
-        .ui-sortable .card.hovered {
+            .dimmedChart>div {
+            background-color: #dddfeb !important;
+        }
+        .card.hovered {
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
             cursor: move;
             transition-duration: 300ms;
 
+        }
+
+        .hideelement {
+            display: none !important;
+        }
+
+        .showelement {
+            display: block;
         }
 
     </style>
@@ -129,11 +140,21 @@
         </div> -->
 
         <div class="row connectedSortable ui-sortable" style="padding: 0px 30px;">
+            <div class="sortable-chart-widget-js hideelement col-lg-7 col-xl-8" key="sales__sales_overview">
+                {{> quotedsalesorderinvoicedamounts}}
+            </div>
 
-            {{> quotedsalesorderinvoicedamounts}}
-            <div class="col-lg-5 col-xl-4">
+            <div class="sortable-chart-widget-js hideelement col-lg-5 col-xl-4" key="sales__profit_and_loss">
                 {{> profitandlosschart}}
             </div>
+        </div>
+        <div class="row no-gutters justify-content-center">
+            <button class="btn btn-success float-right hideelement" id="btnDone" type="button"
+                style="margin:16px;margin-top: 0px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save
+                Changes</button>
+            <button class="btn btn-secondary float-right hideelement" id="btnCancel" type="button"
+                style="margin:16px;margin-left: 0px;margin-top: 0px;"><i class="fa fa-close"
+                    style="margin-right: 5px;"></i>Cancel</button>
         </div>
 
         <style>

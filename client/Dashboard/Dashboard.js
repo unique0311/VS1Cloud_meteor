@@ -38,7 +38,7 @@ let Charts = {
  * Current User ID
  */
 const employeeId = Session.get("mySessionEmployeeLoggedID");
-
+const _chartGroup = "Dashboard";
 const chartsEditor = new ChartsEditor(
   () => {
     $("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
@@ -62,6 +62,8 @@ const chartsEditor = new ChartsEditor(
     $(".sortable-chart-widget-js").removeClass("hideelement"); // display every charts
     $(".on-editor-change-mode").removeClass("hideelement");
     $(".on-editor-change-mode").addClass("showelement");
+
+
   },
   () => {
     $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
@@ -120,7 +122,7 @@ const saveCharts = async () => {
         EmployeeID: employeeId,
         Chartname: $(chart).attr("chart-name"),
         Position: $(chart).attr("position"),
-        ChartGroup: "Dashboard",
+        ChartGroup: _chartGroup,
       }),
     });
     console.log(chartData);
@@ -200,7 +202,7 @@ Template.dashboard.onRendered(function () {
       let chartList = Tvs1chart.fromList(
         allChartsJsonResponse.tvs1charts
       ).filter((chart) => {
-        if (chart.fields.ChartGroup == "Dashboard") {
+        if (chart.fields.ChartGroup == _chartGroup) {
           return chart;
         }
       });
@@ -263,12 +265,12 @@ Template.dashboard.onRendered(function () {
 
     // this is the default list (hardcoded)
     let itemList = [
-      "tvs1dashboardpreferences__monthyl_profit_and_loss",
-      "tvs1dashboardpreferences__profit_and_loss",
-      "tvs1dashboardpreferences__expenses",
-      "tvs1dashboardpreferences__quoted_amounts_/_invoiced_amounts",
-      "tvs1dashboardpreferences__monthly_earnings",
-      "tvs1dashboardpreferences__employee_sales_comparison",
+      "dashboard__monthyl_profit_and_loss",
+      "dashboard__profit_and_loss",
+      "dashboard__expenses",
+      "dashboard__quoted_amounts_/_invoiced_amounts",
+      "dashboard__monthly_earnings",
+      "dashboard__employee_sales_comparison",
     ];
 
     const dashboardPreferencesEndpointResponse =
@@ -283,7 +285,7 @@ Template.dashboard.onRendered(function () {
       let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
         dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
       ).filter((chart) => {
-        if (chart.fields.ChartGroup == "Dashboard") {
+        if (chart.fields.ChartGroup == _chartGroup) {
           return chart;
         }
       });
@@ -294,7 +296,7 @@ Template.dashboard.onRendered(function () {
           //setTimeout(() => { // this is good to see how the charts are apearing or not
           //if (tvs1chart.fields.ChartGroup == "Dashboard") {
           const itemName =
-            tvs1chart.type.toLowerCase() +
+            tvs1chart.fields.ChartGroup.toLowerCase() +
             "__" +
             tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
 
