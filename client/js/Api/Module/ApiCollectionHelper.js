@@ -4,10 +4,10 @@ export default class ApiCollectionHelper {
   constructor(collection = []) {
     this.name = null;
 
-    this.debug = true;
+    this.debug = false;
 
     this.collection = collection;
-    console.log(collection);
+    
 
     console.log("ApiCollectionHelper module loaded");
   }

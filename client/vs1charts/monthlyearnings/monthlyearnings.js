@@ -27,16 +27,16 @@ Template.monthlyearnings.onRendered(() => {
     let topTenSuppData1 = [];
     let topData = this;
 
-    setTimeout(function () {
-   let checkStatus = localStorage.getItem("earningschat") || true;
-      if(checkStatus == false || checkStatus == "false") {
-        $("#showearningchat").addClass('hideelement')
-        $('#hideearnings').text("Show");
-      } else {
-        $("#showearningchat").removeClass('hideelement')
-        $('#hideearnings').text("Hide");
-      }
-  },500);
+//     setTimeout(function () {
+//    let checkStatus = localStorage.getItem("earningschat") || true;
+//       if(checkStatus == false || checkStatus == "false") {
+//         $("#showearningchat").addClass('hideelement')
+//         $('#hideearnings').text("Show");
+//       } else {
+//         $("#showearningchat").removeClass('hideelement')
+//         $('#hideearnings').text("Hide");
+//       }
+//   },500);
 
 
       // function done(){

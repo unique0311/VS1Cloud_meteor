@@ -1,3 +1,4 @@
+
 export default class Tvs1ChartDashboardPreferenceField {
   constructor({
     Active,
@@ -19,23 +20,23 @@ export default class Tvs1ChartDashboardPreferenceField {
     Recno,
     TabGroup,
   }) {
-    this.active = Active;
-    this.chartGroup = ChartGroup;
-    this.chartName = Chartname;
-    this.chartId = ChartID;
-    this.chartWidth = ChartWidth;
-    this.employeeID = EmployeeID;
-    this.employeeName = Employeename;
-    this.position = Position;
-    this.tabGroup = TabGroup;
-    this.globalRef = GlobalRef;
-    this.gloablref = Gloablref;
-    this.Id = ID;
-    this.isEmpty = ISEmpty;
-    this.keyStringFieldName = KeyStringFieldName;
-    this.keyValue = KeyValue;
-    this.msTimeStamp = MsTimeStamp;
-    this.msUpdateSiteCode = MsUpdateSiteCode;
-    this.recNo = Recno;
+    this.Active = Active;
+    this.ChartGroup = ChartGroup;
+    this.Chartname = Chartname;
+    this.ChartID = ChartID;
+    this.ChartWidth = ChartWidth;
+    this.EmployeeID = EmployeeID;
+    this.Employeename = Employeename;
+    this.Position = Position;
+    this.TabGroup = TabGroup;
+    this.GlobalRef = GlobalRef;
+    this.Gloablref = Gloablref;
+    this.ID = ID;
+    this.ISEmpty = ISEmpty;
+    this.KeyStringFieldName = KeyStringFieldName;
+    this.KeyValue = KeyValue;
+    this.MsTimeStamp = MsTimeStamp;
+    this.MsUpdateSiteCode = MsUpdateSiteCode;
+    this.Recno = Recno;
   }
 }

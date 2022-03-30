@@ -13,17 +13,17 @@ export default class Tvs1ChartField {
     MsUpdateSiteCode,
     Recno
   }) {
-    this.active = Active;
-    this.chartGroup = ChartGroup;
-    this.chartName = ChartName;
-    this.globalRef = GlobalRef;
+    this.Active = Active;
+    this.ChartGroup = ChartGroup;
+    this.ChartName = ChartName;
+    this.GlobalRef = GlobalRef;
     this.gloablref = Gloablref;
-    this.Id = ID;
-    this.isEmpty = ISEmpty;
-    this.keyStringFieldName = KeyStringFieldName;
-    this.keyValue = KeyValue;
-    this.msTimeStamp = MsTimeStamp;
-    this.msUpdateSiteCode = MsUpdateSiteCode;
-    this.recNo = Recno;
+    this.ID = ID;
+    this.ISEmpty = ISEmpty;
+    this.KeyStringFieldName = KeyStringFieldName;
+    this.KeyValue = KeyValue;
+    this.MsTimeStamp = MsTimeStamp;
+    this.MsUpdateSiteCode = MsUpdateSiteCode;
+    this.Recno = Recno;
   }
 }

@@ -1,14 +1,19 @@
 import Tvs1ChartDashboardPreferenceField from "./Tvs1ChartDashboardPreferenceField";
 
 /**
- * @param {Object} object
- * @param {String} object.type
- * @param {Tvs1ChartDashboardPreferenceField} object.fields
+ * @param {Tvs1ChartDashboardPreferenceField} fields
+ * @type {{type: string, fields: Tvs1ChartDashboardPreferenceField}}
  */
 export default class Tvs1ChartDashboardPreference {
-  constructor(options) {
-    this.type = options.type;
-    this.fields = new Tvs1ChartDashboardPreferenceField(options.fields);
+  constructor({type, fields}) {
+    this.type = type;
+
+    if(fields instanceof Tvs1ChartDashboardPreference) {
+      this.fields = fields;
+    }else {
+      this.fields = new Tvs1ChartDashboardPreferenceField(fields);
+    }
+   
   }
 
 
