@@ -2675,9 +2675,14 @@ Template.new_invoice.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
                               }
+
+                              let lidData = 'Edit Invoice' + ' ' + data.fields.ID||'';
+                              if(data.fields.IsBackOrder){
+                                 lidData = 'Edit Invoice' + ' (BO) ' + data.fields.ID||'';
+                              }
                                 let invoicerecord = {
                                     id: data.fields.ID,
-                                    lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                    lid: lidData,
                                     socustomer: data.fields.CustomerName,
                                     salesOrderto: data.fields.InvoiceToDesc,
                                     shipto: data.fields.ShipToDesc,
@@ -3026,9 +3031,15 @@ Template.new_invoice.onRendered(() => {
                                         lineItems.push(lineItemObj);
                                     }
                                     company_name = useData[d].fields.CustomerName;
+
+                                    let lidData = 'Edit Invoice' + ' ' + useData[d].fields.ID||'';
+                                    if(useData[d].fields.IsBackOrder){
+                                       lidData = 'Edit Invoice' + ' (BO) ' + useData[d].fields.ID||'';
+                                    }
+
                                     let invoicerecord = {
                                         id: useData[d].fields.ID,
-                                        lid: 'Edit Invoice' + ' ' + useData[d].fields.ID,
+                                        lid: lidData,
                                         socustomer: useData[d].fields.CustomerName,
                                         salesOrderto: useData[d].fields.InvoiceToDesc,
                                         shipto: useData[d].fields.ShipToDesc,
@@ -3315,9 +3326,14 @@ Template.new_invoice.onRendered(() => {
                                         lineItems.push(lineItemObj);
                                     }
                                   }
+
+                                  let lidData = 'Edit Invoice' + ' ' + data.fields.ID||'';
+                                  if(data.fields.IsBackOrder){
+                                     lidData = 'Edit Invoice' + ' (BO) ' + data.fields.ID||'';
+                                  }
                                     let invoicerecord = {
                                         id: data.fields.ID,
-                                        lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                        lid: lidData,
                                         socustomer: data.fields.CustomerName,
                                         salesOrderto: data.fields.InvoiceToDesc,
                                         shipto: data.fields.ShipToDesc,
@@ -3669,9 +3685,13 @@ Template.new_invoice.onRendered(() => {
                                 lineItems.push(lineItemObj);
                             }
                           }
+                          let lidData = 'Edit Invoice' + ' ' + data.fields.ID||'';
+                          if(data.fields.IsBackOrder){
+                             lidData = 'Edit Invoice' + ' (BO) ' + data.fields.ID||'';
+                          }
                             let invoicerecord = {
                                 id: data.fields.ID,
-                                lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                lid: lidData,
                                 socustomer: data.fields.CustomerName,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
@@ -4083,9 +4103,13 @@ Template.new_invoice.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
                               }
+                              let lidData = 'Edit Invoice' + ' ' + data.fields.ID||'';
+                              if(data.fields.IsBackOrder){
+                                 lidData = 'Edit Invoice' + ' (BO) ' + data.fields.ID||'';
+                              }
                                 let invoicerecord = {
                                     id: data.fields.ID,
-                                    lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                    lid: lidData,
                                     socustomer: data.fields.CustomerName,
                                     salesOrderto: data.fields.InvoiceToDesc,
                                     shipto: data.fields.ShipToDesc,
@@ -4408,9 +4432,13 @@ Template.new_invoice.onRendered(() => {
                                         lineItems.push(lineItemObj);
                                     }
 
+                                    let lidData = 'Edit Invoice' + ' ' + useData[d].fields.ID||'';
+                                    if(useData[d].fields.IsBackOrder){
+                                       lidData = 'Edit Invoice' + ' (BO) ' + useData[d].fields.ID||'';
+                                    }
                                     let invoicerecord = {
                                         id: useData[d].fields.ID,
-                                        lid: 'Edit Invoice' + ' ' + useData[d].fields.ID,
+                                        lid: lidData,
                                         socustomer: useData[d].fields.CustomerName,
                                         salesOrderto: useData[d].fields.InvoiceToDesc,
                                         shipto: useData[d].fields.ShipToDesc,
@@ -4709,9 +4737,14 @@ Template.new_invoice.onRendered(() => {
                                         }
                                     }
 
+                                    let lidData = 'Edit Invoice' + ' ' + data.fields.ID||'';
+                                    if(data.fields.IsBackOrder){
+                                       lidData = 'Edit Invoice' + ' (BO) ' + data.fields.ID||'';
+                                    }
+
                                     let invoicerecord = {
                                         id: data.fields.ID,
-                                        lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                        lid: lidData,
                                         socustomer: data.fields.CustomerName,
                                         salesOrderto: data.fields.InvoiceToDesc,
                                         shipto: data.fields.ShipToDesc,
@@ -5004,9 +5037,13 @@ Template.new_invoice.onRendered(() => {
                                 lineItems.push(lineItemObj);
                             }
                           }
+                          let lidData = 'Edit Invoice' + ' ' + data.fields.ID||'';
+                          if(data.fields.IsBackOrder){
+                             lidData = 'Edit Invoice' + ' (BO) ' + data.fields.ID||'';
+                          }
                             let invoicerecord = {
                                 id: data.fields.ID,
-                                lid: 'Edit Invoice' + ' ' + data.fields.ID,
+                                lid: lidData,
                                 salesOrderto: data.fields.InvoiceToDesc,
                                 shipto: data.fields.ShipToDesc,
                                 department: data.fields.SaleClassName,

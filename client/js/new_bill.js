@@ -6348,7 +6348,7 @@ Template.billcard.events({
                         }
                     }
 
-                    sideBarService.getAllBillExList().then(function(dataUpdate) {
+                    sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataUpdate) {
                         addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function(datareturn) {
                             window.open('/supplierpaymentcard?billid=' + linesave, '_self');
                         }).catch(function(err) {
