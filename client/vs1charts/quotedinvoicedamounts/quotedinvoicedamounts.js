@@ -30,13 +30,13 @@ Template.quotedinvoicedamounts.onRendered(() => {
     let topData = this;
 
     let checkStatus = localStorage.getItem("quotedinvoicedchart") || true;
-      if(checkStatus == false || checkStatus == "false") {
-        $("#quotedinvoicedamount").addClass('hideelement');
-        $('#hidesales1').text("Show");
-      } else {
-        $("#quotedinvoicedamount").removeClass('hideelement');
-        $('#hidesales1').text("Hide");
-      }
+    //   if(checkStatus == false || checkStatus == "false") {
+    //     $("#quotedinvoicedamount").addClass('hideelement');
+    //     $('#hidesales1').text("Show");
+    //   } else {
+    //     $("#quotedinvoicedamount").removeClass('hideelement');
+    //     $('#hidesales1').text("Hide");
+    //   }
 
               // function done(){
               //         var url= myChart.toBase64Image();

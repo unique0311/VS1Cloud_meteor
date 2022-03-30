@@ -33,15 +33,15 @@ Template.profitandlosschart.onRendered(()=>{
 
 
   let checkStatus = localStorage.getItem("profitloss") || true;
-  setTimeout(function(){
-  if(checkStatus == false || checkStatus == "false") {
-    $("#profitlossstatus").addClass('hideelement')
-    $('#profitloss1hide').text("Show");
-  } else {
-    $("#profitlossstatus").removeClass('hideelement')
-    $('#profitloss1hide').text("Hide");
-  }
-    },1000);
+  // setTimeout(function(){
+  // if(checkStatus == false || checkStatus == "false") {
+  //   $("#profitlossstatus").addClass('hideelement')
+  //   $('#profitloss1hide').text("Show");
+  // } else {
+  //   $("#profitlossstatus").removeClass('hideelement')
+  //   $('#profitloss1hide').text("Hide");
+  // }
+  //   },1000);
 
   if((currentDate.getMonth()+1) < 10){
     fromDateMonth = "0" + (currentDate.getMonth()+1);

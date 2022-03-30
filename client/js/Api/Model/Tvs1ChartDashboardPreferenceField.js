@@ -1,8 +1,13 @@
-export default class Tvs1ChartField {
+
+export default class Tvs1ChartDashboardPreferenceField {
   constructor({
     Active,
     ChartGroup,
-    ChartName,
+    ChartID,
+    ChartWidth,
+    Chartname,
+    EmployeeID,
+    Employeename,
     Gloablref,
     GlobalRef,
     ID,
@@ -11,13 +16,21 @@ export default class Tvs1ChartField {
     KeyValue,
     MsTimeStamp,
     MsUpdateSiteCode,
-    Recno
+    Position,
+    Recno,
+    TabGroup,
   }) {
     this.Active = Active;
     this.ChartGroup = ChartGroup;
-    this.ChartName = ChartName;
+    this.Chartname = Chartname;
+    this.ChartID = ChartID;
+    this.ChartWidth = ChartWidth;
+    this.EmployeeID = EmployeeID;
+    this.Employeename = Employeename;
+    this.Position = Position;
+    this.TabGroup = TabGroup;
     this.GlobalRef = GlobalRef;
-    this.gloablref = Gloablref;
+    this.Gloablref = Gloablref;
     this.ID = ID;
     this.ISEmpty = ISEmpty;
     this.KeyStringFieldName = KeyStringFieldName;
