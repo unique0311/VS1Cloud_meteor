@@ -5298,6 +5298,11 @@ Template.payrolloverview.events({
     FlowRouter.go("/payrun");
   },
 
+  "click #btnSingleTouchPayroll": function (event) {
+    $(".modal-backdrop").css("display", "none");
+    FlowRouter.go("/singletouch");
+  },
+
   "click .btnTimesheetList": function (event) {
     $(".modal-backdrop").css("display", "none");
     let id = $("#updateID").val();
