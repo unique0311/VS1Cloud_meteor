@@ -62,8 +62,6 @@ const chartsEditor = new ChartsEditor(
     $(".sortable-chart-widget-js").removeClass("hideelement"); // display every charts
     $(".on-editor-change-mode").removeClass("hideelement");
     $(".on-editor-change-mode").addClass("showelement");
-
-
   },
   () => {
     $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
@@ -103,7 +101,7 @@ const saveCharts = async () => {
   buildPositions();
 
   const charts = $(".chart-visibility");
-  console.log(charts);
+  //console.log(charts);
 
   /**
    * @property {Tvs1ChartDashboardPreference[]}
@@ -111,40 +109,56 @@ const saveCharts = async () => {
   let chartList = [];
 
   // now we have to make the post request to save the data in database
+  const apiEndpoint = dashboardApis.collection.findByName(
+    dashboardApis.collectionNames.Tvs1dashboardpreferences
+  );
 
-  chartList.forEach(async (chart) => {
-    const chartData = new Tvs1ChartDashboardPreference({
-      type: "Tvs1dashboardpreferences",
-      fields: new Tvs1ChartDashboardPreferenceField({
-        Active: $(chart).find(".on-editor-change-mode").attr("is-hidden"),
-        ChartID: $(chart).attr("chart-id"),
-        ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
-        EmployeeID: employeeId,
-        Chartname: $(chart).attr("chart-name"),
-        Position: $(chart).attr("position"),
-        ChartGroup: _chartGroup,
-      }),
+  Array.prototype.forEach.call(charts, (chart) => {
+    //console.log(chart);
+    chartList.push(
+      new Tvs1ChartDashboardPreference({
+        type: "Tvs1dashboardpreferences",
+        fields: new Tvs1ChartDashboardPreferenceField({
+          Active:
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == true ||
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == "true"
+              ? false
+              : true,
+          ChartID: $(chart).attr("chart-id"),
+          ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
+          EmployeeID: employeeId,
+          Chartname: $(chart).attr("chart-name"),
+          Position: $(chart).attr("position"),
+          ChartGroup: _chartGroup,
+          ChartWidth: $(chart).find(".ui-resizable").width(),
+        }),
+      })
+    );
+  });
+
+  //console.log(chartList);
+
+  for (const _chart of chartList) {
+    // chartList.forEach(async (chart) => {
+    //console.log("Saving chart");
+
+    const ApiResponse = await apiEndpoint.fetch(null, {
+      method: "POST",
+      headers: ApiService.getPostHeaders(),
+      body: JSON.stringify(_chart),
     });
-    console.log(chartData);
-
-    const ApiResponse = await dashboardApis.collection
-      .findByName(dashboardApis.collectionNames.Tvs1dashboardpreferences)
-      .fetch(null, {
-        method: "POST",
-        headers: ApiService.getPostHeaders(),
-        body: JSON.stringify(chartData),
-      });
 
     if (ApiResponse.ok == true) {
       const jsonResponse = await ApiResponse.json();
-      console.log(
-        "Chart: " +
-          chart.Chartname +
-          " will be hidden ? " +
-          !chart.fields.Active
-      );
+      // console.log(
+      //   "Chart: " +
+      //     _chart.ChartName +
+      //     " will be hidden ? " +
+      //     !_chart.fields.Active
+      // );
     }
-  });
+    //});
+  }
 };
 
 Template.dashboard.onCreated(function () {
@@ -198,6 +212,7 @@ Template.dashboard.onRendered(function () {
 
     if (allChartResponse.ok == true) {
       const allChartsJsonResponse = await allChartResponse.json();
+      //console.log(allChartsJsonResponse);
 
       let chartList = Tvs1chart.fromList(
         allChartsJsonResponse.tvs1charts
@@ -206,13 +221,15 @@ Template.dashboard.onRendered(function () {
           return chart;
         }
       });
-      //console.log(allChartResponse);
-      //console.log(chartList);
+      // console.log(allChartResponse);
+      // console.log(chartList);
       // the goal here is to get the right names so it can be used for preferences
       chartList.forEach((chart) => {
+        // console.log(chart);
         //chart.fields.active = false; // Will set evething to false
         chart.fields._chartSlug =
-          "tvs1dashboardpreferences__" +
+          chart.fields.ChartGroup.toLowerCase() +
+          "__" +
           chart.fields.ChartName.toLowerCase().split(" ").join("_");
 
         $(`[key='${chart.fields._chartSlug}']`).attr(
@@ -280,7 +297,7 @@ Template.dashboard.onRendered(function () {
       const dashboardPreferencesEndpointJsonResponse =
         await dashboardPreferencesEndpointResponse.json();
 
-      console.log(dashboardPreferencesEndpointJsonResponse);
+      //console.log(dashboardPreferencesEndpointJsonResponse);
 
       let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
         dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
@@ -290,65 +307,75 @@ Template.dashboard.onRendered(function () {
         }
       });
 
+      //console.log(tvs1ChartDashboardPreference);
+
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          //setTimeout(() => { // this is good to see how the charts are apearing or not
-          //if (tvs1chart.fields.ChartGroup == "Dashboard") {
-          const itemName =
-            tvs1chart.fields.ChartGroup.toLowerCase() +
-            "__" +
-            tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
+          setTimeout(() => {
+            // this is good to see how the charts are apearing or not
+            //if (tvs1chart.fields.ChartGroup == "Dashboard") {
+            const itemName =
+              tvs1chart.fields.ChartGroup.toLowerCase() +
+              "__" +
+              tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
 
-          //localStorage.setItem(itemName, tvs1chart);
-          console.log(itemName + " " + tvs1chart.fields.Active);
+            //localStorage.setItem(itemName, tvs1chart);
+            //console.log(itemName + " " + tvs1chart.fields.Active);
 
-          if (itemList.includes(itemName) == true) {
-            // If the item name exist
-            $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
-            $(`[key='${itemName}']`).attr(
-              "chart-group",
-              tvs1chart.fields.chartGroup
-            );
-            $(`[key='${itemName}']`).addClass("chart-visibility");
-            //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
-            $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-              "chart-slug",
-              itemName
-            );
-
-            if (tvs1chart.fields.Active == true) {
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+            if (itemList.includes(itemName) == true) {
+              // If the item name exist
+              if (tvs1chart.fields.ChartWidth) {
+            
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "width",
+                  tvs1chart.fields.ChartWidth
+                );
+              }
+              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
+              $(`[key='${itemName}']`).attr(
+                "chart-group",
+                tvs1chart.fields.chartGroup
+              );
+              $(`[key='${itemName}']`).addClass("chart-visibility");
+              //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
               $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "false"
+                "chart-slug",
+                itemName
               );
 
-              $(`[key='${itemName}']`).removeClass("hideelement");
-              //$(`[key='${itemName}']`).attr("is-hidden", false);
-            } else {
-              $(`[key='${itemName}']`).addClass("hideelement");
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
-              // $(`[key='${itemName}']`).attr("is-hidden", true);
-              $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "true"
-              );
+              if (tvs1chart.fields.Active == true) {
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "false"
+                );
+
+                $(`[key='${itemName}']`).removeClass("hideelement");
+                //$(`[key='${itemName}']`).attr("is-hidden", false);
+              } else {
+                $(`[key='${itemName}']`).addClass("hideelement");
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
+                // $(`[key='${itemName}']`).attr("is-hidden", true);
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "true"
+                );
+              }
             }
-          }
-          //}
-          //}, index * 1000);
+            //}
+          }, index * 100);
         });
       }
 
       displayedCharts = document.querySelectorAll(
         ".chart-visibility:not(.hideelement)"
       );
-      console.log(displayedCharts);
+      //console.log(displayedCharts);
 
       if (displayedCharts.length == 0) {
         // this will show all by default
-        console.log("No charts are being displayed, so show everything");
+        //console.log("No charts are being displayed, so show everything");
         itemList.forEach((item) => {
           $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
           $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
