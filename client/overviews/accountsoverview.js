@@ -2295,7 +2295,7 @@ Template.accountsoverview.onRendered(function () {
     );
 
     // this is the default list (hardcoded)
-    let itemList = ["accounts__revenu_streams", "accounts__profit_and_loss"];
+    let itemList = ["accounts__revenue_streams", "accounts__profit_and_loss"];
 
     const dashboardPreferencesEndpointResponse =
       await dashboardPreferencesEndpoint.fetch(); // here i should get from database all charts to be displayed
@@ -2370,18 +2370,18 @@ Template.accountsoverview.onRendered(function () {
       );
       console.log(displayedCharts);
 
-      // if (displayedCharts.length == 0) {
-      //   // this will show all by default
-      //   console.log("No charts are being displayed, so show everything");
-      //   itemList.forEach((item) => {
-      //     $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
-      //     $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
-      //     $(`[key='${item}'] .on-editor-change-mode`).attr("chart-slug", item);
-      //     $(`[key='${item}']`).removeClass("hideelement");
-      //     $(`[key='${item}']`).addClass("chart-visibility");
-      //     // $(`[key='${item}']`).attr("is-hidden", false);
-      //   });
-      // }
+      if (displayedCharts.length == 0) {
+        // this will show all by default
+        console.log("No charts are being displayed, so show everything");
+        itemList.forEach((item) => {
+          $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
+          $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
+          $(`[key='${item}'] .on-editor-change-mode`).attr("chart-slug", item);
+          $(`[key='${item}']`).removeClass("hideelement");
+          $(`[key='${item}']`).addClass("chart-visibility");
+          // $(`[key='${item}']`).attr("is-hidden", false);
+        });
+      }
     }
   };
 

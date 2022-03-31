@@ -346,18 +346,18 @@ Template.dashboard.onRendered(function () {
       );
       console.log(displayedCharts);
 
-      // if (displayedCharts.length == 0) {
-      //   // this will show all by default
-      //   console.log("No charts are being displayed, so show everything");
-      //   itemList.forEach((item) => {
-      //     $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
-      //     $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
-      //     $(`[key='${item}'] .on-editor-change-mode`).attr("chart-slug", item);
-      //     $(`[key='${item}']`).removeClass("hideelement");
-      //     $(`[key='${item}']`).addClass("chart-visibility");
-      //     // $(`[key='${item}']`).attr("is-hidden", false);
-      //   });
-      // }
+      if (displayedCharts.length == 0) {
+        // this will show all by default
+        console.log("No charts are being displayed, so show everything");
+        itemList.forEach((item) => {
+          $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
+          $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
+          $(`[key='${item}'] .on-editor-change-mode`).attr("chart-slug", item);
+          $(`[key='${item}']`).removeClass("hideelement");
+          $(`[key='${item}']`).addClass("chart-visibility");
+          // $(`[key='${item}']`).attr("is-hidden", false);
+        });
+      }
     }
   };
 
