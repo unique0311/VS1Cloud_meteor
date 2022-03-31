@@ -765,8 +765,8 @@
                                                                     <input class="custom-control-input chkUnitPrice" type="checkbox" id="formCheck-04" checked="">
                                                                     <label class="custom-control-label" for="formCheck-04"></label>
                                                                     <div contenteditable="true" class="groove divcolumn" type="text"
-                                                                        value="{{#if purchaseCloudGridPreferenceRec}}{{purchaseCloudGridPreferenceRec.customFields.[3].label}}{{else}}Unit Price{{/if}}" valueupdate="th.colUnitPrice">
-                                                                        {{#if purchaseCloudGridPreferenceRec}}{{purchaseCloudGridPreferenceRec.customFields.[3].label}}{{else}}Unit Price{{/if}}</div>
+                                                                        value="{{#if purchaseCloudGridPreferenceRec}}{{purchaseCloudGridPreferenceRec.customFields.[3].label}}{{else}}Cost Price{{/if}}" valueupdate="th.colUnitPrice">
+                                                                        {{#if purchaseCloudGridPreferenceRec}}{{purchaseCloudGridPreferenceRec.customFields.[3].label}}{{else}}Cost Price{{/if}}</div>
                                                                 </div>
                                                                 <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
                                                                     <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width:</label>
@@ -790,7 +790,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="columnSettings">
+                                                            <!-- <div class="columnSettings">
                                                                 <div class="custom-control custom-switch" style="margin: 8px; float:left;">
                                                                     <input class="custom-control-input chkCostPrice" type="checkbox" id="formCheck-07">
                                                                     <label class="custom-control-label" for="formCheck-07"></label>
@@ -803,7 +803,7 @@
                                                                     <input class="custom-range widthElement rngRangeCostPrice" type="number" style="margin: 8px;"
                                                                         value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
 
                                                             <div class="columnSettings">
                                                                 <div class="custom-control custom-switch" style="margin: 8px; float:left;">
@@ -988,9 +988,9 @@
                                         {{else}}
                                             <th class="th colQty" style="width: 75px;">Qty</th>
                                         {{/if}}
-                                        <th class="th colUnitPrice" style="width: 110px; text-align: left!important;">Unit Price</th>
+                                        <th class="th colUnitPrice" style="width: 110px; text-align: left!important;">Cost Price</th>
                                         <th class="th colCustomerJob " style="width: 200px;">Customer/Job</th>
-                                        <th class="th colCostPrice thLinceCostPrice hiddenColumn" style="width: 110px; text-align: left!important;">Cost Price</th>
+                                        <!-- <th class="th colCostPrice thLinceCostPrice hiddenColumn" style="width: 110px; text-align: left!important;">Cost Price</th> -->
                                         <th class="th colCustomField1 thCustomField1 hiddenColumn" style="width: 110px;">CustomField1</th>
                                         <th class="th colTaxRate hiddenColumn" style="width: 91px; text-align: left!important;">Tax Rate</th>
                                         <th class="th colTaxCode " style="width: 95px; text-align: left!important;">Tax Code</th>
@@ -1027,7 +1027,7 @@
                                             <td contenteditable="false" class="colCustomerJob">
                                               <input class="es-input highlightSelect lineCustomerJob" type="search" value="{{item.customerJob}}">
                                             </td>
-                                            <td class="hiddenColumn colCostPrice"><input class="lineCostPrice  highlightInput" type="text" value="{{item.lineCost}}"></td>
+                                            <!-- <td class="hiddenColumn colCostPrice"><input class="lineCostPrice  highlightInput" type="text" value="{{item.lineCost}}"></td> -->
 
                                             <td contenteditable="true" class="lineCustomField1 colCustomField1 hiddenColumn">{{item.CustomField1}}</td>
                                             <td contenteditable="false" class="lineTaxRate colTaxRate pointer hiddenColumn" style="text-align: right!important;">{{item.taxRate}}</td>
@@ -1324,7 +1324,7 @@
                                     <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
                                     <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
                                     <th style="text-align: right; width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
-                                    <th style="text-align: right; width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
+                                    <th style="text-align: right; width: 90px; background-color: white; color: rgb(0 0 0);">Cost Price</th>
                                     <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
                                     <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);" class="hiddenColumn">Tax</th>
                                     <th style="text-align: right; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
@@ -1442,7 +1442,7 @@
                                                     <th class="text-nowrap" style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
                                                     <th class="text-nowrap" style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
                                                     <th class="text-nowrap text-left" style="width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
-                                                    <th class="text-nowrap text-left" style="width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
+                                                    <th class="text-nowrap text-left" style="width: 90px; background-color: white; color: rgb(0 0 0);">Cost Price</th>
                                                     <th class="text-nowrap text-left" style="width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
                                                     <th class="text-nowrap text-left" style="width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
                                                 </tr>

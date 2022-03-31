@@ -153,7 +153,9 @@ Template.invoicelist.onRendered(function () {
                         let salestatus = data.tinvoicelist[i].QuoteStatus || '';
                         if(data.tinvoicelist[i].Deleted == true){
                           salestatus = "Deleted";
-                        }
+                        }else if(data.tinvoicelist[i].CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tinvoicelist[i].SaleID || '',
                             employee: data.tinvoicelist[i].EmployeeName || '',
@@ -467,7 +469,9 @@ Template.invoicelist.onRendered(function () {
                     let salestatus = data.tinvoicelist[i].QuoteStatus || '';
                     if(data.tinvoicelist[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.tinvoicelist[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tinvoicelist[i].SaleID || '',
                         employee: data.tinvoicelist[i].EmployeeName || '',
@@ -775,7 +779,9 @@ Template.invoicelist.onRendered(function () {
                   let salestatus = data.tinvoicelist[i].QuoteStatus || '';
                   if(data.tinvoicelist[i].Deleted == true){
                     salestatus = "Deleted";
-                  }
+                  }else if(data.tinvoicelist[i].CustomerName == ''){
+                    salestatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.tinvoicelist[i].SaleID || '',
                       employee: data.tinvoicelist[i].EmployeeName || '',

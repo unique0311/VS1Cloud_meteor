@@ -138,7 +138,9 @@ Template.invoicelistBO.onRendered(function() {
                         let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
                         if(data.tsalesbackorderreport[i].Deleted == true){
                           salestatus = "Deleted";
-                        }
+                        }else if(data.tsalesbackorderreport[i].CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tsalesbackorderreport[i].SaleID || '',
                             employee:data.tsalesbackorderreport[i].EnteredBy || '',
@@ -448,7 +450,9 @@ Template.invoicelistBO.onRendered(function() {
                     let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
                     if(data.tsalesbackorderreport[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.tsalesbackorderreport[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tsalesbackorderreport[i].SaleID || '',
                         employee:data.tsalesbackorderreport[i].EnteredBy || '',
@@ -754,7 +758,9 @@ Template.invoicelistBO.onRendered(function() {
                     let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
                     if(data.tsalesbackorderreport[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.tsalesbackorderreport[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tsalesbackorderreport[i].SaleID || '',
                         employee:data.tsalesbackorderreport[i].EnteredBy || '',

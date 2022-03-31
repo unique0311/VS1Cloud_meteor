@@ -153,7 +153,9 @@ Template.refundlist.onRendered(function () {
                         let salestatus = data.trefundsalelist[i].QuoteStatus || '';
                         if(data.trefundsalelist[i].Deleted == true){
                           salestatus = "Deleted";
-                        }
+                        }else if(data.trefundsalelist[i].CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.trefundsalelist[i].SaleID || '',
                             employee: data.trefundsalelist[i].EmployeeName || '',
@@ -467,7 +469,9 @@ Template.refundlist.onRendered(function () {
                     let salestatus = data.trefundsalelist[i].QuoteStatus || '';
                     if(data.trefundsalelist[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.trefundsalelist[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.trefundsalelist[i].SaleID || '',
                         employee: data.trefundsalelist[i].EmployeeName || '',
@@ -776,7 +780,9 @@ Template.refundlist.onRendered(function () {
                   let salestatus = data.trefundsalelist[i].QuoteStatus || '';
                   if(data.trefundsalelist[i].Deleted == true){
                     salestatus = "Deleted";
-                  }
+                  }else if(data.trefundsalelist[i].CustomerName == ''){
+                    salestatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.trefundsalelist[i].SaleID || '',
                       employee: data.trefundsalelist[i].EmployeeName || '',

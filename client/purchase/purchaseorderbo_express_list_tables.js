@@ -131,7 +131,9 @@ Template.purchaseorderlistBO.onRendered(function() {
                         let orderstatus = data.tpurchasesbackorderreport[i].OrderStatus || '';
                         if(data.tpurchasesbackorderreport[i].Deleted == true){
                           orderstatus = "Deleted";
-                        }
+                        }else if(data.tpurchasesbackorderreport[i].SupplierName == ''){
+                          orderstatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tpurchasesbackorderreport[i].PurchaseOrderID || '',
                             employee:data.tpurchasesbackorderreport[i].EmployeeName || '',
@@ -421,7 +423,9 @@ Template.purchaseorderlistBO.onRendered(function() {
                     let orderstatus = data.tpurchasesbackorderreport[i].OrderStatus || '';
                     if(data.tpurchasesbackorderreport[i].Deleted == true){
                       orderstatus = "Deleted";
-                    }
+                    }else if(data.tpurchasesbackorderreport[i].SupplierName == ''){
+                      orderstatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tpurchasesbackorderreport[i].PurchaseOrderID || '',
                         employee:data.tpurchasesbackorderreport[i].EmployeeName || '',
@@ -707,7 +711,9 @@ Template.purchaseorderlistBO.onRendered(function() {
                     let orderstatus = data.tpurchasesbackorderreport[i].OrderStatus || '';
                     if(data.tpurchasesbackorderreport[i].Deleted == true){
                       orderstatus = "Deleted";
-                    }
+                    }else if(data.tpurchasesbackorderreport[i].SupplierName == ''){
+                      orderstatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tpurchasesbackorderreport[i].PurchaseOrderID || '',
                         employee:data.tpurchasesbackorderreport[i].EmployeeName || '',

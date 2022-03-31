@@ -138,7 +138,9 @@ Template.billlist.onRendered(function() {
                         let orderstatus = data.tbilllist[i].OrderStatus || '';
                         if(data.tbilllist[i].Deleted == true){
                           orderstatus = "Deleted";
-                        }
+                        }else if(data.tbilllist[i].SupplierName == ''){
+                          orderstatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tbilllist[i].PurchaseOrderID || '',
                             employee:data.tbilllist[i].EmployeeName || '',
@@ -443,7 +445,9 @@ Template.billlist.onRendered(function() {
                     let orderstatus = data.tbilllist[i].OrderStatus || '';
                     if(data.tbilllist[i].Deleted == true){
                       orderstatus = "Deleted";
-                    }
+                    }else if(data.tbilllist[i].SupplierName == ''){
+                      orderstatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tbilllist[i].PurchaseOrderID || '',
                         employee:data.tbilllist[i].EmployeeName || '',
@@ -745,7 +749,9 @@ Template.billlist.onRendered(function() {
                   let orderstatus = data.tbilllist[i].OrderStatus || '';
                   if(data.tbilllist[i].Deleted == true){
                     orderstatus = "Deleted";
-                  }
+                  }else if(data.tbilllist[i].SupplierName == ''){
+                    orderstatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.tbilllist[i].PurchaseOrderID || '',
                       employee:data.tbilllist[i].EmployeeName || '',

@@ -105,7 +105,7 @@ Template.bankrecon.onRendered(function() {
                 let bankaccountid = Session.get('bankaccountid') || '';
                 let bankaccountname = Session.get('bankaccountname') || '';
                 let statementDate = localStorage.getItem('statementdate')|| '';
-                //alert(bankaccountid);
+                
                 if(statementDate != ''){
                     $('.statementDate').val(statementDate);
                 }

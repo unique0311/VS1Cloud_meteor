@@ -2840,7 +2840,7 @@ Template.stocktransfercard.events({
             //$('table tr').css('background','#ffffff');
             $('table tr').css('background', 'transparent');
             $('#serailscanlist').find('tbody').remove();
-            //alert(rowIndex);
+            
             $('input[name="salesLineRow"]').val(targetID);
             prodPQALine = $('#' + targetID + " .lineID").text();
             var segsSerial = prodPQALine.split(',');

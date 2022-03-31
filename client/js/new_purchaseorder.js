@@ -5119,7 +5119,7 @@ Template.purchaseordercard.events({
                 $('#' + selectLineID + " .lineQty").val('');
                 $('#' + selectLineID + " .lineBo").val('');
                 $('#' + selectLineID + " .lineUnitPrice").val('');
-                $('#' + selectLineID + " .lineCostPrice").val('');
+                // $('#' + selectLineID + " .lineCostPrice").val('');
                 $('#' + selectLineID + " .lineSalesLinesCustField1").text('');
                 $('#' + selectLineID + " .lineTaxRate").text('');
                 $('#' + selectLineID + " .lineTaxCode").val('');

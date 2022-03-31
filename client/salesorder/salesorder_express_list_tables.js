@@ -137,7 +137,9 @@ Template.salesorderslist.onRendered(function() {
                         let salestatus = data.tsalesorderlist[i].QuoteStatus || '';
                         if(data.tsalesorderlist[i].Deleted == true){
                           salestatus = "Deleted";
-                        }
+                        }else if(data.tsalesorderlist[i].CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tsalesorderlist[i].SaleID || '',
                             employee:data.tsalesorderlist[i].EmployeeName || '',
@@ -452,7 +454,9 @@ Template.salesorderslist.onRendered(function() {
                     let salestatus = data.tsalesorderlist[i].QuoteStatus || '';
                     if(data.tsalesorderlist[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.tsalesorderlist[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tsalesorderlist[i].SaleID || '',
                         employee:data.tsalesorderlist[i].EmployeeName || '',
@@ -764,7 +768,9 @@ Template.salesorderslist.onRendered(function() {
                   let salestatus = data.tsalesorderlist[i].QuoteStatus || '';
                   if(data.tsalesorderlist[i].Deleted == true){
                     salestatus = "Deleted";
-                  }
+                  }else if(data.tsalesorderlist[i].CustomerName == ''){
+                    salestatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.tsalesorderlist[i].SaleID || '',
                       employee:data.tsalesorderlist[i].EmployeeName || '',
