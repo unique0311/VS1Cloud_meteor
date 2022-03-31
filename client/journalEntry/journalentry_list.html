@@ -215,6 +215,8 @@
                                     <button class="btn dropdown-toggle btn-daterange" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                     <div class="dropdown-menu" role="menu">
                                         <h6 class="dropdown-header" role="presentation">Date ranges</h6>
+                                        <a class="dropdown-item today"  id="today" role="presentation" href="#">Today</a>
+                                        <a class="dropdown-item lastweek"  id="lastweek" role="presentation" href="#">Last Week</a>
                                         <a class="dropdown-item lastMonth"  id="lastMonth" role="presentation" href="#">Last Month</a>
                                         <a class="dropdown-item lastQuarter"  id="lastQuarter" role="presentation" href="#">Last Quarter</a>
                                         <a class="dropdown-item last12Months"  id="last12Months" role="presentation" href="#">Last 12 Months</a>
@@ -252,6 +254,7 @@
                                     <th class="th colDebitAmount" style="width:80px;">Debit Amount</th>
                                     <th class="th colCreditAmount" style="width:80px;">Credit Amount</th>
                                     <th class="th colTaxAmount" style="width:80px;">Tax Amount</th>
+                                    <th class="th colStatus" style="width: 5% !important;">Status</th>
                                     <th class="th colAccountNo hiddenColumn">Account No</th>
                                     <th class="th colEmployee hiddenColumn">Employee</th>
                                     <!-- <th class="th colApproved hiddenColumn">Approved?</th> -->
@@ -270,6 +273,7 @@
                                     <td contenteditable="false" class="colDebitAmount" style="text-align: right!important;">{{item.debitamount}}</td>
                                     <td contenteditable="false" class="colCreditAmount" style="text-align: right!important;">{{item.creditamount}}</td>
                                     <td contenteditable="false" class="colTaxAmount" style="text-align: right!important;">{{item.taxamount}}</td>
+                                    <td contenteditable="false" class="colStatus">{{item.orderstatus}}</td>
                                     <td contenteditable="false" class="colAccountNo hiddenColumn">{{item.accountno}}</td>
                                     <td contenteditable="false" class="colEmployee hiddenColumn">{{item.employeename}}</td>
 

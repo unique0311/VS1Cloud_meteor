@@ -568,9 +568,14 @@ Template.purchaseordercard.onRendered(() => {
                                 lineItems.push(lineItemObj);
                             }
                           }
+
+                          let lidData = 'Edit Purchase Order' + ' ' + data.fields.ID||'';
+                          if(data.fields.IsBackOrder){
+                             lidData = 'Edit Purchase Order' + ' (BO) ' + data.fields.ID||'';
+                          }
                             let purchaseorderrecord = {
                                 id: data.fields.ID,
-                                lid: 'Edit Purchase Order' + ' ' + data.fields.ID,
+                                lid: lidData,
                                 sosupplier: data.fields.SupplierName,
                                 purchaseOrderto: data.fields.OrderTo,
                                 shipto: data.fields.ShipTo,
@@ -711,6 +716,7 @@ Template.purchaseordercard.onRendered(() => {
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
+
                         let useData = data.tpurchaseorderex;
                         var added = false;
                         for (let d = 0; d < useData.length; d++) {
@@ -786,9 +792,13 @@ Template.purchaseordercard.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
 
+                                let lidData = 'Edit Purchase Order' + ' ' + useData[d].fields.ID||'';
+                                if(useData[d].fields.IsBackOrder){
+                                   lidData = 'Edit Purchase Order' + ' (BO) ' + useData[d].fields.ID||'';
+                                }
                                 let purchaseorderrecord = {
                                     id: useData[d].fields.ID,
-                                    lid: 'Edit Purchase Order' + ' ' + useData[d].fields.ID,
+                                    lid: lidData,
                                     sosupplier: useData[d].fields.SupplierName,
                                     purchaseOrderto: useData[d].fields.OrderTo,
                                     shipto: useData[d].fields.ShipTo,
@@ -987,9 +997,14 @@ Template.purchaseordercard.onRendered(() => {
                                     lineItems.push(lineItemObj);
                                 }
                               }
+
+                              let lidData = 'Edit Purchase Order' + ' ' + data.fields.ID||'';
+                              if(data.fields.IsBackOrder){
+                                 lidData = 'Edit Purchase Order' + ' (BO) ' + data.fields.ID||'';
+                              }
                                 let purchaseorderrecord = {
                                     id: data.fields.ID,
-                                    lid: 'Edit Purchase Order' + ' ' + data.fields.ID,
+                                    lid: lidData,
                                     sosupplier: data.fields.SupplierName,
                                     purchaseOrderto: data.fields.OrderTo,
                                     shipto: data.fields.ShipTo,
@@ -1185,9 +1200,14 @@ Template.purchaseordercard.onRendered(() => {
                             lineItems.push(lineItemObj);
                         }
                         }
+
+                        let lidData = 'Edit Purchase Order' + ' ' + data.fields.ID||'';
+                        if(data.fields.IsBackOrder){
+                           lidData = 'Edit Purchase Order' + ' (BO) ' + data.fields.ID||'';
+                        }
                         let purchaseorderrecord = {
                             id: data.fields.ID,
-                            lid: 'Edit Purchase Order' + ' ' + data.fields.ID,
+                            lid: lidData,
                             sosupplier: data.fields.SupplierName,
                             purchaseOrderto: data.fields.OrderTo,
                             shipto: data.fields.ShipTo,

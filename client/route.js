@@ -337,6 +337,15 @@ authenticatedRoutes.route('/payrun', {
     }
 });
 
+authenticatedRoutes.route('/singletouch', {
+    name: 'singletouch',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'singletouch'
+        });
+    }
+});
+
 authenticatedRoutes.route('/payrundetails', {
     name: 'payrundetails',
     action() {
@@ -1423,6 +1432,15 @@ authenticatedRoutes.route('/emailsettings', {
     action() {
         BlazeLayout.render('layout', {
             yield: 'emailsettings'
+        });
+    }
+});
+
+authenticatedRoutes.route('/emailtemplate', {
+    name: 'emailtemplate',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'emailtemplate'
         });
     }
 });

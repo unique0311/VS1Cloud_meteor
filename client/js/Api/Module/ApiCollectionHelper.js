@@ -4,10 +4,10 @@ export default class ApiCollectionHelper {
   constructor(collection = []) {
     this.name = null;
 
-    this.debug = true;
+    this.debug = false;
 
     this.collection = collection;
-    console.log(collection);
+    
 
     console.log("ApiCollectionHelper module loaded");
   }
@@ -42,7 +42,7 @@ export default class ApiCollectionHelper {
 
     this.collection.forEach((apiEndpoint) => {
       this.debugMe(`Searching endpoint: ${name}`);
-      if (apiEndpoint.name == name) {
+      if (apiEndpoint.name.toLocaleLowerCase() == name.toLocaleLowerCase()) {
         this.debugMe(`${name} endpoint found`);
         endpoint = apiEndpoint;
       }

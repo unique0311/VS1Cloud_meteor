@@ -715,6 +715,23 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TbillReport, options);
   }
 
+  getAllOverDueAwaitingSupplierPayment(currentDate, limitcount, limitfrom) {
+    let options = '';
+      options = {
+        IgnoreDates:true,
+        IncludePOs:true,
+        IncludeBills:true,
+        Paid:false,
+        Unpaid:true,
+        OrderBy:"PurchaseOrderID desc",
+        Search:'DueDate < "'+currentDate+'"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+
+    return this.getList(this.ERPObjects.TbillReport, options);
+  }
+
   getAllAwaitingCustomerPayment(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
     let options = '';
     if(ignoreDate == true){
@@ -746,6 +763,32 @@ getCustomersDataByName(dataSearchName) {
        LimitFrom:'"'+limitfrom+'"'
    };
   }
+    return this.getList(this.ERPObjects.TSalesList, options);
+  }
+
+  getAllOverDueAwaitingCustomerPayment(currentDate, limitcount, limitfrom) {
+    let options = '';
+    //if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+        IncludeIsCashSale:false,
+        IncludeIsCustomerReturn:false,
+        IncludeIsInvoice:true,
+        IncludeIslayby:false,
+        IncludeIsLaybyPayment:false,
+        IncludeIsPOS:false,
+        IncludeIsQuote:false,
+        IncludeIsRefund:false,
+        IncludeISSalesOrder:false,
+        IncludeIsVoucher:false,
+        Paid:false,
+        Unpaid:true,
+        OrderBy:"SaleID desc",
+        Search:'dueDate < "'+currentDate+'"',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+   //}
     return this.getList(this.ERPObjects.TSalesList, options);
   }
 
@@ -887,15 +930,17 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
-         // OrderBy:'"AppointID desc"',
+         OrderBy:"CreationDate desc",
          IgnoreDates:true,
+         IsDetailReport:false,
          LimitCount:'"'+limitcount+'"',
          LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
-        // OrderBy:'"AppointID desc"',
+        OrderBy:"CreationDate desc",
         IgnoreDates:false,
+        IsDetailReport:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
         LimitCount:'"'+limitcount+'"',
@@ -911,7 +956,7 @@ getCustomersDataByName(dataSearchName) {
     let options = '';
     if(ignoreDate == true){
       options = {
-         //orderby:'"GJID desc"',
+         OrderBy:"TransactionDate desc",
          IgnoreDates:true,
          IsDetailReport:true,
          LimitCount:'"'+limitcount+'"',
@@ -919,7 +964,7 @@ getCustomersDataByName(dataSearchName) {
      };
    }else{
      options = {
-        //orderby:'"GJID desc"',
+        OrderBy:"TransactionDate desc",
         IgnoreDates:false,
         DateFrom:'"'+dateFrom+'"',
         DateTo:'"'+dateTo+'"',
@@ -1491,6 +1536,28 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TInvoiceBackOrder, options);
 }
 
+getAllTSalesBackOrderReportData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+  let options = '';
+
+  if(ignoreDate == true){
+    options = {
+      IgnoreDates:true,
+      OrderBy:"SaleID desc",
+      LimitCount:'"'+limitcount+'"',
+      LimitFrom:'"'+limitfrom+'"'
+   };
+ }else{
+   options = {
+     IgnoreDates:false,
+     OrderBy:"SaleID desc",
+     DateFrom:'"'+dateFrom+'"',
+     DateTo:'"'+dateTo+'"',
+     LimitCount:'"'+limitcount+'"',
+     LimitFrom:'"'+limitfrom+'"'
+ };
+}
+  return this.getList(this.ERPObjects.TSalesBackOrderReport, options);
+}
 
   getAllPurchaseOrderListNonBo() {
     let options = {
@@ -1519,6 +1586,27 @@ getCustomersDataByName(dataSearchName) {
      };
     }
     return this.getList(this.ERPObjects.TpurchaseOrderBackOrder, options);
+  }
+
+  getAllTPurchasesBackOrderReportData(dateFrom, dateTo, ignoreDate, limitcount, limitfrom) {
+    let options = '';
+
+    if(ignoreDate == true){
+      options = {
+        IgnoreDates:true,
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+   }else{
+     options = {
+       IgnoreDates:false,
+       DateFrom:'"'+dateFrom+'"',
+       DateTo:'"'+dateTo+'"',
+       LimitCount:'"'+limitcount+'"',
+       LimitFrom:'"'+limitfrom+'"'
+   };
+  }
+    return this.getList(this.ERPObjects.TPurchasesBackOrderReport, options);
   }
 
   getAllReconcilationList(limitcount, limitfrom) {

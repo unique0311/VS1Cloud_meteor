@@ -1,14 +1,12 @@
 import ApiService from "./ApiService";
 
 /**
- * @param {string} name
- * @param {string} endpoint
- * @param {HeadersInit} headers
+ * @type {{name: string, url: URL, headers: HeadersInit}}
  */
 export default class ApiEndPoint {
-  constructor({ name = null, endpoint = null, headers = null }) {
+  constructor({ name = null, url = null, headers = null }) {
     this.name = name.toLowerCase();
-    this.endpoint = endpoint;
+    this.url = url;
     this.headers = headers;
   }
 
@@ -26,7 +24,7 @@ export default class ApiEndPoint {
     }
 
     if (url == null) {
-      url = this.endpoint;
+      url = this.url;
     }
 
     try {

@@ -27,14 +27,14 @@ Template.expenseschart.onRendered(()=>{
   let topTenSuppData1 = [];
   let topData = this;
 
-  let checkStatus = localStorage.getItem("expenseschart") || true;
-  if(checkStatus == false || checkStatus == "false") {
-    $("#expensechart").addClass('hideelement')
-    $('#expenseshide').text("Show");
-  } else {
-    $("#expensechart").removeClass('hideelement')
-    $('#expenseshide').text("Hide");
-  }
+  // let checkStatus = localStorage.getItem("expenseschart") || true;
+  // if(checkStatus == false || checkStatus == "false") {
+  //   $("#expensechart").addClass('hideelement')
+  //   $('#expenseshide').text("Show");
+  // } else {
+  //   $("#expensechart").removeClass('hideelement')
+  //   $('#expenseshide').text("Hide");
+  // }
 
   // function done(){
   //                     var url= myChart.toBase64Image();

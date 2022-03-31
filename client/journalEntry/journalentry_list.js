@@ -82,6 +82,9 @@ Template.journalentrylist.onRendered(function() {
         $('td').each(function(){
           if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
          });
+         $('td.colStatus').each(function(){
+             if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+         });
   };
 
   templateObject.resetData = function (dataVal) {
@@ -106,52 +109,55 @@ Template.journalentrylist.onRendered(function() {
     var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
     let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-    getVS1Data('TJournalEntryLines').then(function (dataObject) {
+    getVS1Data('TJournalEntryList').then(function (dataObject) {
         if(dataObject.length == 0){
-          sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function (data) {
+          sideBarService.getTJournalEntryListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
             let lineItems = [];
             let lineItemObj = {};
-            addVS1Data('TJournalEntryLines',JSON.stringify(data));
+            addVS1Data('TJournalEntryList',JSON.stringify(data));
             if (data.Params.IgnoreDates == true) {
                 $('#dateFrom').attr('readonly', true);
                 $('#dateTo').attr('readonly', true);
-                FlowRouter.go('/invoicelist?ignoredate=true');
+                FlowRouter.go('/journalentrylist?ignoredate=true');
             } else {
                 $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
                 $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
             }
-            for(let i=0; i<data.tjournalentry.length; i++){
-
-              if(data.tjournalentry[i].fields.Lines.length){
-                  for(let d=0; d<data.tjournalentry[i].fields.Lines.length; d++){
-                    let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.DebitAmount)|| 0.00;
-                    let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.CreditAmount) || 0.00;
+            for(let i=0; i<data.tjournalentrylist.length; i++){
+                    let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].DebitAmount)|| 0.00;
+                    let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].CreditAmount) || 0.00;
                     // Currency+''+data.tjournalentry[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.TaxAmount)|| 0.00;
+                    let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].TaxAmount)|| 0.00;
+                    let orderstatus = data.tjournalentrylist[i].Deleted || '';
+                    if(data.tjournalentrylist[i].Deleted == true){
+                      orderstatus = "Deleted";
+                    }else if(data.tjournalentrylist[i].IsOnHOLD == true){
+                      orderstatus = "On Hold";
+                    }else if(data.tjournalentrylist[i].IsReconciled == true){
+                      orderstatus = "Reconciled";
+                    }
 
                        var dataList = {
-                       id: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
-                       employee:data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
-                       sortdate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("YYYY/MM/DD"): data.tjournalentry[i].fields.TransactionDate,
-                       transactiondate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("DD/MM/YYYY"): data.tjournalentry[i].fields.TransactionDate,
-                       accountname: data.tjournalentry[i].fields.Lines[d].fields.AccountName || '',
-                       department: data.tjournalentry[i].fields.Lines[d].fields.DeptName || '',
-                       entryno: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                       id: data.tjournalentrylist[i].GJID || '',
+                       employee:data.tjournalentrylist[i].EmployeeName || '',
+                       sortdate: data.tjournalentrylist[i].TransactionDate !=''? moment(data.tjournalentrylist[i].TransactionDate).format("YYYY/MM/DD"): data.tjournalentrylist[i].TransactionDate,
+                       transactiondate: data.tjournalentrylist[i].TransactionDate !=''? moment(data.tjournalentrylist[i].TransactionDate).format("DD/MM/YYYY"): data.tjournalentrylist[i].TransactionDate,
+                       accountname: data.tjournalentrylist[i].AccountName || '',
+                       department: data.tjournalentrylist[i].ClassName || '',
+                       entryno: data.tjournalentrylist[i].GJID || '',
                        debitamount: totalDebitAmount || 0.00,
                        creditamount: totalCreditAmount || 0.00,
                        taxamount: totalTaxAmount || 0.00,
+                       orderstatus: orderstatus || '',
+                       accountno: data.tjournalentrylist[i].AccountNumber || '',
+                       employeename: data.tjournalentrylist[i].EmployeeName || '',
 
-                       accountno: data.tjournalentry[i].fields.Lines[d].fields.AccountNumber || '',
-                       employeename: data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
-
-                       memo: data.tjournalentry[i].fields.Lines[d].fields.Memo || '',
+                       memo: data.tjournalentrylist[i].Memo || '',
                      };
                         dataTableList.push(dataList);
-                  }
                   templateObject.datatablerecords.set(dataTableList);
-                  }
-
                 }
+
             if(templateObject.datatablerecords.get()){
 
               Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblJournalList', function(error, result){
@@ -195,11 +201,7 @@ Template.journalentrylist.onRendered(function() {
                 $('#tblJournalList').DataTable({
                       // dom: 'lBfrtip',
                       columnDefs: [
-                          {type: 'date', targets: 0}
-                          // ,
-                          // { targets: 0, className: "text-center" }
-
-                      ],
+                          {type: 'date', targets: 0}],
                       "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                       buttons: [
                             {
@@ -221,18 +223,7 @@ Template.journalentrylist.onRendered(function() {
                           filename: "journalentrylist_"+ moment().format(),
                           exportOptions: {
                           columns: ':visible'
-                        },
-                          // customize: function ( win ) {
-                          //     $(win.document.body)
-                          //         .css( 'font-size', '10pt' )
-                          //         .prepend(
-                          //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                          //         );
-                          //
-                          //     $(win.document.body).find( 'table' )
-                          //         .addClass( 'compact' )
-                          //         .css( 'font-size', 'inherit' );
-                          // }
+                        }
                       }],
                       select: true,
                       destroy: true,
@@ -243,21 +234,118 @@ Template.journalentrylist.onRendered(function() {
                       "bLengthChange": false,
                       info: true,
                       responsive: true,
-                      "order": [[ 0, "desc" ],[ 4, "desc" ]],
+                      "order": [[ 0, "desc" ],[ 2, "desc" ]],
                       // "aaSorting": [[1,'desc']],
                       action: function () {
                           $('#tblJournalList').DataTable().ajax.reload();
                       },
                       "fnDrawCallback": function (oSettings) {
-                        setTimeout(function () {
-                          MakeNegative();
-                        }, 100);
-                      },
-                        "fnInitComplete": function () {
-                            $("<button class='btn btn-primary btnRefreshJournalEntry' type='button' id='btnRefreshJournalEntry' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblJournalList_filter");
-                            $('.myvarFilterForm').appendTo(".colDateFilter");
-                      }
+                        let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
+                        $('.paginate_button.page-item').removeClass('disabled');
+                        $('#tblJournalList_ellipsis').addClass('disabled');
+
+                        if(oSettings._iDisplayLength == -1){
+                          if(oSettings.fnRecordsDisplay() > 150){
+                            $('.paginate_button.page-item.previous').addClass('disabled');
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                          }
+                        }else{
+
+                        }
+                        if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                            $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+
+                        $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                         .on('click', function(){
+                           $('.fullScreenSpin').css('display','inline-block');
+                           let dataLenght = oSettings._iDisplayLength;
+                           var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                           var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                           let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                           let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                           if(checkurlIgnoreDate == 'true'){
+                             sideBarService.getTJournalEntryListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TJournalEntryList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tjournalentrylist), dataOld.tjournalentrylist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     tjournalentrylist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TJournalEntryList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
+
+                                });
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                           }else{
+                           sideBarService.getTJournalEntryListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             getVS1Data('TJournalEntryList').then(function (dataObjectold) {
+                               if(dataObjectold.length == 0){
+
+                               }else{
+                                 let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                 var thirdaryData = $.merge($.merge([], dataObjectnew.tjournalentrylist), dataOld.tjournalentrylist);
+                                 let objCombineData = {
+                                   Params: dataOld.Params,
+                                   tjournalentrylist:thirdaryData
+                                 }
+
+
+                                   addVS1Data('TJournalEntryList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     templateObject.resetData(objCombineData);
+                                   $('.fullScreenSpin').css('display','none');
+                                   }).catch(function (err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                   });
+
+                               }
+                              }).catch(function (err) {
+
+                              });
+
+                           }).catch(function(err) {
+                             $('.fullScreenSpin').css('display','none');
+                           });
+                          }
+                         });
+
+                          setTimeout(function () {
+                              MakeNegative();
+                          }, 100);
+                      },
+                      "fnInitComplete": function () {
+                        let urlParametersPage = FlowRouter.current().queryParams.page;
+                        if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                            this.fnPageChange('last');
+                        }
+                         $("<button class='btn btn-primary btnRefreshJournalEntry' type='button' id='btnRefreshJournalEntry' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblJournalList_filter");
+                         $('.myvarFilterForm').appendTo(".colDateFilter");
+                      },
+                      "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                        let countTableData = data.Params.Count || 0; //get count from API data
+
+                          return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
+                      }
 
                   }).on('page', function () {
                     setTimeout(function () {
@@ -270,6 +358,7 @@ Template.journalentrylist.onRendered(function() {
                   });
                   $('.fullScreenSpin').css('display','none');
               }, 0);
+
 
               var columns = $('#tblJournalList th');
               let sTible = "";
@@ -300,8 +389,14 @@ Template.journalentrylist.onRendered(function() {
              $('div.dataTables_filter input').addClass('form-control form-control-sm');
              $('#tblJournalList tbody').on( 'click', 'tr', function () {
              var listData = $(this).closest('tr').attr('id');
+             var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
+
              if(listData){
+               if(checkDeleted == "Deleted"){
+                 swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+               }else{
                FlowRouter.go('/journalentrycard?id=' + listData);
+              }
              }
            });
 
@@ -312,40 +407,50 @@ Template.journalentrylist.onRendered(function() {
           });
         }else{
           let data = JSON.parse(dataObject[0].data);
-          let useData = data.tjournalentry;
+          let useData = data.tjournalentrylist;
           let lineItems = [];
           let lineItemObj = {};
-          for(let i=0; i<data.tjournalentry.length; i++){
-
-            if(data.tjournalentry[i].fields.Lines.length){
-                for(let d=0; d<data.tjournalentry[i].fields.Lines.length; d++){
-                  let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.DebitAmount)|| 0.00;
-                  let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.CreditAmount) || 0.00;
+          if (data.Params.IgnoreDates == true) {
+              $('#dateFrom').attr('readonly', true);
+              $('#dateTo').attr('readonly', true);
+              FlowRouter.go('/journalentrylist?ignoredate=true');
+          } else {
+              $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+              $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+          }
+          for(let i=0; i<data.tjournalentrylist.length; i++){
+                  let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].DebitAmount)|| 0.00;
+                  let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].CreditAmount) || 0.00;
                   // Currency+''+data.tjournalentry[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                  let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.TaxAmount)|| 0.00;
+                  let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].TaxAmount)|| 0.00;
+                  let orderstatus = data.tjournalentrylist[i].Deleted || '';
+                  if(data.tjournalentrylist[i].Deleted == true){
+                    orderstatus = "Deleted";
+                  }else if(data.tjournalentrylist[i].IsOnHOLD == true){
+                    orderstatus = "On Hold";
+                  }else if(data.tjournalentrylist[i].IsReconciled == true){
+                    orderstatus = "Reconciled";
+                  }
 
                      var dataList = {
-                     id: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
-                     employee:data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
-                     sortdate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("YYYY/MM/DD"): data.tjournalentry[i].fields.TransactionDate,
-                     transactiondate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("DD/MM/YYYY"): data.tjournalentry[i].fields.TransactionDate,
-                     accountname: data.tjournalentry[i].fields.Lines[d].fields.AccountName || '',
-                     department: data.tjournalentry[i].fields.Lines[d].fields.DeptName || '',
-                     entryno: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                     id: data.tjournalentrylist[i].GJID || '',
+                     employee:data.tjournalentrylist[i].EmployeeName || '',
+                     sortdate: data.tjournalentrylist[i].TransactionDate !=''? moment(data.tjournalentrylist[i].TransactionDate).format("YYYY/MM/DD"): data.tjournalentrylist[i].TransactionDate,
+                     transactiondate: data.tjournalentrylist[i].TransactionDate !=''? moment(data.tjournalentrylist[i].TransactionDate).format("DD/MM/YYYY"): data.tjournalentrylist[i].TransactionDate,
+                     accountname: data.tjournalentrylist[i].AccountName || '',
+                     department: data.tjournalentrylist[i].ClassName || '',
+                     entryno: data.tjournalentrylist[i].GJID || '',
                      debitamount: totalDebitAmount || 0.00,
                      creditamount: totalCreditAmount || 0.00,
                      taxamount: totalTaxAmount || 0.00,
+                     orderstatus: orderstatus || '',
+                     accountno: data.tjournalentrylist[i].AccountNumber || '',
+                     employeename: data.tjournalentrylist[i].EmployeeName || '',
 
-                     accountno: data.tjournalentry[i].fields.Lines[d].fields.AccountNumber || '',
-                     employeename: data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
-
-                     memo: data.tjournalentry[i].fields.Lines[d].fields.Memo || '',
+                     memo: data.tjournalentrylist[i].Memo || '',
                    };
                       dataTableList.push(dataList);
-                }
                 templateObject.datatablerecords.set(dataTableList);
-                }
-
               }
 
           if(templateObject.datatablerecords.get()){
@@ -391,11 +496,7 @@ Template.journalentrylist.onRendered(function() {
               $('#tblJournalList').DataTable({
                     // dom: 'lBfrtip',
                     columnDefs: [
-                        {type: 'date', targets: 0}
-                        // ,
-                        // { targets: 0, className: "text-center" }
-
-                    ],
+                        {type: 'date', targets: 0}],
                     "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     buttons: [
                           {
@@ -417,18 +518,7 @@ Template.journalentrylist.onRendered(function() {
                         filename: "journalentrylist_"+ moment().format(),
                         exportOptions: {
                         columns: ':visible'
-                      },
-                        // customize: function ( win ) {
-                        //     $(win.document.body)
-                        //         .css( 'font-size', '10pt' )
-                        //         .prepend(
-                        //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                        //         );
-                        //
-                        //     $(win.document.body).find( 'table' )
-                        //         .addClass( 'compact' )
-                        //         .css( 'font-size', 'inherit' );
-                        // }
+                      }
                     }],
                     select: true,
                     destroy: true,
@@ -439,19 +529,117 @@ Template.journalentrylist.onRendered(function() {
                     "bLengthChange": false,
                     info: true,
                     responsive: true,
-                    "order": [[ 0, "desc" ],[ 4, "desc" ]],
+                    "order": [[ 0, "desc" ],[ 2, "desc" ]],
                     // "aaSorting": [[1,'desc']],
                     action: function () {
                         $('#tblJournalList').DataTable().ajax.reload();
                     },
                     "fnDrawCallback": function (oSettings) {
-                      setTimeout(function () {
-                        MakeNegative();
-                      }, 100);
+                      let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                      $('.paginate_button.page-item').removeClass('disabled');
+                      $('#tblJournalList_ellipsis').addClass('disabled');
+
+                      if(oSettings._iDisplayLength == -1){
+                        if(oSettings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.previous').addClass('disabled');
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+                      }else{
+
+                      }
+                      if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                      }
+
+                      $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                       .on('click', function(){
+                         $('.fullScreenSpin').css('display','inline-block');
+                         let dataLenght = oSettings._iDisplayLength;
+                         var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                         var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                         let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                         if(checkurlIgnoreDate == 'true'){
+                           sideBarService.getTJournalEntryListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             getVS1Data('TJournalEntryList').then(function (dataObjectold) {
+                               if(dataObjectold.length == 0){
+
+                               }else{
+                                 let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                 var thirdaryData = $.merge($.merge([], dataObjectnew.tjournalentrylist), dataOld.tjournalentrylist);
+                                 let objCombineData = {
+                                   Params: dataOld.Params,
+                                   tjournalentrylist:thirdaryData
+                                 }
+
+
+                                   addVS1Data('TJournalEntryList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     templateObject.resetData(objCombineData);
+                                   $('.fullScreenSpin').css('display','none');
+                                   }).catch(function (err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                   });
+
+                               }
+                              }).catch(function (err) {
+
+                              });
+
+                           }).catch(function(err) {
+                             $('.fullScreenSpin').css('display','none');
+                           });
+                         }else{
+                         sideBarService.getTJournalEntryListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                           getVS1Data('TJournalEntryList').then(function (dataObjectold) {
+                             if(dataObjectold.length == 0){
+
+                             }else{
+                               let dataOld = JSON.parse(dataObjectold[0].data);
+
+                               var thirdaryData = $.merge($.merge([], dataObjectnew.tjournalentrylist), dataOld.tjournalentrylist);
+                               let objCombineData = {
+                                 Params: dataOld.Params,
+                                 tjournalentrylist:thirdaryData
+                               }
+
+
+                                 addVS1Data('TJournalEntryList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                   templateObject.resetData(objCombineData);
+                                 $('.fullScreenSpin').css('display','none');
+                                 }).catch(function (err) {
+                                 $('.fullScreenSpin').css('display','none');
+                                 });
+
+                             }
+                            }).catch(function (err) {
+
+                            });
+
+                         }).catch(function(err) {
+                           $('.fullScreenSpin').css('display','none');
+                         });
+                        }
+                       });
+
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
                     },
                     "fnInitComplete": function () {
+                      let urlParametersPage = FlowRouter.current().queryParams.page;
+                      if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                          this.fnPageChange('last');
+                      }
                        $("<button class='btn btn-primary btnRefreshJournalEntry' type='button' id='btnRefreshJournalEntry' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblJournalList_filter");
                        $('.myvarFilterForm').appendTo(".colDateFilter");
+                    },
+                    "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                      let countTableData = data.Params.Count || 0; //get count from API data
+
+                        return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
                     }
 
                 }).on('page', function () {
@@ -495,49 +683,66 @@ Template.journalentrylist.onRendered(function() {
            $('div.dataTables_filter input').addClass('form-control form-control-sm');
            $('#tblJournalList tbody').on( 'click', 'tr', function () {
            var listData = $(this).closest('tr').attr('id');
+           var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
+
            if(listData){
+             if(checkDeleted == "Deleted"){
+               swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+             }else{
              FlowRouter.go('/journalentrycard?id=' + listData);
+            }
            }
          });
 
         }
       }).catch(function (err) {
-        sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function (data) {
+        sideBarService.getTJournalEntryListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
           let lineItems = [];
           let lineItemObj = {};
-          addVS1Data('TJournalEntryLines',JSON.stringify(data));
-          for(let i=0; i<data.tjournalentry.length; i++){
-
-            if(data.tjournalentry[i].fields.Lines.length){
-                for(let d=0; d<data.tjournalentry[i].fields.Lines.length; d++){
-                  let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.DebitAmount)|| 0.00;
-                  let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.CreditAmount) || 0.00;
+          addVS1Data('TJournalEntryList',JSON.stringify(data));
+          if (data.Params.IgnoreDates == true) {
+              $('#dateFrom').attr('readonly', true);
+              $('#dateTo').attr('readonly', true);
+              FlowRouter.go('/journalentrylist?ignoredate=true');
+          } else {
+              $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+              $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+          }
+          for(let i=0; i<data.tjournalentrylist.length; i++){
+                  let totalDebitAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].DebitAmount)|| 0.00;
+                  let totalCreditAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].CreditAmount) || 0.00;
                   // Currency+''+data.tjournalentry[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                  let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentry[i].fields.Lines[d].fields.TaxAmount)|| 0.00;
+                  let totalTaxAmount = utilityService.modifynegativeCurrencyFormat(data.tjournalentrylist[i].TaxAmount)|| 0.00;
+                  let orderstatus = data.tjournalentrylist[i].Deleted || '';
+                  if(data.tjournalentrylist[i].Deleted == true){
+                    orderstatus = "Deleted";
+                  }else if(data.tjournalentrylist[i].IsOnHOLD == true){
+                    orderstatus = "On Hold";
+                  }else if(data.tjournalentrylist[i].IsReconciled == true){
+                    orderstatus = "Reconciled";
+                  }
 
                      var dataList = {
-                     id: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
-                     employee:data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
-                     sortdate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("YYYY/MM/DD"): data.tjournalentry[i].fields.TransactionDate,
-                     transactiondate: data.tjournalentry[i].fields.TransactionDate !=''? moment(data.tjournalentry[i].fields.TransactionDate).format("DD/MM/YYYY"): data.tjournalentry[i].fields.TransactionDate,
-                     accountname: data.tjournalentry[i].fields.Lines[d].fields.AccountName || '',
-                     department: data.tjournalentry[i].fields.Lines[d].fields.DeptName || '',
-                     entryno: data.tjournalentry[i].fields.Lines[d].fields.GJID || '',
+                     id: data.tjournalentrylist[i].GJID || '',
+                     employee:data.tjournalentrylist[i].EmployeeName || '',
+                     sortdate: data.tjournalentrylist[i].TransactionDate !=''? moment(data.tjournalentrylist[i].TransactionDate).format("YYYY/MM/DD"): data.tjournalentrylist[i].TransactionDate,
+                     transactiondate: data.tjournalentrylist[i].TransactionDate !=''? moment(data.tjournalentrylist[i].TransactionDate).format("DD/MM/YYYY"): data.tjournalentrylist[i].TransactionDate,
+                     accountname: data.tjournalentrylist[i].AccountName || '',
+                     department: data.tjournalentrylist[i].ClassName || '',
+                     entryno: data.tjournalentrylist[i].GJID || '',
                      debitamount: totalDebitAmount || 0.00,
                      creditamount: totalCreditAmount || 0.00,
                      taxamount: totalTaxAmount || 0.00,
+                     orderstatus: orderstatus || '',
+                     accountno: data.tjournalentrylist[i].AccountNumber || '',
+                     employeename: data.tjournalentrylist[i].EmployeeName || '',
 
-                     accountno: data.tjournalentry[i].fields.Lines[d].fields.AccountNumber || '',
-                     employeename: data.tjournalentry[i].fields.Lines[d].fields.EmployeeName || '',
-
-                     memo: data.tjournalentry[i].fields.Lines[d].fields.Memo || '',
+                     memo: data.tjournalentrylist[i].Memo || '',
                    };
                       dataTableList.push(dataList);
-                }
                 templateObject.datatablerecords.set(dataTableList);
-                }
-
               }
+
           if(templateObject.datatablerecords.get()){
 
             Meteor.call('readPrefMethod',Session.get('mycloudLogonID'),'tblJournalList', function(error, result){
@@ -581,11 +786,7 @@ Template.journalentrylist.onRendered(function() {
               $('#tblJournalList').DataTable({
                     // dom: 'lBfrtip',
                     columnDefs: [
-                        {type: 'date', targets: 0}
-                        // ,
-                        // { targets: 0, className: "text-center" }
-
-                    ],
+                        {type: 'date', targets: 0}],
                     "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                     buttons: [
                           {
@@ -607,18 +808,7 @@ Template.journalentrylist.onRendered(function() {
                         filename: "journalentrylist_"+ moment().format(),
                         exportOptions: {
                         columns: ':visible'
-                      },
-                        // customize: function ( win ) {
-                        //     $(win.document.body)
-                        //         .css( 'font-size', '10pt' )
-                        //         .prepend(
-                        //             '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
-                        //         );
-                        //
-                        //     $(win.document.body).find( 'table' )
-                        //         .addClass( 'compact' )
-                        //         .css( 'font-size', 'inherit' );
-                        // }
+                      }
                     }],
                     select: true,
                     destroy: true,
@@ -629,16 +819,118 @@ Template.journalentrylist.onRendered(function() {
                     "bLengthChange": false,
                     info: true,
                     responsive: true,
-                    "order": [[ 0, "desc" ],[ 4, "desc" ]],
+                    "order": [[ 0, "desc" ],[ 2, "desc" ]],
                     // "aaSorting": [[1,'desc']],
                     action: function () {
                         $('#tblJournalList').DataTable().ajax.reload();
                     },
                     "fnDrawCallback": function (oSettings) {
-                      setTimeout(function () {
-                        MakeNegative();
-                      }, 100);
+                      let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+
+                      $('.paginate_button.page-item').removeClass('disabled');
+                      $('#tblJournalList_ellipsis').addClass('disabled');
+
+                      if(oSettings._iDisplayLength == -1){
+                        if(oSettings.fnRecordsDisplay() > 150){
+                          $('.paginate_button.page-item.previous').addClass('disabled');
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                        }
+                      }else{
+
+                      }
+                      if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                          $('.paginate_button.page-item.next').addClass('disabled');
+                      }
+
+                      $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                       .on('click', function(){
+                         $('.fullScreenSpin').css('display','inline-block');
+                         let dataLenght = oSettings._iDisplayLength;
+                         var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                         var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+                         let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                         let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                         if(checkurlIgnoreDate == 'true'){
+                           sideBarService.getTJournalEntryListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                             getVS1Data('TJournalEntryList').then(function (dataObjectold) {
+                               if(dataObjectold.length == 0){
+
+                               }else{
+                                 let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                 var thirdaryData = $.merge($.merge([], dataObjectnew.tjournalentrylist), dataOld.tjournalentrylist);
+                                 let objCombineData = {
+                                   Params: dataOld.Params,
+                                   tjournalentrylist:thirdaryData
+                                 }
+
+
+                                   addVS1Data('TJournalEntryList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                     templateObject.resetData(objCombineData);
+                                   $('.fullScreenSpin').css('display','none');
+                                   }).catch(function (err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                   });
+
+                               }
+                              }).catch(function (err) {
+
+                              });
+
+                           }).catch(function(err) {
+                             $('.fullScreenSpin').css('display','none');
+                           });
+                         }else{
+                         sideBarService.getTJournalEntryListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                           getVS1Data('TJournalEntryList').then(function (dataObjectold) {
+                             if(dataObjectold.length == 0){
+
+                             }else{
+                               let dataOld = JSON.parse(dataObjectold[0].data);
+
+                               var thirdaryData = $.merge($.merge([], dataObjectnew.tjournalentrylist), dataOld.tjournalentrylist);
+                               let objCombineData = {
+                                 Params: dataOld.Params,
+                                 tjournalentrylist:thirdaryData
+                               }
+
+
+                                 addVS1Data('TJournalEntryList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                   templateObject.resetData(objCombineData);
+                                 $('.fullScreenSpin').css('display','none');
+                                 }).catch(function (err) {
+                                 $('.fullScreenSpin').css('display','none');
+                                 });
+
+                             }
+                            }).catch(function (err) {
+
+                            });
+
+                         }).catch(function(err) {
+                           $('.fullScreenSpin').css('display','none');
+                         });
+                        }
+                       });
+
+                        setTimeout(function () {
+                            MakeNegative();
+                        }, 100);
                     },
+                    "fnInitComplete": function () {
+                      let urlParametersPage = FlowRouter.current().queryParams.page;
+                      if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
+                          this.fnPageChange('last');
+                      }
+                       $("<button class='btn btn-primary btnRefreshJournalEntry' type='button' id='btnRefreshJournalEntry' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblJournalList_filter");
+                       $('.myvarFilterForm').appendTo(".colDateFilter");
+                    },
+                    "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                      let countTableData = data.Params.Count || 0; //get count from API data
+
+                        return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
+                    }
 
                 }).on('page', function () {
                   setTimeout(function () {
@@ -651,6 +943,7 @@ Template.journalentrylist.onRendered(function() {
                 });
                 $('.fullScreenSpin').css('display','none');
             }, 0);
+
 
             var columns = $('#tblJournalList th');
             let sTible = "";
@@ -681,8 +974,14 @@ Template.journalentrylist.onRendered(function() {
            $('div.dataTables_filter input').addClass('form-control form-control-sm');
            $('#tblJournalList tbody').on( 'click', 'tr', function () {
            var listData = $(this).closest('tr').attr('id');
+           var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
+
            if(listData){
+             if(checkDeleted == "Deleted"){
+               swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+             }else{
              FlowRouter.go('/journalentrycard?id=' + listData);
+            }
            }
          });
 
@@ -697,8 +996,8 @@ Template.journalentrylist.onRendered(function() {
   templateObject.getAllJournalEntryData();
 
   templateObject.getAllFilterJournalEntryData = function(fromDate, toDate, ignoreDate) {
-      sideBarService.getAllJournalEnrtryLinesList(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
-          addVS1Data('TJournalEntryLines', JSON.stringify(data)).then(function(datareturn) {
+      sideBarService.getTJournalEntryListData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+          addVS1Data('TJournalEntryList', JSON.stringify(data)).then(function(datareturn) {
               window.open('/journalentrylist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
           }).catch(function(err) {
               location.reload();
@@ -728,15 +1027,7 @@ Template.journalentrylist.events({
    'click .btnRefresh': function () {
      $('.fullScreenSpin').css('display','inline-block');
      let templateObject = Template.instance();
-     sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function(data) {
-       addVS1Data('TJournalEntryLines',JSON.stringify(data)).then(function (datareturn) {
-         window.open('/journalentrylist','_self');
-       }).catch(function (err) {
-         window.open('/journalentrylist','_self');
-       });
-     }).catch(function(err) {
-       window.open('/journalentrylist','_self');
-     });
+
 
      var currentBeginDate = new Date();
  var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
@@ -762,6 +1053,32 @@ Template.journalentrylist.events({
        });
      }).catch(function(err) {
 
+     });
+
+     sideBarService.getTJournalEntryListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function(dataJournal) {
+       addVS1Data('TJournalEntryList',JSON.stringify(dataJournal)).then(function (datareturn) {
+         sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function(data) {
+           addVS1Data('TJournalEntryLines',JSON.stringify(data)).then(function (datareturn) {
+             window.open('/journalentrylist','_self');
+           }).catch(function (err) {
+             window.open('/journalentrylist','_self');
+           });
+         }).catch(function(err) {
+           window.open('/journalentrylist','_self');
+         });
+       }).catch(function (err) {
+         sideBarService.getAllJournalEnrtryLinesList(initialDataLoad,0).then(function(data) {
+           addVS1Data('TJournalEntryLines',JSON.stringify(data)).then(function (datareturn) {
+             window.open('/journalentrylist','_self');
+           }).catch(function (err) {
+             window.open('/journalentrylist','_self');
+           });
+         }).catch(function(err) {
+           window.open('/journalentrylist','_self');
+         });
+       });
+     }).catch(function(err) {
+       window.open('/journalentrylist','_self');
      });
   },
   'change #dateTo': function() {
@@ -805,6 +1122,62 @@ Template.journalentrylist.events({
           templateObject.getAllFilterJournalEntryData(formatDateFrom, formatDateTo, false);
       }
 
+  },
+  'click #today': function () {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if((currentBeginDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+      var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+      var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+      var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+      $("#dateFrom").val(toDateDisplayFrom);
+      $("#dateTo").val(toDateDisplayTo);
+      templateObject.getAllFilterJournalEntryData(toDateERPFrom,toDateERPTo, false);
+  },
+  'click #lastweek': function () {
+      let templateObject = Template.instance();
+      $('.fullScreenSpin').css('display', 'inline-block');
+      $('#dateFrom').attr('readonly', false);
+      $('#dateTo').attr('readonly', false);
+      var currentBeginDate = new Date();
+      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+      let fromDateMonth = (currentBeginDate.getMonth() + 1);
+      let fromDateDay = currentBeginDate.getDate();
+      if((currentBeginDate.getMonth()+1) < 10){
+          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+      }else{
+        fromDateMonth = (currentBeginDate.getMonth()+1);
+      }
+
+      if(currentBeginDate.getDate() < 10){
+          fromDateDay = "0" + currentBeginDate.getDate();
+      }
+      var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
+      var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+      var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+      var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+      $("#dateFrom").val(toDateDisplayFrom);
+      $("#dateTo").val(toDateDisplayTo);
+      templateObject.getAllFilterJournalEntryData(toDateERPFrom,toDateERPTo, false);
   },
   'click #lastMonth': function() {
       let templateObject = Template.instance();
@@ -1034,7 +1407,7 @@ Template.journalentrylist.events({
         }
       }
     }
-
+    $('#myModal2').modal('toggle');
     //Meteor._reload.reload();
   },
   'blur .divcolumn' : function(event){

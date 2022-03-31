@@ -6817,22 +6817,22 @@ Template.supplierpaymentcard.events({
                 };
                 // $('.fullScreenSpin').css('display','none');
                 // window.open('/supplierawaitingpurchaseorder','_self');
-                sideBarService.getAllBillExList().then(function(dataUpdate) {
+                sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataUpdate) {
                     addVS1Data('TBillEx', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
-                sideBarService.getTSupplierPaymentList().then(function(dataUpdate) {
+                sideBarService.getTSupplierPaymentList(initialDataLoad,0).then(function(dataUpdate) {
                     addVS1Data('TSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
                 sideBarService.getAllAwaitingSupplierPayment(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(dataUpdate) {
                     addVS1Data('TAwaitingSupplierPayment', JSON.stringify(dataUpdate)).then(function(datareturn) {
-                      //  window.open('/supplierawaitingpurchaseorder', '_self');
+                      window.open('/supplierawaitingpurchaseorder', '_self');
                     }).catch(function(err) {
-                        //window.open('/supplierawaitingpurchaseorder', '_self');
+                        window.open('/supplierawaitingpurchaseorder', '_self');
                     });
                 }).catch(function(err) {
-                    //window.open('/supplierawaitingpurchaseorder', '_self');
+                    window.open('/supplierawaitingpurchaseorder', '_self');
                 });
 
                 //window.history.go(-2);
@@ -8872,7 +8872,7 @@ Template.supplierpaymentcard.events({
             paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
                 $('.modal-backdrop').css('display', 'none');
                 FlowRouter.go('/paymentoverview?success=true');
-                sideBarService.getAllBillExList().then(function(dataBill) {
+                sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataBill) {
                     addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
                 }).catch(function(err) {});
 
@@ -8911,7 +8911,7 @@ Template.supplierpaymentcard.events({
                 paymentService.deleteSuppDepositData(objDetails).then(function(objDetails) {
                     $('.modal-backdrop').css('display', 'none');
                     FlowRouter.go('/paymentoverview?success=true');
-                    sideBarService.getAllBillExList().then(function(dataBill) {
+                    sideBarService.getAllBillExList(initialDataLoad,0).then(function(dataBill) {
                         addVS1Data('TBillEx', JSON.stringify(dataBill)).then(function(datareturn) {}).catch(function(err) {});
                     }).catch(function(err) {});
 

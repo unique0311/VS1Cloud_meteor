@@ -33,6 +33,38 @@ Template.appointmentlist.onRendered(function () {
     const dataTableList = [];
     const tableHeaderList = [];
     const clientList = [];
+    if (FlowRouter.current().queryParams.success) {
+        $('.btnRefresh').addClass('btnRefreshAlert');
+    }
+    var today = moment().format('DD/MM/YYYY');
+    var currentDate = new Date();
+    var begunDate = moment(currentDate).format("DD/MM/YYYY");
+    let fromDateMonth = (currentDate.getMonth() + 1);
+    let fromDateDay = currentDate.getDate();
+    if ((currentDate.getMonth() + 1) < 10) {
+        fromDateMonth = "0" + (currentDate.getMonth() + 1);
+    }
+
+    if (currentDate.getDate() < 10) {
+        fromDateDay = "0" + currentDate.getDate();
+    }
+    var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + currentDate.getFullYear();
+
+    $("#date-input,#dateTo,#dateFrom").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        dateFormat: 'dd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
+
+    $("#dateFrom").val(fromDate);
+    $("#dateTo").val(begunDate);
 
     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblappointmentlist', function (error, result) {
         if (error) {
@@ -59,6 +91,9 @@ Template.appointmentlist.onRendered(function () {
     function MakeNegative() {
         $('td').each(function () {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+        });
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
         });
     };
 
@@ -285,55 +320,86 @@ Template.appointmentlist.onRendered(function () {
     templateObject.getAllClients();
     templateObject.getAllAppointmentListData = function () {
         ///if(!localStorage.getItem('VS1TReconcilationList')){
-        getVS1Data('TAppointment').then(function (dataObject) {
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if ((currentBeginDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+        } else {
+            fromDateMonth = (currentBeginDate.getMonth() + 1);
+        }
+
+        if (currentBeginDate.getDate() < 10) {
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear() + "-" + (fromDateMonth) + "-" + (fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        getVS1Data('TAppointmentList').then(function (dataObject) {
             if (dataObject.length == 0) {
-              sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
+              sideBarService.getTAppointmentListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
                   // localStorage.setItem('VS1TReconcilationList', JSON.stringify(data)||'');
-                  addVS1Data('TAppointment',JSON.stringify(data));
+                  addVS1Data('TAppointmentList',JSON.stringify(data));
                   let lineItems = [];
                   let lineItemObj = {};
                   let color = "";
-                  for (let i = 0; i < data.tappointmentex.length; i++) {
+                  let appStatus = "";
+                  if (data.Params.IgnoreDates == true) {
+                      $('#dateFrom').attr('readonly', true);
+                      $('#dateTo').attr('readonly', true);
+                      FlowRouter.go('/appointmentlist?ignoredate=true');
+                  } else {
+                      $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                      $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                  }
+                  for (let i = 0; i < data.tappointmentlist.length; i++) {
+                     appStatus = data.tappointmentlist[i].Status || '';
                       // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.OpenBalance)|| 0.00;
                       // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.CloseBalance)|| 0.00;
-                      if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
+                      if(data.tappointmentlist[i].Active == true){
+                      if (data.tappointmentlist[i].Status == "Converted" || data.tappointmentlist[i].Status == "Completed") {
                           color = "#1cc88a";
                       } else {
                           color = "#f6c23e";
                       }
+                    }else{
+                      appStatus = "Deleted";
+                      color = "#e74a3b";
+                    }
                       var dataList = {
-                          id: data.tappointmentex[i].fields.ID || '',
-                          sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
-                          appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
-                          accountname: data.tappointmentex[i].fields.ClientName || '',
-                          statementno: data.tappointmentex[i].fields.TrainerName || '',
-                          employeename: data.tappointmentex[i].fields.TrainerName || '',
-                          department: data.tappointmentex[i].fields.DeptClassName || '',
-                          phone: data.tappointmentex[i].fields.Phone || '',
-                          mobile: data.tappointmentex[i].fields.ClientMobile || '',
-                          suburb: data.tappointmentex[i].fields.Suburb || '',
-                          street: data.tappointmentex[i].fields.Street || '',
-                          state: data.tappointmentex[i].fields.State || '',
-                          country: data.tappointmentex[i].fields.Country || '',
-                          zip: data.tappointmentex[i].fields.Postcode || '',
-                          startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
-                          timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
-                          timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
-                          totalHours: data.tappointmentex[i].fields.TotalHours || 0,
-                          endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
-                          startDate: data.tappointmentex[i].fields.StartTime || '',
-                          endDate: data.tappointmentex[i].fields.EndTime || '',
-                          frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
-                          toDate: moment(data.tappointmentex[i].fields.EndTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.EndTime).format('DD'),
-                          fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
-                          openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
-                          aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
-                          aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
+                          id: data.tappointmentlist[i].AppointID || '',
+                          sortdate: data.tappointmentlist[i].CreationDate != '' ? moment(data.tappointmentlist[i].CreationDate).format("YYYY/MM/DD") : data.tappointmentlist[i].CreationDate,
+                          appointmentdate: data.tappointmentlist[i].CreationDate != '' ? moment(data.tappointmentlist[i].CreationDate).format("DD/MM/YYYY") : data.tappointmentlist[i].CreationDate,
+                          accountname: data.tappointmentlist[i].ClientName || '',
+                          statementno: data.tappointmentlist[i].EnteredByEmployeeName || '',
+                          employeename: data.tappointmentlist[i].EnteredByEmployeeName || '',
+                          department: data.tappointmentlist[i].DeptClassName || '',
+                          phone: data.tappointmentlist[i].Phone || '',
+                          mobile: data.tappointmentlist[i].ClientMobile || '',
+                          suburb: data.tappointmentlist[i].Suburb || '',
+                          street: data.tappointmentlist[i].Street || '',
+                          state: data.tappointmentlist[i].State || '',
+                          country: data.tappointmentlist[i].Country || '',
+                          zip: data.tappointmentlist[i].Postcode || '',
+                          startTime: data.tappointmentlist[i].STARTTIME.split(' ')[1] || '',
+                          timeStart: moment(data.tappointmentlist[i].STARTTIME).format('h:mm a'),
+                          timeEnd: moment(data.tappointmentlist[i].ENDTIME).format('h:mm a'),
+                          totalHours: data.tappointmentlist[i].TotalHours || 0,
+                          endTime: data.tappointmentlist[i].ENDTIME.split(' ')[1] || '',
+                          startDate: data.tappointmentlist[i].STARTTIME || '',
+                          endDate: data.tappointmentlist[i].ENDTIME || '',
+                          frmDate: moment(data.tappointmentlist[i].STARTTIME).format('dddd') + ', ' + moment(data.tappointmentlist[i].STARTTIME).format('DD'),
+                          toDate: moment(data.tappointmentlist[i].ENDTIME).format('dddd') + ', ' + moment(data.tappointmentlist[i].ENDTIME).format('DD'),
+                          fromDate: data.tappointmentlist[i].Actual_Endtime != '' ? moment(data.tappointmentlist[i].Actual_Endtime).format("DD/MM/YYYY") : data.tappointmentlist[i].Actual_Endtime,
+                          openbalance: data.tappointmentlist[i].Actual_Endtime || '',
+                          aStartTime: data.tappointmentlist[i].Actual_Starttime.split(' ')[1] || '',
+                          aEndTime: data.tappointmentlist[i].Actual_Endtime.split(' ')[1] || '',
                           actualHours: '',
                           closebalance: '',
-                          product: data.tappointmentex[i].fields.ProductDesc || '',
-                          finished: data.tappointmentex[i].fields.Status || '',
-                          notes: data.tappointmentex[i].fields.Notes || '',
+                          product: data.tappointmentlist[i].ProductDesc || '',
+                          finished: appStatus || '',
+                          notes: data.tappointmentlist[i].Notes || '',
                           color: color
                       };
                       dataTableList.push(dataList);
@@ -341,7 +407,6 @@ Template.appointmentlist.onRendered(function () {
                   }
 
                   templateObject.datatablerecords.set(dataTableList);
-
                   if (templateObject.datatablerecords.get()) {
 
                       Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblappointmentlist', function (error, result) {
@@ -387,8 +452,7 @@ Template.appointmentlist.onRendered(function () {
                               { "orderable": false, "targets": 0 },
                               { type: 'date', targets: 1 }
                           ],
-                          // "sDom": "<'row'><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                          "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                          "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                           buttons: [
                               {
                                   extend: 'excelHtml5',
@@ -413,79 +477,127 @@ Template.appointmentlist.onRendered(function () {
                               }],
                           select: true,
                           destroy: true,
+                          colReorder: true,
                           colReorder: {
                               fixedColumnsLeft: 1
                           },
                           // bStateSave: true,
                           // rowId: 0,
                           pageLength: initialDatatableLoad,
-                          lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                          "bLengthChange": false,
                           info: true,
                           responsive: true,
-                          "order": [[1, "desc"]],
+                          "order": [[1, "desc"],[ 2, "desc" ]],
                           action: function () {
                               //$('#tblappointmentlist').DataTable().ajax.reload();
                           },
-                          "fnDrawCallback": function(oSettings) {
-                              $('.paginate_button.page-item').removeClass('disabled');
-                              $('#tblappointmenttimelist_ellipsis').addClass('disabled');
+                          "fnDrawCallback": function (oSettings) {
+                            let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
-                              if (oSettings._iDisplayLength == -1) {
-                                  if (oSettings.fnRecordsDisplay() > 150) {
-                                      $('.paginate_button.page-item.previous').addClass('disabled');
-                                      $('.paginate_button.page-item.next').addClass('disabled');
-                                  }
-                              } else {
+                            $('.paginate_button.page-item').removeClass('disabled');
+                            $('#tblappointmentlist_ellipsis').addClass('disabled');
 
+                            if(oSettings._iDisplayLength == -1){
+                              if(oSettings.fnRecordsDisplay() > 150){
+                                $('.paginate_button.page-item.previous').addClass('disabled');
+                                $('.paginate_button.page-item.next').addClass('disabled');
                               }
-                              if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                  $('.paginate_button.page-item.next').addClass('disabled');
-                              }
-                              $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                                  .on('click', function() {
-                                      $('.fullScreenSpin').css('display', 'inline-block');
-                                      let dataLenght = oSettings._iDisplayLength;
+                            }else{
 
-                                      sideBarService.getAllAppointmentList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                                          getVS1Data('TAppointment').then(function(dataObjectold) {
-                                              if (dataObjectold.length == 0) {
+                            }
+                            if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                                $('.paginate_button.page-item.next').addClass('disabled');
+                            }
 
-                                              } else {
-                                                  let dataOld = JSON.parse(dataObjectold[0].data);
-                                                  var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentex), dataOld.tappointmentex);
-                                                  let objCombineData = {
-                                                      tappointmentex: thirdaryData
-                                                  }
+                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                             .on('click', function(){
+                               $('.fullScreenSpin').css('display','inline-block');
+                               let dataLenght = oSettings._iDisplayLength;
+                               var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                               var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                                                  addVS1Data('TAppointment', JSON.stringify(objCombineData)).then(function(datareturn) {
-                                                      templateObject.resetData(objCombineData);
-                                                      $('.fullScreenSpin').css('display', 'none');
-                                                  }).catch(function(err) {
-                                                      $('.fullScreenSpin').css('display', 'none');
-                                                  });
+                               let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                               let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                               if(checkurlIgnoreDate == 'true'){
+                                 sideBarService.getTAppointmentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                   getVS1Data('TAppointmentList').then(function (dataObjectold) {
+                                     if(dataObjectold.length == 0){
 
-                                              }
-                                          }).catch(function(err) {
+                                     }else{
+                                       let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                          });
+                                       var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentlist), dataOld.tappointmentlist);
+                                       let objCombineData = {
+                                         Params: dataOld.Params,
+                                         tappointmentlist:thirdaryData
+                                       }
 
-                                      }).catch(function(err) {
-                                          $('.fullScreenSpin').css('display', 'none');
-                                      });
+
+                                         addVS1Data('TAppointmentList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                           templateObject.resetData(objCombineData);
+                                         $('.fullScreenSpin').css('display','none');
+                                         }).catch(function (err) {
+                                         $('.fullScreenSpin').css('display','none');
+                                         });
+
+                                     }
+                                    }).catch(function (err) {
+
+                                    });
+
+                                 }).catch(function(err) {
+                                   $('.fullScreenSpin').css('display','none');
+                                 });
+                               }else{
+                               sideBarService.getTAppointmentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TAppointmentList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
+
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentlist), dataOld.tappointmentlist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tappointmentlist:thirdaryData
+                                     }
+
+
+                                       addVS1Data('TAppointmentList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
 
                                   });
-                              setTimeout(function() {
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                              }
+                             });
+
+                              setTimeout(function () {
                                   MakeNegative();
                               }, 100);
                           },
                           "fnInitComplete": function () {
                             let urlParametersPage = FlowRouter.current().queryParams.page;
-                            if (urlParametersPage) {
+                            if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                                 this.fnPageChange('last');
                             }
                               $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
-                          }
+                              $('.myvarFilterForm').appendTo(".colDateFilter");
+                          },
+                          "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                            let countTableData = data.Params.Count || 0; //get count from API data
 
+                              return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
+                          }
                       }).on('page', function () {
                           setTimeout(function () {
                               MakeNegative();
@@ -494,87 +606,6 @@ Template.appointmentlist.onRendered(function () {
                           templateObject.datatablerecords.set(draftRecord);
                       }).on('column-reorder', function () {
 
-                      }).on('length.dt', function (e, settings, len) {
-                        $('.fullScreenSpin').css('display','inline-block');
-                        let dataLenght = settings._iDisplayLength;
-                        if(dataLenght == -1){
-                          sideBarService.getAllAppointmentList('All',1).then(function(data) {
-                            let lineItems = [];
-                             let lineItemObj = {};
-
-                             for (let i = 0; i < data.tappointmentex.length; i++) {
-
-                                if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
-                                    color = "#1cc88a";
-                                } else {
-                                    color = "#f6c23e";
-                                }
-                                var dataList = {
-                                    id: data.tappointmentex[i].fields.ID || '',
-                                    sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
-                                    appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
-                                    accountname: data.tappointmentex[i].fields.ClientName || '',
-                                    statementno: data.tappointmentex[i].fields.TrainerName || '',
-                                    employeename: data.tappointmentex[i].fields.TrainerName || '',
-                                    department: data.tappointmentex[i].fields.DeptClassName || '',
-                                    phone: data.tappointmentex[i].fields.Phone || '',
-                                    mobile: data.tappointmentex[i].fields.ClientMobile || '',
-                                    suburb: data.tappointmentex[i].fields.Suburb || '',
-                                    street: data.tappointmentex[i].fields.Street || '',
-                                    state: data.tappointmentex[i].fields.State || '',
-                                    country: data.tappointmentex[i].fields.Country || '',
-                                    zip: data.tappointmentex[i].fields.Postcode || '',
-                                    startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
-                                    timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
-                                    timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
-                                    totalHours: data.tappointmentex[i].fields.TotalHours || 0,
-                                    endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
-                                    startDate: data.tappointmentex[i].fields.StartTime || '',
-                                    endDate: data.tappointmentex[i].fields.EndTime || '',
-                                    frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
-                                    toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
-                                    fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
-                                    openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
-                                    aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
-                                    aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
-                                    actualHours: '',
-                                    closebalance: '',
-                                    product: data.tappointmentex[i].fields.ProductDesc || '',
-                                    finished: data.tappointmentex[i].fields.Status || '',
-                                    notes: data.tappointmentex[i].fields.Notes || '',
-                                    color: color
-                                };
-                                dataTableList.push(dataList);
-
-                            }
-
-                            templateObject.datatablerecords.set(dataTableList);
-
-                                $('.dataTables_info').html('Showing 1 to '+data.tappointmentex.length+ ' of ' +data.tinvoiceex.length+ ' entries');
-                                $('.fullScreenSpin').css('display','none');
-
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                         //}
-                        }else{
-                          if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                            $('.fullScreenSpin').css('display','none');
-                          }else{
-                            sideBarService.getAllAppointmentList(dataLenght,0).then(function (dataNonBo) {
-                              addVS1Data('TAppointment',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                              templateObject.resetData(dataNonBo);
-                              }).catch(function (err) {
-                              $('.fullScreenSpin').css('display','none');
-                              });
-                            }).catch(function(err) {
-                              $('.fullScreenSpin').css('display','none');
-                            });
-                          }
-                        }
-                          setTimeout(function () {
-                              MakeNegative();
-                          }, 100);
                       });
                       $('.fullScreenSpin').css('display', 'none');
                   }, 0);
@@ -615,53 +646,66 @@ Template.appointmentlist.onRendered(function () {
               });
             } else {
                 let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappointmentex;
+                let useData = data.tappointmentlist;
                 let lineItems = [];
                 let lineItemObj = {};
                 let color = "";
-                for (let i = 0; i < useData.length; i++) {
-                    // let openBalance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.OpenBalance)|| 0.00;
-                    // let closeBalance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.CloseBalance)|| 0.00;
-                    if (useData[i].fields.Status == "Converted" || useData[i].fields.Status == "Completed") {
+                let appStatus = "";
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/appointmentlist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for (let i = 0; i < data.tappointmentlist.length; i++) {
+                   appStatus = data.tappointmentlist[i].Status || '';
+                    // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.OpenBalance)|| 0.00;
+                    // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.CloseBalance)|| 0.00;
+                    if(data.tappointmentlist[i].Active == true){
+                    if (data.tappointmentlist[i].Status == "Converted" || data.tappointmentlist[i].Status == "Completed") {
                         color = "#1cc88a";
                     } else {
                         color = "#f6c23e";
-
                     }
-
+                  }else{
+                    appStatus = "Deleted";
+                    color = "#e74a3b";
+                  }
                     var dataList = {
-                        id: useData[i].fields.ID || '',
-                        sortdate: useData[i].fields.CreationDate != '' ? moment(useData[i].fields.CreationDate).format("YYYY/MM/DD") : useData[i].fields.CreationDate,
-                        appointmentdate: useData[i].fields.CreationDate != '' ? moment(useData[i].fields.CreationDate).format("DD/MM/YYYY") : useData[i].fields.CreationDate,
-                        accountname: useData[i].fields.ClientName || '',
-                        statementno: useData[i].fields.TrainerName || '',
-                        employeename: useData[i].fields.TrainerName || '',
-                        department: useData[i].fields.DeptClassName || '',
-                        phone: useData[i].fields.Phone || '',
-                        mobile: useData[i].fields.ClientMobile || '',
-                        suburb: useData[i].fields.Suburb || '',
-                        street: useData[i].fields.Street || '',
-                        state: useData[i].fields.State || '',
-                        country: useData[i].fields.Country || '',
-                        zip: useData[i].fields.Postcode || '',
-                        startTime: useData[i].fields.StartTime.split(' ')[1] || '',
-                        timeStart: moment(useData[i].fields.StartTime).format('h:mm a'),
-                        timeEnd: moment(useData[i].fields.EndTime).format('h:mm a'),
-                        totalHours: useData[i].fields.TotalHours || 0,
-                        endTime: useData[i].fields.EndTime.split(' ')[1] || '',
-                        startDate: useData[i].fields.StartTime || '',
-                        endDate: useData[i].fields.EndTime || '',
-                        frmDate: moment(useData[i].fields.StartTime).format('dddd') + ', ' + moment(useData[i].fields.StartTime).format('DD'),
-                        toDate: moment(useData[i].fields.EndTime).format('dddd') + ', ' + moment(useData[i].fields.EndTime).format('DD'),
-                        fromDate: useData[i].fields.Actual_EndTime != '' ? moment(useData[i].fields.Actual_EndTime).format("DD/MM/YYYY") : useData[i].fields.Actual_EndTime,
-                        openbalance: useData[i].fields.Actual_EndTime || '',
-                        aStartTime: useData[i].fields.Actual_StartTime.split(' ')[1] || '',
-                        aEndTime: useData[i].fields.Actual_EndTime.split(' ')[1] || '',
+                        id: data.tappointmentlist[i].AppointID || '',
+                        sortdate: data.tappointmentlist[i].CreationDate != '' ? moment(data.tappointmentlist[i].CreationDate).format("YYYY/MM/DD") : data.tappointmentlist[i].CreationDate,
+                        appointmentdate: data.tappointmentlist[i].CreationDate != '' ? moment(data.tappointmentlist[i].CreationDate).format("DD/MM/YYYY") : data.tappointmentlist[i].CreationDate,
+                        accountname: data.tappointmentlist[i].ClientName || '',
+                        statementno: data.tappointmentlist[i].EnteredByEmployeeName || '',
+                        employeename: data.tappointmentlist[i].EnteredByEmployeeName || '',
+                        department: data.tappointmentlist[i].DeptClassName || '',
+                        phone: data.tappointmentlist[i].Phone || '',
+                        mobile: data.tappointmentlist[i].ClientMobile || '',
+                        suburb: data.tappointmentlist[i].Suburb || '',
+                        street: data.tappointmentlist[i].Street || '',
+                        state: data.tappointmentlist[i].State || '',
+                        country: data.tappointmentlist[i].Country || '',
+                        zip: data.tappointmentlist[i].Postcode || '',
+                        startTime: data.tappointmentlist[i].STARTTIME.split(' ')[1] || '',
+                        timeStart: moment(data.tappointmentlist[i].STARTTIME).format('h:mm a'),
+                        timeEnd: moment(data.tappointmentlist[i].ENDTIME).format('h:mm a'),
+                        totalHours: data.tappointmentlist[i].TotalHours || 0,
+                        endTime: data.tappointmentlist[i].ENDTIME.split(' ')[1] || '',
+                        startDate: data.tappointmentlist[i].STARTTIME || '',
+                        endDate: data.tappointmentlist[i].ENDTIME || '',
+                        frmDate: moment(data.tappointmentlist[i].STARTTIME).format('dddd') + ', ' + moment(data.tappointmentlist[i].STARTTIME).format('DD'),
+                        toDate: moment(data.tappointmentlist[i].ENDTIME).format('dddd') + ', ' + moment(data.tappointmentlist[i].ENDTIME).format('DD'),
+                        fromDate: data.tappointmentlist[i].Actual_Endtime != '' ? moment(data.tappointmentlist[i].Actual_Endtime).format("DD/MM/YYYY") : data.tappointmentlist[i].Actual_Endtime,
+                        openbalance: data.tappointmentlist[i].Actual_Endtime || '',
+                        aStartTime: data.tappointmentlist[i].Actual_Starttime.split(' ')[1] || '',
+                        aEndTime: data.tappointmentlist[i].Actual_Endtime.split(' ')[1] || '',
                         actualHours: '',
                         closebalance: '',
-                        product: useData[i].fields.ProductDesc || '',
-                        finished: useData[i].fields.Status || '',
-                        notes: useData[i].fields.Notes || '',
+                        product: data.tappointmentlist[i].ProductDesc || '',
+                        finished: appStatus || '',
+                        notes: data.tappointmentlist[i].Notes || '',
                         color: color
                     };
                     dataTableList.push(dataList);
@@ -714,8 +758,7 @@ Template.appointmentlist.onRendered(function () {
                             { "orderable": false, "targets": 0 },
                             { type: 'date', targets: 1 }
                         ],
-                        // "sDom": "<'row'><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -747,73 +790,120 @@ Template.appointmentlist.onRendered(function () {
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        "bLengthChange": false,
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [[1, "desc"],[ 2, "desc" ]],
                         action: function () {
                             //$('#tblappointmentlist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblappointmenttimelist_ellipsis').addClass('disabled');
+                        "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
-                            if (oSettings._iDisplayLength == -1) {
-                                if (oSettings.fnRecordsDisplay() > 150) {
-                                    $('.paginate_button.page-item.previous').addClass('disabled');
-                                    $('.paginate_button.page-item.next').addClass('disabled');
-                                }
-                            } else {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblappointmentlist_ellipsis').addClass('disabled');
 
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
                             }
-                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                $('.paginate_button.page-item.next').addClass('disabled');
-                            }
-                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                                .on('click', function() {
-                                    $('.fullScreenSpin').css('display', 'inline-block');
-                                    let dataLenght = oSettings._iDisplayLength;
+                          }else{
 
-                                    sideBarService.getAllAppointmentList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                                        getVS1Data('TAppointment').then(function(dataObjectold) {
-                                            if (dataObjectold.length == 0) {
+                          }
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
 
-                                            } else {
-                                                let dataOld = JSON.parse(dataObjectold[0].data);
-                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentex), dataOld.tappointmentex);
-                                                let objCombineData = {
-                                                    tappointmentex: thirdaryData
-                                                }
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                                                addVS1Data('TAppointment', JSON.stringify(objCombineData)).then(function(datareturn) {
-                                                    templateObject.resetData(objCombineData);
-                                                    $('.fullScreenSpin').css('display', 'none');
-                                                }).catch(function(err) {
-                                                    $('.fullScreenSpin').css('display', 'none');
-                                                });
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getTAppointmentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TAppointmentList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
 
-                                            }
-                                        }).catch(function(err) {
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                        });
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentlist), dataOld.tappointmentlist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tappointmentlist:thirdaryData
+                                     }
 
-                                    }).catch(function(err) {
-                                        $('.fullScreenSpin').css('display', 'none');
-                                    });
+
+                                       addVS1Data('TAppointmentList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
+                             sideBarService.getTAppointmentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TAppointmentList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentlist), dataOld.tappointmentlist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     tappointmentlist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TAppointmentList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
 
                                 });
-                            setTimeout(function() {
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                            }
+                           });
+
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if (urlParametersPage) {
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                               this.fnPageChange('last');
                           }
                             $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
-                        }
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
 
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
+                        }
                     }).on('page', function () {
                         setTimeout(function () {
                             MakeNegative();
@@ -822,87 +912,6 @@ Template.appointmentlist.onRendered(function () {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {
 
-                    }).on('length.dt', function (e, settings, len) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      if(dataLenght == -1){
-                        sideBarService.getAllAppointmentList('All',1).then(function(data) {
-                          let lineItems = [];
-                           let lineItemObj = {};
-
-                           for (let i = 0; i < data.tappointmentex.length; i++) {
-
-                              if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
-                                  color = "#1cc88a";
-                              } else {
-                                  color = "#f6c23e";
-                              }
-                              var dataList = {
-                                  id: data.tappointmentex[i].fields.ID || '',
-                                  sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
-                                  appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
-                                  accountname: data.tappointmentex[i].fields.ClientName || '',
-                                  statementno: data.tappointmentex[i].fields.TrainerName || '',
-                                  employeename: data.tappointmentex[i].fields.TrainerName || '',
-                                  department: data.tappointmentex[i].fields.DeptClassName || '',
-                                  phone: data.tappointmentex[i].fields.Phone || '',
-                                  mobile: data.tappointmentex[i].fields.ClientMobile || '',
-                                  suburb: data.tappointmentex[i].fields.Suburb || '',
-                                  street: data.tappointmentex[i].fields.Street || '',
-                                  state: data.tappointmentex[i].fields.State || '',
-                                  country: data.tappointmentex[i].fields.Country || '',
-                                  zip: data.tappointmentex[i].fields.Postcode || '',
-                                  startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
-                                  timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
-                                  timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
-                                  totalHours: data.tappointmentex[i].fields.TotalHours || 0,
-                                  endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
-                                  startDate: data.tappointmentex[i].fields.StartTime || '',
-                                  endDate: data.tappointmentex[i].fields.EndTime || '',
-                                  frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
-                                  toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
-                                  fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
-                                  openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
-                                  aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
-                                  aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
-                                  actualHours: '',
-                                  closebalance: '',
-                                  product: data.tappointmentex[i].fields.ProductDesc || '',
-                                  finished: data.tappointmentex[i].fields.Status || '',
-                                  notes: data.tappointmentex[i].fields.Notes || '',
-                                  color: color
-                              };
-                              dataTableList.push(dataList);
-
-                          }
-
-                          templateObject.datatablerecords.set(dataTableList);
-
-                              $('.dataTables_info').html('Showing 1 to '+data.tappointmentex.length+ ' of ' +data.tappointmentex.length+ ' entries');
-                              $('.fullScreenSpin').css('display','none');
-
-                        }).catch(function(err) {
-                          $('.fullScreenSpin').css('display','none');
-                        });
-                       //}
-                      }else{
-                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                          sideBarService.getAllAppointmentList(dataLenght,0).then(function (dataNonBo) {
-                            addVS1Data('TAppointment',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            templateObject.resetData(dataNonBo);
-                            }).catch(function (err) {
-                            $('.fullScreenSpin').css('display','none');
-                            });
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                        }
-                      }
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
@@ -937,53 +946,68 @@ Template.appointmentlist.onRendered(function () {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
             }
         }).catch(function (err) {
-            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
+            sideBarService.getTAppointmentListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (data) {
                 // localStorage.setItem('VS1TReconcilationList', JSON.stringify(data)||'');
-                addVS1Data('TAppointment',JSON.stringify(data));
+                addVS1Data('TAppointmentList',JSON.stringify(data));
                 let lineItems = [];
                 let lineItemObj = {};
                 let color = "";
-                for (let i = 0; i < data.tappointmentex.length; i++) {
+                let appStatus = "";
+                if (data.Params.IgnoreDates == true) {
+                    $('#dateFrom').attr('readonly', true);
+                    $('#dateTo').attr('readonly', true);
+                    FlowRouter.go('/appointmentlist?ignoredate=true');
+                } else {
+                    $("#dateFrom").val(data.Params.DateFrom != '' ? moment(data.Params.DateFrom).format("DD/MM/YYYY") : data.Params.DateFrom);
+                    $("#dateTo").val(data.Params.DateTo != '' ? moment(data.Params.DateTo).format("DD/MM/YYYY") : data.Params.DateTo);
+                }
+                for (let i = 0; i < data.tappointmentlist.length; i++) {
+                   appStatus = data.tappointmentlist[i].Status || '';
                     // let openBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.OpenBalance)|| 0.00;
                     // let closeBalance = utilityService.modifynegativeCurrencyFormat(data.tappointmentex[i].fields.CloseBalance)|| 0.00;
-                    if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
+                    if(data.tappointmentlist[i].Active == true){
+                    if (data.tappointmentlist[i].Status == "Converted" || data.tappointmentlist[i].Status == "Completed") {
                         color = "#1cc88a";
                     } else {
                         color = "#f6c23e";
                     }
+                  }else{
+                    appStatus = "Deleted";
+                    color = "#e74a3b";
+                  }
                     var dataList = {
-                        id: data.tappointmentex[i].fields.ID || '',
-                        sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
-                        appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
-                        accountname: data.tappointmentex[i].fields.ClientName || '',
-                        statementno: data.tappointmentex[i].fields.TrainerName || '',
-                        employeename: data.tappointmentex[i].fields.TrainerName || '',
-                        department: data.tappointmentex[i].fields.DeptClassName || '',
-                        phone: data.tappointmentex[i].fields.Phone || '',
-                        mobile: data.tappointmentex[i].fields.ClientMobile || '',
-                        suburb: data.tappointmentex[i].fields.Suburb || '',
-                        street: data.tappointmentex[i].fields.Street || '',
-                        state: data.tappointmentex[i].fields.State || '',
-                        country: data.tappointmentex[i].fields.Country || '',
-                        zip: data.tappointmentex[i].fields.Postcode || '',
-                        startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
-                        timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
-                        timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
-                        totalHours: data.tappointmentex[i].fields.TotalHours || 0,
-                        endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
-                        startDate: data.tappointmentex[i].fields.StartTime || '',
-                        endDate: data.tappointmentex[i].fields.EndTime || '',
-                        frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
-                        toDate: moment(data.tappointmentex[i].fields.EndTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.EndTime).format('DD'),
-                        fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
-                        openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
-                        aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
-                        aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
+                        id: data.tappointmentlist[i].AppointID || '',
+                        sortdate: data.tappointmentlist[i].CreationDate != '' ? moment(data.tappointmentlist[i].CreationDate).format("YYYY/MM/DD") : data.tappointmentlist[i].CreationDate,
+                        appointmentdate: data.tappointmentlist[i].CreationDate != '' ? moment(data.tappointmentlist[i].CreationDate).format("DD/MM/YYYY") : data.tappointmentlist[i].CreationDate,
+                        accountname: data.tappointmentlist[i].ClientName || '',
+                        statementno: data.tappointmentlist[i].EnteredByEmployeeName || '',
+                        employeename: data.tappointmentlist[i].EnteredByEmployeeName || '',
+                        department: data.tappointmentlist[i].DeptClassName || '',
+                        phone: data.tappointmentlist[i].Phone || '',
+                        mobile: data.tappointmentlist[i].ClientMobile || '',
+                        suburb: data.tappointmentlist[i].Suburb || '',
+                        street: data.tappointmentlist[i].Street || '',
+                        state: data.tappointmentlist[i].State || '',
+                        country: data.tappointmentlist[i].Country || '',
+                        zip: data.tappointmentlist[i].Postcode || '',
+                        startTime: data.tappointmentlist[i].STARTTIME.split(' ')[1] || '',
+                        timeStart: moment(data.tappointmentlist[i].STARTTIME).format('h:mm a'),
+                        timeEnd: moment(data.tappointmentlist[i].ENDTIME).format('h:mm a'),
+                        totalHours: data.tappointmentlist[i].TotalHours || 0,
+                        endTime: data.tappointmentlist[i].ENDTIME.split(' ')[1] || '',
+                        startDate: data.tappointmentlist[i].STARTTIME || '',
+                        endDate: data.tappointmentlist[i].ENDTIME || '',
+                        frmDate: moment(data.tappointmentlist[i].STARTTIME).format('dddd') + ', ' + moment(data.tappointmentlist[i].STARTTIME).format('DD'),
+                        toDate: moment(data.tappointmentlist[i].ENDTIME).format('dddd') + ', ' + moment(data.tappointmentlist[i].ENDTIME).format('DD'),
+                        fromDate: data.tappointmentlist[i].Actual_Endtime != '' ? moment(data.tappointmentlist[i].Actual_Endtime).format("DD/MM/YYYY") : data.tappointmentlist[i].Actual_Endtime,
+                        openbalance: data.tappointmentlist[i].Actual_Endtime || '',
+                        aStartTime: data.tappointmentlist[i].Actual_Starttime.split(' ')[1] || '',
+                        aEndTime: data.tappointmentlist[i].Actual_Endtime.split(' ')[1] || '',
                         actualHours: '',
                         closebalance: '',
-                        product: data.tappointmentex[i].fields.ProductDesc || '',
-                        finished: data.tappointmentex[i].fields.Status || '',
-                        notes: data.tappointmentex[i].fields.Notes || '',
+                        product: data.tappointmentlist[i].ProductDesc || '',
+                        finished: appStatus || '',
+                        notes: data.tappointmentlist[i].Notes || '',
                         color: color
                     };
                     dataTableList.push(dataList);
@@ -991,7 +1015,6 @@ Template.appointmentlist.onRendered(function () {
                 }
 
                 templateObject.datatablerecords.set(dataTableList);
-
                 if (templateObject.datatablerecords.get()) {
 
                     Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblappointmentlist', function (error, result) {
@@ -1037,8 +1060,7 @@ Template.appointmentlist.onRendered(function () {
                             { "orderable": false, "targets": 0 },
                             { type: 'date', targets: 1 }
                         ],
-                        // "sDom": "<'row'><'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                        "sDom": "<'row'><'row'<'col-sm-12 col-lg-6'f><'col-sm-12 col-lg-6 colDateFilter'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [
                             {
                                 extend: 'excelHtml5',
@@ -1063,79 +1085,128 @@ Template.appointmentlist.onRendered(function () {
                             }],
                         select: true,
                         destroy: true,
+                        colReorder: true,
                         colReorder: {
                             fixedColumnsLeft: 1
                         },
                         // bStateSave: true,
                         // rowId: 0,
                         pageLength: initialDatatableLoad,
-                        lengthMenu: [ [initialDatatableLoad, -1], [initialDatatableLoad, "All"] ],
+                        "bLengthChange": false,
+                        info: true,
                         info: true,
                         responsive: true,
-                        "order": [[1, "desc"]],
+                        "order": [[1, "desc"],[ 2, "desc" ]],
                         action: function () {
                             //$('#tblappointmentlist').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            $('.paginate_button.page-item').removeClass('disabled');
-                            $('#tblappointmenttimelist_ellipsis').addClass('disabled');
+                        "fnDrawCallback": function (oSettings) {
+                          let checkurlIgnoreDate = FlowRouter.current().queryParams.ignoredate;
 
-                            if (oSettings._iDisplayLength == -1) {
-                                if (oSettings.fnRecordsDisplay() > 150) {
-                                    $('.paginate_button.page-item.previous').addClass('disabled');
-                                    $('.paginate_button.page-item.next').addClass('disabled');
-                                }
-                            } else {
+                          $('.paginate_button.page-item').removeClass('disabled');
+                          $('#tblappointmentlist_ellipsis').addClass('disabled');
 
+                          if(oSettings._iDisplayLength == -1){
+                            if(oSettings.fnRecordsDisplay() > 150){
+                              $('.paginate_button.page-item.previous').addClass('disabled');
+                              $('.paginate_button.page-item.next').addClass('disabled');
                             }
-                            if (oSettings.fnRecordsDisplay() < initialDatatableLoad) {
-                                $('.paginate_button.page-item.next').addClass('disabled');
-                            }
-                            $('.paginate_button.next:not(.disabled)', this.api().table().container())
-                                .on('click', function() {
-                                    $('.fullScreenSpin').css('display', 'inline-block');
-                                    let dataLenght = oSettings._iDisplayLength;
+                          }else{
 
-                                    sideBarService.getAllAppointmentList(initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
-                                        getVS1Data('TAppointment').then(function(dataObjectold) {
-                                            if (dataObjectold.length == 0) {
+                          }
+                          if(oSettings.fnRecordsDisplay() < initialDatatableLoad){
+                              $('.paginate_button.page-item.next').addClass('disabled');
+                          }
 
-                                            } else {
-                                                let dataOld = JSON.parse(dataObjectold[0].data);
-                                                var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentex), dataOld.tappointmentex);
-                                                let objCombineData = {
-                                                    tappointmentex: thirdaryData
-                                                }
+                          $('.paginate_button.next:not(.disabled)', this.api().table().container())
+                           .on('click', function(){
+                             $('.fullScreenSpin').css('display','inline-block');
+                             let dataLenght = oSettings._iDisplayLength;
+                             var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+                             var dateTo = new Date($("#dateTo").datepicker("getDate"));
 
-                                                addVS1Data('TAppointment', JSON.stringify(objCombineData)).then(function(datareturn) {
-                                                    templateObject.resetData(objCombineData);
-                                                    $('.fullScreenSpin').css('display', 'none');
-                                                }).catch(function(err) {
-                                                    $('.fullScreenSpin').css('display', 'none');
-                                                });
+                             let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+                             let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+                             if(checkurlIgnoreDate == 'true'){
+                               sideBarService.getTAppointmentListData(formatDateFrom, formatDateTo, true, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                                 getVS1Data('TAppointmentList').then(function (dataObjectold) {
+                                   if(dataObjectold.length == 0){
 
-                                            }
-                                        }).catch(function(err) {
+                                   }else{
+                                     let dataOld = JSON.parse(dataObjectold[0].data);
 
-                                        });
+                                     var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentlist), dataOld.tappointmentlist);
+                                     let objCombineData = {
+                                       Params: dataOld.Params,
+                                       tappointmentlist:thirdaryData
+                                     }
 
-                                    }).catch(function(err) {
-                                        $('.fullScreenSpin').css('display', 'none');
-                                    });
+
+                                       addVS1Data('TAppointmentList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                         templateObject.resetData(objCombineData);
+                                       $('.fullScreenSpin').css('display','none');
+                                       }).catch(function (err) {
+                                       $('.fullScreenSpin').css('display','none');
+                                       });
+
+                                   }
+                                  }).catch(function (err) {
+
+                                  });
+
+                               }).catch(function(err) {
+                                 $('.fullScreenSpin').css('display','none');
+                               });
+                             }else{
+                             sideBarService.getTAppointmentListData(formatDateFrom, formatDateTo, false, initialDatatableLoad, oSettings.fnRecordsDisplay()).then(function(dataObjectnew) {
+                               getVS1Data('TAppointmentList').then(function (dataObjectold) {
+                                 if(dataObjectold.length == 0){
+
+                                 }else{
+                                   let dataOld = JSON.parse(dataObjectold[0].data);
+
+                                   var thirdaryData = $.merge($.merge([], dataObjectnew.tappointmentlist), dataOld.tappointmentlist);
+                                   let objCombineData = {
+                                     Params: dataOld.Params,
+                                     tappointmentlist:thirdaryData
+                                   }
+
+
+                                     addVS1Data('TAppointmentList',JSON.stringify(objCombineData)).then(function (datareturn) {
+                                       templateObject.resetData(objCombineData);
+                                     $('.fullScreenSpin').css('display','none');
+                                     }).catch(function (err) {
+                                     $('.fullScreenSpin').css('display','none');
+                                     });
+
+                                 }
+                                }).catch(function (err) {
 
                                 });
-                            setTimeout(function() {
+
+                             }).catch(function(err) {
+                               $('.fullScreenSpin').css('display','none');
+                             });
+                            }
+                           });
+
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
                         "fnInitComplete": function () {
                           let urlParametersPage = FlowRouter.current().queryParams.page;
-                          if (urlParametersPage) {
+                          if (urlParametersPage || FlowRouter.current().queryParams.ignoredate) {
                               this.fnPageChange('last');
                           }
                             $("<button class='btn btn-primary btnRefreshAppointment' type='button' id='btnRefreshAppointment' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblappointmentlist_filter");
-                        }
+                            $('.myvarFilterForm').appendTo(".colDateFilter");
+                        },
+                        "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+                          let countTableData = data.Params.Count || 0; //get count from API data
 
+                            return 'Showing '+ iStart + " to " + iEnd + " of " + countTableData;
+                        }
                     }).on('page', function () {
                         setTimeout(function () {
                             MakeNegative();
@@ -1144,87 +1215,6 @@ Template.appointmentlist.onRendered(function () {
                         templateObject.datatablerecords.set(draftRecord);
                     }).on('column-reorder', function () {
 
-                    }).on('length.dt', function (e, settings, len) {
-                      $('.fullScreenSpin').css('display','inline-block');
-                      let dataLenght = settings._iDisplayLength;
-                      if(dataLenght == -1){
-                        sideBarService.getAllAppointmentList('All',1).then(function(data) {
-                          let lineItems = [];
-                           let lineItemObj = {};
-
-                           for (let i = 0; i < data.tappointmentex.length; i++) {
-
-                              if (data.tappointmentex[i].fields.Status == "Converted" || data.tappointmentex[i].fields.Status == "Completed") {
-                                  color = "#1cc88a";
-                              } else {
-                                  color = "#f6c23e";
-                              }
-                              var dataList = {
-                                  id: data.tappointmentex[i].fields.ID || '',
-                                  sortdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("YYYY/MM/DD") : data.tappointmentex[i].fields.CreationDate,
-                                  appointmentdate: data.tappointmentex[i].fields.CreationDate != '' ? moment(data.tappointmentex[i].fields.CreationDate).format("DD/MM/YYYY") : data.tappointmentex[i].fields.CreationDate,
-                                  accountname: data.tappointmentex[i].fields.ClientName || '',
-                                  statementno: data.tappointmentex[i].fields.TrainerName || '',
-                                  employeename: data.tappointmentex[i].fields.TrainerName || '',
-                                  department: data.tappointmentex[i].fields.DeptClassName || '',
-                                  phone: data.tappointmentex[i].fields.Phone || '',
-                                  mobile: data.tappointmentex[i].fields.ClientMobile || '',
-                                  suburb: data.tappointmentex[i].fields.Suburb || '',
-                                  street: data.tappointmentex[i].fields.Street || '',
-                                  state: data.tappointmentex[i].fields.State || '',
-                                  country: data.tappointmentex[i].fields.Country || '',
-                                  zip: data.tappointmentex[i].fields.Postcode || '',
-                                  startTime: data.tappointmentex[i].fields.StartTime.split(' ')[1] || '',
-                                  timeStart: moment(data.tappointmentex[i].fields.StartTime).format('h:mm a'),
-                                  timeEnd: moment(data.tappointmentex[i].fields.EndTime).format('h:mm a'),
-                                  totalHours: data.tappointmentex[i].fields.TotalHours || 0,
-                                  endTime: data.tappointmentex[i].fields.EndTime.split(' ')[1] || '',
-                                  startDate: data.tappointmentex[i].fields.StartTime || '',
-                                  endDate: data.tappointmentex[i].fields.EndTime || '',
-                                  frmDate: moment(data.tappointmentex[i].fields.StartTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.StartTime).format('DD'),
-                                  toDate: moment(data.tappointmentex[i].fields.endTime).format('dddd') + ', ' + moment(data.tappointmentex[i].fields.endTime).format('DD'),
-                                  fromDate: data.tappointmentex[i].fields.Actual_EndTime != '' ? moment(data.tappointmentex[i].fields.Actual_EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].fields.Actual_EndTime,
-                                  openbalance: data.tappointmentex[i].fields.Actual_EndTime || '',
-                                  aStartTime: data.tappointmentex[i].fields.Actual_StartTime.split(' ')[1] || '',
-                                  aEndTime: data.tappointmentex[i].fields.Actual_EndTime.split(' ')[1] || '',
-                                  actualHours: '',
-                                  closebalance: '',
-                                  product: data.tappointmentex[i].fields.ProductDesc || '',
-                                  finished: data.tappointmentex[i].fields.Status || '',
-                                  notes: data.tappointmentex[i].fields.Notes || '',
-                                  color: color
-                              };
-                              dataTableList.push(dataList);
-
-                          }
-
-                          templateObject.datatablerecords.set(dataTableList);
-
-                              $('.dataTables_info').html('Showing 1 to '+data.tappointmentex.length+ ' of ' +data.tappointmentex.length+ ' entries');
-                              $('.fullScreenSpin').css('display','none');
-
-                        }).catch(function(err) {
-                          $('.fullScreenSpin').css('display','none');
-                        });
-                       //}
-                      }else{
-                        if (settings.fnRecordsDisplay() >= settings._iDisplayLength) {
-                          $('.fullScreenSpin').css('display','none');
-                        }else{
-                          sideBarService.getAllAppointmentList(dataLenght,0).then(function (dataNonBo) {
-                            addVS1Data('TAppointment',JSON.stringify(dataNonBo)).then(function (datareturn) {
-                            templateObject.resetData(dataNonBo);
-                            }).catch(function (err) {
-                            $('.fullScreenSpin').css('display','none');
-                            });
-                          }).catch(function(err) {
-                            $('.fullScreenSpin').css('display','none');
-                          });
-                        }
-                      }
-                        setTimeout(function () {
-                            MakeNegative();
-                        }, 100);
                     });
                     $('.fullScreenSpin').css('display', 'none');
                 }, 0);
@@ -1271,6 +1261,31 @@ Template.appointmentlist.onRendered(function () {
 
     templateObject.getAllAppointmentListData();
 
+    templateObject.getAllFilterAppointmentListData = function(fromDate, toDate, ignoreDate) {
+        sideBarService.getTAppointmentListData(fromDate, toDate, ignoreDate,initialReportLoad,0).then(function(data) {
+            addVS1Data('TAppointmentList', JSON.stringify(data)).then(function(datareturn) {
+                window.open('/appointmentlist?toDate=' + toDate + '&fromDate=' + fromDate + '&ignoredate=' + ignoreDate, '_self');
+            }).catch(function(err) {
+                location.reload();
+            });
+        }).catch(function(err) {
+            $('.fullScreenSpin').css('display', 'none');
+        });
+    }
+
+    let urlParametersDateFrom = FlowRouter.current().queryParams.fromDate;
+    let urlParametersDateTo = FlowRouter.current().queryParams.toDate;
+    let urlParametersIgnoreDate = FlowRouter.current().queryParams.ignoredate;
+    if (urlParametersDateFrom) {
+        if (urlParametersIgnoreDate == true) {
+            $('#dateFrom').attr('readonly', true);
+            $('#dateTo').attr('readonly', true);
+        } else {
+
+            $("#dateFrom").val(urlParametersDateFrom != '' ? moment(urlParametersDateFrom).format("DD/MM/YYYY") : urlParametersDateFrom);
+            $("#dateTo").val(urlParametersDateTo != '' ? moment(urlParametersDateTo).format("DD/MM/YYYY") : urlParametersDateTo);
+        }
+    }
     // $(document).on('click', '#hideMe', function() {
     //   var table = $('#tblappointmentlist').DataTable();
     //    $('#tblappointmentlist thead tr').clone(true).appendTo( '#tblappointmentlist thead' );
@@ -1294,7 +1309,12 @@ Template.appointmentlist.onRendered(function () {
     // }
     $('#tblappointmentlist tbody').on('click', 'tr td:not(:first-child)', function () {
         var id = $(this).closest('tr').attr('id');
+        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
+        if(checkDeleted == "Deleted"){
+          swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+        }else{
         window.open('appointments?id=' + id, '_self');
+       }
     });
 
 
@@ -1429,26 +1449,61 @@ Template.appointmentlist.events({
         let isDoneAppointment = false;
         let isDoneInvoice = false;
 
-        sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
-          if(data.tappointmentex.length > 0){
-            addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
-                isDoneAppointment = true;
-                if((isDoneAppointment == true) && (isDoneInvoice == true)){
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
+
+        sideBarService.getTAppointmentListData(prevMonth11Date,toDate, false,initialReportLoad,0).then(function (dataApp) {
+
+          addVS1Data('TAppointmentList', JSON.stringify(dataApp)).then(function (datareturn) {
+            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
+              if(data.tappointmentex.length > 0){
+                addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                    isDoneAppointment = true;
                     window.open('/appointmentlist','_self');
-                }
+                }).catch(function (err) {
+                    isDoneAppointment = true;
+                    window.open('/appointmentlist','_self');
+                });
+              }
             }).catch(function (err) {
                 isDoneAppointment = true;
-                if((isDoneAppointment == true) && (isDoneInvoice == true)){
-                    window.open('/appointmentlist','_self');
-                }
-            });
-          }
-        }).catch(function (err) {
-            isDoneAppointment = true;
-            if((isDoneAppointment == true) && (isDoneInvoice == true)){
                 window.open('/appointmentlist','_self');
-            }
+            });
+
+          }).catch(function (err) {
+            sideBarService.getAllAppointmentList(initialDataLoad,0).then(function (data) {
+              if(data.tappointmentex.length > 0){
+                addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
+                    isDoneAppointment = true;
+                    window.open('/appointmentlist','_self');
+                }).catch(function (err) {
+                    isDoneAppointment = true;
+                    window.open('/appointmentlist','_self');
+                });
+              }
+            }).catch(function (err) {
+                isDoneAppointment = true;
+                window.open('/appointmentlist','_self');
+            });
+
+          });
+        }).catch(function (err) {
+          window.open('/appointmentlist', '_self');
         });
+
 
         sideBarService.getAllInvoiceList(initialDataLoad,0).then(function (data) {
             addVS1Data('TInvoiceEx', JSON.stringify(data)).then(function (datareturn) {
@@ -1480,6 +1535,216 @@ Template.appointmentlist.events({
         });
 
 
+    },
+    'change #dateTo': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterAppointmentListData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'change #dateFrom': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var dateFrom = new Date($("#dateFrom").datepicker("getDate"));
+        var dateTo = new Date($("#dateTo").datepicker("getDate"));
+
+        let formatDateFrom = dateFrom.getFullYear() + "-" + (dateFrom.getMonth() + 1) + "-" + dateFrom.getDate();
+        let formatDateTo = dateTo.getFullYear() + "-" + (dateTo.getMonth() + 1) + "-" + dateTo.getDate();
+
+        //  templateObject.getAgedPayableReports(formatDateFrom,formatDateTo,false);
+        var formatDate = dateTo.getDate() + "/" + (dateTo.getMonth() + 1) + "/" + dateTo.getFullYear();
+        //templateObject.dateAsAt.set(formatDate);
+        if (($("#dateFrom").val().replace(/\s/g, '') == "") && ($("#dateFrom").val().replace(/\s/g, '') == "")) {
+
+        } else {
+            templateObject.getAllFilterAppointmentListData(formatDateFrom, formatDateTo, false);
+        }
+
+    },
+    'click #today': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterAppointmentListData(toDateERPFrom,toDateERPTo, false);
+    },
+    'click #lastweek': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterAppointmentListData(toDateERPFrom,toDateERPTo, false);
+    },
+    'click #lastMonth': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+
+        var prevMonthLastDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        var prevMonthFirstDate = new Date(currentDate.getFullYear() - (currentDate.getMonth() > 0 ? 0 : 1), (currentDate.getMonth() - 1 + 12) % 12, 1);
+
+        var formatDateComponent = function(dateComponent) {
+          return (dateComponent < 10 ? '0' : '') + dateComponent;
+        };
+
+        var formatDate = function(date) {
+          return  formatDateComponent(date.getDate()) + '/' + formatDateComponent(date.getMonth() + 1) + '/' + date.getFullYear();
+        };
+
+        var formatDateERP = function(date) {
+          return  date.getFullYear() + '-' + formatDateComponent(date.getMonth() + 1) + '-' + formatDateComponent(date.getDate());
+        };
+
+
+        var fromDate = formatDate(prevMonthFirstDate);
+        var toDate = formatDate(prevMonthLastDate);
+
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(toDate);
+
+        var getLoadDate = formatDateERP(prevMonthLastDate);
+        let getDateFrom = formatDateERP(prevMonthFirstDate);
+        templateObject.getAllFilterAppointmentListData(getDateFrom, getLoadDate, false);
+    },
+    'click #lastQuarter': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        function getQuarter(d) {
+            d = d || new Date();
+            var m = Math.floor(d.getMonth() / 3) + 2;
+            return m > 4 ? m - 4 : m;
+        }
+
+        var quarterAdjustment = (moment().month() % 3) + 1;
+        var lastQuarterEndDate = moment().subtract({
+            months: quarterAdjustment
+        }).endOf('month');
+        var lastQuarterStartDate = lastQuarterEndDate.clone().subtract({
+            months: 2
+        }).startOf('month');
+
+        var lastQuarterStartDateFormat = moment(lastQuarterStartDate).format("DD/MM/YYYY");
+        var lastQuarterEndDateFormat = moment(lastQuarterEndDate).format("DD/MM/YYYY");
+
+
+        $("#dateFrom").val(lastQuarterStartDateFormat);
+        $("#dateTo").val(lastQuarterEndDateFormat);
+
+        let fromDateMonth = getQuarter(currentDate);
+        var quarterMonth = getQuarter(currentDate);
+        let fromDateDay = currentDate.getDate();
+
+        var getLoadDate = moment(lastQuarterEndDate).format("YYYY-MM-DD");
+        let getDateFrom = moment(lastQuarterStartDateFormat).format("YYYY-MM-DD");
+        templateObject.getAllFilterAppointmentListData(getDateFrom, getLoadDate, false);
+    },
+    'click #last12Months': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentDate = new Date();
+        var begunDate = moment(currentDate).format("DD/MM/YYYY");
+
+        let fromDateMonth = Math.floor(currentDate.getMonth() + 1);
+        let fromDateDay = currentDate.getDate();
+        if ((currentDate.getMonth() + 1) < 10) {
+            fromDateMonth = "0" + (currentDate.getMonth() + 1);
+        }
+        if (currentDate.getDate() < 10) {
+            fromDateDay = "0" + currentDate.getDate();
+        }
+
+        var fromDate = fromDateDay + "/" + (fromDateMonth) + "/" + Math.floor(currentDate.getFullYear() - 1);
+        $("#dateFrom").val(fromDate);
+        $("#dateTo").val(begunDate);
+
+        var currentDate2 = new Date();
+        if ((currentDate2.getMonth() + 1) < 10) {
+            fromDateMonth2 = "0" + Math.floor(currentDate2.getMonth() + 1);
+        }
+        if (currentDate2.getDate() < 10) {
+            fromDateDay2 = "0" + currentDate2.getDate();
+        }
+        var getLoadDate = moment(currentDate2).format("YYYY-MM-DD");
+        let getDateFrom = Math.floor(currentDate2.getFullYear() - 1) + "-" + fromDateMonth2 + "-" + currentDate2.getDate();
+        templateObject.getAllFilterAppointmentListData(getDateFrom, getLoadDate, false);
+
+    },
+    'click #ignoreDate': function() {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', true);
+        $('#dateTo').attr('readonly', true);
+        templateObject.getAllFilterAppointmentListData('', '', true);
     },
     'click .chkDatatable': function (event) {
         var columns = $('#tblappointmentlist th');

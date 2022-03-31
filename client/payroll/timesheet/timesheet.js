@@ -309,6 +309,7 @@ Template.timesheet.onRendered(function () {
                           '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                           data.ttimesheet[t].fields.Notes || '',
                           checkStatus || '',
+                          '',
                           data.ttimesheet[t].fields.HourlyRate || '',
                           '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                       ];
@@ -422,11 +423,14 @@ Template.timesheet.onRendered(function () {
                                   className: "colStatus",
                                   "targets": [13]
                               }, {
-                                  className: "hiddenColumn hourlyrate",
+                                  className: "hiddenColumn colInvoiced",
                                   "targets": [14]
                               }, {
-                                  className: "viewTimeLog",
+                                  className: "hiddenColumn hourlyrate",
                                   "targets": [15]
+                              }, {
+                                  className: "viewTimeLog",
+                                  "targets": [16]
                               }, {
                                   targets: 'sorting_disabled',
                                   orderable: false
@@ -658,6 +662,7 @@ Template.timesheet.onRendered(function () {
                             '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                             data.ttimesheet[t].fields.Notes || '',
                             checkStatus || '',
+                            '',
                             data.ttimesheet[t].fields.HourlyRate || '',
                             '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                         ];
@@ -756,6 +761,7 @@ Template.timesheet.onRendered(function () {
                                 '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                                 data.ttimesheet[t].fields.Notes || '',
                                 checkStatus || '',
+                                '',
                                 data.ttimesheet[t].fields.HourlyRate || '',
                                 '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                             ];
@@ -873,11 +879,14 @@ Template.timesheet.onRendered(function () {
                                 className: "colStatus",
                                 "targets": [13]
                             }, {
-                                className: "hiddenColumn hourlyrate",
+                                className: "hiddenColumn colInvoiced",
                                 "targets": [14]
                             }, {
-                                className: "viewTimeLog",
+                                className: "hiddenColumn hourlyrate",
                                 "targets": [15]
+                            }, {
+                                className: "viewTimeLog",
+                                "targets": [16]
                             }, {
                                 targets: 'sorting_disabled',
                                 orderable: false
@@ -1110,6 +1119,7 @@ Template.timesheet.onRendered(function () {
                       '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                       data.ttimesheet[t].fields.Notes || '',
                       checkStatus || '',
+                      '',
                       data.ttimesheet[t].fields.HourlyRate || '',
                       '<a href="/timesheettimelog?id='+data.ttimesheet[t].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                   ];
@@ -1223,11 +1233,14 @@ Template.timesheet.onRendered(function () {
                               className: "colStatus",
                               "targets": [13]
                           }, {
-                              className: "hiddenColumn hourlyrate",
+                              className: "hiddenColumn colInvoiced",
                               "targets": [14]
                           }, {
-                              className: "viewTimeLog",
+                              className: "hiddenColumn hourlyrate",
                               "targets": [15]
+                          }, {
+                              className: "viewTimeLog",
+                              "targets": [16]
                           }, {
                               targets: 'sorting_disabled',
                               orderable: false
@@ -1991,7 +2004,7 @@ Template.timesheet.onRendered(function () {
                         }
 
                         var prodservicedataList = [
-                             '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                             '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                             data.tproductvs1[i].fields.ProductName || '-',
                             data.tproductvs1[i].fields.SalesDescription || '',
                             data.tproductvs1[i].fields.BARCODE || '',
@@ -2093,7 +2106,7 @@ Template.timesheet.onRendered(function () {
                                         for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                            var dataListDupp = [
-                                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                             '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                              data.tproductvs1[i].fields.ProductName || '-',
                                              data.tproductvs1[i].fields.SalesDescription || '',
                                              utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -2170,7 +2183,7 @@ Template.timesheet.onRendered(function () {
                     };
 
                     var prodservicedataList = [
-                         '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                         '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                         data.tproductvs1[i].fields.ProductName || '-',
                         data.tproductvs1[i].fields.SalesDescription || '',
                         data.tproductvs1[i].fields.BARCODE || '',
@@ -2271,7 +2284,7 @@ Template.timesheet.onRendered(function () {
                                     for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                        var dataListDupp = [
-                                         '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                         '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                          data.tproductvs1[i].fields.ProductName || '-',
                                          data.tproductvs1[i].fields.SalesDescription || '',
                                          utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -2347,7 +2360,7 @@ Template.timesheet.onRendered(function () {
                   }
 
                   var prodservicedataList = [
-                       '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                       '<div class="custom-control custom-checkbox chkBox chkBoxService pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                       data.tproductvs1[i].fields.ProductName || '-',
                       data.tproductvs1[i].fields.SalesDescription || '',
                       data.tproductvs1[i].fields.BARCODE || '',
@@ -2449,7 +2462,7 @@ Template.timesheet.onRendered(function () {
                                   for(let i=0; i<dataObjectnew.tproductvs1.length; i++){
 
                                      var dataListDupp = [
-                                       '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
+                                       '<div class="custom-control custom-checkbox chkBox pointer" style="width:15px;margin-right: -6px;"><input class="custom-control-input chkBox chkServiceCard pointer" type="checkbox" id="formCheck-'+data.tproductvs1[i].fields.ID+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tproductvs1[i].fields.ID+'"></label></div>',
                                        data.tproductvs1[i].fields.ProductName || '-',
                                        data.tproductvs1[i].fields.SalesDescription || '',
                                        utilityService.modifynegativeCurrencyFormat(Math.floor(data.tproductvs1[i].fields.BuyQty1Cost * 100) / 100),
@@ -3669,6 +3682,7 @@ Template.timesheet.onRendered(function () {
                             '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                             data.ttimesheet[w].fields.Notes || '',
                             checkStatus || '',
+                            '',
                             data.ttimesheet[w].fields.HourlyRate || '',
                             '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                         ];
@@ -3800,6 +3814,7 @@ Template.timesheet.onRendered(function () {
                               '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                               data.ttimesheet[w].fields.Notes || '',
                               checkStatus || '',
+                              '',
                               data.ttimesheet[w].fields.HourlyRate || '',
                               '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                           ];
@@ -3898,6 +3913,7 @@ Template.timesheet.onRendered(function () {
                                   '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                                   data.ttimesheet[w].fields.Notes || '',
                                   checkStatus || '',
+                                  '',
                                   data.ttimesheet[w].fields.HourlyRate || '',
                                   '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                               ];
@@ -4031,6 +4047,7 @@ Template.timesheet.onRendered(function () {
                         '<input class="colPaycheckTips highlightInput cashamount" type="text" value="'+Currency + '0.00'+'"><span class="colPaycheckTips" style="display: none;">'+Currency + '0.00'+'</span>' || '',
                         data.ttimesheet[w].fields.Notes || '',
                         checkStatus || '',
+                        '',
                         data.ttimesheet[w].fields.HourlyRate || '',
                         '<a href="/timesheettimelog?id='+data.ttimesheet[w].fields.ID+'" class="btn btn-sm btn-success btnTimesheetListOne" style="width: 36px;" id="" autocomplete="off"><i class="far fa-clock"></i></a>' || ''
                     ];
@@ -6686,6 +6703,62 @@ Template.timesheet.onRendered(function () {
                         templateObject.getAllFilterTimeSheetData(formatDateFrom,formatDateTo, false);
                     }
 
+                },
+                'click #today': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', false);
+                    $('#dateTo').attr('readonly', false);
+                    var currentBeginDate = new Date();
+                    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+                    let fromDateMonth = (currentBeginDate.getMonth() + 1);
+                    let fromDateDay = currentBeginDate.getDate();
+                    if((currentBeginDate.getMonth()+1) < 10){
+                        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+                    }else{
+                      fromDateMonth = (currentBeginDate.getMonth()+1);
+                    }
+
+                    if(currentBeginDate.getDate() < 10){
+                        fromDateDay = "0" + currentBeginDate.getDate();
+                    }
+                    var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+                    var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+                    var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+                    var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+                    $("#dateFrom").val(toDateDisplayFrom);
+                    $("#dateTo").val(toDateDisplayTo);
+                    templateObject.getAllFilterTimeSheetData(toDateERPFrom,toDateERPTo, false);
+                },
+                'click #lastweek': function () {
+                    let templateObject = Template.instance();
+                    $('.fullScreenSpin').css('display', 'inline-block');
+                    $('#dateFrom').attr('readonly', false);
+                    $('#dateTo').attr('readonly', false);
+                    var currentBeginDate = new Date();
+                    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+                    let fromDateMonth = (currentBeginDate.getMonth() + 1);
+                    let fromDateDay = currentBeginDate.getDate();
+                    if((currentBeginDate.getMonth()+1) < 10){
+                        fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+                    }else{
+                      fromDateMonth = (currentBeginDate.getMonth()+1);
+                    }
+
+                    if(currentBeginDate.getDate() < 10){
+                        fromDateDay = "0" + currentBeginDate.getDate();
+                    }
+                    var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
+                    var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+                    var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+                    var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+                    $("#dateFrom").val(toDateDisplayFrom);
+                    $("#dateTo").val(toDateDisplayTo);
+                    templateObject.getAllFilterTimeSheetData(toDateERPFrom,toDateERPTo, false);
                 },
                 'click #lastMonth': function () {
                     let templateObject = Template.instance();

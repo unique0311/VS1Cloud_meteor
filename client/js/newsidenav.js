@@ -119,7 +119,7 @@ Template.newsidenav.onCreated(function() {
 });
 Template.newsidenav.onRendered(function() {
     var countObjectTimes = 0;
-    let allDataToLoad = 67;
+    let allDataToLoad = 69;
     let progressPercentage = 0;
 
     let templateObject = Template.instance();
@@ -1905,9 +1905,9 @@ Template.newsidenav.onRendered(function() {
           countObjectTimes++;
           progressPercentage = (countObjectTimes * 100) / allDataToLoad;
           $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
-          //$(".progressBarInner").text(" Invoice Back Order "+Math.round(progressPercentage)+"%");
+          //$(".progressBarInner").text(" Invoice BO "+Math.round(progressPercentage)+"%");
           $(".progressBarInner").text(Math.round(progressPercentage)+"%");
-          $(".progressName").text("Invoice Back Order ");
+          $(".progressName").text("Invoice BO ");
           if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
             if($('.headerprogressbar').hasClass("headerprogressbarShow")){
               $('.headerprogressbar').removeClass('headerprogressbarHidden');
@@ -1930,7 +1930,45 @@ Template.newsidenav.onRendered(function() {
             }, 1000);
           }
             addVS1Data('TInvoiceBackOrder',JSON.stringify(data));
-            $("<span class='process'>Invoice Back Orders Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            $("<span class='process'>Invoice BO Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+        }).catch(function(err) {
+
+        });
+
+        sideBarService.getAllTSalesBackOrderReportData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Sales BO Report");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TSalesBackOrderReport', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Sales BO Report Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
         }).catch(function(err) {
 
         });
@@ -2789,6 +2827,44 @@ Template.newsidenav.onRendered(function() {
         // }).catch(function(err) {
         //
         // });
+
+        sideBarService.getAllTPurchasesBackOrderReportData(prevMonth11Date, toDate, false,initialReportLoad,0).then(function(data) {
+          countObjectTimes++;
+          progressPercentage = (countObjectTimes * 100) / allDataToLoad;
+          $('.loadingbar').css('width', progressPercentage + '%').attr('aria-valuenow', progressPercentage);
+          //$(".progressBarInner").text("Bank Deposit "+Math.round(progressPercentage)+"%");
+          $(".progressBarInner").text(Math.round(progressPercentage)+"%");
+          $(".progressName").text("Purchase BO Report");
+          if((progressPercentage > 0) && (Math.round(progressPercentage) != 100)){
+            if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }else{
+              $('.headerprogressbar').addClass('headerprogressbarShow');
+              $('.headerprogressbar').removeClass('headerprogressbarHidden');
+            }
+
+          }else if(Math.round(progressPercentage) == 100){
+              $('.checkmarkwrapper').removeClass("hide");
+            setTimeout(function() {
+              if($('.headerprogressbar').hasClass("headerprogressbarShow")){
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }else{
+                $('.headerprogressbar').removeClass('headerprogressbarShow');
+                $('.headerprogressbar').addClass('headerprogressbarHidden');
+              }
+
+            }, 1000);
+          }
+            addVS1Data('TPurchasesBackOrderReport', JSON.stringify(data)).then(function(datareturn) {
+              $("<span class='process'>Purchase BO Report Loaded <i class='fas fa-check process-check'></i><br></span>").insertAfter(".processContainerAnchor");
+            }).catch(function(err) {
+
+            });
+
+        }).catch(function(err) {
+
+        });
     }
 
     templateObject.getAllTSalesListData = function() {
@@ -5096,13 +5172,13 @@ Template.newsidenav.onRendered(function() {
                 });
 
 
-                getVS1Data('BackOrderSalesList').then(function(dataObject) {
-                    if (dataObject.length == 0) {
-                        templateObject.getAllBOInvoiceListData();
-                    } else {}
-                }).catch(function(err) {
-                    templateObject.getAllBOInvoiceListData();
-                });
+                // getVS1Data('BackOrderSalesList').then(function(dataObject) {
+                //     if (dataObject.length == 0) {
+                //         templateObject.getAllBOInvoiceListData();
+                //     } else {}
+                // }).catch(function(err) {
+                //     templateObject.getAllBOInvoiceListData();
+                // });
 
                 getVS1Data('TQuote').then(function(dataObject) {
                     if (dataObject.length == 0) {

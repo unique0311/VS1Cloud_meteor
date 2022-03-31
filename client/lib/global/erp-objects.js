@@ -215,7 +215,7 @@ ERPObjects = function () {
         TCreditList:"TCreditList",
         TAppointmentList:"TAppointmentList",
         TJournalEntryList:"TJournalEntryList",
-
+        TPurchasesBackOrderReport:"TPurchasesBackOrderReport",
         //August
         TLumpSumW: "TLumpSumW",
         TLumpSumE: "TLumpSumE",

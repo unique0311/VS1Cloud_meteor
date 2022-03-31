@@ -80,6 +80,10 @@ Template.supplierpayment.onRendered(function() {
         $('td').each(function(){
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
+
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
@@ -124,6 +128,10 @@ Template.supplierpayment.onRendered(function() {
                         let balance = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].Balance)|| 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalPaid)|| 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalBalance)|| 0.00;
+                        let paystatus = data.tsupplierpaymentlist[i].QuoteStatus || '';
+                        if(data.tsupplierpaymentlist[i].Deleted == true){
+                          paystatus = "Deleted";
+                        }
                         var dataList = {
                             id: data.tsupplierpaymentlist[i].PaymentID || '',
                             sortdate: data.tsupplierpaymentlist[i].PaymentDate !=''? moment(data.tsupplierpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tsupplierpaymentlist[i].PaymentDate,
@@ -134,6 +142,7 @@ Template.supplierpayment.onRendered(function() {
                             balance: balance || 0.00,
                             bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
                             department: data.tsupplierpaymentlist[i].Department || '',
+                            paystatus: paystatus || '',
                             refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
                             paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
                             notes: data.tsupplierpaymentlist[i].Notes || ''
@@ -409,6 +418,10 @@ Template.supplierpayment.onRendered(function() {
                     let balance = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].Balance)|| 0.00;
                     let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalPaid)|| 0.00;
                     let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalBalance)|| 0.00;
+                    let paystatus = data.tsupplierpaymentlist[i].QuoteStatus || '';
+                    if(data.tsupplierpaymentlist[i].Deleted == true){
+                      paystatus = "Deleted";
+                    }
                     var dataList = {
                         id: data.tsupplierpaymentlist[i].PaymentID || '',
                         sortdate: data.tsupplierpaymentlist[i].PaymentDate !=''? moment(data.tsupplierpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tsupplierpaymentlist[i].PaymentDate,
@@ -419,6 +432,7 @@ Template.supplierpayment.onRendered(function() {
                         balance: balance || 0.00,
                         bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
                         department: data.tsupplierpaymentlist[i].Department || '',
+                        paystatus: paystatus || '',
                         refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
                         paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
                         notes: data.tsupplierpaymentlist[i].Notes || ''
@@ -690,6 +704,10 @@ Template.supplierpayment.onRendered(function() {
                   let balance = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].Balance)|| 0.00;
                   let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalPaid)|| 0.00;
                   let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalBalance)|| 0.00;
+                  let paystatus = data.tsupplierpaymentlist[i].QuoteStatus || '';
+                  if(data.tsupplierpaymentlist[i].Deleted == true){
+                    paystatus = "Deleted";
+                  }
                   var dataList = {
                       id: data.tsupplierpaymentlist[i].PaymentID || '',
                       sortdate: data.tsupplierpaymentlist[i].PaymentDate !=''? moment(data.tsupplierpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tsupplierpaymentlist[i].PaymentDate,
@@ -700,6 +718,7 @@ Template.supplierpayment.onRendered(function() {
                       balance: balance || 0.00,
                       bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
                       department: data.tsupplierpaymentlist[i].Department || '',
+                      paystatus: paystatus || '',
                       refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
                       paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
                       notes: data.tsupplierpaymentlist[i].Notes || ''
@@ -1362,6 +1381,62 @@ Template.supplierpayment.events({
             templateObject.getAllFilterSuppPaymentData(formatDateFrom, formatDateTo, false);
         }
 
+    },
+    'click #today': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterSuppPaymentData(toDateERPFrom,toDateERPTo, false);
+    },
+    'click #lastweek': function () {
+        let templateObject = Template.instance();
+        $('.fullScreenSpin').css('display', 'inline-block');
+        $('#dateFrom').attr('readonly', false);
+        $('#dateTo').attr('readonly', false);
+        var currentBeginDate = new Date();
+        var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+        let fromDateMonth = (currentBeginDate.getMonth() + 1);
+        let fromDateDay = currentBeginDate.getDate();
+        if((currentBeginDate.getMonth()+1) < 10){
+            fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
+        }else{
+          fromDateMonth = (currentBeginDate.getMonth()+1);
+        }
+
+        if(currentBeginDate.getDate() < 10){
+            fromDateDay = "0" + currentBeginDate.getDate();
+        }
+        var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
+        var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+
+        var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+        var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+
+        $("#dateFrom").val(toDateDisplayFrom);
+        $("#dateTo").val(toDateDisplayTo);
+        templateObject.getAllFilterSuppPaymentData(toDateERPFrom,toDateERPTo, false);
     },
     'click #lastMonth': function() {
         let templateObject = Template.instance();

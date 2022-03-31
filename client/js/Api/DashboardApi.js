@@ -12,18 +12,25 @@ export default class DashboardApi {
 
     this.collectionNames = {
         vs1charts: "vs1charts",
-        TVs1TabGroups: "TVs1TabGroups"
+        TVs1TabGroups: "TVs1TabGroups",
+        Tvs1dashboardpreferences: "Tvs1dashboardpreferences"
+
     };
 
     this.collection = new ApiCollection([
       new ApiEndpoint({
         name: this.collectionNames.vs1charts,
-        endpoint: ApiService.getBaseUrl({ endpoint: "Tvs1charts?ListType='Detail'" }),
+        url: ApiService.getBaseUrl({ endpoint: "Tvs1charts" }),
         headers: ApiService.getHeaders()
       }),
       new ApiEndpoint({
         name: this.collectionNames.TVs1TabGroups,
-        endpoint: ApiService.getBaseUrl({ endpoint: "TVs1TabGroups" }),
+        url: ApiService.getBaseUrl({ endpoint: "TVs1TabGroups" }),
+        headers: ApiService.getHeaders()
+      }),
+      new ApiEndpoint({
+        name: this.collectionNames.Tvs1dashboardpreferences,
+        url: ApiService.getBaseUrl({ endpoint: `Tvs1dashboardpreferences` }),
         headers: ApiService.getHeaders()
       }),
     ]);
