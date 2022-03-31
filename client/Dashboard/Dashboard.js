@@ -326,12 +326,12 @@ Template.dashboard.onRendered(function () {
             if (itemList.includes(itemName) == true) {
               // If the item name exist
               if (tvs1chart.fields.ChartWidth) {
-            
                 $(`[key='${itemName}'] .ui-resizable`).css(
                   "width",
                   tvs1chart.fields.ChartWidth
                 );
               }
+              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
               $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
               $(`[key='${itemName}']`).attr(
                 "chart-group",
@@ -384,7 +384,29 @@ Template.dashboard.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+
+        buildPositions();
       }
+
+      // let sortableWidgets = $('.sortable-chart-widget-js');
+      // // and now we need to sort
+      // var sort_by_position = function (a, b) {
+      //   // console.log(a.getAttribute('position'));
+      //   // console.log(b.getAttribute('position'));
+      //   if(parseInt(a.getAttribute('position'))
+      //   .localeCompare(parseInt(b.getAttribute('position'))) == parseInt(a.getAttribute('position'))) {
+      //     return a.innerHtml;
+      //   }else {
+      //     return b.innerHtml;
+      //   }
+    
+      // };
+      // sortableWidgets.sort(sort_by_position);
+      // for (var i = 0; i < sortableWidgets.length; i++) {
+      //   sortableWidgets[i].parentNode.appendChild(sortableWidgets[i]);
+      // }
+
+     
     }
   };
 

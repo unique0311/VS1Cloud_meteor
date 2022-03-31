@@ -2210,11 +2210,13 @@ Template.purchasesoverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
+              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
               $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
               $(`[key='${itemName}']`).attr(
                 "chart-group",
                 tvs1chart.fields.chartGroup
               );
+
               $(`[key='${itemName}']`).addClass("chart-visibility");
               //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
               $(`[key='${itemName}'] .on-editor-change-mode`).attr(
@@ -2261,6 +2263,7 @@ Template.purchasesoverview.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+        buildPositions();
       }
     }
   };

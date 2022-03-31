@@ -1704,7 +1704,7 @@ Template.salesoverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
-
+              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
               $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
               $(`[key='${itemName}']`).attr(
                 "chart-group",
@@ -1747,7 +1747,7 @@ Template.salesoverview.onRendered(function () {
 
       if (displayedCharts.length == 0) {
         // this will show all by default
-        console.log("No charts are being displayed, so show everything");
+        //console.log("No charts are being displayed, so show everything");
         itemList.forEach((item) => {
           $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
           $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
@@ -1756,6 +1756,8 @@ Template.salesoverview.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+
+        buildPositions();
       }
     }
   };

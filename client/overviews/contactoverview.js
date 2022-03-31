@@ -2578,7 +2578,7 @@ Template.contactoverview.onRendered(function () {
         }
       });
       //console.log(allChartResponse);
-      console.log(chartList);
+      // console.log(chartList);
       // the goal here is to get the right names so it can be used for preferences
       chartList.forEach((chart) => {
         //chart.fields.active = false; // Will set evething to false
@@ -2681,6 +2681,7 @@ Template.contactoverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
+              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
               $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
               $(`[key='${itemName}']`).attr(
                 "chart-group",
@@ -2733,6 +2734,7 @@ Template.contactoverview.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+        buildPositions();
       }
     }
   };

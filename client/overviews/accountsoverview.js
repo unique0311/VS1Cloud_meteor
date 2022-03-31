@@ -2330,7 +2330,7 @@ Template.accountsoverview.onRendered(function () {
         }
       });
 
-      console.log(tvs1ChartDashboardPreference);
+     // console.log(tvs1ChartDashboardPreference);
 
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
@@ -2355,6 +2355,7 @@ Template.accountsoverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
+              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
               $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
               $(`[key='${itemName}']`).attr(
                 "chart-group",
@@ -2407,6 +2408,7 @@ Template.accountsoverview.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+        buildPositions();
       }
     }
   };
