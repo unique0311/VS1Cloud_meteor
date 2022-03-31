@@ -1472,7 +1472,6 @@ Template.employeescard.onRendered(function () {
                         });
                     } else {
                         let data = JSON.parse(dataObject[0].data);
-                        console.log('data', data);
                         let useData = data.temployee;
                         var added = false;
                         for (let i = 0; i < useData.length; i++) {
@@ -2746,7 +2745,6 @@ Template.employeescard.onRendered(function () {
     templateObject.getEmployeePaySettings = function () {
         let employeePayrollService = new EmployeePayrollService();
         getVS1Data('TEmployeepaysettings').then(function (dataObject) {
-            console.log(dataObject);
             if (dataObject.length == 0) {
 
             } else {
@@ -2757,15 +2755,11 @@ Template.employeescard.onRendered(function () {
                 let useData = data.temployeepaysettings;
                 let lineItems = [];
                 let lineItemObj = {};
-                console.log("dataObject", data);
-                console.log(employeeID, currentId.id);
                 for (let i = 0; i < data.temployeepaysettings.length; i++) {
                     if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
 
-                        console.log(data.temployeepaysettings[i].fields.Employeeid, employeeID);
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
-                        console.log(data.temployeepaysettings[i].fields.Employee.fields.EmployeeName);
 
                         let payInfo = {
                             index: i,
@@ -2789,7 +2783,6 @@ Template.employeescard.onRendered(function () {
                             
                             dataObject: dataObject
                         };
-                        console.log('payInfo', payInfo);
                         templateObject.employeePayInfos.set(payInfo);
                         
                         break;
@@ -2802,10 +2795,8 @@ Template.employeescard.onRendered(function () {
                 for (let i = 0; i < data.temployeepaysettings.length; i++) {
                     if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
 
-                        console.log(data.temployeepaysettings[i].fields.Employeeid, employeeID);
                         $('.fullScreenSpin').css('display', 'none');
                         let lineItems = [];
-                        console.log(data.temployeepaysettings[i].fields.Employee.fields.EmployeeName);
 
                         let payInfo = {
                             ID: data.temployeepaysettings[i].fields.ID,
@@ -2816,7 +2807,6 @@ Template.employeescard.onRendered(function () {
                             Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
                             TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold,
                         };
-                        console.log('payInfo1', payInfo);
                         templateObject.employeePayInfos.set(payInfo);
                     }
                 }
@@ -3667,7 +3657,6 @@ Template.employeescard.events({
         let templateObject = Template.instance();
         let employeePayrollService = new EmployeePayrollService();
         let payInfo = templateObject.employeePayInfos.get();
-        console.log(payInfo.ID, payInfo.index, payInfo.EmployeeID, payInfo.EmployeeName);
         let index = payInfo.index;
         
         $('.fullScreenSpin').css('display', 'inline-block');
@@ -3685,7 +3674,6 @@ Template.employeescard.events({
         let HasApprovedWithholdingVariation = $("#taxesHasApprovedWithholdingVariation").is(':checked') ? true : false;
 
         let dataObject = payInfo.dataObject;
-        console.log("------------------", dataObject);
         
         let employeeEmail = dataObject[0].EmployeeEmail;
         let timestamp = dataObject[0].timestamp;
@@ -3710,7 +3698,6 @@ Template.employeescard.events({
             timestamp: timestamp,
             data: data
         }];
-        console.log(newDataObj);
 
         let objDetails = {};
         if (!isNaN(currentId.id)) {
