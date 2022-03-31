@@ -1618,10 +1618,10 @@ Template.salesoverview.onRendered(function () {
           chart.fields.ChartID
         );
 
-        $(`[key='${chart.fields._chartSlug}']`).attr(
-          "pref-id",
-          chart.fields.ID
-        );
+        // $(`[key='${chart.fields._chartSlug}']`).attr(
+        //   "pref-id",
+        //   chart.fields.ID
+        // );
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-slug",
           chart.fields._chartSlug
@@ -1695,7 +1695,7 @@ Template.salesoverview.onRendered(function () {
 
             //localStorage.setItem(itemName, tvs1chart);
             //console.log(itemName + " " + tvs1chart.fields.Active);
-
+           
             if (itemList.includes(itemName) == true) {
               // If the item name exist
               if (tvs1chart.fields.ChartWidth) {
@@ -1704,8 +1704,12 @@ Template.salesoverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
+              $(`[key='${itemName}']`).attr(
+                "pref-id",
+                tvs1chart.fields.ID
+              );
               $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
-              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
+              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
               $(`[key='${itemName}']`).attr(
                 "chart-group",
                 tvs1chart.fields.chartGroup

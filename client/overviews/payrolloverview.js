@@ -3801,10 +3801,10 @@ Template.payrolloverview.onRendered(function () {
           chart.fields.ChartID
         );
 
-        $(`[key='${chart.fields._chartSlug}']`).attr(
-          "pref-id",
-          chart.fields.ID
-        );
+        // $(`[key='${chart.fields._chartSlug}']`).attr(
+        //   "pref-id",
+        //   chart.fields.ID
+        // );
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-slug",
           chart.fields._chartSlug
@@ -3890,8 +3890,12 @@ Template.payrolloverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
+              $(`[key='${itemName}']`).attr(
+                "pref-id",
+                tvs1chart.fields.ID
+              );
               $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
-              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
+              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
               $(`[key='${itemName}']`).attr(
                 "chart-group",
                 tvs1chart.fields.chartGroup
