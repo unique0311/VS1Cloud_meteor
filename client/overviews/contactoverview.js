@@ -2803,11 +2803,13 @@ Template.contactoverview.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    setTimeout(() => templateObject.checkChartToDisplay(), 500);
+    chartsEditor.disable();
+    saveCharts().then(() => {
+      
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay()
+    });
   },
   "click .editchartsbtn": () => {
     chartsEditor.enable();

@@ -2350,19 +2350,13 @@ Template.purchasesoverview.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
-
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    // $("#btnDone").addClass("hideelement");
-    // $("#btnDone").removeClass("showelement");
-    // $("#btnCancel").addClass("hideelement");
-    // $("#btnCancel").removeClass("showelement");
-    // $("#editcharts").addClass("showelement");
-    // $("#editcharts").removeClass("hideelement");
-
-    templateObject.checkChartToDisplay();
+    chartsEditor.disable();
+    saveCharts().then(() => {
+      
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay()
+    });
   },
   "click .editchartsbtn": () => {
     chartsEditor.enable();

@@ -523,21 +523,26 @@ Template.dashboard.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
 
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    $("#btnDone").addClass("hideelement");
-    $("#btnDone").removeClass("showelement");
-    $("#btnCancel").addClass("hideelement");
-    $("#btnCancel").removeClass("showelement");
-    $("#editcharts").addClass("showelement");
-    $("#editcharts").removeClass("hideelement");
-    $(".btnchartdropdown").removeClass("hideelement");
-    $(".btnchartdropdown").addClass("showelement");
+    
+    saveCharts().then(() => {
+      chartsEditor.disable();
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay()
+    });
+    
 
-    templateObject.checkChartToDisplay();
+    // $("#btnDone").addClass("hideelement");
+    // $("#btnDone").removeClass("showelement");
+    // $("#btnCancel").addClass("hideelement");
+    // $("#btnCancel").removeClass("showelement");
+    // $("#editcharts").addClass("showelement");
+    // $("#editcharts").removeClass("hideelement");
+    // $(".btnchartdropdown").removeClass("hideelement");
+    // $(".btnchartdropdown").addClass("showelement");
+
+    //setTimeout(() => templateObject.checkChartToDisplay(), 500);
   },
 
   "click .progressbarcheck": function () {
