@@ -1615,8 +1615,9 @@ Template.salesoverview.onRendered(function () {
 
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-id",
-          chart.fields.ChartID
+          chart.fields.ID
         );
+        //console.log(chart.fields.ChartID);
 
         // $(`[key='${chart.fields._chartSlug}']`).attr(
         //   "pref-id",
@@ -1741,7 +1742,7 @@ Template.salesoverview.onRendered(function () {
               }
             }
             //}
-          }, index * 100);
+          }, index * 200);
         });
       }
 
