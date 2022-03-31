@@ -2205,7 +2205,7 @@ Template.purchasesoverview.onRendered(function () {
             if (itemList.includes(itemName) == true) {
               // If the item name exist
               if (tvs1chart.fields.ChartWidth) {
-                $(`[key='${itemName}']`).css(
+                $(`[key='${itemName}'] .ui-resizable`).css(
                   "width",
                   tvs1chart.fields.ChartWidth
                 );
@@ -2350,19 +2350,13 @@ Template.purchasesoverview.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
-
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    // $("#btnDone").addClass("hideelement");
-    // $("#btnDone").removeClass("showelement");
-    // $("#btnCancel").addClass("hideelement");
-    // $("#btnCancel").removeClass("showelement");
-    // $("#editcharts").addClass("showelement");
-    // $("#editcharts").removeClass("hideelement");
-
-    templateObject.checkChartToDisplay();
+    chartsEditor.disable();
+    saveCharts().then(() => {
+      
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay()
+    });
   },
   "click .editchartsbtn": () => {
     chartsEditor.enable();

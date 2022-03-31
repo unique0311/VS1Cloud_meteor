@@ -2658,6 +2658,9 @@ Template.contactoverview.onRendered(function () {
         }
       });
 
+      console.log(tvs1ChartDashboardPreference.length);
+      console.log(tvs1ChartDashboardPreference);
+
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
@@ -2675,18 +2678,20 @@ Template.contactoverview.onRendered(function () {
             if (itemList.includes(itemName) == true) {
               // If the item name exist
               if (tvs1chart.fields.ChartWidth) {
-               
                 $(`[key='${itemName}'] .ui-resizable`).css(
                   "width",
                   tvs1chart.fields.ChartWidth
                 );
               }
+              $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
               $(`[key='${itemName}']`).attr(
-                "pref-id",
-                tvs1chart.fields.ID
+                "position",
+                tvs1chart.fields.Position
               );
-              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
-              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
+              $(`[key='${itemName}']`).attr(
+                "chart-id",
+                tvs1chart.fields.ChartID
+              );
               $(`[key='${itemName}']`).attr(
                 "chart-group",
                 tvs1chart.fields.chartGroup
@@ -2729,7 +2734,7 @@ Template.contactoverview.onRendered(function () {
       if (displayedCharts.length == 0) {
         //console.log(displayedCharts.length);
         // this will show all by default
-       // console.log("No charts are being displayed, so show everything");
+        // console.log("No charts are being displayed, so show everything");
         itemList.forEach((item) => {
           $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
           $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
@@ -2798,19 +2803,13 @@ Template.contactoverview.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
-
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    // $("#btnDone").addClass("hideelement");
-    // $("#btnDone").removeClass("showelement");
-    // $("#btnCancel").addClass("hideelement");
-    // $("#btnCancel").removeClass("showelement");
-    // $("#editcharts").addClass("showelement");
-    // $("#editcharts").removeClass("hideelement");
-
-    templateObject.checkChartToDisplay();
+    chartsEditor.disable();
+    saveCharts().then(() => {
+      
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay()
+    });
   },
   "click .editchartsbtn": () => {
     chartsEditor.enable();
