@@ -1177,6 +1177,12 @@ Template.quoteslist.events({
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalAmountInc) || 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalPaid) || 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tquoteex[i].fields.TotalBalance) || 0.00;
+                        let salestatus = data.tquoteex[i].fields.SalesStatus || '';
+                        if(data.tquoteex[i].fields.Deleted == true){
+                          salestatus = "Deleted";
+                        }else if(data.tquoteex[i].fields.CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tquoteex[i].fields.ID || '',
                             employee: data.tquoteex[i].fields.EmployeeName || '',
@@ -1189,7 +1195,7 @@ Template.quoteslist.events({
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.tquoteex[i].fields.SalesStatus || '',
+                            salestatus: salestatus || '',
                             custfield1: data.tquoteex[i].fields.SaleCustField1 || '',
                             custfield2: data.tquoteex[i].fields.SaleCustField2 || '',
                             comments: data.tquoteex[i].fields.Comments || '',
@@ -1213,6 +1219,11 @@ Template.quoteslist.events({
                         var datatable = $('#tblquotelist').DataTable();
                         $("#tblquotelist > tbody").empty();
                         for (let x = 0; x < item.length; x++) {
+                          let setConvertData = '<td class="colConverted" style="background-color: #f6c23e !important; color:#fff">Unconverted</td>';
+
+                          if(item[x].isConverted == true){
+                            setConvertData = '<td class="colConverted" style="background-color: #1cc88a !important; color:#fff">Converted</td>';
+                          };
                             $("#tblquotelist > tbody").append(
                                 ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
                                 '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
@@ -1224,11 +1235,12 @@ Template.quoteslist.events({
                                 '<td contenteditable="false" class="colTax" style="text-align: right!important;">' + item[x].totaltax + '</td>' +
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
                                 // '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
-                                // '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].totaloustanding + '</td>' +
-                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].salestatus + '</td>' +
+
+                                '<td contenteditable="false" class="colStatus">' + item[x].salestatus + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +
+                                setConvertData +
                                 '<td contenteditable="false" class="colComments">' + item[x].comments + '</td>' +
                                 '</tr>');
 

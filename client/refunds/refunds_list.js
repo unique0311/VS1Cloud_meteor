@@ -1140,6 +1140,12 @@ Template.refundlist.events({
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalAmountInc) || 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalPaid) || 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.trefundsale[i].fields.TotalBalance) || 0.00;
+                        let salestatus = data.trefundsale[i].fields.SalesStatus || '';
+                        if(data.trefundsale[i].fields.Deleted == true){
+                          salestatus = "Deleted";
+                        }else if(data.trefundsale[i].fields.CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.trefundsale[i].fields.ID || '',
                             employee: data.trefundsale[i].fields.EmployeeName || '',
@@ -1152,7 +1158,7 @@ Template.refundlist.events({
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.trefundsale[i].fields.SalesStatus || '',
+                            salestatus: salestatus || '',
                             custfield1: data.trefundsale[i].fields.SaleCustField1 || '',
                             custfield2: data.trefundsale[i].fields.SaleCustField2 || '',
                             comments: data.trefundsale[i].fields.Comments || '',
@@ -1188,7 +1194,7 @@ Template.refundlist.events({
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
                                 '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
                                 '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].totaloustanding + '</td>' +
-                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].salestatus + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].salestatus + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +

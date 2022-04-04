@@ -81,15 +81,11 @@ Template.chequelist.onRendered(function() {
     });
 
     function MakeNegative() {
-        // TDs = document.getElementsByTagName('td');
-        // for (var i=0; i<TDs.length; i++) {
-        //         var temp = TDs[i];
-        //         if (temp.firstChild.nodeValue.indexOf('-'+Currency) == 0){
-        //           temp.className = "text-danger";
-        //         }
-        //     }
         $('td').each(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
+        });
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
         });
     };
 
@@ -134,6 +130,14 @@ Template.chequelist.onRendered(function() {
                       let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalAmountInc) || 0.00;
                       let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].Payment) || 0.00;
                       let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].Balance) || 0.00;
+
+                      let orderstatus = data.tchequelist[i].OrderStatus || '';
+                      if(data.tchequelist[i].Deleted == true){
+                        orderstatus = "Deleted";
+                      }else if(data.tchequelist[i].SupplierName == ''){
+                        orderstatus = "Deleted";
+                      };
+
                       var dataList = {
                           id: data.tchequelist[i].PurchaseOrderID || '',
                           employee: data.tchequelist[i].EmployeeName || '',
@@ -147,7 +151,7 @@ Template.chequelist.onRendered(function() {
                           totalamount: totalAmount || 0.00,
                           totalpaid: totalPaid || 0.00,
                           totaloustanding: totalOutstanding || 0.00,
-                          orderstatus: data.tchequelist[i].OrderStatus || '',
+                          orderstatus: orderstatus || '',
                           custfield1: '' || '',
                           custfield2: '' || '',
                           comments: data.tchequelist[i].Comments || '',
@@ -396,8 +400,14 @@ Template.chequelist.onRendered(function() {
                   $('div.dataTables_filter input').addClass('form-control form-control-sm');
                   $('#tblchequelist tbody').on('click', 'tr', function() {
                       var listData = $(this).closest('tr').attr('id');
+                      var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                       if (listData) {
+                        if(checkDeleted == "Deleted"){
+                          swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                        }else{
                           FlowRouter.go('/chequecard?id=' + listData);
+
+                        }
                       }
                   });
 
@@ -426,6 +436,14 @@ Template.chequelist.onRendered(function() {
                     let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalAmountInc) || 0.00;
                     let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].Payment) || 0.00;
                     let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].Balance) || 0.00;
+
+                    let orderstatus = data.tchequelist[i].OrderStatus || '';
+                    if(data.tchequelist[i].Deleted == true){
+                      orderstatus = "Deleted";
+                    }else if(data.tchequelist[i].SupplierName == ''){
+                      orderstatus = "Deleted";
+                    };
+
                     var dataList = {
                         id: data.tchequelist[i].PurchaseOrderID || '',
                         employee: data.tchequelist[i].EmployeeName || '',
@@ -439,7 +457,7 @@ Template.chequelist.onRendered(function() {
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tchequelist[i].OrderStatus || '',
+                        orderstatus: orderstatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
                         comments: data.tchequelist[i].Comments || '',
@@ -688,8 +706,14 @@ Template.chequelist.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblchequelist tbody').on('click', 'tr', function() {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if (listData) {
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/chequecard?id=' + listData);
+
+                      }
                     }
                 });
             }
@@ -712,6 +736,14 @@ Template.chequelist.onRendered(function() {
                     let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].TotalAmountInc) || 0.00;
                     let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].Payment) || 0.00;
                     let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tchequelist[i].Balance) || 0.00;
+
+                    let orderstatus = data.tchequelist[i].OrderStatus || '';
+                    if(data.tchequelist[i].Deleted == true){
+                      orderstatus = "Deleted";
+                    }else if(data.tchequelist[i].SupplierName == ''){
+                      orderstatus = "Deleted";
+                    };
+
                     var dataList = {
                         id: data.tchequelist[i].PurchaseOrderID || '',
                         employee: data.tchequelist[i].EmployeeName || '',
@@ -725,7 +757,7 @@ Template.chequelist.onRendered(function() {
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tchequelist[i].OrderStatus || '',
+                        orderstatus: orderstatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
                         comments: data.tchequelist[i].Comments || '',
@@ -973,8 +1005,14 @@ Template.chequelist.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblchequelist tbody').on('click', 'tr', function() {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if (listData) {
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/chequecard?id=' + listData);
+
+                      }
                     }
                 });
 
@@ -1046,6 +1084,12 @@ Template.chequelist.events({
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalAmountInc) || 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalPaid) || 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tchequeex[i].fields.TotalBalance) || 0.00;
+                        let orderstatus = data.tchequeex[i].fields.OrderStatus || '';
+                        if(data.tchequeex[i].fields.Deleted == true){
+                          orderstatus = "Deleted";
+                        }else if(data.tchequeex[i].fields.CustomerName == ''){
+                          orderstatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tchequeex[i].fields.ID || '',
                             employee: data.tchequeex[i].fields.EmployeeName || '',
@@ -1059,7 +1103,7 @@ Template.chequelist.events({
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tchequeex[i].fields.OrderStatus || '',
+                            orderstatus: orderstatus || '',
                             custfield1: '' || '',
                             custfield2: '' || '',
                             comments: data.tchequeex[i].fields.Comments || '',
@@ -1090,6 +1134,9 @@ Template.chequelist.events({
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
                                 '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
                                 '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;"">' + item[x].totaloustanding + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].orderstatus + '</td>' +
+                                '<td contenteditable="false" class="colPurchaseCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
+                                '<td contenteditable="false" class="colPurchaseCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colComments">' + item[x].comments + '</td>' +
                                 '</tr>');
 
