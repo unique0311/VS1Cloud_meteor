@@ -1,0 +1,454 @@
+<template name="tasklist">
+    <div style="margin-top: -24px;">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+
+        <header style="padding: 16px;padding-bottom: 0px;">
+            <h2 style="margin: 14px;margin-bottom: 0px;">Task List
+                <!-- <a role="button" data-toggle="modal" href="#helpModal" class="helpModal"><label class="lblplay">PLAY</label><i class="far fa-play-circle"  style="font-size: 20px;"></i></a> -->
+                <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
+
+                <!-- Start Help View Modal -->
+                <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding-bottom: 8px;">
+                                <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                                <p class="text-center text-muted"><a href="https://vs1forum.com/viewforum.php?f=6" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                                <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                                <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                            </div>
+                            <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Help View Modal -->
+            </h2>
+        </header>
+        <div class="row" style="padding: 26px; padding-bottom: 0px;">
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card shadow border-left-success py-2">
+                    <div class="card-body" style="cursor: pointer;">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col mr-2">
+                                <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Inbox</span></div>
+                                <div class="text-dark font-weight-bold h5 mb-0 mr-3 ">
+                                    <span class="" id="" name="" style="font-size: 28px;color: rgb(221,223,235)">10</span>
+                                </div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-inbox fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card shadow border-left-primary py-2">
+                    <div class="card-body" style="cursor: pointer;">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col mr-2">
+                                <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Today</span></div>
+                                <div class="text-dark font-weight-bold h5 mb-0 mr-3 ">
+                                    <span class="" id="" name="" style="font-size: 28px;color: rgb(221,223,235)">10</span>
+                                </div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-calendar-day fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card shadow border-left-danger py-2">
+                    <div class="card-body" style="cursor: pointer;">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col mr-2">
+                                <div class="text-uppercase text-danger font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Upcoming</span></div>
+                                <div class="text-dark font-weight-bold h5 mb-0 mr-3 ">
+                                    <span class="" id="" name="" style="font-size: 28px;color: rgb(221,223,235)">10</span>
+                                </div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-calendar-alt fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="card shadow border-left-warning py-2">
+                    <div class="card-body" style="cursor: pointer;">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col mr-2">
+                                <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Projects</span></div>
+                                <div class="text-dark font-weight-bold h5 mb-0 mr-3 ">
+                                    <span class="" id="" name="" style="font-size: 28px;color: rgb(221,223,235)">10</span>
+                                </div>
+                            </div>
+                            <div class="col-auto"><i class="fas fa-project-diagram fa-2x text-gray-300"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 16px;"> -->
+        <div class="row" style="padding: 0px 16px;">
+            <div class="col-7 d-xl-flex flex-grow-1 align-items-xl-start">
+                <button id="btnRefresh" class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>
+                <button class="btn btn-primary btnTaskList" id="btnTaskList" type="button" style="margin: 16px;" autocomplete="off"><i class="fas fa-list-ol" style="padding-right: 5px;"></i>Task List</button>
+            </div>
+            <div class="col-5 d-xl-flex justify-content-xl-end align-items-end">
+                <button id="exportbtn" class="btn btn-primary float-right" type="button" style="margin: 16px;"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
+                <button class="btn btn-primary printConfirm float-right" type="button" style="margin: 16px;"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
+                <a class="btn btnOpenSettings float-right" role="button" data-toggle="modal" href="#myModal2" style="margin: 16px;"><i class="icon ion-android-more-horizontal"></i></a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+
+            <style>
+                .menuItems {
+                    float: right;
+                }
+
+                .taskmenuoption:hover {
+                    background-color: #f8f9fc;
+                    cursor: pointer;
+                }
+
+                .projectmenuoption {
+                    font-size: 14px;
+                    padding-left: 52px;
+                }
+
+                .projectmenuoption:hover {
+                    background-color: #f8f9fc;
+                    cursor: pointer;
+                }
+
+                .projectmenuoption:hover .projectMenu {
+                    display: block;
+                }
+
+                .projectmenuoption:hover .projectItems {
+                    display: none;
+                }
+
+                .projectmenuoption>span {
+                    color: #858796 !important;
+                }
+
+                .projectItems {
+                    float: right;
+                }
+
+                .projectMenu {
+                    float: right;
+                    display: none;
+                }
+
+                .newProject {
+                    float: right;
+                    display: none;
+                    padding: 0px !important;
+                }
+
+                .newProject:hover {
+                    background-color: rgba(0, 0, 0, 0);
+                    border-color: rgba(0, 0, 0, 0);
+                    color: #00a3d3;
+                }
+
+                .newProject:active {
+                    background-color: rgba(0, 0, 0, 0);
+                    border-color: rgba(0, 0, 0, 0);
+                    color: #00a3d3;
+                }
+
+                #projectsMenuOption:hover .newProject {
+                    display: block;
+                }
+
+                .projectmenuoption:hover .newProject {
+                    display: block;
+                }
+
+                .projectDropdown {
+                    color: #858796;
+                    padding: 0px;
+                    background-color: rgba(0, 0, 0, 0);
+                    border-color: rgba(0, 0, 0, 0);
+                }
+
+                .projectDropdown:hover {
+                    color: #858796;
+                    padding: 0px;
+                    background-color: rgba(0, 0, 0, 0);
+                    border-color: rgba(0, 0, 0, 0);
+                }
+
+                .projectDropdown:after {
+                    display: none;
+                }
+
+                .project-dropdown-menu {
+                    width: 225px !important;
+                }
+
+                .activeProjectOption {
+                    border: 2px solid #00a3d3;
+                }
+
+                .listCol:hover .listoptiondiv {
+                    border: 2px solid #00a3d3 !important;
+                }
+                .boardCol:hover .boardoptiondiv {
+                    border: 2px solid #00a3d3 !important;
+                }
+            </style>
+
+            <div class="col-2">
+                <div class="card shadow">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item taskmenuoption">
+                            <i class="fas text-success fa-inbox" style="margin-right: 8px; width: 25px;"></i>
+                            Inbox
+                            <span class="menuItems inboxItems">3</span>
+                        </li>
+                        <li class="list-group-item taskmenuoption">
+                            <i class="fas text-primary fa-calendar-day" style="margin-right: 8px; width: 25px;"></i>
+                            Today
+                            <span class="menuItems todayItems">3</span>
+                        </li>
+                        <li class="list-group-item taskmenuoption">
+                            <i class="fas text-danger fa-calendar-alt" style="margin-right: 8px; width: 25px;"></i>
+                            Upcoming
+                            <span class="menuItems upcomingItems">5</span>
+                        </li>
+                        <li class="list-group-item taskmenuoption">
+                            <i class="fas text-warning fa-project-diagram" style="margin-right: 8px; width: 25px;"></i>
+                            Filters & Labels
+                        </li>
+                        <li class="list-group-item taskmenuoption" id="projectsMenuOption" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                            <i class="fas text-secondary fa-angle-right" style="margin-right: 8px; width: 25px;"></i>
+                            Projects
+                            <button type="button" class="btn btn-link newProject" data-toggle="modal" data-target="#newProject"><i class="fas fa-plus"></i></button>
+                        </li>
+                    </ul>
+                    <div class="collapse multi-collapse" id="multiCollapseExample1">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item projectmenuoption" id="projectName">
+                                <i class="fas fa-circle" style="margin-right: 8px; width: 25px; color: purple;"></i>
+                                <span class="projectName">Project #1</span>
+                                <span class="projectMenu" id="projectonemenu">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle projectDropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                        <div class="dropdown-menu project-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-arrow-up" style="margin-right: 8px;"></i>Add Project Above</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-arrow-down" style="margin-right: 8px;"></i>Add Project Below</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="far fa-edit" style="margin-right: 8px;"></i>Edit Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-user-plus" style="margin-right: 8px;"></i>Share Project</a>
+                                            <a class="dropdown-item" href="#"><i class="far fa-heart" style="margin-right: 8px;"></i>Add to Favorites</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-copy" style="margin-right: 8px;"></i>Duplicate Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-envelope" style="margin-right: 8px;"></i>Emals Tasks to this Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-list" style="margin-right: 8px;"></i>Project Calendar Feed</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-archive" style="margin-right: 8px;"></i>Archive Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-trash-alt" style="margin-right: 8px;"></i>Delete Project</a>
+                                        </div>
+                                    </div>
+                                </span>
+                                <span class="projectItems" id="projectone">7</span>
+                            </li>
+                            <li class="list-group-item projectmenuoption">
+                                <i class="fas fa-circle" style="margin-right: 8px; width: 25px; color: pink;"></i>
+                                <span class="projectName">Project #2</span>
+                                <span class="projectMenu" id="projecttwomenu">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle projectDropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                        <div class="dropdown-menu project-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-arrow-up" style="margin-right: 8px;"></i>Add Project Above</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-arrow-down" style="margin-right: 8px;"></i>Add Project Below</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="far fa-edit" style="margin-right: 8px;"></i>Edit Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-user-plus" style="margin-right: 8px;"></i>Share Project</a>
+                                            <a class="dropdown-item" href="#"><i class="far fa-heart" style="margin-right: 8px;"></i>Add to Favorites</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-copy" style="margin-right: 8px;"></i>Duplicate Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-envelope" style="margin-right: 8px;"></i>Emals Tasks to this Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-list" style="margin-right: 8px;"></i>Project Calendar Feed</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-archive" style="margin-right: 8px;"></i>Archive Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-trash-alt" style="margin-right: 8px;"></i>Delete Project</a>
+                                        </div>
+                                    </div>
+                                </span>
+                                <span class="projectItems" id="projecttwo">10</span>
+                            </li>
+                            <li class="list-group-item projectmenuoption">
+                                <i class="fas fa-circle" style="margin-right: 8px; width: 25px; color: teal;"></i>
+                                <span class="projectName">Project #3</span>
+                                <span class="projectMenu" id="projectthreemenu">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle projectDropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                        <div class="dropdown-menu project-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#"><i class="fas fa-arrow-up" style="margin-right: 8px;"></i>Add Project Above</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-arrow-down" style="margin-right: 8px;"></i>Add Project Below</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="far fa-edit" style="margin-right: 8px;"></i>Edit Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-user-plus" style="margin-right: 8px;"></i>Share Project</a>
+                                            <a class="dropdown-item" href="#"><i class="far fa-heart" style="margin-right: 8px;"></i>Add to Favorites</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-copy" style="margin-right: 8px;"></i>Duplicate Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-envelope" style="margin-right: 8px;"></i>Emals Tasks to this Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-list" style="margin-right: 8px;"></i>Project Calendar Feed</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-archive" style="margin-right: 8px;"></i>Archive Project</a>
+                                            <a class="dropdown-item" href="#"><i class="fas fa-trash-alt" style="margin-right: 8px;"></i>Delete Project</a>
+                                        </div>
+                                    </div>
+                                </span>
+                                <span class="projectItems" id="projectthree">5</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <style>
+                    .todayDate {
+                        margin-left: 8px;
+                        margin-top: 8px;
+                    }
+                </style>
+                <div class="card shadow">
+                    <div class="card-header" style="display: inline-flex; padding-bottom: 0px;">
+                        <h3>Today</h3>
+                        <span class="todayDate">Fri Apr 1</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12" style="border-bottom: 1px solid #e3e6f0;">
+
+                            </div>
+                        </div>
+                        <!-- <table id="" style="width:100%" class="dataTable">
+                            <thead>
+                                <tr class="dnd-moved">
+                                    <th class="" style=""></th>
+                                    <th class="" style=""></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="dnd-moved" id="" style="cursor: pointer;">
+                                    <td contenteditable="false" class="">{{item.id}}</td>
+                                </tr>
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="newProject" tabindex="-1" role="dialog" aria-labelledby="newProjectLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newProjectLabel">New Project</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Project Name</label>
+                                        <input type="text" class="form-control" id="" name="" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Project Color</label>
+                                        <input type="color" class="form-control" id="favcolor" name="favcolor" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" value="swtAddToFavorites" id="swtAddToFavorites" name="swtAddToFavorites" style="cursor: pointer;">
+                                        <label class="custom-control-label" for="swtAddToFavorites" style="cursor: pointer;">Add to Favorites</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-4">
+                                    <label>View</label>
+                                    <div class="row">
+                                        <div class="col-6 listCol">
+                                            <div class="listoptiondiv mb-2" style="background-image: url('images/listoption.svg'); height: 85px; width: 100%; border-radius: 5px; border: 2px solid #d1d3e2;"></div>
+                                            <!-- <img src="images/listoption.svg" style="width: 100%; "> -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="viewoption" id="viewoptionGrid" value="listoption" checked>
+                                                <label class="form-check-label" for="viewoptionGrid">
+                                                    List
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 boardCol">
+                                            <div class="boardoptiondiv mb-2" style="background-image: url('images/gridoption.svg'); height: 85px; width: 100%; border-radius: 5px; border: 2px solid #d1d3e2;"></div>
+                                            <!-- <img src="images/gridoption.svg" style="width: 100%;"> -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="viewoption" id="viewoptionGrid" value="gridoption">
+                                                <label class="form-check-label" for="viewoptionGrid">
+                                                    Board
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <p style="font-size: 12px;">View is synced between teammates in shared projects. Learn more.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="title-header">Banking Overview</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <!-- <iframe width="640" height="360" src="https://player.vimeo.com/video/99892791" frameborder="0" allowfullscreen=""></iframe> -->
+                    <!-- <iframe width="640" height="360" src="https://erphelpes.com/vs1videos/bankingoverview.mp4" frameborder="0" allowfullscreen=""></iframe> -->
+                    <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/bankingoverview.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End Help Video Modal -->
+    <script>
+        modalDraggable();
+    </script>
+</template>
