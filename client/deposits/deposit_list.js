@@ -1296,7 +1296,7 @@ Template.depositlist.events({
             let className = v.classList;
             let replaceClass = className[1];
 
-            if(v.innerText == columnDataValue){
+            if(v.innerText === columnDataValue){
                 if($(event.target).is(':checked')){
                     $("."+replaceClass+"").css('display','table-cell');
                     $("."+replaceClass+"").css('padding','.75rem');
@@ -1308,12 +1308,12 @@ Template.depositlist.events({
         });
     },
     'keyup #tblDepositList_filter input': function (event) {
-          if($(event.target).val() != ''){
+          if($(event.target).val() !== ''){
             $(".btnRefreshDeposits").addClass('btnSearchAlert');
           }else{
             $(".btnRefreshDeposits").removeClass('btnSearchAlert');
           }
-          if (event.keyCode == 13) {
+          if (event.keyCode === 13) {
              $(".btnRefreshDeposits").trigger("click");
           }
         },

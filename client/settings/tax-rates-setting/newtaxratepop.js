@@ -77,11 +77,11 @@ Template.newtaxratepop.onRendered(function() {
         $('td').each(function() {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
-    };
+    }
 
     templateObject.getTaxRates = function() {
         getVS1Data('TTaxcodeVS1').then(function(dataObject) {
-            if (dataObject.length == 0) {
+            if (dataObject.length === 0) {
                 taxRateService.getTaxRateVS1().then(function(data) {
                     let lineItems = [];
                     let lineItemObj = {};
@@ -93,7 +93,6 @@ Template.newtaxratepop.onRendered(function() {
                             description: data.ttaxcodevs1[i].Description || '-',
                             region: data.ttaxcodevs1[i].RegionName || '-',
                             rate: taxRate || '-',
-
 
                         };
 
@@ -119,11 +118,11 @@ Template.newtaxratepop.onRendered(function() {
                                         let columnWidth = customcolumn[i].width;
                                         let columnindex = customcolumn[i].index + 1;
 
-                                        if (hiddenColumn == true) {
+                                        if (hiddenColumn === true) {
 
                                             $("." + columnClass + "").addClass('hiddenColumn');
                                             $("." + columnClass + "").removeClass('showColumn');
-                                        } else if (hiddenColumn == false) {
+                                        } else if (hiddenColumn === false) {
                                             $("." + columnClass + "").removeClass('hiddenColumn');
                                             $("." + columnClass + "").addClass('showColumn');
                                         }
@@ -176,7 +175,7 @@ Template.newtaxratepop.onRendered(function() {
                             }],
                             select: true,
                             destroy: true,
-                            colReorder: true,
+                            // colReorder: true,
                             colReorder: {
                                 fixedColumnsRight: 1
                             },
@@ -226,7 +225,7 @@ Template.newtaxratepop.onRendered(function() {
                     let columVisible = false;
                     let sClass = "";
                     $.each(columns, function(i, v) {
-                        if (v.hidden == false) {
+                        if (v.hidden === false) {
                             columVisible = true;
                         }
                         if ((v.className.includes("hiddenColumn"))) {
@@ -267,7 +266,6 @@ Template.newtaxratepop.onRendered(function() {
                         region: useData[i].RegionName || '-',
                         rate: taxRate || '-',
 
-
                     };
 
                     dataTableList.push(dataList);
@@ -292,11 +290,11 @@ Template.newtaxratepop.onRendered(function() {
                                     let columnWidth = customcolumn[i].width;
                                     let columnindex = customcolumn[i].index + 1;
 
-                                    if (hiddenColumn == true) {
+                                    if (hiddenColumn === true) {
 
                                         $("." + columnClass + "").addClass('hiddenColumn');
                                         $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
+                                    } else if (hiddenColumn === false) {
                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                         $("." + columnClass + "").addClass('showColumn');
                                     }
@@ -349,7 +347,7 @@ Template.newtaxratepop.onRendered(function() {
                         }],
                         select: true,
                         destroy: true,
-                        colReorder: true,
+                        // colReorder: true,
                         colReorder: {
                             fixedColumnsRight: 1
                         },
@@ -399,7 +397,7 @@ Template.newtaxratepop.onRendered(function() {
                 let columVisible = false;
                 let sClass = "";
                 $.each(columns, function(i, v) {
-                    if (v.hidden == false) {
+                    if (v.hidden === false) {
                         columVisible = true;
                     }
                     if ((v.className.includes("hiddenColumn"))) {
@@ -458,11 +456,11 @@ Template.newtaxratepop.onRendered(function() {
                                     let columnWidth = customcolumn[i].width;
                                     let columnindex = customcolumn[i].index + 1;
 
-                                    if (hiddenColumn == true) {
+                                    if (hiddenColumn === true) {
 
                                         $("." + columnClass + "").addClass('hiddenColumn');
                                         $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
+                                    } else if (hiddenColumn === false) {
                                         $("." + columnClass + "").removeClass('hiddenColumn');
                                         $("." + columnClass + "").addClass('showColumn');
                                     }
@@ -515,7 +513,7 @@ Template.newtaxratepop.onRendered(function() {
                         }],
                         select: true,
                         destroy: true,
-                        colReorder: true,
+                        // colReorder: true,
                         colReorder: {
                             fixedColumnsRight: 1
                         },
@@ -565,7 +563,7 @@ Template.newtaxratepop.onRendered(function() {
                 let columVisible = false;
                 let sClass = "";
                 $.each(columns, function(i, v) {
-                    if (v.hidden == false) {
+                    if (v.hidden === false) {
                         columVisible = true;
                     }
                     if ((v.className.includes("hiddenColumn"))) {
@@ -594,7 +592,7 @@ Template.newtaxratepop.onRendered(function() {
             });
         });
 
-    }
+    };
 
     templateObject.getTaxRates();
 
@@ -661,7 +659,7 @@ Template.newtaxratepop.events({
             e.preventDefault();
         }
 
-        if (taxtID == "") {
+        if (taxtID === "") {
             taxRateService.checkTaxRateByName(taxName).then(function(data) {
                 taxtID = data.ttaxcode[0].Id;
                 objDetails = {
@@ -679,9 +677,9 @@ Template.newtaxratepop.events({
                     sideBarService.getTaxRateVS1().then(function(dataReload) {
                         addVS1Data('TTaxcodeVS1', JSON.stringify(dataReload)).then(function(datareturn) {
                              if(url.includes("/productview")) {
-                                    if (taxSelected == "sales") {
+                                    if (taxSelected === "sales") {
                                         $('#slttaxcodesales').val(taxName);
-                                    } else if (taxSelected == "purchase") {
+                                    } else if (taxSelected === "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } else {
                                 $('#sltTaxCode').val(taxName);
@@ -695,9 +693,9 @@ Template.newtaxratepop.events({
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function(err) {
                             if(url.includes("/productview")) {
-                                    if (taxSelected == "sales") {
+                                    if (taxSelected === "sales") {
                                         $('#slttaxcodesales').val(taxName);
-                                    } else if (taxSelected == "purchase") {
+                                    } else if (taxSelected === "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } else {
                                 $('#sltTaxCode').val(taxName);
@@ -712,9 +710,9 @@ Template.newtaxratepop.events({
                         });
                     }).catch(function(err) {
                         if(url.includes("/productview")) {
-                                    if (taxSelected == "sales") {
+                                    if (taxSelected === "sales") {
                                         $('#slttaxcodesales').val(taxName);
-                                    } else if (taxSelected == "purchase") {
+                                    } else if (taxSelected === "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } else {
                                 $('#sltTaxCode').val(taxName);
@@ -765,9 +763,9 @@ Template.newtaxratepop.events({
                     sideBarService.getTaxRateVS1().then(function(dataReload) {
                         addVS1Data('TTaxcodeVS1', JSON.stringify(dataReload)).then(function(datareturn) {
                             if(url.includes("/productview")) {
-                                    if (taxSelected == "sales") {
+                                    if (taxSelected === "sales") {
                                         $('#slttaxcodesales').val(taxName);
-                                    } else if (taxSelected == "purchase") {
+                                    } else if (taxSelected === "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } else {
                                 $('#sltTaxCode').val(taxName);
@@ -780,9 +778,9 @@ Template.newtaxratepop.events({
                             $('.fullScreenSpin').css('display', 'none');
                         }).catch(function(err) {
                             if(url.includes("/productview")) {
-                                    if (taxSelected == "sales") {
+                                    if (taxSelected === "sales") {
                                         $('#slttaxcodesales').val(taxName);
-                                    } else if (taxSelected == "purchase") {
+                                    } else if (taxSelected === "purchase") {
                                         $('#slttaxcodepurchase').val(taxName);
                                     } else {
                                 $('#sltTaxCode').val(taxName);
@@ -796,9 +794,9 @@ Template.newtaxratepop.events({
                         });
                     }).catch(function(err) {
                         if(url.includes("/productview")) {
-                                if (taxSelected == "sales") {
+                                if (taxSelected === "sales") {
                                     $('#slttaxcodesales').val(taxName);
-                                } else if (taxSelected == "purchase") {
+                                } else if (taxSelected === "purchase") {
                                     $('#slttaxcodepurchase').val(taxName);
                                 } else {
                                 $('#sltTaxCode').val(taxName);
@@ -850,9 +848,9 @@ Template.newtaxratepop.events({
                 sideBarService.getTaxRateVS1().then(function(dataReload) {
                     addVS1Data('TTaxcodeVS1', JSON.stringify(dataReload)).then(function(datareturn) {
                         if(url.includes("/productview")) {
-                            if (taxSelected == "sales") {
+                            if (taxSelected === "sales") {
                                 $('#slttaxcodesales').val(taxName);
-                            } else if (taxSelected == "purchase") {
+                            } else if (taxSelected === "purchase") {
                                 $('#slttaxcodepurchase').val(taxName);
                             } else {
                                 $('#sltTaxCode').val(taxName);
@@ -871,9 +869,9 @@ Template.newtaxratepop.events({
                     });
                 }).catch(function(err) {
                     if(url.includes("/productview")) {
-                            if (taxSelected == "sales") {
+                            if (taxSelected === "sales") {
                                 $('#slttaxcodesales').val(taxName);
-                            } else if (taxSelected == "purchase") {
+                            } else if (taxSelected === "purchase") {
                                 $('#slttaxcodepurchase').val(taxName);
                             } else {
                                 $('#sltTaxCode').val(taxName);
@@ -914,9 +912,9 @@ Template.newtaxratepop.events({
 Template.newtaxratepop.helpers({
     datatablerecords: () => {
         return Template.instance().datatablerecords.get().sort(function(a, b) {
-            if (a.codename == 'NA') {
+            if (a.codename === 'NA') {
                 return 1;
-            } else if (b.codename == 'NA') {
+            } else if (b.codename === 'NA') {
                 return -1;
             }
             return (a.codename.toUpperCase() > b.codename.toUpperCase()) ? 1 : -1;

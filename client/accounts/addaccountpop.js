@@ -240,14 +240,14 @@ Template.addaccountpop.onRendered(function () {
     templateObject.getAllTaxCodes();
     // $('#tblAccountOverview').DataTable();
     function MakeNegative() {
-        TDs = document.getElementsByTagName('td');
+        var TDs = document.getElementsByTagName('td');
         for (var i = 0; i < TDs.length; i++) {
             var temp = TDs[i];
-            if (temp.firstChild.nodeValue.indexOf('-' + Currency) == 0) {
+            if (temp.firstChild.nodeValue.indexOf('-' + Currency) === 0) {
                 temp.className = "colBalance text-danger";
             }
         }
-    };
+    }
 
 
  $(document).ready(function () {
@@ -256,7 +256,7 @@ Template.addaccountpop.onRendered(function () {
         $('#sltTaxCode').editableSelect()
         .on('click.editable-select', function (e, li) {
             var $earch = $(this);
-            taxSelected = "sales";
+            var taxSelected = "sales";
             var offset = $earch.offset();
             var taxRateDataName = e.target.value || '';
             if (e.pageX > offset.left + $earch.width() - 8) { // X button 16px wide?
@@ -265,7 +265,7 @@ Template.addaccountpop.onRendered(function () {
                 if (taxRateDataName.replace(/\s/g, '') != '') {
                     $('.taxcodepopheader').text('Edit Tax Rate');
                     getVS1Data('TTaxcodeVS1').then(function (dataObject) {
-                        if (dataObject.length == 0) {
+                        if (dataObject.length === 0) {
                             purchaseService.getTaxCodesVS1().then(function (data) {
                                 let lineItems = [];
                                 let lineItemObj = {};
@@ -607,7 +607,6 @@ Template.addaccountpop.events({
                 data = {
                     type: "TAccount",
                     fields: {
-                        Active: true,
                         AccountName: accountname || '',
                         AccountNumber: accountno || '',
                         AccountTypeName: accounttype || '',

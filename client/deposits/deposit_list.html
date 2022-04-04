@@ -92,11 +92,11 @@
 
                                                 {{#if equals item.sVisible true}}
                                                 <script>
-                                                    $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
+                                                    $("#"+ {{item.sIndex}} +".chkDatatable").attr("checked","checked");
                                                 </script>
                                                 {{else}}
                                                 <script>
-                                                    $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
+                                                    $("#"+ {{item.sIndex}} +".chkDatatable").removeAttr("checked");
                                                 </script>
                                                 {{/if}}
 
@@ -134,7 +134,7 @@
                 </div>
             </div>
 
-            <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 20px; background-color: #ededed;">
+            <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0 20px; background-color: #ededed;">
                 <div class="col float-left flex-grow-1 mb-4">
                     <button class="btn btn-primary btnRefresh" type="button" style="margin: 16px;"><i class="la la-lightbulb-o" style="padding-right: 5px;"></i>Refresh</button>
                     <button id="btnNewDepositEnrty" name="btnNewDepositEnrty" class="btn btn-primary btnNewDepositEnrty" type="button" style="margin: 16px;"><i class="fa fa-book" style="padding-right: 5px;"></i>New Deposit</button>

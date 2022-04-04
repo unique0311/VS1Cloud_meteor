@@ -1721,7 +1721,7 @@ Template.bankingoverview.events({
             let className = v.classList;
             let replaceClass = className[1];
 
-            if (v.innerText == columnDataValue) {
+            if (v.innerText === columnDataValue) {
                 if ($(event.target).is(':checked')) {
                     $("." + replaceClass + "").css('display', 'table-cell');
                     $("." + replaceClass + "").css('padding', '.75rem');
@@ -1762,18 +1762,14 @@ Template.bankingoverview.events({
             var colWidth = $tblrow.find(".custom-range").val() || 0;
             var colthClass = $tblrow.find(".divcolumn").attr("valueupdate") || '';
             var colHidden = false;
-            if ($tblrow.find(".custom-control-input").is(':checked')) {
-                colHidden = false;
-            } else {
-                colHidden = true;
-            }
+            colHidden = !$tblrow.find(".custom-control-input").is(':checked');
             let lineItemObj = {
                 index: index,
                 label: colTitle,
                 hidden: colHidden,
                 width: colWidth,
                 thclass: colthClass
-            }
+            };
 
             lineItems.push(lineItemObj);
         });
@@ -1849,7 +1845,7 @@ Template.bankingoverview.events({
         var datable = $('#tblBankingOverview th');
         $.each(datable, function(i, v) {
 
-            if (v.innerText == columnDataValue) {
+            if (v.innerText === columnDataValue) {
                 let className = v.className;
                 let replaceClass = className.replace(/ /g, ".");
                 $("." + replaceClass + "").css('width', range + 'px');
@@ -1870,7 +1866,7 @@ Template.bankingoverview.events({
         let columVisible = false;
         let sClass = "";
         $.each(columns, function(i, v) {
-            if (v.hidden == false) {
+            if (v.hidden === false) {
                 columVisible = true;
             }
             if ((v.className.includes("hiddenColumn"))) {
@@ -1917,7 +1913,7 @@ Template.bankingoverview.events({
     },
     'click .btnReconcile': function() {
         //FlowRouter.go('/bankrecon');
-        window.open('/bankrecon', '_self');
+        window.open('/newbankrecon', '_self');
     },
     'click .btnReconList': function() {
         FlowRouter.go('/reconciliationlist');
@@ -1926,9 +1922,9 @@ Template.bankingoverview.events({
 Template.bankingoverview.helpers({
     datatablerecords: () => {
         return Template.instance().datatablerecords.get().sort(function(a, b) {
-            if (a.paymentdate == 'NA') {
+            if (a.paymentdate === 'NA') {
                 return 1;
-            } else if (b.paymentdate == 'NA') {
+            } else if (b.paymentdate === 'NA') {
                 return -1;
             }
             return (a.paymentdate.toUpperCase() > b.paymentdate.toUpperCase()) ? 1 : -1;
