@@ -10,7 +10,19 @@ let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 
 Template.tasklist.onCreated(function() {
-
+    $("#date-input,#dtRescheduleDate").datepicker({
+        showOn: 'button',
+        buttonText: 'Show Date',
+        buttonImageOnly: true,
+        buttonImage: '/img/imgCal2.png',
+        constrainInput: false,
+        dateFormat: 'd/mm/yy',
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-90:+10",
+    });
 });
 
 Template.tasklist.onRendered(function() {

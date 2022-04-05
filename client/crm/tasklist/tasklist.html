@@ -203,6 +203,7 @@
                 .listCol:hover .listoptiondiv {
                     border: 2px solid #00a3d3 !important;
                 }
+
                 .boardCol:hover .boardoptiondiv {
                     border: 2px solid #00a3d3 !important;
                 }
@@ -329,6 +330,31 @@
                         margin-left: 8px;
                         margin-top: 8px;
                     }
+
+                    .overdueHeader {
+                        font-weight: 700;
+                    }
+
+                    .dropdownReschedule {
+                        float: right;
+                        margin-top: -40px;
+                    }
+
+                    .btnReschedule:hover {
+                        border-color: rgba(0, 0, 0, 0);
+                    }
+
+                    .btnReschedule:focus {
+                        border-color: rgba(0, 0, 0, 0);
+                    }
+
+                    .btnReschedule:after {
+                        display: none;
+                    }
+
+                    .reschedule-dropdown-menu {
+                        width: 275px;
+                    }
                 </style>
                 <div class="card shadow">
                     <div class="card-header" style="display: inline-flex; padding-bottom: 0px;">
@@ -337,23 +363,45 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-12" style=" border-bottom: 1px solid #e3e6f0;">
+                                <h6 class="overdueHeader">Overdue</h6>
+                                <div class="dropdown dropdownReschedule">
+                                    <button class="btn btn-link dropdown-toggle text-danger btnReschedule" style="background-color: rgba(0,0,0,0) !important;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Reschedule
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right reschedule-dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 275px;">
+                                        <a class="dropdown-item" href="#"><i class="fas fa-calendar-day text-success" style="margin-right: 8px;"></i>Today
+                                            <div class="float-right" style="width: 40%; text-align: end; color: #858796;">Wed</div>
+                                        </a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-sun text-warning" style="margin-right: 8px;"></i>Tomorrow
+                                            <div class="float-right" style="width: 40%; text-align: end; color: #858796;">Thu</div>
+                                        </a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-couch text-primary" style="margin-right: 8px;"></i>This Weekend
+                                            <div class="float-right" style="width: 40%; text-align: end; color: #858796;">Sat</div>
+                                        </a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-calendar-alt text-danger" style="margin-right: 8px;"></i>Next Week
+                                            <div class="float-right" style="width: 40%; text-align: end; color: #858796;">Mon Apr 11</div>
+                                        </a>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-ban text-secondary" style="margin-right: 8px;"></i>No Date</a>
+                                        <div class="dropdown-divider"></div>
+                                        <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY" style="margin: 6px 20px; margin-top: 14px;">
+                                            <div class="input-group date" style="cursor: pointer;">
+                                                <input type="text" class="form-control hasDatepicker" id="dtRescheduleDate" name="dtRescheduleDate" autocomplete="off"><img class="ui-datepicker-trigger" src="/img/imgCal2.png" alt="Show Date" title="Show Date">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="dropdown-divider"></div> -->
+                                        <!-- <a class="dropdown-item" href="#"><i class="fas fa-plus text-primary" style="margin-right: 8px;"></i>Add Time</a> -->
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12" style="border-bottom: 1px solid #e3e6f0;">
-
+                                
                             </div>
                         </div>
-                        <!-- <table id="" style="width:100%" class="dataTable">
-                            <thead>
-                                <tr class="dnd-moved">
-                                    <th class="" style=""></th>
-                                    <th class="" style=""></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="dnd-moved" id="" style="cursor: pointer;">
-                                    <td contenteditable="false" class="">{{item.id}}</td>
-                                </tr>
-                            </tbody>
-                        </table> -->
                     </div>
                 </div>
             </div>
