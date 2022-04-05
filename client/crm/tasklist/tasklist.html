@@ -35,7 +35,7 @@
                     <div class="card-body" style="cursor: pointer;">
                         <div class="row align-items-center no-gutters">
                             <div class="col mr-2">
-                                <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Inbox</span></div>
+                                <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span style="font-size: 14px;">All Tasks</span></div>
                                 <div class="text-dark font-weight-bold h5 mb-0 mr-3 ">
                                     <span class="" id="" name="" style="font-size: 28px;color: rgb(221,223,235)">10</span>
                                 </div>
@@ -214,7 +214,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item taskmenuoption">
                             <i class="fas text-success fa-inbox" style="margin-right: 8px; width: 25px;"></i>
-                            Inbox
+                            All Tasks
                             <span class="menuItems inboxItems">3</span>
                         </li>
                         <li class="list-group-item taskmenuoption">
@@ -335,6 +335,10 @@
                         font-weight: 700;
                     }
 
+                    .todayHeader {
+                        font-weight: 700;
+                    }
+
                     .dropdownReschedule {
                         float: right;
                         margin-top: -40px;
@@ -355,11 +359,76 @@
                     .reschedule-dropdown-menu {
                         width: 275px;
                     }
+
+                    .taskActionButton {
+                        padding: 4px;
+                        margin: 4px;
+                        cursor: pointer;
+                        /*Visibility set to hidden for hover effect*/
+                        visibility: hidden;
+                    }
+
+                    .taskCol:hover .taskActionButton {
+                        visibility: visible;
+                    }
+
+                    .taskDrag {
+                        cursor: all-scroll !important;
+                    }
+
+                    .taskActionButton:hover {
+                        background-color: #f8f9fc;
+                    }
+
+                    .taskName {
+                        margin: 4px;
+                    }
+
+                    .dueDateTags {
+                        padding-left: 64px;
+                    }
+
+                    .taskDueDate {
+                        margin: 4px;
+                        font-size: 12px;
+                    }
+
+                    .taskOverdue {
+                        color: #e74a3b !important;
+                    }
+
+                    .taskTag {
+                        margin: 4px;
+                        font-size: 12px;
+                    }
+
+                    .taganchor {
+                        color: #858796 !important;
+                    }
+
+                    .taskLocation {
+                        margin: 4px;
+                        font-size: 12px;
+                        margin-right: 42px;
+                    }
+
+                    .taskCol {
+                        border-bottom: 1px solid #e3e6f0;
+                        padding-top: 8px;
+                        padding-bottom: 8px;
+                        cursor: pointer;
+                    }
+
+                    .taskDescription {
+                        margin: 0xp 4px;
+                        margin-left: 64px;
+                        font-size: 12px;
+                    }
                 </style>
-                <div class="card shadow">
+                <div class="card shadow mb-4">
                     <div class="card-header" style="display: inline-flex; padding-bottom: 0px;">
                         <h3>Today</h3>
-                        <span class="todayDate">Fri Apr 1</span>
+                        <span class="todayDate">Wed Apr 6</span>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -387,7 +456,8 @@
                                         <div class="dropdown-divider"></div>
                                         <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Date format: DD/MM/YYYY" style="margin: 6px 20px; margin-top: 14px;">
                                             <div class="input-group date" style="cursor: pointer;">
-                                                <input type="text" class="form-control hasDatepicker" id="dtRescheduleDate" name="dtRescheduleDate" autocomplete="off"><img class="ui-datepicker-trigger" src="/img/imgCal2.png" alt="Show Date" title="Show Date">
+                                                <input type="text" class="form-control hasDatepicker" id="dtRescheduleDate" name="dtRescheduleDate" autocomplete="off"><img class="ui-datepicker-trigger" src="/img/imgCal2.png" alt="Show Date"
+                                                    title="Show Date">
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                                 </div>
@@ -398,8 +468,155 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12" style="border-bottom: 1px solid #e3e6f0;">
-                                
+                            <div class="col-12 taskCol" id="task_1">
+                                <div class="row justify-content-between">
+                                    <div style="display: inline-flex;">
+                                        <i class="fas fa-grip-vertical taskActionButton taskDrag"></i>
+                                        <div class="custom-control custom-checkbox chkBox pointer" style="width: 15px; margin: 4px;">
+                                            <input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="taskitem_1" value="">
+                                            <label class="custom-control-label chkBox pointer" for="taskitem_1"></label>
+                                        </div>
+                                        <span class="taskName">Task #1</span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <i class="far fa-edit taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Edit task..."></i>
+                                        <i class="far fa-calendar-plus taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Set due date..."></i>
+                                        <i class="far fa-comment-alt taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Comment on task..."></i>
+                                        <i class="fas fa-ellipsis-h taskActionButton" data-toggle="tooltip" data-placement="bottom" title="More task actions..."></i>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="dueDateTags" style="display: inline-flex;">
+                                        <span class="taskDueDate taskOverdue"><i class="far fa-calendar-plus" style="margin-right: 5px;"></i>Apr 4</span>
+                                        <span class="taskTag"><a class="taganchor" href=""><i class="fas fa-tag" style="margin-right: 5px;"></i>[label]</a></span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <span class="taskLocation"><a class="taganchor" href="">All Tasks<i class="fas fa-inbox text-primary" style="margin-left: 5px;"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 taskCol" id="task_2">
+                                <div class="row justify-content-between">
+                                    <div style="display: inline-flex;">
+                                        <i class="fas fa-grip-vertical taskActionButton taskDrag"></i>
+                                        <div class="custom-control custom-checkbox chkBox pointer" style="width: 15px; margin: 4px;">
+                                            <input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="taskitem_1" value="">
+                                            <label class="custom-control-label chkBox pointer" for="taskitem_1"></label>
+                                        </div>
+                                        <span class="taskName">Task #2</span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <i class="far fa-edit taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Edit task..."></i>
+                                        <i class="far fa-calendar-plus taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Set due date..."></i>
+                                        <i class="far fa-comment-alt taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Comment on task..."></i>
+                                        <i class="fas fa-ellipsis-h taskActionButton" data-toggle="tooltip" data-placement="bottom" title="More task actions..."></i>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <span class="taskDescription text-secondary">[Task description goes here...]</span>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="dueDateTags" style="display: inline-flex;">
+                                        <span class="taskDueDate taskOverdue"><i class="far fa-calendar-plus" style="margin-right: 5px;"></i>Apr 5</span>
+                                        <!-- <span class="taskTag"><a class="taganchor" href=""><i class="fas fa-tag" style="margin-right: 5px;"></i>[label]</a></span> -->
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <span class="taskLocation"><a class="taganchor" href="">Project #1 <span class="taskIsToDo">/ To Do</span><i class="fas fa-circle" style="margin-left: 5px; color: purple;"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12" style=" border-bottom: 1px solid #e3e6f0;">
+                                <h6 class="todayHeader">Apr 6 - Today</h6>
+                            </div>
+                            <div class="col-12 taskCol" id="task_3">
+                                <div class="row justify-content-between">
+                                    <div style="display: inline-flex;">
+                                        <i class="fas fa-grip-vertical taskActionButton taskDrag"></i>
+                                        <div class="custom-control custom-checkbox chkBox pointer" style="width: 15px; margin: 4px;">
+                                            <input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="taskitem_1" value="">
+                                            <label class="custom-control-label chkBox pointer" for="taskitem_1"></label>
+                                        </div>
+                                        <span class="taskName">Task #3</span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <i class="far fa-edit taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Edit task..."></i>
+                                        <i class="far fa-calendar-plus taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Set due date..."></i>
+                                        <i class="far fa-comment-alt taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Comment on task..."></i>
+                                        <i class="fas fa-ellipsis-h taskActionButton" data-toggle="tooltip" data-placement="bottom" title="More task actions..."></i>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="dueDateTags" style="display: inline-flex;">
+                                        <span class="taskTag"><a class="taganchor" href=""><i class="fas fa-tag" style="margin-right: 5px;"></i>[label]</a></span>
+                                        <span class="taskTag"><a class="taganchor" href=""><i class="fas fa-tag" style="margin-right: 5px;"></i>[label]</a></span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <span class="taskLocation"><a class="taganchor" href="">All Tasks<i class="fas fa-inbox text-primary" style="margin-left: 5px;"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 taskCol" id="task_4">
+                                <div class="row justify-content-between">
+                                    <div style="display: inline-flex;">
+                                        <i class="fas fa-grip-vertical taskActionButton taskDrag"></i>
+                                        <div class="custom-control custom-checkbox chkBox pointer" style="width: 15px; margin: 4px;">
+                                            <input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="taskitem_1" value="">
+                                            <label class="custom-control-label chkBox pointer" for="taskitem_1"></label>
+                                        </div>
+                                        <span class="taskName">Task #4</span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <i class="far fa-edit taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Edit task..."></i>
+                                        <i class="far fa-calendar-plus taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Set due date..."></i>
+                                        <i class="far fa-comment-alt taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Comment on task..."></i>
+                                        <i class="fas fa-ellipsis-h taskActionButton" data-toggle="tooltip" data-placement="bottom" title="More task actions..."></i>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <span class="taskDescription text-secondary">[Task description goes here...]</span>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="dueDateTags" style="display: inline-flex;">
+                                        <span class="taskTag"><a class="taganchor" href=""><i class="fas fa-tag" style="margin-right: 5px;"></i>[label]</a></span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <span class="taskLocation"><a class="taganchor" href="">All Tasks<i class="fas fa-inbox text-primary" style="margin-left: 5px;"></i></a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 taskCol" id="task_5">
+                                <div class="row justify-content-between">
+                                    <div style="display: inline-flex;">
+                                        <i class="fas fa-grip-vertical taskActionButton taskDrag"></i>
+                                        <div class="custom-control custom-checkbox chkBox pointer" style="width: 15px; margin: 4px;">
+                                            <input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="taskitem_1" value="">
+                                            <label class="custom-control-label chkBox pointer" for="taskitem_1"></label>
+                                        </div>
+                                        <span class="taskName">Task #5</span>
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <i class="far fa-edit taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Edit task..."></i>
+                                        <i class="far fa-calendar-plus taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Set due date..."></i>
+                                        <i class="far fa-comment-alt taskActionButton" data-toggle="tooltip" data-placement="bottom" title="Comment on task..."></i>
+                                        <i class="fas fa-ellipsis-h taskActionButton" data-toggle="tooltip" data-placement="bottom" title="More task actions..."></i>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <span class="taskDescription text-secondary">[Task description goes here...]</span>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="dueDateTags" style="display: inline-flex;">
+                                    </div>
+                                    <div style="display: inline-flex;">
+                                        <span class="taskLocation"><a class="taganchor" href="">All Tasks<i class="fas fa-inbox text-primary" style="margin-left: 5px;"></i></a></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -462,6 +679,39 @@
                                 </div>
                                 <div class="col-12">
                                     <p style="font-size: 12px;">View is synced between teammates in shared projects. Learn more.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskNameLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="custom-control custom-checkbox chkBox pointer" style="width: 15px; margin-top: 3px;">
+                                <input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="taskitem_id" value="">
+                                <label class="custom-control-label chkBox pointer" for="taskitem_id"></label>
+                            </div>
+                            <h5 class="modal-title" id="taskNameLabel">[Task Name]</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <span class="taskLocation"><a class="taganchor" href="">All Tasks<i class="fas fa-inbox text-primary" style="margin-left: 5px;"></i></a></span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="taskDueDate taskOverdue"><i class="far fa-calendar-plus" style="margin-right: 5px;"></i>Apr 4</span>
+                                    <span class="taskTag"><a class="taganchor" href=""><i class="fas fa-tag" style="margin-right: 5px;"></i>[label]</a></span>
+                                    <span class="taskTag"><a class="taganchor" href=""><i class="fas fa-tag" style="margin-right: 5px;"></i>[label]</a></span>
                                 </div>
                             </div>
                         </div>

@@ -30,7 +30,8 @@ Template.tasklist.onRendered(function() {
 });
 
 Template.tasklist.events({
-    'click .newProject': function(event) {
+    'click .taskCol': function(event) {
+        $('#taskModal').modal('toggle');
     }
 });
 
