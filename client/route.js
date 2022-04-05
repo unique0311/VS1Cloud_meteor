@@ -1516,3 +1516,12 @@ authenticatedRoutes.route('/crmoverview', {
         });
     }
 });
+
+authenticatedRoutes.route('/smssettings', {
+    name: 'smssettings',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'smssettings'
+        });
+    }
+});
