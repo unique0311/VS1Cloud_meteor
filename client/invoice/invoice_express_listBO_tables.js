@@ -1242,7 +1242,6 @@ Template.invoicelistBO.events({
                     });
                 }
             }).catch(function (err) {
-              console.log(err);
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {

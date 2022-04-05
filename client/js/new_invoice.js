@@ -2620,15 +2620,16 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                            TotalAmt: AmountGbp || 0,
+                                            //TotalAmt: AmountGbp || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
@@ -2976,15 +2977,16 @@ Template.new_invoice.onRendered(() => {
                                                 qtyordered: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                                 qtyshipped: useData[d].fields.Lines[i].fields.UOMQtyShipped || 0,
                                                 qtybo: useData[d].fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                                unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2
-                                                }) || 0,
+                                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                                 lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                                     minimumFractionDigits: 2
                                                 }) || 0,
                                                 taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                 taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
-                                                TotalAmt: AmountGbp || 0,
+                                                //TotalAmt: AmountGbp || 0,
                                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                                 TaxTotal: TaxTotalGbp || 0,
                                                 TaxRate: TaxRateGbp || 0,
@@ -3271,15 +3273,16 @@ Template.new_invoice.onRendered(() => {
                                                 qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                                 qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                                 qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2
-                                                }) || 0,
+                                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                                 lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                                     minimumFractionDigits: 2
                                                 }) || 0,
                                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                                TotalAmt: AmountGbp || 0,
+                                                //TotalAmt: AmountGbp || 0,
                                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                                 TaxTotal: TaxTotalGbp || 0,
                                                 TaxRate: TaxRateGbp || 0,
@@ -3630,15 +3633,16 @@ Template.new_invoice.onRendered(() => {
                                         qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                         qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
@@ -4047,15 +4051,16 @@ Template.new_invoice.onRendered(() => {
                                             qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                             qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                             qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(lineAmountCalc) || 0,
+                                            //TotalAmt: utilityService.modifynegativeCurrencyFormat(lineAmountCalc) || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
@@ -4376,15 +4381,19 @@ Template.new_invoice.onRendered(() => {
                                                 qtyordered: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
                                                 qtyshipped: useData[d].fields.Lines[i].fields.UOMQtyShipped || 0,
                                                 qtybo: useData[d].fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                                unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2
-                                                }) || 0,
+                                                // unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
+                                                //     minimumFractionDigits: 2
+                                                // }) || 0,
+                                                unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmt: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                                 lineCost: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                                     minimumFractionDigits: 2
                                                 }) || 0,
                                                 taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                 taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
-                                                TotalAmt: AmountGbp || 0,
+                                                // TotalAmt: AmountGbp || 0,
                                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                                 TaxTotal: TaxTotalGbp || 0,
                                                 TaxRate: TaxRateGbp || 0,
@@ -4681,15 +4690,17 @@ Template.new_invoice.onRendered(() => {
                                                     qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                                     qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                                     qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                                        minimumFractionDigits: 2
-                                                    }) || 0,
+
+                                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                    unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                    TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                    TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                                     lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                                         minimumFractionDigits: 2
                                                     }) || 0,
                                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                                    TotalAmt: AmountGbp || 0,
+                                                    // TotalAmt: AmountGbp || 0,
                                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                                     TaxTotal: TaxTotalGbp || 0,
                                                     TaxRate: TaxRateGbp || 0,
@@ -4982,15 +4993,16 @@ Template.new_invoice.onRendered(() => {
                                         qtyordered: data.fields.Lines[i].fields.UOMOrderQty || 0,
                                         qtyshipped: data.fields.Lines[i].fields.UOMQtyShipped || 0,
                                         qtybo: data.fields.Lines[i].fields.UOMQtyBackOrder || 0,
-                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
@@ -5855,9 +5867,11 @@ Template.new_invoice.onRendered(() => {
                 qtyshipped: '',
                 qtybo: '',
                 unitPrice: 0,
+                unitPriceInc:0,
+                TotalAmt: 0,
+                TotalAmtInc: 0,
                 taxRate: '',
                 taxCode: '',
-                TotalAmt: 0,
                 curTotalAmt: 0,
                 TaxTotal: 0,
                 TaxRate: 0,
@@ -6394,7 +6408,8 @@ Template.new_invoice.onRendered(() => {
                         $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                         if (!isNaN(subTotal)) {
-                            $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                          $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                          $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                             subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                             subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                             document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -6527,7 +6542,8 @@ Template.new_invoice.onRendered(() => {
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                     if (!isNaN(subTotal)) {
-                        $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                      $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                      $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                         subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                         subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                         document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -6761,7 +6777,8 @@ Template.new_invoice.onRendered(() => {
                             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                             if (!isNaN(subTotal)) {
-                                $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                              $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                              $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                                 subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                                 subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                                 document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -9207,7 +9224,8 @@ Template.new_invoice.onRendered(() => {
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                     subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                     subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -9335,7 +9353,8 @@ Template.new_invoice.onRendered(() => {
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                     subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                     subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -9424,7 +9443,8 @@ Template.new_invoice.onRendered(() => {
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                     subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                     subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -9485,6 +9505,34 @@ Template.new_invoice.onRendered(() => {
                 }
             });
             //}
+        },
+        'click .th.colAmountEx': function(event) {
+            $('.colAmountEx').addClass('hiddenColumn');
+            $('.colAmountEx').removeClass('showColumn');
+
+            $('.colAmountInc').addClass('showColumn');
+            $('.colAmountInc').removeClass('hiddenColumn');
+        },
+        'click .th.colAmountInc': function(event) {
+            $('.colAmountInc').addClass('hiddenColumn');
+            $('.colAmountInc').removeClass('showColumn');
+
+            $('.colAmountEx').addClass('showColumn');
+            $('.colAmountEx').removeClass('hiddenColumn');
+        },
+        'click .th.colUnitPriceEx': function(event) {
+            $('.colUnitPriceEx').addClass('hiddenColumn');
+            $('.colUnitPriceEx').removeClass('showColumn');
+
+            $('.colUnitPriceInc').addClass('showColumn');
+            $('.colUnitPriceInc').removeClass('hiddenColumn');
+        },
+        'click .th.colUnitPriceInc': function(event) {
+            $('.colUnitPriceInc').addClass('hiddenColumn');
+            $('.colUnitPriceInc').removeClass('showColumn');
+
+            $('.colUnitPriceEx').addClass('showColumn');
+            $('.colUnitPriceEx').removeClass('hiddenColumn');
         },
         'click #btnCustomFileds': function (event) {
             var x = document.getElementById("divCustomFields");
@@ -10049,7 +10097,8 @@ Template.new_invoice.onRendered(() => {
                         $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                         if (!isNaN(subTotal)) {
-                            $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                            $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                            $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                             subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                             subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                             document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -10212,7 +10261,8 @@ Template.new_invoice.onRendered(() => {
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
                     if (!isNaN(subTotal)) {
-                        $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                      $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                      $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                         subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                         subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                         document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);

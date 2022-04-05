@@ -431,7 +431,6 @@ Template.creditlist.onRendered(function() {
                 let lineItems = [];
                 $('.fullScreenSpin').css('display','none');
                 let lineItemObj = {};
-                console.log(data);
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);
