@@ -2097,7 +2097,7 @@ Template.purchaseordercard.onRendered(() => {
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
                 var taxrateamount = 0;
@@ -2114,6 +2114,13 @@ Template.purchaseordercard.onRendered(() => {
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 let lineTotalAmount = subTotal + taxTotal;
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
                     $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                     $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -2204,7 +2211,7 @@ Template.purchaseordercard.onRendered(() => {
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").val() || '';
 
                 var taxrateamount = 0;
@@ -2225,6 +2232,13 @@ Template.purchaseordercard.onRendered(() => {
                 }
                 let lineTotalAmount = subTotal + taxTotal;
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
                   $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                   $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -3023,7 +3037,7 @@ Template.purchaseordercard.onRendered(() => {
         $tblrows.each(function(index) {
             var $tblrow = $(this);
             var qty = $tblrow.find(".lineQty").val() || 0;
-            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
             var taxcode = $tblrow.find(".lineTaxCode").val() || '';
             if($tblrow.find(".lineAccountName").val() == ''){
               $tblrow.find(".colAccountName").addClass('boldtablealertsborder');
@@ -3049,6 +3063,13 @@ Template.purchaseordercard.onRendered(() => {
             }
             let lineTotalAmount = subTotal + taxTotal;
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+            let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+            let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+            let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+            $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+            $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
             if (!isNaN(subTotal)) {
               $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
               $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -3866,7 +3887,7 @@ Template.purchaseordercard.events({
         $tblrows.each(function(index) {
             var $tblrow = $(this);
             var qty = $tblrow.find(".lineQty").val() || 0;
-            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
             var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
             var taxrateamount = 0;
@@ -3883,6 +3904,13 @@ Template.purchaseordercard.events({
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             let lineTotalAmount = subTotal + taxTotal;
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+            let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+            let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+            let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+            $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+            $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
             if (!isNaN(subTotal)) {
               $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
               $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -3942,7 +3970,7 @@ Template.purchaseordercard.events({
         }
 
     },
-    'change .lineUnitPrice': function(event) {
+    'change .colUnitPriceExChange': function(event) {
 
         let utilityService = new UtilityService();
         if (!isNaN($(event.target).val())) {
@@ -3968,13 +3996,13 @@ Template.purchaseordercard.events({
         let taxGrandTotalPrint = 0;
 
         if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-            $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
+            $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .colUnitPriceExChange").val());
         }
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
             var qty = $tblrow.find(".lineQty").val() || 0;
-            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
             var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
             var taxrateamount = 0;
@@ -3991,6 +4019,13 @@ Template.purchaseordercard.events({
             var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
             let lineTotalAmount = subTotal + taxTotal;
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+            let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+            let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+            let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+            $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+            $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
             if (!isNaN(subTotal)) {
               $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
               $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -4042,7 +4077,127 @@ Template.purchaseordercard.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
+    },
+    'change .colUnitPriceIncChange': function(event) {
+
+        let utilityService = new UtilityService();
+        if (!isNaN($(event.target).val())) {
+            let inputUnitPrice = parseFloat($(event.target).val()) || 0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        } else {
+            let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
+
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+
+
+        }
+        let templateObject = Template.instance();
+        let taxcodeList = templateObject.taxraterecords.get();
+
+        let $tblrows = $("#tblPurchaseOrderLine tbody tr");
+        let $printrows = $(".purchase_print tbody tr");
+        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+
+        let lineAmount = 0;
+        let subGrandTotal = 0;
+        let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
+
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .colUnitPriceExChange").val());
+        }
+
+        $tblrows.each(function(index) {
+            var $tblrow = $(this);
+            var qty = $tblrow.find(".lineQty").val() || 0;
+            var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
+
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "");
+                    }
+                }
+            }
+
+
+            let taxRateAmountCalc = (parseFloat(taxrateamount) + 100)/100;
+
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc) || 0;
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotal) ||0;
+
+            var subTotalExQty = (parseFloat(price.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || 0;
+            var taxTotalExQty = parseFloat(price.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalExQty) ||0;
+
+            let lineTotalAmount = subTotal + taxTotal;
+            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+            let lineUnitPriceIncVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+            let lineUnitPriceExVal = lineUnitPriceIncVal - taxTotalExQty||0;
+            $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+            $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
+            if (!isNaN(subTotal)) {
+              $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+              $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
+                subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+            }
+
+            if (!isNaN(taxTotal)) {
+                taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
+                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+            }
+
+            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+
+            }
+        });
+
+        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            $printrows.each(function(index) {
+                var $printrows = $(this);
+                var qty = $printrows.find("#lineQty").text() || 0;
+                var price = $printrows.find("#lineUnitPrice").text() || "0";
+                var taxrateamount = 0;
+                var taxRate = $printrows.find("#lineTaxCode").text();
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxRate) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                        }
+                    }
+                }
+
+                var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+                if (!isNaN(subTotal)) {
+                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                     //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -4953,7 +5108,7 @@ Template.purchaseordercard.events({
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
                     var qty = $tblrow.find(".lineQty").val() || 0;
-                    var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                    var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                     var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
                     var taxrateamount = 0;
@@ -4970,6 +5125,13 @@ Template.purchaseordercard.events({
                     var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                     let lineTotalAmount = subTotal + taxTotal;
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+                    let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                    let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                    let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                    $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                    $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                     if (!isNaN(subTotal)) {
                       $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                       $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -5021,7 +5183,7 @@ Template.purchaseordercard.events({
                         if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                            document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                            //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                             //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -5088,7 +5250,7 @@ Template.purchaseordercard.events({
             $('#' + selectLineID).closest('tr').remove();
 
             let $tblrows = $("#tblPurchaseOrderLine tbody tr");
-            let $printrows = $(".invoice_print tbody tr");
+            let $printrows = $(".purchase_print tbody tr");
             $(".purchase_print #" + selectLineID).remove();
 
             let lineAmount = 0;
@@ -5099,7 +5261,7 @@ Template.purchaseordercard.events({
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
 
                 var taxrateamount = 0;
@@ -5116,6 +5278,13 @@ Template.purchaseordercard.events({
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 let lineTotalAmount = subTotal + taxTotal;
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
                   $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                   $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -5167,7 +5336,7 @@ Template.purchaseordercard.events({
                     if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                         let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                         document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                        document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                        //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                         //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                         document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -5257,7 +5426,7 @@ Template.purchaseordercard.events({
                 let tdQty = $('#' + lineID + " .lineQty").val();
                 let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                 let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
@@ -6208,7 +6377,7 @@ Template.purchaseordercard.events({
                 let tdQty = $('#' + lineID + " .lineQty").val();
                 let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                 let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
@@ -6483,7 +6652,7 @@ Template.purchaseordercard.events({
                     let tdQty = $('#' + lineID + " .lineQty").val();
                     let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                    let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                    let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                     let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                     let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
@@ -6756,7 +6925,7 @@ Template.purchaseordercard.events({
                 let tdQty = $('#' + lineID + " .lineQty").val();
                 let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                 let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
@@ -7057,7 +7226,7 @@ Template.purchaseordercard.events({
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
                 if (qty > 0) {
                     qty = "-" + qty;
@@ -7077,6 +7246,13 @@ Template.purchaseordercard.events({
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 let lineTotalAmount = subTotal + taxTotal;
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
                   $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                   $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -7105,7 +7281,7 @@ Template.purchaseordercard.events({
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
                 if (qty > 0) {
                     qty = qty;
@@ -7128,6 +7304,13 @@ Template.purchaseordercard.events({
                 var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
                 let lineTotalAmount = subTotal + taxTotal;
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
                   $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                   $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
@@ -7201,7 +7384,7 @@ Template.purchaseordercard.events({
                             let tdQty = $('#' + lineID + " .lineQty").val();
                             let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                            let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                            let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                             let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                             let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                             let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
@@ -7514,7 +7697,7 @@ Template.purchaseordercard.events({
                                     let tdQty = $('#' + lineID + " .lineQty").val();
                                     let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                                    let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                                    let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                                     let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                                     let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
@@ -7834,7 +8017,7 @@ Template.purchaseordercard.events({
                             let tdQty = $('#' + lineID + " .lineQty").val();
                             let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                            let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                            let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                             let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                             let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                             let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
@@ -8150,7 +8333,7 @@ Template.purchaseordercard.events({
                         let tdQty = $('#' + lineID + " .lineQty").val();
                         let tdOrderd = $('#' + lineID + " .lineOrdered").val();
 
-                        let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                        let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                         let tdCustomerJob = $('#' + lineID + " .lineCustomerJob").val();
                         let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                         let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
