@@ -69,6 +69,9 @@ Template.settings.events({
 },
 'click .btnEmailSettings' : function(event){
  FlowRouter.go('/emailsettings');
+},
+'click .btnSMSSettings' : function(event){
+ FlowRouter.go('/smssettings');
 }
 
 

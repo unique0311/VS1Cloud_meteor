@@ -1436,6 +1436,15 @@ authenticatedRoutes.route('/emailsettings', {
     }
 });
 
+authenticatedRoutes.route('/smssettings', {
+    name: 'smssettings',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'smssettings'
+        });
+    }
+});
+
 authenticatedRoutes.route('/emailtemplate', {
     name: 'emailtemplate',
     action() {

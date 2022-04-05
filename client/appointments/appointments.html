@@ -679,7 +679,7 @@
                                         </div>
                                     {{/if}}
                                     <div class="col-xl-2 col-4 colStart" id="colStart" style="padding-top: 2em;">
-                                        <button class="btn btn-success" type="button" style="margin: 8px 0px; width: 100%;" id="btnStartActualTime">Start</button>
+                                        <button class="btn btn-success" type="button" style="margin: 8px 0px; width: 100%;" id="btnStartAppointment">Start</button>
                                     </div>
                                     {{#if equals accessOnHold false}}
                                         <div class="col-xl-2 col-4 colOnHold" id="colOnHold" style="padding-top: 2em;">
@@ -730,6 +730,30 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Start Appointment Modal to choose Start Appointment SMS Message -->
+                        <div class="modal fade" role="dialog" id="startAppointmentModal">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Start Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body" style="padding: 0px; overflow-x: hidden;">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start"><label>Save Appointment SMS Message</label>
+                                                    <textarea class="border rounded form-control" rows="5" id="saveAppointmentSMS" name="saveAppointmentSMS"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary btnAppOptionsModal" id="btnAppOptionsModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Start Attachemt -->
                         <div class="modal fade" role="dialog" tabindex="-1" id="myModalAttachment">
                             <div class="modal-dialog modal-dialog-centered" role="document">
