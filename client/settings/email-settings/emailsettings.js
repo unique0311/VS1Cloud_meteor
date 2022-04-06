@@ -12,7 +12,8 @@ import {
 } from '../../js/sidebar-service';
 import '../../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
-Template.emailsettings.onCreated(function() {
+
+Template.emailsettings.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.datatablerecords = new ReactiveVar([]);
     templateObject.tableheaderrecords = new ReactiveVar([]);
@@ -21,7 +22,7 @@ Template.emailsettings.onCreated(function() {
     templateObject.essentialemployeescheduledrecord = new ReactiveVar([]);
 });
 
-Template.emailsettings.onRendered(function() {
+Template.emailsettings.onRendered(function () {
     $('.fullScreenSpin').css('display', 'inline-block');
     let templateObject = Template.instance();
     let taxRateService = new TaxRateService();
@@ -33,102 +34,102 @@ Template.emailsettings.onRendered(function() {
     let employeeScheduledRecord = [];
     let essentailEmployeeScheduledRecord = [];
     let formsData = [{
-            "id": "71",
-            "name": "Quotes"
-        },
-        {
-            "id": "77",
-            "name": "Sakes Orders"
-        },
-        {
-            "id": "54",
-            "name": "Invoices"
-        },
-        {
-            "id": "74",
-            "name": "Refunds"
-        },
-        {
-            "id": "69",
-            "name": "Purchase Orders"
-        },
-        {
-            "id": "12",
-            "name": "Bills"
-        },
-        {
-            "id": "21",
-            "name": "Credits"
-        },
-        {
-            "id": "139",
-            "name": "Balance Sheets"
-        },
-        {
-            "id": "225",
-            "name": "General Ledger"
-        },
-        {
-            "id": "129",
-            "name": "Profit and Loss"
-        },
-        {
-            "id": "278",
-            "name": "Tax Summary Report"
-        },
-        {
-            "id": "140",
-            "name": "Trial Balance"
-        },
-        {
-            "id": "6",
-            "name": "Aged Payables"
-        },
-        {
-            "id": "134",
-            "name": "Aged Receivables"
-        },
-        {
-            "id": "177",
-            "name": "Print Statements"
-        },
-        {
-            "id": "69",
-            "name": "Purchase Report"
-        },
-        {
-            "id": "1364",
-            "name": "Purchase Summary Report"
-        },
-        {
-            "id": "1464",
-            "name": "Product Sales Report"
-        },
-        {
-            "id": "68",
-            "name": "Sales Report"
-        },
-        {
-            "id": "61",
-            "name": "Customer Payments"
-        },
-        {
-            "id": "94",
-            "name": "Supplier Payments"
-        },
-        {
-            "id": "17544",
-            "name": "Statements"
-        },
-        {
-            "id": "18",
-            "name": "Cheque"
-        }
+        "id": "71",
+        "name": "Quotes"
+    },
+    {
+        "id": "77",
+        "name": "Sakes Orders"
+    },
+    {
+        "id": "54",
+        "name": "Invoices"
+    },
+    {
+        "id": "74",
+        "name": "Refunds"
+    },
+    {
+        "id": "69",
+        "name": "Purchase Orders"
+    },
+    {
+        "id": "12",
+        "name": "Bills"
+    },
+    {
+        "id": "21",
+        "name": "Credits"
+    },
+    {
+        "id": "139",
+        "name": "Balance Sheets"
+    },
+    {
+        "id": "225",
+        "name": "General Ledger"
+    },
+    {
+        "id": "129",
+        "name": "Profit and Loss"
+    },
+    {
+        "id": "278",
+        "name": "Tax Summary Report"
+    },
+    {
+        "id": "140",
+        "name": "Trial Balance"
+    },
+    {
+        "id": "6",
+        "name": "Aged Payables"
+    },
+    {
+        "id": "134",
+        "name": "Aged Receivables"
+    },
+    {
+        "id": "177",
+        "name": "Print Statements"
+    },
+    {
+        "id": "69",
+        "name": "Purchase Report"
+    },
+    {
+        "id": "1364",
+        "name": "Purchase Summary Report"
+    },
+    {
+        "id": "1464",
+        "name": "Product Sales Report"
+    },
+    {
+        "id": "68",
+        "name": "Sales Report"
+    },
+    {
+        "id": "61",
+        "name": "Customer Payments"
+    },
+    {
+        "id": "94",
+        "name": "Supplier Payments"
+    },
+    {
+        "id": "17544",
+        "name": "Statements"
+    },
+    {
+        "id": "18",
+        "name": "Cheque"
+    }
     ];
 
 
 
-    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'currencyLists', function(error, result) {
+    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'currencyLists', function (error, result) {
         if (error) {
 
         } else {
@@ -153,7 +154,7 @@ Template.emailsettings.onRendered(function() {
 
 
     function MakeNegative() {
-        $('td').each(function() {
+        $('td').each(function () {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
     };
@@ -171,7 +172,7 @@ Template.emailsettings.onRendered(function() {
         changeYear: true,
         yearRange: "-90:+10",
     });
-    templateObject.assignFrequency = function(frequency) {
+    templateObject.assignFrequency = function (frequency) {
         if (frequency == "Weekly") {
             $("#frequencyWeekly").prop('checked', true);
             $("#frequencyMonthly").prop('checked', false);
@@ -210,7 +211,7 @@ Template.emailsettings.onRendered(function() {
 
     }
 
-    templateObject.getDayNumber = function(day) {
+    templateObject.getDayNumber = function (day) {
         day = day.toLowerCase();
         if (day == "") {
             return;
@@ -246,7 +247,7 @@ Template.emailsettings.onRendered(function() {
 
     }
 
-    templateObject.getMonths = function(startDate, endDate) {
+    templateObject.getMonths = function (startDate, endDate) {
         let dateone = "";
         let datetwo = "";
         if (startDate != "") {
@@ -319,7 +320,7 @@ Template.emailsettings.onRendered(function() {
 
 
 
-    templateObject.getDayName = function(day) {
+    templateObject.getDayName = function (day) {
         if (day == 1 || day == 0) {
             $("#formCheck-monday").prop('checked', true);
             $("#formCheck-tuesday").prop('checked', false);
@@ -391,7 +392,7 @@ Template.emailsettings.onRendered(function() {
         }
 
     }
-    templateObject.assignSettings = function(setting) {
+    templateObject.assignSettings = function (setting) {
         if (setting == "W") {
             $("#frequencyMonthly").prop('checked', false);
             $("#frequencyDaily").prop('checked', false);
@@ -418,13 +419,13 @@ Template.emailsettings.onRendered(function() {
         }
 
     }
-    templateObject.getScheduleInfo = function() {
-        taxRateService.getScheduleSettings().then(function(data) {
+    templateObject.getScheduleInfo = function () {
+        taxRateService.getScheduleSettings().then(function (data) {
             let empData = data.treportschedules;
             var employeeID = Session.get('mySessionEmployeeLoggedID');
             var empDataCurr = '';
             let frequencyFormat = "";
-            $.grep(formsData, function(n) {
+            $.grep(formsData, function (n) {
                 for (let i = 0; i < empData.length; i++) {
                     if (n.id == empData[i].fields.FormID) {
                         if (empData[i].fields.Frequency == "D") {
@@ -490,7 +491,7 @@ Template.emailsettings.onRendered(function() {
             templateObject.employeescheduledrecord.set(employeeScheduledRecord);
 
             if (templateObject.employeescheduledrecord.get()) {
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#tblAutomatedEmails').DataTable({
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
@@ -532,25 +533,25 @@ Template.emailsettings.onRendered(function() {
                         "order": [
                             [0, "asc"]
                         ],
-                        action: function() {
+                        action: function () {
                             $('#currencyLists').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
 
-                    }).on('page', function() {
-                        setTimeout(function() {
+                    }).on('page', function () {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.employeescheduledrecord.get();
                         templateObject.employeescheduledrecord.set(draftRecord);
-                    }).on('column-reorder', function() {
+                    }).on('column-reorder', function () {
 
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
+                    }).on('length.dt', function (e, settings, len) {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
@@ -558,7 +559,7 @@ Template.emailsettings.onRendered(function() {
                     // $('#currencyLists').DataTable().column( 0 ).visible( true );
                     // $('.fullScreenSpin').css('display', 'none');
                 }, 500);
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#tblEssentialAutomatedEmails').DataTable({
                         "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
                         buttons: [{
@@ -601,25 +602,25 @@ Template.emailsettings.onRendered(function() {
                         "order": [
                             [0, "asc"]
                         ],
-                        action: function() {
+                        action: function () {
                             $('#tblEssentialAutomatedEmails').DataTable().ajax.reload();
                         },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
+                        "fnDrawCallback": function (oSettings) {
+                            setTimeout(function () {
                                 MakeNegative();
                             }, 100);
                         },
 
-                    }).on('page', function() {
-                        setTimeout(function() {
+                    }).on('page', function () {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                         let draftRecord = templateObject.employeescheduledrecord.get();
                         templateObject.employeescheduledrecord.set(draftRecord);
-                    }).on('column-reorder', function() {
+                    }).on('column-reorder', function () {
 
-                    }).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
+                    }).on('length.dt', function (e, settings, len) {
+                        setTimeout(function () {
                             MakeNegative();
                         }, 100);
                     });
@@ -628,7 +629,7 @@ Template.emailsettings.onRendered(function() {
                     // $('.fullScreenSpin').css('display', 'none');
                 }, 500);
             }
-        }).catch(function(err) {
+        }).catch(function (err) {
             swal({
                 title: 'Oooops...',
                 text: err,
@@ -638,7 +639,7 @@ Template.emailsettings.onRendered(function() {
             }).then((result) => {
                 if (result.value) {
                     Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {}
+                } else if (result.dismiss === 'cancel') { }
             });
             $('.fullScreenSpin').css('display', 'none');
 
@@ -647,36 +648,38 @@ Template.emailsettings.onRendered(function() {
 
     templateObject.getScheduleInfo();
 
-    $('#tblContactlist tbody').on( 'click', 'td:not(.chkBox)', function () {
+    $('#tblContactlist tbody').on('click', 'td:not(.chkBox)', function () {
         //var tableCustomer = $(this);
-        let selectDataID = $('#customerSelectLineID').val()||'';
-        var listData = $(this).closest('tr').find('.colEmail').text()||"";
+        let selectDataID = $('#customerSelectLineID').val() || '';
+        var listData = $(this).closest('tr').find('.colEmail').text() || "";
         $('#customerListModal').modal('toggle');
 
-        $('#'+selectDataID).val(listData);
+        $('#' + selectDataID).val(listData);
         //$('#'+selectLineID+" .lineAccountName").val('');
     });
 });
 
 Template.emailsettings.events({
-  'click .btnSelectContact': async function (event) {
-      let templateObject = Template.instance();
-      let selectDataID = $('#customerSelectLineID').val()||'';
+    'click .btnSelectContact': async function (event) {
+        let templateObject = Template.instance();
+        let selectDataID = $('#customerSelectLineID').val() || '';
 
 
-      var tblContactService = $(".tblContactlist").dataTable();
+        var tblContactService = $(".tblContactlist").dataTable();
 
-      let datacontactList = [];
-      $(".chkServiceCard:checked", tblContactService.fnGetNodes()).each(function() {
-        let contactEmail = $(this).closest('tr').find('.colEmail').text()||'';
-        if (contactEmail.replace(/\s/g, '') != '') {
-          datacontactList.push(contactEmail);
-        }
-     });
-     $('#'+selectDataID).val(datacontactList.join("; "));
-    $('#customerListModal').modal('toggle');
-  },
-    'click #swtAllCustomers': function() {
+        let datacontactList = [];
+        $(".chkServiceCard:checked", tblContactService.fnGetNodes()).each(function () {
+            let contactEmail = $(this).closest('tr').find('.colEmail').text() || '';
+            if (contactEmail.replace(/\s/g, '') != '') {
+                datacontactList.push(contactEmail);
+            }
+        });
+        $('#' + selectDataID).val(datacontactList.join("; "));
+        $('#customerListModal').modal('toggle');
+
+        localStorage.setItem('emailsetting-recepients', JSON.stringify(datacontactList));
+    },
+    'click #swtAllCustomers': function () {
         // if ($('.contactlistcol').is(':visible') || $('#swtAllCustomers').is(':checked')) {
         //     $('.contactlistcol').css('display', 'none');
         //     $('.contactcheckboxcol').css('margin-bottom', '16px');
@@ -685,7 +688,7 @@ Template.emailsettings.events({
         //     $('.contactcheckboxcol').css('margin-bottom', '0px');
         // } else {}
     },
-    'click #swtAllEmployees': function() {
+    'click #swtAllEmployees': function () {
         // if ($('.contactlistcol').is(':visible') || $('#swtAllEmployees').is(':checked')) {
         //     $('.contactlistcol').css('display', 'none');
         //     $('.contactcheckboxcol').css('margin-bottom', '16px');
@@ -694,7 +697,7 @@ Template.emailsettings.events({
         //     $('.contactcheckboxcol').css('margin-bottom', '0px');
         // } else {}
     },
-    'click #swtAllSuppliers': function() {
+    'click #swtAllSuppliers': function () {
         // if ($('.contactlistcol').is(':visible') || $('#swtAllSuppliers').is(':checked')) {
         //     $('.contactlistcol').css('display', 'none');
         //     $('.contactcheckboxcol').css('margin-bottom', '16px');
@@ -703,7 +706,7 @@ Template.emailsettings.events({
         //     $('.contactcheckboxcol').css('margin-bottom', '0px');
         // } else {}
     },
-    'click .btnSaveFrequency': function() {
+    'click .btnSaveFrequency': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         let taxRateService = new TaxRateService();
         let templateObject = Template.instance();
@@ -725,7 +728,7 @@ Template.emailsettings.events({
 
         if ($('#frequencyMonthly').is(":checked")) {
             startTime = $('#edtMonthlyStartTime').val();
-            startDate = startdateTimeMonthly.getFullYear() + "-" + (startdateTimeMonthly.getMonth() + 1) + "-" + startdateTimeMonthly.getDate()||'';
+            startDate = startdateTimeMonthly.getFullYear() + "-" + (startdateTimeMonthly.getMonth() + 1) + "-" + startdateTimeMonthly.getDate() || '';
             every = $('#sltDayOccurence').val();
             frequency = "M";
             monthDays = $('#sltDayOfWeek').val();
@@ -735,7 +738,7 @@ Template.emailsettings.events({
 
         if ($('#frequencyWeekly').is(":checked")) {
             startTime = $('#edtWeeklyStartTime').val();
-            startDate = startdateTimeWeekly.getFullYear() + "-" + (startdateTimeWeekly.getMonth() + 1) + "-" + startdateTimeWeekly.getDate()||'';
+            startDate = startdateTimeWeekly.getFullYear() + "-" + (startdateTimeWeekly.getMonth() + 1) + "-" + startdateTimeWeekly.getDate() || '';
             every = $('#weeklyEveryXWeeks').val();
             frequency = "W";
             date = startDate + ' ' + startTime;
@@ -750,15 +753,15 @@ Template.emailsettings.events({
 
         if ($('#frequencyDaily').is(":checked")) {
             startTime = $('#edtDailyStartTime').val();
-            startDate = startdateTimeDaily.getFullYear() + "-" + (startdateTimeDaily.getMonth() + 1) + "-" + startdateTimeDaily.getDate()||'';
-            every = $('#dailyEveryXDays').val()||1;
+            startDate = startdateTimeDaily.getFullYear() + "-" + (startdateTimeDaily.getMonth() + 1) + "-" + startdateTimeDaily.getDate() || '';
+            every = $('#dailyEveryXDays').val() || 1;
             frequency = "D";
             date = startDate + ' ' + startTime;
         }
 
         if ($('#frequencyOnetimeonly').is(":checked")) {
             startTime = $('#edtOneTimeOnlyTime').val();
-            startDate = startdateTimeOneTime.getFullYear() + "-" + (startdateTimeOneTime.getMonth() + 1) + "-" + startdateTimeOneTime.getDate()||'';
+            startDate = startdateTimeOneTime.getFullYear() + "-" + (startdateTimeOneTime.getMonth() + 1) + "-" + startdateTimeOneTime.getDate() || '';
             every = 1;
             frequency = "D";
             date = startDate + ' ' + startTime;
@@ -770,7 +773,7 @@ Template.emailsettings.events({
                 fields: {
                     EmployeeId: employeeID,
                     StartDate: date,
-                    Every: parseInt(every)||0,
+                    Every: parseInt(every) || 0,
                     Frequency: frequency,
                     FormID: formId,
                     MonthDays: monthDays,
@@ -785,10 +788,10 @@ Template.emailsettings.events({
             objDetails = {
                 type: "TReportSchedules",
                 fields: {
-                    ID: parseInt(id)||0,
+                    ID: parseInt(id) || 0,
                     EmployeeId: employeeID,
                     StartDate: date,
-                    Every:  parseInt(every)||0,
+                    Every: parseInt(every) || 0,
                     Frequency: frequency,
                     FormID: formId,
                     MonthDays: monthDays,
@@ -802,10 +805,13 @@ Template.emailsettings.events({
 
         }
 
+        localStorage.setItem('emailsetting-frequency', JSON.stringify(objDetails));
 
-        taxRateService.saveScheduleSettings(objDetails).then(function(data) {
-            Meteor._reload.reload();
-        }).catch(function(err) {
+        taxRateService.saveScheduleSettings(objDetails).then(function (data) {
+            // Meteor._reload.reload();    // No reload required here after save frequency.
+            $('#frequencyModal').modal('toggle');
+            $('.fullScreenSpin').css('display', 'none');
+        }).catch(function (err) {
             swal({
                 title: 'Oooops...',
                 text: err,
@@ -814,13 +820,53 @@ Template.emailsettings.events({
                 confirmButtonText: 'Try Again'
             }).then((result) => {
                 if (result.value) {
-                    Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {}
+                    // Meteor._reload.reload();    // No reload required here after save frequency.
+                } else if (result.dismiss === 'cancel') { }
             });
             $('.fullScreenSpin').css('display', 'none');
         });
     },
-    'click .chkBoxDays': function(event) {
+    'click .dnd-moved': (e) => {
+        localStorage.setItem('transactiontype', e.currentTarget.getAttribute('id'));
+    },
+    'click #emailsetting-essential': function () {
+        let type = localStorage.getItem('transactiontype');
+        let frequency = JSON.parse(localStorage.getItem('emailsetting-frequency'));
+        let send = localStorage.getItem('emailsetting-send');
+        let recipients = JSON.parse(localStorage.getItem('emailsetting-recepients'));
+
+        console.log("type========>" + type);
+
+
+        Meteor.call('createEmailSetting', type, frequency, send, recipients, (error, result) => {
+            if (error) {
+                console.log(error)
+            } else {
+                console.log(result);
+            }
+        });
+
+        // let tempContainer = [];
+        // Meteor.call('readAllEmailSettings', (error, result) => {
+        //     if (error) {
+        //         console.log(error);
+        //     } else {
+        //         result.forEach(elem => (tempContainer.push(elem)));
+        //         console.log(tempContainer);
+        //     }
+        // });
+        // let taxRateService = new TaxRateService();
+        // taxRateService.getScheduleSettings().then(function (data) {
+        //     let empData = data.treportschedules;
+        //     console.log(empData);
+        // })
+        // This is for test. Not required
+        // Meteor.call('deleteAllEmailSettings', (error, result) => {
+
+        // });
+
+    },
+    'click .chkBoxDays': function (event) {
         var checkboxes = document.querySelectorAll('.chkBoxDays');
         checkboxes.forEach((item) => {
             if (item !== event.target) {
@@ -828,7 +874,7 @@ Template.emailsettings.events({
             }
         });
     },
-    'click #edtFrequency': function(event) {
+    'click #edtFrequency': function (event) {
         let templateObject = Template.instance();
         let scheduleData = templateObject.employeescheduledrecord.get();
         let formId = $(event.target).closest("tr").attr("id");
@@ -839,7 +885,7 @@ Template.emailsettings.events({
             return data.formID == formId
         });
         if (result.length > 0) {
-          let startDateVal = result[0].startDate != '' ? moment(result[0].startDate).format("DD/MM/YYYY") : result[0].startDate;
+            let startDateVal = result[0].startDate != '' ? moment(result[0].startDate).format("DD/MM/YYYY") : result[0].startDate;
             templateObject.assignFrequency(result[0].frequency);
             templateObject.getMonths(result[0].startDate, result[0].endDate);
             $('#frequencyid').val(result[0].id);
@@ -852,7 +898,7 @@ Template.emailsettings.events({
             }
 
             if (result[0].frequency == "Weekly") {
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#weeklyEveryXWeeks').val(result[0].every);
                     $('#edtWeeklyStartTime').val(result[0].startTime);
                     $('#edtWeeklyStartDate').val(startDateVal);
@@ -862,7 +908,7 @@ Template.emailsettings.events({
             }
 
             if (result[0].frequency == "Daily") {
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#dailyEveryXDays').val(result[0].every);
                     $('#edtDailyStartTime').val(result[0].startTime);
                     $('#edtDailyStartDate').val(startDateVal);
@@ -873,21 +919,21 @@ Template.emailsettings.events({
 
         $("#frequencyModal").modal('toggle');
     },
-    'click #blncSheets #edtFrequency': function() {
+    'click #blncSheets #edtFrequency': function () {
         $("#frequencyModal").modal('toggle');
 
     },
-    'click .edtRecipients': function() {
-      let recipientsID = event.target.id||'';
-      $('#customerSelectLineID').val(recipientsID);
-      $("#customerListModal").modal('toggle');
+    'click .edtRecipients': function () {
+        let recipientsID = event.target.id || '';
+        $('#customerSelectLineID').val(recipientsID);
+        $("#customerListModal").modal('toggle');
 
     },
-    'click #groupedReports': function() {
+    'click #groupedReports': function () {
         $("#groupedReportsModal").modal('toggle');
 
     },
-    'click input[name="frequencyRadio"]': function() {
+    'click input[name="frequencyRadio"]': function () {
         if (event.target.id == "frequencyMonthly") {
             document.getElementById("monthlySettings").style.display = "block";
             document.getElementById("weeklySettings").style.display = "none";
@@ -922,7 +968,7 @@ Template.emailsettings.events({
             $("#frequencyModal").modal('toggle');
         }
     },
-    'click input[name="settingsMonthlyRadio"]': function() {
+    'click input[name="settingsMonthlyRadio"]': function () {
         if (event.target.id == "settingsMonthlyEvery") {
             $('.settingsMonthlyEveryOccurence').attr('disabled', false);
             $('.settingsMonthlyDayOfWeek').attr('disabled', false);
@@ -935,7 +981,7 @@ Template.emailsettings.events({
             $("#frequencyModal").modal('toggle');
         }
     },
-    'click input[name="dailyRadio"]': function() {
+    'click input[name="dailyRadio"]': function () {
         if (event.target.id == "dailyEveryDay") {
             $('.dailyEveryXDays').attr('disabled', true);
         } else if (event.target.id == "dailyWeekdays") {
@@ -978,10 +1024,10 @@ Template.emailsettings.events({
     //         $("#frequencyModal").modal('toggle');
     //     }
     // },
-    'click #edtBasedOn': function() {
+    'click #edtBasedOn': function () {
         $("#basedOnModal").modal('toggle');
     },
-    'click input[name="basedOnRadio"]': function() {
+    'click input[name="basedOnRadio"]': function () {
         if (event.target.id == "basedOnPrint") {
             $('#edtBasedOnDate').attr('disabled', true);
         } else if (event.target.id == "basedOnSave") {
@@ -998,44 +1044,46 @@ Template.emailsettings.events({
             $("#basedOnModal").modal('toggle');
         }
     },
-    'click .btnSaveBasedOn': function() {
+    'click .btnSaveBasedOn': function () {
         let radioFrequency = $('input[type=radio][name=basedOnRadio]:checked').attr('id');
 
         if (radioFrequency == "basedOnPrint") {
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#edtBasedOn').html("On Print");
                 $("#basedOnModal").modal('toggle');
             }, 100);
         } else if (radioFrequency == "basedOnSave") {
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#edtBasedOn').html("On Save");
                 $("#basedOnModal").modal('toggle');
             }, 100);
         } else if (radioFrequency == "basedOnTransactionDate") {
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#edtBasedOn').html("On Transaction Date");
                 $("#basedOnModal").modal('toggle');
             }, 100);
         } else if (radioFrequency == "basedOnDueDate") {
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#edtBasedOn').html("On Due Date");
                 $("#basedOnModal").modal('toggle');
             }, 100);
         } else if (radioFrequency == "basedOnDate") {
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#edtBasedOn').html("On Date");
                 $("#basedOnModal").modal('toggle');
             }, 100);
         } else if (radioFrequency == "basedOnOutstanding") {
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#edtBasedOn').html("If Outstanding");
                 $("#basedOnModal").modal('toggle');
             }, 100);
         } else {
             $("#basedOnModal").modal('toggle');
         }
+
+        localStorage.setItem('emailsetting-send', radioFrequency);
     },
-    'click .btnRefresh': function() {
+    'click .btnRefresh': function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         location.reload(true);
     }
@@ -1043,7 +1091,7 @@ Template.emailsettings.events({
 
 Template.emailsettings.helpers({
     datatablerecords: () => {
-        return Template.instance().datatablerecords.get().sort(function(a, b) {
+        return Template.instance().datatablerecords.get().sort(function (a, b) {
             if (a.code == 'NA') {
                 return 1;
             } else if (b.code == 'NA') {

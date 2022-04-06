@@ -248,7 +248,7 @@ Template.organisationsettings.events({
     'click #chkIsDefailtEmail': function(event){
       let templateObj = Template.instance();
         if($(event.target).is(':checked')){
-          //alert("checked");
+          
             templateObj.iscompanyemail.set(true);
         }else{
           //alert("not checked");

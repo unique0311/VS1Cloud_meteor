@@ -436,15 +436,16 @@ Template.creditcard.onRendered(() => {
                                             item: data.fields.Lines[i].fields.ProductName || '',
                                             description: data.fields.Lines[i].fields.ProductDescription || '',
                                             quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                            unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                            TotalAmt: AmountGbp || 0,
+                                            //TotalAmt: AmountGbp || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
@@ -468,15 +469,16 @@ Template.creditcard.onRendered(() => {
                                         memo: data.fields.Lines.fields.ProductDescription || '',
                                         description: data.fields.Lines.fields.ProductDescription || '',
                                         quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0
@@ -673,15 +675,16 @@ Template.creditcard.onRendered(() => {
                                             item: useData[d].fields.Lines[i].fields.ProductName || '',
                                             description: useData[d].fields.Lines[i].fields.ProductDescription || '',
                                             quantity: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
-                                            unitPrice: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
-                                            TotalAmt: AmountGbp || 0,
+                                            //TotalAmt: AmountGbp || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
@@ -705,15 +708,16 @@ Template.creditcard.onRendered(() => {
                                         memo: useData[d].fields.Lines.fields.ProductDescription || '',
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0
@@ -884,15 +888,16 @@ Template.creditcard.onRendered(() => {
                                                 item: data.fields.Lines[i].fields.ProductName || '',
                                                 description: data.fields.Lines[i].fields.ProductDescription || '',
                                                 quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2
-                                                }) || 0,
+                                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                                 lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                                     minimumFractionDigits: 2
                                                 }) || 0,
                                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                                TotalAmt: AmountGbp || 0,
+                                                //TotalAmt: AmountGbp || 0,
                                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                                 TaxTotal: TaxTotalGbp || 0,
                                                 TaxRate: TaxRateGbp || 0,
@@ -916,15 +921,16 @@ Template.creditcard.onRendered(() => {
                                             memo: data.fields.Lines.fields.ProductDescription || '',
                                             description: data.fields.Lines.fields.ProductDescription || '',
                                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                            unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                            TotalAmt: AmountGbp || 0,
+                                            //TotalAmt: AmountGbp || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0
@@ -1124,15 +1130,16 @@ Template.creditcard.onRendered(() => {
                                         item: data.fields.Lines[i].fields.ProductName || '',
                                         description: data.fields.Lines[i].fields.ProductDescription || '',
                                         quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                        unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
@@ -1156,15 +1163,16 @@ Template.creditcard.onRendered(() => {
                                     memo: data.fields.Lines.fields.ProductDescription || '',
                                     description: data.fields.Lines.fields.ProductDescription || '',
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
-                                        minimumFractionDigits: 2
-                                    }) || 0,
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCost).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.LineCostInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                     lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                    TotalAmt: AmountGbp || 0,
+                                    //TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0
@@ -1337,9 +1345,11 @@ Template.creditcard.onRendered(() => {
             description: '',
             quantity: '',
             unitPrice: 0,
+            unitPriceInc:0,
+            TotalAmt: 0,
+            TotalAmtInc: 0,
             taxRate: 0,
             taxCode: '',
-            TotalAmt: 0,
             curTotalAmt: 0,
             TaxTotal: 0,
             TaxRate: 0,
@@ -1914,7 +1924,6 @@ Template.creditcard.onRendered(() => {
         var table = $(this);
         let utilityService = new UtilityService();
         let $tblrows = $("#tblCreditLine tbody tr");
-
         if (selectLineID) {
             let lineTaxCode = table.find(".taxName").text();
             let lineTaxRate = table.find(".taxRate").text();
@@ -1923,12 +1932,12 @@ Template.creditcard.onRendered(() => {
             let taxGrandTotal = 0;
             let taxGrandTotalPrint = 0;
 
+
             $('#' + selectLineID + " .lineTaxRate").text(lineTaxRate || 0);
             $('#' + selectLineID + " .lineTaxCode").val(lineTaxCode);
-
             let $printrows = $(".credit_print tbody tr");
-            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-                $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmount").val());
+            if ($('.printID').val() == "") {
+                $('#' + selectLineID + " #lineAmount").text($('#' + selectLineID + " .colAmountExChange").val());
                 $('#' + selectLineID + " #lineTaxCode").text(lineTaxCode);
 
             }
@@ -1936,7 +1945,7 @@ Template.creditcard.onRendered(() => {
             $('#taxRateListModal').modal('toggle');
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
-                var amount = $tblrow.find(".colAmount").val() || 0;
+                var amount = $tblrow.find(".colAmountExChange").val() || 0;
                 var taxcode = $tblrow.find(".lineTaxCode").val() || '';
 
                 var taxrateamount = 0;
@@ -1959,26 +1968,28 @@ Template.creditcard.onRendered(() => {
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                    let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                    $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                    document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+                    document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
                 }
 
                 if (!isNaN(taxTotal)) {
                     taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                    document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+                    document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal.toFixed(2));
                 }
 
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                    document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                    document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                    document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                    document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
 
                 }
             });
 
-            if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+            if ($(".printID").val() == "") {
                 $printrows.each(function(index) {
                     var $printrow = $(this);
                     var amount = $printrow.find("#lineAmount").text() || "0";
@@ -2832,8 +2843,8 @@ Template.creditcard.onRendered(() => {
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var amount = $tblrow.find(".colAmount").val() || 0;
-            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
+            var amount = $tblrow.find(".colAmountExChange").val() || 0;
+            var taxcode = $tblrow.find(".lineTaxCode").val() || '';
             if ($tblrow.find(".lineAccountName").val() == '') {
                 $tblrow.find(".colAccountName").addClass('boldtablealertsborder');
             }
@@ -2841,31 +2852,39 @@ Template.creditcard.onRendered(() => {
             if (taxcodeList) {
                 for (var i = 0; i < taxcodeList.length; i++) {
                     if (taxcodeList[i].codename == taxcode) {
-                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+
                     }
                 }
             }
 
 
             var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            if ((taxrateamount == '') || (taxrateamount == ' ')) {
+                var taxTotal = 0;
+            } else {
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            }
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
-                $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+                $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
             }
 
             if (!isNaN(taxTotal)) {
                 taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal.toFixed(2));
             }
 
             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
 
             }
         });
@@ -2875,7 +2894,6 @@ Template.creditcard.onRendered(() => {
             $('.btnRefreshSupplier').trigger('click');
             $('.fullScreenSpin').css('display', 'none');
         }, 1000);
-
     });
 
     exportSalesToPdf = function() {
@@ -3580,7 +3598,7 @@ Template.creditcard.events({
 
         $('#' + targetID + " #lineMemo").text($('#' + targetID + " .lineMemo").text());
     },
-    'blur .colAmount': function(event) {
+    'blur .colAmountExChange': function(event) {
         let templateObject = Template.instance();
         let taxcodeList = templateObject.taxraterecords.get();
         let utilityService = new UtilityService();
@@ -3596,12 +3614,12 @@ Template.creditcard.events({
 
         }
         let $tblrows = $("#tblCreditLine tbody tr");
-
         let $printrows = $(".credit_print tbody tr");
 
-        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-            $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmount").val());
+        if ($('.printID').val() == "") {
+            $('#' + targetID + " #lineAmount").text($('#' + targetID + " .colAmountExChange").val());
             $('#' + targetID + " #lineTaxCode").text($('#' + targetID + " .lineTaxCode").val());
+
         }
 
         let lineAmount = 0;
@@ -3611,7 +3629,7 @@ Template.creditcard.events({
 
         $tblrows.each(function(index) {
             var $tblrow = $(this);
-            var amount = $tblrow.find(".colAmount").val() || "0";
+            var amount = $tblrow.find(".colAmountExChange").val() || "0";
             var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
             var taxrateamount = 0;
             if (taxcodeList) {
@@ -3624,33 +3642,36 @@ Template.creditcard.events({
 
 
             var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
-            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount) || 0;
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
             if (!isNaN(subTotal)) {
-                $tblrow.find('.colAmount').val(utilityService.modifynegativeCurrencyFormat(subTotal));
+                $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
                 subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
-                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal);
+                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
             }
 
             if (!isNaN(taxTotal)) {
                 taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
-                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal);
+                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal.toFixed(2));
             }
+
 
             if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                 let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
-                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
-                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
 
             }
         });
 
-        if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+        if ($(".printID").val() == "") {
             $printrows.each(function(index) {
-                var $printrows = $(this);
-                var amount = $printrows.find("#lineAmount").text() || "0";
-                var taxcode = $printrows.find("#lineTaxCode").text() || 0;
+                var $printrow = $(this);
+                var amount = $printrow.find("#lineAmount").text() || "0";
+                var taxcode = $printrow.find("#lineTaxCode").text() || "E";
 
                 var taxrateamount = 0;
                 if (taxcodeList) {
@@ -3660,14 +3681,110 @@ Template.creditcard.events({
                         }
                     }
                 }
-
-
                 var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
                 var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
-                $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
-
+                $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
                 if (!isNaN(subTotal)) {
-                    $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                    subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                    document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+                }
+
+                if (!isNaN(taxTotal)) {
+                    taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                }
+                if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                    let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                    document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                    //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                    document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+                }
+            });
+        }
+    },
+    'blur .colAmountIncChange': function(event) {
+        let templateObject = Template.instance();
+        let taxcodeList = templateObject.taxraterecords.get();
+        let utilityService = new UtilityService();
+        var targetID = $(event.target).closest('tr').attr('id');
+        if (!isNaN($(event.target).val())) {
+            let inputUnitPrice = parseFloat($(event.target).val()) || 0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        } else {
+            let inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
+
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+
+
+        }
+        let $tblrows = $("#tblCreditLine tbody tr");
+        let $printrows = $(".credit_print tbody tr");
+
+        let lineAmount = 0;
+        let subGrandTotal = 0;
+        let taxGrandTotal = 0;
+        let taxGrandTotalPrint = 0;
+
+        $tblrows.each(function(index) {
+            var $tblrow = $(this);
+            var amount = $tblrow.find(".colAmountIncChange").val() || "0";
+            var taxcode = $tblrow.find(".lineTaxCode").val() || 0;
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxcode) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "");
+                    }
+                }
+            }
+
+            let taxRateAmountCalc = (parseFloat(taxrateamount) + 100) / 100;
+            var subTotal = (parseFloat(amount.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || 0;
+            var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotal) || 0;
+            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+            if (!isNaN(subTotal)) {
+                $tblrow.find('.colAmountExChange').val(utilityService.modifynegativeCurrencyFormat(subTotal.toFixed(2)));
+                let totalAmountInc = (parseFloat(subTotal)) + (parseFloat(taxTotal)) || 0;
+                $tblrow.find('.colAmountIncChange').val(utilityService.modifynegativeCurrencyFormat(totalAmountInc.toFixed(2)));
+                subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotal.toFixed(2));
+            }
+
+            if (!isNaN(taxTotal)) {
+                taxGrandTotal += isNaN(taxTotal) ? 0 : taxTotal;
+                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotal.toFixed(2));
+            }
+
+
+            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal.toFixed(2));
+
+            }
+        });
+
+        if ($(".printID").val() == "") {
+            $printrows.each(function(index) {
+                var $printrow = $(this);
+                var amount = $printrow.find("#lineAmount").text() || "0";
+                var taxcode = $printrow.find("#lineTaxCode").text() || "E";
+
+                var taxrateamount = 0;
+                if (taxcodeList) {
+                    for (var i = 0; i < taxcodeList.length; i++) {
+                        if (taxcodeList[i].codename == taxcode) {
+                            taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100 || 0;
+                        }
+                    }
+                }
+                var subTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) || 0;
+                var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+                $printrow.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal));
+                if (!isNaN(subTotal)) {
+                    $printrow.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
                     subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
                 }
@@ -3685,6 +3802,22 @@ Template.creditcard.events({
             });
         }
 
+
+
+    },
+    'click .th.colAmountEx': function(event) {
+        $('.colAmountEx').addClass('hiddenColumn');
+        $('.colAmountEx').removeClass('showColumn');
+
+        $('.colAmountInc').addClass('showColumn');
+        $('.colAmountInc').removeClass('hiddenColumn');
+    },
+    'click .th.colAmountInc': function(event) {
+        $('.colAmountInc').addClass('hiddenColumn');
+        $('.colAmountInc').removeClass('showColumn');
+
+        $('.colAmountEx').addClass('showColumn');
+        $('.colAmountEx').removeClass('hiddenColumn');
     },
     'click #btnCustomFileds': function(event) {
         var x = document.getElementById("divCustomFields");

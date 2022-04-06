@@ -2461,19 +2461,11 @@ style="margin: 8px;"><i class="fa fa-close" style="margin-right: 5px;"></i>Close
 
                                                                                 {{#if equals item.sVisible true}}
                                                                                     <script>
-                                                                                        $("#" + {
-                                                                                            {
-                                                                                                item.sIndex
-                                                                                            }
-                                                                                        } + ".chkDatatable").attr("checked", "checked");
+                                                                                        $("#" + {{item.sIndex}} + ".chkDatatable").attr("checked", "checked");
                                                                                     </script>
                                                                                 {{else}}
                                                                                     <script>
-                                                                                        $("#" + {
-                                                                                            {
-                                                                                                item.sIndex
-                                                                                            }
-                                                                                        } + ".chkDatatable").removeAttr("checked");
+                                                                                        $("#" + {{item.sIndex}} + ".chkDatatable").removeAttr("checked");
                                                                                     </script>
                                                                                 {{/if}}
 

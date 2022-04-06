@@ -1498,3 +1498,30 @@ authenticatedRoutes.route('/receiptsoverview', {
         });
     }
 });
+
+authenticatedRoutes.route('/tasklist', {
+    name: 'tasklist',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'tasklist'
+        });
+    }
+});
+
+authenticatedRoutes.route('/crmoverview', {
+    name: 'crmoverview',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'crmoverview'
+        });
+    }
+});
+
+authenticatedRoutes.route('/smssettings', {
+    name: 'smssettings',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'smssettings'
+        });
+    }
+});

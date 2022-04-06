@@ -153,7 +153,9 @@ Template.invoicelist.onRendered(function () {
                         let salestatus = data.tinvoicelist[i].QuoteStatus || '';
                         if(data.tinvoicelist[i].Deleted == true){
                           salestatus = "Deleted";
-                        }
+                        }else if(data.tinvoicelist[i].CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tinvoicelist[i].SaleID || '',
                             employee: data.tinvoicelist[i].EmployeeName || '',
@@ -467,7 +469,9 @@ Template.invoicelist.onRendered(function () {
                     let salestatus = data.tinvoicelist[i].QuoteStatus || '';
                     if(data.tinvoicelist[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.tinvoicelist[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tinvoicelist[i].SaleID || '',
                         employee: data.tinvoicelist[i].EmployeeName || '',
@@ -775,7 +779,9 @@ Template.invoicelist.onRendered(function () {
                   let salestatus = data.tinvoicelist[i].QuoteStatus || '';
                   if(data.tinvoicelist[i].Deleted == true){
                     salestatus = "Deleted";
-                  }
+                  }else if(data.tinvoicelist[i].CustomerName == ''){
+                    salestatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.tinvoicelist[i].SaleID || '',
                       employee: data.tinvoicelist[i].EmployeeName || '',
@@ -1133,6 +1139,12 @@ Template.invoicelist.events({
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalAmountInc) || 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalPaid) || 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tinvoiceex[i].fields.TotalBalance) || 0.00;
+                        let salestatus = data.tinvoiceex[i].fields.SalesStatus || '';
+                        if(data.tinvoiceex[i].fields.Deleted == true){
+                          salestatus = "Deleted";
+                        }else if(data.tinvoiceex[i].fields.CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tinvoiceex[i].fields.ID || '',
                             employee: data.tinvoiceex[i].fields.EmployeeName || '',
@@ -1145,7 +1157,7 @@ Template.invoicelist.events({
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.tinvoiceex[i].fields.SalesStatus || '',
+                            salestatus: salestatus || '',
                             custfield1: data.tinvoiceex[i].fields.SaleCustField1 || '',
                             custfield2: data.tinvoiceex[i].fields.SaleCustField2 || '',
                             comments: data.tinvoiceex[i].fields.Comments || '',
@@ -1181,7 +1193,7 @@ Template.invoicelist.events({
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
                                 '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
                                 '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].totaloustanding + '</td>' +
-                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].salestatus + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].salestatus + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +

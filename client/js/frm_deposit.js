@@ -68,15 +68,15 @@ Template.depositcard.onCreated(()=>{
 
     setTimeout(function () {
 
-        var x = window.matchMedia("(max-width: 1024px)")
+        var x = window.matchMedia("(max-width: 1024px)");
 
         function mediaQuery(x) {
             if (x.matches) {
 
                 $("#colDate").removeClass("col-1");
-                $("#colDate").addClass("col-4")
+                $("#colDate").addClass("col-4");
                 $("#colDepartment").removeClass("col-2");
-                $("#colDepartment").addClass("col-4")
+                $("#colDepartment").addClass("col-4");
                 $("#colEntryNo").removeClass("col-2");
                 $("#colEntryNo").addClass("col-4");
                 $("#colMemo").removeClass("col-5");
@@ -84,21 +84,21 @@ Template.depositcard.onCreated(()=>{
 
             }
         }
-        mediaQuery(x)
+        mediaQuery(x);
         x.addListener(mediaQuery)
     }, 10);
 
     setTimeout(function () {
 
-        var x = window.matchMedia("(max-width: 420px)")
+        var x = window.matchMedia("(max-width: 420px)");
 
         function mediaQuery(x) {
             if (x.matches) {
 
                 $("#colDate").removeClass("col-1");
-                $("#colDate").addClass("col-12")
+                $("#colDate").addClass("col-12");
                 $("#colDepartment").removeClass("col-2");
-                $("#colDepartment").addClass("col-12")
+                $("#colDepartment").addClass("col-12");
                 $("#colEntryNo").removeClass("col-2");
                 $("#colEntryNo").addClass("col-12");
                 $("#colMemo").removeClass("col-5");
@@ -106,17 +106,18 @@ Template.depositcard.onCreated(()=>{
 
             }
         }
-        mediaQuery(x)
+        mediaQuery(x);
         x.addListener(mediaQuery)
     }, 10);
 
 });
+
 Template.depositcard.onRendered(()=>{
     let imageData= (localStorage.getItem("Image"));
     if(imageData)
     {
         $('.uploadedImage').attr('src', imageData);
-    };
+    }
     const templateObject = Template.instance();
     const records =[];
     let purchaseService = new PurchaseBoardService();
@@ -132,7 +133,7 @@ Template.depositcard.onRendered(()=>{
 
     const termrecords = [];
     const statusList = [];
-    const newDepositId = '';
+    let newDepositId = '';
 
     templateObject.getAllDepositIds = function () {
         purchaseService.getDepositEntryIds().then(function (data) {
@@ -721,7 +722,7 @@ Template.depositcard.onRendered(()=>{
             let columVisible = false;
             let sClass = "";
             $.each(columns, function(i,v) {
-              if(v.hidden == false){
+              if(v.hidden === false){
                 columVisible =  true;
               }
               if((v.className.includes("hiddenColumn"))){
@@ -749,7 +750,7 @@ Template.depositcard.onRendered(()=>{
       });
 
 
-    }
+    };
 
     // templateObject.getPaymentMetod();
 
@@ -764,7 +765,7 @@ Template.depositcard.onRendered(()=>{
             currentDeposit = parseInt(currentDeposit);
             templateObject.getDepositData = function () {
               getVS1Data('TVS1BankDeposit').then(function (dataObject) {
-              if(dataObject.length == 0){
+              if(dataObject.length === 0){
                 purchaseService.getOneDepositEnrtyData(currentDeposit).then(function (data) {
                     $('.fullScreenSpin').css('display','none');
                     let lineItems = [];
@@ -842,16 +843,16 @@ Template.depositcard.onRendered(()=>{
 
 
                                         $(""+columHeaderUpdate+"").html(columData);
-                                        if(columnWidth != 0){
+                                        if(columnWidth !== 0){
                                             $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
                                         }
 
-                                        if(hiddenColumn == true){
+                                        if(hiddenColumn === true){
 
                                             $("."+columnClass+"").addClass('hiddenColumn');
                                             $("."+columnClass+"").removeClass('showColumn');
                                             $(".chk"+columnClass+"").removeAttr('checked');
-                                        }else if(hiddenColumn == false){
+                                        }else if(hiddenColumn === false){
                                             $("."+columnClass+"").removeClass('hiddenColumn');
                                             $("."+columnClass+"").addClass('showColumn');
                                             $(".chk"+columnClass+"").attr('checked','checked');
@@ -962,16 +963,16 @@ Template.depositcard.onRendered(()=>{
 
 
                                   $(""+columHeaderUpdate+"").html(columData);
-                                  if(columnWidth != 0){
+                                  if(columnWidth !== 0){
                                       $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
                                   }
 
-                                  if(hiddenColumn == true){
+                                  if(hiddenColumn === true){
 
                                       $("."+columnClass+"").addClass('hiddenColumn');
                                       $("."+columnClass+"").removeClass('showColumn');
                                       $(".chk"+columnClass+"").removeAttr('checked');
-                                  }else if(hiddenColumn == false){
+                                  }else if(hiddenColumn === false){
                                       $("."+columnClass+"").removeClass('hiddenColumn');
                                       $("."+columnClass+"").addClass('showColumn');
                                       $(".chk"+columnClass+"").attr('checked','checked');
@@ -1064,16 +1065,16 @@ Template.depositcard.onRendered(()=>{
 
 
                                           $(""+columHeaderUpdate+"").html(columData);
-                                          if(columnWidth != 0){
+                                          if(columnWidth !== 0){
                                               $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
                                           }
 
-                                          if(hiddenColumn == true){
+                                          if(hiddenColumn === true){
 
                                               $("."+columnClass+"").addClass('hiddenColumn');
                                               $("."+columnClass+"").removeClass('showColumn');
                                               $(".chk"+columnClass+"").removeAttr('checked');
-                                          }else if(hiddenColumn == false){
+                                          }else if(hiddenColumn === false){
                                               $("."+columnClass+"").removeClass('hiddenColumn');
                                               $("."+columnClass+"").addClass('showColumn');
                                               $(".chk"+columnClass+"").attr('checked','checked');
@@ -1182,16 +1183,16 @@ Template.depositcard.onRendered(()=>{
 
 
                                       $(""+columHeaderUpdate+"").html(columData);
-                                      if(columnWidth != 0){
+                                      if(columnWidth !== 0){
                                           $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
                                       }
 
-                                      if(hiddenColumn == true){
+                                      if(hiddenColumn === true){
 
                                           $("."+columnClass+"").addClass('hiddenColumn');
                                           $("."+columnClass+"").removeClass('showColumn');
                                           $(".chk"+columnClass+"").removeAttr('checked');
-                                      }else if(hiddenColumn == false){
+                                      }else if(hiddenColumn === false){
                                           $("."+columnClass+"").removeClass('hiddenColumn');
                                           $("."+columnClass+"").addClass('showColumn');
                                           $(".chk"+columnClass+"").attr('checked','checked');
@@ -1238,18 +1239,17 @@ Template.depositcard.onRendered(()=>{
         let lineItemsTable = [];
         let lineItemObj = {};
 
-
-            lineItemObj = {
-                lineID :Random.id(),
-                id: '',
-               accountname:'',
-               accountno: '',
-               memo:'',
-               lineamount:  0,
-               companyname:'',
-               paymentmethod: ''
-            };
-            lineItems.push(lineItemObj);
+        lineItemObj = {
+            lineID :Random.id(),
+            id: '',
+           accountname:'',
+           accountno: '',
+           memo:'',
+           lineamount:  0,
+           companyname:'',
+           paymentmethod: ''
+        };
+        lineItems.push(lineItemObj);
 
         var currentDate = new Date();
         var begunDate = moment(currentDate).format("DD/MM/YYYY");
@@ -1284,14 +1284,14 @@ Template.depositcard.onRendered(()=>{
                             let columnWidth = customcolumn[i].width;
 
                             $(""+columHeaderUpdate+"").html(columData);
-                            if(columnWidth != 0){
+                            if(columnWidth !== 0){
                                 $(""+columHeaderUpdate+"").css('width',columnWidth+'%');
                             }
-                            if(hiddenColumn == true){
+                            if(hiddenColumn === true){
                                 $("."+columnClass+"").addClass('hiddenColumn');
                                 $("."+columnClass+"").removeClass('showColumn');
                                 $(".chk"+columnClass+"").removeAttr('checked');
-                            }else if(hiddenColumn == false){
+                            }else if(hiddenColumn === false){
                                 $("."+columnClass+"").removeClass('hiddenColumn');
                                 $("."+columnClass+"").addClass('showColumn');
                                 $(".chk"+columnClass+"").attr('checked','checked');
@@ -1358,7 +1358,7 @@ Template.depositcard.onRendered(()=>{
           let accountname = table.find(".productName").text();
           $('#accountListModal').modal('toggle');
           $('#sltAccountName').val(accountname);
-          if($tblrows.find(".lineAccountName").val() == ''){
+          if($tblrows.find(".lineAccountName").val() === ''){
               $tblrows.find(".colAccount").addClass('boldtablealertsborder');
           }
         }
@@ -1429,7 +1429,7 @@ Template.depositcard.onRendered(()=>{
                 var taxrateamount = 0;
                 if(taxcodeList){
                     for (var i = 0; i < taxcodeList.length; i++) {
-                        if(taxcodeList[i].codename == taxcode){
+                        if(taxcodeList[i].codename === taxcode){
 
                             taxrateamount = taxcodeList[i].coderate;
 
@@ -1439,7 +1439,7 @@ Template.depositcard.onRendered(()=>{
 
 
                 var subTotal =  parseFloat(amount.replace(/[^0-9.-]+/g,"")) || 0;
-                if((taxrateamount == '') ||(taxrateamount == ' ')){
+                if((taxrateamount === '') ||(taxrateamount === ' ')){
                     var taxTotal = 0;
                 }else{
                     var taxTotal = parseFloat(amount.replace(/[^0-9.-]+/g,"")) * parseFloat(taxrateamount);
@@ -1486,9 +1486,9 @@ Template.depositcard.onRendered(()=>{
             $('#tblAccountlist_filter .form-control-sm').trigger("input");
         }, 500);
        }else{
-         if(accountDataName.replace(/\s/g, '') != ''){
+         if(accountDataName.replace(/\s/g, '') !== ''){
            getVS1Data('TAccountVS1').then(function (dataObject) {
-               if (dataObject.length == 0) {
+               if (dataObject.length === 0) {
                  accountService.getOneAccountByName(accountDataName).then(function (data) {
                    let lineItems = [];
                    let lineItemObj = {};
@@ -1558,7 +1558,7 @@ Template.depositcard.onRendered(()=>{
                     $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
                     $('#edtCvc').val(cardcvc);
 
-                    if(showTrans == 'true'){
+                    if(showTrans === 'true'){
                         $('.showOnTransactions').prop('checked', true);
                     }else{
                       $('.showOnTransactions').prop('checked', false);
@@ -1649,7 +1649,7 @@ Template.depositcard.onRendered(()=>{
                 $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
                 $('#edtCvc').val(cardcvc);
 
-                if(showTrans == 'true'){
+                if(showTrans === 'true'){
                     $('.showOnTransactions').prop('checked', true);
                 }else{
                   $('.showOnTransactions').prop('checked', false);
@@ -1731,7 +1731,7 @@ Template.depositcard.onRendered(()=>{
                         $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
                         $('#edtCvc').val(cardcvc);
 
-                        if(showTrans == 'true'){
+                        if(showTrans === 'true'){
                             $('.showOnTransactions').prop('checked', true);
                         }else{
                           $('.showOnTransactions').prop('checked', false);
@@ -1817,7 +1817,7 @@ Template.depositcard.onRendered(()=>{
                 $('#edtExpiryDate').val(cardexpiry ? moment(cardexpiry).format('DD/MM/YYYY') : "");
                 $('#edtCvc').val(cardcvc);
 
-                if(showTrans == 'true'){
+                if(showTrans === 'true'){
                     $('.showOnTransactions').prop('checked', true);
                 }else{
                   $('.showOnTransactions').prop('checked', false);
@@ -1942,32 +1942,27 @@ Template.depositcard.onRendered(function(){
                   });
 
                   $('div.dataTables_filter input').addClass('form-control form-control-sm');
-
-
-
-
-
-
               }
           });
         }else{
-          let data = JSON.parse(dataObject[0].data);
-          let useData = data.taccountvs1;
+            let data = JSON.parse(dataObject[0].data);
+            let useData = data.taccountvs1;
 
-          let records = [];
-          let inventoryData = [];
-          for(let i=0; i<useData.length; i++){
-            if (!isNaN(useData[i].fields.Balance)) {
-               accBalance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Balance)|| 0.00;
-            }else{
-               accBalance = Currency + "0.00";
-            }
-            let accountnamerecordObj = {
-              accountname: useData[i].fields.AccountName || ' '
+            let records = [];
+            let inventoryData = [];
+            for(let i=0; i<useData.length; i++){
+                var accBalance = "";
+                if (!isNaN(useData[i].fields.Balance)) {
+                    accBalance = utilityService.modifynegativeCurrencyFormat(useData[i].fields.Balance)|| 0.00;
+                }else{
+                    accBalance = Currency + "0.00";
+                }
+                let accountnamerecordObj = {
+                accountname: useData[i].fields.AccountName || ' '
             };
 
-            if(useData[i].fields.AccountTypeName ==  "BANK" || useData[i].fields.AccountTypeName.toUpperCase() == "CCARD" || useData[i].fields.AccountTypeName.toUpperCase() == "OCLIAB"){
-              accountnamerecords.push(accountnamerecordObj);
+            if(useData[i].fields.AccountTypeName ===  "BANK" || useData[i].fields.AccountTypeName.toUpperCase() === "CCARD" || useData[i].fields.AccountTypeName.toUpperCase() === "OCLIAB"){
+            accountnamerecords.push(accountnamerecordObj);
             }
               var dataList = [
                   useData[i].fields.AccountName || '-',
@@ -2881,7 +2876,6 @@ Template.depositcard.events({
         var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length-1];
-        var objDetails = '';
         if(getso_id[1]){
             currentInvoice = parseInt(currentInvoice);
             var objDetails = {
@@ -2979,7 +2973,7 @@ Template.depositcard.events({
             swal('Account has not been selected!', '', 'warning');
             e.preventDefault();
         }else {
-          if($('#depositTotal').val().replace(/[^0-9.-]+/g,"")!= $('#depositTotalLine').text().replace(/[^0-9.-]+/g,"")){
+          if($('#depositTotal').val().replace(/[^0-9.-]+/g,"")!== $('#depositTotalLine').text().replace(/[^0-9.-]+/g,"")){
 
               swal({
                   title: 'Total Deposit does not equal Total Deposited!',
@@ -2991,7 +2985,7 @@ Template.depositcard.events({
               }).then((result) => {
                   if (result.value) {
                     $('.fullScreenSpin').css('display','inline-block');
-                    var splashLineArray = new Array();
+                    var splashLineArray = [];
                     let lineItemsForm = [];
                     let lineItemObjForm = {};
                     let tdtaxCode = "";
@@ -3015,7 +3009,7 @@ Template.depositcard.events({
                             let tdamount = $('#'+lineID+" .colAmount").val();
                             let erpLineID = $('#'+lineID+" .lineAccountName").attr('lineid');
 
-                            if (tdaccount != "") {
+                            if (tdaccount !== "") {
                                 lineItemObjForm = {
                                     type:"TBankDepositLines",
                                     fields:
@@ -3063,7 +3057,7 @@ Template.depositcard.events({
                           let tdamount = $('#'+lineID+" .colAmount").val();
                           let erpLineID = $('#'+lineID+" .lineAccountName").attr('lineid');
 
-                          if (tdaccount != "") {
+                          if (tdaccount !== "") {
                               lineItemObjForm = {
                                   type:"TBankDepositLines",
                                   fields:

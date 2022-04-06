@@ -857,7 +857,8 @@ Template.customerlistpop.onRendered(function () {
                                                         dataObjectnew.tcustomervs1[j].fields.Discount || 0,
                                                         dataObjectnew.tcustomervs1[j].fields.TermsName || '',
                                                         dataObjectnew.tcustomervs1[j].fields.FirstName || '',
-                                                        dataObjectnew.tcustomervs1[j].fields.LastName || ''
+                                                        dataObjectnew.tcustomervs1[j].fields.LastName || '',
+                                                        dataObjectnew.tcustomervs1[j].fields.TaxCodeName || 'E'
                                                     ];
 
                                                     splashArrayCustomerList.push(dataListCustomerDupp);

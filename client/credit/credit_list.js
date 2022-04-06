@@ -85,6 +85,9 @@ Template.creditlist.onRendered(function() {
         $('td').each(function(){
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
@@ -128,6 +131,12 @@ Template.creditlist.onRendered(function() {
                       let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].TotalAmountInc)|| 0.00;
                       let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].Payment)|| 0.00;
                       let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].Balance)|| 0.00;
+                      let orderstatus = data.tcreditlist[i].OrderStatus || '';
+                      if(data.tcreditlist[i].Deleted == true){
+                        orderstatus = "Deleted";
+                      }else if(data.tcreditlist[i].SupplierName == ''){
+                        orderstatus = "Deleted";
+                      };
                       var dataList = {
                           id: data.tcreditlist[i].PurchaseOrderID || '',
                           employee:data.tcreditlist[i].EmployeeName || '',
@@ -139,7 +148,7 @@ Template.creditlist.onRendered(function() {
                           totalamount: totalAmount || 0.00,
                           totalpaid: totalPaid || 0.00,
                           totaloustanding: totalOutstanding || 0.00,
-                          orderstatus: data.tcreditlist[i].OrderStatus || '',
+                          orderstatus: orderstatus || '',
                           custfield1: '' || '',
                           custfield2: '' || '',
                           comments: data.tcreditlist[i].Comments || '',
@@ -401,8 +410,13 @@ Template.creditlist.onRendered(function() {
                   $('div.dataTables_filter input').addClass('form-control form-control-sm');
                   $('#tblcreditlist tbody').on( 'click', 'tr', function () {
                       var listData = $(this).closest('tr').attr('id');
+                      var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                       if(listData){
+                        if(checkDeleted == "Deleted"){
+                          swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                        }else{
                           FlowRouter.go('/creditcard?id=' + listData);
+                        }
                       }
                   });
 
@@ -431,6 +445,12 @@ Template.creditlist.onRendered(function() {
                     let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].TotalAmountInc)|| 0.00;
                     let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].Payment)|| 0.00;
                     let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].Balance)|| 0.00;
+                    let orderstatus = data.tcreditlist[i].OrderStatus || '';
+                    if(data.tcreditlist[i].Deleted == true){
+                      orderstatus = "Deleted";
+                    }else if(data.tcreditlist[i].SupplierName == ''){
+                      orderstatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tcreditlist[i].PurchaseOrderID || '',
                         employee:data.tcreditlist[i].EmployeeName || '',
@@ -442,7 +462,7 @@ Template.creditlist.onRendered(function() {
                         totalamount: totalAmount || 0.00,
                         totalpaid: totalPaid || 0.00,
                         totaloustanding: totalOutstanding || 0.00,
-                        orderstatus: data.tcreditlist[i].OrderStatus || '',
+                        orderstatus: orderstatus || '',
                         custfield1: '' || '',
                         custfield2: '' || '',
                         comments: data.tcreditlist[i].Comments || '',
@@ -704,8 +724,13 @@ Template.creditlist.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblcreditlist tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/creditcard?id=' + listData);
+                      }
                     }
                 });
 
@@ -729,6 +754,12 @@ Template.creditlist.onRendered(function() {
                   let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].TotalAmountInc)|| 0.00;
                   let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].Payment)|| 0.00;
                   let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcreditlist[i].Balance)|| 0.00;
+                  let orderstatus = data.tcreditlist[i].OrderStatus || '';
+                  if(data.tcreditlist[i].Deleted == true){
+                    orderstatus = "Deleted";
+                  }else if(data.tcreditlist[i].SupplierName == ''){
+                    orderstatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.tcreditlist[i].PurchaseOrderID || '',
                       employee:data.tcreditlist[i].EmployeeName || '',
@@ -740,7 +771,7 @@ Template.creditlist.onRendered(function() {
                       totalamount: totalAmount || 0.00,
                       totalpaid: totalPaid || 0.00,
                       totaloustanding: totalOutstanding || 0.00,
-                      orderstatus: data.tcreditlist[i].OrderStatus || '',
+                      orderstatus: orderstatus || '',
                       custfield1: '' || '',
                       custfield2: '' || '',
                       comments: data.tcreditlist[i].Comments || '',
@@ -1002,8 +1033,13 @@ Template.creditlist.onRendered(function() {
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
               $('#tblcreditlist tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
+                  var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                   if(listData){
+                    if(checkDeleted == "Deleted"){
+                      swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                    }else{
                       FlowRouter.go('/creditcard?id=' + listData);
+                    }
                   }
               });
 
@@ -1098,6 +1134,12 @@ Template.creditlist.events({
                   let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalAmountInc)|| 0.00;
                   let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalPaid)|| 0.00;
                   let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcredit[i].fields.TotalBalance)|| 0.00;
+                  let orderstatus = data.tcredit[i].fields.OrderStatus || '';
+                  if(data.tcredit[i].fields.Deleted == true){
+                    orderstatus = "Deleted";
+                  }else if(data.tcredit[i].fields.CustomerName == ''){
+                    orderstatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.tcredit[i].fields.ID || '',
                       employee:data.tcredit[i].fields.EmployeeName || '',
@@ -1109,7 +1151,7 @@ Template.creditlist.events({
                       totalamount: totalAmount || 0.00,
                       totalpaid: totalPaid || 0.00,
                       totaloustanding: totalOutstanding || 0.00,
-                      orderstatus: data.tcredit[i].fields.OrderStatus || '',
+                      orderstatus: orderstatus || '',
                       custfield1: '' || '',
                       custfield2: '' || '',
                       comments: data.tcredit[i].fields.Comments || '',
@@ -1138,7 +1180,7 @@ Template.creditlist.events({
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
                                 '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
                                 '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].totaloustanding + '</td>' +
-                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].orderstatus + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].orderstatus + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +

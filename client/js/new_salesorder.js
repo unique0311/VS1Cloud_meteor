@@ -2388,15 +2388,16 @@ Template.new_salesorder.onRendered(() => {
                                         item: data.fields.Lines[i].fields.ProductName || '',
                                         description: data.fields.Lines[i].fields.ProductDescription || '',
                                         quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                        unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
@@ -2426,15 +2427,16 @@ Template.new_salesorder.onRendered(() => {
                                     id: data.fields.Lines.fields.ID || '',
                                     description: data.fields.Lines.fields.ProductDescription || '',
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines.fields.LinePrice.toLocaleString(undefined, {
-                                        minimumFractionDigits: 2
-                                    }) || 0,
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                     lineCost: data.fields.Lines.fields.LineCost.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     taxRate: data.fields.Lines.fields.LineTaxRate || 0,
                                     taxCode: data.fields.Lines.fields.LineTaxCode || '',
-                                    TotalAmt: AmountGbp || 0,
+                                    //TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0
@@ -2725,15 +2727,16 @@ Template.new_salesorder.onRendered(() => {
                                             item: useData[d].fields.Lines[i].fields.ProductName || '',
                                             description: useData[d].fields.Lines[i].fields.ProductDescription || '',
                                             quantity: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
-                                            unitPrice: currencySymbol + '' + useData[d].fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
-                                            TotalAmt: AmountGbp || 0,
+                                            //TotalAmt: AmountGbp || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
@@ -2766,15 +2769,16 @@ Template.new_salesorder.onRendered(() => {
                                         id: useData[d].fields.Lines.fields.ID || '',
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: useData[d].fields.Lines.fields.LinePrice.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: useData[d].fields.Lines.fields.LineCost.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: useData[d].fields.Lines.fields.LineTaxRate || 0,
                                         taxCode: useData[d].fields.Lines.fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0
@@ -3003,15 +3007,16 @@ Template.new_salesorder.onRendered(() => {
                                                 item: data.fields.Lines[i].fields.ProductName || '',
                                                 description: data.fields.Lines[i].fields.ProductDescription || '',
                                                 quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2
-                                                }) || 0,
+                                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                                 lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                                     minimumFractionDigits: 2
                                                 }) || 0,
                                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                                TotalAmt: AmountGbp || 0,
+                                                //TotalAmt: AmountGbp || 0,
                                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                                 TaxTotal: TaxTotalGbp || 0,
                                                 TaxRate: TaxRateGbp || 0,
@@ -3042,15 +3047,16 @@ Template.new_salesorder.onRendered(() => {
                                             id: data.fields.Lines.fields.ID || '',
                                             description: data.fields.Lines.fields.ProductDescription || '',
                                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                            unitPrice: data.fields.Lines.fields.LinePrice.toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: data.fields.Lines.fields.LineCost.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: data.fields.Lines.fields.LineTaxRate || 0,
                                             taxCode: data.fields.Lines.fields.LineTaxCode || '',
-                                            TotalAmt: AmountGbp || 0,
+                                            //TotalAmt: AmountGbp || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0
@@ -3288,15 +3294,16 @@ Template.new_salesorder.onRendered(() => {
                                     item: data.fields.Lines[i].fields.ProductName || '',
                                     description: data.fields.Lines[i].fields.ProductDescription || '',
                                     quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                    unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                        minimumFractionDigits: 2
-                                    }) || 0,
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                     lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                    TotalAmt: AmountGbp || 0,
+                                    //TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0,
@@ -3327,15 +3334,16 @@ Template.new_salesorder.onRendered(() => {
                                 id: data.fields.Lines.fields.ID || '',
                                 description: data.fields.Lines.fields.ProductDescription || '',
                                 quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                unitPrice: data.fields.Lines.fields.LinePrice.toLocaleString(undefined, {
-                                    minimumFractionDigits: 2
-                                }) || 0,
+                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                 lineCost: data.fields.Lines.fields.LineCost.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 taxRate: data.fields.Lines.fields.LineTaxRate || 0,
                                 taxCode: data.fields.Lines.fields.LineTaxCode || '',
-                                TotalAmt: AmountGbp || 0,
+                                //TotalAmt: AmountGbp || 0,
                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                 TaxTotal: TaxTotalGbp || 0,
                                 TaxRate: TaxRateGbp || 0
@@ -3734,15 +3742,16 @@ Template.new_salesorder.onRendered(() => {
                                 item: data.fields.Lines[i].fields.ProductName || '',
                                 description: data.fields.Lines[i].fields.ProductDescription || '',
                                 quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                    minimumFractionDigits: 2
-                                }) || 0,
+                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                 lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                TotalAmt: AmountGbp || 0,
+                                //TotalAmt: AmountGbp || 0,
                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                 TaxTotal: TaxTotalGbp || 0,
                                 TaxRate: TaxRateGbp || 0,
@@ -3773,15 +3782,16 @@ Template.new_salesorder.onRendered(() => {
                             id: data.fields.Lines.fields.ID || '',
                             description: data.fields.Lines.fields.ProductDescription || '',
                             quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                            unitPrice: data.fields.Lines.fields.LinePrice.toLocaleString(undefined, {
-                                minimumFractionDigits: 2
-                            }) || 0,
+                            unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                            TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                             lineCost: data.fields.Lines.fields.LineCost.toLocaleString(undefined, {
                                 minimumFractionDigits: 2
                             }) || 0,
                             taxRate: data.fields.Lines.fields.LineTaxRate || 0,
                             taxCode: data.fields.Lines.fields.LineTaxCode || '',
-                            TotalAmt: AmountGbp || 0,
+                            //TotalAmt: AmountGbp || 0,
                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                             TaxTotal: TaxTotalGbp || 0,
                             TaxRate: TaxRateGbp || 0
@@ -4033,15 +4043,16 @@ Template.new_salesorder.onRendered(() => {
                                         item: data.fields.Lines[i].fields.ProductName || '',
                                         description: data.fields.Lines[i].fields.ProductDescription || '',
                                         quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                        unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0,
@@ -4072,15 +4083,16 @@ Template.new_salesorder.onRendered(() => {
                                     id: data.fields.Lines.fields.ID || '',
                                     description: data.fields.Lines.fields.ProductDescription || '',
                                     quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                    unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                        minimumFractionDigits: 2
-                                    }) || 0,
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                     lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                    TotalAmt: AmountGbp || 0,
+                                    //TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0
@@ -4322,15 +4334,16 @@ Template.new_salesorder.onRendered(() => {
                                             item: useData[d].fields.Lines[i].fields.ProductName || '',
                                             description: useData[d].fields.Lines[i].fields.ProductDescription || '',
                                             quantity: useData[d].fields.Lines[i].fields.UOMOrderQty || 0,
-                                            unitPrice: currencySymbol + '' + useData[d].fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                                minimumFractionDigits: 2
-                                            }) || 0,
+                                            unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmt: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                            TotalAmtInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                             lineCost: currencySymbol + '' + useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2
                                             }) || 0,
                                             taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                             taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
-                                            TotalAmt: AmountGbp || 0,
+                                            //TotalAmt: AmountGbp || 0,
                                             curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                             TaxTotal: TaxTotalGbp || 0,
                                             TaxRate: TaxRateGbp || 0,
@@ -4361,15 +4374,16 @@ Template.new_salesorder.onRendered(() => {
                                         id: useData[d].fields.Lines.fields.ID || '',
                                         description: useData[d].fields.Lines.fields.ProductDescription || '',
                                         quantity: useData[d].fields.Lines.fields.UOMOrderQty || 0,
-                                        unitPrice: useData[d].fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2
-                                        }) || 0,
+                                        unitPrice: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        unitPriceInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmt: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                        TotalAmtInc: utilityService.modifynegativeCurrencyFormat(useData[d].fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                         lineCost: useData[d].fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                             minimumFractionDigits: 2
                                         }) || 0,
                                         taxRate: (useData[d].fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                         taxCode: useData[d].fields.Lines[i].fields.LineTaxCode || '',
-                                        TotalAmt: AmountGbp || 0,
+                                        //TotalAmt: AmountGbp || 0,
                                         curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                         TaxTotal: TaxTotalGbp || 0,
                                         TaxRate: TaxRateGbp || 0
@@ -4595,15 +4609,16 @@ Template.new_salesorder.onRendered(() => {
                                     item: data.fields.Lines[i].fields.ProductName || '',
                                     description: data.fields.Lines[i].fields.ProductDescription || '',
                                     quantity: data.fields.Lines[i].fields.UOMOrderQty || 0,
-                                    unitPrice: currencySymbol + '' + data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                        minimumFractionDigits: 2
-                                    }) || 0,
+                                    unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                    TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                     lineCost: currencySymbol + '' + data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                         minimumFractionDigits: 2
                                     }) || 0,
                                     taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                     taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                    TotalAmt: AmountGbp || 0,
+                                    //TotalAmt: AmountGbp || 0,
                                     curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                     TaxTotal: TaxTotalGbp || 0,
                                     TaxRate: TaxRateGbp || 0,
@@ -4634,15 +4649,16 @@ Template.new_salesorder.onRendered(() => {
                                 id: data.fields.Lines.fields.ID || '',
                                 description: data.fields.Lines.fields.ProductDescription || '',
                                 quantity: data.fields.Lines.fields.UOMOrderQty || 0,
-                                unitPrice: data.fields.Lines[i].fields.LinePrice.toLocaleString(undefined, {
-                                    minimumFractionDigits: 2
-                                }) || 0,
+                                unitPrice: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePrice).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                unitPriceInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.OriginalLinePriceInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                TotalAmt: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmount).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
+                                TotalAmtInc: utilityService.modifynegativeCurrencyFormat(data.fields.Lines[i].fields.TotalLineAmountInc).toLocaleString(undefined, { minimumFractionDigits: 2 }) || 0,
                                 lineCost: data.fields.Lines[i].fields.LineCost.toLocaleString(undefined, {
                                     minimumFractionDigits: 2
                                 }) || 0,
                                 taxRate: (data.fields.Lines[i].fields.LineTaxRate * 100).toFixed(2) || 0,
                                 taxCode: data.fields.Lines[i].fields.LineTaxCode || '',
-                                TotalAmt: AmountGbp || 0,
+                                //TotalAmt: AmountGbp || 0,
                                 curTotalAmt: currencyAmountGbp || currencySymbol + '0',
                                 TaxTotal: TaxTotalGbp || 0,
                                 TaxRate: TaxRateGbp || 0
@@ -4798,9 +4814,11 @@ Template.new_salesorder.onRendered(() => {
             description: '',
             quantity: '',
             unitPrice: 0,
+            unitPriceInc:0,
+            TotalAmt: 0,
+            TotalAmtInc: 0,
             taxRate: '',
             taxCode: '',
-            TotalAmt: 0,
             curTotalAmt: 0,
             TaxTotal: 0,
             TaxRate: 0,
@@ -5207,7 +5225,7 @@ Template.new_salesorder.onRendered(() => {
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxRate = $tblrow.find(".lineTaxCode").val();
 
                 var taxrateamount = 0;
@@ -5238,8 +5256,15 @@ Template.new_salesorder.onRendered(() => {
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                     subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                     subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -5333,7 +5358,7 @@ Template.new_salesorder.onRendered(() => {
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxRate = $tblrow.find(".lineTaxCode").val();
 
                 var taxrateamount = 0;
@@ -5364,8 +5389,15 @@ Template.new_salesorder.onRendered(() => {
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                     subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                     subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -5420,7 +5452,7 @@ Template.new_salesorder.onRendered(() => {
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                     //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -5518,7 +5550,7 @@ Template.new_salesorder.onRendered(() => {
                     $tblrows.each(function(index) {
                         var $tblrow = $(this);
                         var qty = $tblrow.find(".lineQty").val() || 0;
-                        var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                        var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                         var taxRate = $tblrow.find(".lineTaxCode").val();
                         if ($tblrow.find(".lineProductName").val() == '') {
                             $tblrow.find(".colProductName").addClass('boldtablealertsborder');
@@ -5551,8 +5583,15 @@ Template.new_salesorder.onRendered(() => {
                         }
                         $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
+                        let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                        let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                        let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                        $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                        $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                         if (!isNaN(subTotal)) {
-                            $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                          $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                          $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                             subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                             subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                             document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -6460,7 +6499,7 @@ Template.new_salesorder.onRendered(() => {
             let tdproduct = $('#' + lineID + " .lineProductName").val();
             let tddescription = $('#' + lineID + " .lineProductDesc").text();
             let tdQty = $('#' + lineID + " .lineQty").val();
-            let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+            let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
             let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
             let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
             let tdlineamt = $('#' + lineID + " .lineAmt").text();
@@ -7391,7 +7430,7 @@ Template.new_salesorder.events({
         $tblrows.each(function(index) {
             var $tblrow = $(this);
             var qty = $tblrow.find(".lineQty").val() || 0;
-            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
             var taxRate = $tblrow.find(".lineTaxCode").val();
 
             var taxrateamount = 0;
@@ -7422,8 +7461,15 @@ Template.new_salesorder.events({
             }
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
+            let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+            let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+            let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+            $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+            $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
             if (!isNaN(subTotal)) {
-                $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+              $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+              $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                 subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                 subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                 document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -7478,7 +7524,7 @@ Template.new_salesorder.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                     document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -7487,7 +7533,7 @@ Template.new_salesorder.events({
         }
         //}
     },
-    'change .lineUnitPrice': function(event) {
+    'change .colUnitPriceExChange': function(event) {
 
         let utilityService = new UtilityService();
         if (!isNaN($(event.target).val())) {
@@ -7515,14 +7561,14 @@ Template.new_salesorder.events({
         let taxGrandTotalPrint = 0;
 
         //if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
-        $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .lineUnitPrice").val());
+        $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .colUnitPriceExChange").val());
         //}
         let subGrandTotalNet = 0;
         let taxGrandTotalNet = 0;
         $tblrows.each(function(index) {
             var $tblrow = $(this);
             var qty = $tblrow.find(".lineQty").val() || 0;
-            var price = $tblrow.find(".lineUnitPrice").val() || 0;
+            var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
             var taxRate = $tblrow.find(".lineTaxCode").val();
 
             var taxrateamount = 0;
@@ -7553,8 +7599,15 @@ Template.new_salesorder.events({
             }
             $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
+            let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+            let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+            let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+            $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+            $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
             if (!isNaN(subTotal)) {
-                $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+              $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+              $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                 subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                 subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                 document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -7609,13 +7662,178 @@ Template.new_salesorder.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                     document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
                 }
             });
         }
+    },
+    'change .colUnitPriceIncChange': function (event) {
+
+        let utilityService = new UtilityService();
+        let inputUnitPrice = 0;
+        if (!isNaN($(event.target).val())) {
+            inputUnitPrice = parseFloat($(event.target).val()) || 0;
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+        } else {
+            inputUnitPrice = Number($(event.target).val().replace(/[^0-9.-]+/g, "")) || 0;
+
+            $(event.target).val(utilityService.modifynegativeCurrencyFormat(inputUnitPrice));
+
+        }
+        let templateObject = Template.instance();
+        let taxcodeList = templateObject.taxraterecords.get();
+        let $tblrows = $("#tblSalesOrderLine tbody tr");
+        let $printrows = $(".sales_print tbody tr");
+        var targetID = $(event.target).closest('tr').attr('id'); // table row ID
+        let lineAmount = 0;
+        let subGrandTotal = 0;
+        let taxGrandTotal = 0;
+        let subDiscountTotal = 0; // New Discount
+        let taxGrandTotalPrint = 0;
+
+        let subGrandTotalNet = 0;
+        let taxGrandTotalNet = 0;
+        $tblrows.each(function (index) {
+            var $tblrow = $(this);
+            var qty = $tblrow.find(".lineQty").val() || 0;
+            var price = $tblrow.find(".colUnitPriceIncChange").val() || 0;
+            var taxRate = $tblrow.find(".lineTaxCode").val();
+
+            var taxrateamount = 0;
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxRate) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "");
+                    }
+                }
+            }
+
+            let taxRateAmountCalc = (parseFloat(taxrateamount) + 100)/100;
+
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc) || 0;
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotal) ||0;
+
+            var subTotalExQty = (parseFloat(price.replace(/[^0-9.-]+/g, "")) / (taxRateAmountCalc)) || 0;
+            var taxTotalExQty = parseFloat(price.replace(/[^0-9.-]+/g, "")) - parseFloat(subTotalExQty) ||0;
+
+            var lineDiscountPerc = parseFloat($tblrow.find(".lineDiscount").text()) || 0; // New Discount
+            let lineTotalAmount = subTotal + taxTotal;
+
+            let lineDiscountTotal = lineDiscountPerc / 100;
+
+            var discountTotal = lineTotalAmount * lineDiscountTotal;
+            var subTotalWithDiscount = subTotal * lineDiscountTotal || 0;
+            var subTotalWithDiscountTotalLine = subTotal - subTotalWithDiscount || 0;
+            var taxTotalWithDiscount = taxTotal * lineDiscountTotal || 0;
+            var taxTotalWithDiscountTotalLine = taxTotal - taxTotalWithDiscount;
+            if (!isNaN(discountTotal)) {
+                subDiscountTotal += isNaN(discountTotal) ? 0 : discountTotal;
+
+                document.getElementById("subtotal_discount").innerHTML = utilityService.modifynegativeCurrencyFormat(subDiscountTotal);
+            }
+            $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
+
+            let lineUnitPriceIncVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+            let lineUnitPriceExVal = lineUnitPriceIncVal - taxTotalExQty||0;
+            $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+            $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
+            if (!isNaN(subTotal)) {
+              $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+              $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
+                subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
+                subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
+                document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
+            }
+
+            if (!isNaN(taxTotal)) {
+                taxGrandTotal += isNaN(taxTotalWithDiscountTotalLine) ? 0 : taxTotalWithDiscountTotalLine;
+                taxGrandTotalNet += isNaN(taxTotal) ? 0 : taxTotal;
+                document.getElementById("subtotal_tax").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotalNet);
+            }
+
+            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                let GrandTotalNet = (parseFloat(subGrandTotalNet)) + (parseFloat(taxGrandTotalNet));
+                document.getElementById("subtotal_nett").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotalNet);
+                document.getElementById("grandTotal").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("totalBalanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+
+            }
+        });
+
+        $('#' + targetID + " #lineUnitPrice").text($('#' + targetID + " .colUnitPriceExChange").val());
+
+        //if ($('.printID').attr('id') != undefined || $('.printID').attr('id') != "") {
+        $printrows.each(function (index) {
+            var $printrows = $(this);
+            var qty = $printrows.find("#lineQty").text() || 0;
+            var price = $printrows.find("#lineUnitPrice").text() || "0";
+            var taxrateamount = 0;
+            var taxRate = $printrows.find("#lineTaxCode").text();
+            if (taxcodeList) {
+                for (var i = 0; i < taxcodeList.length; i++) {
+                    if (taxcodeList[i].codename == taxRate) {
+                        taxrateamount = taxcodeList[i].coderate.replace('%', "") / 100;
+                    }
+                }
+            }
+
+            var subTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) || 0;
+            var taxTotal = parseFloat(qty, 10) * Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount);
+            $printrows.find('#lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotal))
+            if (!isNaN(subTotal)) {
+                $printrows.find('#lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                subGrandTotal += isNaN(subTotal) ? 0 : subTotal;
+                document.getElementById("subtotal_totalPrint").innerHTML = $('#subtotal_total').text();
+            }
+
+            if (!isNaN(taxTotal)) {
+                taxGrandTotalPrint += isNaN(taxTotal) ? 0 : taxTotal;
+                document.getElementById("totalTax_totalPrint").innerHTML = utilityService.modifynegativeCurrencyFormat(taxGrandTotalPrint);
+            }
+            if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
+                let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
+                document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
+                // document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                //document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
+                document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
+
+            }
+        });
+        //}
+    },
+    'click .th.colAmountEx': function(event) {
+        $('.colAmountEx').addClass('hiddenColumn');
+        $('.colAmountEx').removeClass('showColumn');
+
+        $('.colAmountInc').addClass('showColumn');
+        $('.colAmountInc').removeClass('hiddenColumn');
+    },
+    'click .th.colAmountInc': function(event) {
+        $('.colAmountInc').addClass('hiddenColumn');
+        $('.colAmountInc').removeClass('showColumn');
+
+        $('.colAmountEx').addClass('showColumn');
+        $('.colAmountEx').removeClass('hiddenColumn');
+    },
+    'click .th.colUnitPriceEx': function(event) {
+        $('.colUnitPriceEx').addClass('hiddenColumn');
+        $('.colUnitPriceEx').removeClass('showColumn');
+
+        $('.colUnitPriceInc').addClass('showColumn');
+        $('.colUnitPriceInc').removeClass('hiddenColumn');
+    },
+    'click .th.colUnitPriceInc': function(event) {
+        $('.colUnitPriceInc').addClass('hiddenColumn');
+        $('.colUnitPriceInc').removeClass('showColumn');
+
+        $('.colUnitPriceEx').addClass('showColumn');
+        $('.colUnitPriceEx').removeClass('hiddenColumn');
     },
     'click #btnCustomFileds': function(event) {
         var x = document.getElementById("divCustomFields");
@@ -8068,7 +8286,7 @@ Template.new_salesorder.events({
                 $tblrows.each(function(index) {
                     var $tblrow = $(this);
                     var qty = $tblrow.find(".lineQty").val() || 0;
-                    var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                    var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                     var taxRate = $tblrow.find(".lineTaxCode").val();
 
                     var taxrateamount = 0;
@@ -8099,8 +8317,15 @@ Template.new_salesorder.events({
                     }
                     $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
+                    let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                    let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                    let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                    $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                    $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                     if (!isNaN(subTotal)) {
-                        $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                      $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                      $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                         subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                         subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                         document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -8154,7 +8379,7 @@ Template.new_salesorder.events({
                         if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                             let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                             document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                            document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                            //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                             document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                             document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -8235,7 +8460,7 @@ Template.new_salesorder.events({
             $tblrows.each(function(index) {
                 var $tblrow = $(this);
                 var qty = $tblrow.find(".lineQty").val() || 0;
-                var price = $tblrow.find(".lineUnitPrice").val() || 0;
+                var price = $tblrow.find(".colUnitPriceExChange").val() || 0;
                 var taxRate = $tblrow.find(".lineTaxCode").val();
 
                 var taxrateamount = 0;
@@ -8266,8 +8491,15 @@ Template.new_salesorder.events({
                 }
                 $tblrow.find('.lineTaxAmount').text(utilityService.modifynegativeCurrencyFormat(taxTotalWithDiscountTotalLine));
 
+                let unitPriceIncCalc = Number(price.replace(/[^0-9.-]+/g, "")) * parseFloat(taxrateamount)||0;
+                let lineUnitPriceExVal = Number(price.replace(/[^0-9.-]+/g, ""))||0;
+                let lineUnitPriceIncVal = lineUnitPriceExVal + unitPriceIncCalc||0;
+                $tblrow.find('.colUnitPriceExChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceExVal));
+                $tblrow.find('.colUnitPriceIncChange').val(utilityService.modifynegativeCurrencyFormat(lineUnitPriceIncVal));
+
                 if (!isNaN(subTotal)) {
-                    $tblrow.find('.lineAmt').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountEx').text(utilityService.modifynegativeCurrencyFormat(subTotal));
+                  $tblrow.find('.colAmountInc').text(utilityService.modifynegativeCurrencyFormat(lineTotalAmount));
                     subGrandTotal += isNaN(subTotalWithDiscountTotalLine) ? 0 : subTotalWithDiscountTotalLine;
                     subGrandTotalNet += isNaN(subTotal) ? 0 : subTotal;
                     document.getElementById("subtotal_total").innerHTML = utilityService.modifynegativeCurrencyFormat(subGrandTotalNet);
@@ -8320,7 +8552,7 @@ Template.new_salesorder.events({
                 if (!isNaN(subGrandTotal) && (!isNaN(taxGrandTotal))) {
                     let GrandTotal = (parseFloat(subGrandTotal)) + (parseFloat(taxGrandTotal));
                     document.getElementById("grandTotalPrint").innerHTML = $('#grandTotal').text();
-                    document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
+                    //document.getElementById("totalTax").innerHTML = $('#subtotal_tax').text();
                     document.getElementById("balanceDue").innerHTML = utilityService.modifynegativeCurrencyFormat(GrandTotal);
                     document.getElementById("totalBalanceDuePrint").innerHTML = $('#totalBalanceDue').text();
 
@@ -8394,7 +8626,7 @@ Template.new_salesorder.events({
                 let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                 let tdlineamt = $('#' + lineID + " .lineAmt").text();
@@ -9451,7 +9683,7 @@ Template.new_salesorder.events({
                     let tdproduct = $('#' + lineID + " .lineProductName").val();
                     let tddescription = $('#' + lineID + " .lineProductDesc").text();
                     let tdQty = $('#' + lineID + " .lineQty").val();
-                    let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                    let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                     let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                     let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                     let tdlineamt = $('#' + lineID + " .lineAmt").text();
@@ -9509,7 +9741,7 @@ Template.new_salesorder.events({
                         let tdproduct = $('#' + lineID + " .lineProductName").val();
                         let tddescription = $('#' + lineID + " .lineProductDesc").text();
                         let tdQty = $('#' + lineID + " .lineQty").val();
-                        let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                        let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                         let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                         let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                         let tdlineamt = $('#' + lineID + " .lineAmt").text();
@@ -10184,7 +10416,7 @@ Template.new_salesorder.events({
                 let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                 let tdlineamt = $('#' + lineID + " .lineAmt").text();
@@ -10443,7 +10675,7 @@ Template.new_salesorder.events({
                 let tdproduct = $('#' + lineID + " .lineProductName").val();
                 let tddescription = $('#' + lineID + " .lineProductDesc").text();
                 let tdQty = $('#' + lineID + " .lineQty").val();
-                let tdunitprice = $('#' + lineID + " .lineUnitPrice").val();
+                let tdunitprice = $('#' + lineID + " .colUnitPriceExChange").val();
                 let tdtaxrate = $('#' + lineID + " .lineTaxRate").text();
                 let tdtaxCode = $('#' + lineID + " .lineTaxCode").val();
                 let tdlineamt = $('#' + lineID + " .lineAmt").text();

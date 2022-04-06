@@ -388,8 +388,13 @@ Template.supplierpayment.onRendered(function() {
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     $('#tblSupplierPayment tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if(listData){
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             FlowRouter.go('/supplierpaymentcard?id=' + listData);
+                          }
                         }
                     });
 
@@ -678,8 +683,13 @@ Template.supplierpayment.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblSupplierPayment tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/supplierpaymentcard?id=' + listData);
+                      }
                     }
                 });
 
@@ -964,8 +974,13 @@ Template.supplierpayment.onRendered(function() {
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
               $('#tblSupplierPayment tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
+                  var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                   if(listData){
+                    if(checkDeleted == "Deleted"){
+                      swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                    }else{
                       FlowRouter.go('/supplierpaymentcard?id=' + listData);
+                    }
                   }
               });
 
@@ -1054,30 +1069,37 @@ Template.supplierpayment.events({
                 let lineItems = [];
 
             if (data.tsupplierpayment.length > 0) {
-                for (let i = 0; i < data.tsupplierpayment.length; i++) {
-                  let amount = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].Amount)|| 0.00;
-                  let applied = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].Applied) || 0.00;
-                  // Currency+''+data.tsupplierpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                  let balance = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].Balance)|| 0.00;
-                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalPaid)|| 0.00;
-                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsupplierpaymentlist[i].TotalBalance)|| 0.00;
-                  var dataList = {
-                      id: data.tsupplierpaymentlist[i].ID || '',
-                      sortdate: data.tsupplierpaymentlist[i].PaymentDate !=''? moment(data.tsupplierpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tsupplierpaymentlist[i].PaymentDate,
-                      paymentdate: data.tsupplierpaymentlist[i].PaymentDate !=''? moment(data.tsupplierpaymentlist[i].PaymentDate).format("DD/MM/YYYY"): data.tsupplierpaymentlist[i].PaymentDate,
-                      customername: data.tsupplierpaymentlist[i].CompanyName || '',
-                      paymentamount: amount || 0.00,
-                      applied: applied || 0.00,
-                      balance: balance || 0.00,
-                      bankaccount: data.tsupplierpaymentlist[i].BankAccountName || '',
-                      department: data.tsupplierpaymentlist[i].Department || '',
-                      refno: data.tsupplierpaymentlist[i].ReferenceNo || '',
-                      paymentmethod: data.tsupplierpaymentlist[i].PaymentMethodName || '',
-                      notes: data.tsupplierpaymentlist[i].Notes || ''
+              for (let i = 0; i < data.tsupplierpayment.length; i++) {
+                      let amount = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Amount)|| 0.00;
+                      let applied = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Applied) || 0.00;
+                      // Currency+''+data.tsupplierpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+                      let balance = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.Balance)|| 0.00;
+                      let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.TotalPaid)|| 0.00;
+                      let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsupplierpayment[i].fields.TotalBalance)|| 0.00;
+                      let paystatus = '';
+                      if(data.tsupplierpayment[i].fields.Deleted == true){
+                        paystatus = "Deleted";
+                      }else if(data.tsupplierpayment[i].fields.Lines == null){
+                        paystatus = "Deleted";
+                      }
+                      var dataList = {
+                          id: data.tsupplierpayment[i].fields.ID || '',
+                          sortdate: data.tsupplierpayment[i].fields.PaymentDate !=''? moment(data.tsupplierpayment[i].fields.PaymentDate).format("YYYY/MM/DD"): data.tsupplierpayment[i].fields.PaymentDate,
+                          paymentdate: data.tsupplierpayment[i].fields.PaymentDate !=''? moment(data.tsupplierpayment[i].fields.PaymentDate).format("DD/MM/YYYY"): data.tsupplierpayment[i].fields.PaymentDate,
+                          customername: data.tsupplierpayment[i].fields.CompanyName || '',
+                          paymentamount: amount || 0.00,
+                          applied: applied || 0.00,
+                          balance: balance || 0.00,
+                          paystatus:paystatus||'',
+                          bankaccount: data.tsupplierpayment[i].fields.AccountName || '',
+                          department: data.tsupplierpayment[i].fields.DeptClassName || '',
+                          refno: data.tsupplierpayment[i].fields.ReferenceNo || '',
+                          paymentmethod: data.tsupplierpayment[i].fields.PaymentMethodName || '',
+                          notes: data.tsupplierpayment[i].fields.Notes || ''
 
+                    }
+                    dataTableList.push(dataList);
                 }
-                dataTableList.push(dataList);
-            }
                     templateObject.datatablerecords.set(dataTableList);
 
                     let item = templateObject.datatablerecords.get();
@@ -1096,6 +1118,7 @@ Template.supplierpayment.events({
                                 '<td contenteditable="false" class="colCustomerName">' + item[x].customername + '</td>' +
                                 '<td contenteditable="false" class="colBankAccount">' + item[x].bankaccount + '</td>' +
                                 '<td contenteditable="false" class="colDepartment">' + item[x].department + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].paystatus + '</td>' +
                                 '<td contenteditable="false" class="colRefNo hiddenColumn">' + item[x].refno + '</td>' +
                                 '<td contenteditable="false" class="colPaymentMethod hiddenColumn">' + item[x].paymentmethod + '</td>' +
                                 '<td contenteditable="false" class="colNotes">' + item[x].notes + '</td>' +
@@ -1124,6 +1147,8 @@ Template.supplierpayment.events({
                         }
                     });
                 }
+
+                MakeNegative();
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -1131,6 +1156,15 @@ Template.supplierpayment.events({
 
           $(".btnRefresh").trigger("click");
         }
+
+        function MakeNegative() {
+            $('td').each(function(){
+                if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+            });
+            $('td.colStatus').each(function(){
+                if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+            });
+        };
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
