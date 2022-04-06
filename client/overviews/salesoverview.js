@@ -75,6 +75,7 @@ const saveCharts = async () => {
           Position: $(chart).attr("position"),
           ChartGroup: _chartGroup,
           ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
         }),
       })
     );
@@ -1696,7 +1697,7 @@ Template.salesoverview.onRendered(function () {
 
             //localStorage.setItem(itemName, tvs1chart);
             //console.log(itemName + " " + tvs1chart.fields.Active);
-           
+
             if (itemList.includes(itemName) == true) {
               // If the item name exist
               if (tvs1chart.fields.ChartWidth) {
@@ -1705,12 +1706,22 @@ Template.salesoverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
+              // This is the ChartHeight saved in the preferences
+              if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
+                );
+              }
+              $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
               $(`[key='${itemName}']`).attr(
-                "pref-id",
-                tvs1chart.fields.ID
+                "position",
+                tvs1chart.fields.Position
               );
-              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
-              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
+              $(`[key='${itemName}']`).attr(
+                "chart-id",
+                tvs1chart.fields.ChartID
+              );
               $(`[key='${itemName}']`).attr(
                 "chart-group",
                 tvs1chart.fields.chartGroup
@@ -1825,9 +1836,8 @@ Template.salesoverview.events({
     const templateObject = Template.instance();
     chartsEditor.disable();
     saveCharts().then(() => {
-      
       templateObject.hideChartElements();
-      templateObject.checkChartToDisplay()
+      templateObject.checkChartToDisplay();
     });
   },
   "click .editchartsbtn": () => {

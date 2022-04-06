@@ -75,6 +75,7 @@ const saveCharts = async () => {
           Position: $(chart).attr("position"),
           ChartGroup: _chartGroup,
           ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
         }),
       })
     );
@@ -2683,6 +2684,13 @@ Template.contactoverview.onRendered(function () {
                   tvs1chart.fields.ChartWidth
                 );
               }
+              // This is the ChartHeight saved in the preferences
+              if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
+                );
+              }
               $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
               $(`[key='${itemName}']`).attr(
                 "position",
@@ -2806,9 +2814,8 @@ Template.contactoverview.events({
     const templateObject = Template.instance();
     chartsEditor.disable();
     saveCharts().then(() => {
-      
       templateObject.hideChartElements();
-      templateObject.checkChartToDisplay()
+      templateObject.checkChartToDisplay();
     });
   },
   "click .editchartsbtn": () => {

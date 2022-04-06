@@ -19,6 +19,7 @@ export default class Tvs1ChartDashboardPreferenceField {
     Position,
     Recno,
     TabGroup,
+    ChartHeight
   }) {
     this.Active = Active;
     this.ChartGroup = ChartGroup;
@@ -31,6 +32,7 @@ export default class Tvs1ChartDashboardPreferenceField {
     this.TabGroup = TabGroup;
     this.GlobalRef = GlobalRef;
     this.Gloablref = Gloablref;
+    this.ChartHeight = ChartHeight;
     this.ID = ID;
     this.ISEmpty = ISEmpty;
     this.KeyStringFieldName = KeyStringFieldName;

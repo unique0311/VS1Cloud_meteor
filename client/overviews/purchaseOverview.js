@@ -77,6 +77,7 @@ const saveCharts = async () => {
           Position: $(chart).attr("position"),
           ChartGroup: _chartGroup,
           ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
         }),
       })
     );
@@ -2208,6 +2209,13 @@ Template.purchasesoverview.onRendered(function () {
                 $(`[key='${itemName}'] .ui-resizable`).css(
                   "width",
                   tvs1chart.fields.ChartWidth
+                );
+              }
+               // This is the ChartHeight saved in the preferences
+               if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
                 );
               }
               $(`[key='${itemName}']`).attr(
