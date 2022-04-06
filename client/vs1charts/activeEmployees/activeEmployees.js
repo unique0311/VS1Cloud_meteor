@@ -1,19 +1,19 @@
 import "jQuery.print/jQuery.print.js";
 import { ReactiveVar } from "meteor/reactive-var";
 import { ContactService } from "../../contacts/contact-service";
+import User from "./User";
 let _ = require("lodash");
 
-Template.contactActiveEmployees.onCreated(() => {
+Template.activeEmployees.onCreated(() => {
   const templateObject = Template.instance();
-
 
   templateObject.loggeduserdata = new ReactiveVar([]);
 });
 
-Template.contactActiveEmployees.onRendered(() => {
+Template.activeEmployees.onRendered(() => {
   const templateObject = Template.instance();
   let contactService = new ContactService();
-  const loggedUserList = [];
+  let loggedUserList = []; // List of logged users
   console.log("Contact Active employees rendered");
 
 
@@ -32,14 +32,23 @@ Template.contactActiveEmployees.onRendered(() => {
         ) {
           employeeUser = Session.get("mySessionEmployee");
         }
-        dataListloggedUser = {
-          id: data.tappuser[i].EmployeeID || "",
-          employeename: employeeUser || "- -",
-          ladtloging: data.tappuser[i].LastTime || "",
-          // employeepicture: encoded|| ''
-        };
-        loggedUserList.push(dataListloggedUser);
+        // dataListloggedUser = {
+        //   id: data.tappuser[i].EmployeeID || "",
+        //   employeename: employeeUser || "- -",
+        //   ladtloging: data.tappuser[i].LastTime || "",
+        //   // employeepicture: encoded|| ''
+        // };
+        console.log(dataListloggedUser);
+        loggedUserList.push(
+          new User({
+            id: data.tappuser[i].EmployeeID || "",
+            employeeName: employeeUser || "- -",
+            avatar: "img/avatar.png", // Here we should get the avatar dynamically
+            lastLogin: data.tappuser[i].LastTime || "",
+          })
+        );
       }
+      console.log(loggedUserList);
       templateObject.loggeduserdata.set(loggedUserList);
     });
     /*
@@ -103,55 +112,26 @@ Template.contactActiveEmployees.onRendered(() => {
         */
   };
   templateObject.getLoggedUserData();
-
 });
 
-Template.contactActiveEmployees.events({
-  // 'click #expenseshide': function () {
-  //  let check = localStorage.getItem("expenseschart") || true;
-  //   if(check == "true" || check == true) {
-  //      $("#expenseshide").text("Show");
-  //      // localStorage.setItem("expenseschart",false);
-  //   } else {
-  //      $("#expenseshide").text("Hide");
-  //      // localStorage.setItem("expenseschart",true);
-  //   }
-  // }
-});
-Template.contactActiveEmployees.helpers({
-  dateAsAt: () => {
-    return Template.instance().dateAsAt.get() || "-";
+Template.activeEmployees.events({});
+
+Template.activeEmployees.helpers({
+  loggeduserdata: () => {
+    return Template.instance()
+      .loggeduserdata.get()
+      .sort(function (a, b) {
+        console.log(a);
+        console.log(b);
+        if (a.employeeName == "NA") {
+          return 1;
+        } else if (b.employeeName == "NA") {
+          return -1;
+        }
+        return a.employeeName.toUpperCase() > b.employeeName.toUpperCase()
+          ? 1
+          : -1;
+      });
   },
-  topTenData: () => {
-    return Template.instance().topTenData.get();
-  },
-  Currency: () => {
-    return Currency;
-  },
-  companyname: () => {
-    return loggedCompany;
-  },
-  salesperc: () => {
-    return Template.instance().salesperc.get() || 0;
-  },
-  expenseperc: () => {
-    return Template.instance().expenseperc.get() || 0;
-  },
-  salespercTotal: () => {
-    return Template.instance().salespercTotal.get() || 0;
-  },
-  expensepercTotal: () => {
-    return Template.instance().expensepercTotal.get() || 0;
-  },
-});
-Template.registerHelper("equals", function (a, b) {
-  return a === b;
 });
 
-Template.registerHelper("notEquals", function (a, b) {
-  return a != b;
-});
-
-Template.registerHelper("containsequals", function (a, b) {
-  return a.indexOf(b) >= 0;
-});
