@@ -4,6 +4,8 @@ export default class layoutEditor {
       return null;
     }
 
+    this.employeeId = Session.get("mySessionEmployeeLoggedID");
+
     console.log(element);
 
     this.save = element.querySelector(".saveTable"); // save button
@@ -42,37 +44,44 @@ export default class layoutEditor {
 
     const jsonExpected = [
       {
-        "account-type": "my-type",
+        accountName: "Account name",
+        accountType: "my-type",
+        employeeId: "2",
         position: 8,
-        "sub-accounts": [
+        subAccounts: [
           {
-            "account-id": 7,
-            "account-type": "my-type",
+            accountName: 'Account name',
+            accountId: 7,
+            accountType: "my-type (same as parent accountType)",
             position: 1,
           },
           {
-            "account-id": 7,
-            "account-type": "my-type",
+            accountName: 'Account name',
+            accountId: 7,
+            accountType: "my-type (same as parent accountType)",
             position: 1,
           },
         ],
       },
       {
-        "account-type": "my-type-2",
+        accountName: "Account name",
+        accountType: "my-type",
         position: 8,
-        "sub-accounts": [
+        subAccounts: [
           {
-            "account-id": 7,
-            "account-type": "my-type-2",
+            accountName: 'Account name',
+            accountId: 7,
+            accountType: "my-type (same as parent accountType)",
             position: 1,
           },
           {
-            "account-id": 7,
-            "account-type": "my-type-2",
+            accountName: 'Account name',
+            accountId: 7,
+            accountType: "my-type (same as parent accountType)",
             position: 1,
           },
         ],
-      }
+      },
     ];
 
     sortableAccounts.forEach((el) => {
@@ -82,14 +91,16 @@ export default class layoutEditor {
       let sortableAccount = {
         position: position,
         accountType: accountType,
-        "sub-accounts": [],
+        employeeId: this.employeeId,
+        "subAccounts": [],
       };
       const subAccounts = el.querySelectorAll(".draggable");
 
       subAccounts.forEach((ele) => {
-        sortableAccount["sub-accounts"].push({
-          "account-id": ele.getAttribute("account-id"),
-          "account-type": ele.getAttribute("account-type"),
+        sortableAccount["subAccounts"].push({
+          "accountId": ele.getAttribute("account-id"),
+          "accountType": ele.getAttribute("account-type"),
+          "accountName": ele.querySelector('label').textContent,
           position: ele.getAttribute("position"),
         });
       });
@@ -110,7 +121,7 @@ export default class layoutEditor {
     formData.set("accounts", this.accountList);
 
     const response = await fetch("my-url", {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
 
@@ -130,7 +141,9 @@ export default class layoutEditor {
       console.log(e);
       const sortableAccounts = document.querySelectorAll(".sortableAccount");
       console.log(sortableAccounts.length);
-      this.setupTree().then(() => this.buildTree()).then(() => this.saveData());
+      this.setupTree()
+        .then(() => this.buildTree())
+        .then(() => this.saveData());
       // setTimeout(() => this.buildTree(), 150);
       // setTimeout(() => this.saveData(), 300);
 
