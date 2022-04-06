@@ -190,6 +190,37 @@ Template.dashboard.onRendered(function () {
     }
   };
 
+  templateObject.saveIntoLocalDB = async (e) => {
+    const chartList = []
+    const chartcontainer = $(e.currentTarget).parents('.sortable-chart-widget-js');
+    let chartID = $(chartcontainer).attr("chart-id")
+    let dbchartslist = await JSON.parse(localStorage.getItem(_chartGroup));
+    if( dbchartslist ){      
+      chartList = await dbchartslist.filter(item => item.fields.ChartID !== chartID);
+    }
+    chartList.push(
+      new Tvs1ChartDashboardPreference({
+        type: "Tvs1dashboardpreferences",
+        fields: new Tvs1ChartDashboardPreferenceField({
+          Active:
+            $(chartcontainer).find(".on-editor-change-mode").attr("is-hidden") == true ||
+            $(chartcontainer).find(".on-editor-change-mode").attr("is-hidden") == "true"
+              ? false
+              : true,
+          ChartID: $(chartcontainer).attr("chart-id"),
+          ID: $(chartcontainer).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
+          EmployeeID: employeeId,
+          Chartname: $(chartcontainer).attr("chart-name"),
+          Position: parseInt($(chartcontainer).attr("position")),
+          ChartGroup: _chartGroup,
+          ChartWidth: $(chartcontainer).find(".ui-resizable").width(),
+        }),
+      })
+    )
+    console.log( chartList )    
+    localStorage.setItem(_chartGroup, JSON.stringify(chartList));
+};
+
   templateObject.showChartElements = function () {
     // on edit mode true
 
@@ -464,6 +495,7 @@ Template.dashboard.events({
       $(e.currentTarget).attr("is-hidden", "true");
       $(e.currentTarget).text("Show");
     }
+    templateObject.saveIntoLocalDB(e)
   },
   "mouseover .card-header": (e) => {
     $(e.currentTarget).parent(".card").addClass("hovered");
