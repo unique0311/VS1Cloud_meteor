@@ -2888,9 +2888,7 @@ Template.contactoverview.helpers({
       PrefName: "tblcontactoverview",
     });
   },
-  topTenData: () => {
-    return Template.instance().topTenData.get();
-  },
+ 
   Currency: () => {
     return Currency;
   },

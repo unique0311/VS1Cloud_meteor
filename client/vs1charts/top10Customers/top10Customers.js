@@ -17,11 +17,10 @@ Template.top10Customers.onCreated(function () {
   templateObject.topTenData = new ReactiveVar([]);
 });
 
-Template.top10Customers.onRendered(() => {
+Template.top10Customers.onRendered(function () {
   const templateObject = Template.instance();
   let topTenData1 = [];
   let topData = this;
-
 
   getInvSales(function (data) {
     let customerList = [];
@@ -51,14 +50,14 @@ Template.top10Customers.onRendered(() => {
     let totalPayment = 0;
     let overDuePayment = 0;
 
-    //topData.topTenData.set(data);
+    topData.topTenData.set(data);
 
     //console.log(topTenData1);
 
     templateObject.topTenData.set(topTenData1);
 
     // Chart.js
-    var ctx = document.getElementById("myChartCustomer").getContext("2d");
+    var ctx = document.getElementById("top10customers").getContext("2d");
     var myChart = new Chart(ctx, {
       type: "horizontalBar",
       data: {
@@ -297,4 +296,8 @@ Template.top10Customers.onRendered(() => {
 
 Template.top10Customers.events({});
 
-Template.top10Customers.helpers({});
+Template.top10Customers.helpers({
+  topTenData: () => {
+    return Template.instance().topTenData.get();
+  },
+});
