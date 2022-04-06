@@ -542,7 +542,7 @@ Template.accountrevenuestreams.onRendered(() => {
     total_month_7_loss = Number(month_7_loss) + Number(month_7_loss_exp);
 
     var ctx = document
-      .getElementById("monthlyprofitandlosschart")
+      .getElementById("revenuestreamschart")
       .getContext("2d");
     var myChart = new Chart(ctx, {
       type: "line",
