@@ -131,6 +131,7 @@ const saveCharts = async () => {
           Position: parseInt($(chart).attr("position")),
           ChartGroup: _chartGroup,
           ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
         }),
       })
     );
@@ -231,6 +232,7 @@ Template.dashboard.onRendered(function () {
           chart.fields.ChartGroup.toLowerCase() +
           "__" +
           chart.fields.ChartName.toLowerCase().split(" ").join("_");
+
 
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-id",
