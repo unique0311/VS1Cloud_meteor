@@ -1,9 +1,7 @@
 /**
- * @author : Shankar.
- * this is main service class. Any other service class will extend this class.
- * this provides wrapper for headers, response handler. it acts like interceptor.
+ * @author : Dusko.
+ * this is ocr service class.
  */
-import { HTTP } from "meteor/http";
 export class OCRService {
   constructor() {
 
@@ -34,7 +32,7 @@ export class OCRService {
           console.log("API Request done");
 
           return content;
-        } catch (e) {}
+        } catch (e) { }
       } else {
         return response.headers.errormessage;
       }
@@ -44,18 +42,20 @@ export class OCRService {
   POST(data) {
     let that = this;
     let promise = new Promise(function (resolve, reject) {
-      HTTP.post(
-        that.getBaseUrl(),
-        { headers: that.getPostHeaders(), data: data },
-        function (err, response) {
-          let data = that.responseHandler(response);
-          if (err) {
-            reject(data);
-          } else {
-            resolve(data);
-          }
+      $.ajax({
+        url: that.getBaseUrl(),
+        type: 'post',
+        data: data,
+        headers: that.getPostHeaders(),
+        dataType: 'json',
+        success: function (data) {
+          let response = that.responseHandler(data);
+          resolve(response);
+        },
+        error: function (data){
+          reject(data);        
         }
-      );
+      });
     });
     return promise;
   }
