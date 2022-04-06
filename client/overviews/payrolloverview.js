@@ -167,6 +167,8 @@ Template.payrolloverview.onCreated(function () {
 
   templateObject.includePayrollClockOnOffOnly = new ReactiveVar();
   templateObject.includePayrollClockOnOffOnly.set(false);
+
+  templateObject.deptrecords = new ReactiveVar();
 });
 
 Template.payrolloverview.onRendered(function () {
@@ -2723,8 +2725,8 @@ Template.payrolloverview.onRendered(function () {
                   qtylineItems.push(qtylineItemObj);
                 }
                 // $('#edttotalqtyinstock').val(totaldeptquantity);
-                templateObject.productqtyrecords.set(qtylineItems);
-                templateObject.totaldeptquantity.set(totaldeptquantity);
+                //templateObject.productqtyrecords.set(qtylineItems);
+                //templateObject.totaldeptquantity.set(totaldeptquantity);
               })
               .catch(function (err) {
                 $(".fullScreenSpin").css("display", "none");
@@ -3531,73 +3533,76 @@ Template.payrolloverview.onRendered(function () {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
           // setTimeout(() => {
-            // this is good to see how the charts are apearing or not
-            //if (tvs1chart.fields.ChartGroup == "Dashboard") {
-            const itemName =
-              tvs1chart.fields.ChartGroup.toLowerCase() +
-              "__" +
-              tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
+          // this is good to see how the charts are apearing or not
+          //if (tvs1chart.fields.ChartGroup == "Dashboard") {
+          const itemName =
+            tvs1chart.fields.ChartGroup.toLowerCase() +
+            "__" +
+            tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
 
-            //localStorage.setItem(itemName, tvs1chart);
-            //console.log(itemName + " " + tvs1chart.fields.Active);
+          //localStorage.setItem(itemName, tvs1chart);
+          //console.log(itemName + " " + tvs1chart.fields.Active);
 
-            if (itemList.includes(itemName) == true) {
-              // If the item name exist
-              if (tvs1chart.fields.ChartWidth) {
-                $(`[key='${itemName}']`).css(
-                  "width",
-                  tvs1chart.fields.ChartWidth
-                );
-              }
-               // This is the ChartHeight saved in the preferences
-               if (tvs1chart.fields.ChartHeight) {
-                $(`[key='${itemName}'] .ui-resizable`).css(
-                  "height",
-                  tvs1chart.fields.ChartHeight
-                );
-              }
-              $(`[key='${itemName}']`).attr(
-                "pref-id",
-                tvs1chart.fields.ID
+          if (itemList.includes(itemName) == true) {
+            // If the item name exist
+            if (tvs1chart.fields.ChartWidth) {
+              $(`[key='${itemName}']`).css(
+                "width",
+                tvs1chart.fields.ChartWidth
               );
-              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
-              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
-              $(`[key='${itemName}']`).attr(
-                "chart-group",
-                tvs1chart.fields.chartGroup
-              );
-              $(`[key='${itemName}']`).addClass("chart-visibility");
-              //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
-              $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "chart-slug",
-                itemName
-              );
-
-              if (tvs1chart.fields.Active == true) {
-                $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
-                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                  "is-hidden",
-                  "false"
-                );
-
-                $(`[key='${itemName}']`).removeClass("hideelement");
-                //$(`[key='${itemName}']`).attr("is-hidden", false);
-              } else {
-                $(`[key='${itemName}']`).addClass("hideelement");
-                $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
-                // $(`[key='${itemName}']`).attr("is-hidden", true);
-                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                  "is-hidden",
-                  "true"
-                );
-              }
             }
-            //}
+            // This is the ChartHeight saved in the preferences
+            if (tvs1chart.fields.ChartHeight) {
+              $(`[key='${itemName}'] .ui-resizable`).css(
+                "height",
+                tvs1chart.fields.ChartHeight
+              );
+            }
+            $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
+            $(`[key='${itemName}']`).attr(
+              "position",
+              tvs1chart.fields.Position
+            );
+            $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
+            $(`[key='${itemName}']`).attr(
+              "chart-group",
+              tvs1chart.fields.chartGroup
+            );
+            $(`[key='${itemName}']`).addClass("chart-visibility");
+            //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
+            $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+              "chart-slug",
+              itemName
+            );
+
+            if (tvs1chart.fields.Active == true) {
+              $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+              $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                "is-hidden",
+                "false"
+              );
+
+              $(`[key='${itemName}']`).removeClass("hideelement");
+              //$(`[key='${itemName}']`).attr("is-hidden", false);
+            } else {
+              $(`[key='${itemName}']`).addClass("hideelement");
+              $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
+              // $(`[key='${itemName}']`).attr("is-hidden", true);
+              $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                "is-hidden",
+                "true"
+              );
+            }
+          }
+          //}
           // }, index * 100);
-          let $chartWrappper = $('.connectedSortable');
-          $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
-              return +a.getAttribute('position') - +b.getAttribute('position');
-          }).appendTo($chartWrappper);
+          let $chartWrappper = $(".connectedSortable");
+          $chartWrappper
+            .find(".sortable-chart-widget-js")
+            .sort(function (a, b) {
+              return +a.getAttribute("position") - +b.getAttribute("position");
+            })
+            .appendTo($chartWrappper);
         });
       }
 
@@ -3679,9 +3684,8 @@ Template.payrolloverview.events({
     const templateObject = Template.instance();
     chartsEditor.disable();
     saveCharts().then(() => {
-      
       templateObject.hideChartElements();
-      templateObject.checkChartToDisplay()
+      templateObject.checkChartToDisplay();
     });
   },
   "click .editchartsbtn": () => {
@@ -6033,7 +6037,7 @@ Template.payrolloverview.events({
       .then(function (data) {
         addVS1Data("TTimeSheet", JSON.stringify(data));
         setTimeout(function () {
-          window.open('/payrolloverview', '_self');
+          window.open("/payrolloverview", "_self");
         }, 500);
       })
       .catch(function (err) {

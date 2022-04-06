@@ -101,7 +101,7 @@ const saveCharts = async () => {
   buildPositions();
 
   const charts = $(".chart-visibility");
-  //console.log(charts);
+  console.log(charts);
 
   /**
    * @property {Tvs1ChartDashboardPreference[]}
@@ -137,7 +137,7 @@ const saveCharts = async () => {
     );
   });
 
-  //console.log(chartList);
+  console.log(chartList);
 
   for (const _chart of chartList) {
     // chartList.forEach(async (chart) => {
@@ -248,13 +248,9 @@ Template.dashboard.onRendered(function () {
 
       let chartList = Tvs1chart.fromList(
         allChartsJsonResponse.tvs1charts
-      ).filter((chart) => {
-        if (chart.fields.ChartGroup == _chartGroup) {
-          return chart;
-        }
-      });
+      );
       // console.log(allChartResponse);
-      // console.log(chartList);
+      console.log(chartList);
       // the goal here is to get the right names so it can be used for preferences
       chartList.forEach((chart) => {
         // console.log(chart);
@@ -269,6 +265,8 @@ Template.dashboard.onRendered(function () {
           "chart-id",
           chart.fields.ChartID
         );
+
+        $(`[key='${chart.fields._chartSlug}']`).addClass('chart-visibility');
 
         // $(`[key='${chart.fields._chartSlug}']`).attr(
         //   "pref-id",
@@ -334,13 +332,9 @@ Template.dashboard.onRendered(function () {
 
       let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
         dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
-      ).filter((chart) => {
-        if (chart.fields.ChartGroup == _chartGroup) {
-          return chart;
-        }
-      });
+      );
 
-      //console.log(tvs1ChartDashboardPreference);
+      console.log(tvs1ChartDashboardPreference);
 
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
@@ -356,7 +350,7 @@ Template.dashboard.onRendered(function () {
             //localStorage.setItem(itemName, tvs1chart);
             //console.log(itemName + " " + tvs1chart.fields.Active);
 
-            if (itemList.includes(itemName) == true) {
+            //if (itemList.includes(itemName) == true) {
               // If the item name exist
               if (tvs1chart.fields.ChartWidth) {
                 $(`[key='${itemName}'] .ui-resizable`).css(
@@ -407,7 +401,7 @@ Template.dashboard.onRendered(function () {
                   "true"
                 );
               }
-            }
+            //}
             //}
           // }, index * 100);
         });
