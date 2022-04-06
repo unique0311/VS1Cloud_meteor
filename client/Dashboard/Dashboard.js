@@ -332,7 +332,11 @@ Template.dashboard.onRendered(function () {
 
       let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
         dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
-      );
+      ).filter((chart) => {
+        if (chart.fields.ChartGroup == _chartGroup) {
+          return chart;
+        }
+      });
 
       console.log(tvs1ChartDashboardPreference);
 
