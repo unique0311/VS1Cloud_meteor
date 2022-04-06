@@ -1171,6 +1171,12 @@ Template.salesorderslist.events({
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalAmountInc) || 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalPaid) || 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesorderex[i].fields.TotalBalance) || 0.00;
+                        let salestatus = data.tsalesorderex[i].fields.SalesStatus || '';
+                        if(data.tsalesorderex[i].fields.Deleted == true){
+                          salestatus = "Deleted";
+                        }else if(data.tsalesorderex[i].fields.CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tsalesorderex[i].fields.ID || '',
                             employee: data.tsalesorderex[i].fields.EmployeeName || '',
@@ -1183,7 +1189,7 @@ Template.salesorderslist.events({
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            salestatus: data.tsalesorderex[i].fields.SalesStatus || '',
+                            salestatus: salestatus || '',
                             custfield1: data.tsalesorderex[i].fields.SaleCustField1 || '',
                             custfield2: data.tsalesorderex[i].fields.SaleCustField2 || '',
                             comments: data.tsalesorderex[i].fields.Comments || '',
@@ -1208,6 +1214,11 @@ Template.salesorderslist.events({
                         var datatable = $('#tblquotelist').DataTable();
                         $("#tblSalesOrderlist > tbody").empty();
                         for (let x = 0; x < item.length; x++) {
+                          let setConvertData = '<td class="colConverted" style="background-color: #f6c23e !important; color:#fff">Unconverted</td>';
+
+                          if(item[x].isConverted == true){
+                            setConvertData = '<td class="colConverted" style="background-color: #1cc88a !important; color:#fff">Converted</td>';
+                          };
                             $("#tblSalesOrderlist > tbody").append(
                                 ' <tr class="dnd-moved" id="' + item[x].id + '" style="cursor: pointer;">' +
                                 '<td contenteditable="false" class="colSortDate hiddenColumn">' + item[x].sortdate + '</td>' +
@@ -1220,10 +1231,11 @@ Template.salesorderslist.events({
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
                                 // '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
                                 // '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].totaloustanding + '</td>' +
-                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].salestatus + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].salestatus + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +
+                                setConvertData+
                                 '<td contenteditable="false" class="colComments">' + item[x].comments + '</td>' +
                                 '</tr>');
 

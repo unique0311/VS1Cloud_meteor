@@ -392,8 +392,13 @@ Template.customerpayment.onRendered(function() {
                     $('div.dataTables_filter input').addClass('form-control form-control-sm');
                     $('#tblCustomerPayment tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if(listData){
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             FlowRouter.go('/paymentcard?id=' + listData);
+                          }
                         }
                     });
 
@@ -688,8 +693,13 @@ Template.customerpayment.onRendered(function() {
                 $('div.dataTables_filter input').addClass('form-control form-control-sm');
                 $('#tblCustomerPayment tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if(listData){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         FlowRouter.go('/paymentcard?id=' + listData);
+                      }
                     }
                 });
             }
@@ -980,8 +990,13 @@ Template.customerpayment.onRendered(function() {
               $('div.dataTables_filter input').addClass('form-control form-control-sm');
               $('#tblCustomerPayment tbody').on( 'click', 'tr', function () {
                   var listData = $(this).closest('tr').attr('id');
+                  var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                   if(listData){
+                    if(checkDeleted == "Deleted"){
+                      swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                    }else{
                       FlowRouter.go('/paymentcard?id=' + listData);
+                    }
                   }
               });
 
@@ -1085,26 +1100,35 @@ Template.customerpayment.events({
                 let lineItems = [];
                 let lineItemObj = {};
                 if (data.tcustomerpayment.length > 0) {
-                for (let i = 0; i < data.tcustomerpayment.length; i++) {
-                    let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Amount)|| 0.00;
-                  let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Applied) || 0.00;
+                  for (let i = 0; i < data.tcustomerpayment.length; i++) {
+                    let amount = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Amount)|| 0.00;
+                  let applied = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Applied) || 0.00;
                   // Currency+''+data.tcustomerpayment[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                  let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].Balance)|| 0.00;
-                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalPaid)|| 0.00;
-                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpaymentlist[i].TotalBalance)|| 0.00;
+                  let balance = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.Balance)|| 0.00;
+                  let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalPaid)|| 0.00;
+                  let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tcustomerpayment[i].fields.TotalBalance)|| 0.00;
+
+                  let paystatus = '';
+                  if(data.tcustomerpayment[i].fields.Deleted == true){
+                    paystatus = "Deleted";
+                  }else if(data.tcustomerpayment[i].fields.Lines == null){
+                    paystatus = "Deleted";
+                  }
+
                   var dataList = {
-                      id: data.tcustomerpaymentlist[i].ID || '',
-                      sortdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tcustomerpaymentlist[i].PaymentDate,
-                      paymentdate: data.tcustomerpaymentlist[i].PaymentDate !=''? moment(data.tcustomerpaymentlist[i].PaymentDate).format("DD/MM/YYYY"): data.tcustomerpaymentlist[i].PaymentDate,
-                      customername: data.tcustomerpaymentlist[i].CompanyName || '',
+                      id: data.tcustomerpayment[i].fields.ID || '',
+                      sortdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("YYYY/MM/DD"): data.tcustomerpayment[i].fields.PaymentDate,
+                      paymentdate: data.tcustomerpayment[i].fields.PaymentDate !=''? moment(data.tcustomerpayment[i].fields.PaymentDate).format("DD/MM/YYYY"): data.tcustomerpayment[i].fields.PaymentDate,
+                      customername: data.tcustomerpayment[i].fields.CompanyName || '',
                       paymentamount: amount || 0.00,
                       applied: applied || 0.00,
                       balance: balance || 0.00,
-                      bankaccount: data.tcustomerpaymentlist[i].AccountName || '',
-                      department: data.tcustomerpaymentlist[i].Department || '',
-                      refno: data.tcustomerpaymentlist[i].ReferenceNo || '',
-                      paymentmethod: data.tcustomerpaymentlist[i].PaymentMethodName || '',
-                      notes: data.tcustomerpaymentlist[i].Notes || ''
+                      paystatus:paystatus||'',
+                      bankaccount: data.tcustomerpayment[i].fields.AccountName || '',
+                      department: data.tcustomerpayment[i].fields.DeptClassName || '',
+                      refno: data.tcustomerpayment[i].fields.ReferenceNo || '',
+                      paymentmethod: data.tcustomerpayment[i].fields.PaymentMethodName || '',
+                      notes: data.tcustomerpayment[i].fields.Notes || ''
                     };
 
                         //if(data.tinvoiceex[i].fields.Deleted == false){
@@ -1133,6 +1157,7 @@ Template.customerpayment.events({
                                 '<td contenteditable="false" class="colCustomerName">' + item[x].customername + '</td>' +
                                 '<td contenteditable="false" class="colBankAccount">' + item[x].bankaccount + '</td>' +
                                 '<td contenteditable="false" class="colDepartment">' + item[x].department + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].paystatus + '</td>' +
                                 '<td contenteditable="false" class="colRefNo hiddenColumn">' + item[x].refno + '</td>' +
                                 '<td contenteditable="false" class="colPaymentMethod hiddenColumn">' + item[x].paymentmethod + '</td>' +
                                 '<td contenteditable="false" class="colNotes">' + item[x].notes + '</td>' +
@@ -1161,6 +1186,7 @@ Template.customerpayment.events({
                         }
                     });
                 }
+                MakeNegative();
             }).catch(function (err) {
                 $('.fullScreenSpin').css('display', 'none');
             });
@@ -1168,6 +1194,15 @@ Template.customerpayment.events({
 
           $(".btnRefresh").trigger("click");
         }
+
+        function MakeNegative() {
+            $('td').each(function(){
+                if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
+            });
+            $('td.colStatus').each(function(){
+                if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+            });
+        };
     },
     'click .resetTable' : function(event){
         var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});

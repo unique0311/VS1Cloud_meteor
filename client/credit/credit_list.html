@@ -110,11 +110,11 @@
 
                                         {{#if equals item.sVisible true}}
                                         <script>
-                                            $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
+                                            $("#"+ {{item.sIndex}} +".chkDatatable").attr("checked","checked");
                                         </script>
                                         {{else}}
                                         <script>
-                                            $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
+                                            $("#"+ {{item.sIndex}} +".chkDatatable").removeAttr("checked");
                                         </script>
                                         {{/if}}
 
@@ -182,6 +182,9 @@
                             input[type=number]::-webkit-outer-spin-button {
                                 opacity: 1;
                             }
+                            .text-deleted{
+                              background-color: #e74a3b !important; color:#fff;
+                            }
                         </style>
                         <div class="row no-gutters d-xl-flex align-items-xl-end">
                             <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
@@ -237,7 +240,7 @@
                                     <th class="th colAmount" style="width:80px;">Amount</th>
                                     <th class="th colPaid" style="width:80px;">Paid</th>
                                     <th class="th colBalanceOutstanding" style="width:80px;">Outstanding</th>
-                                    <th class="th colStatus hiddenColumn">Status</th>
+                                    <th class="th colStatus">Status</th>
                                     <th class="th colPurchaseCustField1 hiddenColumn">Custom Field 1</th>
                                     <th class="th colPurchaseCustField2 hiddenColumn">Custom Field 2</th>
                                     <th class="th colEmployee hiddenColumn">Employee</th>
@@ -258,7 +261,7 @@
                                     <td contenteditable="false" class="colAmount" style="text-align: right!important;">{{item.totalamount}}</td>
                                     <td contenteditable="false" class="colPaid" style="text-align: right!important;">{{item.totalpaid}}</td>
                                     <td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">{{item.totaloustanding}}</td>
-                                    <td contenteditable="false" class="colStatus hiddenColumn">{{item.orderstatus}}</td>
+                                    <td contenteditable="false" class="colStatus">{{item.orderstatus}}</td>
                                     <td contenteditable="false" class="colPurchaseCustField1 hiddenColumn">{{item.custfield1}}</td>
                                     <td contenteditable="false" class="colPurchaseCustField2 hiddenColumn">{{item.custfield2}}</td>
                                     <td contenteditable="false" class="colEmployee hiddenColumn">{{item.employee}}</td>

@@ -68,7 +68,7 @@
 <!--                <button id="btnNewDepositEnrty" name="btnNewDepositEnrty" class="btn btn-primary btnNewDepositEnrty" type="button" style="margin: 16px;" autocomplete="off"><i class="fa fa-book" style="padding-right: 5px;"></i>New Deposit</button>-->
                 <button id="btnDepositList" name="btnDepositList" class="btn btn-primary btnDepositList" type="button" style="margin: 16px;" autocomplete="off"><i class="fas fa-list-ul" style="padding-right: 5px;"></i>Deposited List</button>
                 <button class="btn btn-primary btnStockAdjustment" id="btnStockAdjustment" type="button" style="margin: 16px;" autocomplete="off"><i class="fas fa-money-check-alt" style="padding-right: 5px;"></i>{{formname}} List</button>
-                <button class="btn btn-primary btnReconcile" id="btnReconcile" type="button" style="margin: 16px;" autocomplete="off"><i class="fa fa-thumbs-up" style="padding-right: 5px;"></i>Reconcile</button>
+                <button class="btn btn-primary btnReconcile" id="btnReconcile" type="button" style="margin: 16px;" autocomplete="off"><i class="fa fa-thumbs-up" style="padding-right: 5px;"></i>Reconcile(new)</button>
                 <button class="btn btn-primary btnReconList" id="btnReconList" type="button" style="margin: 16px;" autocomplete="off"><i class="fas fa-list-ol" style="padding-right: 5px;"></i>Reconcilation List</button>
             </div>
             <div class="col-5 d-xl-flex justify-content-xl-end align-items-end">
@@ -157,19 +157,11 @@
 
                                                     {{#if equals item.sVisible true}}
                                                     <script>
-                                                        $("#" + {
-                                                            {
-                                                            item.sIndex
-                                                        }
-                                                          } + ".chkDatatable").attr("checked", "checked");
+                                                        $("#" + {{item.sIndex}} + ".chkDatatable").attr("checked", "checked");
                                                     </script>
                                                     {{else}}
                                                     <script>
-                                                        $("#" + {
-                                                            {
-                                                            item.sIndex
-                                                        }
-                                                          } + ".chkDatatable").removeAttr("checked");
+                                                        $("#" + {{item.sIndex}} + ".chkDatatable").removeAttr("checked");
                                                     </script>
                                                     {{/if}}
 

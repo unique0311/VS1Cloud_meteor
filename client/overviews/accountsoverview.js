@@ -67,8 +67,8 @@ const saveCharts = async () => {
         type: "Tvs1dashboardpreferences",
         fields: new Tvs1ChartDashboardPreferenceField({
           Active:
-            $(chart).find(".on-editor-change-mode").attr("is-hidden") == true ||
-            $(chart).find(".on-editor-change-mode").attr("is-hidden") == "true"
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") === true ||
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") === "true"
               ? false
               : true,
           ChartID: $(chart).attr("chart-id"),
@@ -96,7 +96,7 @@ const saveCharts = async () => {
       body: JSON.stringify(_chart),
     });
 
-    if (ApiResponse.ok == true) {
+    if (ApiResponse.ok === true) {
       const jsonResponse = await ApiResponse.json();
       // console.log(
       //   "Chart: " +
@@ -171,8 +171,8 @@ Template.accountsoverview.onRendered(function () {
   const accountTypeList = [];
   const taxCodesList = [];
   let salesOrderTable;
-  var splashArray = new Array();
-  var splashArrayTaxRateList = new Array();
+  var splashArray = [];
+  var splashArrayTaxRateList = [];
   const dataTableList = [];
   const tableHeaderList = [];
   let currentId = FlowRouter.current().context.hash;
@@ -230,7 +230,7 @@ Template.accountsoverview.onRendered(function () {
 
   getVS1Data("TAccountType")
     .then(function (dataObject) {
-      if (dataObject.length == 0) {
+      if (dataObject.length === 0) {
         accountService.getAccountTypeCheck().then(function (data) {
           for (let i = 0; i < data.taccounttype.length; i++) {
             let accounttyperecordObj = {
@@ -271,7 +271,7 @@ Template.accountsoverview.onRendered(function () {
   templateObject.getAllTaxCodes = function () {
     getVS1Data("TTaxcodeVS1")
       .then(function (dataObject) {
-        if (dataObject.length == 0) {
+        if (dataObject.length === 0) {
           productService.getTaxCodesVS1().then(function (data) {
             let records = [];
             let inventoryData = [];
@@ -554,10 +554,10 @@ Template.accountsoverview.onRendered(function () {
   // templateObject.getAllTaxCodes();
   // $('#tblAccountOverview').DataTable();
   function MakeNegative() {
-    TDs = document.getElementsByTagName("td");
+    var TDs = document.getElementsByTagName("td");
     for (var i = 0; i < TDs.length; i++) {
       var temp = TDs[i];
-      if (temp.firstChild.nodeValue.indexOf("-" + Currency) == 0) {
+      if (temp.firstChild.nodeValue.indexOf("-" + Currency) === 0) {
         temp.className = "colBalance text-danger";
       }
     }
@@ -567,16 +567,14 @@ Template.accountsoverview.onRendered(function () {
     var currentAccountID = FlowRouter.current().queryParams.id;
     getVS1Data("TAccountVS1")
       .then(function (dataObject) {
-        if (dataObject.length == 0) {
+        if (dataObject.length === 0) {
           accountService
             .getOneAccount(parseInt(currentAccountID))
             .then(function (data) {
+              var fullAccountTypeName = '';
               if (accountTypeList) {
                 for (var h = 0; h < accountTypeList.length; h++) {
-                  if (
-                    data.fields.AccountTypeName ===
-                    accountTypeList[h].accounttypename
-                  ) {
+                  if ( data.fields.AccountTypeName === accountTypeList[h].accounttypename ) {
                     fullAccountTypeName = accountTypeList[h].description || "";
                   }
                 }
@@ -850,17 +848,14 @@ Template.accountsoverview.onRendered(function () {
         accountService
           .getOneAccount(parseInt(currentAccountID))
           .then(function (data) {
+            var fullAccountTypeName = '';
             if (accountTypeList) {
               for (var h = 0; h < accountTypeList.length; h++) {
-                if (
-                  data.fields.AccountTypeName ===
-                  accountTypeList[h].accounttypename
-                ) {
+                if ( data.fields.AccountTypeName === accountTypeList[h].accounttypename) {
                   fullAccountTypeName = accountTypeList[h].description || "";
                 }
               }
             }
-
             var accountid = data.fields.ID || "";
             var accounttype =
               fullAccountTypeName || data.fields.AccountTypeName;
@@ -946,12 +941,10 @@ Template.accountsoverview.onRendered(function () {
           accountService
             .getOneAccountByName(currentAccountID)
             .then(function (data) {
+              var fullAccountTypeName = '';
               if (accountTypeList) {
                 for (var h = 0; h < accountTypeList.length; h++) {
-                  if (
-                    data.taccountvs1[0].fields.AccountTypeName ===
-                    accountTypeList[h].accounttypename
-                  ) {
+                  if ( data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
                     fullAccountTypeName = accountTypeList[h].description || "";
                   }
                 }
@@ -1209,7 +1202,7 @@ Template.accountsoverview.onRendered(function () {
                 );
                 $("#edtCvc").val(cardcvc);
 
-                if (showTrans == "true") {
+                if (showTrans === "true") {
                   $(".showOnTransactions").prop("checked", true);
                 } else {
                   $(".showOnTransactions").prop("checked", false);
@@ -1229,12 +1222,10 @@ Template.accountsoverview.onRendered(function () {
         accountService
           .getOneAccountByName(currentAccountID)
           .then(function (data) {
+            var fullAccountTypeName = '';
             if (accountTypeList) {
               for (var h = 0; h < accountTypeList.length; h++) {
-                if (
-                  data.taccountvs1[0].fields.AccountTypeName ===
-                  accountTypeList[h].accounttypename
-                ) {
+                if ( data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
                   fullAccountTypeName = accountTypeList[h].description || "";
                 }
               }
@@ -1511,7 +1502,7 @@ Template.accountsoverview.onRendered(function () {
               let columVisible = false;
               let sClass = "";
               $.each(columns, function (i, v) {
-                if (v.hidden == false) {
+                if (v.hidden === false) {
                   columVisible = true;
                 }
                 if (v.className.includes("hiddenColumn")) {
@@ -1613,10 +1604,10 @@ Template.accountsoverview.onRendered(function () {
                       let columnWidth = customcolumn[i].width;
                       let columnindex = customcolumn[i].index + 1;
 
-                      if (hiddenColumn == true) {
+                      if (hiddenColumn === true) {
                         $("." + columnClass + "").addClass("hiddenColumn");
                         $("." + columnClass + "").removeClass("showColumn");
-                      } else if (hiddenColumn == false) {
+                      } else if (hiddenColumn === false) {
                         $("." + columnClass + "").removeClass("hiddenColumn");
                         $("." + columnClass + "").addClass("showColumn");
                       }
@@ -1731,7 +1722,7 @@ Template.accountsoverview.onRendered(function () {
           let columVisible = false;
           let sClass = "";
           $.each(columns, function (i, v) {
-            if (v.hidden == false) {
+            if (v.hidden === false) {
               columVisible = true;
             }
             if (v.className.includes("hiddenColumn")) {
@@ -1829,10 +1820,10 @@ Template.accountsoverview.onRendered(function () {
                         let columnWidth = customcolumn[i].width;
                         let columnindex = customcolumn[i].index + 1;
 
-                        if (hiddenColumn == true) {
+                        if (hiddenColumn === true) {
                           $("." + columnClass + "").addClass("hiddenColumn");
                           $("." + columnClass + "").removeClass("showColumn");
-                        } else if (hiddenColumn == false) {
+                        } else if (hiddenColumn === false) {
                           $("." + columnClass + "").removeClass("hiddenColumn");
                           $("." + columnClass + "").addClass("showColumn");
                         }
@@ -1942,7 +1933,7 @@ Template.accountsoverview.onRendered(function () {
             let columVisible = false;
             let sClass = "";
             $.each(columns, function (i, v) {
-              if (v.hidden == false) {
+              if (v.hidden === false) {
                 columVisible = true;
               }
               if (v.className.includes("hiddenColumn")) {
@@ -2118,18 +2109,18 @@ Template.accountsoverview.onRendered(function () {
         .editableSelect()
         .on("click.editable-select", function (e, li) {
           var $earch = $(this);
-          taxSelected = "sales";
+          var taxSelected = "sales";
           var offset = $earch.offset();
           var taxRateDataName = e.target.value || "";
           if (e.pageX > offset.left + $earch.width() - 8) {
             // X button 16px wide?
             $("#taxRateListModal").modal("toggle");
           } else {
-            if (taxRateDataName.replace(/\s/g, "") != "") {
+            if (taxRateDataName.replace(/\s/g, "") !== "") {
               $(".taxcodepopheader").text("Edit Tax Rate");
               getVS1Data("TTaxcodeVS1")
                 .then(function (dataObject) {
-                  if (dataObject.length == 0) {
+                  if (dataObject.length === 0) {
                     purchaseService
                       .getTaxCodesVS1()
                       .then(function (data) {
@@ -2244,7 +2235,7 @@ Template.accountsoverview.onRendered(function () {
     allChartsEndpoint.url.searchParams.append("ListType", "'Detail'");
     const allChartResponse = await allChartsEndpoint.fetch();
 
-    if (allChartResponse.ok == true) {
+    if (allChartResponse.ok === true) {
       const allChartsJsonResponse = await allChartResponse.json();
 
       let chartList = Tvs1chart.fromList(
@@ -2336,7 +2327,7 @@ Template.accountsoverview.onRendered(function () {
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          setTimeout(() => {
+          // setTimeout(() => {
             // this is good to see how the charts are apearing or not
             //if (tvs1chart.fields.ChartGroup == "Dashboard") {
             const itemName =
@@ -2403,8 +2394,12 @@ Template.accountsoverview.onRendered(function () {
               }
             }
             //}
-          }, index * 100);
+          // }, index * 100);
         });
+        let $chartWrappper = $('.connectedSortable');
+        $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
+            return +a.getAttribute('position') - +b.getAttribute('position');
+        }).appendTo($chartWrappper);
       }
 
       displayedCharts = document.querySelectorAll(
@@ -2560,36 +2555,36 @@ Template.accountsoverview.events({
       }
     }
   },
-  "click .resetTable": function (event) {
-    var getcurrentCloudDetails = CloudUser.findOne({
-      _id: Session.get("mycloudLogonID"),
-      clouddatabaseID: Session.get("mycloudLogonDBID"),
-    });
-    if (getcurrentCloudDetails) {
-      if (getcurrentCloudDetails._id.length > 0) {
-        var clientID = getcurrentCloudDetails._id;
-        var clientUsername = getcurrentCloudDetails.cloudUsername;
-        var clientEmail = getcurrentCloudDetails.cloudEmail;
-        var checkPrefDetails = CloudPreference.findOne({
-          userid: clientID,
-          PrefName: "tblAccountOverview",
-        });
-        if (checkPrefDetails) {
-          CloudPreference.remove(
-            {
-              _id: checkPrefDetails._id,
-            },
-            function (err, idTag) {
-              if (err) {
-              } else {
-                Meteor._reload.reload();
-              }
-            }
-          );
-        }
-      }
-    }
-  },
+  // "click .resetTable": function (event) {
+  //   var getcurrentCloudDetails = CloudUser.findOne({
+  //     _id: Session.get("mycloudLogonID"),
+  //     clouddatabaseID: Session.get("mycloudLogonDBID"),
+  //   });
+  //   if (getcurrentCloudDetails) {
+  //     if (getcurrentCloudDetails._id.length > 0) {
+  //       var clientID = getcurrentCloudDetails._id;
+  //       var clientUsername = getcurrentCloudDetails.cloudUsername;
+  //       var clientEmail = getcurrentCloudDetails.cloudEmail;
+  //       var checkPrefDetails = CloudPreference.findOne({
+  //         userid: clientID,
+  //         PrefName: "tblAccountOverview",
+  //       });
+  //       if (checkPrefDetails) {
+  //         CloudPreference.remove(
+  //           {
+  //             _id: checkPrefDetails._id,
+  //           },
+  //           function (err, idTag) {
+  //             if (err) {
+  //             } else {
+  //               Meteor._reload.reload();
+  //             }
+  //           }
+  //         );
+  //       }
+  //     }
+  //   }
+  // },
   "click .saveTable": function (event) {
     let lineItems = [];
     //let datatable =$('#tblAccountOverview').DataTable();
@@ -2958,7 +2953,6 @@ Template.accountsoverview.events({
           data = {
             type: "TAccount",
             fields: {
-              Active: true,
               AccountName: accountname || "",
               AccountNumber: accountno || "",
               AccountTypeName: accounttype || "",
@@ -3624,7 +3618,7 @@ Template.accountsoverview.events({
         let accountService = new AccountService();
         let accountID = $("#edtAccountID").val();
 
-        if (accountID == "") {
+        if (accountID === "") {
           window.open("/accountsoverview", "_self");
         } else {
           data = {
@@ -3680,9 +3674,9 @@ Template.accountsoverview.helpers({
     return Template.instance()
       .datatablerecords.get()
       .sort(function (a, b) {
-        if (a.accountname == "NA") {
+        if (a.accountname === "NA") {
           return 1;
-        } else if (b.accountname == "NA") {
+        } else if (b.accountname === "NA") {
           return -1;
         }
         return a.accountname.toUpperCase() > b.accountname.toUpperCase()
@@ -3692,7 +3686,7 @@ Template.accountsoverview.helpers({
   },
   bsbRegionName: () => {
     let bsbname = "Branch Code";
-    if (Session.get("ERPLoggedCountry") == "Australia") {
+    if (Session.get("ERPLoggedCountry") === "Australia") {
       bsbname = "BSB";
     }
     return bsbname;
@@ -3710,9 +3704,9 @@ Template.accountsoverview.helpers({
     return Template.instance()
       .accounttyperecords.get()
       .sort(function (a, b) {
-        if (a.description == "NA") {
+        if (a.description === "NA") {
           return 1;
-        } else if (b.description == "NA") {
+        } else if (b.description === "NA") {
           return -1;
         }
         return a.description.toUpperCase() > b.description.toUpperCase()
@@ -3724,9 +3718,9 @@ Template.accountsoverview.helpers({
     return Template.instance()
       .taxraterecords.get()
       .sort(function (a, b) {
-        if (a.description == "NA") {
+        if (a.description === "NA") {
           return 1;
-        } else if (b.description == "NA") {
+        } else if (b.description === "NA") {
           return -1;
         }
         return a.description.toUpperCase() > b.description.toUpperCase()
