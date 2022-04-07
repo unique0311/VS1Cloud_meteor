@@ -547,8 +547,18 @@
                                 </div>
                                 <hr style="margin: 8px">
                                 <div class="row" style="padding: 0px 8px;">
-                                    <div class="col-12">
+                                    <div class="col-md-3">
                                         <a href="#" style="margin: 8px 0px;" id="googleLink" class="googleLink">Google Maps Link</a>
+                                    </div>
+                                    <div class="col-md-2 custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0;padding: -2px;padding-left: 24px;">
+                                        <div class="form-group d-xl-flex justify-content-xl-start align-items-xl-center" style="margin: 0; Width:50%;">
+                                            <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px;" checked><label class="custom-control-label" for="formCheck-1">SMS Customer</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0;padding: -2px;padding-left: 24px;">
+                                        <div class="form-group d-xl-flex justify-content-xl-start align-items-xl-center" style="margin: 0; Width:50%;">
+                                            <input class="custom-control-input chkEmailRep" type="checkbox" id="formCheck-2" style="font-size: 22px;" checked><label class="custom-control-label" for="formCheck-2">SMS User</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr style="margin: 8px">
@@ -616,7 +626,8 @@
                                                     <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" class="form-control" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-1" style="padding-right: .3rem;">
+                                            <div class="col-1 flex justify-content-center align-items-center" style="padding-right: .3rem; padding-top: 40px;">
+                                                <i class="fa fa-check-circle text-success" style="font-size: 35px;" data-toggle="tooltip" data-placement="top" title="SMS Message confirmed"></i>
                                             </div>
                                         </div>
                                         <div class="row" style="padding: 0px 8px;">
@@ -691,14 +702,14 @@
                                         </div>
                                     {{/if}}
                                     <div class="col-xl-2 col-4 colStop" id="colStop" style="padding-top: 2em;">
-                                        <button class="btn btn-danger" type="button" style="margin: 8px 0px; width: 100%;" id="btnEndActualTime">Stop</button>
+                                        <button class="btn btn-danger" type="button" style="margin: 8px 0px; width: 100%;" id="btnStopAppointment">Stop</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success btnSaveAppointment" type="submit" style="margin: 8px;" id="btnSaveAppointment" name="btnSaveAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-success btnSaveAppointment" type="button" style="margin: 8px;" id="btnSaveAppointment" name="btnSaveAppointment"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                         <button class="btn btn-danger btnDelete" type="button" style="margin: 8px;" id="btnDelete" name="btnDelete"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i>Delete</button>
                         <button class="btn btn-warning btnOptions" type="button" style="margin: 8px;" id="btnOptions" name="btnOptions"><i class="fas fa-cogs" style="margin-right: 5px;"></i>Options</button>
 
@@ -736,18 +747,64 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4>Start Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="mb-0">Start Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body" style="padding: 0px; overflow-x: hidden;">
-                                        <div class="form-row">
-                                            <div class="col">
-                                                <div class="form-group d-xl-flex flex-column justify-content-xl-start align-items-xl-start"><label>Save Appointment SMS Message</label>
-                                                    <textarea class="border rounded form-control" rows="5" id="saveAppointmentSMS" name="saveAppointmentSMS"></textarea>
-                                                </div>
+                                        <div class="row m-0">
+                                            <div class="col p-3">
+                                                <label>You are able to edit Start Appointment SMS message here</label>
+                                                <textarea class="border rounded form-control" rows="5" id="startAppointmentSMSMessage" name="startAppointmentSMSMessage"></textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-secondary btnAppOptionsModal" id="btnAppOptionsModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                            <button class="btn btn-primary btnStartActualTime" id="btnStartActualTime" type="button"><i class="fa fa-check" style="margin-right: 5px;"></i>Confirm</button>
+                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop Appointment Modal to choose Stop Appointment SMS Message -->
+                        <div class="modal fade" role="dialog" id="stopAppointmentModal">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="mb-0">Stop Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body" style="padding: 0px; overflow-x: hidden;">
+                                        <div class="row m-0">
+                                            <div class="col p-3">
+                                                <label>You are able to edit Stop Appointment SMS message here</label>
+                                                <textarea class="border rounded form-control" rows="5" id="stopAppointmentSMSMessage" name="stopAppointmentSMSMessage"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary btnEndActualTime" id="btnEndActualTime" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Confirm</button>
+                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Save Appointment Modal to choose Save Appointment SMS Message -->
+                        <div class="modal fade" role="dialog" id="saveAppointmentModal">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="mb-0">Save Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    </div>
+                                    <div class="modal-body" style="padding: 0px; overflow-x: hidden;">
+                                        <div class="row m-0">
+                                            <div class="col">
+                                                <label>You are able to edit Save Appointment SMS message here</label>
+                                                <textarea class="border rounded form-control" rows="5" id="saveAppointmentSMSMessage" name="saveAppointmentSMSMessage"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary btnSaveAppointmentSubmit" id="btnSaveAppointmentSubmit" type="submit"><i class="fa fa-check" style="margin-right: 5px;"></i>Confirm</button>
+                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
                                 </div>

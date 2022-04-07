@@ -291,6 +291,7 @@
                                     <th class="th colOpenBalance" style="width:84px;">From Time</th>
                                     <th class="th colEmployee" style="width:84px;">To Time</th>
                                     <th class="th colStatus" style="width:100px;">Status</th>
+                                    <th class="th colconfirm" style="width:60px;">Confirm</th>
                                     <th class="th colNotes hiddenColumn">Notes</th>
                                 </tr>
                             </thead>
@@ -320,6 +321,7 @@
                                     <td contenteditable="false" class="colOpenBalance">{{item.timeStart}}</td>
                                     <td contenteditable="false" class="colEmployee">{{item.timeEnd}}</td>
                                     <td contenteditable="false" style="background-color: {{item.color}} !important; color:#fff" class="colStatus">{{item.finished}}</td>
+                                    <td contenteditable="false" class="colConfirm"><i class="fa fa-check-circle text-success" style="font-size: 35px;" data-toggle="tooltip" data-placement="top" title="SMS Message confirmed"></i></td>
                                     <td contenteditable="false" class="colNotes hiddenColumn">{{item.notes}}</td>
                                 </tr>
                                 {{/each}}

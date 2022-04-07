@@ -403,7 +403,6 @@ Template.appointmentlist.onRendered(function () {
                           color: color
                       };
                       dataTableList.push(dataList);
-
                   }
 
                   templateObject.datatablerecords.set(dataTableList);

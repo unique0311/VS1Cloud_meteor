@@ -38,6 +38,7 @@ Template.appointments.onCreated(function () {
     templateObject.empDuration = new ReactiveVar;
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.uploadedFile = new ReactiveVar();
+    templateObject.defaultSMSSettings = new ReactiveVar();
 
     templateObject.includeAllProducts = new ReactiveVar();
     templateObject.includeAllProducts.set(true);
@@ -6249,7 +6250,15 @@ Template.appointments.onRendered(function () {
 
     });
 
-
+    templateObject.defaultSMSSettings.set({
+        'saveAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] confirming that we are booked in to be at' +
+            ' [Full Address] at [Booked Time] to do the following service [Product/Service]. Please reply with Yes to confirm this booking' +
+            ' or No if you wish to cancel it.',
+        'startAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we are on site' +
+            ' and doing the following service [Product/Service].',
+        'stopAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we have finished' + 
+            ' doing the following service [Product/Service].'
+    });
 });
 
 Template.appointments.events({
@@ -8469,7 +8478,40 @@ Template.appointments.events({
         }
     },
     'click #btnStartAppointment': function() {
+        const templateObject = Template.instance();
         $('#startAppointmentModal').modal('show');
+        const accountName = $('#customer').val();
+        const employeeName = $('#employee_name').val();
+        const companyName = $('#employee_name').val();
+        const productService = $('#product-list').val();
+        const startAppointmentSMS = templateObject.defaultSMSSettings.get().startAppointmentSMS.replace('[Customer Name]', accountName)
+            .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService);
+        $('#startAppointmentSMSMessage').val(startAppointmentSMS);
+    },
+    'click #btnStopAppointment': function() {
+        const templateObject = Template.instance();
+        $('#stopAppointmentModal').modal('show');
+        const accountName = $('#customer').val();
+        const employeeName = $('#employee_name').val();
+        const companyName = $('#employee_name').val();
+        const productService = $('#product-list').val();
+        const stopAppointmentSMS = templateObject.defaultSMSSettings.get().stopAppointmentSMS.replace('[Customer Name]', accountName)
+            .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService);
+        $('#stopAppointmentSMSMessage').val(stopAppointmentSMS);
+    },
+    'click #btnSaveAppointment': function() {
+        const templateObject = Template.instance();
+        $('#saveAppointmentModal').modal('show');
+        const accountName = $('#customer').val();
+        const employeeName = $('#employee_name').val();
+        const companyName = $('#employee_name').val();
+        const fullAddress = $('#address').val() + ', ' + $('#suburb').val() + ', ' + $('#state').val() + ', ' + $('#country').val();
+        const bookedTime = $('#tActualStartTime').val() + $('#tActualEndTime').val() ? ' - ' + $('#tActualEndTime').val() : '';
+        const productService = $('#product-list').val();
+        const saveAppointmentSMS = templateObject.defaultSMSSettings.get().saveAppointmentSMS.replace('[Customer Name]', accountName)
+            .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService)
+            .replace('[Full Address]', fullAddress).replace('[Booked Time]', bookedTime);
+        $('#saveAppointmentSMSMessage').val(saveAppointmentSMS);
     },
     'click #btnEndActualTime': function () {
         const templateObject = Template.instance();
