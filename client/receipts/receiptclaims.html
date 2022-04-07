@@ -37,11 +37,6 @@
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="padding: 0px 16px;">
             <div class="col-12">
                 <button id="btnRefresh" class="btn btn-primary btnRefresh m-1 m-md-3" type="button"><i class="la la-lightbulb-o" style="margin-right: 5px;"></i>Refresh</button>                
-                <a class="btn btnOpenSettings float-right m-1 m-md-3" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
-                <button class="btn btn-primary printConfirm float-right m-1 m-md-3" type="button"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
-                <button id="exportbtn" class="btn btn-primary float-right m-1 m-md-3" type="button"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
-            </div>
-            <div class="col-12">
                 <div class="btn-group m-1 m-md-3">
                     <button type="button" class="btn btn-primary btnNewReceipt" data-toggle="modal" data-target="#newReceiptModal"><i class="icon ion-plus" style="margin-right: 5px;"></i>New Receipt</button>
                     <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,12 +48,15 @@
                         <a class="dropdown-item" href="" data-toggle="modal" data-target="#scanReceiptModal">Scan Receipt</a>
                         <a class="dropdown-item" href="" data-toggle="modal" data-target="#newReceiptModal" id="showMultiple">Create Multiple</a>
                         <a class="dropdown-item" href="" data-toggle="modal" data-target="#newReceiptModal" id="showTime">Time</a>
-                        <!-- <div class="dropdown-divider"></div>
-                        <h6 class="dropdown-header">Distance</h6>
-                        <a class="dropdown-item" href="" data-toggle="modal" data-target="#newReceiptModal">Manually Create</a> -->
                     </div>
                 </div>
+                <a class="btn btnOpenSettings float-right m-1 m-md-3" role="button" data-toggle="modal" href="#myModal2"><i class="icon ion-android-more-horizontal"></i></a>
+                <button class="btn btn-primary printConfirm float-right m-1 m-md-3" type="button"><i class="fa fa-print" style="margin-right: 5px;"></i>Print</button>
+                <button id="exportbtn" class="btn btn-primary float-right m-1 m-md-3" type="button"><i class="fas fa-file-export" style="margin-right: 5px;"></i>Export</button>
             </div>
+            <!-- <div class="col-12">
+                
+            </div> -->
         </div>
         <div class="px-md-3">
             <div class="card-body p-3 rounded" style="padding-top: 0px !important;">
@@ -142,19 +140,11 @@
 
                                                                 {{#if equals item.sVisible true}}
                                                                     <script>
-                                                                        $("#" + {
-                                                                            {
-                                                                                item.sIndex
-                                                                            }
-                                                                        } + ".chkDatatable").attr("checked", "checked");
+                                                                        $("#" + {{tem.sIndex}} + ".chkDatatable").attr("checked", "checked");
                                                                     </script>
                                                                 {{else}}
                                                                     <script>
-                                                                        $("#" + {
-                                                                            {
-                                                                                item.sIndex
-                                                                            }
-                                                                        } + ".chkDatatable").removeAttr("checked");
+                                                                        $("#" + {{item.sIndex}} + ".chkDatatable").removeAttr("checked");
                                                                     </script>
                                                                 {{/if}}
 
@@ -209,7 +199,7 @@
                         input[type=number]::-webkit-outer-spin-button {
                             opacity: 1;
                         }
-                        input[type=search] {
+                        input[type=search]#tblReceiptList_filter {
                             width: 150px !important;
                         }
                     </style>
@@ -283,7 +273,7 @@
                                 <td contenteditable="false" class="colReceiptMerchant" >{{item.SupplierName}}</td>
                                 <td contenteditable="false" class="colReceiptAmount" style="text-align: right;">${{item.AmountInc}}</td>
                                 <td contenteditable="false" class="colReceiptAccount" >{{item.AccountName}}</td>
-                                <td contenteditable="false" class="colReceiptDesc" style="width: 30%;">{{item.Comments}}</td>
+                                <td contenteditable="false" class="colReceiptDesc" style="width: 30%;">{{item.Description}}</td>
                             </tr>
                             {{/each}}
                             {{/if}}
@@ -326,43 +316,26 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Employee(s)</label>
-                                        <select class="form-control employees">
-                                            {{#if employees}}
-                                                {{#each item in employees}}
-                                                    <option value="{{item.id}}" selected="{{#if equals item.id editExpenseClaim.EmployeeID}}selected{{/if}}">{{item.employeename}}</option>
-                                                {{/each}}
-                                            {{/if}}
-                                        </select>
+                                        <select class="form-control employees" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Transaction Type</label>
-                                        <select class="form-control">
-                                            <option>Cash</option>
-                                            <option>Card</option>
-                                            <option>EFT</option>
-                                            <option>Cheque</option>
-                                        </select>
+                                        <select type="search" class="form-control transactionTypes" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Merchant</label>
-                                        <select class="form-control merchants">
-                                            {{#if suppliers}}
-                                                {{#each item in suppliers}}
-                                                    <option value="{{item.supplierid}}" selected="{{#if equals item.supplierid editExpenseClaim.SupplierID}}selected{{/if}}">{{item.suppliername}}</option>
-                                                {{/each}}
-                                            {{/if}}
-                                        </select>
+                                        <select class="form-control merchants" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Date</label>
                                         <div class="input-group date" style="cursor: pointer;">
-                                            <input type="text" class="form-control" id="dtReceiptDate" name="dtReceiptDate" value="{{editExpenseClaim.DateTime}}">
+                                            <input type="text" class="form-control dtReceiptDate" name="dtReceiptDate" value="{{editExpenseClaim.DateTime}}">
                                             <div class="input-group-addon">
                                                 <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                             </div>
@@ -378,30 +351,19 @@
                                 <div class="col-4">
                                     <div class="form-group">
                                         <label>Currency</label>
-                                        <select class="form-control" id="">
-                                            <option>ZAR</option>
-                                            <option>AUD</option>
-                                            <option selected>USD</option>
-                                            <option>EUR</option>
-                                        </select>
+                                        <select class="form-control currencies" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                     </div>
                                 </div>
                                 <div class="col-12 mb-3">
                                     <div class="custom-control custom-switch">
-                                        <input class="custom-control-input" type="checkbox"  id="swtReiumbursable" name="swtReiumbursable" style="cursor: pointer;" checked="{{#if editExpenseClaim.Reimbursement}}checked{{/if}}">
+                                        <input class="custom-control-input swtReiumbursable" type="checkbox" id="swtReiumbursable" style="cursor: pointer;" checked="{{#if editExpenseClaim.Reimbursement}}checked{{/if}}">
                                         <label class="custom-control-label" for="swtReiumbursable" style="cursor: pointer;">Reiumbursable</label>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label>Chart of Accounts</label>
-                                        <select class="form-control chart-accounts">
-                                            {{#if chartAccounts}}
-                                                {{#each item in chartAccounts}}
-                                                    <option value="{{item.accountId}}" selected="{{#if equals item.accountId editExpenseClaim.AccountId}}selected{{/if}}">{{item.accountname}}</option>
-                                                {{/each}}
-                                            {{/if}}
-                                        </select>
+                                        <select class="form-control chart-accounts" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -437,8 +399,6 @@
 
                             .imageParent {
                                 width: 100%;
-                                // border-top-left-radius: 15px;
-                                // border-top-right-radius: 15px;
                                 border-radius: 15px;
                                 position: relative;
                                 float: left;
@@ -485,7 +445,7 @@
                         <button type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     <div style="float: right;">
-                        <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-primary btnSave" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                         <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                     </div>
                 </div>
@@ -553,7 +513,7 @@
                                 <thead>
                                     <tr class="dnd-moved">
                                         <th class="th colReceiptDate" style="width: 6%;">Date</th>
-                                        <th class="th colReceiptAccount" style="width:;">Account</th>
+                                        <th class="th colReceiptAccount">Account</th>
                                         <th class="th colReceiptAmount" style="width: 20%;">Amount</th>
                                         <th class="th colDelete" style="width: 3%;"></th>
                                     </tr>
@@ -561,7 +521,7 @@
                                 <tbody>
                                     <tr class="dnd-moved" id="receiptentry1" style="cursor: pointer;">
                                         <td contenteditable="false" class="colReceiptDate" style="width: 6%;">08/03/2022</td>
-                                        <td contenteditable="false" class="colReceiptAccount" style="width: ;">Travel</td>
+                                        <td contenteditable="false" class="colReceiptAccount">Travel</td>
                                         <td contenteditable="false" class="colReceiptAmount" style="width: 20%; text-align: right;">$500.00</td>
                                         <td contenteditable="false" class="colDelete" style="width: 3%;">
                                             <span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button></span>
@@ -585,7 +545,7 @@
                                 <div class="form-group">
                                     <label>Start Date</label>
                                     <div class="input-group date" style="cursor: pointer;">
-                                        <input type="text" class="form-control" id="dtReceiptDate" name="dtReceiptDate" value="">
+                                        <input type="text" class="form-control dtReceiptDate" name="dtReceiptDate" value="">
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                         </div>
@@ -594,7 +554,7 @@
                                 <div class="form-group">
                                     <label>End Date</label>
                                     <div class="input-group date" style="cursor: pointer;">
-                                        <input type="text" class="form-control" id="dtReceiptDate" name="dtReceiptDate" value="">
+                                        <input type="text" class="form-control dtReceiptDate" name="dtReceiptDate" value="">
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                         </div>
@@ -708,19 +668,19 @@
                                 <thead>
                                     <tr class="dnd-moved">
                                         <th class="th col" style="width: 6%;">Date</th>
-                                        <th class="th col" style="width: ;">Merchant</th>
+                                        <th class="th col">Merchant</th>
                                         <th class="th col" style="width: 20%;">Total</th>
-                                        <th class="th col" style="width: ;">Account</th>
-                                        <th class="th col" style="width: ;">Comment</th>
+                                        <th class="th col">Account</th>
+                                        <th class="th col">Comment</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="dnd-moved" id="receiptentry1" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
-                                        <td contenteditable="false" class="col" style="width: ;"></td>
+                                        <td contenteditable="false" class="col"></td>
                                         <td contenteditable="false" class="col" style="width: 20%; text-align: right;">$500.00</td>
-                                        <td contenteditable="false" class="col" style="width: ;"></td>
-                                        <td contenteditable="false" class="col" style="width: ;"></td>
+                                        <td contenteditable="false" class="col"></td>
+                                        <td contenteditable="false" class="col"></td>
 
                                     </tr>
                                 </tbody>
@@ -768,43 +728,26 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Employee(s)</label>
-                                                <select class="form-control employees">
-                                                    {{#if employees}}
-                                                        {{#each item in employees}}
-                                                            <option value="{{item.id}}">{{item.employeename}}</option>
-                                                        {{/each}}
-                                                    {{/if}}
-                                                </select>
+                                                <select class="form-control employees" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Transaction Type</label>
-                                                <select class="form-control transaction-type">
-                                                    <option>Cash</option>
-                                                    <option>Card</option>
-                                                    <option>EFT</option>
-                                                    <option>Cheque</option>
-                                                </select>
+                                                <select type="search" class="form-control transactionTypes" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Merchant</label>
-                                                <select class="form-control merchants">
-                                                    {{#if suppliers}}
-                                                        {{#each item in suppliers}}
-                                                            <option value="{{item.supplierid}}">{{item.suppliername}}</option>
-                                                        {{/each}}
-                                                    {{/if}}
-                                                </select>
+                                                <select class="form-control merchants" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Date</label>
                                                 <div class="input-group date" style="cursor: pointer;">
-                                                    <input type="text" class="form-control" id="dtExpenseDate" name="dtExpenseDate" value="">
+                                                    <input type="text" class="form-control dtReceiptDate" name="dtExpenseDate" value="">
                                                     <div class="input-group-addon">
                                                         <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                                     </div>
@@ -820,30 +763,19 @@
                                         <div class="col-4">
                                             <div class="form-group">
                                                 <label>Currency</label>
-                                                <select class="form-control currency">
-                                                    <option>ZAR</option>
-                                                    <option>AUD</option>
-                                                    <option>USD</option>
-                                                    <option>EUR</option>
-                                                </select>
+                                                <select class="form-control currencies" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <div class="custom-control custom-switch">
-                                                <input class="custom-control-input" type="checkbox" value="swtReiumbursable" id="swtReiumbursable" name="swtReiumbursable" style="cursor: pointer;">
-                                                <label class="custom-control-label" for="swtReiumbursable" style="cursor: pointer;">Reiumbursable</label>
+                                                <input class="custom-control-input swtReiumbursable" type="checkbox" id="swtReiumbursableExpense" style="cursor: pointer;">
+                                                <label class="custom-control-label" for="swtReiumbursableExpense" style="cursor: pointer;">Reiumbursable</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Chart of Accounts</label>
-                                                <select class="form-control chart-accounts">
-                                                    {{#if chartAccounts}}
-                                                        {{#each item in chartAccounts}}
-                                                            <option value="{{item.accountId}}">{{item.accountname}}</option>
-                                                        {{/each}}
-                                                    {{/if}}
-                                                </select>
+                                                <select class="form-control chart-accounts" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -879,8 +811,6 @@
 
                                     .imageParent {
                                         width: 100%;
-                                        // border-top-left-radius: 15px;
-                                        // border-top-right-radius: 15px;
                                         border-radius: 15px;
                                         position: relative;
                                         float: left;
@@ -912,7 +842,7 @@
                                         <div class="imageParent" data-scale="2.4" data-image="images/receipt1.jpg"></div>
                                     </div>
                                 </div>
-                                <div class="col-12" style="">
+                                <div class="col-12">
                                     <button type="button" class="btn btn-secondary btn-detach" style="float: right; margin-left: 8px; margin-top: 16px;"><i class="fas fa-remove" style="margin-right: 8px;"></i>Detach</button>
                                     <button type="button" class="btn btn-primary btn-upload" style="float: right; margin-right: 8px; margin-top: 16px;"><i class="fa fa-cloud-upload" style="margin-right: 8px;"></i>Upload</button>
                                     <input type="file" class="attachment-upload" style="display:none" accept=".jpg,.png,.pdf,.jpeg">
@@ -931,11 +861,11 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Hours</span>
                                                 </div>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" id="claimHours">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">at</span>
                                                 </div>
-                                                <input type="text" class="form-control" style="border-left: 0px;">
+                                                <input type="text" class="form-control" style="border-left: 0px;" id="claimRate">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">per hour</span>
                                                 </div>
@@ -944,20 +874,14 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Employee(s)</label>
-                                                <select class="form-control employees">
-                                                    {{#if employees}}
-                                                        {{#each item in employees}}
-                                                            <option value="{{item.id}}">{{item.employeename}}</option>
-                                                        {{/each}}
-                                                    {{/if}}
-                                                </select>
+                                                <select class="form-control employees" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Date</label>
                                                 <div class="input-group date" style="cursor: pointer;">
-                                                    <input type="text" class="form-control" id="dtTimeDate" name="dtTimeDate" value="">
+                                                    <input type="text" class="form-control dtReceiptDate" name="dtTimeDate" value="">
                                                     <div class="input-group-addon">
                                                         <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                                     </div>
@@ -973,30 +897,19 @@
                                         <div class="col-4">
                                             <div class="form-group">
                                                 <label>Currency</label>
-                                                <select class="form-control" id="">
-                                                    <option>ZAR</option>
-                                                    <option>AUD</option>
-                                                    <option>USD</option>
-                                                    <option>EUR</option>
-                                                </select>
+                                                <select class="form-control currencies" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-12 mb-3">
                                             <div class="custom-control custom-switch">
-                                                <input class="custom-control-input" type="checkbox" value="swtReiumbursable" id="swtReiumbursable" name="swtReiumbursable" style="cursor: pointer;">
-                                                <label class="custom-control-label" for="swtReiumbursable" style="cursor: pointer;">Reiumbursable</label>
+                                                <input class="custom-control-input swtReiumbursable" type="checkbox" id="swtReiumbursableTime" style="cursor: pointer;">
+                                                <label class="custom-control-label" for="swtReiumbursableTime" style="cursor: pointer;">Reiumbursable</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label>Chart of Accounts</label>
-                                                <select class="form-control chart-accounts">
-                                                    {{#if chartAccounts}}
-                                                        {{#each item in chartAccounts}}
-                                                            <option value="{{item.accountId}}">{{item.accountname}}</option>
-                                                        {{/each}}
-                                                    {{/if}}
-                                                </select>
+                                                <select class="form-control chart-accounts" type="search" style="background-color:rgb(255, 255, 255);cursor: pointer;"></select>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -1032,8 +945,6 @@
 
                                     .imageParent {
                                         width: 100%;
-                                        // border-top-left-radius: 15px;
-                                        // border-top-right-radius: 15px;
                                         border-radius: 15px;
                                         position: relative;
                                         float: left;
@@ -1065,7 +976,7 @@
                                         <div class="imageParent" data-scale="2.4" data-image="images/receipt1.jpg"></div>
                                     </div>
                                 </div>
-                                <div class="col-12" style="">
+                                <div class="col-12">
                                     <button type="button" class="btn btn-secondary btn-detach" style="float: right; margin-left: 8px; margin-top: 16px;"><i class="fas fa-remove" style="margin-right: 8px;"></i>Detach</button>
                                     <button type="button" class="btn btn-primary btn-upload" style="float: right; margin-right: 8px; margin-top: 16px;"><i class="fa fa-cloud-upload" style="margin-right: 8px;"></i>Upload</button>
                                     <input type="file" class="attachment-upload" style="display:none" accept=".jpg,.png,.pdf,.jpeg">
@@ -1082,7 +993,7 @@
                                         <th class="th col" style="width: 10%;">Currency</th>
                                         <th class="th col" style="width: 3%;"></th>
                                         <th class="th col" style="width: 10%;">Account</th>
-                                        <th class="th col" style="width: %;">Description</th>
+                                        <th class="th col" >Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1093,7 +1004,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1102,7 +1013,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1111,7 +1022,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1120,7 +1031,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1129,7 +1040,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1138,7 +1049,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1147,7 +1058,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1156,7 +1067,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1165,7 +1076,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                     <tr class="dnd-moved" id="" style="cursor: pointer;">
                                         <td contenteditable="false" class="col" style="width: 6%;">08/03/2022</td>
@@ -1174,7 +1085,7 @@
                                         <td contenteditable="false" class="col" style="width: 10%;">AUD</td>
                                         <td contenteditable="false" class="col" style="width: 3%;"><i class="fa fa-cloud-upload"></i></td>
                                         <td contenteditable="false" class="col" style="width: 10%;">Travel</td>
-                                        <td contenteditable="false" class="col" style="width: %;">20L Petrol</td>
+                                        <td contenteditable="false" class="col" >20L Petrol</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1182,7 +1093,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                    <button class="btn btn-primary btnSave" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                     <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                 </div>
             </div>
@@ -1229,6 +1140,76 @@
     </div>
 
     <!-- End Help Video Modal -->
+
+    <!-- Employee Select Standard Modals -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="employeeListModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable customerListModalInner" role="document" style="max-width: 90vw;">
+            <div class="modal-content customerListContent">
+                <div class="modal-header">
+                    <h4>Employee List</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
+                    {{> employeelistpop}}
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-light" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="addEmployeeModal">
+        {{> addemployeepop}}
+    </div>
+
+    <!-- Supplier Select Standard Modals -->
+    <div class="modal fade supplierListModal" role="dialog" tabindex="-1" id="supplierListModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable supplierListModalInner" role="document" style="max-width: 90vw;">
+            <div class="modal-content supplierListContent">
+                <div class="modal-header">
+                    <h4>Supplier List</h4><button type="button" class="close checkclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body mainSupplierModalBody" style="padding: 0px; overflow-x: hidden;">
+                    <input type="hidden" style="width: 100%; display:none;" id="supplierSelectLineID" name="supplierSelectLineID" readonly>
+                    {{> supplierlistpop}}
+
+                </div>
+                <div class="modal-footer"><button class="btn btn-light checkclose" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="addSupplierModal">
+        {{> addsupplierpop}}
+    </div>
+
+    <!-- Chart Account Standard Modals -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="accountListModal">
+        {{> accountlistpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+        {{> addaccountpop}}
+    </div>
+
+    <!-- Currency Select Standard Modals -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="currencyModal">
+        {{> currencypop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newCurrencyModal">
+        {{> newcurrencypop}}
+    </div>
+
+    <!-- Transaction Type Select Standard Modals -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="paymentMethodModal">
+        {{> paymentmethodpop}}
+    </div>
+
+    <div class="modal fade" role="dialog" tabindex="-1" id="newPaymentMethodModal">
+        {{> newpaymentmethodpop}}
+    </div>
+
     <script>
         modalDraggable();
     </script>

@@ -9,7 +9,7 @@ export default class ApiCollectionHelper {
     this.collection = collection;
     
 
-    console.log("ApiCollectionHelper module loaded");
+    //console.log("ApiCollectionHelper module loaded");
   }
 
   debugMe(message = null, params = []) {

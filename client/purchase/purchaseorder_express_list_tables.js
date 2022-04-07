@@ -177,7 +177,9 @@ Template.purchaseorderlist.onRendered(function () {
                 let orderstatus = data.tpurchaseorderlist[i].OrderStatus || "";
                 if (data.tpurchaseorderlist[i].Deleted == true) {
                   orderstatus = "Deleted";
-                }
+                }else if(data.tpurchaseorderlist[i].SupplierName == ''){
+                  orderstatus = "Deleted";
+                };
                 var dataList = {
                   id: data.tpurchaseorderlist[i].PurchaseOrderID || "",
                   employee: data.tpurchaseorderlist[i].EmployeeName || "",
@@ -626,7 +628,9 @@ Template.purchaseorderlist.onRendered(function () {
             let orderstatus = data.tpurchaseorderlist[i].OrderStatus || "";
             if (data.tpurchaseorderlist[i].Deleted == true) {
               orderstatus = "Deleted";
-            }
+            }else if(data.tpurchaseorderlist[i].SupplierName == ''){
+              orderstatus = "Deleted";
+            };
             var dataList = {
               id: data.tpurchaseorderlist[i].PurchaseOrderID || "",
               employee: data.tpurchaseorderlist[i].EmployeeName || "",
@@ -1045,7 +1049,9 @@ Template.purchaseorderlist.onRendered(function () {
               let orderstatus = data.tpurchaseorderlist[i].OrderStatus || "";
               if (data.tpurchaseorderlist[i].Deleted == true) {
                 orderstatus = "Deleted";
-              }
+              }else if(data.tpurchaseorderlist[i].SupplierName == ''){
+                orderstatus = "Deleted";
+              };
               var dataList = {
                 id: data.tpurchaseorderlist[i].PurchaseOrderID || "",
                 employee: data.tpurchaseorderlist[i].EmployeeName || "",

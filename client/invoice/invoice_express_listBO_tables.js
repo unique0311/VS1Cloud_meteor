@@ -138,7 +138,9 @@ Template.invoicelistBO.onRendered(function() {
                         let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
                         if(data.tsalesbackorderreport[i].Deleted == true){
                           salestatus = "Deleted";
-                        }
+                        }else if(data.tsalesbackorderreport[i].CustomerName == ''){
+                          salestatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tsalesbackorderreport[i].SaleID || '',
                             employee:data.tsalesbackorderreport[i].EnteredBy || '',
@@ -429,7 +431,7 @@ Template.invoicelistBO.onRendered(function() {
                 let useData = data.tsalesbackorderreport;
                 let lineItems = [];
                 let lineItemObj = {};
-                console.log(data);
+
                 if (data.Params.IgnoreDates == true) {
                     $('#dateFrom').attr('readonly', true);
                     $('#dateTo').attr('readonly', true);
@@ -448,7 +450,9 @@ Template.invoicelistBO.onRendered(function() {
                     let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
                     if(data.tsalesbackorderreport[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.tsalesbackorderreport[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tsalesbackorderreport[i].SaleID || '',
                         employee:data.tsalesbackorderreport[i].EnteredBy || '',
@@ -754,7 +758,9 @@ Template.invoicelistBO.onRendered(function() {
                     let salestatus = data.tsalesbackorderreport[i].QuoteStatus || '';
                     if(data.tsalesbackorderreport[i].Deleted == true){
                       salestatus = "Deleted";
-                    }
+                    }else if(data.tsalesbackorderreport[i].CustomerName == ''){
+                      salestatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tsalesbackorderreport[i].SaleID || '',
                         employee:data.tsalesbackorderreport[i].EnteredBy || '',
@@ -1146,32 +1152,33 @@ Template.invoicelistBO.events({
                 $(".btnRefreshInvoiceListBO").removeClass('btnSearchAlert');
                 let lineItems = [];
                 let lineItemObj = {};
-                if (data.tsalesbackorderreport.length > 0) {
-                    for (let i = 0; i < data.tsalesbackorderreport.length; i++) {
-                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePrice)|| 0.00;
-                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalTax) || 0.00;
+                if (data.BackOrderSalesList.length > 0) {
+                    for (let i = 0; i < data.BackOrderSalesList.length; i++) {
+                         let totalAmountEx = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountEx)|| 0.00;
+                        let totalTax = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalTax) || 0.00;
                         // Currency+''+data.tinvoiceex[i].fields.TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalLinePriceInc) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalPaid) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tsalesbackorderreport[i].TotalBalance) || 0.00;
+                        let totalAmount = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc) || 0.00;
+                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc) || 0.00;
+                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.BackOrderSalesList[i].TotalAmountInc) || 0.00;
                         var dataList = {
-                           id: data.tsalesbackorderreport[i].SaleID || '',
-                            employee:data.tsalesbackorderreport[i].EnteredBy || '',
-                            sortdate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("YYYY/MM/DD"): data.tsalesbackorderreport[i].SaleDate,
-                            saledate: data.tsalesbackorderreport[i].SaleDate !=''? moment(data.tsalesbackorderreport[i].SaleDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].SaleDate,
-                            duedate: data.tsalesbackorderreport[i].DueDate !=''? moment(data.tsalesbackorderreport[i].DueDate).format("DD/MM/YYYY"): data.tsalesbackorderreport[i].DueDate,
-                            customername: data.tsalesbackorderreport[i].CustomerName || '',
+                           id: data.BackOrderSalesList[i].SaleID || '',
+                            employee:data.BackOrderSalesList[i].SaleEnteredBy || '',
+                            sortdate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("YYYY/MM/DD"): data.BackOrderSalesList[i].SaleDate,
+                            saledate: data.BackOrderSalesList[i].SaleDate !=''? moment(data.BackOrderSalesList[i].SaleDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].SaleDate,
+                            duedate: data.BackOrderSalesList[i].SaleDueDate !=''? moment(data.BackOrderSalesList[i].SaleDueDate).format("DD/MM/YYYY"): data.BackOrderSalesList[i].SaleDueDate,
+                            customername: data.BackOrderSalesList[i].CustomerPrintName || '',
                             totalamountex: totalAmountEx || 0.00,
                             totaltax: totalTax || 0.00,
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            department: data.tsalesbackorderreport[i].class || '',
-                            custfield1: data.tsalesbackorderreport[i].UOM || '',
-                            custfield2: data.tsalesbackorderreport[i].SaleTerms || '',
-                            comments: data.tsalesbackorderreport[i].PickMemo || '',
-                            qtybackorder: data.tsalesbackorderreport[i].BackOrder || '',
-                            product: data.tsalesbackorderreport[i].ProductName || '',
+                            department: data.BackOrderSalesList[i].Department || '',
+                            salestatus:  '',
+                            custfield1: data.BackOrderSalesList[i].UOM || '',
+                            custfield2: data.BackOrderSalesList[i].SaleTerms || '',
+                            comments: data.BackOrderSalesList[i].SaleComments || '',
+                            qtybackorder: data.BackOrderSalesList[i].QtyBackOrder || '',
+                            product: data.BackOrderSalesList[i].ProductPrintName || '',
 
                         };
 
@@ -1199,16 +1206,17 @@ Template.invoicelistBO.events({
                                 '<td contenteditable="false" class="colDueDate" >' + item[x].duedate + '</td>' +
                                 '<td contenteditable="false" class="colCustomer">' + item[x].customername + '</td>' +
                                 '<td contenteditable="false" class="colAmountEx" style="text-align: right!important;">' + item[x].totalamountex + '</td>' +
-                                '<td contenteditable="false" class="colTax" style="text-align: right!important;">' + item[x].totaltax + '</td>' +
+                                '<td contenteditable="false" class="colTax hiddenColumn" style="text-align: right!important;">' + item[x].totaltax + '</td>' +
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
-                                '<td contenteditable="false" class="colProduct" style="text-align: right!important;">' + item[x].product + '</td>' +
+                                '<td contenteditable="false" class="colProduct">' + item[x].product + '</td>' +
                                 '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].qtybackorder + '</td>' +
-                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].department + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].salestatus + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +
                                 '<td contenteditable="false" class="colComments">' + item[x].comments + '</td>' +
                                 '</tr>');
+
 
                         }
                         $('.dataTables_info').html('Showing 1 to ' + data.tsalesbackorderreport.length + ' of ' + data.tsalesbackorderreport.length + ' entries');
@@ -1234,7 +1242,6 @@ Template.invoicelistBO.events({
                     });
                 }
             }).catch(function (err) {
-
                 $('.fullScreenSpin').css('display', 'none');
             });
         } else {
@@ -1265,62 +1272,7 @@ Template.invoicelistBO.events({
     },
     'click .saveTable' : function(event){
         let lineItems = [];
-        $('.columnSettings').each(function (index) {
-            var $tblrow = $(this);
-            var colTitle = $tblrow.find(".divcolumn").text()||'';
-            var colWidth = $tblrow.find(".custom-range").val()||0;
-            var colthClass = $tblrow.find(".divcolumn").attr("valueupdate")||'';
-            var colHidden = false;
-            if($tblrow.find(".custom-control-input").is(':checked')){
-                colHidden = false;
-            }else{
-                colHidden = true;
-            }
-            let lineItemObj = {
-                index: index,
-                label: colTitle,
-                hidden: colHidden,
-                width: colWidth,
-                thclass: colthClass
-            }
-
-            lineItems.push(lineItemObj);
-        });
-
-        var getcurrentCloudDetails = CloudUser.findOne({_id:Session.get('mycloudLogonID'),clouddatabaseID:Session.get('mycloudLogonDBID')});
-        if(getcurrentCloudDetails){
-            if (getcurrentCloudDetails._id.length > 0) {
-                var clientID = getcurrentCloudDetails._id;
-                var clientUsername = getcurrentCloudDetails.cloudUsername;
-                var clientEmail = getcurrentCloudDetails.cloudEmail;
-                var checkPrefDetails = CloudPreference.findOne({userid:clientID,PrefName:'tblInvoicelistBO'});
-                if (checkPrefDetails) {
-                    CloudPreference.update({_id: checkPrefDetails._id},{$set: { userid: clientID,username:clientUsername,useremail:clientEmail,
-                                                                               PrefGroup:'salesform',PrefName:'tblInvoicelistBO',published:true,
-                                                                               customFields:lineItems,
-                                                                               updatedAt: new Date() }}, function(err, idTag) {
-                        if (err) {
-                            $('#myModal2').modal('toggle');
-                        } else {
-                            $('#myModal2').modal('toggle');
-                        }
-                    });
-
-                }else{
-                    CloudPreference.insert({ userid: clientID,username:clientUsername,useremail:clientEmail,
-                                            PrefGroup:'salesform',PrefName:'tblInvoicelistBO',published:true,
-                                            customFields:lineItems,
-                                            createdAt: new Date() }, function(err, idTag) {
-                        if (err) {
-                            $('#myModal2').modal('toggle');
-                        } else {
-                            $('#myModal2').modal('toggle');
-
-                        }
-                    });
-                }
-            }
-        }
+        $('#myModal2').modal('toggle');
 
     },
     'blur .divcolumn' : function(event){

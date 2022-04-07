@@ -62,8 +62,6 @@ const chartsEditor = new ChartsEditor(
     $(".sortable-chart-widget-js").removeClass("hideelement"); // display every charts
     $(".on-editor-change-mode").removeClass("hideelement");
     $(".on-editor-change-mode").addClass("showelement");
-
-
   },
   () => {
     $("#resetcharts").addClass("hideelement").removeClass("showelement"); // this will hide it back
@@ -111,40 +109,56 @@ const saveCharts = async () => {
   let chartList = [];
 
   // now we have to make the post request to save the data in database
+  const apiEndpoint = dashboardApis.collection.findByName(
+    dashboardApis.collectionNames.Tvs1dashboardpreferences
+  );
 
-  chartList.forEach(async (chart) => {
-    const chartData = new Tvs1ChartDashboardPreference({
-      type: "Tvs1dashboardpreferences",
-      fields: new Tvs1ChartDashboardPreferenceField({
-        Active: $(chart).find(".on-editor-change-mode").attr("is-hidden"),
-        ChartID: $(chart).attr("chart-id"),
-        ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
-        EmployeeID: employeeId,
-        Chartname: $(chart).attr("chart-name"),
-        Position: $(chart).attr("position"),
-        ChartGroup: _chartGroup,
-      }),
+  Array.prototype.forEach.call(charts, (chart) => {
+    //console.log(chart);
+    chartList.push(
+      new Tvs1ChartDashboardPreference({
+        type: "Tvs1dashboardpreferences",
+        fields: new Tvs1ChartDashboardPreferenceField({
+          Active:
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == true ||
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == "true"
+              ? false
+              : true,
+          ChartID: $(chart).attr("chart-id"),
+          ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
+          EmployeeID: employeeId,
+          Chartname: $(chart).attr("chart-name"),
+          Position: parseInt($(chart).attr("position")),
+          ChartGroup: _chartGroup,
+          KeyStringFieldName: _chartGroup,
+          ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
+        }),
+      })
+    );
+  });
+
+  for (const _chart of chartList) {
+    // chartList.forEach(async (chart) => {
+    //console.log("Saving chart");
+
+    const ApiResponse = await apiEndpoint.fetch(null, {
+      method: "POST",
+      headers: ApiService.getPostHeaders(),
+      body: JSON.stringify(_chart),
     });
-    console.log(chartData);
-
-    const ApiResponse = await dashboardApis.collection
-      .findByName(dashboardApis.collectionNames.Tvs1dashboardpreferences)
-      .fetch(null, {
-        method: "POST",
-        headers: ApiService.getPostHeaders(),
-        body: JSON.stringify(chartData),
-      });
 
     if (ApiResponse.ok == true) {
       const jsonResponse = await ApiResponse.json();
-      console.log(
-        "Chart: " +
-          chart.Chartname +
-          " will be hidden ? " +
-          !chart.fields.Active
-      );
+      // console.log(
+      //   "Chart: " +
+      //     _chart.ChartName +
+      //     " will be hidden ? " +
+      //     !_chart.fields.Active
+      // );
     }
-  });
+    //});
+  }
 };
 
 Template.dashboard.onCreated(function () {
@@ -176,6 +190,37 @@ Template.dashboard.onRendered(function () {
     }
   };
 
+  templateObject.saveIntoLocalDB = async (e) => {
+    const chartList = []
+    const chartcontainer = $(e.currentTarget).parents('.sortable-chart-widget-js');
+    let chartID = $(chartcontainer).attr("chart-id")
+    let dbchartslist = await JSON.parse(localStorage.getItem(_chartGroup));
+    if( dbchartslist ){      
+      chartList = await dbchartslist.filter(item => item.fields.ChartID !== chartID);
+    }
+    chartList.push(
+      new Tvs1ChartDashboardPreference({
+        type: "Tvs1dashboardpreferences",
+        fields: new Tvs1ChartDashboardPreferenceField({
+          Active:
+            $(chartcontainer).find(".on-editor-change-mode").attr("is-hidden") == true ||
+            $(chartcontainer).find(".on-editor-change-mode").attr("is-hidden") == "true"
+              ? false
+              : true,
+          ChartID: $(chartcontainer).attr("chart-id"),
+          ID: $(chartcontainer).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
+          EmployeeID: employeeId,
+          Chartname: $(chartcontainer).attr("chart-name"),
+          Position: parseInt($(chartcontainer).attr("position")),
+          ChartGroup: _chartGroup,
+          ChartWidth: $(chartcontainer).find(".ui-resizable").width(),
+        }),
+      })
+    )
+    console.log( chartList )    
+    localStorage.setItem(_chartGroup, JSON.stringify(chartList));
+};
+
   templateObject.showChartElements = function () {
     // on edit mode true
 
@@ -198,32 +243,34 @@ Template.dashboard.onRendered(function () {
 
     if (allChartResponse.ok == true) {
       const allChartsJsonResponse = await allChartResponse.json();
+      //console.log(allChartsJsonResponse);
 
       let chartList = Tvs1chart.fromList(
         allChartsJsonResponse.tvs1charts
-      ).filter((chart) => {
-        if (chart.fields.ChartGroup == _chartGroup) {
-          return chart;
-        }
-      });
-      //console.log(allChartResponse);
-      //console.log(chartList);
+      );
+      // console.log(allChartResponse);
+      console.log(chartList);
       // the goal here is to get the right names so it can be used for preferences
       chartList.forEach((chart) => {
+        // console.log(chart);
         //chart.fields.active = false; // Will set evething to false
         chart.fields._chartSlug =
-          "tvs1dashboardpreferences__" +
+          chart.fields.ChartGroup.toLowerCase() +
+          "__" +
           chart.fields.ChartName.toLowerCase().split(" ").join("_");
+
 
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-id",
           chart.fields.ChartID
         );
 
-        $(`[key='${chart.fields._chartSlug}']`).attr(
-          "pref-id",
-          chart.fields.ID
-        );
+        $(`[key='${chart.fields._chartSlug}']`).addClass('chart-visibility');
+
+        // $(`[key='${chart.fields._chartSlug}']`).attr(
+        //   "pref-id",
+        //   chart.fields.ID
+        // );
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-slug",
           chart.fields._chartSlug
@@ -280,75 +327,101 @@ Template.dashboard.onRendered(function () {
       const dashboardPreferencesEndpointJsonResponse =
         await dashboardPreferencesEndpointResponse.json();
 
-      console.log(dashboardPreferencesEndpointJsonResponse);
+      //console.log(dashboardPreferencesEndpointJsonResponse);
 
       let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
         dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
       ).filter((chart) => {
-        if (chart.fields.ChartGroup == _chartGroup) {
+        if (chart.fields.KeyStringFieldName == _chartGroup) {
           return chart;
         }
       });
 
+      console.log(tvs1ChartDashboardPreference);
+
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          //setTimeout(() => { // this is good to see how the charts are apearing or not
-          //if (tvs1chart.fields.ChartGroup == "Dashboard") {
-          const itemName =
-            tvs1chart.fields.ChartGroup.toLowerCase() +
-            "__" +
-            tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
+          // setTimeout(() => {
+            // this is good to see how the charts are apearing or not
+            //if (tvs1chart.fields.ChartGroup == "Dashboard") {
+            const itemName =
+              tvs1chart.fields.ChartGroup.toLowerCase() +
+              "__" +
+              tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
 
-          //localStorage.setItem(itemName, tvs1chart);
-          console.log(itemName + " " + tvs1chart.fields.Active);
+            //localStorage.setItem(itemName, tvs1chart);
+            //console.log(itemName + " " + tvs1chart.fields.Active);
 
-          if (itemList.includes(itemName) == true) {
-            // If the item name exist
-            $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
-            $(`[key='${itemName}']`).attr(
-              "chart-group",
-              tvs1chart.fields.chartGroup
-            );
-            $(`[key='${itemName}']`).addClass("chart-visibility");
-            //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
-            $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-              "chart-slug",
-              itemName
-            );
+            //if (itemList.includes(itemName) == true) {
+              // If the item name exist
+              if (tvs1chart.fields.ChartWidth) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "width",
+                  tvs1chart.fields.ChartWidth
+                );
+              }
 
-            if (tvs1chart.fields.Active == true) {
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+               // This is the ChartHeight saved in the preferences
+               if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
+                );
+              }
+              $(`[key='${itemName}']`).attr(
+                "pref-id",
+                tvs1chart.fields.ID
+              );
+              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
+              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
+              $(`[key='${itemName}']`).attr(
+                "chart-group",
+                tvs1chart.fields.chartGroup
+              );
+              $(`[key='${itemName}']`).addClass("chart-visibility");
+              //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
               $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "false"
+                "chart-slug",
+                itemName
               );
 
-              $(`[key='${itemName}']`).removeClass("hideelement");
-              //$(`[key='${itemName}']`).attr("is-hidden", false);
-            } else {
-              $(`[key='${itemName}']`).addClass("hideelement");
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
-              // $(`[key='${itemName}']`).attr("is-hidden", true);
-              $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "true"
-              );
-            }
-          }
-          //}
-          //}, index * 1000);
+              if (tvs1chart.fields.Active == true) {
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "false"
+                );
+
+                $(`[key='${itemName}']`).removeClass("hideelement");
+                //$(`[key='${itemName}']`).attr("is-hidden", false);
+              } else {
+                $(`[key='${itemName}']`).addClass("hideelement");
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
+                // $(`[key='${itemName}']`).attr("is-hidden", true);
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "true"
+                );
+              }
+            //}
+            //}
+          // }, index * 100);
         });
+        let $chartWrappper = $('.connectedSortable');
+        $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
+            return +a.getAttribute('position') - +b.getAttribute('position');
+        }).appendTo($chartWrappper);
       }
 
       displayedCharts = document.querySelectorAll(
         ".chart-visibility:not(.hideelement)"
       );
-      console.log(displayedCharts);
+      //console.log(displayedCharts);
 
       if (displayedCharts.length == 0) {
         // this will show all by default
-        console.log("No charts are being displayed, so show everything");
+        //console.log("No charts are being displayed, so show everything");
         itemList.forEach((item) => {
           $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
           $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
@@ -357,7 +430,29 @@ Template.dashboard.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+
+        buildPositions();
       }
+
+      // let sortableWidgets = $('.sortable-chart-widget-js');
+      // // and now we need to sort
+      // var sort_by_position = function (a, b) {
+      //   // console.log(a.getAttribute('position'));
+      //   // console.log(b.getAttribute('position'));
+      //   if(parseInt(a.getAttribute('position'))
+      //   .localeCompare(parseInt(b.getAttribute('position'))) == parseInt(a.getAttribute('position'))) {
+      //     return a.innerHtml;
+      //   }else {
+      //     return b.innerHtml;
+      //   }
+    
+      // };
+      // sortableWidgets.sort(sort_by_position);
+      // for (var i = 0; i < sortableWidgets.length; i++) {
+      //   sortableWidgets[i].parentNode.appendChild(sortableWidgets[i]);
+      // }
+
+     
     }
   };
 
@@ -407,6 +502,7 @@ Template.dashboard.events({
       $(e.currentTarget).attr("is-hidden", "true");
       $(e.currentTarget).text("Show");
     }
+    templateObject.saveIntoLocalDB(e)
   },
   "mouseover .card-header": (e) => {
     $(e.currentTarget).parent(".card").addClass("hovered");
@@ -470,21 +566,26 @@ Template.dashboard.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
 
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    $("#btnDone").addClass("hideelement");
-    $("#btnDone").removeClass("showelement");
-    $("#btnCancel").addClass("hideelement");
-    $("#btnCancel").removeClass("showelement");
-    $("#editcharts").addClass("showelement");
-    $("#editcharts").removeClass("hideelement");
-    $(".btnchartdropdown").removeClass("hideelement");
-    $(".btnchartdropdown").addClass("showelement");
+    
+    saveCharts().then(() => {
+      chartsEditor.disable();
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay()
+    });
+    
 
-    templateObject.checkChartToDisplay();
+    // $("#btnDone").addClass("hideelement");
+    // $("#btnDone").removeClass("showelement");
+    // $("#btnCancel").addClass("hideelement");
+    // $("#btnCancel").removeClass("showelement");
+    // $("#editcharts").addClass("showelement");
+    // $("#editcharts").removeClass("hideelement");
+    // $(".btnchartdropdown").removeClass("hideelement");
+    // $(".btnchartdropdown").addClass("showelement");
+
+    //setTimeout(() => templateObject.checkChartToDisplay(), 500);
   },
 
   "click .progressbarcheck": function () {

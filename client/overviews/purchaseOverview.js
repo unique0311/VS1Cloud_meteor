@@ -14,85 +14,100 @@ import Tvs1ChartDashboardPreference from "../js/Api/Model/Tvs1ChartDashboardPref
 import Tvs1ChartDashboardPreferenceField from "../js/Api/Model/Tvs1ChartDashboardPreferenceField";
 import ChartsEditor from "../js/Charts/ChartsEditor";
 import Tvs1chart from "../js/Api/Model/Tvs1Chart";
+import ApiService from "../js/Api/Module/ApiService";
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 let _ = require("lodash");
 
-
 /**
  * Current User ID
  */
- const employeeId = Session.get("mySessionEmployeeLoggedID");
- const _chartGroup = "Purchases";
- 
- /**
-  * Build the positions of the widgets
-  */
-  const buildPositions = async () => {
-   const charts = $(".chart-visibility");
- 
-   for (let i = 0; i <= charts.length; i++) {
-     $(charts[i]).attr("position", i);
-   }
- };
- 
- /**
-  * This function will save the charts on the dashboard
-  */
- const saveCharts = async () => {
-   /**
-    * Lets load all API colections
-    */
-   const dashboardApis = new ChartsApi(); // Load all dashboard APIS
-   buildPositions();
- 
-   const charts = $(".chart-visibility");
-   console.log(charts);
- 
-   /**
-    * @property {Tvs1ChartDashboardPreference[]}
-    */
-   let chartList = [];
- 
-   // now we have to make the post request to save the data in database
- 
-   chartList.forEach(async (chart) => {
-     const chartData = new Tvs1ChartDashboardPreference({
-       type: "Tvs1dashboardpreferences",
-       fields: new Tvs1ChartDashboardPreferenceField({
-         Active: $(chart).find(".on-editor-change-mode").attr("is-hidden"),
-         ChartID: $(chart).attr("chart-id"),
-         ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
-         EmployeeID: employeeId,
-         Chartname: $(chart).attr("chart-name"),
-         Position: $(chart).attr("position"),
-         ChartGroup: _chartGroup,
-       }),
-     });
-     console.log(chartData);
- 
-     const ApiResponse = await dashboardApis.collection
-       .findByName(dashboardApis.collectionNames.Tvs1dashboardpreferences)
-       .fetch(null, {
-         method: "POST",
-         headers: ApiService.getPostHeaders(),
-         body: JSON.stringify(chartData),
-       });
- 
-     if (ApiResponse.ok == true) {
-       const jsonResponse = await ApiResponse.json();
-       console.log(
-         "Chart: " +
-           chart.Chartname +
-           " will be hidden ? " +
-           !chart.fields.Active
-       );
-     }
-   });
- };
+const employeeId = Session.get("mySessionEmployeeLoggedID");
+const _chartGroup = "Purchases";
 
+/**
+ * Build the positions of the widgets
+ */
+const buildPositions = async () => {
+  const charts = $(".chart-visibility");
 
- 
+  for (let i = 0; i <= charts.length; i++) {
+    $(charts[i]).attr("position", i);
+  }
+};
+
+/**
+ * This function will save the charts on the dashboard
+ */
+const saveCharts = async () => {
+  /**
+   * Lets load all API colections
+   */
+  const dashboardApis = new ChartsApi(); // Load all dashboard APIS
+  buildPositions();
+
+  const charts = $(".chart-visibility");
+  //console.log(charts);
+
+  /**
+   * @property {Tvs1ChartDashboardPreference[]}
+   */
+  let chartList = [];
+
+  // now we have to make the post request to save the data in database
+  const apiEndpoint = dashboardApis.collection.findByName(
+    dashboardApis.collectionNames.Tvs1dashboardpreferences
+  );
+
+  Array.prototype.forEach.call(charts, (chart) => {
+    //console.log(chart);
+    chartList.push(
+      new Tvs1ChartDashboardPreference({
+        type: "Tvs1dashboardpreferences",
+        fields: new Tvs1ChartDashboardPreferenceField({
+          Active:
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == true ||
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == "true"
+              ? false
+              : true,
+          ChartID: $(chart).attr("chart-id"),
+          ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
+          EmployeeID: employeeId,
+          Chartname: $(chart).attr("chart-name"),
+          Position: $(chart).attr("position"),
+          ChartGroup: _chartGroup,
+          ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
+        }),
+      })
+    );
+  });
+
+  //console.log(chartList);
+
+  for (const _chart of chartList) {
+    // chartList.forEach(async (chart) => {
+    //console.log("Saving chart");
+
+    const ApiResponse = await apiEndpoint.fetch(null, {
+      method: "POST",
+      headers: ApiService.getPostHeaders(),
+      body: JSON.stringify(_chart),
+    });
+
+    if (ApiResponse.ok == true) {
+      const jsonResponse = await ApiResponse.json();
+      // console.log(
+      //   "Chart: " +
+      //     _chart.ChartName +
+      //     " will be hidden ? " +
+      //     !_chart.fields.Active
+      // );
+    }
+    //});
+  }
+};
+
 const chartsEditor = new ChartsEditor(
   () => {
     //$("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
@@ -105,7 +120,6 @@ const chartsEditor = new ChartsEditor(
     // $("#editcharts").removeClass("showelement");
     $(".btnchartdropdown").addClass("hideelement");
     $(".btnchartdropdown").removeClass("showelement");
-
 
     $(".sortable-chart-widget-js").removeClass("hideelement"); // display every charts
     $(".on-editor-change-mode").removeClass("hideelement");
@@ -134,8 +148,6 @@ const chartsEditor = new ChartsEditor(
     }
   }
 );
-
-
 
 Template.purchasesoverview.onCreated(function () {
   const templateObject = Template.instance();
@@ -2110,10 +2122,10 @@ Template.purchasesoverview.onRendered(function () {
           chart.fields.ChartID
         );
 
-        $(`[key='${chart.fields._chartSlug}']`).attr(
-          "pref-id",
-          chart.fields.ID
-        );
+        // $(`[key='${chart.fields._chartSlug}']`).attr(
+        //   "pref-id",
+        //   chart.fields.ID
+        // );
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-slug",
           chart.fields._chartSlug
@@ -2155,7 +2167,10 @@ Template.purchasesoverview.onRendered(function () {
     );
 
     // this is the default list (hardcoded)
-    let itemList = ["purchases__expenses_breakdown", "purchases__monthly_expenses"];
+    let itemList = [
+      "purchases__expenses_breakdown",
+      "purchases__monthly_expenses",
+    ];
 
     const dashboardPreferencesEndpointResponse =
       await dashboardPreferencesEndpoint.fetch(); // here i should get from database all charts to be displayed
@@ -2177,62 +2192,85 @@ Template.purchasesoverview.onRendered(function () {
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          //setTimeout(() => { // this is good to see how the charts are apearing or not
-          //if (tvs1chart.fields.ChartGroup == "Dashboard") {
-          const itemName =
-            tvs1chart.fields.ChartGroup.toLowerCase() +
-            "__" +
-            tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
+          // setTimeout(() => {
+            // this is good to see how the charts are apearing or not
+            //if (tvs1chart.fields.ChartGroup == "Dashboard") {
+            const itemName =
+              tvs1chart.fields.ChartGroup.toLowerCase() +
+              "__" +
+              tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
 
-          //localStorage.setItem(itemName, tvs1chart);
-         //console.log(itemName + " " + tvs1chart.fields.Active);
+            //localStorage.setItem(itemName, tvs1chart);
+            //console.log(itemName + " " + tvs1chart.fields.Active);
 
-          if (itemList.includes(itemName) == true) {
-            // If the item name exist
-            $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
-            $(`[key='${itemName}']`).attr(
-              "chart-group",
-              tvs1chart.fields.chartGroup
-            );
-            $(`[key='${itemName}']`).addClass("chart-visibility");
-            //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
-            $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-              "chart-slug",
-              itemName
-            );
-
-            if (tvs1chart.fields.Active == true) {
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
-              $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "false"
+            if (itemList.includes(itemName) == true) {
+              // If the item name exist
+              if (tvs1chart.fields.ChartWidth) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "width",
+                  tvs1chart.fields.ChartWidth
+                );
+              }
+               // This is the ChartHeight saved in the preferences
+               if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
+                );
+              }
+              $(`[key='${itemName}']`).attr(
+                "pref-id",
+                tvs1chart.fields.ID
+              );
+              $(`[key='${itemName}']`).attr("position", tvs1chart.fields.Position);
+              $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
+              $(`[key='${itemName}']`).attr(
+                "chart-group",
+                tvs1chart.fields.chartGroup
               );
 
-              $(`[key='${itemName}']`).removeClass("hideelement");
-              //$(`[key='${itemName}']`).attr("is-hidden", false);
-            } else {
-              $(`[key='${itemName}']`).addClass("hideelement");
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
-              // $(`[key='${itemName}']`).attr("is-hidden", true);
+              $(`[key='${itemName}']`).addClass("chart-visibility");
+              //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
               $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "true"
+                "chart-slug",
+                itemName
               );
+
+              if (tvs1chart.fields.Active == true) {
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "false"
+                );
+
+                $(`[key='${itemName}']`).removeClass("hideelement");
+                //$(`[key='${itemName}']`).attr("is-hidden", false);
+              } else {
+                $(`[key='${itemName}']`).addClass("hideelement");
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
+                // $(`[key='${itemName}']`).attr("is-hidden", true);
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "true"
+                );
+              }
             }
-          }
-          //}
-          //}, index * 1000);
+            //}
+          // }, index * 100);
         });
+        let $chartWrappper = $('.connectedSortable');
+        $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
+            return +a.getAttribute('position') - +b.getAttribute('position');
+        }).appendTo($chartWrappper);
       }
 
       displayedCharts = document.querySelectorAll(
         ".chart-visibility:not(.hideelement)"
       );
-     
 
       if (displayedCharts.length == 0) {
         // this will show all by default
-        console.log("No charts are being displayed, so show everything");
+        //console.log("No charts are being displayed, so show everything");
         itemList.forEach((item) => {
           $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
           $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
@@ -2241,6 +2279,7 @@ Template.purchasesoverview.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+        buildPositions();
       }
     }
   };
@@ -2323,19 +2362,13 @@ Template.purchasesoverview.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
-
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    // $("#btnDone").addClass("hideelement");
-    // $("#btnDone").removeClass("showelement");
-    // $("#btnCancel").addClass("hideelement");
-    // $("#btnCancel").removeClass("showelement");
-    // $("#editcharts").addClass("showelement");
-    // $("#editcharts").removeClass("hideelement");
-
-    templateObject.checkChartToDisplay();
+    chartsEditor.disable();
+    saveCharts().then(() => {
+      
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay()
+    });
   },
   "click .editchartsbtn": () => {
     chartsEditor.enable();
@@ -2481,60 +2514,77 @@ Template.purchasesoverview.events({
     }
   },
   "click #today": function () {
-      let templateObject = Template.instance();
-      $('.fullScreenSpin').css('display', 'inline-block');
-      $('#dateFrom').attr('readonly', false);
-      $('#dateTo').attr('readonly', false);
-      var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = (currentBeginDate.getMonth() + 1);
-      let fromDateDay = currentBeginDate.getDate();
-      if((currentBeginDate.getMonth()+1) < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
+    let templateObject = Template.instance();
+    $(".fullScreenSpin").css("display", "inline-block");
+    $("#dateFrom").attr("readonly", false);
+    $("#dateTo").attr("readonly", false);
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth() + 1;
+    let fromDateDay = currentBeginDate.getDate();
+    if (currentBeginDate.getMonth() + 1 < 10) {
+      fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+    } else {
+      fromDateMonth = currentBeginDate.getMonth() + 1;
+    }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-      var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+    if (currentBeginDate.getDate() < 10) {
+      fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDateERPFrom =
+      currentBeginDate.getFullYear() + "-" + fromDateMonth + "-" + fromDateDay;
+    var toDateERPTo =
+      currentBeginDate.getFullYear() + "-" + fromDateMonth + "-" + fromDateDay;
 
-      var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
-      var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+    var toDateDisplayFrom =
+      fromDateDay + "/" + fromDateMonth + "/" + currentBeginDate.getFullYear();
+    var toDateDisplayTo =
+      fromDateDay + "/" + fromDateMonth + "/" + currentBeginDate.getFullYear();
 
-      $("#dateFrom").val(toDateDisplayFrom);
-      $("#dateTo").val(toDateDisplayTo);
-      templateObject.getAllFilterPurchasesData(toDateERPFrom,toDateERPTo, false);
+    $("#dateFrom").val(toDateDisplayFrom);
+    $("#dateTo").val(toDateDisplayTo);
+    templateObject.getAllFilterPurchasesData(toDateERPFrom, toDateERPTo, false);
   },
   "click #lastweek": function () {
-      let templateObject = Template.instance();
-      $('.fullScreenSpin').css('display', 'inline-block');
-      $('#dateFrom').attr('readonly', false);
-      $('#dateTo').attr('readonly', false);
-      var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = (currentBeginDate.getMonth() + 1);
-      let fromDateDay = currentBeginDate.getDate();
-      if((currentBeginDate.getMonth()+1) < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
+    let templateObject = Template.instance();
+    $(".fullScreenSpin").css("display", "inline-block");
+    $("#dateFrom").attr("readonly", false);
+    $("#dateTo").attr("readonly", false);
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth() + 1;
+    let fromDateDay = currentBeginDate.getDate();
+    if (currentBeginDate.getMonth() + 1 < 10) {
+      fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+    } else {
+      fromDateMonth = currentBeginDate.getMonth() + 1;
+    }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
-      var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+    if (currentBeginDate.getDate() < 10) {
+      fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDateERPFrom =
+      currentBeginDate.getFullYear() +
+      "-" +
+      fromDateMonth +
+      "-" +
+      (fromDateDay - 7);
+    var toDateERPTo =
+      currentBeginDate.getFullYear() + "-" + fromDateMonth + "-" + fromDateDay;
 
-      var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
-      var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+    var toDateDisplayFrom =
+      fromDateDay -
+      7 +
+      "/" +
+      fromDateMonth +
+      "/" +
+      currentBeginDate.getFullYear();
+    var toDateDisplayTo =
+      fromDateDay + "/" + fromDateMonth + "/" + currentBeginDate.getFullYear();
 
-      $("#dateFrom").val(toDateDisplayFrom);
-      $("#dateTo").val(toDateDisplayTo);
-      templateObject.getAllFilterPurchasesData(toDateERPFrom,toDateERPTo, false);
+    $("#dateFrom").val(toDateDisplayFrom);
+    $("#dateTo").val(toDateDisplayTo);
+    templateObject.getAllFilterPurchasesData(toDateERPFrom, toDateERPTo, false);
   },
   "click #lastMonth": function () {
     let templateObject = Template.instance();

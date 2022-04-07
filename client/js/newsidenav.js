@@ -7319,6 +7319,12 @@ Template.newsidenav.events({
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },
+    'click .crmLiHeader': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/crmoverview');
+        let templateObject = Template.instance();
+        templateObject.getSetSideNavFocus();
+    },
     'click .inventoryLiHeader': function(event) {
         event.preventDefault();
         FlowRouter.go('/inventorylist');

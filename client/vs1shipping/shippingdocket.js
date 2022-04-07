@@ -113,7 +113,7 @@ Template.shippingdocket.onRendered(function() {
         var shipAdress = $('textarea[name="txaShipingInfo"]').val();
         var connote = $('textarea[name="shipconnote"]').val();
         var shipVia = $("#shipvia").val();
-        //alert(shipVia);
+
         var d = new Date();
 
         var month = d.getMonth() + 1;
@@ -151,7 +151,7 @@ Template.shippingdocket.onRendered(function() {
         //oPost.setRequestHeader("Content-type", "text/plain; charset=UTF-8");
 
         var myString = JSON.stringify(objDetails);
-        //alert(myString);
+
         oPost.send(myString);
 
         //oPost.timeout = 30000;
@@ -174,7 +174,7 @@ Template.shippingdocket.onRendered(function() {
                 }
 
             } else if (oPost.readyState == 4 && oPost.status == 403) {
-                //alert(oPost.status);
+
                 $('.fullScreenSpin').css('display', 'none');
                 Bert.defaults = {
                     hideDelay: 5000,
@@ -194,9 +194,9 @@ Template.shippingdocket.onRendered(function() {
                 //oPost.setRequestHeader("Content-Length", "1");
                 var ErrorResponse = oPost.getResponseHeader('errormessage');
                 var segError = ErrorResponse.split(':');
-                //alert(segError[1]);
+
                 if ((segError[1]) == ' "Unable to lock object') {
-                    //alert(oPost.getAllResponseHeaders());
+
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>. Please close the invoice in ERP!', 'now-error');
                 } else {
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>!', 'now-error');
@@ -991,7 +991,7 @@ Template.shippingdocket.onRendered(function() {
         //$('table tr').css('background','#ffffff');
         $('table tr').css('background', 'transparent');
         $(this).css('background', 'rgba(0,163,211,0.1)');
-        //alert(rowIndex);
+
         $('input[name="salesLineRow"]').val(rowIndex);
         var $cell = $(e.target).closest('td');
         //($cell.index() != 1) && ($cell.index() != 3) &&
@@ -1171,13 +1171,13 @@ Template.shippingdocket.onRendered(function() {
                 splashLineArray.push(lineItemObjForm);
             }
         });
-        //alert(JSON.stringify(allocTable));
+
         var custName = $("#edtCustomerName").val();
         var empName = Session.get('mySession');
         var shipAdress = $('textarea[name="txaShipingInfo"]').val();
         var connoteVal = $('#txtshipconnote').val();
         var shipVia = $("#shipvia").val();
-        //alert(shipVia);
+
         var d = new Date();
 
         var month = d.getMonth() + 1;
@@ -1215,7 +1215,7 @@ Template.shippingdocket.onRendered(function() {
         //oPost.setRequestHeader("Content-type", "text/plain; charset=UTF-8");
 
         var myString = JSON.stringify(objDetails);
-        //alert(myString);
+
         oPost.send(myString);
 
         //oPost.timeout = 30000;
@@ -1225,7 +1225,7 @@ Template.shippingdocket.onRendered(function() {
             if (oPost.readyState == 4 && oPost.status == 200) {
                 var dataReturnRes = JSON.parse(oPost.responseText);
                 var shippedID = dataReturnRes.fields.ID;
-                //alert(shippedID);
+
                 if (shippedID) {
                     Bert.alert('<strong>SUCCESS:</strong> Sale successfully Updated!', 'success');
                     FlowRouter.go('/vs1shipping?success=true');
@@ -1235,7 +1235,7 @@ Template.shippingdocket.onRendered(function() {
 
 
             } else if (oPost.readyState == 4 && oPost.status == 403) {
-                //alert(oPost.status);
+
 
                 Bert.defaults = {
                     hideDelay: 5000,
@@ -1254,9 +1254,9 @@ Template.shippingdocket.onRendered(function() {
                 //oPost.setRequestHeader("Content-Length", "1");
                 var ErrorResponse = oPost.getResponseHeader('errormessage');
                 var segError = ErrorResponse.split(':');
-                //alert(segError[1]);
+
                 if ((segError[1]) == ' "Unable to lock object') {
-                    //alert(oPost.getAllResponseHeaders());
+                    
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>. Please close the invoice in ERP!', 'now-error');
                 } else {
                     Bert.alert('<strong>' + oPost.getResponseHeader('errormessage') + '</strong>!', 'now-error');

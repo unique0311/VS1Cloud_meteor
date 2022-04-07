@@ -12,84 +12,100 @@ import Tvs1ChartDashboardPreference from "../js/Api/Model/Tvs1ChartDashboardPref
 import ChartsApi from "../js/Api/ChartsApi";
 import Tvs1chart from "../js/Api/Model/Tvs1Chart";
 import ChartsEditor from "../js/Charts/ChartsEditor";
+import Tvs1ChartDashboardPreferenceField from "../js/Api/Model/Tvs1ChartDashboardPreferenceField";
+import ApiService from "../js/Api/Module/ApiService";
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
-
 
 /**
  * Current User ID
  */
- const employeeId = Session.get("mySessionEmployeeLoggedID");
- const _chartGroup = "Payroll";
- 
- /**
-  * Build the positions of the widgets
-  */
-  const buildPositions = async () => {
-   const charts = $(".chart-visibility");
- 
-   for (let i = 0; i <= charts.length; i++) {
-     $(charts[i]).attr("position", i);
-   }
- };
- 
- /**
-  * This function will save the charts on the dashboard
-  */
- const saveCharts = async () => {
-   /**
-    * Lets load all API colections
-    */
-   const dashboardApis = new ChartsApi(); // Load all dashboard APIS
-   buildPositions();
- 
-   const charts = $(".chart-visibility");
-   console.log(charts);
- 
-   /**
-    * @property {Tvs1ChartDashboardPreference[]}
-    */
-   let chartList = [];
- 
-   // now we have to make the post request to save the data in database
- 
-   chartList.forEach(async (chart) => {
-     const chartData = new Tvs1ChartDashboardPreference({
-       type: "Tvs1dashboardpreferences",
-       fields: new Tvs1ChartDashboardPreferenceField({
-         Active: $(chart).find(".on-editor-change-mode").attr("is-hidden"),
-         ChartID: $(chart).attr("chart-id"),
-         ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
-         EmployeeID: employeeId,
-         Chartname: $(chart).attr("chart-name"),
-         Position: $(chart).attr("position"),
-         ChartGroup: _chartGroup,
-       }),
-     });
-     console.log(chartData);
- 
-     const ApiResponse = await dashboardApis.collection
-       .findByName(dashboardApis.collectionNames.Tvs1dashboardpreferences)
-       .fetch(null, {
-         method: "POST",
-         headers: ApiService.getPostHeaders(),
-         body: JSON.stringify(chartData),
-       });
- 
-     if (ApiResponse.ok == true) {
-       const jsonResponse = await ApiResponse.json();
-       console.log(
-         "Chart: " +
-           chart.Chartname +
-           " will be hidden ? " +
-           !chart.fields.Active
-       );
-     }
-   });
- };
+const employeeId = Session.get("mySessionEmployeeLoggedID");
+const _chartGroup = "Payroll";
 
+/**
+ * Build the positions of the widgets
+ */
+const buildPositions = async () => {
+  const charts = $(".chart-visibility");
 
- 
+  for (let i = 0; i <= charts.length; i++) {
+    $(charts[i]).attr("position", i);
+  }
+};
+
+/**
+ * This function will save the charts on the dashboard
+ */
+const saveCharts = async () => {
+  /**
+   * Lets load all API colections
+   */
+  const dashboardApis = new ChartsApi(); // Load all dashboard APIS
+  buildPositions();
+
+  const charts = $(".chart-visibility");
+  //console.log(charts);
+
+  /**
+   * @property {Tvs1ChartDashboardPreference[]}
+   */
+  let chartList = [];
+
+  // now we have to make the post request to save the data in database
+  const apiEndpoint = dashboardApis.collection.findByName(
+    dashboardApis.collectionNames.Tvs1dashboardpreferences
+  );
+
+  Array.prototype.forEach.call(charts, (chart) => {
+    //console.log(chart);
+    chartList.push(
+      new Tvs1ChartDashboardPreference({
+        type: "Tvs1dashboardpreferences",
+        fields: new Tvs1ChartDashboardPreferenceField({
+          Active:
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == true ||
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == "true"
+              ? false
+              : true,
+          ChartID: $(chart).attr("chart-id"),
+          ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
+          EmployeeID: employeeId,
+          Chartname: $(chart).attr("chart-name"),
+          Position: $(chart).attr("position"),
+          ChartGroup: _chartGroup,
+          ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
+        }),
+      })
+    );
+  });
+
+  //console.log(chartList);
+
+  for (const _chart of chartList) {
+    // chartList.forEach(async (chart) => {
+    //console.log("Saving chart");
+
+    const ApiResponse = await apiEndpoint.fetch(null, {
+      method: "POST",
+      headers: ApiService.getPostHeaders(),
+      body: JSON.stringify(_chart),
+    });
+
+    if (ApiResponse.ok == true) {
+      const jsonResponse = await ApiResponse.json();
+      // console.log(
+      //   "Chart: " +
+      //     _chart.ChartName +
+      //     " will be hidden ? " +
+      //     !_chart.fields.Active
+      // );
+    }
+    //});
+  }
+};
+
 const chartsEditor = new ChartsEditor(
   () => {
     //$("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
@@ -102,7 +118,6 @@ const chartsEditor = new ChartsEditor(
     // $("#editcharts").removeClass("showelement");
     $(".btnchartdropdown").addClass("hideelement");
     $(".btnchartdropdown").removeClass("showelement");
-
 
     $(".sortable-chart-widget-js").removeClass("hideelement"); // display every charts
     $(".on-editor-change-mode").removeClass("hideelement");
@@ -132,8 +147,6 @@ const chartsEditor = new ChartsEditor(
   }
 );
 
-
-
 Template.payrolloverview.onCreated(function () {
   const templateObject = Template.instance();
   templateObject.datatablerecords = new ReactiveVar([]);
@@ -154,6 +167,8 @@ Template.payrolloverview.onCreated(function () {
 
   templateObject.includePayrollClockOnOffOnly = new ReactiveVar();
   templateObject.includePayrollClockOnOffOnly.set(false);
+
+  templateObject.deptrecords = new ReactiveVar();
 });
 
 Template.payrolloverview.onRendered(function () {
@@ -311,348 +326,6 @@ Template.payrolloverview.onRendered(function () {
     let time = hours + ":" + minutes;
     return time;
   };
-
-  templateObject.getAllTimeSheetDataClock = function () {
-    getVS1Data("TTimeSheet")
-      .then(function (dataObject) {
-        if (dataObject == 0) {
-          sideBarService
-            .getAllTimeSheetList()
-            .then(function (data) {
-              let lineItems = [];
-              let lineItemObj = {};
-              let sumTotalCharge = 0;
-              let sumSumHour = 0;
-              let sumSumHourlyRate = 0;
-              /* Update Clocked On Employees */
-              let dataListClockedOnEmployeeObj = {};
-              for (let t = 0; t < data.ttimesheet.length; t++) {
-                if (data.ttimesheet[t].fields.Logs != null) {
-                  if (
-                    data.ttimesheet[t].fields.InvoiceNotes == "Clocked On" ||
-                    data.ttimesheet[t].fields.InvoiceNotes == "paused"
-                  ) {
-                    dataListClockedOnEmployeeObj = {
-                      employeename:
-                        data.ttimesheet[t].fields.EmployeeName || "",
-                    };
-                    clockedOnEmpList.push(dataListClockedOnEmployeeObj);
-                  }
-                  let hourlyRate =
-                    utilityService.modifynegativeCurrencyFormat(
-                      data.ttimesheet[t].fields.HourlyRate
-                    ) || Currency + 0.0;
-
-                  let labourCost =
-                    utilityService.modifynegativeCurrencyFormat(
-                      data.ttimesheet[t].fields.LabourCost
-                    ) || Currency + 0.0;
-                  let totalAmount =
-                    utilityService.modifynegativeCurrencyFormat(
-                      data.ttimesheet[t].fields.Total
-                    ) || Currency + 0.0;
-                  let totalAdjusted =
-                    utilityService.modifynegativeCurrencyFormat(
-                      data.ttimesheet[t].fields.TotalAdjusted
-                    ) || Currency + 0.0;
-                  let totalAmountInc =
-                    utilityService.modifynegativeCurrencyFormat(
-                      data.ttimesheet[t].fields.TotalInc
-                    ) || Currency + 0.0;
-                  let hoursFormatted =
-                    templateObject.timeFormat(
-                      data.ttimesheet[t].fields.Hours
-                    ) || "";
-                  if (
-                    data.ttimesheet[t].fields.StartTime.replace(/\s/g, "") ==
-                      "" ||
-                    data.ttimesheet[t].fields.EndTime.replace(/\s/g, "") == ""
-                  ) {
-                    hourlyRate = Currency + 0.0;
-                  }
-                  if (
-                    data.ttimesheet[t].fields.StartTime.replace(/\s/g, "") ==
-                      "" ||
-                    data.ttimesheet[t].fields.EndTime.replace(/\s/g, "") == ""
-                  ) {
-                    hoursFormatted = "00:00";
-                  }
-                  var dataList = {
-                    id: data.ttimesheet[t].fields.ID || "",
-                    employee: data.ttimesheet[t].fields.EmployeeName || "",
-                    hourlyrate: hourlyRate,
-                    hours: data.ttimesheet[t].fields.Hours || "",
-                    hourFormat: hoursFormatted,
-                    job: data.ttimesheet[t].fields.Job || "",
-                    labourcost: labourCost,
-                    overheadrate: data.ttimesheet[t].fields.OverheadRate || "",
-                    sortdate:
-                      data.ttimesheet[t].fields.TimeSheetDate != ""
-                        ? moment(
-                            data.ttimesheet[t].fields.TimeSheetDate
-                          ).format("YYYY/MM/DD")
-                        : data.ttimesheet[t].fields.TimeSheetDate,
-                    timesheetdate:
-                      data.ttimesheet[t].fields.TimeSheetDate != ""
-                        ? moment(
-                            data.ttimesheet[t].fields.TimeSheetDate
-                          ).format("DD/MM/YYYY")
-                        : data.ttimesheet[t].fields.TimeSheetDate,
-                    product: data.ttimesheet[t].fields.ServiceName || "",
-                    timesheetdate1:
-                      data.ttimesheet[t].fields.TimeSheetDate || "",
-                    timelog: data.ttimesheet[t].fields.Logs || "",
-                    isPaused: data.ttimesheet[t].fields.InvoiceNotes || "",
-                    totalamountex: totalAmount || Currency + 0.0,
-                    totaladjusted: totalAdjusted || Currency + 0.0,
-                    totalamountinc: totalAmountInc || Currency + 0.0,
-                    overtime: 0,
-                    double: 0,
-                    additional: Currency + "0.00",
-                    paychecktips: Currency + "0.00",
-                    cashtips: Currency + "0.00",
-                    startTime: data.ttimesheet[t].fields.StartTime || "",
-                    endTime: data.ttimesheet[t].fields.EndTime || "",
-                    notes: data.ttimesheet[t].fields.Notes || "",
-                    finished: "Not Processed",
-                    color: "#f6c23e",
-                  };
-                  timeSheetList.push(dataList);
-                }
-              }
-              templateObject.clockedOnEmpData.set(clockedOnEmpList);
-              templateObject.timesheetrecords.set(timeSheetList);
-              $(".fullScreenSpin").css("display", "none");
-            })
-            .catch(function (err) {
-              // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-              $(".fullScreenSpin").css("display", "none");
-              // Meteor._reload.reload();
-            });
-        } else {
-          let data = JSON.parse(dataObject[0].data);
-          let lineItems = [];
-          let lineItemObj = {};
-          let sumTotalCharge = 0;
-          let sumSumHour = 0;
-          let sumSumHourlyRate = 0;
-
-          /* Update Clocked On Employees */
-          let dataListClockedOnEmployeeObj = {};
-          for (let t = 0; t < data.ttimesheet.length; t++) {
-            if (data.ttimesheet[t].fields.Logs != null) {
-              if (
-                data.ttimesheet[t].fields.InvoiceNotes == "Clocked On" ||
-                data.ttimesheet[t].fields.InvoiceNotes == "paused"
-              ) {
-                dataListClockedOnEmployeeObj = {
-                  employeename: data.ttimesheet[t].fields.EmployeeName || "",
-                };
-                clockedOnEmpList.push(dataListClockedOnEmployeeObj);
-              }
-              let hourlyRate =
-                utilityService.modifynegativeCurrencyFormat(
-                  data.ttimesheet[t].fields.HourlyRate
-                ) || Currency + 0.0;
-              let labourCost =
-                utilityService.modifynegativeCurrencyFormat(
-                  data.ttimesheet[t].fields.LabourCost
-                ) || Currency + 0.0;
-              let totalAmount =
-                utilityService.modifynegativeCurrencyFormat(
-                  data.ttimesheet[t].fields.Total
-                ) || Currency + 0.0;
-              let totalAdjusted =
-                utilityService.modifynegativeCurrencyFormat(
-                  data.ttimesheet[t].fields.TotalAdjusted
-                ) || Currency + 0.0;
-              let totalAmountInc =
-                utilityService.modifynegativeCurrencyFormat(
-                  data.ttimesheet[t].fields.TotalInc
-                ) || Currency + 0.0;
-              sumTotalCharge = sumTotalCharge + data.ttimesheet[t].fields.Total;
-              sumSumHour = sumSumHour + data.ttimesheet[t].fields.Hours;
-              sumSumHourlyRate =
-                sumSumHourlyRate + data.ttimesheet[t].fields.LabourCost;
-              let hoursFormatted =
-                templateObject.timeFormat(data.ttimesheet[t].fields.Hours) ||
-                "";
-              if (
-                data.ttimesheet[t].fields.StartTime.replace(/\s/g, "") == "" ||
-                data.ttimesheet[t].fields.EndTime.replace(/\s/g, "") == ""
-              ) {
-                hourlyRate = Currency + 0.0;
-              }
-              if (
-                data.ttimesheet[t].fields.StartTime.replace(/\s/g, "") == "" ||
-                data.ttimesheet[t].fields.EndTime.replace(/\s/g, "") == ""
-              ) {
-                hoursFormatted = "00:00";
-              }
-
-              var dataList = {
-                id: data.ttimesheet[t].fields.ID || "",
-                employee: data.ttimesheet[t].fields.EmployeeName || "",
-                hourlyrate: hourlyRate,
-                hours: data.ttimesheet[t].fields.Hours || "",
-                hourFormat: hoursFormatted || "",
-                job: data.ttimesheet[t].fields.Job || "",
-                labourcost: labourCost,
-                overheadrate: data.ttimesheet[t].fields.OverheadRate || "",
-                sortdate:
-                  data.ttimesheet[t].fields.TimeSheetDate != ""
-                    ? moment(data.ttimesheet[t].fields.TimeSheetDate).format(
-                        "YYYY/MM/DD"
-                      )
-                    : data.ttimesheet[t].fields.TimeSheetDate,
-                timesheetdate:
-                  data.ttimesheet[t].fields.TimeSheetDate != ""
-                    ? moment(data.ttimesheet[t].fields.TimeSheetDate).format(
-                        "DD/MM/YYYY"
-                      )
-                    : data.ttimesheet[t].fields.TimeSheetDate,
-                product: data.ttimesheet[t].fields.ServiceName || "",
-                timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || "",
-                timelog: data.ttimesheet[t].fields.Logs || "",
-                isPaused: data.ttimesheet[t].fields.InvoiceNotes || "",
-                totalamountex: totalAmount || Currency + 0.0,
-                totaladjusted: totalAdjusted || Currency + 0.0,
-                totalamountinc: totalAmountInc || Currency + 0.0,
-                overtime: 0,
-                double: 0,
-                additional: Currency + "0.00",
-                paychecktips: Currency + "0.00",
-                cashtips: Currency + "0.00",
-                startTime: data.ttimesheet[t].fields.StartTime || "",
-                endTime: data.ttimesheet[t].fields.EndTime || "",
-                notes: data.ttimesheet[t].fields.Notes || "",
-                finished: "Not Processed",
-                color: "#f6c23e",
-              };
-
-              timeSheetList.push(dataList);
-            }
-          }
-          templateObject.timesheetrecords.set(timeSheetList);
-          templateObject.clockedOnEmpData.set(clockedOnEmpList);
-          let url = window.location.href;
-          $(".fullScreenSpin").css("display", "none");
-        }
-      })
-      .catch(function (err) {
-        sideBarService
-          .getAllTimeSheetList()
-          .then(function (data) {
-            let lineItems = [];
-            let lineItemObj = {};
-            let sumTotalCharge = 0;
-            let sumSumHour = 0;
-            let sumSumHourlyRate = 0;
-            /* Update Clocked On Employees */
-            let dataListClockedOnEmployeeObj = {};
-            for (let t = 0; t < data.ttimesheet.length; t++) {
-              if (data.ttimesheet[t].fields.Logs != null) {
-                if (
-                  data.ttimesheet[t].fields.InvoiceNotes == "Clocked On" ||
-                  data.ttimesheet[t].fields.InvoiceNotes == "paused"
-                ) {
-                  dataListClockedOnEmployeeObj = {
-                    employeename: data.ttimesheet[t].fields.EmployeeName || "",
-                  };
-                  clockedOnEmpList.push(dataListClockedOnEmployeeObj);
-                }
-                let hourlyRate =
-                  utilityService.modifynegativeCurrencyFormat(
-                    data.ttimesheet[t].fields.HourlyRate
-                  ) || Currency + 0.0;
-                let labourCost =
-                  utilityService.modifynegativeCurrencyFormat(
-                    data.ttimesheet[t].fields.LabourCost
-                  ) || Currency + 0.0;
-                let totalAmount =
-                  utilityService.modifynegativeCurrencyFormat(
-                    data.ttimesheet[t].fields.Total
-                  ) || Currency + 0.0;
-                let totalAdjusted =
-                  utilityService.modifynegativeCurrencyFormat(
-                    data.ttimesheet[t].fields.TotalAdjusted
-                  ) || Currency + 0.0;
-                let totalAmountInc =
-                  utilityService.modifynegativeCurrencyFormat(
-                    data.ttimesheet[t].fields.TotalInc
-                  ) || Currency + 0.0;
-                let hoursFormatted =
-                  templateObject.timeFormat(data.ttimesheet[t].fields.Hours) ||
-                  "";
-                if (
-                  data.ttimesheet[t].fields.StartTime.replace(/\s/g, "") ==
-                    "" ||
-                  data.ttimesheet[t].fields.EndTime.replace(/\s/g, "") == ""
-                ) {
-                  hourlyRate = Currency + 0.0;
-                }
-                if (
-                  data.ttimesheet[t].fields.StartTime.replace(/\s/g, "") ==
-                    "" ||
-                  data.ttimesheet[t].fields.EndTime.replace(/\s/g, "") == ""
-                ) {
-                  hoursFormatted = "00:00";
-                }
-                var dataList = {
-                  id: data.ttimesheet[t].fields.ID || "",
-                  employee: data.ttimesheet[t].fields.EmployeeName || "",
-                  hourlyrate: hourlyRate,
-                  hours: data.ttimesheet[t].fields.Hours || "",
-                  hourFormat: hoursFormatted,
-                  job: data.ttimesheet[t].fields.Job || "",
-                  labourcost: labourCost,
-                  overheadrate: data.ttimesheet[t].fields.OverheadRate || "",
-                  sortdate:
-                    data.ttimesheet[t].fields.TimeSheetDate != ""
-                      ? moment(data.ttimesheet[t].fields.TimeSheetDate).format(
-                          "YYYY/MM/DD"
-                        )
-                      : data.ttimesheet[t].fields.TimeSheetDate,
-                  timesheetdate:
-                    data.ttimesheet[t].fields.TimeSheetDate != ""
-                      ? moment(data.ttimesheet[t].fields.TimeSheetDate).format(
-                          "DD/MM/YYYY"
-                        )
-                      : data.ttimesheet[t].fields.TimeSheetDate,
-                  product: data.ttimesheet[t].fields.ServiceName || "",
-                  timesheetdate1: data.ttimesheet[t].fields.TimeSheetDate || "",
-                  timelog: data.ttimesheet[t].fields.Logs || "",
-                  isPaused: data.ttimesheet[t].fields.InvoiceNotes || "",
-                  totalamountex: totalAmount || Currency + 0.0,
-                  totaladjusted: totalAdjusted || Currency + 0.0,
-                  totalamountinc: totalAmountInc || Currency + 0.0,
-                  overtime: 0,
-                  double: 0,
-                  additional: Currency + "0.00",
-                  paychecktips: Currency + "0.00",
-                  cashtips: Currency + "0.00",
-                  startTime: data.ttimesheet[t].fields.StartTime || "",
-                  endTime: data.ttimesheet[t].fields.EndTime || "",
-                  notes: data.ttimesheet[t].fields.Notes || "",
-                  finished: "Not Processed",
-                  color: "#f6c23e",
-                };
-                timeSheetList.push(dataList);
-              }
-            }
-            templateObject.clockedOnEmpData.set(clockedOnEmpList);
-            templateObject.timesheetrecords.set(timeSheetList);
-            $(".fullScreenSpin").css("display", "none");
-          })
-          .catch(function (err) {
-            // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-            $(".fullScreenSpin").css("display", "none");
-            // Meteor._reload.reload();
-          });
-      });
-  };
-
-  templateObject.getAllTimeSheetDataClock();
 
   templateObject.getLoggedUserData = function () {
     let dataListloggedUser = {};
@@ -3052,8 +2725,8 @@ Template.payrolloverview.onRendered(function () {
                   qtylineItems.push(qtylineItemObj);
                 }
                 // $('#edttotalqtyinstock').val(totaldeptquantity);
-                templateObject.productqtyrecords.set(qtylineItems);
-                templateObject.totaldeptquantity.set(totaldeptquantity);
+                //templateObject.productqtyrecords.set(qtylineItems);
+                //templateObject.totaldeptquantity.set(totaldeptquantity);
               })
               .catch(function (err) {
                 $(".fullScreenSpin").css("display", "none");
@@ -3789,10 +3462,10 @@ Template.payrolloverview.onRendered(function () {
           chart.fields.ChartID
         );
 
-        $(`[key='${chart.fields._chartSlug}']`).attr(
-          "pref-id",
-          chart.fields.ID
-        );
+        // $(`[key='${chart.fields._chartSlug}']`).attr(
+        //   "pref-id",
+        //   chart.fields.ID
+        // );
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-slug",
           chart.fields._chartSlug
@@ -3834,7 +3507,10 @@ Template.payrolloverview.onRendered(function () {
     );
 
     // this is the default list (hardcoded)
-    let itemList = ["payroll__clocked_on_employees", "payroll__employee_jobs_completed"];
+    let itemList = [
+      "payroll__clocked_on_employees",
+      "payroll__employee_jobs_completed",
+    ];
 
     const dashboardPreferencesEndpointResponse =
       await dashboardPreferencesEndpoint.fetch(); // here i should get from database all charts to be displayed
@@ -3856,7 +3532,8 @@ Template.payrolloverview.onRendered(function () {
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          //setTimeout(() => { // this is good to see how the charts are apearing or not
+          // setTimeout(() => {
+          // this is good to see how the charts are apearing or not
           //if (tvs1chart.fields.ChartGroup == "Dashboard") {
           const itemName =
             tvs1chart.fields.ChartGroup.toLowerCase() +
@@ -3864,11 +3541,29 @@ Template.payrolloverview.onRendered(function () {
             tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
 
           //localStorage.setItem(itemName, tvs1chart);
-         //console.log(itemName + " " + tvs1chart.fields.Active);
+          //console.log(itemName + " " + tvs1chart.fields.Active);
 
           if (itemList.includes(itemName) == true) {
             // If the item name exist
-            $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
+            if (tvs1chart.fields.ChartWidth) {
+              $(`[key='${itemName}']`).css(
+                "width",
+                tvs1chart.fields.ChartWidth
+              );
+            }
+            // This is the ChartHeight saved in the preferences
+            if (tvs1chart.fields.ChartHeight) {
+              $(`[key='${itemName}'] .ui-resizable`).css(
+                "height",
+                tvs1chart.fields.ChartHeight
+              );
+            }
+            $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
+            $(`[key='${itemName}']`).attr(
+              "position",
+              tvs1chart.fields.Position
+            );
+            $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.ChartID);
             $(`[key='${itemName}']`).attr(
               "chart-group",
               tvs1chart.fields.chartGroup
@@ -3900,18 +3595,24 @@ Template.payrolloverview.onRendered(function () {
             }
           }
           //}
-          //}, index * 1000);
+          // }, index * 100);
+          let $chartWrappper = $(".connectedSortable");
+          $chartWrappper
+            .find(".sortable-chart-widget-js")
+            .sort(function (a, b) {
+              return +a.getAttribute("position") - +b.getAttribute("position");
+            })
+            .appendTo($chartWrappper);
         });
       }
 
       displayedCharts = document.querySelectorAll(
         ".chart-visibility:not(.hideelement)"
       );
-     
 
       if (displayedCharts.length == 0) {
         // this will show all by default
-        console.log("No charts are being displayed, so show everything");
+        // console.log("No charts are being displayed, so show everything");
         itemList.forEach((item) => {
           $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
           $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
@@ -3920,6 +3621,7 @@ Template.payrolloverview.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+        buildPositions();
       }
     }
   };
@@ -3948,7 +3650,6 @@ Template.payrolloverview.onRendered(function () {
 
   draggableCharts.enable();
   resizableCharts.enable();
-
 });
 
 Template.payrolloverview.events({
@@ -3980,19 +3681,12 @@ Template.payrolloverview.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
-
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    // $("#btnDone").addClass("hideelement");
-    // $("#btnDone").removeClass("showelement");
-    // $("#btnCancel").addClass("hideelement");
-    // $("#btnCancel").removeClass("showelement");
-    // $("#editcharts").addClass("showelement");
-    // $("#editcharts").removeClass("hideelement");
-
-    templateObject.checkChartToDisplay();
+    chartsEditor.disable();
+    saveCharts().then(() => {
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay();
+    });
   },
   "click .editchartsbtn": () => {
     chartsEditor.enable();
@@ -5939,89 +5633,6 @@ Template.payrolloverview.events({
   },
   "click .saveTable": function (event) {
     let lineItems = [];
-    $(".columnSettings").each(function (index) {
-      var $tblrow = $(this);
-      var colTitle = $tblrow.find(".divcolumn").text() || "";
-      var colWidth = $tblrow.find(".custom-range").val() || 0;
-      var colthClass = $tblrow.find(".divcolumn").attr("valueupdate") || "";
-      var colHidden = false;
-      if ($tblrow.find(".custom-control-input").is(":checked")) {
-        colHidden = false;
-      } else {
-        colHidden = true;
-      }
-      let lineItemObj = {
-        index: index,
-        label: colTitle,
-        hidden: colHidden,
-        width: colWidth,
-        thclass: colthClass,
-      };
-
-      lineItems.push(lineItemObj);
-    });
-
-    var getcurrentCloudDetails = CloudUser.findOne({
-      _id: Session.get("mycloudLogonID"),
-      clouddatabaseID: Session.get("mycloudLogonDBID"),
-    });
-    if (getcurrentCloudDetails) {
-      if (getcurrentCloudDetails._id.length > 0) {
-        var clientID = getcurrentCloudDetails._id;
-        var clientUsername = getcurrentCloudDetails.cloudUsername;
-        var clientEmail = getcurrentCloudDetails.cloudEmail;
-        var checkPrefDetails = CloudPreference.findOne({
-          userid: clientID,
-          PrefName: "tblPayHistorylist",
-        });
-        if (checkPrefDetails) {
-          CloudPreference.update(
-            {
-              _id: checkPrefDetails._id,
-            },
-            {
-              $set: {
-                userid: clientID,
-                username: clientUsername,
-                useremail: clientEmail,
-                PrefGroup: "salesform",
-                PrefName: "tblPayHistorylist",
-                published: true,
-                customFields: lineItems,
-                updatedAt: new Date(),
-              },
-            },
-            function (err, idTag) {
-              if (err) {
-                $("#myModal2").modal("toggle");
-              } else {
-                $("#myModal2").modal("toggle");
-              }
-            }
-          );
-        } else {
-          CloudPreference.insert(
-            {
-              userid: clientID,
-              username: clientUsername,
-              useremail: clientEmail,
-              PrefGroup: "salesform",
-              PrefName: "tblPayHistorylist",
-              published: true,
-              customFields: lineItems,
-              createdAt: new Date(),
-            },
-            function (err, idTag) {
-              if (err) {
-                $("#myModal2").modal("toggle");
-              } else {
-                $("#myModal2").modal("toggle");
-              }
-            }
-          );
-        }
-      }
-    }
     $("#myModal2").modal("toggle");
   },
   "blur .divcolumn": function (event) {
@@ -6426,7 +6037,7 @@ Template.payrolloverview.events({
       .then(function (data) {
         addVS1Data("TTimeSheet", JSON.stringify(data));
         setTimeout(function () {
-          //window.open('/payrolloverview', '_self');
+          window.open("/payrolloverview", "_self");
         }, 500);
       })
       .catch(function (err) {

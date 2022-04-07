@@ -355,7 +355,7 @@ getLoginData = async function (email) {
   const transaction = await db.transaction(["vscloudlogininfo"]);
   const objectStore = await transaction.objectStore('vscloudlogininfo');
   return await queryLoginDataObject(objectStore, email);
-}
+};
 
 queryVS1DataObject = function (objectStore, VS1AdminUserName) {
   var promise =  new Promise((resolve, reject) => {
@@ -366,7 +366,7 @@ queryVS1DataObject = function (objectStore, VS1AdminUserName) {
     results.onsuccess = (event) => {
       let cursor = event.target.result;
       if (cursor) {
-        if (VS1AdminUserName == cursor.key) {
+        if (VS1AdminUserName === cursor.key) {
           data.push(cursor.value);
 
 
@@ -381,7 +381,7 @@ queryVS1DataObject = function (objectStore, VS1AdminUserName) {
     };
   });
   return promise;
-}
+};
 
 
 getVS1Data = async function (objectData) {
@@ -390,14 +390,14 @@ getVS1Data = async function (objectData) {
   const transaction = await db.transaction([objectData]);
   const objectStore = await transaction.objectStore(objectData);
   return await queryVS1DataObject(objectStore, localStorage.getItem("vs1EmployeeName"));
-}
+};
 
 storeExists1 = async function (email) {
   const db = await openDb2('TDatabase');
   const transaction = await db.transaction(["TDatabases"]);
   const objectStore = await transaction.objectStore('TDatabases');
   return await storeExists(objectStore,email);
-}
+};
 
 deleteStoreExists = function (objectStore,Email) {
   var promise =  new Promise((resolve, reject) => {
@@ -405,7 +405,7 @@ deleteStoreExists = function (objectStore,Email) {
     var objectStoreRequest = objectStore.get(Email);
     objectStoreRequest.onsuccess = function () {
       if(objectStoreRequest.result){
-      if (Email == objectStoreRequest.result.EmployeeEmail) {
+      if (Email === objectStoreRequest.result.EmployeeEmail) {
         let databaseName = objectStoreRequest.result.data;
         var req = indexedDB.deleteDatabase(databaseName);
         // var req2Deltransaction = objectStore.transaction(["TDatabases"], "readwrite");
@@ -455,7 +455,7 @@ getStoreToDelete = async function (email) {
 openDbCheckVersion = async function () {
   var promiseversion =  new Promise((resolve, reject) => {
     var versionExists = false;
-    let dbReqVersion = indexedDB.open('TDatabaseVersion', 9);
+    let dbReqVersion = indexedDB.open('TDatabaseVersion', 10);
     dbReqVersion.onsuccess = function () {
      resolve(versionExists);
     };

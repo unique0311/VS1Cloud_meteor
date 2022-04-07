@@ -138,7 +138,9 @@ Template.billlist.onRendered(function() {
                         let orderstatus = data.tbilllist[i].OrderStatus || '';
                         if(data.tbilllist[i].Deleted == true){
                           orderstatus = "Deleted";
-                        }
+                        }else if(data.tbilllist[i].SupplierName == ''){
+                          orderstatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tbilllist[i].PurchaseOrderID || '',
                             employee:data.tbilllist[i].EmployeeName || '',
@@ -443,7 +445,9 @@ Template.billlist.onRendered(function() {
                     let orderstatus = data.tbilllist[i].OrderStatus || '';
                     if(data.tbilllist[i].Deleted == true){
                       orderstatus = "Deleted";
-                    }
+                    }else if(data.tbilllist[i].SupplierName == ''){
+                      orderstatus = "Deleted";
+                    };
                     var dataList = {
                         id: data.tbilllist[i].PurchaseOrderID || '',
                         employee:data.tbilllist[i].EmployeeName || '',
@@ -745,7 +749,9 @@ Template.billlist.onRendered(function() {
                   let orderstatus = data.tbilllist[i].OrderStatus || '';
                   if(data.tbilllist[i].Deleted == true){
                     orderstatus = "Deleted";
-                  }
+                  }else if(data.tbilllist[i].SupplierName == ''){
+                    orderstatus = "Deleted";
+                  };
                   var dataList = {
                       id: data.tbilllist[i].PurchaseOrderID || '',
                       employee:data.tbilllist[i].EmployeeName || '',
@@ -1113,6 +1119,12 @@ Template.billlist.events({
                         let totalAmount = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalAmountInc)|| 0.00;
                         let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalPaid)|| 0.00;
                         let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillex[i].fields.TotalBalance)|| 0.00;
+                        let orderstatus = data.tbillex[i].fields.OrderStatus || '';
+                        if(data.tbillex[i].fields.Deleted == true){
+                          orderstatus = "Deleted";
+                        }else if(data.tbillex[i].fields.CustomerName == ''){
+                          orderstatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tbillex[i].fields.ID || '',
                             employee:data.tbillex[i].fields.EmployeeName || '',
@@ -1125,7 +1137,7 @@ Template.billlist.events({
                             totalamount: totalAmount || 0.00,
                             totalpaid: totalPaid || 0.00,
                             totaloustanding: totalOutstanding || 0.00,
-                            orderstatus: data.tbillex[i].fields.OrderStatus || '',
+                            orderstatus: orderstatus || '',
                             custfield1: '' || '',
                             custfield2: '' || '',
                             comments: data.tbillex[i].fields.Comments || '',
@@ -1152,7 +1164,7 @@ Template.billlist.events({
                                 '<td contenteditable="false" class="colAmount" style="text-align: right!important;">' + item[x].totalamount + '</td>' +
                                 '<td contenteditable="false" class="colPaid" style="text-align: right!important;">' + item[x].totalpaid + '</td>' +
                                 '<td contenteditable="false" class="colBalanceOutstanding" style="text-align: right!important;">' + item[x].totaloustanding + '</td>' +
-                                '<td contenteditable="false" class="colStatus hiddenColumn">' + item[x].orderstatus + '</td>' +
+                                '<td contenteditable="false" class="colStatus">' + item[x].orderstatus + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField1 hiddenColumn">' + item[x].custfield1 + '</td>' +
                                 '<td contenteditable="false" class="colSaleCustField2 hiddenColumn">' + item[x].custfield2 + '</td>' +
                                 '<td contenteditable="false" class="colEmployee hiddenColumn">' + item[x].employee + '</td>' +

@@ -4,7 +4,7 @@ updateBillRow = function (rowCount) {
       click_count = 0;
 
   //$('#new_create_btn').on( 'click', function () {
-    
+
     //$('#component_tb tbody>tr:last').clone(true).insertAfter('#component_tb tbody>tr:last');
   //  var rowCount = $('#component_tb tbody>tr').length;
     click_count++;
@@ -90,7 +90,7 @@ updateBillRow = function (rowCount) {
                  $tblrows.each(function (index) {
                      var $tblrow = $(this);
                      $tblrow.find('.AccName').on('change', function () {
-                    // alert('Account')
+
                        var accountVal = $tblrow.find("[id=AccName]").val();
 
                        var Segs = accountVal.split(',');
@@ -100,7 +100,7 @@ updateBillRow = function (rowCount) {
 
                     $tblrow.find('.qty').on('change', function () {
                       var qty = $tblrow.find("[id=Ordered]").val();
-                      
+
                       var price = $tblrow.find("[id=UnitPrice]").val();
                       var subTotal = parseInt(qty,10) * parseFloat(price);
                       if (!isNaN(subTotal)) {
@@ -110,7 +110,7 @@ updateBillRow = function (rowCount) {
                      $(".subtot").each(function () {
                          var stval = parseFloat($(this).val());
                          SubGrandTotal += isNaN(stval) ? 0 : stval;
-                         
+
                      });
 
 
@@ -123,7 +123,7 @@ updateBillRow = function (rowCount) {
 
                     $tblrow.find('.unitPrice').on('change', function () {
                       var qty = $tblrow.find("[id=Ordered]").val();
-                      
+
                       var price = $tblrow.find("[id=UnitPrice]").val();
                       var subTotal = parseInt(qty,10) * parseFloat(price);
                       if (!isNaN(subTotal)) {
@@ -133,7 +133,7 @@ updateBillRow = function (rowCount) {
                      $(".subtot").each(function () {
                          var stval = parseFloat($(this).val());
                          SubGrandTotal += isNaN(stval) ? 0 : stval;
-                         
+
                      });
 
 
@@ -146,7 +146,7 @@ updateBillRow = function (rowCount) {
 
 
                  });
-    
+
   //});
 
   $(document).on('click', 'a.removebutton', function () {
@@ -169,7 +169,7 @@ updateBillRow = function (rowCount) {
     var $tblrow = $(this);
 
     var $cell= $(e.target).closest('td');
-    
+
    if(($cell.index() == 2)){
     var erpGetAccount = erpReqAccount();
     erpGetAccount.onreadystatechange = function() {
@@ -271,7 +271,7 @@ updateBillRow = function (rowCount) {
                    //$tblrow.find('.qty').on('change', function () {
                    
                 //  var qty = $tblrow.find("[id=Ordered]").val();
-                  
+
                   var price = $tblrow.find("[id=UnitPrice]").val();
                   var subTotal = qtyparseFloat(price);
                   if (!isNaN(subTotal)) {
@@ -334,7 +334,7 @@ tableCalc = function () {
   $tblrows.each(function (index) {
       var $tblrow = $(this);
       $tblrow.find('.AccName').on('change', function () {
-     // alert('Account')
+     
         var accountVal = $tblrow.find("[id=AccName]").val();
 
         var Segs = accountVal.split(',');
@@ -344,7 +344,7 @@ tableCalc = function () {
 
      $tblrow.find('.qty').on('change', function () {
        var qty = $tblrow.find("[id=Ordered]").val();
-       
+
        var price = $tblrow.find("[id=UnitPrice]").val();
        var subTotal = parseInt(qty,10) * parseFloat(price);
        if (!isNaN(subTotal)) {
@@ -354,7 +354,7 @@ tableCalc = function () {
       $(".subtot").each(function () {
           var stval = parseFloat($(this).val());
           SubGrandTotal += isNaN(stval) ? 0 : stval;
-          
+
       });
 
 
@@ -367,7 +367,7 @@ tableCalc = function () {
 
      $tblrow.find('.unitPrice').on('change', function () {
        var qty = $tblrow.find("[id=Ordered]").val();
-       
+
        var price = $tblrow.find("[id=UnitPrice]").val();
        var subTotal = parseInt(qty,10) * parseFloat(price);
        if (!isNaN(subTotal)) {
@@ -377,7 +377,7 @@ tableCalc = function () {
       $(".subtot").each(function () {
           var stval = parseFloat($(this).val());
           SubGrandTotal += isNaN(stval) ? 0 : stval;
-          
+
       });
 
 

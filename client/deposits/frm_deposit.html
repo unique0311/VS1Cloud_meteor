@@ -7,7 +7,7 @@
         <div class="row no-gutters" style="background-color: #ededed;">
             <div class="col">
                 <header>
-                    <h1 style="margin: 32px;margin-bottom: 0px;">{{record.lid}}
+                    <h1 style="margin: 32px;margin-bottom: 0;">{{record.lid}}
 
                         <a role="button" data-toggle="modal" href="#helpViewModal"  style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
 
@@ -21,7 +21,11 @@
                                         <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
                                         <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
                                         <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
-                                        <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                                        <p class="text-center text-muted" style="margin: 0;">
+                                            <a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">
+                                            Go To Forum
+                                            </a>
+                                        </p>
                                     </div>
                                     <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
                                 </div>
@@ -60,7 +64,7 @@
                         $("#colDate").addClass("col-6");
                     }
                 }
-                mediaQuery(x)
+                mediaQuery(x);
                 x.addListener(mediaQuery)
             }, 10);
             setTimeout(function () {
@@ -80,7 +84,7 @@
                         $("#colDate").addClass("col-4");
                     }
                 }
-                mediaQuery(x)
+                mediaQuery(x);
                 x.addListener(mediaQuery)
             }, 10);
             setTimeout(function () {
@@ -93,7 +97,7 @@
                         $("#colDepTotal").addClass("col-2");
                     }
                 }
-                mediaQuery(x)
+                mediaQuery(x);
                 x.addListener(mediaQuery)
             }, 10);
         </script>
@@ -108,7 +112,7 @@
             }
         </style>
 
-        <div class="row" style="padding: 0px 32px; padding-bottom: 0px; background-color: #ededed;">
+        <div class="row" style="padding: 0px 32px; padding-bottom: 0; background-color: #ededed;">
             <div class="col-6 col-lg-2 col-md-4">
                 <div class="form-group">
                     <label>Account</label>
@@ -140,7 +144,7 @@
             </div>
         </div>
 
-        <!-- <div class="row" style="padding: 32px; padding-bottom: 0px; background-color: #ededed;">
+        <!-- <div class="row" style="padding: 32px; padding-bottom: 0; background-color: #ededed;">
             <div class="col-2 colAccount" id="colAccount">
                 <div class="form-group d-xl-flex flex-column justify-content-xl-start">
                     <label>Account</label>
@@ -336,7 +340,7 @@
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}From Account{{/if}}" valueupdate="th.colAccountName">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].label}}{{else}}From Account{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <label class="text-nowrap" style="padding-left: 0;margin-top: 8px;">Width: </label>
                                                                         <input class="custom-range rngRange" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[0].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
@@ -347,8 +351,8 @@
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Payment Method{{/if}}" valueupdate="th.colMemo">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].label}}{{else}}Payment Method{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
-                                                                        <input class="custom-range rngRange rngRangeMemo" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}}" min="0" max="1000">
+                                                                        <label class="text-nowrap" style="padding-left: 0;margin-top: 8px;">Width: </label>
+                                                                        <input class="custom-range rngRange rngRangeMemo" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[2].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
                                                                 <div class="columnSettings">
@@ -358,7 +362,7 @@
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Reference No{{/if}}" valueupdate="th.colCreditEx">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].label}}{{else}}Reference No{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <label class="text-nowrap" style="padding-left: 0;margin-top: 8px;">Width: </label>
                                                                         <input class="custom-range rngRange rngRangeCreditEx" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[3].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
@@ -369,7 +373,7 @@
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Received From{{/if}}" valueupdate="th.colDebitEx">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Received From{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <label class="text-nowrap" style="padding-left: 0;margin-top: 8px;">Width: </label>
                                                                         <input class="custom-range rngRange rngRangeDebitEx" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
@@ -380,7 +384,7 @@
                                                                         <div contenteditable="true" class="groove divcolumn" type="text" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Amount{{/if}}" valueupdate="th.colDebitEx">{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].label}}{{else}}Amount{{/if}}</div>
                                                                     </div>
                                                                     <div class="d-xl-flex align-items-xl-center divColWidth" style="margin: 8px;">
-                                                                        <label class="text-nowrap" style="padding-left: 0px;margin-top: 8px;">Width: </label>
+                                                                        <label class="text-nowrap" style="padding-left: 0;margin-top: 8px;">Width: </label>
                                                                         <input class="custom-range rngRange rngRangeAmount" type="number" style="margin: 8px;" value="{{#if salesCloudGridPreferenceRec}}{{salesCloudGridPreferenceRec.customFields.[4].width}}{{else}}0{{/if}}" min="0" max="1000">
                                                                     </div>
                                                                 </div>
@@ -538,13 +542,13 @@
                                             <td colspan="2" style="font-size: 20px; color: #696969; font-weight: 800;">Total</td>
                                             <td></td>
                                             <td></td>
-                                            <td style="font-size: 20px; color: #696969; font-weight: 800; text-align: right!important; margin: 0px;" id="depositTotalLine" name="depositTotalLine" >{{record.deposittotal}}</td>
+                                            <td style="font-size: 20px; color: #696969; font-weight: 800; text-align: right!important; margin: 0;" id="depositTotalLine" name="depositTotalLine" >{{record.deposittotal}}</td>
                                             <td></td>
                                         </tr>
                                     </tfoot>
                                 </table>
                                 <div align="left">
-                                    <button class="btn btn-primary" type="button" id="addRow" style="margin: 16px; margin-left: 0px;">+ Add New Entry</button>
+                                    <button class="btn btn-primary" type="button" id="addRow" style="margin: 16px; margin-left: 0;">+ Add New Entry</button>
                                 </div>
                                 <div class="flex-grow-1" style="margin: 16px;">
                                     <div class="form-group"><label>Reference No</label>
@@ -571,7 +575,7 @@
         <!-- Start PDF -->
         <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; display: none; color: #000000; overflow-x: visible;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
             <div style="display: flex; height: 70mm;">
-                <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
+                <div style="margin: 0; padding: 16px; width: 130mm; max-width: 130mm;">
                     <div style="display: flex;">
                         <div style="max-width: 60mm; max-height: 30mm;">
                             <img src="assets/img/VS1.png" class="uploadedImage" style="max-width: 200px; max-height: 30mm; margin-bottom: 8px;">
@@ -580,34 +584,34 @@
                         <div style="width: 70mm;">
                             <div style="padding-left: 16px;font-weight: bold;">
                                 <a href="{{organizationurl}}">{{organizationurl}}</a>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{organizationname}}</p>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress1}}</p>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{companyaddress2}}</p>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{city}}</p>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{state}} {{poBox}} </p>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
-                                <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
+                                <p style="margin-bottom: 0; color: rgb(0 0 0);">{{organizationname}}</p>
+                                <p style="margin-bottom: 0; color: rgb(0 0 0);">{{companyaddress1}}</p>
+                                <p style="margin-bottom: 0; color: rgb(0 0 0);">{{companyaddress2}}</p>
+                                <p style="margin-bottom: 0; color: rgb(0 0 0);">{{city}}</p>
+                                <p style="margin-bottom: 0; color: rgb(0 0 0);">{{state}} {{poBox}} </p>
+                                <p style="margin-bottom: 0; color: rgb(0 0 0);">ABN: {{companyabn}}</p>
+                                <p style="margin-bottom: 0; color: rgb(0 0 0);">Phone: {{companyphone}}</p>
                             </div>
                         </div>
                     </div>
                     <div style="font-size: 14px;">
-                        <p style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: 600;">Account</p>
-                        <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName"></p>
-                        <div style="min-height:50px; width:30%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress">{{record.accountname}}</div>
+                        <p style="margin-bottom: 0; color: rgb(0 0 0);font-weight: 600;">Account</p>
+                        <p style="margin-bottom: 0; color: rgb(0 0 0); display:none;" class="pdfCustomerName"></p>
+                        <div style="min-height:50px; width:30%; margin-bottom: 0; color: rgb(0 0 0);" class="pdfCustomerAddress">{{record.accountname}}</div>
                     </div>
                 </div>
-                <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
+                <div style="margin: 0; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
                     <h4 style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0);">Deposit&nbsp;&nbsp;&nbsp; {{record.id}}</h4>
                     <div style="display: flex; width: 100%;">
                         <div style="width: 50%; padding-right: 16px;font-weight: bold;">
-                            <label style="margin-bottom: 0px; color: rgb(0 0 0);">Date:</label>
-                            <label class="pdfPONumber" style="margin-bottom: 0px; color: rgb(0 0 0);">Entry No:</label>
-                            <label class="pdfTerms" style="margin-bottom: 0px; color: rgb(0 0 0); white-space: nowrap;">Deposit Total</label>
+                            <label style="margin-bottom: 0; color: rgb(0 0 0);">Date:</label>
+                            <label class="pdfPONumber" style="margin-bottom: 0; color: rgb(0 0 0);">Entry No:</label>
+                            <label class="pdfTerms" style="margin-bottom: 0; color: rgb(0 0 0); white-space: nowrap;">Deposit Total</label>
                         </div>
                         <div style="width: 50%; padding-left: 16px;">
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{record.transdate}}.</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{record.id}}.</p>
-                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">{{record.deposittotal}}.</p>
+                            <p style="margin-bottom: 0; color: rgb(0 0 0);">{{record.transdate}}.</p>
+                            <p style="margin-bottom: 0; color: rgb(0 0 0);">{{record.id}}.</p>
+                            <p style="margin-bottom: 0; color: rgb(0 0 0);">{{record.deposittotal}}.</p>
                         </div>
                     </div>
                 </div>
@@ -642,8 +646,8 @@
                                 <td colspan="2" style="color: #696969; font-weight: 800;">Total</td>
                                 <td></td>
                                 <td></td>
-                                <td style="color: #696969; font-weight: 800; text-align: right!important; margin: 0px;" id="creditTotal" name="creditTotal">{{record.deposittotal}}</td>
-                                <!-- <td style="color: #696969; font-weight: 800; text-align: right!important; margin: 0px;" id="debitTotal" name="debitTotal">{{totalDebit}}</td> -->
+                                <td style="color: #696969; font-weight: 800; text-align: right!important; margin: 0;" id="creditTotal" name="creditTotal">{{record.deposittotal}}</td>
+                                <!-- <td style="color: #696969; font-weight: 800; text-align: right!important; margin: 0;" id="debitTotal" name="debitTotal">{{totalDebit}}</td> -->
                             </tr>
                         </tfoot>
                     </table>
@@ -732,7 +736,7 @@
                     <div class="modal-header">
                         <h4>Customer List</h4><button type="button" class="close checkclose" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
-                    <div class="modal-body mainCustomerModalBody" style="padding: 0px; overflow-x: hidden;">
+                    <div class="modal-body mainCustomerModalBody" style="padding: 0; overflow-x: hidden;">
                         <input type="hidden" style="width: 100%; display:none;" id="customerSelectLineID" name="customerSelectLineID" readonly>
                         {{> customerlistpop}}
 

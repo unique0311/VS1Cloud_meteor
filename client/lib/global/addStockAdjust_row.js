@@ -110,7 +110,7 @@ addStockAdjustRow = function (rowCount) {
                  $tblrows.each(function (index) {
                      var $tblrow = $(this);
                      $tblrow.find('.AdjustQty').on('change', function () {
-                    // alert('now here');
+                  
                     var adjust = $tblrow.find("[id=adjust]").val();
 
                     var availableQty = $tblrow.find("[id=instock]").val();

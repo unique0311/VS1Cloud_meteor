@@ -112,7 +112,7 @@ addBillRow = function (rowCount) {
                  $tblrows.each(function (index) {
                      var $tblrow = $(this);
                      $tblrow.find('.AccName').on('change', function () {
-                    // alert('Account')
+
                        var accountVal = $tblrow.find("[id=AccName]").val();
 
                        var Segs = accountVal.split(',');
@@ -262,7 +262,7 @@ var $tblrows = $("#component_tb tbody tr");
 $tblrows.each(function (index) {
     var $tblrow = $(this);
     $tblrow.find('.AccName').on('change', function () {
-   // alert('Account')
+  
       var accountVal = $tblrow.find("[id=AccName]").val();
 
       var Segs = accountVal.split(',');

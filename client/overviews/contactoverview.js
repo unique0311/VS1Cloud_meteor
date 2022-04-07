@@ -12,81 +12,101 @@ import ChartsEditor from "../js/Charts/ChartsEditor";
 import ChartsApi from "../js/Api/ChartsApi";
 import Tvs1ChartDashboardPreference from "../js/Api/Model/Tvs1ChartDashboardPreference";
 import Tvs1chart from "../js/Api/Model/Tvs1Chart";
+import Tvs1ChartDashboardPreferenceField from "../js/Api/Model/Tvs1ChartDashboardPreferenceField";
+import ApiService from "../js/Api/Module/ApiService";
+import Customer from "../vs1charts/top10Customers/Customer";
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 
 /**
  * Current User ID
  */
- const employeeId = Session.get("mySessionEmployeeLoggedID");
- const _chartGroup = "Contacts";
- 
- /**
-  * Build the positions of the widgets
-  */
-  const buildPositions = async () => {
-   const charts = $(".chart-visibility");
- 
-   for (let i = 0; i <= charts.length; i++) {
-     $(charts[i]).attr("position", i);
-   }
- };
- 
- /**
-  * This function will save the charts on the dashboard
-  */
- const saveCharts = async () => {
-   /**
-    * Lets load all API colections
-    */
-   const dashboardApis = new ChartsApi(); // Load all dashboard APIS
-   buildPositions();
- 
-   const charts = $(".chart-visibility");
-   console.log(charts);
- 
-   /**
-    * @property {Tvs1ChartDashboardPreference[]}
-    */
-   let chartList = [];
- 
-   // now we have to make the post request to save the data in database
- 
-   chartList.forEach(async (chart) => {
-     const chartData = new Tvs1ChartDashboardPreference({
-       type: "Tvs1dashboardpreferences",
-       fields: new Tvs1ChartDashboardPreferenceField({
-         Active: $(chart).find(".on-editor-change-mode").attr("is-hidden"),
-         ChartID: $(chart).attr("chart-id"),
-         ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
-         EmployeeID: employeeId,
-         Chartname: $(chart).attr("chart-name"),
-         Position: $(chart).attr("position"),
-         ChartGroup: _chartGroup,
-       }),
-     });
-     console.log(chartData);
- 
-     const ApiResponse = await dashboardApis.collection
-       .findByName(dashboardApis.collectionNames.Tvs1dashboardpreferences)
-       .fetch(null, {
-         method: "POST",
-         headers: ApiService.getPostHeaders(),
-         body: JSON.stringify(chartData),
-       });
- 
-     if (ApiResponse.ok == true) {
-       const jsonResponse = await ApiResponse.json();
-       console.log(
-         "Chart: " +
-           chart.Chartname +
-           " will be hidden ? " +
-           !chart.fields.Active
-       );
-     }
-   });
- };
- 
+const employeeId = Session.get("mySessionEmployeeLoggedID");
+const _chartGroup = "Contacts";
+
+/**
+ * Build the positions of the widgets
+ */
+const buildPositions = async () => {
+  const charts = $(".chart-visibility");
+
+  for (let i = 0; i <= charts.length; i++) {
+    $(charts[i]).attr("position", i);
+  }
+};
+
+/**
+ * This function will save the charts on the dashboard
+ */
+const saveCharts = async () => {
+  /**
+   * Lets load all API colections
+   */
+  const dashboardApis = new ChartsApi(); // Load all dashboard APIS
+  buildPositions();
+
+  const charts = $(".chart-visibility");
+  //console.log(charts);
+
+  /**
+   * @property {Tvs1ChartDashboardPreference[]}
+   */
+  let chartList = [];
+
+  // now we have to make the post request to save the data in database
+  const apiEndpoint = dashboardApis.collection.findByName(
+    dashboardApis.collectionNames.Tvs1dashboardpreferences
+  );
+
+  Array.prototype.forEach.call(charts, (chart) => {
+    //console.log(chart);
+    chartList.push(
+      new Tvs1ChartDashboardPreference({
+        type: "Tvs1dashboardpreferences",
+        fields: new Tvs1ChartDashboardPreferenceField({
+          Active:
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == true ||
+            $(chart).find(".on-editor-change-mode").attr("is-hidden") == "true"
+              ? false
+              : true,
+          ChartID: $(chart).attr("chart-id"),
+          ID: $(chart).attr("pref-id"), // This is empty when it is the first time, but the next times it is filled
+          EmployeeID: employeeId,
+          Chartname: $(chart).attr("chart-name"),
+          Position: $(chart).attr("position"),
+          ChartGroup: _chartGroup,
+          ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
+        }),
+      })
+    );
+  });
+
+  //console.log(chartList);
+
+  for (const _chart of chartList) {
+    // chartList.forEach(async (chart) => {
+    //console.log("Saving chart");
+
+    const ApiResponse = await apiEndpoint.fetch(null, {
+      method: "POST",
+      headers: ApiService.getPostHeaders(),
+      body: JSON.stringify(_chart),
+    });
+
+    if (ApiResponse.ok == true) {
+      const jsonResponse = await ApiResponse.json();
+      // console.log(
+      //   "Chart: " +
+      //     _chart.ChartName +
+      //     " will be hidden ? " +
+      //     !_chart.fields.Active
+      // );
+    }
+    //});
+  }
+};
+
 const chartsEditor = new ChartsEditor(
   () => {
     //$("#resetcharts").removeClass("hideelement").addClass("showelement"); // This will show the reset charts button
@@ -99,7 +119,6 @@ const chartsEditor = new ChartsEditor(
     // $("#editcharts").removeClass("showelement");
     $(".btnchartdropdown").addClass("hideelement");
     $(".btnchartdropdown").removeClass("showelement");
-
 
     $(".sortable-chart-widget-js").removeClass("hideelement"); // display every charts
     $(".on-editor-change-mode").removeClass("hideelement");
@@ -133,8 +152,8 @@ Template.contactoverview.onCreated(function () {
   const templateObject = Template.instance();
   templateObject.datatablerecords = new ReactiveVar([]);
   templateObject.tableheaderrecords = new ReactiveVar([]);
-  templateObject.topTenData = new ReactiveVar([]);
-  templateObject.loggeduserdata = new ReactiveVar([]);
+  //templateObject.topTenData = new ReactiveVar([]);
+  //templateObject.loggeduserdata = new ReactiveVar([]);
 });
 
 Template.contactoverview.onRendered(function () {
@@ -184,579 +203,6 @@ Template.contactoverview.onRendered(function () {
   $("#dateFrom").val(fromDate);
   $("#dateTo").val(begunDate);
 
-  templateObject.getLoggedUserData = function () {
-    contactService.getCurrentLoggedUser().then(function (data) {
-      let dataListloggedUser = {};
-      let vs1EmployeeImage = Session.get("vs1EmployeeImages");
-
-      let encoded = "";
-      for (let i = 0; i < data.tappuser.length; i++) {
-        let employeeUser =
-          data.tappuser[i].FirstName + " " + data.tappuser[i].LastName;
-        if (
-          parseInt(data.tappuser[i].EmployeeID) ==
-          parseInt(Session.get("mySessionEmployeeLoggedID"))
-        ) {
-          employeeUser = Session.get("mySessionEmployee");
-        }
-        dataListloggedUser = {
-          id: data.tappuser[i].EmployeeID || "",
-          employeename: employeeUser || "- -",
-          ladtloging: data.tappuser[i].LastTime || "",
-          // employeepicture: encoded|| ''
-        };
-        loggedUserList.push(dataListloggedUser);
-      }
-      templateObject.loggeduserdata.set(loggedUserList);
-    });
-    /*
-        getVS1Data('TAppUser').then(function (dataObject) {
-            if(dataObject.length == 0){
-                contactService.getCurrentLoggedUser().then(function (data) {
-
-                    let dataListloggedUser = {};
-                    let vs1EmployeeImage = Session.get('vs1EmployeeImages');
-
-                    let encoded = '';
-                    for(let i=0; i<data.tappuser.length; i++){
-                        dataListloggedUser = {
-                            id: data.tappuser[i].EmployeeID || '',
-                            employeename: data.tappuser[i].UserName || '',
-                            ladtloging: data.tappuser[i].LastTime|| '',
-                            // employeepicture: encoded|| ''
-                        };
-                        loggedUserList.push(dataListloggedUser);
-                    }
-                    templateObject.loggeduserdata.set(loggedUserList);
-                });
-            }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappuser;
-                let dataListloggedUser = {};
-                let vs1EmployeeImage = Session.get('vs1EmployeeImages');
-
-                let encoded = '';
-                for(let i=0; i<useData.length; i++){
-                    dataListloggedUser = {
-                        id: useData[i].EmployeeID || '',
-                        employeename: useData[i].UserName || '',
-                        ladtloging: useData[i].LastTime|| '',
-                        // employeepicture: encoded|| ''
-                    };
-                    loggedUserList.push(dataListloggedUser);
-                }
-                templateObject.loggeduserdata.set(loggedUserList);
-
-            }
-        }).catch(function (err) {
-            contactService.getCurrentLoggedUser().then(function (data) {
-
-                let dataListloggedUser = {};
-                let vs1EmployeeImage = Session.get('vs1EmployeeImages');
-
-                let encoded = '';
-                for(let i=0; i<data.tappuser.length; i++){
-                    dataListloggedUser = {
-                        id: data.tappuser[i].EmployeeID || '',
-                        employeename: data.tappuser[i].UserName || '',
-                        ladtloging: data.tappuser[i].LastTime|| '',
-                        // employeepicture: encoded|| ''
-                    };
-                    loggedUserList.push(dataListloggedUser);
-                }
-                templateObject.loggeduserdata.set(loggedUserList);
-            });
-        });
-        */
-  };
-  templateObject.getLoggedUserData();
-  //this.topTenData = new ReactiveVar([]);
-  getInvSales(function (data) {
-    topTenData1 = _.take(data, 10);
-    let totalBalance = 0;
-    let itemName = [];
-    let itemBalance = [];
-    topTenData1.map(function (item) {
-      item.totalbalance = +parseFloat(item.totalbalance).toFixed(2);
-      if (item.totalbalance > 0) {
-        itemName.push(item.name);
-        itemBalance.push(item.totalbalance);
-      }
-      // itemName.push(item.name);
-      // itemBalance.push(item.totalbalance);
-    });
-    let otherData = _.difference(data, topTenData1, _.isEqual);
-
-    let totalPayment = 0;
-    let overDuePayment = 0;
-
-    topData.topTenData.set(data);
-
-    templateObject.topTenData.set(topTenData1);
-    var ctx = document.getElementById("myChartCustomer").getContext("2d");
-    var myChart = new Chart(ctx, {
-      type: "horizontalBar",
-      data: {
-        labels: itemName,
-        datasets: [
-          {
-            label: "Amount #" + this.name,
-            data: itemBalance,
-
-            backgroundColor: [
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-            ],
-            borderColor: [
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        onClick: function (evt, item) {
-          if (item[0]["_model"].label) {
-            var activePoints = item[0]["_model"].label;
-            FlowRouter.go("/salesreport?contact=" + activePoints);
-          }
-        },
-        maintainAspectRatio: false,
-        tooltips: {
-          callbacks: {
-            label: function (tooltipItem, data) {
-              return (
-                utilityService.modifynegativeCurrencyFormat(
-                  tooltipItem.xLabel
-                ) || 0.0
-              );
-              // Currency + Number(tooltipItem.xLabel).toFixed(2).replace(/./g, function(c, i, a) {
-              //     return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-              // });
-            },
-          },
-        },
-        legend: {
-          display: false,
-        },
-        title: {},
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-                drawOnChartArea: false,
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-        },
-      },
-    });
-  });
-
-  function getInvSales(callback) {
-    return new Promise((res, rej) => {
-      var salesBoardService = new SalesBoardService();
-      getVS1Data("TInvoiceEx")
-        .then(function (dataObject) {
-          if (dataObject.length == 0) {
-            salesBoardService.getInvSaleByCustomer().then((data) => {
-              // templateObject.getAllData(data);
-              let filterData = _.filter(data.tinvoiceex, function (data) {
-                return !data.deleted;
-              });
-              let filterDueDateData = _.filter(filterData, function (data) {
-                return data.CustomerName;
-              });
-
-              let groupData = _.omit(
-                _.groupBy(filterDueDateData, "CustomerName"),
-                [""]
-              );
-              let totalAmountCalculation = _.map(
-                groupData,
-                function (value, key) {
-                  let totalPayment = 0;
-                  let overDuePayment = 0;
-                  for (let i = 0; i < value.length; i++) {
-                    totalPayment += value[i].TotalAmountInc;
-                  }
-                  let userObject = {};
-                  userObject.name = key;
-                  userObject.totalbalance = totalPayment;
-                  return userObject;
-                }
-              );
-
-              let sortedArray = [];
-              sortedArray = totalAmountCalculation.sort(function (a, b) {
-                return b.totalbalance - a.totalbalance;
-              });
-              if (callback) {
-                callback(sortedArray);
-              }
-            });
-          } else {
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tinvoiceex;
-            let invoiceItemObj = {};
-            let invoiceItems = [];
-            for (let j in useData) {
-              invoiceItemObj = {
-                deleted: useData[j].fields.Deleted || false,
-                CustomerName: useData[j].fields.CustomerName || "",
-                TotalAmountInc: useData[j].fields.TotalAmountInc || 0,
-              };
-              // totaldeptquantity += data.tproductvs1class[j].InStockQty;
-              invoiceItems.push(invoiceItemObj);
-            }
-            let filterData = _.filter(invoiceItems, function (data) {
-              return !data.deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.CustomerName;
-            });
-
-            let groupData = _.omit(
-              _.groupBy(filterDueDateData, "CustomerName"),
-              [""]
-            );
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          }
-        })
-        .catch(function (err) {
-          salesBoardService.getInvSaleByCustomer().then((data) => {
-            // templateObject.getAllData(data);
-            let filterData = _.filter(data.tinvoiceex, function (data) {
-              return !data.deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.CustomerName;
-            });
-
-            let groupData = _.omit(
-              _.groupBy(filterDueDateData, "CustomerName"),
-              [""]
-            );
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          });
-        });
-    });
-  }
-
-  getSupplierPurchases(function (data) {
-    topTenSuppData1 = _.take(data, 10);
-    let totalBalance = 0;
-    let itemName = [];
-    let itemBalance = [];
-    topTenSuppData1.map(function (item) {
-      item.totalbalance = +parseFloat(item.totalbalance).toFixed(2);
-      if (item.totalbalance > 0) {
-        itemName.push(item.name);
-        itemBalance.push(item.totalbalance);
-      }
-    });
-    let otherData = _.difference(data, topTenSuppData1, _.isEqual);
-
-    let totalPayment = 0;
-    let overDuePayment = 0;
-
-    // topData.topTenData.set(data);
-
-    // templateObject.topTenData.set(topTenSuppData1);
-    var ctx = document.getElementById("myChart").getContext("2d");
-    var myChart = new Chart(ctx, {
-      type: "horizontalBar",
-      data: {
-        labels: itemName,
-        datasets: [
-          {
-            label: "Earnings",
-            data: itemBalance,
-            backgroundColor: [
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-            ],
-            borderColor: [
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        onClick: function (evt, item) {
-          if (item[0]["_model"].label) {
-            var activePoints = item[0]["_model"].label;
-            FlowRouter.go("/purchasesreport?contact=" + activePoints);
-          }
-        },
-        maintainAspectRatio: false,
-        tooltips: {
-          callbacks: {
-            label: function (tooltipItem, data) {
-              return (
-                utilityService.modifynegativeCurrencyFormat(
-                  tooltipItem.xLabel
-                ) || 0.0
-              );
-            },
-          },
-        },
-        legend: {
-          display: false,
-        },
-        title: {},
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-                drawOnChartArea: false,
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-        },
-      },
-    });
-  });
-  function getSupplierPurchases(callback) {
-    return new Promise((res, rej) => {
-      var salesBoardService = new SalesBoardService();
-      getVS1Data("TPurchaseOrderEx")
-        .then(function (dataObject) {
-          if (dataObject.length == 0) {
-            salesBoardService.getPurchaseBySupplier().then((data) => {
-              // templateObject.getAllData(data);
-              let filterData = _.filter(data.tpurchaseorderex, function (data) {
-                return !data.deleted;
-              });
-              let filterDueDateData = _.filter(filterData, function (data) {
-                return data.ClientName;
-              });
-
-              let groupData = _.omit(
-                _.groupBy(filterDueDateData, "ClientName"),
-                [""]
-              );
-              let totalAmountCalculation = _.map(
-                groupData,
-                function (value, key) {
-                  let totalPayment = 0;
-                  let overDuePayment = 0;
-                  for (let i = 0; i < value.length; i++) {
-                    totalPayment += value[i].TotalAmountInc;
-                  }
-                  let userObject = {};
-                  userObject.name = key;
-                  userObject.totalbalance = totalPayment;
-                  return userObject;
-                }
-              );
-
-              let sortedArray = [];
-              sortedArray = totalAmountCalculation.sort(function (a, b) {
-                return b.totalbalance - a.totalbalance;
-              });
-              if (callback) {
-                callback(sortedArray);
-              }
-            });
-          } else {
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tpurchaseorderex;
-            let arrayDataUse = [];
-            //arrayDataUse.push(useData[i].fields);
-            for (let i = 0; i < useData.length; i++) {
-              arrayDataUse.push(useData[i].fields);
-            }
-            let filterData = _.filter(arrayDataUse, function (data) {
-              return !data.Deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.ClientName;
-            });
-
-            let groupData = _.omit(_.groupBy(filterDueDateData, "ClientName"), [
-              "",
-            ]);
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          }
-        })
-        .catch(function (err) {
-          salesBoardService.getPurchaseBySupplier().then((data) => {
-            // templateObject.getAllData(data);
-            let filterData = _.filter(data.tpurchaseorderex, function (data) {
-              return !data.deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.ClientName;
-            });
-
-            let groupData = _.omit(_.groupBy(filterDueDateData, "ClientName"), [
-              "",
-            ]);
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          });
-        });
-    });
-  }
 
   Meteor.call(
     "readPrefMethod",
@@ -2539,6 +1985,8 @@ Template.contactoverview.onRendered(function () {
     }
   }
 
+
+
   templateObject.checkChartToDisplay = async () => {
     const accountOverviewApis = new ChartsApi(); // Load all dashboard APIS
     let displayedCharts = 0;
@@ -2561,7 +2009,7 @@ Template.contactoverview.onRendered(function () {
         }
       });
       //console.log(allChartResponse);
-      console.log(chartList);
+      // console.log(chartList);
       // the goal here is to get the right names so it can be used for preferences
       chartList.forEach((chart) => {
         //chart.fields.active = false; // Will set evething to false
@@ -2575,10 +2023,10 @@ Template.contactoverview.onRendered(function () {
           chart.fields.ChartID
         );
 
-        $(`[key='${chart.fields._chartSlug}']`).attr(
-          "pref-id",
-          chart.fields.ID
-        );
+        // $(`[key='${chart.fields._chartSlug}']`).attr(
+        //   "pref-id",
+        //   chart.fields.ID
+        // );
         $(`[key='${chart.fields._chartSlug}']`).attr(
           "chart-slug",
           chart.fields._chartSlug
@@ -2641,67 +2089,94 @@ Template.contactoverview.onRendered(function () {
         }
       });
 
+     // console.log(tvs1ChartDashboardPreference.length);
+     // console.log(tvs1ChartDashboardPreference);
 
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          //setTimeout(() => { // this is good to see how the charts are apearing or not
-          //if (tvs1chart.fields.ChartGroup == _chartGroup) {
-          const itemName =
-            tvs1chart.fields.ChartGroup.toLowerCase() +
-            "__" +
-            tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
+          // setTimeout(() => {
+            // this is good to see how the charts are apearing or not
+            //if (tvs1chart.fields.ChartGroup == _chartGroup) {
+            const itemName =
+              tvs1chart.fields.ChartGroup.toLowerCase() +
+              "__" +
+              tvs1chart.fields.Chartname.toLowerCase().split(" ").join("_"); // this is the new item name
 
-          //localStorage.setItem(itemName, tvs1chart);
-          console.log(itemName + " " + tvs1chart.fields.Active);
+            //localStorage.setItem(itemName, tvs1chart);
+            //console.log(itemName + " " + tvs1chart.fields.Active);
 
-          if (itemList.includes(itemName) == true) {
-            // If the item name exist
-            $(`[key='${itemName}']`).attr("chart-id", tvs1chart.fields.Id);
-            $(`[key='${itemName}']`).attr(
-              "chart-group",
-              tvs1chart.fields.chartGroup
-            );
-            $(`[key='${itemName}']`).addClass("chart-visibility");
-            //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
-            $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-              "chart-slug",
-              itemName
-            );
-
-            if (tvs1chart.fields.Active == true) {
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+            if (itemList.includes(itemName) == true) {
+              // If the item name exist
+              if (tvs1chart.fields.ChartWidth) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "width",
+                  tvs1chart.fields.ChartWidth
+                );
+              }
+              // This is the ChartHeight saved in the preferences
+              if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
+                );
+              }
+              $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
+              $(`[key='${itemName}']`).attr(
+                "position",
+                tvs1chart.fields.Position
+              );
+              $(`[key='${itemName}']`).attr(
+                "chart-id",
+                tvs1chart.fields.ChartID
+              );
+              $(`[key='${itemName}']`).attr(
+                "chart-group",
+                tvs1chart.fields.chartGroup
+              );
+              $(`[key='${itemName}']`).addClass("chart-visibility");
+              //$(`[key='${itemName}']`).attr('chart-id', tvs1chart.fields.Id);
               $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "false"
+                "chart-slug",
+                itemName
               );
 
-              $(`[key='${itemName}']`).removeClass("hideelement");
-              //$(`[key='${itemName}']`).attr("is-hidden", false);
-            } else {
-              $(`[key='${itemName}']`).addClass("hideelement");
-              $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
-              // $(`[key='${itemName}']`).attr("is-hidden", true);
-              $(`[key='${itemName}'] .on-editor-change-mode`).attr(
-                "is-hidden",
-                "true"
-              );
+              if (tvs1chart.fields.Active == true) {
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Hide");
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "false"
+                );
+
+                $(`[key='${itemName}']`).removeClass("hideelement");
+                //$(`[key='${itemName}']`).attr("is-hidden", false);
+              } else {
+                $(`[key='${itemName}']`).addClass("hideelement");
+                $(`[key='${itemName}'] .on-editor-change-mode`).text("Show");
+                // $(`[key='${itemName}']`).attr("is-hidden", true);
+                $(`[key='${itemName}'] .on-editor-change-mode`).attr(
+                  "is-hidden",
+                  "true"
+                );
+              }
             }
-          }
-          //}
-          //}, index * 1000);
+            //}
+          // }, index * 100);
         });
+        let $chartWrappper = $('.connectedSortable');
+        $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
+            return +a.getAttribute('position') - +b.getAttribute('position');
+        }).appendTo($chartWrappper);
       }
 
       displayedCharts = document.querySelectorAll(
         ".chart-visibility:not(.hideelement)"
       );
-     
 
       if (displayedCharts.length == 0) {
         //console.log(displayedCharts.length);
         // this will show all by default
-        console.log("No charts are being displayed, so show everything");
+        // console.log("No charts are being displayed, so show everything");
         itemList.forEach((item) => {
           $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
           $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
@@ -2710,6 +2185,7 @@ Template.contactoverview.onRendered(function () {
           $(`[key='${item}']`).addClass("chart-visibility");
           // $(`[key='${item}']`).attr("is-hidden", false);
         });
+        buildPositions();
       }
     }
   };
@@ -2769,19 +2245,12 @@ Template.contactoverview.events({
   },
 
   "click #btnDone": () => {
-    saveCharts();
-    chartsEditor.disable();
-
     const templateObject = Template.instance();
-    templateObject.hideChartElements();
-    // $("#btnDone").addClass("hideelement");
-    // $("#btnDone").removeClass("showelement");
-    // $("#btnCancel").addClass("hideelement");
-    // $("#btnCancel").removeClass("showelement");
-    // $("#editcharts").addClass("showelement");
-    // $("#editcharts").removeClass("hideelement");
-
-    templateObject.checkChartToDisplay();
+    chartsEditor.disable();
+    saveCharts().then(() => {
+      templateObject.hideChartElements();
+      templateObject.checkChartToDisplay();
+    });
   },
   "click .editchartsbtn": () => {
     chartsEditor.enable();
@@ -2936,60 +2405,85 @@ Template.contactoverview.events({
     }
   },
   "click #today": function () {
-      let templateObject = Template.instance();
-      $('.fullScreenSpin').css('display', 'inline-block');
-      $('#dateFrom').attr('readonly', false);
-      $('#dateTo').attr('readonly', false);
-      var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = (currentBeginDate.getMonth() + 1);
-      let fromDateDay = currentBeginDate.getDate();
-      if((currentBeginDate.getMonth()+1) < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
+    let templateObject = Template.instance();
+    $(".fullScreenSpin").css("display", "inline-block");
+    $("#dateFrom").attr("readonly", false);
+    $("#dateTo").attr("readonly", false);
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth() + 1;
+    let fromDateDay = currentBeginDate.getDate();
+    if (currentBeginDate.getMonth() + 1 < 10) {
+      fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+    } else {
+      fromDateMonth = currentBeginDate.getMonth() + 1;
+    }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
-      var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+    if (currentBeginDate.getDate() < 10) {
+      fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDateERPFrom =
+      currentBeginDate.getFullYear() + "-" + fromDateMonth + "-" + fromDateDay;
+    var toDateERPTo =
+      currentBeginDate.getFullYear() + "-" + fromDateMonth + "-" + fromDateDay;
 
-      var toDateDisplayFrom = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
-      var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+    var toDateDisplayFrom =
+      fromDateDay + "/" + fromDateMonth + "/" + currentBeginDate.getFullYear();
+    var toDateDisplayTo =
+      fromDateDay + "/" + fromDateMonth + "/" + currentBeginDate.getFullYear();
 
-      $("#dateFrom").val(toDateDisplayFrom);
-      $("#dateTo").val(toDateDisplayTo);
-      templateObject.getAllFilterCombinedContactsData(toDateERPFrom,toDateERPTo, false);
+    $("#dateFrom").val(toDateDisplayFrom);
+    $("#dateTo").val(toDateDisplayTo);
+    templateObject.getAllFilterCombinedContactsData(
+      toDateERPFrom,
+      toDateERPTo,
+      false
+    );
   },
   "click #lastweek": function () {
-      let templateObject = Template.instance();
-      $('.fullScreenSpin').css('display', 'inline-block');
-      $('#dateFrom').attr('readonly', false);
-      $('#dateTo').attr('readonly', false);
-      var currentBeginDate = new Date();
-      var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
-      let fromDateMonth = (currentBeginDate.getMonth() + 1);
-      let fromDateDay = currentBeginDate.getDate();
-      if((currentBeginDate.getMonth()+1) < 10){
-          fromDateMonth = "0" + (currentBeginDate.getMonth()+1);
-      }else{
-        fromDateMonth = (currentBeginDate.getMonth()+1);
-      }
+    let templateObject = Template.instance();
+    $(".fullScreenSpin").css("display", "inline-block");
+    $("#dateFrom").attr("readonly", false);
+    $("#dateTo").attr("readonly", false);
+    var currentBeginDate = new Date();
+    var begunDate = moment(currentBeginDate).format("DD/MM/YYYY");
+    let fromDateMonth = currentBeginDate.getMonth() + 1;
+    let fromDateDay = currentBeginDate.getDate();
+    if (currentBeginDate.getMonth() + 1 < 10) {
+      fromDateMonth = "0" + (currentBeginDate.getMonth() + 1);
+    } else {
+      fromDateMonth = currentBeginDate.getMonth() + 1;
+    }
 
-      if(currentBeginDate.getDate() < 10){
-          fromDateDay = "0" + currentBeginDate.getDate();
-      }
-      var toDateERPFrom = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay - 7);
-      var toDateERPTo = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
+    if (currentBeginDate.getDate() < 10) {
+      fromDateDay = "0" + currentBeginDate.getDate();
+    }
+    var toDateERPFrom =
+      currentBeginDate.getFullYear() +
+      "-" +
+      fromDateMonth +
+      "-" +
+      (fromDateDay - 7);
+    var toDateERPTo =
+      currentBeginDate.getFullYear() + "-" + fromDateMonth + "-" + fromDateDay;
 
-      var toDateDisplayFrom = (fromDateDay -7)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
-      var toDateDisplayTo = (fromDateDay)+ "/" +(fromDateMonth) + "/"+currentBeginDate.getFullYear();
+    var toDateDisplayFrom =
+      fromDateDay -
+      7 +
+      "/" +
+      fromDateMonth +
+      "/" +
+      currentBeginDate.getFullYear();
+    var toDateDisplayTo =
+      fromDateDay + "/" + fromDateMonth + "/" + currentBeginDate.getFullYear();
 
-      $("#dateFrom").val(toDateDisplayFrom);
-      $("#dateTo").val(toDateDisplayTo);
-      templateObject.getAllFilterCombinedContactsData(toDateERPFrom,toDateERPTo, false);
+    $("#dateFrom").val(toDateDisplayFrom);
+    $("#dateTo").val(toDateDisplayTo);
+    templateObject.getAllFilterCombinedContactsData(
+      toDateERPFrom,
+      toDateERPTo,
+      false
+    );
   },
   "click #lastMonth": function () {
     let templateObject = Template.instance();
@@ -3394,26 +2888,11 @@ Template.contactoverview.helpers({
       PrefName: "tblcontactoverview",
     });
   },
-  topTenData: () => {
-    return Template.instance().topTenData.get();
-  },
+ 
   Currency: () => {
     return Currency;
   },
-  loggeduserdata: () => {
-    return Template.instance()
-      .loggeduserdata.get()
-      .sort(function (a, b) {
-        if (a.employeename == "NA") {
-          return 1;
-        } else if (b.employeename == "NA") {
-          return -1;
-        }
-        return a.employeename.toUpperCase() > b.employeename.toUpperCase()
-          ? 1
-          : -1;
-      });
-  },
+  
   loggedCompany: () => {
     return localStorage.getItem("mySession") || "";
   },

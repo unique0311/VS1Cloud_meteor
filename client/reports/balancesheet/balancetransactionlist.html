@@ -90,11 +90,11 @@ style="margin: 16px;margin-top: 0px; background-color: #00A3D3; border-color: #0
 
     {{#if equals item.sVisible true}}
     <script>
-      $("#"+{{item.sIndex}}+".chkDatatable").attr("checked","checked");
+      $("#"+ {{item.sIndex}} +".chkDatatable").attr("checked","checked");
     </script>
     {{else}}
     <script>
-        $("#"+{{item.sIndex}}+".chkDatatable").removeAttr("checked");
+        $("#"+ {{item.sIndex}} +".chkDatatable").removeAttr("checked");
     </script>
     {{/if}}
 

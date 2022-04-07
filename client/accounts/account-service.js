@@ -94,7 +94,7 @@ export class AccountService extends BaseService {
     getLineAttachmentList(lineID){
         let options = {
             PropertyList: "Attachment,AttachmentName,Description,TableId,TableName",
-            select: "[TableName]=tblexpenseclaimline and [TableID]="+lineID
+            select: "[TableName]='tblexpenseclaimline' and [TableID]="+lineID
         };
         return this.getList(this.ERPObjects.TAttachment, options);
     }
