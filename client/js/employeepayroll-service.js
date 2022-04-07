@@ -22,4 +22,44 @@ export class EmployeePayrollService extends BaseService {
   saveTEmployeepaysettings(data) {
     return this.POST(this.ERPObjects.TEmployeepaysettings, data);
   }
+  
+  getAllTLeaveTypes(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail"
+          //select: '[Active]=true'
+        };
+    }else{
+      options = {
+        ListType: "Detail",
+        //select: '[Active]=true',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    };
+    return this.getList(this.ERPObjects.TLeavetypes, options);
+  }
+
+  getAllTBankAccounts(limitcount, limitfrom) {
+    let options = '';
+    if(limitcount == 'All'){
+       options = {
+          ListType: "Detail"
+          //select: '[Active]=true'
+        };
+    }else{
+      options = {
+        ListType: "Detail",
+        //select: '[Active]=true',
+        LimitCount:'"'+limitcount+'"',
+        LimitFrom:'"'+limitfrom+'"'
+     };
+    };
+    return this.getList(this.ERPObjects.TBankAccounts, options);
+  }
+  saveTBankAccounts(data) {
+    return this.POST(this.ERPObjects.TBankAccounts, data);
+  }
+
 }
