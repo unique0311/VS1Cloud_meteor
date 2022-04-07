@@ -502,7 +502,7 @@ Template.dashboard.events({
       $(e.currentTarget).attr("is-hidden", "true");
       $(e.currentTarget).text("Show");
     }
-    templateObject.saveIntoLocalDB(e)
+    Template.instance().saveIntoLocalDB(e)
   },
   "mouseover .card-header": (e) => {
     $(e.currentTarget).parent(".card").addClass("hovered");
