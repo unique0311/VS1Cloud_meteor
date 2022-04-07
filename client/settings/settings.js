@@ -73,6 +73,9 @@ Template.settings.events({
     },
     'click .btnSmsSettings': function(event) {
         FlowRouter.go('/smssettings');
+    },
+    'click .btnTemplates': function(event) {
+        FlowRouter.go('/templatesettings');
     }
 });
 

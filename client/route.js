@@ -1534,3 +1534,12 @@ authenticatedRoutes.route('/smssettings', {
         });
     }
 });
+
+authenticatedRoutes.route('/templatesettings', {
+    name: 'templatesettings',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'templatesettings'
+        });
+    }
+});
