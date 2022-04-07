@@ -552,12 +552,12 @@
                                     </div>
                                     <div class="col-md-2 custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0;padding: -2px;padding-left: 24px;">
                                         <div class="form-group d-xl-flex justify-content-xl-start align-items-xl-center" style="margin: 0; Width:50%;">
-                                            <input class="custom-control-input chkEmailCopy" type="checkbox" id="formCheck-1" style="font-size: 22px;" checked><label class="custom-control-label" for="formCheck-1">SMS Customer</label>
+                                            <input class="custom-control-input chkSMSCustomer" type="checkbox" id="chkSMSCustomer" style="font-size: 22px;" checked><label class="custom-control-label" for="chkSMSCustomer">SMS Customer</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0;padding: -2px;padding-left: 24px;">
                                         <div class="form-group d-xl-flex justify-content-xl-start align-items-xl-center" style="margin: 0; Width:50%;">
-                                            <input class="custom-control-input chkEmailRep" type="checkbox" id="formCheck-2" style="font-size: 22px;" checked><label class="custom-control-label" for="formCheck-2">SMS User</label>
+                                            <input class="custom-control-input chkSMSUser" type="checkbox" id="chkSMSUser" style="font-size: 22px;" checked><label class="custom-control-label" for="chkSMSUser">SMS User</label>
                                         </div>
                                     </div>
                                 </div>
@@ -747,7 +747,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="mb-0">Start Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="mb-0">Start Appointment SMS Message</h4><button type="button" class="close" id="btnCloseStartAppointmentModal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body" style="padding: 0px; overflow-x: hidden;">
                                         <div class="row m-0">
@@ -757,8 +757,8 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-primary btnStartActualTime" id="btnStartActualTime" type="button"><i class="fa fa-check" style="margin-right: 5px;"></i>Confirm</button>
-                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                            <button class="btn btn-primary btnStartAppointmentConfirm" id="btnStartAppointmentConfirm" type="button"><i class="fa fa-check" style="margin-right: 5px;"></i>Confirm</button>
+                                            <button class="btn btn-secondary" id="btnCloseStartAppointmentModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -770,7 +770,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="mb-0">Stop Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="mb-0">Stop Appointment SMS Message</h4><button type="button" class="close" id="btnCloseStopAppointmentModal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body" style="padding: 0px; overflow-x: hidden;">
                                         <div class="row m-0">
@@ -781,7 +781,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-primary btnEndActualTime" id="btnEndActualTime" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Confirm</button>
-                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                            <button class="btn btn-secondary" id="btnCloseStopAppointmentModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -793,18 +793,18 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="mb-0">Save Appointment SMS Message</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        <h4 class="mb-0">Save Appointment SMS Message</h4><button type="button" class="close" id="btnCloseSaveAppointmentModal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                     </div>
                                     <div class="modal-body" style="padding: 0px; overflow-x: hidden;">
                                         <div class="row m-0">
-                                            <div class="col">
+                                            <div class="col p-3">
                                                 <label>You are able to edit Save Appointment SMS message here</label>
                                                 <textarea class="border rounded form-control" rows="5" id="saveAppointmentSMSMessage" name="saveAppointmentSMSMessage"></textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-primary btnSaveAppointmentSubmit" id="btnSaveAppointmentSubmit" type="submit"><i class="fa fa-check" style="margin-right: 5px;"></i>Confirm</button>
-                                            <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
+                                            <button class="btn btn-secondary" id="btnCloseSaveAppointmentModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
                                 </div>
