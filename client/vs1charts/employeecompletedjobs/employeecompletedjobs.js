@@ -74,7 +74,7 @@ Template.employeecompletedjobs.onRendered(() => {
                     itemName.reverse();
                     itemBalance.reverse();
 
-                    var ctx = document.getElementById("myChartCustomer").getContext("2d");
+                    var ctx = document.getElementById("employeecompletedjobchart").getContext("2d");
                     var myChart = new Chart(ctx, {
                         type: 'horizontalBar',
                         data: {
@@ -173,7 +173,6 @@ Template.employeecompletedjobs.onRendered(() => {
                 jobsCompleted = {};
                 let itemName = [];
                 let itemBalance = [];
-
                 max = '',
                 maxi = 0;
                 for (let timesheetInfo of data.ttimesheet) {
@@ -213,7 +212,7 @@ Template.employeecompletedjobs.onRendered(() => {
                  itemName.reverse();
                  itemBalance.reverse();
 
-                var ctx = document.getElementById("myChartCustomer").getContext("2d");
+                var ctx = document.getElementById("employeecompletedjobchart").getContext("2d");
                 var myChart = new Chart(ctx, {
                     type: 'horizontalBar',
                     data: {
@@ -221,7 +220,6 @@ Template.employeecompletedjobs.onRendered(() => {
                         datasets: [{
                                 label: 'Total #' + this.name,
                                 data: itemBalance,
-
                                 backgroundColor: [
                                     '#f6c23e',
                                     '#f6c23e',
@@ -347,7 +345,7 @@ Template.employeecompletedjobs.onRendered(() => {
                 itemName.reverse();
                 itemBalance.reverse();
 
-                var ctx = document.getElementById("myChartCustomer").getContext("2d");
+                var ctx = document.getElementById("employeecompletedjobchart").getContext("2d");
                 var myChart = new Chart(ctx, {
                     type: 'horizontalBar',
                     data: {

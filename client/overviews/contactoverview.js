@@ -14,6 +14,7 @@ import Tvs1ChartDashboardPreference from "../js/Api/Model/Tvs1ChartDashboardPref
 import Tvs1chart from "../js/Api/Model/Tvs1Chart";
 import Tvs1ChartDashboardPreferenceField from "../js/Api/Model/Tvs1ChartDashboardPreferenceField";
 import ApiService from "../js/Api/Module/ApiService";
+import Customer from "../vs1charts/top10Customers/Customer";
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 
@@ -75,6 +76,7 @@ const saveCharts = async () => {
           Position: $(chart).attr("position"),
           ChartGroup: _chartGroup,
           ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
         }),
       })
     );
@@ -150,8 +152,8 @@ Template.contactoverview.onCreated(function () {
   const templateObject = Template.instance();
   templateObject.datatablerecords = new ReactiveVar([]);
   templateObject.tableheaderrecords = new ReactiveVar([]);
-  templateObject.topTenData = new ReactiveVar([]);
-  templateObject.loggeduserdata = new ReactiveVar([]);
+  //templateObject.topTenData = new ReactiveVar([]);
+  //templateObject.loggeduserdata = new ReactiveVar([]);
 });
 
 Template.contactoverview.onRendered(function () {
@@ -201,579 +203,6 @@ Template.contactoverview.onRendered(function () {
   $("#dateFrom").val(fromDate);
   $("#dateTo").val(begunDate);
 
-  templateObject.getLoggedUserData = function () {
-    contactService.getCurrentLoggedUser().then(function (data) {
-      let dataListloggedUser = {};
-      let vs1EmployeeImage = Session.get("vs1EmployeeImages");
-
-      let encoded = "";
-      for (let i = 0; i < data.tappuser.length; i++) {
-        let employeeUser =
-          data.tappuser[i].FirstName + " " + data.tappuser[i].LastName;
-        if (
-          parseInt(data.tappuser[i].EmployeeID) ==
-          parseInt(Session.get("mySessionEmployeeLoggedID"))
-        ) {
-          employeeUser = Session.get("mySessionEmployee");
-        }
-        dataListloggedUser = {
-          id: data.tappuser[i].EmployeeID || "",
-          employeename: employeeUser || "- -",
-          ladtloging: data.tappuser[i].LastTime || "",
-          // employeepicture: encoded|| ''
-        };
-        loggedUserList.push(dataListloggedUser);
-      }
-      templateObject.loggeduserdata.set(loggedUserList);
-    });
-    /*
-        getVS1Data('TAppUser').then(function (dataObject) {
-            if(dataObject.length == 0){
-                contactService.getCurrentLoggedUser().then(function (data) {
-
-                    let dataListloggedUser = {};
-                    let vs1EmployeeImage = Session.get('vs1EmployeeImages');
-
-                    let encoded = '';
-                    for(let i=0; i<data.tappuser.length; i++){
-                        dataListloggedUser = {
-                            id: data.tappuser[i].EmployeeID || '',
-                            employeename: data.tappuser[i].UserName || '',
-                            ladtloging: data.tappuser[i].LastTime|| '',
-                            // employeepicture: encoded|| ''
-                        };
-                        loggedUserList.push(dataListloggedUser);
-                    }
-                    templateObject.loggeduserdata.set(loggedUserList);
-                });
-            }else{
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tappuser;
-                let dataListloggedUser = {};
-                let vs1EmployeeImage = Session.get('vs1EmployeeImages');
-
-                let encoded = '';
-                for(let i=0; i<useData.length; i++){
-                    dataListloggedUser = {
-                        id: useData[i].EmployeeID || '',
-                        employeename: useData[i].UserName || '',
-                        ladtloging: useData[i].LastTime|| '',
-                        // employeepicture: encoded|| ''
-                    };
-                    loggedUserList.push(dataListloggedUser);
-                }
-                templateObject.loggeduserdata.set(loggedUserList);
-
-            }
-        }).catch(function (err) {
-            contactService.getCurrentLoggedUser().then(function (data) {
-
-                let dataListloggedUser = {};
-                let vs1EmployeeImage = Session.get('vs1EmployeeImages');
-
-                let encoded = '';
-                for(let i=0; i<data.tappuser.length; i++){
-                    dataListloggedUser = {
-                        id: data.tappuser[i].EmployeeID || '',
-                        employeename: data.tappuser[i].UserName || '',
-                        ladtloging: data.tappuser[i].LastTime|| '',
-                        // employeepicture: encoded|| ''
-                    };
-                    loggedUserList.push(dataListloggedUser);
-                }
-                templateObject.loggeduserdata.set(loggedUserList);
-            });
-        });
-        */
-  };
-  templateObject.getLoggedUserData();
-  //this.topTenData = new ReactiveVar([]);
-  getInvSales(function (data) {
-    topTenData1 = _.take(data, 10);
-    let totalBalance = 0;
-    let itemName = [];
-    let itemBalance = [];
-    topTenData1.map(function (item) {
-      item.totalbalance = +parseFloat(item.totalbalance).toFixed(2);
-      if (item.totalbalance > 0) {
-        itemName.push(item.name);
-        itemBalance.push(item.totalbalance);
-      }
-      // itemName.push(item.name);
-      // itemBalance.push(item.totalbalance);
-    });
-    let otherData = _.difference(data, topTenData1, _.isEqual);
-
-    let totalPayment = 0;
-    let overDuePayment = 0;
-
-    topData.topTenData.set(data);
-
-    templateObject.topTenData.set(topTenData1);
-    var ctx = document.getElementById("myChartCustomer").getContext("2d");
-    var myChart = new Chart(ctx, {
-      type: "horizontalBar",
-      data: {
-        labels: itemName,
-        datasets: [
-          {
-            label: "Amount #" + this.name,
-            data: itemBalance,
-
-            backgroundColor: [
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-            ],
-            borderColor: [
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        onClick: function (evt, item) {
-          if (item[0]["_model"].label) {
-            var activePoints = item[0]["_model"].label;
-            FlowRouter.go("/salesreport?contact=" + activePoints);
-          }
-        },
-        maintainAspectRatio: false,
-        tooltips: {
-          callbacks: {
-            label: function (tooltipItem, data) {
-              return (
-                utilityService.modifynegativeCurrencyFormat(
-                  tooltipItem.xLabel
-                ) || 0.0
-              );
-              // Currency + Number(tooltipItem.xLabel).toFixed(2).replace(/./g, function(c, i, a) {
-              //     return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-              // });
-            },
-          },
-        },
-        legend: {
-          display: false,
-        },
-        title: {},
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-                drawOnChartArea: false,
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-        },
-      },
-    });
-  });
-
-  function getInvSales(callback) {
-    return new Promise((res, rej) => {
-      var salesBoardService = new SalesBoardService();
-      getVS1Data("TInvoiceEx")
-        .then(function (dataObject) {
-          if (dataObject.length == 0) {
-            salesBoardService.getInvSaleByCustomer().then((data) => {
-              // templateObject.getAllData(data);
-              let filterData = _.filter(data.tinvoiceex, function (data) {
-                return !data.deleted;
-              });
-              let filterDueDateData = _.filter(filterData, function (data) {
-                return data.CustomerName;
-              });
-
-              let groupData = _.omit(
-                _.groupBy(filterDueDateData, "CustomerName"),
-                [""]
-              );
-              let totalAmountCalculation = _.map(
-                groupData,
-                function (value, key) {
-                  let totalPayment = 0;
-                  let overDuePayment = 0;
-                  for (let i = 0; i < value.length; i++) {
-                    totalPayment += value[i].TotalAmountInc;
-                  }
-                  let userObject = {};
-                  userObject.name = key;
-                  userObject.totalbalance = totalPayment;
-                  return userObject;
-                }
-              );
-
-              let sortedArray = [];
-              sortedArray = totalAmountCalculation.sort(function (a, b) {
-                return b.totalbalance - a.totalbalance;
-              });
-              if (callback) {
-                callback(sortedArray);
-              }
-            });
-          } else {
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tinvoiceex;
-            let invoiceItemObj = {};
-            let invoiceItems = [];
-            for (let j in useData) {
-              invoiceItemObj = {
-                deleted: useData[j].fields.Deleted || false,
-                CustomerName: useData[j].fields.CustomerName || "",
-                TotalAmountInc: useData[j].fields.TotalAmountInc || 0,
-              };
-              // totaldeptquantity += data.tproductvs1class[j].InStockQty;
-              invoiceItems.push(invoiceItemObj);
-            }
-            let filterData = _.filter(invoiceItems, function (data) {
-              return !data.deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.CustomerName;
-            });
-
-            let groupData = _.omit(
-              _.groupBy(filterDueDateData, "CustomerName"),
-              [""]
-            );
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          }
-        })
-        .catch(function (err) {
-          salesBoardService.getInvSaleByCustomer().then((data) => {
-            // templateObject.getAllData(data);
-            let filterData = _.filter(data.tinvoiceex, function (data) {
-              return !data.deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.CustomerName;
-            });
-
-            let groupData = _.omit(
-              _.groupBy(filterDueDateData, "CustomerName"),
-              [""]
-            );
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          });
-        });
-    });
-  }
-
-  getSupplierPurchases(function (data) {
-    topTenSuppData1 = _.take(data, 10);
-    let totalBalance = 0;
-    let itemName = [];
-    let itemBalance = [];
-    topTenSuppData1.map(function (item) {
-      item.totalbalance = +parseFloat(item.totalbalance).toFixed(2);
-      if (item.totalbalance > 0) {
-        itemName.push(item.name);
-        itemBalance.push(item.totalbalance);
-      }
-    });
-    let otherData = _.difference(data, topTenSuppData1, _.isEqual);
-
-    let totalPayment = 0;
-    let overDuePayment = 0;
-
-    // topData.topTenData.set(data);
-
-    // templateObject.topTenData.set(topTenSuppData1);
-    var ctx = document.getElementById("myChart").getContext("2d");
-    var myChart = new Chart(ctx, {
-      type: "horizontalBar",
-      data: {
-        labels: itemName,
-        datasets: [
-          {
-            label: "Earnings",
-            data: itemBalance,
-            backgroundColor: [
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-              "#f6c23e",
-            ],
-            borderColor: [
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-              "rgba(78,115,223,0)",
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        onClick: function (evt, item) {
-          if (item[0]["_model"].label) {
-            var activePoints = item[0]["_model"].label;
-            FlowRouter.go("/purchasesreport?contact=" + activePoints);
-          }
-        },
-        maintainAspectRatio: false,
-        tooltips: {
-          callbacks: {
-            label: function (tooltipItem, data) {
-              return (
-                utilityService.modifynegativeCurrencyFormat(
-                  tooltipItem.xLabel
-                ) || 0.0
-              );
-            },
-          },
-        },
-        legend: {
-          display: false,
-        },
-        title: {},
-        scales: {
-          xAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-                drawOnChartArea: false,
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              gridLines: {
-                color: "rgb(234, 236, 244)",
-                zeroLineColor: "rgb(234, 236, 244)",
-                drawBorder: false,
-                drawTicks: false,
-                borderDash: ["2"],
-                zeroLineBorderDash: ["2"],
-              },
-              ticks: {
-                fontColor: "#858796",
-                beginAtZero: true,
-                padding: 20,
-              },
-            },
-          ],
-        },
-      },
-    });
-  });
-  function getSupplierPurchases(callback) {
-    return new Promise((res, rej) => {
-      var salesBoardService = new SalesBoardService();
-      getVS1Data("TPurchaseOrderEx")
-        .then(function (dataObject) {
-          if (dataObject.length == 0) {
-            salesBoardService.getPurchaseBySupplier().then((data) => {
-              // templateObject.getAllData(data);
-              let filterData = _.filter(data.tpurchaseorderex, function (data) {
-                return !data.deleted;
-              });
-              let filterDueDateData = _.filter(filterData, function (data) {
-                return data.ClientName;
-              });
-
-              let groupData = _.omit(
-                _.groupBy(filterDueDateData, "ClientName"),
-                [""]
-              );
-              let totalAmountCalculation = _.map(
-                groupData,
-                function (value, key) {
-                  let totalPayment = 0;
-                  let overDuePayment = 0;
-                  for (let i = 0; i < value.length; i++) {
-                    totalPayment += value[i].TotalAmountInc;
-                  }
-                  let userObject = {};
-                  userObject.name = key;
-                  userObject.totalbalance = totalPayment;
-                  return userObject;
-                }
-              );
-
-              let sortedArray = [];
-              sortedArray = totalAmountCalculation.sort(function (a, b) {
-                return b.totalbalance - a.totalbalance;
-              });
-              if (callback) {
-                callback(sortedArray);
-              }
-            });
-          } else {
-            let data = JSON.parse(dataObject[0].data);
-            let useData = data.tpurchaseorderex;
-            let arrayDataUse = [];
-            //arrayDataUse.push(useData[i].fields);
-            for (let i = 0; i < useData.length; i++) {
-              arrayDataUse.push(useData[i].fields);
-            }
-            let filterData = _.filter(arrayDataUse, function (data) {
-              return !data.Deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.ClientName;
-            });
-
-            let groupData = _.omit(_.groupBy(filterDueDateData, "ClientName"), [
-              "",
-            ]);
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          }
-        })
-        .catch(function (err) {
-          salesBoardService.getPurchaseBySupplier().then((data) => {
-            // templateObject.getAllData(data);
-            let filterData = _.filter(data.tpurchaseorderex, function (data) {
-              return !data.deleted;
-            });
-            let filterDueDateData = _.filter(filterData, function (data) {
-              return data.ClientName;
-            });
-
-            let groupData = _.omit(_.groupBy(filterDueDateData, "ClientName"), [
-              "",
-            ]);
-            let totalAmountCalculation = _.map(
-              groupData,
-              function (value, key) {
-                let totalPayment = 0;
-                let overDuePayment = 0;
-                for (let i = 0; i < value.length; i++) {
-                  totalPayment += value[i].TotalAmountInc;
-                }
-                let userObject = {};
-                userObject.name = key;
-                userObject.totalbalance = totalPayment;
-                return userObject;
-              }
-            );
-
-            let sortedArray = [];
-            sortedArray = totalAmountCalculation.sort(function (a, b) {
-              return b.totalbalance - a.totalbalance;
-            });
-            if (callback) {
-              callback(sortedArray);
-            }
-          });
-        });
-    });
-  }
 
   Meteor.call(
     "readPrefMethod",
@@ -2556,6 +1985,8 @@ Template.contactoverview.onRendered(function () {
     }
   }
 
+
+
   templateObject.checkChartToDisplay = async () => {
     const accountOverviewApis = new ChartsApi(); // Load all dashboard APIS
     let displayedCharts = 0;
@@ -2658,13 +2089,13 @@ Template.contactoverview.onRendered(function () {
         }
       });
 
-      console.log(tvs1ChartDashboardPreference.length);
-      console.log(tvs1ChartDashboardPreference);
+     // console.log(tvs1ChartDashboardPreference.length);
+     // console.log(tvs1ChartDashboardPreference);
 
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          setTimeout(() => {
+          // setTimeout(() => {
             // this is good to see how the charts are apearing or not
             //if (tvs1chart.fields.ChartGroup == _chartGroup) {
             const itemName =
@@ -2681,6 +2112,13 @@ Template.contactoverview.onRendered(function () {
                 $(`[key='${itemName}'] .ui-resizable`).css(
                   "width",
                   tvs1chart.fields.ChartWidth
+                );
+              }
+              // This is the ChartHeight saved in the preferences
+              if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
                 );
               }
               $(`[key='${itemName}']`).attr("pref-id", tvs1chart.fields.ID);
@@ -2723,8 +2161,12 @@ Template.contactoverview.onRendered(function () {
               }
             }
             //}
-          }, index * 100);
+          // }, index * 100);
         });
+        let $chartWrappper = $('.connectedSortable');
+        $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
+            return +a.getAttribute('position') - +b.getAttribute('position');
+        }).appendTo($chartWrappper);
       }
 
       displayedCharts = document.querySelectorAll(
@@ -2806,9 +2248,8 @@ Template.contactoverview.events({
     const templateObject = Template.instance();
     chartsEditor.disable();
     saveCharts().then(() => {
-      
       templateObject.hideChartElements();
-      templateObject.checkChartToDisplay()
+      templateObject.checkChartToDisplay();
     });
   },
   "click .editchartsbtn": () => {
@@ -3447,26 +2888,11 @@ Template.contactoverview.helpers({
       PrefName: "tblcontactoverview",
     });
   },
-  topTenData: () => {
-    return Template.instance().topTenData.get();
-  },
+ 
   Currency: () => {
     return Currency;
   },
-  loggeduserdata: () => {
-    return Template.instance()
-      .loggeduserdata.get()
-      .sort(function (a, b) {
-        if (a.employeename == "NA") {
-          return 1;
-        } else if (b.employeename == "NA") {
-          return -1;
-        }
-        return a.employeename.toUpperCase() > b.employeename.toUpperCase()
-          ? 1
-          : -1;
-      });
-  },
+  
   loggedCompany: () => {
     return localStorage.getItem("mySession") || "";
   },
