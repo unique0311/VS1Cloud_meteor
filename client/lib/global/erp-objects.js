@@ -136,6 +136,7 @@ ERPObjects = function () {
         TJournalEntryLines:"TJournalEntryLines",
         TAppUser:"TAppUser",
         BackOrderSalesList:"BackOrderSalesList",
+        TBankAccounts: "TBankAccounts",
         TBankAccountReport:"TBankAccountReport",
         TCustomerVS1:"TCustomerVS1",
         TJobVS1:"TJobVS1",

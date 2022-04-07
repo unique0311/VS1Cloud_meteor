@@ -184,6 +184,7 @@ openDb = function (dbName) {
       db.createObjectStore("TAllowance", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TPayRate", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TEmployeepaysettings", { keyPath: "EmployeeEmail" });
+      db.createObjectStore("TBankAccounts", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TSuperannuation", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TTerminationSimple", { keyPath: "EmployeeEmail" });
       db.createObjectStore("TDeduction", { keyPath: "EmployeeEmail" });

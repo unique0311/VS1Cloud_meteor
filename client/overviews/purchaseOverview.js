@@ -77,6 +77,7 @@ const saveCharts = async () => {
           Position: $(chart).attr("position"),
           ChartGroup: _chartGroup,
           ChartWidth: $(chart).find(".ui-resizable").width(),
+          ChartHeight: $(chart).find(".ui-resizable").height(),
         }),
       })
     );
@@ -2191,7 +2192,7 @@ Template.purchasesoverview.onRendered(function () {
       if (tvs1ChartDashboardPreference.length > 0) {
         // if charts to be displayed are specified
         tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
-          setTimeout(() => {
+          // setTimeout(() => {
             // this is good to see how the charts are apearing or not
             //if (tvs1chart.fields.ChartGroup == "Dashboard") {
             const itemName =
@@ -2208,6 +2209,13 @@ Template.purchasesoverview.onRendered(function () {
                 $(`[key='${itemName}'] .ui-resizable`).css(
                   "width",
                   tvs1chart.fields.ChartWidth
+                );
+              }
+               // This is the ChartHeight saved in the preferences
+               if (tvs1chart.fields.ChartHeight) {
+                $(`[key='${itemName}'] .ui-resizable`).css(
+                  "height",
+                  tvs1chart.fields.ChartHeight
                 );
               }
               $(`[key='${itemName}']`).attr(
@@ -2248,8 +2256,12 @@ Template.purchasesoverview.onRendered(function () {
               }
             }
             //}
-          }, index * 100);
+          // }, index * 100);
         });
+        let $chartWrappper = $('.connectedSortable');
+        $chartWrappper.find('.sortable-chart-widget-js').sort(function(a, b) {
+            return +a.getAttribute('position') - +b.getAttribute('position');
+        }).appendTo($chartWrappper);
       }
 
       displayedCharts = document.querySelectorAll(
