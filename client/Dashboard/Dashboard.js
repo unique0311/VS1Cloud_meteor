@@ -130,14 +130,13 @@ const saveCharts = async () => {
           Chartname: $(chart).attr("chart-name"),
           Position: parseInt($(chart).attr("position")),
           ChartGroup: _chartGroup,
+          KeyStringFieldName: _chartGroup,
           ChartWidth: $(chart).find(".ui-resizable").width(),
           ChartHeight: $(chart).find(".ui-resizable").height(),
         }),
       })
     );
   });
-
-  console.log(chartList);
 
   for (const _chart of chartList) {
     // chartList.forEach(async (chart) => {
@@ -333,7 +332,7 @@ Template.dashboard.onRendered(function () {
       let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
         dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
       ).filter((chart) => {
-        if (chart.fields.ChartGroup == _chartGroup) {
+        if (chart.fields.KeyStringFieldName == _chartGroup) {
           return chart;
         }
       });

@@ -63,8 +63,6 @@ Template.clockedOnEmployees.onRendered(function () {
             }
           }
           templateObject.clockedOnEmpData.set(clockedOnEmpList);
-          console.log('i am testing')
-          console.log( templateObject.clockedOnEmpData.get() )
           // let url = window.location.href;
           // $(".fullScreenSpin").css("display", "none");
         }
