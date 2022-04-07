@@ -599,6 +599,7 @@ getCustomersDataByName(dataSearchName) {
     options = {
       IgnoreDates:true,
       OrderBy:"PurchaseOrderID desc",
+      IncludeBO:false,
       LimitCount:'"'+limitcount+'"',
       LimitFrom:'"'+limitfrom+'"'
       };
@@ -606,6 +607,7 @@ getCustomersDataByName(dataSearchName) {
        options = {
          OrderBy:"PurchaseOrderID desc",
          IgnoreDates:false,
+         IncludeBO:false,
          DateFrom:'"'+dateFrom+'"',
          DateTo:'"'+dateTo+'"',
          LimitCount:'"'+limitcount+'"',
@@ -1634,12 +1636,14 @@ getAllTSalesBackOrderReportData(dateFrom, dateTo, ignoreDate, limitcount, limitf
     if(ignoreDate == true){
       options = {
         IgnoreDates:true,
+        OrderBy:"ReconciliationID desc",
         LimitCount:'"'+limitcount+'"',
         LimitFrom:'"'+limitfrom+'"'
      };
    }else{
      options = {
        IgnoreDates:false,
+       OrderBy:"ReconciliationID desc",
        DateFrom:'"'+dateFrom+'"',
        DateTo:'"'+dateTo+'"',
        LimitCount:'"'+limitcount+'"',
