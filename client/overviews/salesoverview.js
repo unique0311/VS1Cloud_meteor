@@ -220,15 +220,15 @@ Template.salesoverview.onRendered(function () {
   );
 
   function MakeNegative() {
-    $("td").each(function () {
-      if (
-        $(this)
-          .text()
-          .indexOf("-" + Currency) >= 0
-      )
-        $(this).addClass("text-danger");
-    });
-  }
+      $('td').each(function () {
+          if ($(this).text().indexOf('-' + Currency) >= 0)
+              $(this).addClass('text-danger')
+      });
+
+      $('td.colStatus').each(function(){
+          if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+      });
+  };
 
   templateObject.resetData = function (dataVal) {
     window.open("/salesoverview?page=last", "_self");
@@ -307,6 +307,13 @@ Template.salesoverview.onRendered(function () {
                   utilityService.modifynegativeCurrencyFormat(
                     data.tsaleslist[i].Balance
                   ) || 0.0;
+
+                  let salestatus = data.tsaleslist[i].Status || '';
+                  if(data.tsaleslist[i].Done == true){
+                    salestatus = "Deleted";
+                  }else if(data.tsaleslist[i].CustomerName == ''){
+                    salestatus = "Deleted";
+                  };
                 var dataList = {
                   id: data.tsaleslist[i].SaleId || "",
                   employee: data.tsaleslist[i].employeename || "",
@@ -324,7 +331,7 @@ Template.salesoverview.onRendered(function () {
                   totalamount: totalAmount || 0.0,
                   totalpaid: totalPaid || 0.0,
                   totaloustanding: totalOutstanding || 0.0,
-                  salestatus: data.tsaleslist[i].Status || "",
+                  salestatus: salestatus || "",
                   custfield1: "",
                   custfield2: "",
                   comments: data.tsaleslist[i].Comments || "",
@@ -689,7 +696,6 @@ Template.salesoverview.onRendered(function () {
             });
         } else {
           let data = JSON.parse(dataObject[0].data);
-          console.log(data);
           if (data.Params.IgnoreDates == true) {
             $("#dateFrom").attr("readonly", true);
             $("#dateTo").attr("readonly", true);
@@ -713,6 +719,7 @@ Template.salesoverview.onRendered(function () {
 
           $(".fullScreenSpin").css("display", "none");
           for (let i = 0; i < useData.length; i++) {
+
             let totalAmountEx =
               utilityService.modifynegativeCurrencyFormat(
                 useData[i].TotalAmount
@@ -732,6 +739,14 @@ Template.salesoverview.onRendered(function () {
             let totalOutstanding =
               utilityService.modifynegativeCurrencyFormat(useData[i].Balance) ||
               0.0;
+
+              let salestatus = useData[i].Status || '';
+              if(useData[i].Done == true){
+                salestatus = "Deleted";
+              }else if(useData[i].CustomerName == ''){
+                salestatus = "Deleted";
+              };
+
             var dataList = {
               id: useData[i].SaleId || "",
               employee: useData[i].employeename || "",
@@ -749,7 +764,7 @@ Template.salesoverview.onRendered(function () {
               totalamount: totalAmount || 0.0,
               totalpaid: totalPaid || 0.0,
               totaloustanding: totalOutstanding || 0.0,
-              salestatus: useData[i].Status || "",
+              salestatus: salestatus || "",
               custfield1: "",
               custfield2: "",
               comments: useData[i].Comments || "",
@@ -1131,6 +1146,13 @@ Template.salesoverview.onRendered(function () {
                 utilityService.modifynegativeCurrencyFormat(
                   data.tsaleslist[i].Balance
                 ) || 0.0;
+
+                let salestatus = data.tsaleslist[i].Status || '';
+                if(data.tsaleslist[i].Done == true){
+                  salestatus = "Deleted";
+                }else if(data.tsaleslist[i].CustomerName == ''){
+                  salestatus = "Deleted";
+                };
               var dataList = {
                 id: data.tsaleslist[i].SaleId || "",
                 employee: data.tsaleslist[i].employeename || "",
@@ -1148,7 +1170,7 @@ Template.salesoverview.onRendered(function () {
                 totalamount: totalAmount || 0.0,
                 totalpaid: totalPaid || 0.0,
                 totaloustanding: totalOutstanding || 0.0,
-                salestatus: data.tsaleslist[i].Status || "",
+                salestatus: salestatus || "",
                 custfield1: "",
                 custfield2: "",
                 comments: data.tsaleslist[i].Comments || "",
@@ -1506,12 +1528,12 @@ Template.salesoverview.onRendered(function () {
 
     $("#tblSalesOverview tbody").on("click", "tr", function () {
       var listData = $(this).closest("tr").attr("id");
-
-      var transactiontype = $(event.target)
-        .closest("tr")
-        .find(".colType")
-        .text();
+      var transactiontype = $(event.target).closest("tr").find(".colType").text();
+      var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
       if (listData && transactiontype) {
+        if(checkDeleted == "Deleted"){
+          swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+        }else{
         if (transactiontype === "Invoice") {
           FlowRouter.go("/invoicecard?id=" + listData);
         } else if (transactiontype === "Quote") {
@@ -1523,6 +1545,7 @@ Template.salesoverview.onRendered(function () {
         } else {
           //FlowRouter.go('/purchaseordercard?id=' + listData);
         }
+      }
       }
     });
   };

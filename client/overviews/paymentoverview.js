@@ -172,6 +172,9 @@ Template.paymentoverview.onRendered(function() {
         $('td').each(function(){
             if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
         });
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
     if ((!localStorage.getItem('VS1OutstandingInvoiceAmt_dash'))&&(!localStorage.getItem('VS1OutstandingInvoiceQty_dash'))) {
     getVS1Data('TSalesList').then(function (dataObject) {
@@ -442,6 +445,14 @@ Template.paymentoverview.onRendered(function() {
                         }else if(bankAccount == "Accounts Payables"){
                             bankAccount = "A/P";
                         }
+                        let paystatus = '';
+                        if(data.tpaymentlist[i].Deleted == true){
+                          paystatus = "Deleted";
+                        }else if(data.tpaymentlist[i].ClientName == ''){
+                          paystatus = "Deleted";
+                        }else if(data.tpaymentlist[i].PaymentAmount == 0){
+                          paystatus = "Deleted";
+                        };
                         var dataList = {
                             id: data.tpaymentlist[i].PaymentID || '',
                             sortdate: data.tpaymentlist[i].PaymentDate !=''? moment(data.tpaymentlist[i].PaymentDate).format("YYYY/MM/DD"): data.tpaymentlist[i].PaymentDate,
@@ -457,6 +468,7 @@ Template.paymentoverview.onRendered(function() {
                             jobname: data.tpaymentlist[i].jobname || '',
                             paymentmethod: data.tpaymentlist[i].PaymentMethod || '',
                             type: data.tpaymentlist[i].TYPE || '',
+                            paystatus: paystatus || "",
                             notes: data.tpaymentlist[i].Notes || ''
                         };
                         if(data.tpaymentlist[i].Deleted == false){
@@ -704,7 +716,11 @@ Template.paymentoverview.onRendered(function() {
                     $('#tblPaymentOverview tbody').on( 'click', 'tr', function () {
                         var listData = $(this).closest('tr').attr('id');
                         var transactiontype = $(event.target).closest("tr").find(".colType").text();
+                        var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                         if((listData) && (transactiontype)){
+                          if(checkDeleted == "Deleted"){
+                            swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                          }else{
                             if(transactiontype === 'Customer Payment' ){
                                 FlowRouter.go('/paymentcard?id=' + listData);
                             }else if(transactiontype === 'Supplier Payment'){
@@ -712,7 +728,7 @@ Template.paymentoverview.onRendered(function() {
                             }else{
                                 FlowRouter.go('/paymentcard?id=' + listData);
                             }
-
+                          }
                         }
                     });
 
@@ -723,7 +739,6 @@ Template.paymentoverview.onRendered(function() {
                 });
             }else{
                 let data = JSON.parse(dataObject[0].data);
-                console.log(data);
                 let useData = data.tpaymentlist;
                 if(data.Params.IgnoreDates == true){
                   FlowRouter.go('/paymentoverview?ignoredate=true');
@@ -745,6 +760,14 @@ Template.paymentoverview.onRendered(function() {
                     }else if(bankAccount == "Accounts Payables"){
                         bankAccount = "A/P";
                     }
+                    let paystatus = '';
+                    if(useData[i].Deleted == true){
+                      paystatus = "Deleted";
+                    }else if(useData[i].ClientName == ''){
+                      paystatus = "Deleted";
+                    }else if(useData[i].PaymentAmount == 0){
+                      paystatus = "Deleted";
+                    };
                     var dataList = {
                         id: useData[i].PaymentID || '',
                         sortdate: useData[i].PaymentDate !=''? moment(useData[i].PaymentDate).format("YYYY/MM/DD"): useData[i].PaymentDate,
@@ -760,6 +783,7 @@ Template.paymentoverview.onRendered(function() {
                         jobname: useData[i].jobname || '',
                         paymentmethod: useData[i].PaymentMethod || '',
                         type: useData[i].TYPE || '',
+                        paystatus: paystatus || "",
                         notes: useData[i].Notes || ''
                     };
                     //if(useData[i].Deleted == false){
@@ -1007,7 +1031,11 @@ Template.paymentoverview.onRendered(function() {
                 $('#tblPaymentOverview tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if((listData) && (transactiontype)){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         if(transactiontype === 'Customer Payment' ){
                             FlowRouter.go('/paymentcard?id=' + listData);
                         }else if(transactiontype === 'Supplier Payment'){
@@ -1015,7 +1043,7 @@ Template.paymentoverview.onRendered(function() {
                         }else{
                             FlowRouter.go('/paymentcard?id=' + listData);
                         }
-
+                      }
                     }
                 });
             }
@@ -1043,6 +1071,14 @@ Template.paymentoverview.onRendered(function() {
                     }else if(bankAccount == "Accounts Payables"){
                         bankAccount = "A/P";
                     }
+                    let paystatus = '';
+                    if(data.tpaymentlist[i].Deleted == true){
+                      paystatus = "Deleted";
+                    }else if(data.tpaymentlist[i].ClientName == ''){
+                      paystatus = "Deleted";
+                    }else if(data.tpaymentlist[i].PaymentAmount == 0){
+                      paystatus = "Deleted";
+                    };
                     // Currency+''+data.tpaymentlist[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
                     // let balance = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].Balance)|| 0.00;
                     // let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tpaymentlist[i].TotalPaid)|| 0.00;
@@ -1062,6 +1098,7 @@ Template.paymentoverview.onRendered(function() {
                         jobname: data.tpaymentlist[i].jobname || '',
                         paymentmethod: data.tpaymentlist[i].PaymentMethod || '',
                         type: data.tpaymentlist[i].TYPE || '',
+                        paystatus: paystatus || "",
                         notes: data.tpaymentlist[i].Notes || ''
                     };
                     if(data.tpaymentlist[i].Deleted == false){
@@ -1309,7 +1346,11 @@ Template.paymentoverview.onRendered(function() {
                 $('#tblPaymentOverview tbody').on( 'click', 'tr', function () {
                     var listData = $(this).closest('tr').attr('id');
                     var transactiontype = $(event.target).closest("tr").find(".colType").text();
+                    var checkDeleted = $(this).closest('tr').find('.colStatus').text() || '';
                     if((listData) && (transactiontype)){
+                      if(checkDeleted == "Deleted"){
+                        swal('You Cannot View This Transaction', 'Because It Has Been Deleted', 'info');
+                      }else{
                         if(transactiontype === 'Customer Payment' ){
                             FlowRouter.go('/paymentcard?id=' + listData);
                         }else if(transactiontype === 'Supplier Payment'){
@@ -1317,7 +1358,7 @@ Template.paymentoverview.onRendered(function() {
                         }else{
                             FlowRouter.go('/paymentcard?id=' + listData);
                         }
-
+                      }
                     }
                 });
 

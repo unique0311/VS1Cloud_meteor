@@ -1849,7 +1849,7 @@ Template.employeescard.onRendered(function () {
                                         changeYear: true,
                                         yearRange: "-90:+10",
                                     });
-                                    // $('.fullScreenSpin').css('display','none');
+                                     $('.fullScreenSpin').css('display','none');
                                 }, 500);
                             });
                         }
@@ -2206,7 +2206,7 @@ Template.employeescard.onRendered(function () {
 
     templateObject.getEmployeesList = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
-            console.log('TEmployee', JSON.parse(dataObject[0].data));
+
             if (dataObject.length == 0) {
                 contactService.getAllEmployeeSideData().then(function (data) {
                     let lineItems = [];
@@ -2753,7 +2753,7 @@ Template.employeescard.onRendered(function () {
                 let employeeEmail = dataObject[0].EmployeeEmail;
                 let timestamp = dataObject[0].timestamp;
                 let data = JSON.parse(dataObject[0].data);
-                console.log("TEmployeepaysettings", data);
+
 
                 let useData = data.temployeepaysettings;
                 let lineItems = [];
@@ -2773,7 +2773,7 @@ Template.employeescard.onRendered(function () {
                             TFN: data.temployeepaysettings[i].fields.Employee.fields.TFN,
                             Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
                             TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold ? data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold : false,
-                            
+
                             TFNExemption: data.temployeepaysettings[i].fields.Employee.fields.TFNExemption ? data.temployeepaysettings[i].fields.Employee.fields.TFNExemption : "TFN Exempt - Pensioner",
                             EmploymentBasis: data.temployeepaysettings[i].fields.Employee.fields.EmploymentBasis ? data.temployeepaysettings[i].fields.Employee.fields.EmploymentBasis : "",
                             ResidencyStatus: data.temployeepaysettings[i].fields.Employee.fields.ResidencyStatus ? data.temployeepaysettings[i].fields.Employee.fields.ResidencyStatus : "",
@@ -2783,11 +2783,11 @@ Template.employeescard.onRendered(function () {
                             UpwardvariationRequested: data.temployeepaysettings[i].fields.Employee.fields.UpwardvariationRequested ? data.temployeepaysettings[i].fields.Employee.fields.UpwardvariationRequested : false,
                             SeniorandPensionersTaxOffsetClaimed: data.temployeepaysettings[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed ? data.temployeepaysettings[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed : false,
                             HasApprovedWithholdingVariation: data.temployeepaysettings[i].fields.Employee.fields.HasApprovedWithholdingVariation ? data.temployeepaysettings[i].fields.Employee.fields.HasApprovedWithholdingVariation : false,
-                            
+
                             dataObject: dataObject
                         };
                         templateObject.employeePayInfos.set(payInfo);
-                        
+
                         break;
                     }
                 }
@@ -2824,10 +2824,10 @@ Template.employeescard.onRendered(function () {
     templateObject.getTLeaveTypes = function () {
         let employeePayrollService = new EmployeePayrollService();
         getVS1Data('TLeavetypes').then(function(dataObj) {
-            console.log('TLeavetypes', dataObj);
+
         }).catch(function (err) {
             employeePayrollService.getAllTLeaveTypes('All', 0).then(function(data) {
-                console.log('TLeavetypes1', data);
+
             })
         });
     }
@@ -2838,18 +2838,18 @@ Template.employeescard.onRendered(function () {
         let employeePayrollService = new EmployeePayrollService();
         let EmployeeID = FlowRouter.current().queryParams;
         getVS1Data('TBankAccounts').then(function(dataObj) {
-            console.log('TBankAccounts', dataObj);
-            
+
+
             let newData = {
                 primary: null,
                 first: null,
                 second: null,
                 third: null
             };
-            
+
             if(dataObj.length > 0) {
                 let data = JSON.parse(dataObj[0].data);
-                console.log(data);
+
                 let index = 1;
                 for(let i = 0; i < data.length; i ++) {
                     if(data[i].fields.EmployeeID == EmployeeID) {
@@ -2867,12 +2867,12 @@ Template.employeescard.onRendered(function () {
                     }
                 }
             }
-            console.log("TBankAccountsNewAccount", newData);
+
             templateObject.bankAccList.set(newData);
 
         }).catch(function (err) {
             employeePayrollService.getAllTBankAccounts('All', 0).then(function(data) {
-                console.log('TBankAccounts1', data);
+
             }).catch(function(err){});
         });
     }
@@ -3728,9 +3728,9 @@ Template.employeescard.events({
             let employeePayrollService = new EmployeePayrollService();
             let payInfo = templateObject.employeePayInfos.get();
             let index = payInfo.index;
-            
+
             $('.fullScreenSpin').css('display', 'inline-block');
-    
+
             let TaxFileNumber = $("#edtTaxFileNumber").val();
             let TFNExemption = $("#edtTfnExemption").val();
             let EmploymentBasis = $("#edtEmploymentBasis").val();
@@ -3742,13 +3742,13 @@ Template.employeescard.events({
             let UpwardvariationRequested = $("#taxesUpwardVariationRequested").is(':checked') ? true : false;
             let SeniorandPensionersTaxOffsetClaimed = $("#taxesSeniorPensionersTaxOffsetClaimed").is(':checked') ? true : false;
             let HasApprovedWithholdingVariation = $("#taxesHasApprovedWithholdingVariation").is(':checked') ? true : false;
-    
+
             let dataObject = payInfo.dataObject;
-            
+
             let employeeEmail = dataObject[0].EmployeeEmail;
             let timestamp = dataObject[0].timestamp;
             let data = JSON.parse(dataObject[0].data);
-            
+
             let newData = {...data};
             let currentInfo = data.temployeepaysettings[index];
             currentInfo.fields.Employee.fields.TFN = TaxFileNumber;
@@ -3762,18 +3762,18 @@ Template.employeescard.events({
             currentInfo.fields.Employee.fields.UpwardvariationRequested = UpwardvariationRequested;
             currentInfo.fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed = SeniorandPensionersTaxOffsetClaimed;
             currentInfo.fields.Employee.fields.HasApprovedWithholdingVariation = HasApprovedWithholdingVariation;
-    
+
             let newDataObj = [{
                 EmployeeEmail: employeeEmail,
                 timestamp: timestamp,
                 data: data
             }];
-    
+
             let objDetails = {};
             if (!isNaN(currentId.id)) {
-                
+
             } else {
-    
+
             }
             addVS1Data('TEmployeepaysettings', JSON.stringify(data));
             $('.fullScreenSpin').css('display', 'none');
@@ -3782,7 +3782,7 @@ Template.employeescard.events({
                 employeePayrollService.getAllEmployeePaySettings('All',0).then(function (data) {
                     addVS1Data('TEmployeepaysettings', newDataObj);
                 }).catch(function(err){});
-    
+
             }).catch(function(err){
                 swal({
                     title: 'Oooops...',
@@ -3826,19 +3826,19 @@ Template.employeescard.events({
             let primaryBsbNumber = $(".primaryBsbNumber").val().trim();
             let primaryAccNumber = $(".primaryAccNumber").val().trim();
             let primaryID = $(".primaryID").val();
-            
+
             if(primaryStatementText == "") primaryFlag = true;
             if(primaryAccName == "") primaryFlag = true;
             if(primaryBsbNumber == "") primaryFlag = true;
             if(primaryAccNumber == "") primaryFlag = true;
 
             if(primaryFlag) {
-                console.log("ssss");
+
                 swal('Primary Bank Account cannot be blank!', '', 'info');
                 event.preventDefault();
                 return;
             }
-            
+
             data.push({
                 type: "TBankAccounts",
                 fields: {
@@ -3851,7 +3851,7 @@ Template.employeescard.events({
                     AccNumber: primaryAccNumber,
                 }
             });
-           
+
             let firstStatementText = $(".firstStatementText").val().trim();
             let firstAccName = $(".firstAccName").val().trim();
             let firstBsbNumber = $(".firstBsbNumber").val().trim();
@@ -3916,7 +3916,7 @@ Template.employeescard.events({
                     }
                 });
             }
-            
+
             let thirdStatementText = $(".thirdStatementText").val();
             let thirdAccName = $(".thirdAccName").val();
             let thirdBsbNumber = $(".thirdBsbNumber").val();
@@ -3963,7 +3963,7 @@ Template.employeescard.events({
                 employeePayrollService.getAllTBankAccounts('All',0).then(function (data) {
                     addVS1Data('TBankAccounts', data);
                 }).catch(function(err){});
-    
+
             }).catch(function(err){
                 swal({
                     title: 'Oooops...',
@@ -3986,7 +3986,7 @@ Template.employeescard.events({
             // let AccNumber = $(".accNumber").val();
             // let ID;
             // let Primary;
-            // console.log("StatementText", StatementText);
+
 
             // let data = [{
             //     type: "TBankAccounts",
@@ -4003,7 +4003,7 @@ Template.employeescard.events({
             // addVS1Data('TBankAccounts', JSON.stringify(data));
 
         }else if(activeTab == "payslips") {
-            
+
         }else if(activeTab == "paytemplate") {
 
         }else if(activeTab == "openingbalances") {

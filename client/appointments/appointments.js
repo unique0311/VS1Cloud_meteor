@@ -6256,7 +6256,7 @@ Template.appointments.onRendered(function () {
             ' or No if you wish to cancel it.',
         'startAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we are on site' +
             ' and doing the following service [Product/Service].',
-        'stopAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we have finished' + 
+        'stopAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we have finished' +
             ' doing the following service [Product/Service].'
     });
 });
@@ -8472,8 +8472,8 @@ Template.appointments.events({
 
             }
         } else {
-            $("#tActualStartTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
-            $("#btnStartAppointmentConfirm").trigger("click");
+          $("#tActualStartTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
+          $("#btnSaveAppointment").trigger("click");
         }
     },
     'click #btnStartAppointment': function() {
