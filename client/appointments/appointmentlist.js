@@ -403,7 +403,6 @@ Template.appointmentlist.onRendered(function () {
                           color: color
                       };
                       dataTableList.push(dataList);
-
                   }
 
                   templateObject.datatablerecords.set(dataTableList);
@@ -1914,6 +1913,7 @@ Template.appointmentlist.events({
 
     },
     'click #btnStartActualTime': function () {
+        $('#startActualTimeModal').modal('show');
         document.getElementById("tActualStartTime").value = moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm');
     },
     'click #btnEndActualTime': function () {

@@ -38,6 +38,7 @@ Template.appointments.onCreated(function () {
     templateObject.empDuration = new ReactiveVar;
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.uploadedFile = new ReactiveVar();
+    templateObject.defaultSMSSettings = new ReactiveVar();
 
     templateObject.includeAllProducts = new ReactiveVar();
     templateObject.includeAllProducts.set(true);
@@ -556,7 +557,7 @@ Template.appointments.onRendered(function () {
             eventClick: function (info) {
                 $('#frmAppointment')[0].reset();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
                 $("#btnEndActualTime").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
@@ -586,7 +587,7 @@ Template.appointments.onRendered(function () {
 
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
                         $("#btnEndActualTime").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
@@ -596,7 +597,7 @@ Template.appointments.onRendered(function () {
                     }
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
                         $("#btnEndActualTime").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
@@ -749,7 +750,7 @@ Template.appointments.onRendered(function () {
                 document.getElementById("frmAppointment").reset();
                 $(".paused").hide();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
                 $("#btnEndActualTime").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
@@ -982,7 +983,7 @@ Template.appointments.onRendered(function () {
             eventClick: function (info) {
                 $('#frmAppointment')[0].reset();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
                 $("#btnEndActualTime").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
@@ -1030,7 +1031,7 @@ Template.appointments.onRendered(function () {
 
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
                         $("#btnEndActualTime").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
@@ -1040,7 +1041,7 @@ Template.appointments.onRendered(function () {
                     }
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
                         $("#btnEndActualTime").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
@@ -1198,7 +1199,7 @@ Template.appointments.onRendered(function () {
                 document.getElementById("frmAppointment").reset();
                 $(".paused").hide();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
                 $("#btnEndActualTime").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
@@ -2231,7 +2232,7 @@ Template.appointments.onRendered(function () {
                         let appID = url1.searchParams.get("id");
                         $('#frmAppointment')[0].reset();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
                         $("#btnEndActualTime").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
@@ -2257,7 +2258,7 @@ Template.appointments.onRendered(function () {
 
                             if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
-                                $("#btnStartActualTime").prop("disabled", true);
+                                $("#btnStartAppointment").prop("disabled", true);
                                 $("#btnEndActualTime").prop("disabled", true);
                                 $("#startTime").prop("disabled", true);
                                 $("#endTime").prop("disabled", true);
@@ -2922,7 +2923,7 @@ Template.appointments.onRendered(function () {
                             document.getElementById("frmAppointment").reset();
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
-                            $("#btnStartActualTime").prop("disabled", false);
+                            $("#btnStartAppointment").prop("disabled", false);
                             $("#btnEndActualTime").prop("disabled", false);
                             $("#startTime").prop("disabled", false);
                             $("#endTime").prop("disabled", false);
@@ -3122,7 +3123,7 @@ Template.appointments.onRendered(function () {
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
-                    $("#btnStartActualTime").prop("disabled", false);
+                    $("#btnStartAppointment").prop("disabled", false);
                     $("#btnEndActualTime").prop("disabled", false);
                     $("#startTime").prop("disabled", false);
                     $("#endTime").prop("disabled", false);
@@ -3148,7 +3149,7 @@ Template.appointments.onRendered(function () {
 
                         if (result[0].aEndTime != "") {
                             $("#btnHold").prop("disabled", true);
-                            $("#btnStartActualTime").prop("disabled", true);
+                            $("#btnStartAppointment").prop("disabled", true);
                             $("#btnEndActualTime").prop("disabled", true);
                             $("#startTime").prop("disabled", true);
                             $("#endTime").prop("disabled", true);
@@ -3731,7 +3732,7 @@ Template.appointments.onRendered(function () {
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
-                    $("#btnStartActualTime").prop("disabled", false);
+                    $("#btnStartAppointment").prop("disabled", false);
                     $("#btnEndActualTime").prop("disabled", false);
                     $("#startTime").prop("disabled", false);
                     $("#endTime").prop("disabled", false);
@@ -3757,7 +3758,7 @@ Template.appointments.onRendered(function () {
 
                         if (result[0].aEndTime != "") {
                             $("#btnHold").prop("disabled", true);
-                            $("#btnStartActualTime").prop("disabled", true);
+                            $("#btnStartAppointment").prop("disabled", true);
                             $("#btnEndActualTime").prop("disabled", true);
                             $("#startTime").prop("disabled", true);
                             $("#endTime").prop("disabled", true);
@@ -4419,7 +4420,7 @@ Template.appointments.onRendered(function () {
                         document.getElementById("frmAppointment").reset();
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
                         $("#btnEndActualTime").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
@@ -5770,7 +5771,7 @@ Template.appointments.onRendered(function () {
                     eventClick: function (info) {
                         document.getElementById("frmAppointment").reset();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
                         $("#btnEndActualTime").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
@@ -5809,7 +5810,7 @@ Template.appointments.onRendered(function () {
                             }
                             if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
-                                $("#btnStartActualTime").prop("disabled", true);
+                                $("#btnStartAppointment").prop("disabled", true);
                                 $("#btnEndActualTime").prop("disabled", true);
                                 $("#startTime").prop("disabled", true);
                                 $("#endTime").prop("disabled", true);
@@ -5933,7 +5934,7 @@ Template.appointments.onRendered(function () {
                         document.getElementById("frmAppointment").reset();
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
                         $("#btnEndActualTime").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
@@ -6249,7 +6250,15 @@ Template.appointments.onRendered(function () {
 
     });
 
-
+    templateObject.defaultSMSSettings.set({
+        'saveAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] confirming that we are booked in to be at' +
+            ' [Full Address] at [Booked Time] to do the following service [Product/Service]. Please reply with Yes to confirm this booking' +
+            ' or No if you wish to cancel it.',
+        'startAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we are on site' +
+            ' and doing the following service [Product/Service].',
+        'stopAppointmentSMS': 'Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we have finished' + 
+            ' doing the following service [Product/Service].'
+    });
 });
 
 Template.appointments.events({
@@ -6269,7 +6278,7 @@ Template.appointments.events({
     //                         // var endTime = new Date(date2 + ' ' + document.getElementById("tActualEndTime").value + ':00');
     //                         // var startTime = new Date(date1 + ' ' + document.getElementById("tActualStartTime").value + ':00');
     //                         // document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-    //                         $("#btnStartActualTime").trigger("click");
+    //                         $("#btnStartAppointment").trigger("click");
     //                         //let id = document.getElementById("updateID");
     //                     } else if (result.dismiss === 'cancel') {
     //                         document.getElementById('tActualEndTime').value = '';
@@ -6455,7 +6464,7 @@ Template.appointments.events({
             }
             $(".paused").hide();
             $("#btnHold").prop("disabled", false);
-            $("#btnStartActualTime").prop("disabled", false)
+            $("#btnStartAppointment").prop("disabled", false)
             $("#btnEndActualTime").prop("disabled", false);
             $("#startTime").prop("disabled", false);
             $("#endTime").prop("disabled", false);
@@ -6464,7 +6473,7 @@ Template.appointments.events({
             $("#txtActualHoursSpent").prop("disabled", false);
             if (result[0].aEndTime != "") {
                 $("#btnHold").prop("disabled", true);
-                $("#btnStartActualTime").prop("disabled", true);
+                $("#btnStartAppointment").prop("disabled", true);
                 $("#btnEndActualTime").prop("disabled", true);
                 $("#startTime").prop("disabled", true)
                 $("#endTime").prop("disabled", true);
@@ -6570,7 +6579,7 @@ Template.appointments.events({
             document.getElementById("product-list").value = calOptions.defaultProduct || '';
             $(".paused").hide();
             $("#btnHold").prop("disabled", false);
-            $("#btnStartActualTime").prop("disabled", false);
+            $("#btnStartAppointment").prop("disabled", false);
             $("#btnEndActualTime").prop("disabled", false);
             $("#startTime").prop("disabled", false);
             $("#endTime").prop("disabled", false);
@@ -8134,7 +8143,7 @@ Template.appointments.events({
         }
 
     },
-    'click #btnStartActualTime': function () {
+    'click #btnStartAppointmentConfirm': function () {
         let toUpdateID = "";
         const templateObject = Template.instance();
         var appointmentData = templateObject.appointmentrecords.get();
@@ -8467,6 +8476,42 @@ Template.appointments.events({
             $("#btnSaveAppointment").trigger("click");
 
         }
+    },
+    'click #btnStartAppointment': function() {
+        const templateObject = Template.instance();
+        $('#startAppointmentModal').modal('show');
+        const accountName = $('#customer').val();
+        const employeeName = $('#employee_name').val();
+        const companyName = $('#employee_name').val();
+        const productService = $('#product-list').val();
+        const startAppointmentSMS = templateObject.defaultSMSSettings.get().startAppointmentSMS.replace('[Customer Name]', accountName)
+            .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService);
+        $('#startAppointmentSMSMessage').val(startAppointmentSMS);
+    },
+    'click #btnStopAppointment': function() {
+        const templateObject = Template.instance();
+        $('#stopAppointmentModal').modal('show');
+        const accountName = $('#customer').val();
+        const employeeName = $('#employee_name').val();
+        const companyName = $('#employee_name').val();
+        const productService = $('#product-list').val();
+        const stopAppointmentSMS = templateObject.defaultSMSSettings.get().stopAppointmentSMS.replace('[Customer Name]', accountName)
+            .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService);
+        $('#stopAppointmentSMSMessage').val(stopAppointmentSMS);
+    },
+    'click #btnSaveAppointment': function() {
+        const templateObject = Template.instance();
+        $('#saveAppointmentModal').modal('show');
+        const accountName = $('#customer').val();
+        const employeeName = $('#employee_name').val();
+        const companyName = $('#employee_name').val();
+        const fullAddress = $('#address').val() + ', ' + $('#suburb').val() + ', ' + $('#state').val() + ', ' + $('#country').val();
+        const bookedTime = $('#tActualStartTime').val() + $('#tActualEndTime').val() ? ' - ' + $('#tActualEndTime').val() : '';
+        const productService = $('#product-list').val();
+        const saveAppointmentSMS = templateObject.defaultSMSSettings.get().saveAppointmentSMS.replace('[Customer Name]', accountName)
+            .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService)
+            .replace('[Full Address]', fullAddress).replace('[Booked Time]', bookedTime);
+        $('#saveAppointmentSMSMessage').val(saveAppointmentSMS);
     },
     'click #btnEndActualTime': function () {
         const templateObject = Template.instance();
