@@ -5,7 +5,7 @@
         </div>
         <div class="row mb-4" style="padding: 16px;">
             <h2 class="text-dark mb-0">New Bank Reconciliation
-                <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20;">Help <i class="fa fa-question-circle-o" style="font-size: 20;"></i></a>
+                <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 20px;">Help <i class="fa fa-question-circle-o" style="font-size: 20px;"></i></a>
             </h2>
             <!-- Start Help View Modal -->
             <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
@@ -18,14 +18,18 @@
                             <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
                             <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
                             <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
-                            <p class="text-center text-muted" style="margin: 0;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                            <p class="text-center text-muted" style="margin: 0;">
+                                <a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">
+                                Go To Forum
+                                </a>
+                            </p>
                         </div>
                         <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
                     </div>
                 </div>
             </div>
             <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
-                <div class="modal-dialog" role="document" style="max-width: 670!important;">
+                <div class="modal-dialog" role="document" style="max-width: 670px !important;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="title-header">Reconciliation List</h4>
@@ -164,7 +168,8 @@
                 </div>
             </div>
         </div>
-
+        {{#if bankTransactionData}}
+        {{#each itemTransaction in bankTransactionData}}
         <div class="row justify-content-center mb-6">
             <div class="col-12 col-md-5">
                 <div class="card shadow">
@@ -262,14 +267,10 @@
                                         </div>
                                     </div>
                                     <div class="col-4" style="padding: 0 !important; border: 0;">
-                                        <select type="search" class="form-control" id="sltRegion" name="sltRegion" value="Region"
-                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
-                                    </div>
-                                    <div class="col-4" style="padding: 0 !important; border: 0;">
                                         <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
                                                 style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
                                     </div>
-                                    <div class="col-4" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
+                                    <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
                                         <a href="" style="float: right;">Add Details</a>
                                     </div>
                                 </div>
@@ -307,7 +308,146 @@
                 </div>
             </div>
         </div>
+        {{/each}}
+        {{/if}}
+        <div class="row justify-content-center mb-6">
+            <div class="col-12 col-md-5">
+                <div class="card shadow">
+                    <div class="card-header">
+                        12 Feb 2022
+                        <div class="dropdown float-right">
+                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    style="color: #00a3d3 !important; background-color: rgba(0,0,0,0) !important;"></button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#newBankRuleModal">Create Bank Rule</a>
+                                <a class="dropdown-item" href="#" style="color: red;">Delete Line</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="row" style="margin-left: 0; margin-right: 0;">
+                            <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0;">
+                                <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>
+                                <p style="margin-bottom: 0;"><span>0069</span></p>
+                                <a href="">More Details</a>
+                            </div>
+                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
 
+                            </div>
+                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
+                                <span style="float: right; font-weight: 700;">$6,187.50</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="card-footer">
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-12 col-md-1" style="text-align: center;">
+                <button type="button" class="btn btn-primary" style="margin: 0 auto; margin-top: 50%;">Ok</button>
+            </div>
+            <div class="col-12 col-md-5">
+                <div class="card shadow">
+                    <div class="card-header rightsideheader">
+                        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active matchedtaba" id="home-tab" data-toggle="tab" href="#match_1" role="tab" aria-controls="home" aria-selected="true">Match</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#create_1" role="tab" aria-controls="profile" aria-selected="false">Create</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#transfer_1" role="tab" aria-controls="contact" aria-selected="false">Transfer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#discuss_1" role="tab" aria-controls="contact" aria-selected="false">Discuss</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact_1" role="tab" aria-controls="contact" aria-selected="false">Find & Match</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active matched" id="match_1" role="tabpanel" aria-labelledby="match-tab">
+                                <div class="row" style="margin-left: 0; margin-right: 0;">
+                                    <div class="col-12" style="padding: 16px; border: 1px solid #e3e6f0; border-bottom: 0 solid #e3e6f0; border-top: 0 solid #e3e6f0;">
+                                        <p style="margin-bottom: 0;">12 Feb 2022</p>
+                                    </div>
+                                    <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0;">
+                                        <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>
+                                        <p style="margin-bottom: 0;">Ref: <span>BOL-0069</span></p>
+                                    </div>
+                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
+                                        <p style="margin-bottom: 0;"></p>
+                                    </div>
+                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0;">
+                                        <span style="float: right; font-weight: 700;">$6,187.50</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="create_1" role="tabpanel" aria-labelledby="create-tab">
+                                <div class="row" style="margin-left: 0; margin-right: 0;">
+                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">
+                                        <div class="form-group mb-0">
+                                            <label>Who</label>
+                                            <input type="text" class="form-control" id="" placeholder="Name of the contact...">
+                                        </div>
+                                    </div>
+                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">
+                                        <div class="form-group mb-0">
+                                            <label>What</label>
+                                            <select type="search" class="form-control" id="sltAccountName" placeholder="Choose the account..." name="sltAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" style="padding: 16px;">
+                                        <div class="form-group mb-0">
+                                            <label>Why</label>
+                                            <input type="text" class="form-control" id="" placeholder="Enter a description...">
+                                        </div>
+                                    </div>
+                                    <div class="col-4" style="padding: 0 !important; border: 0;">
+                                        <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
+                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
+                                    </div>
+                                    <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
+                                        <a href="" class="btnReconTransactionDetail" style="float: right;">Add Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="transfer_1" role="tabpanel" aria-labelledby="transfer-tab">
+                                <div class="row" style="margin-left: 0; margin-right: 0;">
+                                    <div class="col-6" style="padding: 16px;">
+                                        <div class="form-group mb-0">
+                                            <label>Select a Bank Account</label>
+                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
+                                                    style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6" style="padding: 16px;">
+                                        <div class="form-group mb-0">
+                                            <label>Reference</label>
+                                            <input type="text" class="form-control" id="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="discuss_1" role="tabpanel" aria-labelledby="discuss-tab">
+                                <div class="row" style="margin-left: 0; margin-right: 0;">
+                                    <div class="col-12" style="padding: 16px;">
+                                        <div class="form-group mb-0">
+                                            <textarea class="form-control" id="" rows="6"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="card-footer">
+                    </div> -->
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-center mb-6">
             <div class="col-12 col-md-5">
                 <div class="card shadow">
@@ -404,12 +544,9 @@
                                         </div>
                                     </div>
                                     <div class="col-4" style="padding: 0 !important; border: 0;">
-                                        <select type="search" class="form-control" id="sltRegion" name="sltRegion" value="Region" style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
-                                    </div>
-                                    <div class="col-4" style="padding: 0 !important; border: 0;">
                                         <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate" style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
                                     </div>
-                                    <div class="col-4" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
+                                    <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
                                         <a href="" style="float: right;">Add Details</a>
                                     </div>
                                 </div>
