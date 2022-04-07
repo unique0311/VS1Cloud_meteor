@@ -58,9 +58,81 @@
         </header>
         <!-- NEW CHART START -->
         <div class="row d-xl-flex align-items-xl-start connectedSortable" style="padding: 1.5rem;">
-            <div class="col-lg-7 col-xl-8 sortable-chart-widget-js hideelement" key="inventory__stock_on_hand_and_demand">
+            <!-- <div class="col-lg-7 col-xl-8 sortable-chart-widget-js hideelement"
+                key="inventory__stock_on_hand_and_demand">
+                {{> invstockonhandanddemand}}
+            </div> -->
+
+            <div class="col-auto sortable-chart-widget-js hideelement" key="inventory__stock_on_hand_and_demand">
                 {{> invstockonhandanddemand}}
             </div>
+
+
+            <div class="col-auto sortable-chart-widget-js hideelement" id="monthylprofiteandlosscol"
+                key="dashboard__monthyl_profit_and_loss">
+                {{> monthlyprofitandloss}}
+            </div>
+            <div class="col-auto sortable-chart-widget-js hideelement" id="resalecomparisioncol"
+                key="dashboard__employee_sales_comparison">
+                {{> resalescomparision}}
+            </div>
+            <div class="col-auto sortable-chart-widget-js hideelement" id="monthlyearningscol"
+                key="dashboard__monthly_earnings">
+                {{> monthlyearnings}}
+            </div>
+            <div class="col-auto sortable-chart-widget-js hideelement" id="profiteandlosschartcol"
+                key="dashboard__profit_and_loss">
+                {{> profitandlosschart}}
+            </div>
+            <div class="col-auto sortable-chart-widget-js hideelement" id="quotedinvoicedamountscol"
+                key="dashboard__quoted_amounts_/_invoiced_amounts">
+                {{> quotedinvoicedamounts}}
+            </div>
+            <div class="col-auto sortable-chart-widget-js hideelement" key="dashboard__expenses">
+                {{> expenseschart}}
+            </div>
+
+            <div class="col-auto sortable-chart-widget-js hideelement" key="contacts__active_employees">
+                {{> activeEmployees}}
+            </div>
+            <div class="col-auto sortable-chart-widget-js hideelement" key="contacts__top_10_supplies">
+                {{> top10Suppliers}}
+            </div>
+            <div class="col-auto sortable-chart-widget-js hideelement" key="contacts__top_10_customers">
+                {{> top10Customers}}
+            </div>
+
+
+            <div class="col-auto sortable-chart-widget-js hideelement" key="accounts__revenue_streams">
+                {{> accountrevenuestreams}}
+            </div>
+
+          
+            <div class="col-auto sortable-chart-widget-js hideelement" key="payroll__employee_jobs_completed">
+                {{> employeecompletedjobs}}
+            </div>
+
+            <div class="col-auto sortable-chart-widget-js hideelement" key="payroll__clocked_on_employees">
+                {{> clockedOnEmployees}}
+            </div>
+
+            <div class="col-auto sortable-chart-widget-js hideelement" key="purchases__monthly_expenses">
+                {{> monthllyexpenses}}
+            </div>
+
+            <div class="col-auto sortable-chart-widget-js hideelement" key="purchases__expense_breakdown">
+                {{> expensebreakdown}}
+            </div>
+
+            <div class="col-auto sortable-chart-widget-js hideelement" key="sales__sales_overview">
+                {{> quotedsalesorderinvoicedamounts}}
+            </div>
+
+            <div class="col-auto sortable-chart-widget-js hideelement "
+                key="employees__absentee_rate_over_last_12_months">
+                {{> absenteeRate }}
+            </div>
+
         </div>
         <!-- END -->
         <div class="row no-gutters justify-content-center">
@@ -512,11 +584,11 @@
 
                                                     {{#if equals item.sVisible true}}
                                                     <script>
-                                                        $("#" + {{item.sIndex}} + ".chkDatatable").attr("checked", "checked");
+                                                        $("#" + {{ item.sIndex }} + ".chkDatatable").attr("checked", "checked");
                                                     </script>
                                                     {{else}}
                                                     <script>
-                                                        $("#" + {{item.sIndex}} + ".chkDatatable").removeAttr("checked");
+                                                        $("#" + {{ item.sIndex }} + ".chkDatatable").removeAttr("checked");
                                                     </script>
                                                     {{/if}}
 
@@ -673,11 +745,13 @@
                                 <th class="th colBarcode">Barcode</th>
                                 <th class="th colDepartment" style="width:150px;">Department</th>
                                 <th class="th colCostPrice lblCostEx hiddenColumn" style="width:130px;">Cost Price (Ex)
-                                    <i class="fas fa-random"></i></th>
+                                    <i class="fas fa-random"></i>
+                                </th>
                                 <th class="th colCostPriceInc lblCostInc " style="width:135px;">Cost Price (Inc) <i
                                         class="fas fa-random fa-trans"></i></th>
                                 <th class="th colSalePrice lblPriceEx hiddenColumn" style="width:130px;">Sale Price (Ex)
-                                    <i class="fas fa-random"></i></th>
+                                    <i class="fas fa-random"></i>
+                                </th>
                                 <th class="th colSalePriceInc lblPriceInc " style="width:135px;">Sale Price (Inc) <i
                                         class="fas fa-random fa-trans"></i></th>
                                 <th class="th colQuantity" style="width:70px;">In Stock</th>
