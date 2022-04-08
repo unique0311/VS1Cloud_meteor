@@ -79,7 +79,7 @@ const saveCharts = async () => {
     buildPositions();
   
     const charts = $(".chart-visibility");
-    console.log(charts);
+    // console.log(charts);
   
     /**
      * @property {Tvs1ChartDashboardPreference[]}
@@ -115,8 +115,6 @@ const saveCharts = async () => {
         })
       );
     });
-    console.log( chartList )
-    return false;
     for (const _chart of chartList) {
       // chartList.forEach(async (chart) => {
       //console.log("Saving chart");
@@ -153,7 +151,7 @@ Template.allChartLists.onRendered(function(){
 
         var dimmedElements = document.getElementsByClassName("dimmedChart");
         while (dimmedElements.length > 0) {
-        dimmedElements[0].classList.remove("dimmedChart");
+            dimmedElements[0].classList.remove("dimmedChart");
         }
     };
     templateObject.saveIntoLocalDB = async (e) => {
@@ -217,7 +215,6 @@ Template.allChartLists.onRendered(function(){
           // console.log('chartlist', chartList);
           // the goal here is to get the right names so it can be used for preferences
           chartList.forEach((chart) => {
-            // console.log(chart);
             //chart.fields.active = false; // Will set evething to false
             chart.fields._chartSlug =
               chart.fields.ChartGroup.toLowerCase() +
@@ -230,8 +227,21 @@ Template.allChartLists.onRendered(function(){
               chart.fields.ID
             );
             if( chart.fields.ChartGroup == _chartGroup ){
-              $(`[key='${chart.fields._chartSlug}']`).removeClass('hideelement');
+              $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).text("Hide");
+              $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).attr(
+                "is-hidden",
+                "false"
+              );
+              $(`[key='${chart.fields._chartSlug}']`).removeClass("hideelement");
               $(`[key='${chart.fields._chartSlug}']`).addClass('chart-visibility');
+            } else {
+              $(`[key='${chart.fields._chartSlug}']`).addClass('hideelement');
+              $(`[key='${chart.fields._chartSlug}']`).removeClass('chart-visibility');
+              $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).text("Show");
+              $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).attr(
+                "is-hidden",
+                "true"
+              );
             }
     
             // $(`[key='${chart.fields._chartSlug}']`).attr(
@@ -498,13 +508,13 @@ Template.allChartLists.events({
       templateObject.checkChartToDisplay();
       // templateObject.deactivateDraggable();
     },
-    "click #btnCancel": function () {
-      chartsEditor.disable();
-  
+    "click #btnCancel": async () => {
+      $(".fullScreenSpin").css("display", "block");
+      chartsEditor.disable();  
       const templateObject = Template.instance();
-      templateObject.hideChartElements();
-      templateObject.checkChartToDisplay();
-  
+      await templateObject.hideChartElements();
+      await templateObject.checkChartToDisplay();
+      $(".fullScreenSpin").css("display", "none");  
       //templateObject.deactivateDraggable();
     },
   
