@@ -1,4 +1,24 @@
 <template name="allChartLists">
+    <style>
+        .portlet-placeholder {
+            border: 1px dotted black;
+            margin: 0 1em 1em 0;
+            height: 50px;
+            width: 50px;
+        }
+
+
+        .ui-sortable .card.hovered {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.50) !important;
+            cursor: move;
+            transition-duration: 300ms;
+
+        }
+
+        .ui-widget.ui-widget-content {
+            border: 1px solid #e3e6f0;
+        }
+    </style>
     <div class="row connectedSortable" id="connectedSortable" data-chartgroup="{{ chartGroup }}" data-tabgroup="{{ tabGroupID }}">
         <div class="col-auto col-md-6 sortable-chart-widget-js hideelement" id="monthylprofiteandlosscol" key="dashboard__monthyl_profit_and_loss">
             {{> monthlyprofitandloss}}
