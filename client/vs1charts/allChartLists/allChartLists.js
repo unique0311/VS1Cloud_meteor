@@ -221,7 +221,7 @@ Template.allChartLists.onRendered(function(){
               "__" +
               chart.fields.ChartName.toLowerCase().split(" ").join("_");
     
-    
+            $(`[key='${chart.fields._chartSlug}']`).addClass('chart-visibility');
             $(`[key='${chart.fields._chartSlug}']`).attr(
               "chart-id",
               chart.fields.ID
@@ -232,11 +232,9 @@ Template.allChartLists.onRendered(function(){
                 "is-hidden",
                 "false"
               );
-              $(`[key='${chart.fields._chartSlug}']`).removeClass("hideelement");
-              $(`[key='${chart.fields._chartSlug}']`).addClass('chart-visibility');
+              $(`[key='${chart.fields._chartSlug}']`).removeClass("hideelement");              
             } else {
               $(`[key='${chart.fields._chartSlug}']`).addClass('hideelement');
-              $(`[key='${chart.fields._chartSlug}']`).removeClass('chart-visibility');
               $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).text("Show");
               $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).attr(
                 "is-hidden",
