@@ -190,7 +190,8 @@ Template.invstockonhandanddemand.onRendered(()=>{
              };
 
              var options = {
-             maintainAspectRatio: false,
+              maintainAspectRatio: true,
+              responsive: true,
              scales: {
                yAxes: [{
                  stacked: true,
@@ -302,7 +303,8 @@ Template.invstockonhandanddemand.onRendered(()=>{
            };
 
            var options = {
-           maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            responsive: true,
            scales: {
              yAxes: [{
                stacked: true,
@@ -413,7 +415,8 @@ Template.invstockonhandanddemand.onRendered(()=>{
            };
 
            var options = {
-           maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            responsive: true,
            scales: {
              yAxes: [{
                stacked: true,

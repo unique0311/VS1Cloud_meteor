@@ -3,6 +3,7 @@ export default class resizableCharts {
     setTimeout(() => {
       $(".portlet").resizable({
         disabled: false,
+        aspectRatio: 1.5 / 1
       //  handles: "e",
       });
     }, timeOut);
@@ -11,6 +12,7 @@ export default class resizableCharts {
   static disable() {
     $(".portlet").resizable({
       disabled: true,
+      aspectRatio: 1.5 / 1
       // handles: "e",
     });
   }
