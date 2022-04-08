@@ -195,6 +195,7 @@ Template.allChartLists.onRendered(function(){
         $(".py-2").removeClass("dimmedChart");
     };
     templateObject.checkChartToDisplay = async () => {
+        let defaultChartList = [];
         const dashboardApis = new DashboardApi(); // Load all dashboard APIS
         let displayedCharts = 0;
     
@@ -221,22 +222,24 @@ Template.allChartLists.onRendered(function(){
               "__" +
               chart.fields.ChartName.toLowerCase().split(" ").join("_");
     
-    
+            $(`[key='${chart.fields._chartSlug}']`).addClass('chart-visibility');
             $(`[key='${chart.fields._chartSlug}']`).attr(
               "chart-id",
               chart.fields.ID
             );
+
             if( chart.fields.ChartGroup == _chartGroup ){
+              // Default charts
+              defaultChartList.push(chart.fields._chartSlug);
+
               $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).text("Hide");
               $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).attr(
                 "is-hidden",
                 "false"
               );
-              $(`[key='${chart.fields._chartSlug}']`).removeClass("hideelement");
-              $(`[key='${chart.fields._chartSlug}']`).addClass('chart-visibility');
+              $(`[key='${chart.fields._chartSlug}']`).removeClass("hideelement");              
             } else {
               $(`[key='${chart.fields._chartSlug}']`).addClass('hideelement');
-              $(`[key='${chart.fields._chartSlug}']`).removeClass('chart-visibility');
               $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).text("Show");
               $(`[key='${chart.fields._chartSlug}'] .on-editor-change-mode`).attr(
                 "is-hidden",
@@ -291,16 +294,6 @@ Template.allChartLists.onRendered(function(){
           `[TabGroup]=${_tabGroup}`
         );
     
-        // this is the default list (hardcoded)
-        let itemList = [
-          "dashboard__monthyl_profit_and_loss",
-          "dashboard__profit_and_loss",
-          "dashboard__expenses",
-          "dashboard__quoted_amounts_/_invoiced_amounts",
-          "dashboard__monthly_earnings",
-          "dashboard__employee_sales_comparison",
-        ];
-    
         const dashboardPreferencesEndpointResponse =
           await dashboardPreferencesEndpoint.fetch(); // here i should get from database all charts to be displayed
     
@@ -320,6 +313,7 @@ Template.allChartLists.onRendered(function(){
     
           if (tvs1ChartDashboardPreference.length > 0) {
             // if charts to be displayed are specified
+            $(".chart-visibility").removeClass('col-md-6');
             tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
               // setTimeout(() => {
                 // this is good to see how the charts are apearing or not
@@ -396,19 +390,28 @@ Template.allChartLists.onRendered(function(){
             displayedCharts = document.querySelectorAll(
               ".chart-visibility:not(.hideelement)"
             );
+            console.log( 'itemlist', defaultChartList )
             if (displayedCharts.length == 0) {
               // this will show all by default
               //console.log("No charts are being displayed, so show everything");
-              itemList.forEach((item) => {
+              // defaultChartList.forEach((item) => {
+              //   $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
+              //   $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
+              //   $(`[key='${item}'] .on-editor-change-mode`).attr("chart-slug", item);
+              //   $(`[key='${item}']`).removeClass("hideelement");
+              //   $(`[key='${item}']`).addClass("chart-visibility");
+              // });
+              
+              // show only the first one
+              let item = ( defaultChartList.length )? defaultChartList[0] : '';
+              if( item ){
                 $(`[key='${item}'] .on-editor-change-mode`).text("Hide");
                 $(`[key='${item}'] .on-editor-change-mode`).attr("is-hidden", false);
                 $(`[key='${item}'] .on-editor-change-mode`).attr("chart-slug", item);
                 $(`[key='${item}']`).removeClass("hideelement");
                 $(`[key='${item}']`).addClass("chart-visibility");
-                // $(`[key='${item}']`).attr("is-hidden", false);
-              });
-      
-              buildPositions();
+                buildPositions();
+              }
             }
           }
           // let sortableWidgets = $('.sortable-chart-widget-js');
