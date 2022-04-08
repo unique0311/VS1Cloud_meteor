@@ -320,6 +320,7 @@ Template.allChartLists.onRendered(function(){
     
           if (tvs1ChartDashboardPreference.length > 0) {
             // if charts to be displayed are specified
+            $(".chart-visibility").removeClass('col-md-6');
             tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
               // setTimeout(() => {
                 // this is good to see how the charts are apearing or not
