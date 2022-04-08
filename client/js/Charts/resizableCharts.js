@@ -4,7 +4,7 @@ export default class resizableCharts {
       $(".portlet").resizable({
         disabled: false,
         // aspectRatio: 1.5 / 1
-      //  handles: "e",
+       handles: "e",
       });
     }, timeOut);
   }
@@ -13,7 +13,7 @@ export default class resizableCharts {
     $(".portlet").resizable({
       disabled: true,
       // aspectRatio: 1.5 / 1
-      // handles: "e",
+      handles: "e",
     });
   }
 }
