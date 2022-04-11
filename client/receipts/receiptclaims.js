@@ -663,6 +663,51 @@ Template.receiptsoverview.onRendered(function () {
         yearRange: "-90:+10",
     });
 
+    templateObject.setTimeFilter = function(option) {
+        
+        var startDate;
+        var endDate = moment().format("DD/MM/YYYY");
+
+        if (option == 'lastMonth') {
+            startDate = moment().subtract(1, 'months').format("DD/MM/YYYY");
+        } else if (option == 'lastQuarter') {
+            startDate = moment().subtract(1, 'quarter').format("DD/MM/YYYY");
+        } else if (option == 'last12Months') {
+            startDate = moment().subtract(12, 'months').format("DD/MM/YYYY");
+        } else if (option == 'ignoreDate') {
+            startDate = '';
+            endDate = '';
+        }
+        $('#dateFrom').val(startDate);
+        $('#dateTo').val(endDate);
+
+        $('#dateFrom').trigger('change');
+
+    }
+
+    $.fn.dataTableExt.afnFiltering.push(
+        function( settings, data, dataIndex ) {
+            if (settings.nTable.id === 'tblReceiptList') {
+                var min = $('#dateFrom').val();
+                var max = $('#dateTo').val();
+                let startDate = moment(min, 'DD/MM/YYYY');
+                let endDate = moment(max, 'DD/MM/YYYY');
+                var date = moment(data[1], 'DD/MM/YYYY');
+                if (
+                    ( min === '' && max === '' ) ||
+                    ( min === '' && date <= endDate ) ||
+                    ( startDate <= date   && max === null ) ||
+                    ( startDate <= date   && date <= endDate )
+                ) {
+                    return true;
+                }
+                return false;
+            } else {
+                return true;
+            }
+        }
+    );
+
     setTimeout(function () {
         //$.fn.dataTable.moment('DD/MM/YY');
         $('#tblSplitExpense').DataTable({
@@ -841,97 +886,6 @@ Template.receiptsoverview.onRendered(function () {
                 });
         })
 
-    templateObject.getEmployees = function () {
-        getVS1Data('TEmployee').then(function (dataObject) {
-
-            if (dataObject.length == 0) {
-                sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
-                    addVS1Data('TEmployee', JSON.stringify(data));
-                    let lineItems = [];
-                    for (let i = 0; i < data.temployee.length; i++) {
-                        let lineItem = {
-                            id: data.temployee[i].fields.ID || '',
-                            employeeno: data.temployee[i].fields.EmployeeNo || '',
-                            employeename: data.temployee[i].fields.EmployeeName || '',
-                        };
-                        lineItems.push(lineItem);
-                    }
-
-                    templateObject.employees.set(lineItems);
-                }).catch(function (err) {
-
-                });
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.temployee;
-
-                let lineItems = [];
-                for (let i = 0; i < useData.length; i++) {
-                    let lineItem = {
-                        id: useData[i].fields.ID || '',
-                        employeeno: useData[i].fields.EmployeeNo || '',
-                        employeename: useData[i].fields.EmployeeName || '',
-                    };
-                    lineItems.push(lineItem);
-                }
-                templateObject.employees.set(lineItems);
-            }
-        }).catch(function (err) {
-            sideBarService.getAllEmployees(initialBaseDataLoad, 0).then(function (data) {
-                addVS1Data('TEmployee', JSON.stringify(data));
-                let lineItems = [];
-                for (let i = 0; i < data.temployee.length; i++) {
-                    let lineItem = {
-                        id: data.temployee[i].fields.ID || '',
-                        employeeno: data.temployee[i].fields.EmployeeNo || '',
-                        employeename: data.temployee[i].fields.EmployeeName || '',
-                    };
-                    lineItems.push(lineItem);
-                }
-                templateObject.employees.set(lineItems);
-            }).catch(function (err) {
-
-            });
-        });
-    }
-
-    // templateObject.getEmployees();
-
-    templateObject.getSuppliers = function () {
-        accountService.getSupplierVS1().then(function (data) {
-            let lineItems = [];
-            for (let i in data.tsuppliervs1) {
-                let lineItem = {
-                    supplierid: data.tsuppliervs1[i].Id || ' ',
-                    suppliername: data.tsuppliervs1[i].ClientName || ' ',
-                };
-                lineItems.push(lineItem);
-            }
-            templateObject.suppliers.set(lineItems);
-        }).catch(function (err) {
-
-        });
-    }
-
-    // templateObject.getSuppliers();
-
-    templateObject.getChartAccounts = function () {
-        accountService.getAccountListVS1().then(function (data) {
-            let lineItems = [];
-            for (let i = 0; i < data.taccountvs1.length; i++) {
-                let lineItem = {
-                    accountId: data.taccountvs1[i].Id || ' ',
-                    accountname: data.taccountvs1[i].AccountName || ' '
-                };
-
-                lineItems.push(lineItem);
-            }
-            templateObject.chartAccounts.set(lineItems);
-        });
-    }
-
-    // templateObject.getChartAccounts();
-
     templateObject.getExpenseClaims = function () {
         $('.fullScreenSpin').css('display', 'inline-block');
         accountService.getExpenseClaim().then(function (data) {
@@ -1030,6 +984,8 @@ Template.receiptsoverview.onRendered(function () {
                     }, 100);
                 });
                 $('.fullScreenSpin').css('display', 'none');
+
+                templateObject.setTimeFilter('lastMonth');
             }, 0);
 
             // $('.dataTables_info').html('Showing 1 to '+ lineItems.length + ' of ' + lineItems.length + ' entries');
@@ -1037,6 +993,7 @@ Template.receiptsoverview.onRendered(function () {
     }
 
     templateObject.getExpenseClaims();
+
 
     templateObject.getLineAttachmentList = function(lineId) {
         accountService.getLineAttachmentList(lineId).then(function (data) {
@@ -1176,6 +1133,11 @@ Template.receiptsoverview.events({
         })
     },
 
+    'change #dateFrom, change #dateTo': function (event) {
+        var receiptTable = $('#tblReceiptList').DataTable();
+        receiptTable.draw();
+    },
+
     'click #formCheck-All': function (event) {
         if ($(event.target).is(':checked')) {
             $(".chkBox").prop("checked", true);
@@ -1183,6 +1145,13 @@ Template.receiptsoverview.events({
             $(".chkBox").prop("checked", false);
         }
     },
+
+    'click .timeFilter': function (event) {
+        let id = event.target.id;
+        let template = Template.instance();
+        template.setTimeFilter(id);
+    },
+
     'click #tblReceiptList tbody tr td:not(:first-child)': function (event) {
         let template = Template.instance();
         var selectedId = $(event.target).closest('tr').attr('id');
@@ -1207,8 +1176,6 @@ Template.receiptsoverview.events({
         let employeeID = $(e.target).closest('tr').find(".colID").text() || '';
         let from = $('#employeeListModal').attr('data-from');
 
-        console.log('from', from);
-        
         if (from == 'ViewReceipt') {
             $('#viewReceiptModal .employees').val(employeeName);
             $('#viewReceiptModal .employees').attr('data-id', employeeID);
@@ -1307,7 +1274,7 @@ Template.receiptsoverview.events({
         let chartAccountId = $('#viewReceiptModal .chart-accounts').attr('data-id');
         let chartAccountName = $('#viewReceiptModal .chart-accounts').val() || ' ';
         let claimDate = $('#viewReceiptModal .dtReceiptDate').val() || ' ';
-        let totalAmount = $('#viewReceiptModal #edtTotal').val();
+        let totalAmount = $('#viewReceiptModal #edtTotal').val().replace('$', '');
         let reimbursement = $('#viewReceiptModal .swtReiumbursable').prop('checked');
         let groupReport = $('#viewReceiptModal #sltLinkedReport').val() || ' ';
         let description = $('#viewReceiptModal #txaDescription').val() || ' ';
@@ -1437,36 +1404,6 @@ Template.receiptsoverview.events({
 });
 
 Template.receiptsoverview.helpers({
-    employees: () => {
-        return Template.instance().employees.get().sort(function (a, b) {
-            if (a.employeename == 'NA') {
-                return 1;
-            } else if (b.employeename == 'NA') {
-                return -1;
-            }
-            return (a.employeename.toUpperCase() > b.employeename.toUpperCase()) ? 1 : -1;
-        });
-    },
-    suppliers: () => {
-        return Template.instance().suppliers.get().sort(function (a, b) {
-            if (a.suppliername == 'NA') {
-                return 1;
-            } else if (b.suppliername == 'NA') {
-                return -1;
-            }
-            return (a.suppliername.toUpperCase() > b.suppliername.toUpperCase()) ? 1 : -1;
-        });
-    },
-    chartAccounts: () => {
-        return Template.instance().chartAccounts.get().sort(function (a, b) {
-            if (a.accountname == 'NA') {
-                return 1;
-            } else if (b.accountname == 'NA') {
-                return -1;
-            }
-            return (a.accountname.toUpperCase() > b.accountname.toUpperCase()) ? 1 : -1;
-        });
-    },
     expenseClaimList: () => {
         return Template.instance().expenseClaimList.get().sort(function (a, b) {
             if (a.claimDate == 'NA') {
