@@ -552,12 +552,12 @@
                                     </div>
                                     <div class="col-md-2 custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0;padding: -2px;padding-left: 24px;">
                                         <div class="form-group d-xl-flex justify-content-xl-start align-items-xl-center" style="margin: 0; Width:50%;">
-                                            <input class="custom-control-input chkSMSCustomer" type="checkbox" id="chkSMSCustomer" style="font-size: 22px;" checked><label class="custom-control-label" for="chkSMSCustomer">SMS Customer</label>
+                                            <input class="custom-control-input chkSMSCustomer" type="checkbox" id="chkSMSCustomer" style="font-size: 22px;"><label class="custom-control-label" for="chkSMSCustomer">SMS Customer</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2 custom-control custom-control-inline custom-switch d-xl-flex align-items-xl-center" style="margin: 0;padding: -2px;padding-left: 24px;">
                                         <div class="form-group d-xl-flex justify-content-xl-start align-items-xl-center" style="margin: 0; Width:50%;">
-                                            <input class="custom-control-input chkSMSUser" type="checkbox" id="chkSMSUser" style="font-size: 22px;" checked><label class="custom-control-label" for="chkSMSUser">SMS User</label>
+                                            <input class="custom-control-input chkSMSUser" type="checkbox" id="chkSMSUser" style="font-size: 22px;"><label class="custom-control-label" for="chkSMSUser">SMS User</label>
                                         </div>
                                     </div>
                                 </div>
@@ -626,7 +626,7 @@
                                                     <label>Hours</label><input type="text" id="txtBookedHoursSpent" name="txtBookedHoursSpent" class="form-control" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-1 flex justify-content-center align-items-center" style="padding-right: .3rem; padding-top: 40px;">
+                                            <div class="col-1 flex justify-content-center align-items-center" id="smsConfirmedFlag" style="padding-right: .3rem; padding-top: 40px;">
                                                 <i class="fa fa-check-circle text-success" style="font-size: 35px;" data-toggle="tooltip" data-placement="top" title="SMS Message confirmed"></i>
                                             </div>
                                         </div>
@@ -780,7 +780,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-primary btnEndActualTime" id="btnEndActualTime" type="button"><i class="fa fa-cloud-upload" style="margin-right: 5px;"></i>Confirm</button>
+                                            <button class="btn btn-primary btnEndActualTime" id="btnEndActualTime" type="button"><i class="fa fa-check" style="margin-right: 5px;"></i>Confirm</button>
                                             <button class="btn btn-secondary" id="btnCloseStopAppointmentModal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                                         </div>
                                     </div>
