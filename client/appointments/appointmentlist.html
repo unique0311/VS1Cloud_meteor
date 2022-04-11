@@ -321,7 +321,11 @@
                                     <td contenteditable="false" class="colOpenBalance">{{item.timeStart}}</td>
                                     <td contenteditable="false" class="colEmployee">{{item.timeEnd}}</td>
                                     <td contenteditable="false" style="background-color: {{item.color}} !important; color:#fff" class="colStatus">{{item.finished}}</td>
-                                    <td contenteditable="false" class="colConfirm d-flex justify-content-xl-center align-items-end"><i class="fa fa-check-circle text-success" style="font-size: 35px;" data-toggle="tooltip" data-placement="top" title="SMS Message confirmed"></i></td>
+                                    <td contenteditable="false" class="colConfirm d-flex justify-content-xl-center align-items-end">
+                                        {{#if equals item.msRef "Yes"}}
+                                        <i class="fa fa-check-circle text-success" style="font-size: 35px;" data-toggle="tooltip" data-placement="top" title="SMS Message confirmed"></i>
+                                        {{/if}}
+                                    </td>
                                     <td contenteditable="false" class="colNotes hiddenColumn">{{item.notes}}</td>
                                 </tr>
                                 {{/each}}
