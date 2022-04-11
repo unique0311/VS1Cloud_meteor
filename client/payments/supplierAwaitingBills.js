@@ -50,6 +50,9 @@ Template.supplierawaitingbills.onRendered(function() {
     $('td').each(function(){
       if($(this).text().indexOf('-'+Currency) >= 0) $(this).addClass('text-danger')
      });
+     $('td.colStatus').each(function(){
+         if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+     });
   };
 
   // $('#tblSupplierAwaitingBills').DataTable();

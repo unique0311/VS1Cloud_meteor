@@ -538,7 +538,7 @@
                                                             width: 2% !important;
                                                         }
                                                     </style>
-                                                    <table id="tblSupplierAwaitingPO" name="tblSupplierAwaitingPO" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblSupplierAwaitingPO">
+                                                    <table id="tblSupplierAwaitingCard" name="tblSupplierAwaitingCard" style="width:100%" class="dataTable table table-hover table-striped table-bordered tblSupplierAwaitingCard">
                                                         <thead style="width:100%">
                                                             <tr class="dnd-moved">
                                                                 <th class="th chkBox colChkBox" style="width: 2% !important;">
@@ -561,11 +561,11 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {{#if datatablerecords}}
+                                                            <!-- {{#if datatablerecords}}
                                                                 {{#each item in datatablerecords}}
                                                                     <tr class="dnd-moved" id="{{item.id}}" style="cursor: pointer;">
                                                                         <td contenteditable="false" class="chkBox">
-                                                                            <div class="custom-control custom-checkbox chkBox pointer"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox"
+                                                                          <div class="custom-control custom-checkbox chkBox pointer"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox"
                                                                                     id="formCheck-{{item.id}}" value="{{item.outsandingamount}}"><label class="custom-control-label chkBox pointer" for="formCheck-{{item.id}}"></label></div>
                                                                         </td>
                                                                         <td contenteditable="false" class="colSortDate hiddenColumn">{{item.sortdate}}</td>
@@ -576,14 +576,11 @@
                                                                         <td contenteditable="false" class="colApplied" style="text-align: right!important;">{{item.originalamount}}</td>
                                                                         <td contenteditable="false" class="colBalance" style="text-align: right!important;">{{item.outsandingamount}}</td>
                                                                         <td contenteditable="false" class="colSupplierName" id="colSupplierName{{item.id}}">{{item.customername}}</td>
-                                                                        <!-- <td contenteditable="false" class="colBankAccount">{{item.bankaccount}}</td> -->
-                                                                        <!-- <td contenteditable="false" class="colDepartment">{{item.department}}</td> -->
                                                                         <td contenteditable="false" class="colTypePayment hiddenColumn" id="coltype{{item.id}}">{{item.type}}</td>
-                                                                        <!-- <td contenteditable="false" class="colPaymentMethod hiddenColumn"></td> -->
                                                                         <td contenteditable="false" class="colNotes">{{item.notes}}</td>
                                                                     </tr>
                                                                 {{/each}}
-                                                            {{/if}}
+                                                            {{/if}} -->
 
                                                         </tbody>
                                                     </table>

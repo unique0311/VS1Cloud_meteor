@@ -717,13 +717,27 @@ getCustomersDataByName(dataSearchName) {
     return this.getList(this.ERPObjects.TbillReport, options);
   }
 
-  getAllOverDueAwaitingSupplierPayment(currentDate, limitcount, limitfrom) {
+  getAllAwaitingSupplierPaymentBySupplierName(supplierName) {
     let options = '';
       options = {
         IgnoreDates:true,
         IncludePOs:true,
         IncludeBills:true,
         Paid:false,
+        Unpaid:true,
+        OrderBy:"PurchaseOrderID desc",
+        Search:'Company = '+supplierName+''
+     };
+    return this.getList(this.ERPObjects.TbillReport, options);
+  }
+
+  getAllOverDueAwaitingSupplierPayment(currentDate, limitcount, limitfrom) {
+    let options = '';
+      options = {
+        IgnoreDates:true,
+        IncludePOs:true,
+        IncludeBills:true,
+        // Paid:false,
         Unpaid:true,
         OrderBy:"PurchaseOrderID desc",
         Search:'DueDate < "'+currentDate+'"',
