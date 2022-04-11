@@ -56,21 +56,8 @@
                 /* .dataTables_filter { display: none; } */
             </style>
         </header>
-        <!-- NEW CHART START -->
-        <div class="row d-xl-flex align-items-xl-start connectedSortable" style="padding: 1.5rem;">
-            <div class="col-lg-7 col-xl-8 sortable-chart-widget-js hideelement" key="inventory__stock_on_hand_and_demand">
-                {{> invstockonhandanddemand}}
-            </div>
-        </div>
-        <!-- END -->
-        <div class="row no-gutters justify-content-center">
-            <button class="btn btn-success float-right hideelement" id="btnDone" type="button"
-                style="margin:16px;margin-top: 0px;"><i class="fa fa-save" style="margin-right: 5px;"></i>Save
-                Changes</button>
-            <button class="btn btn-secondary float-right hideelement" id="btnCancel" type="button"
-                style="margin:16px;margin-left: 0px;margin-top: 0px;"><i class="fa fa-close"
-                    style="margin-right: 5px;"></i>Cancel</button>
-        </div>
+        <!-- All charts list -->
+        {{> allChartLists  tabGroupID="5" chartGroup="Inventory" }}
 
         <div class="row d-xl-flex flex-row justify-content-xl-center" style="margin: 0px;">
             <div class="col float-left flex-grow-1 mb-4" style="margin-bottom: 0rem !important;">
@@ -512,11 +499,11 @@
 
                                                     {{#if equals item.sVisible true}}
                                                     <script>
-                                                        $("#" + {{item.sIndex}} + ".chkDatatable").attr("checked", "checked");
+                                                        $("#" + {{ item.sIndex }} + ".chkDatatable").attr("checked", "checked");
                                                     </script>
                                                     {{else}}
                                                     <script>
-                                                        $("#" + {{item.sIndex}} + ".chkDatatable").removeAttr("checked");
+                                                        $("#" + {{ item.sIndex }} + ".chkDatatable").removeAttr("checked");
                                                     </script>
                                                     {{/if}}
 
@@ -673,11 +660,13 @@
                                 <th class="th colBarcode">Barcode</th>
                                 <th class="th colDepartment" style="width:150px;">Department</th>
                                 <th class="th colCostPrice lblCostEx hiddenColumn" style="width:130px;">Cost Price (Ex)
-                                    <i class="fas fa-random"></i></th>
+                                    <i class="fas fa-random"></i>
+                                </th>
                                 <th class="th colCostPriceInc lblCostInc " style="width:135px;">Cost Price (Inc) <i
                                         class="fas fa-random fa-trans"></i></th>
                                 <th class="th colSalePrice lblPriceEx hiddenColumn" style="width:130px;">Sale Price (Ex)
-                                    <i class="fas fa-random"></i></th>
+                                    <i class="fas fa-random"></i>
+                                </th>
                                 <th class="th colSalePriceInc lblPriceInc " style="width:135px;">Sale Price (Inc) <i
                                         class="fas fa-random fa-trans"></i></th>
                                 <th class="th colQuantity" style="width:70px;">In Stock</th>

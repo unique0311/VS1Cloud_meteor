@@ -12,11 +12,11 @@ let utilityService = new UtilityService();
 Template.newbankrecon.onCreated(function() {
     const templateObject = Template.instance();
 
+    templateObject.bankTransactionData = new ReactiveVar([]);
     templateObject.taxraterecords = new ReactiveVar([]);
 
     setTimeout(function() {
         $(document).ready(function() {
-            $('#sltRegion').editableSelect();
             $('#sltTaxRate').editableSelect();
             $("#sltTaxRate")
                 .editableSelect()
@@ -251,17 +251,11 @@ Template.newbankrecon.onCreated(function() {
                                         added = true;
                                         if (accountTypeList) {
                                             for (var h = 0; h < accountTypeList.length; h++) {
-
                                                 if (data.taccountvs1[a].fields.AccountTypeName === accountTypeList[h].accounttypename) {
-
                                                     fullAccountTypeName = accountTypeList[h].description || '';
-
                                                 }
                                             }
-
                                         }
-
-
 
                                         var accountid = data.taccountvs1[a].fields.ID || '';
                                         var accounttype = fullAccountTypeName || data.taccountvs1[a].fields.AccountTypeName;
@@ -335,14 +329,10 @@ Template.newbankrecon.onCreated(function() {
                                         $('#sltAccountType').attr('disabled', 'disabled');
                                         if (accountTypeList) {
                                             for (var h = 0; h < accountTypeList.length; h++) {
-
                                                 if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
-
                                                     fullAccountTypeName = accountTypeList[h].description || '';
-
                                                 }
                                             }
-
                                         }
 
                                         var accountid = data.taccountvs1[0].fields.ID || '';
@@ -421,14 +411,10 @@ Template.newbankrecon.onCreated(function() {
                                 $('#sltAccountType').attr('disabled', 'disabled');
                                 if (accountTypeList) {
                                     for (var h = 0; h < accountTypeList.length; h++) {
-
                                         if (data.taccountvs1[0].fields.AccountTypeName === accountTypeList[h].accounttypename) {
-
                                             fullAccountTypeName = accountTypeList[h].description || '';
-
                                         }
                                     }
-
                                 }
 
                                 var accountid = data.taccountvs1[0].fields.ID || '';
@@ -514,10 +500,6 @@ Template.newbankrecon.onCreated(function() {
 
         });
 
-        $('#sltRegion').editableSelect()
-            .on('click.editable-select', function(e, li) {
-
-            });
     }, 500);
 
 
@@ -747,7 +729,46 @@ Template.newbankrecon.onRendered(function() {
             });
     };
 
+    templateObject.getBankTransactionData = function () {
+        getVS1Data("TToBeReconciledDeposit")
+            .then(function (dataObject) {
+                // console.log(dataObject.length);
+                if (dataObject.length === 0) {
+                    // templateObject.taxraterecords.set(taxCodesList);
+                } else {
+                    let data = JSON.parse(dataObject[0].data);
+                    // console.log(data);
+                    // let useData = data.ttaxcodevs1;
+                    // let records = [];
+                    // let inventoryData = [];
+                    // for (let i = 0; i < useData.length; i++) {
+                    //     let taxRate = (useData[i].Rate * 100).toFixed(2);
+                    //     var dataList = [
+                    //         useData[i].Id || "",
+                    //         useData[i].CodeName || "",
+                    //         useData[i].Description || "-",
+                    //         taxRate || 0,
+                    //     ];
+                    //
+                    //     let taxcoderecordObj = {
+                    //         codename: useData[i].CodeName || " ",
+                    //         coderate: taxRate || " ",
+                    //     };
+                    //
+                    //     taxCodesList.push(taxcoderecordObj);
+                    //
+                    //     splashArrayTaxRateList.push(dataList);
+                    // }
+                    // templateObject.taxraterecords.set(taxCodesList);
+                }
+            })
+            .catch(function (err) {
+
+            });
+    };
+
     setTimeout(function () {
+        templateObject.getBankTransactionData();
         templateObject.getAllTaxCodes();
     }, 500);
 
@@ -785,11 +806,21 @@ Template.newbankrecon.onRendered(function() {
             // $(".colAccount").removeClass('boldtablealertsborder');
         }, 1000);
     });
+
+    $(document).on("click", "#tblTaxRate tbody tr", function (e) {
+        let selectedTaxRateDropdownID = $('#selectLineID').val() || 'sltTaxRate';
+        $('#'+selectedTaxRateDropdownID+'').val($(this).find(".taxName").text());
+        $('#taxRateListModal').modal('toggle');
+    });
 });
 
 Template.newbankrecon.events({
 
-    //$('#sltTaxRate').val('NT' || '');
+
+    'click .btnReconTransactionDetail': function() {
+        FlowRouter.go('/recontransactiondetail');
+        // window.open('/recontransactiondetail', '_self');
+    },
 
 });
 
@@ -808,4 +839,7 @@ Template.newbankrecon.helpers({
                     : -1;
             });
     },
+    bankTransactionData: () => {
+        return Template.instance().bankTransactionData.get();
+    }
 });

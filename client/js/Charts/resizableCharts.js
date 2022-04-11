@@ -3,6 +3,9 @@ export default class resizableCharts {
     setTimeout(() => {
       $(".portlet").resizable({
         disabled: false,
+        minHeight:200,
+        minWidth:250,
+        // aspectRatio: 1.5 / 1
         handles: "e",
       });
     }, timeOut);
@@ -11,6 +14,9 @@ export default class resizableCharts {
   static disable() {
     $(".portlet").resizable({
       disabled: true,
+      minHeight:200,
+      minWidth:250,
+      // aspectRatio: 1.5 / 1
       handles: "e",
     });
   }

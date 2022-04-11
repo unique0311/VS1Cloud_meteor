@@ -161,7 +161,8 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
               }
 
             },
-          "maintainAspectRatio":false,
+            maintainAspectRatio: true,
+            responsive: true,
           tooltips: {
           callbacks: {
               label: function(tooltipItem, data) {
@@ -312,7 +313,8 @@ if (!localStorage.getItem('VS1PNLPeriodReport_dash')) {
                 }
 
               },
-            "maintainAspectRatio":false,
+              maintainAspectRatio: true,
+              responsive: true,
             tooltips: {
             callbacks: {
                 label: function(tooltipItem, data) {
@@ -564,7 +566,8 @@ var myChart = new Chart(ctx, {
       }
 
     },
-  "maintainAspectRatio":false,
+    maintainAspectRatio: true,
+    responsive: true,
   tooltips: {
   callbacks: {
       label: function(tooltipItem, data) {

@@ -158,7 +158,7 @@
 
                     <div class="col-12 col-md-8 col-lg-10 displayInfo" id="displayInfo">
                         <div class="row">
-                            <div class="col-12 col-md-12 col-lg-3 absentInfo" id="absentInfo">
+                            <div class="col-12 col-md-12 col-lg-6 absentInfo" id="absentInfo">
                                 <div class="card shadow border-left-danger py-2" style="margin: 8px;">
                                     <div class="card-body">
                                         <div class="row align-items-center no-gutters">
@@ -170,21 +170,11 @@
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="col-12 col-md-12 col-lg-9 absentChart" id="absentChart">
-                                <div class="card shadow cardChart" style="margin: 8px; color:#FFFFFF;">
-                                    <div class="card-body">
-                                        <h4 class="card-title text-dark">Absentee Rate Over The Last 12 Months</h4>
-                                        <div>
-                                            <!-- <canvas id="myChartEmployee" name="myChartEmployee"></canvas> -->
-                                            <canvas
-                                                data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;2015&quot;,&quot;2016&quot;,&quot;2017&quot;,&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Absenteeism Rate (Percentage)&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0.43)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;4.1&quot;,&quot;3.8&quot;,&quot;3.4&quot;,&quot;3.6&quot;,&quot;3&quot;,&quot;2.7&quot;],&quot;fill&quot;:true},{&quot;label&quot;:&quot;Absenteeism in Days&quot;,&quot;backgroundColor&quot;:&quot;rgba(223,78,78,0)&quot;,&quot;borderColor&quot;:&quot;#df4e4e&quot;,&quot;data&quot;:[&quot;8.6&quot;,&quot;8.0&quot;,&quot;7.8&quot;,&quot;6.6&quot;,&quot;5.4&quot;,&quot;4.2&quot;],&quot;fill&quot;:true}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:true,&quot;position&quot;:&quot;bottom&quot;,&quot;reverse&quot;:false},&quot;title&quot;:{&quot;display&quot;:false},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;drawBorder&quot;:true,&quot;drawTicks&quot;:true,&quot;drawOnChartArea&quot;:true},&quot;ticks&quot;:{&quot;beginAtZero&quot;:true}}]}}}"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
+                        <!-- All charts list -->
+                        {{> allChartLists  tabGroupID="4" chartGroup="Employees" }}
+
                         <div class="card shadow mb-4 cardSizing" style="margin: 8px;">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h6 class="text-primary font-weight-bold m-0">{{record.company}} - {{record.phone}}</h6>
@@ -1412,8 +1402,8 @@
                                                                             <label>Residency Status</label>
                                                                             <select class="form-control" id="edtResidencyStatus" name="edtResidencyStatus" style="cursor: pointer;">
                                                                                 <option value="Australian Resident">Australian Resident</option>
-                                                                                <option value="Foreign Resident">Foreign Resident</option> 
-                                                                                <option value="Working Holiday Maker">Working Holiday Maker</option> 
+                                                                                <option value="Foreign Resident">Foreign Resident</option>
+                                                                                <option value="Working Holiday Maker">Working Holiday Maker</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -1511,9 +1501,23 @@
                                                                 </div>
                                                             </div>
                                                             <script>
+                                                                var accCnt = 3;
                                                                 $(document).ready(function(){
+                                                                    setTimeout(initBankAccountsRemaining, 2000);
+                                                                    // initBankAccountsRemaining();
+                                                                    function initBankAccountsRemaining() {
+                                                                        // let cntAccContainer = $(".bankAccContainer d-none").length;
+                                                                        // accCnt = cntAccContainer;
+                                                                        accCnt = document.getElementsByClassName("bankAccContainer d-none").length;
+                                                                        // accCnt = 3 - cntAccContainer + 1;
+                                                                        let text = "(" + accCnt + " remaining)";
+                                                                        $(".bankAccountsRemaining").text(text);
+                                                                    }
+
+
+
                                                                     $("#edtTaxFileNumber").change(function(e){
-                                                                        console.log($(this).val());
+
                                                                         if($(this).val().trim() != "") {
                                                                             $("#edtTfnExemption").val("");
                                                                         }
@@ -1521,6 +1525,194 @@
                                                                     $("#edtTfnExemption").change(function(){
                                                                         $("#edtTaxFileNumber").val("");
                                                                     });
+
+                                                                    $("#btnAddBankAcc").click(function(){
+                                                                        if(accCnt == 3) {
+
+                                                                            $(".firstContainer").removeClass("d-none");
+                                                                            accCnt--;
+                                                                            let text = "(" + accCnt + " remaining)";
+                                                                            $(".bankAccountsRemaining").text(text);
+                                                                        }else if(accCnt == 2) {
+
+                                                                            $(".secondContainer").removeClass("d-none");
+                                                                            accCnt--;
+                                                                            let text = "(" + accCnt + " remaining)";
+                                                                            $(".bankAccountsRemaining").text(text);
+                                                                        }else if(accCnt == 1) {
+
+                                                                            $(".thirdContainer").removeClass("d-none");
+                                                                            accCnt--;
+                                                                            let text = "(" + accCnt + " remaining)";
+                                                                            $(".bankAccountsRemaining").text(text);
+                                                                        }else{
+
+                                                                            accCnt = 0;
+                                                                            let text = "(" + accCnt + " remaining)";
+                                                                            $(".bankAccountsRemaining").text(text);
+                                                                        }
+                                                                    });
+                                                                    $(".btnRemoveAccount").click(function(e){
+                                                                        let s1 = $(".firstStatementText").val();
+                                                                        let a1 = $(".firstAccName").val();
+                                                                        let b1 = $(".firstBsbNumber").val();
+                                                                        let n1 = $(".firstAccNumber").val();
+
+                                                                        let s2 = $(".secondStatementText").val();
+                                                                        let a2 = $(".secondAccName").val();
+                                                                        let b2 = $(".secondBsbNumber").val();
+                                                                        let n2 = $(".secondAccNumber").val();
+
+                                                                        let s3 = $(".thirdStatementText").val();
+                                                                        let a3 = $(".thirdAccName").val();
+                                                                        let b3 = $(".thirdBsbNumber").val();
+                                                                        let n3 = $(".thirdAccNumber").val();
+
+                                                                        let className = $(this).parent().parent().attr("class");
+                                                                        let parent = "";
+                                                                        if(className.indexOf("firstContainer") >= 0){
+                                                                            accCnt = document.getElementsByClassName("bankAccContainer d-none").length;
+                                                                            parent = "firstContainer";
+
+                                                                            if(accCnt == 0) {
+                                                                                setInputValues(s2, a2, b2, n2, s3, a3, b3, n3, "", "", "", "");
+
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt ++;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }else if(accCnt == 1){
+
+                                                                                setInputValues(s2, a2, b2, n2, "", "", "", "", "", "", "", "");
+
+                                                                                $(".secondContainer").removeClass("d-none");
+                                                                                $(".secondContainer").addClass("d-none");
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt ++;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }else if(accCnt == 2){
+                                                                                setInputValues("", "", "", "", "", "", "", "", "", "", "", "");
+
+                                                                                $(".firstContainer").removeClass("d-none");
+                                                                                $(".firstContainer").addClass("d-none");
+                                                                                $(".secondContainer").removeClass("d-none");
+                                                                                $(".secondContainer").addClass("d-none");
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt ++;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }
+                                                                            else {
+                                                                                accCnt = 3;
+                                                                            }
+
+                                                                        }
+                                                                        if(className.indexOf("secondContainer") >= 0){
+                                                                            parent = "secondContainer";
+
+                                                                            accCnt = document.getElementsByClassName("bankAccContainer d-none").length;
+                                                                            if(accCnt == 0) {
+                                                                                setInputValues(s1, a1, b1, n1, s3, a3, b3, n3, "", "", "", "");
+
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt ++;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }else if(accCnt == 1){
+
+                                                                                setInputValues(s1, a1, b1, n1, "", "", "", "", "", "", "", "");
+
+                                                                                $(".secondContainer").removeClass("d-none");
+                                                                                $(".secondContainer").addClass("d-none");
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt ++;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }else{
+                                                                                setInputValues("", "", "", "", "", "", "", "", "", "", "", "");
+
+                                                                                $(".firstContainer").removeClass("d-none");
+                                                                                $(".firstContainer").addClass("d-none");
+                                                                                $(".secondContainer").removeClass("d-none");
+                                                                                $(".secondContainer").addClass("d-none");
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt = 3;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }
+
+                                                                        }
+                                                                        if(className.indexOf("thirdContainer") >= 0){
+                                                                            parent = "thirdContainer";
+
+                                                                            accCnt = document.getElementsByClassName("bankAccContainer d-none").length;
+                                                                            if(accCnt == 0) {
+                                                                                setInputValues(s1, a1, b1, n1, s2, a2, b2, n2, "", "", "", "");
+
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt ++;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }else{
+                                                                                setInputValues("", "", "", "", "", "", "", "", "", "", "", "");
+
+                                                                                $(".firstContainer").removeClass("d-none");
+                                                                                $(".firstContainer").addClass("d-none");
+                                                                                $(".secondContainer").removeClass("d-none");
+                                                                                $(".secondContainer").addClass("d-none");
+                                                                                $(".thirdContainer").removeClass("d-none");
+                                                                                $(".thirdContainer").addClass("d-none");
+
+                                                                                accCnt = 3;
+                                                                                let text = "(" + accCnt + " remaining)";
+                                                                                $(".bankAccountsRemaining").text(text);
+                                                                            }
+
+                                                                        }
+                                                                        // $(parent).removeClass("d-none");
+                                                                        // $(parent).addClass("d-none");
+                                                                        // if(accCnt < 3) {
+                                                                        //     accCnt++;
+                                                                        //     let text = "(" + accCnt + " remaining)";
+                                                                        //     $(".bankAccountsRemaining").text(text);
+                                                                        // }else{
+                                                                        //     accCnt = 3;
+                                                                        //     let text = "(" + accCnt + " remaining)";
+                                                                        //     $(".bankAccountsRemaining").text(text);
+                                                                        // }
+                                                                    });
+
+                                                                    function setInputValues(s1, a1, b1, n1, s2, a2, b2, n2, s3, a3, b3, n3){
+                                                                        $(".firstStatementText").val(s1);
+                                                                        $(".firstAccName").val(a1);
+                                                                        $(".firstBsbNumber").val(b1);
+                                                                        $(".firstAccNumber").val(n1);
+
+                                                                        $(".secondStatementText").val(s2);
+                                                                        $(".secondAccName").val(a2);
+                                                                        $(".secondBsbNumber").val(b2);
+                                                                        $(".secondAccNumber").val(n2);
+
+                                                                        $(".thirdStatementText").val(s3);
+                                                                        $(".thirdAccName").val(a3);
+                                                                        $(".thirdBsbNumber").val(b3);
+                                                                        $(".thirdAccNumber").val(n3);
+                                                                    }
                                                                 })
                                                             </script>
                                                             <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="-tab">
@@ -1573,6 +1765,7 @@
                                                                                                 <option value="Parental Leave (unpaid)"></option>
                                                                                             </datalist> -->
                                                                                             <select class="form-control" id="leaveTypeSelect" name="leaveTypeSelect" style="cursor: pointer;">
+                                                                                                <option>Annual Leave</option>
                                                                                                 <option value="">Carer's Leave (unpaid)</option>
                                                                                                 <option value="">Community Service Leave</option>
                                                                                                 <option value="">Compassionate Leave (paid)</option>
@@ -1580,6 +1773,7 @@
                                                                                                 <option value="">Long Service Leave</option>
                                                                                                 <option value="">Other Unpaid Leave</option>
                                                                                                 <option value="">Parental Leave (unpaid)</option>
+                                                                                                <option>Personal/Carer's Leave</option>
                                                                                             </select>
                                                                                         </div>
                                                                                     </div>
@@ -1792,39 +1986,303 @@
                                                                         <h4>Bank Accounts</h4>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <h5>Primary Bank Account</h5>
-                                                                    </div>
-                                                                    <div class="col-6 col-md-3">
-                                                                        <div class="form-group">
-                                                                            <label>Statement Text</label>
-                                                                            <input type="text" class="form-control" id="">
+                                                                <div class="bankAccListContainer">
+                                                                    <style>
+                                                                        .btnRemoveAccount{
+                                                                            color: red !important;
+                                                                        }
+                                                                    </style>
+                                                                    {{#if bankAccountList}}
+                                                                        {{#if bankAccountList.primary}}
+                                                                            <div class="row bankAccContainer primaryContainer">
+                                                                                <div class="col-12">
+                                                                                    <h5>Primary Bank Account</h5>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control primaryStatementText" value="{{bankAccountList.primary.StatementText}}">
+                                                                                        <input type="hidden" class="primaryID" value="{{bankAccountList.primary.ID}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control primaryAccName" value="{{bankAccountList.primary.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control primaryBsbNumber" value="{{bankAccountList.primary.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control primaryAccNumber" value="{{bankAccountList.primary.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{else}}
+                                                                            <div class="row bankAccContainer primaryContainer">
+                                                                                <div class="col-12">
+                                                                                    <h5>Primary Bank Account</h5>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control primaryStatementText" value="{{bankAccountList.primary.StatementText}}">
+                                                                                        <input type="hidden" class="primaryID" value="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control primaryAccName" value="{{bankAccountList.primary.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control primaryBsbNumber" value="{{bankAccountList.primary.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control primaryAccNumber" value="{{bankAccountList.primary.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{/if}}
+                                                                        {{#if bankAccountList.first}}
+                                                                            <div class="row bankAccContainer firstContainer">
+                                                                                <div class="col-12">
+                                                                                    <h5 class="d-inline-block">Bank Account 1</h5><a class="btn btnRemoveAccount">Remove</a>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control firstStatementText" value="{{bankAccountList.first.StatementText}}">
+                                                                                        <input type="hidden" class="firstID" value="{{bankAccountList.first.ID}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control firstAccName" value="{{bankAccountList.first.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control firstBsbNumber" value="{{bankAccountList.first.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control firstAccNumber" value="{{bankAccountList.first.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{else}}
+                                                                            <div class="row bankAccContainer firstContainer d-none">
+                                                                                <div class="col-12">
+                                                                                    <h5 class="d-inline-block">Bank Account 1</h5><a class="btn btnRemoveAccount">Remove</a>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control firstStatementText" value="{{bankAccountList.first.StatementText}}">
+                                                                                        <input type="hidden" class="firstID" value="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control firstAccName" value="{{bankAccountList.first.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control firstBsbNumber" value="{{bankAccountList.first.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control firstAccNumber" value="{{bankAccountList.first.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{/if}}
+                                                                        {{#if bankAccountList.second}}
+                                                                            <div class="row bankAccContainer secondContainer">
+                                                                                <div class="col-12">
+                                                                                    <h5 class="d-inline-block">Bank Account 2</h5><a class="btn btnRemoveAccount">Remove</a>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control secondStatementText"  value="{{bankAccountList.second.StatementText}}">
+                                                                                        <input type="hidden" class="secondID" value="{{bankAccountList.second.ID}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control secondAccName"  value="{{bankAccountList.second.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control secondBsbNumber"  value="{{bankAccountList.second.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control secondAccNumber"  value="{{bankAccountList.second.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{else}}
+                                                                            <div class="row bankAccContainer secondContainer d-none">
+                                                                                <div class="col-12">
+                                                                                    <h5 class="d-inline-block">Bank Account 2</h5><a class="btn btnRemoveAccount">Remove</a>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control secondStatementText"  value="{{bankAccountList.second.StatementText}}">
+                                                                                        <input type="hidden" class="secondID" value="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control secondAccName"  value="{{bankAccountList.second.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control secondBsbNumber"  value="{{bankAccountList.second.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control secondAccNumber"  value="{{bankAccountList.second.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{/if}}
+                                                                        {{#if bankAccountList.third}}
+                                                                            <div class="row bankAccContainer thirdContainer">
+                                                                                <div class="col-12">
+                                                                                    <h5 class="d-inline-block">Bank Account 3</h5><a class="btn btnRemoveAccount">Remove</a>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control thirdStatementText"  value="{{bankAccountList.third.StatementText}}">
+                                                                                        <input type="hidden" class="thirdID" value="{{bankAccountList.third.ID}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control thirdAccName"  value="{{bankAccountList.third.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control thirdBsbNumber"  value="{{bankAccountList.third.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control thirdAccNumber"  value="{{bankAccountList.third.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{else}}
+                                                                            <div class="row bankAccContainer thirdContainer d-none">
+                                                                                <div class="col-12">
+                                                                                    <h5 class="d-inline-block">Bank Account 3</h5><a class="btn btnRemoveAccount">Remove</a>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Statement Text</label>
+                                                                                        <input type="text" class="form-control thirdStatementText"  value="{{bankAccountList.third.StatementText}}">
+                                                                                        <input type="hidden" class="thirdID" value="">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Name</label>
+                                                                                        <input type="text" class="form-control thirdAccName"  value="{{bankAccountList.third.AccName}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>BSB Number</label>
+                                                                                        <input type="text" class="form-control thirdBsbNumber"  value="{{bankAccountList.third.BSBNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6 col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Account Number</label>
+                                                                                        <input type="text" class="form-control thirdAccNumber"  value="{{bankAccountList.third.AccNumber}}">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        {{/if}}
+                                                                    {{else}}
+                                                                    <div class="row bankAccContainer primaryDefaultContainer">
+                                                                        <div class="col-12">
+                                                                            <h5>Primary Bank Account11</h5>
+                                                                        </div>
+                                                                        <div class="col-6 col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label>Statement Text</label>
+                                                                                <input type="text" class="form-control statementText">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-6 col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label>Account Name</label>
+                                                                                <input type="text" class="form-control accName">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-6 col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label>BSB Number</label>
+                                                                                <input type="text" class="form-control bsbNumber">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-6 col-md-3">
+                                                                            <div class="form-group">
+                                                                                <label>Account Number</label>
+                                                                                <input type="text" class="form-control accNumber">
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-6 col-md-3">
-                                                                        <div class="form-group">
-                                                                            <label>Account Name</label>
-                                                                            <input type="text" class="form-control" id="">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-6 col-md-3">
-                                                                        <div class="form-group">
-                                                                            <label>BSB Number</label>
-                                                                            <input type="text" class="form-control" id="">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-6 col-md-3">
-                                                                        <div class="form-group">
-                                                                            <label>Account Number</label>
-                                                                            <input type="text" class="form-control" id="">
-                                                                        </div>
-                                                                    </div>
+                                                                    {{/if}}
                                                                 </div>
+
                                                                 <div class="row">
                                                                     <div class="col-12 addBankAccountCol">
-                                                                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#newBankAccountModal">Add Another Bank Account</button>
-                                                                        <span class="bankAccountsRemaining">(3 remaining)</span>
+                                                                        <!-- <button type="button" class="btn btn-link" id="btnAddBankAcc" data-toggle="modal" data-target="#newBankAccountModal">Add Another Bank Account</button> -->
+                                                                        <button type="button" class="btn btn-link" id="btnAddBankAcc">Add Another Bank Account</button>
+                                                                        <span class="bankAccountsRemaining"></span>
                                                                         <div class="modal fade" id="newBankAccountModal" tabindex="-1" role="dialog" aria-labelledby="newPayCalendarLabel" aria-hidden="true">
                                                                             {{> addaccountpop}}
                                                                         </div>
@@ -1895,21 +2353,23 @@
                                                                 <div class="row mb-3">
                                                                     <div class="col-12">
                                                                         <div class="card shadow" style="padding: 8px 16px;">
-                                                                            <div class="row align-items-end ">
-                                                                                <div class="col-6 col-md-7">
-                                                                                    <div class="form-group">
-                                                                                        <label>Earnings Rate</label>
-                                                                                        <input type="text" class="form-control" id="">
+                                                                            <div class="earningLinesContainer">
+                                                                                <div class="row align-items-end ">
+                                                                                    <div class="col-6 col-md-7">
+                                                                                        <div class="form-group">
+                                                                                            <label>Earnings Rate</label>
+                                                                                            <input type="text" class="form-control" id="">
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
-                                                                                <div class="col-5 col-md-2">
-                                                                                    <div class="form-group">
-                                                                                        <label>Hours</label>
-                                                                                        <input type="text" class="form-control" id="">
+                                                                                    <div class="col-5 col-md-2">
+                                                                                        <div class="form-group">
+                                                                                            <label>Hours</label>
+                                                                                            <input type="text" class="form-control" id="">
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
-                                                                                <div class="col-1 col-md-1" style="padding-left: 0px;">
-                                                                                    <button type="button" class="btn btn-danger btn-rounded btn-sm" style="margin-bottom: 24px;"><i class="fa fa-remove"></i></button>
+                                                                                    <div class="col-1 col-md-1" style="padding-left: 0px;">
+                                                                                        <button type="button" class="btn btn-danger btn-rounded btn-sm" style="margin-bottom: 24px;"><i class="fa fa-remove"></i></button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row mb-2">
@@ -1930,7 +2390,14 @@
                                                                                                         <div class="col-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Earnings Rate</label>
-                                                                                                                <input type="text" class="form-control" id="">
+                                                                                                                <!-- <input type="text" class="form-control" id=""> -->
+                                                                                                                <select class="form-control" id="earningRateSelect" style="cursor: pointer;">
+                                                                                                                    <option>Allowances exempt from tax withholding and super</option>
+                                                                                                                    <option>Allowances subject to tax withholding and super</option>
+                                                                                                                    <option>JobKeeper Payment top up</option>
+                                                                                                                    <option>Ordinary Hours</option>
+                                                                                                                    <option>Overtime Hours (exempt from super)</option>
+                                                                                                                </select>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div class="col-12">
@@ -1953,7 +2420,7 @@
                                                                                                         <div class="col-12">
                                                                                                             <div class="form-group">
                                                                                                                 <label>Expense Account</label>
-                                                                                                                <input type="text" class="form-control" id="">
+                                                                                                                <input type="text" class="form-control" id="expenseAccount">
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
