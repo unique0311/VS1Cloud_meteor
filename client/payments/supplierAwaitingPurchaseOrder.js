@@ -1074,7 +1074,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        getVS1Data('TOverdueAwaitingSupplierPayment').then(function (dataObject) {
+        getVS1Data('TOverdueAwaitingSupplierPayment1').then(function (dataObject) {
             if (dataObject.length == 0) {
                 sideBarService.getAllOverDueAwaitingSupplierPayment(toDate,initialReportLoad,0).then(function (data) {
                     let lineItems = [];

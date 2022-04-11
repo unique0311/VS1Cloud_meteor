@@ -158,7 +158,7 @@
 
                     <div class="col-12 col-md-8 col-lg-10 displayInfo" id="displayInfo">
                         <div class="row">
-                            <div class="col-12 col-md-12 col-lg-3 absentInfo" id="absentInfo">
+                            <div class="col-12 col-md-12 col-lg-6 absentInfo" id="absentInfo">
                                 <div class="card shadow border-left-danger py-2" style="margin: 8px;">
                                     <div class="card-body">
                                         <div class="row align-items-center no-gutters">
@@ -171,10 +171,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-lg-9 sortable-chart-widget-js absentChart" key="contacts__absentee_rate">
-                                {{> absenteeRate }}
-                            </div>
                         </div>
+                        <!-- All charts list -->
+                        {{> allChartLists  tabGroupID="4" chartGroup="Employees" }}
+
                         <div class="card shadow mb-4 cardSizing" style="margin: 8px;">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <h6 class="text-primary font-weight-bold m-0">{{record.company}} - {{record.phone}}</h6>
@@ -1402,8 +1402,8 @@
                                                                             <label>Residency Status</label>
                                                                             <select class="form-control" id="edtResidencyStatus" name="edtResidencyStatus" style="cursor: pointer;">
                                                                                 <option value="Australian Resident">Australian Resident</option>
-                                                                                <option value="Foreign Resident">Foreign Resident</option> 
-                                                                                <option value="Working Holiday Maker">Working Holiday Maker</option> 
+                                                                                <option value="Foreign Resident">Foreign Resident</option>
+                                                                                <option value="Working Holiday Maker">Working Holiday Maker</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -1517,7 +1517,7 @@
 
 
                                                                     $("#edtTaxFileNumber").change(function(e){
-                                                                        console.log($(this).val());
+
                                                                         if($(this).val().trim() != "") {
                                                                             $("#edtTfnExemption").val("");
                                                                         }
@@ -1528,25 +1528,25 @@
 
                                                                     $("#btnAddBankAcc").click(function(){
                                                                         if(accCnt == 3) {
-                                                                            console.log(accCnt);
+
                                                                             $(".firstContainer").removeClass("d-none");
                                                                             accCnt--;
                                                                             let text = "(" + accCnt + " remaining)";
                                                                             $(".bankAccountsRemaining").text(text);
                                                                         }else if(accCnt == 2) {
-                                                                            console.log(accCnt);
+
                                                                             $(".secondContainer").removeClass("d-none");
                                                                             accCnt--;
                                                                             let text = "(" + accCnt + " remaining)";
                                                                             $(".bankAccountsRemaining").text(text);
                                                                         }else if(accCnt == 1) {
-                                                                            console.log(accCnt);
+
                                                                             $(".thirdContainer").removeClass("d-none");
                                                                             accCnt--;
                                                                             let text = "(" + accCnt + " remaining)";
                                                                             $(".bankAccountsRemaining").text(text);
                                                                         }else{
-                                                                            console.log(accCnt);
+
                                                                             accCnt = 0;
                                                                             let text = "(" + accCnt + " remaining)";
                                                                             $(".bankAccountsRemaining").text(text);
@@ -1573,7 +1573,7 @@
                                                                         if(className.indexOf("firstContainer") >= 0){
                                                                             accCnt = document.getElementsByClassName("bankAccContainer d-none").length;
                                                                             parent = "firstContainer";
-                                                                            console.log("firstContainer", accCnt);
+
                                                                             if(accCnt == 0) {
                                                                                 setInputValues(s2, a2, b2, n2, s3, a3, b3, n3, "", "", "", "");
 
@@ -1584,7 +1584,7 @@
                                                                                 let text = "(" + accCnt + " remaining)";
                                                                                 $(".bankAccountsRemaining").text(text);
                                                                             }else if(accCnt == 1){
-                                                                                
+
                                                                                 setInputValues(s2, a2, b2, n2, "", "", "", "", "", "", "", "");
 
                                                                                 $(".secondContainer").removeClass("d-none");
@@ -1612,11 +1612,11 @@
                                                                             else {
                                                                                 accCnt = 3;
                                                                             }
-                                                                            console.log("firstContainer", accCnt);
+
                                                                         }
                                                                         if(className.indexOf("secondContainer") >= 0){
                                                                             parent = "secondContainer";
-                                                                            console.log("secondContainer", accCnt);
+
                                                                             accCnt = document.getElementsByClassName("bankAccContainer d-none").length;
                                                                             if(accCnt == 0) {
                                                                                 setInputValues(s1, a1, b1, n1, s3, a3, b3, n3, "", "", "", "");
@@ -1628,7 +1628,7 @@
                                                                                 let text = "(" + accCnt + " remaining)";
                                                                                 $(".bankAccountsRemaining").text(text);
                                                                             }else if(accCnt == 1){
-                                                                                
+
                                                                                 setInputValues(s1, a1, b1, n1, "", "", "", "", "", "", "", "");
 
                                                                                 $(".secondContainer").removeClass("d-none");
@@ -1653,11 +1653,11 @@
                                                                                 let text = "(" + accCnt + " remaining)";
                                                                                 $(".bankAccountsRemaining").text(text);
                                                                             }
-                                                                            console.log("secondContainer", accCnt);
+
                                                                         }
                                                                         if(className.indexOf("thirdContainer") >= 0){
                                                                             parent = "thirdContainer";
-                                                                            console.log("thirdContainer", accCnt);
+
                                                                             accCnt = document.getElementsByClassName("bankAccContainer d-none").length;
                                                                             if(accCnt == 0) {
                                                                                 setInputValues(s1, a1, b1, n1, s2, a2, b2, n2, "", "", "", "");
@@ -1682,7 +1682,7 @@
                                                                                 let text = "(" + accCnt + " remaining)";
                                                                                 $(".bankAccountsRemaining").text(text);
                                                                             }
-                                                                            console.log("thirdContainer", accCnt);
+
                                                                         }
                                                                         // $(parent).removeClass("d-none");
                                                                         // $(parent).addClass("d-none");
@@ -2277,7 +2277,7 @@
                                                                     </div>
                                                                     {{/if}}
                                                                 </div>
-                                                                
+
                                                                 <div class="row">
                                                                     <div class="col-12 addBankAccountCol">
                                                                         <!-- <button type="button" class="btn btn-link" id="btnAddBankAcc" data-toggle="modal" data-target="#newBankAccountModal">Add Another Bank Account</button> -->

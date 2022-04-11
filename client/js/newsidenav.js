@@ -182,7 +182,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').addClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -201,7 +201,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavappointment').addClass('active');
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -221,7 +221,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -243,7 +243,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -267,7 +267,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment ').removeClass('active');
                 $('#sidenavcontacts').addClass('active');
-                $('#sidenavexpenseclaims ').removeClass('active');
+                $('#sidenavcrm ').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -281,13 +281,13 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavshipping').removeClass('active');
                 $('#sidenavreceipt').removeClass('active');
                 $('.collapse').collapse('hide');
-            } else if ((currentLoc == "/expenseclaims")) {
+            } else if ((currentLoc == "/crmoverview") || (currentLoc == "/tasklist")) {
                 $('#sidenavaccounts').removeClass('active');
                 $('#sidenavbanking').removeClass('active');
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').addClass('active');
+                $('#sidenavcrm').addClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -310,7 +310,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').addClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -334,7 +334,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').addClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -355,7 +355,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -378,7 +378,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').addClass('active');
@@ -408,7 +408,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -431,7 +431,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -455,7 +455,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord ').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims ').removeClass('active');
+                $('#sidenavcrm ').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -476,7 +476,7 @@ Template.newsidenav.onRendered(function() {
                   $('#sidenavdashbaord').removeClass('active');
                   $('#sidenavappointment').removeClass('active');
                   $('#sidenavcontacts').removeClass('active');
-                  $('#sidenavexpenseclaims').removeClass('active');
+                  $('#sidenavcrm').removeClass('active');
                   $('#sidenavinventory').removeClass('active');
                   $('#sidenavpayments').removeClass('active');
                   $('#sidenavpurchases').removeClass('active');
@@ -500,7 +500,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment ').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims ').removeClass('active');
+                $('#sidenavcrm ').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -521,7 +521,7 @@ Template.newsidenav.onRendered(function() {
                 $('#sidenavdashbaord').removeClass('active');
                 $('#sidenavappointment').removeClass('active');
                 $('#sidenavcontacts').removeClass('active');
-                $('#sidenavexpenseclaims').removeClass('active');
+                $('#sidenavcrm').removeClass('active');
                 $('#sidenavinventory').removeClass('active');
                 $('#sidenavpayments').removeClass('active');
                 $('#sidenavpurchases').removeClass('active');
@@ -6484,13 +6484,6 @@ Template.newsidenav.events({
 
         event.preventDefault();
         FlowRouter.go('/employeelist');
-        let templateObject = Template.instance();
-        templateObject.getSetSideNavFocus();
-    },
-    'click #sidenavexpenseclaims': function(event) {
-
-        event.preventDefault();
-        FlowRouter.go('/expenseclaims');
         let templateObject = Template.instance();
         templateObject.getSetSideNavFocus();
     },

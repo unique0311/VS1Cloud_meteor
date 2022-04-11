@@ -53,7 +53,6 @@ Template.expensebreakdown.onRendered(function() {
         ],
       },
       options: {
-        maintainAspectRatio: true,
         legend: {
           display: true,
           position: "right",

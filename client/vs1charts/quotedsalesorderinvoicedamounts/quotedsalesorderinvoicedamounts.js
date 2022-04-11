@@ -260,14 +260,15 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                 },
                   options: {
 
-                maintainAspectRatio:false,
-                tooltips: {
-                callbacks: {
-                    label: function(tooltipItem, data) {
-                        return utilityService.modifynegativeCurrencyFormat(Math.abs(tooltipItem.yLabel))|| 0.00;
+                    maintainAspectRatio: true,
+                    responsive: true,
+                    tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            return utilityService.modifynegativeCurrencyFormat(Math.abs(tooltipItem.yLabel))|| 0.00;
 
+                        }
                     }
-                }
             },
                 "legend":{
                 "display":true,
@@ -492,7 +493,8 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
           },
           options: {
 
-          maintainAspectRatio:false,
+            maintainAspectRatio: true,
+            responsive: true,
           tooltips: {
           callbacks: {
               label: function(tooltipItem, data) {
@@ -707,14 +709,15 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                 },
                 options: {
 
-                maintainAspectRatio:false,
-                tooltips: {
-                callbacks: {
-                    label: function(tooltipItem, data) {
-                        return utilityService.modifynegativeCurrencyFormat(Math.abs(tooltipItem.yLabel))|| 0.00;
+                    maintainAspectRatio: true,
+                    responsive: true,
+                    tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            return utilityService.modifynegativeCurrencyFormat(Math.abs(tooltipItem.yLabel))|| 0.00;
 
+                        }
                     }
-                }
             },
                 "legend":{
                 "display":true,

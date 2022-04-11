@@ -545,5 +545,12 @@ export class SalesBoardService extends BaseService {
       return this.getList(this.ERPObjects.TPurchaseOrderEx, options);
   }
 
+  getCheckPaymentIDByURLID(urlID) {
+      let options = {
+          PropertyList: "ID",
+          select: '[InvoiceNo]="'+urlID+'"',
+      };
+      return this.getList(this.ERPObjects.TCustomerPaymentLine, options);
+  }
 
 }

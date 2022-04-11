@@ -1,0 +1,756 @@
+<template name="templatesettings">
+    <div class="container-fluid">
+        <div class="fullScreenSpin" style="display:none;">
+            <div class="spinner"></div>
+        </div>
+        <h3 class="text-dark mb-4">
+            Print Template Settings
+            <a role="button" data-toggle="modal" href="#helpViewModal" style="font-size: 16px; float: right;">Help <i class="fa fa-question-circle-o" style="font-size: 16px;"></i></a>
+        </h3>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="helpViewModal">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding-bottom: 8px;">
+                        <h4>Help</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center text-muted"><a role="button" data-toggle="modal" href="#helpModal" class="btn btn-primary helpModal">View Help Video</a></p>
+                        <p class="text-center text-muted"><a href="https://vs1forum.com/" target="_blank" class="btn btn-primary">Download Help File</a></p>
+                        <p class="text-center text-muted"><button class="btn btn-primary" type="button">Employ Advisor</button></p>
+                        <p class="text-center text-muted" style="margin: 0px;"><a href="https://vs1forum.com/ucp.php?mode=register&cloudusername={{loggedCompany}}" target="_blank" class="btn btn-primary">Go To Forum</a></p>
+                    </div>
+                    <div class="modal-footer" style="padding: 6px;"><button class="btn btn-light" data-dismiss="modal" type="button">Close</button></div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .templateItem {
+                display: inline-flex !important;
+
+            }
+
+            .btnPreviewTemplate {
+                padding: 6px;
+                cursor: pointer;
+            }
+
+            .btnPreviewTemplate:hover {
+                background-color: #f8f9fc;
+            }
+        </style>
+
+        <div class="row justify-content-center mb-3">
+            <div class="col-12 col-md-10">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Bills</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="billRadio" id="bill_1" value="bill_1" checked>
+                                            <label class="form-check-label" for="bill_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="billRadio" id="bill_2" value="bill_2">
+                                            <label class="form-check-label" for="bill_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="billRadio" id="bill_3" value="bill_3">
+                                            <label class="form-check-label" for="bill_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Credits</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="creditsRadio" id="credits_1" value="credits_1" checked>
+                                            <label class="form-check-label" for="credits_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="creditsRadio" id="credits_2" value="credits_2">
+                                            <label class="form-check-label" for="credits_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="creditsRadio" id="credits_3" value="credits_3">
+                                            <label class="form-check-label" for="credits_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Customer Payments</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="customerPaymentRadio" id="customerPayment_1" value="customerPayment_1" checked>
+                                            <label class="form-check-label" for="customerPayment_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="customerPaymentRadio" id="customerPayment_1" value="customerPayment_1">
+                                            <label class="form-check-label" for="customerPayment_1">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="customerPaymentRadio" id="customerPayment_1" value="customerPayment_1">
+                                            <label class="form-check-label" for="customerPayment_1">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Customer Statements</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="customerStatementRadio" id="customerStatement_1" value="customerStatement_1" checked>
+                                            <label class="form-check-label" for="customerStatement_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="customerStatementRadio" id="customerStatement_2" value="customerStatement_2">
+                                            <label class="form-check-label" for="customerStatement_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="customerStatementRadio" id="customerStatement_3" value="customerStatement_3">
+                                            <label class="form-check-label" for="customerStatement_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Invoices</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="invoicesRadio" id="invoices_1" value="invoices_1" checked>
+                                            <label class="form-check-label" for="invoices_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="invoicesRadio" id="invoices_2" value="invoices_2">
+                                            <label class="form-check-label" for="invoices_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="invoicesRadio" id="invoices_3" value="invoices_3">
+                                            <label class="form-check-label" for="invoices_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Invoice Back Orders</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="invoiceBoRadio" id="invoiceBo_1" value="invoiceBo_1" checked>
+                                            <label class="form-check-label" for="invoiceBo_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="invoiceBoRadio" id="invoiceBo_2" value="invoiceBo_2">
+                                            <label class="form-check-label" for="invoiceBo_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="invoiceBoRadio" id="invoiceBo_3" value="invoiceBo_3">
+                                            <label class="form-check-label" for="invoiceBo_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Purchase Orders</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="purchaseOrderRadio" id="purchaseOrder_1" value="purchaseOrder_1" checked>
+                                            <label class="form-check-label" for="purchaseOrder_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="purchaseOrderRadio" id="purchaseOrder_2" value="purchaseOrder_2">
+                                            <label class="form-check-label" for="purchaseOrder_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="purchaseOrderRadio" id="purchaseOrder_3" value="purchaseOrder_3">
+                                            <label class="form-check-label" for="purchaseOrder_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Purchase Order BOs</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="purchaseOrderBoRadio" id="purchaseOrderBo_1" value="purchaseOrderBo_1" checked>
+                                            <label class="form-check-label" for="purchaseOrderBo_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="purchaseOrderBoRadio" id="purchaseOrderBo_2" value="purchaseOrderBo_2">
+                                            <label class="form-check-label" for="purchaseOrderBo_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="purchaseOrderBoRadio" id="purchaseOrderBo_3" value="purchaseOrderBo_3">
+                                            <label class="form-check-label" for="purchaseOrderBo_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Quotes</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="quotesRadio" id="quotes_1" value="quotes_1" checked>
+                                            <label class="form-check-label" for="quotes_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="quotesRadio" id="quotes_2" value="quotes_2">
+                                            <label class="form-check-label" for="quotes_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="quotesRadio" id="quotes_3" value="quotes_3">
+                                            <label class="form-check-label" for="quotes_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Refunds</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="refundsRadio" id="refunds_1" value="refunds_1" checked>
+                                            <label class="form-check-label" for="refunds_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="billRadio" id="refunds_2" value="refunds_2">
+                                            <label class="form-check-label" for="refunds_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="billRadio" id="refunds_3" value="refunds_3">
+                                            <label class="form-check-label" for="refunds_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Sales Orders</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="salesOrderRadio" id="salesOrder_1" value="salesOrder_1" checked>
+                                            <label class="form-check-label" for="salesOrder_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="salesOrderRadio" id="salesOrder_2" value="salesOrder_2">
+                                            <label class="form-check-label" for="salesOrder_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="salesOrderRadio" id="salesOrder_3" value="salesOrder_3">
+                                            <label class="form-check-label" for="salesOrder_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card shadow mb-3">
+                            <div class="card-header py-3">
+                                <span class="text-primary m-0 font-weight-bold">Supplier Payments</span>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="supplierPaymentRadio" id="supplierpayment_1" value="supplierpayment_1" checked>
+                                            <label class="form-check-label" for="supplierpayment_1">
+                                                Template #1
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="supplierPaymentRadio" id="supplierpayment_2" value="supplierpayment_2">
+                                            <label class="form-check-label" for="supplierpayment_2">
+                                                Template #2
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                    <li class="list-group-item templateItem justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="supplierPaymentRadio" id="supplierpayment_3" value="supplierpayment_3">
+                                            <label class="form-check-label" for="supplierpayment_3">
+                                                Template #3
+                                            </label>
+                                        </div>
+
+                                        <i class="far fa-eye btnPreviewTemplate" data-toggle="modal" data-target="#templatePreviewModal"></i>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="templatePreviewModal" tabindex="-1" role="dialog" aria-labelledby="templatePreviewLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="templatePreviewLabel">Template Preview</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background-color: #f8f9fc;">
+                    <div style="width: 210mm; background-color: #ffffff; padding: 8px; height: 297mm; font-size: 13.33px; color: #000000; overflow-x: visible; margin: 0 auto; -webkit-font-smoothing: subpixel-antialiased;" id="html-2-pdfwrapper" name="html-2-pdfwrapper">
+                        <div style="display: flex; height: fit-content; min-height: 30mm;">
+                            <div style="margin: 0px; padding: 16px; width: 130mm; max-width: 130mm;">
+                                <div style="display: flex;">
+                                    <div style="max-width: 60mm; max-height: 30mm;">
+                                        <img src="assets/img/VS1.png" class="uploadedImage" style="max-height: 30mm; max-width: 200px;margin-bottom: 8px;">
+                                    </div>
+                                    <div style="width: 70mm;">
+                                        <div style="padding-left: 16px;font-weight: bold;">
+                                            <a href="{{organizationurl}}">Organization URL</a>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">Organization Name</p>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">Organization Address 1</p>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">Organization Address 2</p>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">City</p>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">State</p>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">Organization Reg</p>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">Organization ABN</p>
+                                            <p style="margin-bottom: 0px; color: rgb(0 0 0);">Phone: 555 555 5555</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="font-size: 14px;">
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0);font-weight: 600;">Customer</p>
+                                    <p style="margin-bottom: 0px; color: rgb(0 0 0); display:none;" class="pdfCustomerName"></p>
+                                    <div style="min-height: 50px; width: 50%; margin-bottom: 0px; color: rgb(0 0 0);" class="pdfCustomerAddress"></div>
+                                </div>
+                            </div>
+                            <div style="margin: 0px; padding: 16px; border: none !important; width: 60mm; max-width: 60mm;">
+
+                                <h4 class="print-header" style="font-weight: bold; font-size: 26.667px; color: rgb(0 0 0); -webkit-font-smoothing: subpixel-antialiased">Invoice&nbsp;&nbsp;&nbsp; {{invoicerecord.id}}</h4>
+                                <div style="display: flex; width: 100%;">
+                                    <div style="width: 50%; padding-right: 16px;font-weight: bold;">
+                                        <label style="margin-bottom: 4px; color: rgb(0 0 0);">Date:</label>
+                                        <label class="pdfPONumber" style="margin-bottom: 4px; color: rgb(0 0 0);">P.O Number:</label>
+                                        <label class="pdfTerms" style="margin-bottom: 4px; color: rgb(0 0 0);">Due Date:</label>
+                                        <label class="link" style="color: rgb(0 0 0);">Pay Link:</label>
+                                    </div>
+                                    <div style="width: 50%; padding-left: 16px;">
+                                        <p style="margin-bottom: 4px; color: rgb(0 0 0);">{{invoicerecord.saledate}}</p>
+                                        <p class="po" style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{invoicerecord.custPONumber}}.</p>
+                                        <p class="due" style="margin-bottom: 4px; color: rgb(0 0 0); white-space: nowrap;">{{invoicerecord.termsName}}.</p>
+                                        <p class="link" style="margin-bottom: 8px; color: rgb(0 0 0);color: #fff !important; background-color: #17a673; border-color: #169b6b; border-radius: 10px;     padding: 4px 8px;"><a class="linkText" href=""
+                                                style="color: #fff !important; padding: 0px; padding-left: 5px;">Pay Now</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div style="height: 120mm;">
+                            <div style="margin: 8px; border: none !important; background-color: rgba(0,0,0,0);">
+                                <table class="invoice_print" style="width: 200mm; max-width: 200mm; margin: auto;">
+                                    <thead style="color: rgb(251,251,251);">
+                                        <tr style="border-bottom: 1px solid rgba(0, 0, 0, 1);">
+                                            <th style="width: 200px; background-color: white; color: rgb(0 0 0);">Product Name</th>
+                                            <th style="width: 250px; background-color: white; color: rgb(0 0 0);">Description</th>
+                                            <th style="text-align: right; width: 50px; background-color: white; color: rgb(0 0 0);">Qty</th>
+                                            <th style="text-align: right; width: 90px; background-color: white; color: rgb(0 0 0);">Unit Price</th>
+                                            <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);">Tax</th>
+                                            <th style="text-align: right; width: 77px; background-color: white; color: rgb(0 0 0);" class="hiddenColumn">Tax</th>
+                                            <th style="text-align: right; width: 100px; background-color: white; color: rgb(0 0 0);">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color: rgb(0 0 0);">
+                                        {{#each item in invoicerecord.LineItems}}
+                                            <tr id={{item.lineID}} style="border-bottom: 1px solid rgba(0, 0, 0, .1);">
+                                                <td id="lineProductName">{{item.item}}</td>
+                                                <td id="lineProductDesc">{{item.description}}</td>
+                                                <td id="lineQty" style="text-align: right;">{{item.quantity}}</td>
+                                                <td id="lineUnitPrice" style="text-align: right;">{{item.unitPrice}}</td>
+                                                <td id="lineTaxAmount" style="text-align: right;">{{item.TaxTotal}}</td>
+                                                <td id="lineTaxCode" class="hiddenColumn" style="text-align: right;">{{item.taxCode}}</td>
+                                                <td id="lineAmt" style="text-align: right;">{{item.TotalAmt}}</td>
+                                            </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <hr>
+                        <div style="display: flex;">
+                            <div style="margin: 8px; width: 100%">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p style="font-weight: bold; color: rgb(0 0 0);">Comments</p>
+                                        <div id="printcomment" style="color: rgb(0 0 0);  height: 3em; line-height: 1em; overflow: hidden;">{{invoicerecord.comments}}</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6" style="border: 1px solid;">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p style="font-weight: 600; color: rgb(0 0 0);">Payment Details</p>
+                                            </div>
+                                            <!-- <div class="bankDetails" style="margin: 16px;">
+
+                                        </div> -->
+                                            <div class="col-12">
+                                                {{#if vs1companyBankAccountName}}
+                                                    <p style="font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankName}}</p>
+                                                {{/if}}
+                                            </div>
+
+                                            <div class="col-12">
+                                                {{#if vs1companyBankAccountName}}
+                                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Name: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankAccountName}}</span></p>
+                                                {{/if}}
+                                                <!-- <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Account Name</p> -->
+                                                {{#if vs1companyBankBSB}}
+                                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{bsbRegionName}}: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankBSB}}</span>
+                                                    </p>
+                                                {{/if}}
+                                                {{#if vs1companyBankAccountNo}}
+                                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Account Number: <span
+                                                            style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankAccountNo}}</span></p>
+                                                {{/if}}
+                                                {{#if vs1companyBankSwiftCode}}
+                                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Swift Code: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankSwiftCode}}</span>
+                                                    </p>
+                                                {{/if}}
+                                                {{#if vs1companyBankRoutingNo}}
+                                                    <p style="text-align: left; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">Routing No: <span style="margin-bottom: 8px; font-weight: 800; color: rgb(0 0 0);">{{vs1companyBankRoutingNo}}</span>
+                                                    </p>
+                                                {{/if}}
+                                            </div>
+                                            <!-- <div class="col-6">
+                                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankAccountName}}</p>
+                                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankBSB}}</p>
+                                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankAccountNo}}</p>
+                                            <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankSwiftCode}}</p>
+                                           <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{vs1companyBankRoutingNo}}.</p>
+                                        </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div style="margin: 8px; border: none !important;">
+                                            <div style="width: 100%; display: flex;">
+                                                <div style="padding-right: 16px; width: 50%;">
+                                                    <p id="subtotal_total" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Sub Total</p>
+                                                    <p id="grandTotal" style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Total GST</p>
+                                                </div>
+                                                <div style="padding-left: 16px; width: 50%;">
+                                                    <p id="subtotal_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.SubTotal}}</p>
+                                                    <p id="totalTax_totalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.TotalTax}}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div style="width: 100%; display: flex;">
+                                                <div style="padding-right: 16px; width: 50%;">
+                                                    <p style="font-weight: 800; margin-bottom: 8px; color: rgb(0 0 0);">TOTAL</p>
+                                                </div>
+                                                <div style="padding-left: 16px; width: 50%;">
+                                                    <p id="grandTotalPrint" style="text-align: right; margin-bottom: 8px; font-weight: 800;">{{invoicerecord.Total}}<br></p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div style="width: 100%; display: flex;">
+                                                <div style="padding-right: 16px; width: 50%;">
+                                                    <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Paid Amount</p>
+                                                    <p style="font-weight: 600; margin-bottom: 8px; color: rgb(0 0 0);">Balance Due</p>
+                                                </div>
+                                                <div style="padding-left: 16px; width: 50%;">
+                                                    <p style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.totalPaid}}</p>
+                                                    <p id="totalBalanceDuePrint" style="text-align: right; margin-bottom: 8px; font-weight: 600; color: rgb(0 0 0);">{{invoicerecord.balanceDue}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <span style="font-size: 10px;margin-right: 8px; float: right;">Page 1 of 1</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times" style="margin-right: 5px;"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Help Video Modal -->
+    <div class="modal fade" role="dialog" tabindex="-1" id="helpModal">
+        <div class="modal-dialog" role="document" style="max-width: 670px!important;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title-header">Print Templates Settings</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <video id="myVideo" width="640" height="360" controls="" name="media" style="border: solid 5px #999999f0; height: auto; outline: none;">
+                        <source src="https://erphelpes.com/vs1videos/organizationdetails.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Help Video Modal -->
+    <script>
+        modalDraggable();
+    </script>
+</template>
