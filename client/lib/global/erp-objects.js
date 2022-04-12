@@ -235,6 +235,9 @@ ERPObjects = function () {
         TEmployeePayrollSettings: "TEmployeePayrollSettings",
         TPayrollNotes: "TPayrollNotes",
         TPayrollTaxes: "TPayrollTaxes",
+        TReimbursement: "TReimbursement",
+        TPayRateType: "TPayRateType",
+
     }
     return objects;
 }
