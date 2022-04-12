@@ -1391,6 +1391,15 @@ authenticatedRoutes.route('/newbankrecon', {
     }
 });
 
+authenticatedRoutes.route('/recontransactiondetail', {
+    name: 'recontransactiondetail',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'recontransactiondetail'
+        });
+    }
+});
+
 authenticatedRoutes.route('/depositcard', {
     name: 'depositcard',
     action() {
@@ -1522,6 +1531,24 @@ authenticatedRoutes.route('/smssettings', {
     action() {
         BlazeLayout.render('layout', {
             yield: 'smssettings'
+        });
+    }
+});
+
+authenticatedRoutes.route('/fxupdatesetting', {
+    name: 'fixUpdates',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'fixUpdates'
+        });
+    }
+});
+
+authenticatedRoutes.route('/templatesettings', {
+    name: 'templatesettings',
+    action() {
+        BlazeLayout.render('layout', {
+            yield: 'templatesettings'
         });
     }
 });

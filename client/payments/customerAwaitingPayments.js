@@ -83,6 +83,10 @@ Template.customerawaitingpayments.onRendered(function () {
             if ($(this).text().indexOf('-' + Currency) >= 0)
                 $(this).addClass('text-danger')
         });
+
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
@@ -1288,7 +1292,6 @@ Template.customerawaitingpayments.onRendered(function () {
               });
             } else {
                 let data = JSON.parse(dataObject[0].data);
-                console.log(data);
                 let useData = data.tsaleslist;
                 let lineItems = [];
                 let lineItemObj = {};

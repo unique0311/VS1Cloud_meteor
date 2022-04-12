@@ -165,7 +165,7 @@ Template.taxRatesSettings.onRendered(function() {
                   }],
                       select: true,
                       destroy: true,
-                      colReorder: true,
+                      // colReorder: true,
                       colReorder: {
                           fixedColumnsRight: 1
                       },
@@ -332,7 +332,7 @@ setTimeout(function () {
       }],
           select: true,
           destroy: true,
-          colReorder: true,
+          // colReorder: true,
           colReorder: {
               fixedColumnsRight: 1
           },
@@ -492,7 +492,7 @@ templateObject.tableheaderrecords.set(tableHeaderList);
                 }],
                     select: true,
                     destroy: true,
-                    colReorder: true,
+                    // colReorder: true,
                     colReorder: {
                         fixedColumnsRight: 1
                     },

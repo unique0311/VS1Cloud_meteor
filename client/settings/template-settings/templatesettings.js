@@ -6,17 +6,17 @@ import '../../lib/global/indexdbstorage.js';
 let sideBarService = new SideBarService();
 let organisationService = new OrganisationService();
 
-Template.smssettings.onCreated(() => {
+Template.templatesettings.onCreated(() => {
 });
 
-Template.smssettings.onRendered(function () {
-
-});
-
-Template.smssettings.helpers({
+Template.templatesettings.onRendered(function () {
 
 });
 
-Template.smssettings.events({
+Template.templatesettings.helpers({
+
+});
+
+Template.templatesettings.events({
 
 });

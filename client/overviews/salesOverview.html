@@ -443,6 +443,9 @@
                         input[type=number]::-webkit-outer-spin-button {
                             opacity: 1;
                         }
+                        .text-deleted{
+                          background-color: #e74a3b !important; color:#fff;
+                        }
                     </style>
                     <div class="row no-gutters d-xl-flex align-items-xl-end">
                         <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
@@ -509,7 +512,7 @@
                                 <th class="th colAmount" style="width:80px;">Amount</th>
                                 <th class="th colPaid" style="width:80px;">Paid</th>
                                 <th class="th colBalanceOutstanding" style="width:80px;">Balance Outstanding</th>
-                                <th class="th colStatus hiddenColumn">Status</th>
+                                <th class="th colStatus" style="width: 5% !important;">Status</th>
                                 <th class="th colSaleCustField1 hiddenColumn">Custom Field 1</th>
                                 <th class="th colSaleCustField2 hiddenColumn">Custom Field 2</th>
                                 <th class="th colEmployee hiddenColumn">Employee</th>
@@ -537,7 +540,7 @@
                                     {{item.totalpaid}}</td>
                                 <td contenteditable="false" class="colBalanceOutstanding"
                                     style="text-align: right!important;">{{item.totaloustanding}}</td>
-                                <td contenteditable="false" class="colStatus hiddenColumn">{{item.salestatus}}</td>
+                                <td contenteditable="false" class="colStatus">{{item.salestatus}}</td>
                                 <td contenteditable="false" class="colSaleCustField1 hiddenColumn">{{item.custfield1}}
                                 </td>
                                 <td contenteditable="false" class="colSaleCustField2 hiddenColumn">{{item.custfield2}}

@@ -335,7 +335,8 @@ Template.accountrevenuestreams.onRendered(() => {
               ],
             },
             options: {
-              maintainAspectRatio: false,
+              maintainAspectRatio: true,
+              responsive: true,
               tooltips: {
                 callbacks: {
                   label: function (tooltipItem, data) {
@@ -598,7 +599,8 @@ Template.accountrevenuestreams.onRendered(() => {
         ],
       },
       options: {
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
+        responsive: true,
         tooltips: {
           callbacks: {
             label: function (tooltipItem, data) {

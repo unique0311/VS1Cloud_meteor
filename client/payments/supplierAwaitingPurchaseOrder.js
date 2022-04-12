@@ -83,6 +83,9 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
         $('td').each(function () {
             if ($(this).text().indexOf('-' + Currency) >= 0) $(this).addClass('text-danger')
         });
+        $('td.colStatus').each(function(){
+            if($(this).text() == "Deleted") $(this).addClass('text-deleted');
+        });
     };
 
     templateObject.resetData = function (dataVal) {
@@ -1074,7 +1077,7 @@ Template.supplierawaitingpurchaseorder.onRendered(function () {
       var toDate = currentBeginDate.getFullYear()+ "-" +(fromDateMonth) + "-"+(fromDateDay);
       let prevMonth11Date = (moment().subtract(reportsloadMonths, 'months')).format("YYYY-MM-DD");
 
-        getVS1Data('TOverdueAwaitingSupplierPayment').then(function (dataObject) {
+        getVS1Data('TOverdueAwaitingSupplierPayment1').then(function (dataObject) {
             if (dataObject.length == 0) {
                 sideBarService.getAllOverDueAwaitingSupplierPayment(toDate,initialReportLoad,0).then(function (data) {
                     let lineItems = [];

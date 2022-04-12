@@ -17,6 +17,7 @@ Template.employeescard.onCreated(function () {
     const templateObject = Template.instance();
     templateObject.records = new ReactiveVar();
     templateObject.employeePayInfos = new ReactiveVar();
+    templateObject.bankAccList = new ReactiveVar();
     templateObject.countryData = new ReactiveVar();
     templateObject.productsdatatable = new ReactiveVar();
     templateObject.empuserrecord = new ReactiveVar();
@@ -76,7 +77,7 @@ Template.employeescard.onRendered(function () {
     let taxCodes = [];
     let employeePriority = [];
     let currentId = FlowRouter.current().queryParams;
-    let employeeID = '';
+    let employeeID = ( !isNaN(currentId.id) )? currentId.id : 0;
 
     const dataTableList = [];
     const tableHeaderList = [];
@@ -1848,7 +1849,7 @@ Template.employeescard.onRendered(function () {
                                         changeYear: true,
                                         yearRange: "-90:+10",
                                     });
-                                    // $('.fullScreenSpin').css('display','none');
+                                     $('.fullScreenSpin').css('display','none');
                                 }, 500);
                             });
                         }
@@ -2205,6 +2206,7 @@ Template.employeescard.onRendered(function () {
 
     templateObject.getEmployeesList = function () {
         getVS1Data('TEmployee').then(function (dataObject) {
+
             if (dataObject.length == 0) {
                 contactService.getAllEmployeeSideData().then(function (data) {
                     let lineItems = [];
@@ -2742,81 +2744,122 @@ Template.employeescard.onRendered(function () {
         }, 1000);
     }
 
-    templateObject.getEmployeePaySettings = function () {
-        let employeePayrollService = new EmployeePayrollService();
-        getVS1Data('TEmployeepaysettings').then(function (dataObject) {
-            if (dataObject.length == 0) {
-
-            } else {
-                let employeeEmail = dataObject[0].EmployeeEmail;
-                let timestamp = dataObject[0].timestamp;
+    templateObject.getEmployeePaySettings = async () => {
+        try { 
+            let dataObject = await getVS1Data('TEmployeepaysettings');
+            if (dataObject.length) {
                 let data = JSON.parse(dataObject[0].data);
-
                 let useData = data.temployeepaysettings;
-                let lineItems = [];
-                let lineItemObj = {};
-                for (let i = 0; i < data.temployeepaysettings.length; i++) {
-                    if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
-
-                        $('.fullScreenSpin').css('display', 'none');
-                        let lineItems = [];
-
+                for (let i = 0; i < useData.length; i++) {
+                    if (parseInt(useData[i].fields.Employeeid) === parseInt(employeeID)) {
                         let payInfo = {
                             index: i,
-                            ID: data.temployeepaysettings[i].fields.ID,
-                            EmployeeID: data.temployeepaysettings[i].fields.Employeeid,
-                            EmployeeName: data.temployeepaysettings[i].fields.Employee.fields.EmployeeName,
-                            AnnSalary: data.temployeepaysettings[i].fields.Employee.fields.Wages * 12,
-                            TFN: data.temployeepaysettings[i].fields.Employee.fields.TFN,
-                            Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
-                            TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold ? data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold : false,
-                            
-                            TFNExemption: data.temployeepaysettings[i].fields.Employee.fields.TFNExemption ? data.temployeepaysettings[i].fields.Employee.fields.TFNExemption : "TFN Exempt - Pensioner",
-                            EmploymentBasis: data.temployeepaysettings[i].fields.Employee.fields.EmploymentBasis ? data.temployeepaysettings[i].fields.Employee.fields.EmploymentBasis : "",
-                            ResidencyStatus: data.temployeepaysettings[i].fields.Employee.fields.ResidencyStatus ? data.temployeepaysettings[i].fields.Employee.fields.ResidencyStatus : "",
-                            StudyTrainingSupportLoan: data.temployeepaysettings[i].fields.Employee.fields.StudyTrainingSupportLoan ? data.temployeepaysettings[i].fields.Employee.fields.StudyTrainingSupportLoan : false,
-                            EligibleToReceiveLeaveLoading: data.temployeepaysettings[i].fields.Employee.fields.EligibleToReceiveLeaveLoading ? data.temployeepaysettings[i].fields.Employee.fields.EligibleToReceiveLeaveLoading : false,
-                            OtherTaxOffsetClaimed: data.temployeepaysettings[i].fields.Employee.fields.OtherTaxOffsetClaimed ? data.temployeepaysettings[i].fields.Employee.fields.OtherTaxOffsetClaimed : false,
-                            UpwardvariationRequested: data.temployeepaysettings[i].fields.Employee.fields.UpwardvariationRequested ? data.temployeepaysettings[i].fields.Employee.fields.UpwardvariationRequested : false,
-                            SeniorandPensionersTaxOffsetClaimed: data.temployeepaysettings[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed ? data.temployeepaysettings[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed : false,
-                            HasApprovedWithholdingVariation: data.temployeepaysettings[i].fields.Employee.fields.HasApprovedWithholdingVariation ? data.temployeepaysettings[i].fields.Employee.fields.HasApprovedWithholdingVariation : false,
-                            
+                            ID: useData[i].fields.ID,
+                            EmployeeID: useData[i].fields.Employeeid,
+                            EmployeeName: useData[i].fields.Employee.fields.EmployeeName,
+                            AnnSalary: useData[i].fields.Employee.fields.Wages * 12,
+                            TFN: useData[i].fields.Employee.fields.TFN,
+                            Country: useData[i].fields.Employee.fields.Country,
+                            TaxFreeThreshold: useData[i].fields.Employee.fields.TaxFreeThreshold ? useData[i].fields.Employee.fields.TaxFreeThreshold : false,
+
+                            TFNExemption: useData[i].fields.Employee.fields.TFNExemption ? useData[i].fields.Employee.fields.TFNExemption : "TFN Exempt - Pensioner",
+                            EmploymentBasis: useData[i].fields.Employee.fields.EmploymentBasis ? useData[i].fields.Employee.fields.EmploymentBasis : "",
+                            ResidencyStatus: useData[i].fields.Employee.fields.ResidencyStatus ? useData[i].fields.Employee.fields.ResidencyStatus : "",
+                            StudyTrainingSupportLoan: useData[i].fields.Employee.fields.StudyTrainingSupportLoan ? useData[i].fields.Employee.fields.StudyTrainingSupportLoan : false,
+                            EligibleToReceiveLeaveLoading: useData[i].fields.Employee.fields.EligibleToReceiveLeaveLoading ? useData[i].fields.Employee.fields.EligibleToReceiveLeaveLoading : false,
+                            OtherTaxOffsetClaimed: useData[i].fields.Employee.fields.OtherTaxOffsetClaimed ? useData[i].fields.Employee.fields.OtherTaxOffsetClaimed : false,
+                            UpwardvariationRequested: useData[i].fields.Employee.fields.UpwardvariationRequested ? useData[i].fields.Employee.fields.UpwardvariationRequested : false,
+                            SeniorandPensionersTaxOffsetClaimed: useData[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed ? useData[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed : false,
+                            HasApprovedWithholdingVariation: useData[i].fields.Employee.fields.HasApprovedWithholdingVariation ? useData[i].fields.Employee.fields.HasApprovedWithholdingVariation : false,
+
                             dataObject: dataObject
                         };
                         templateObject.employeePayInfos.set(payInfo);
-                        
-                        break;
+                        console.log('TEmployeepaysettings', payInfo)
+                        break;                    
                     }
                 }
-
             }
-        }).catch(function (err) {
-            employeePayrollService.getAllEmployeePaySettings('All',0).then(function (data) {
-                for (let i = 0; i < data.temployeepaysettings.length; i++) {
-                    if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
+        } catch(err) {  
+            let employeePayrollService = new EmployeePayrollService();
+            let data = await employeePayrollService.getAllEmployeePaySettings('All',0)
+            for (let i = 0; i < data.temployeepaysettings.length; i++) {
+                if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
 
-                        $('.fullScreenSpin').css('display', 'none');
-                        let lineItems = [];
+                    $('.fullScreenSpin').css('display', 'none');
+                    let lineItems = [];
 
-                        let payInfo = {
-                            ID: data.temployeepaysettings[i].fields.ID,
-                            EmployeeID: data.temployeepaysettings[i].fields.Employeeid,
-                            EmployeeName: data.temployeepaysettings[i].fields.Employee.fields.EmployeeName,
-                            AnnSalary: data.temployeepaysettings[i].fields.Employee.fields.Wages * 12,
-                            TFN: data.temployeepaysettings[i].fields.Employee.fields.TFN,
-                            Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
-                            TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold,
-                        };
-                        templateObject.employeePayInfos.set(payInfo);
-                    }
+                    let payInfo = {
+                        ID: data.temployeepaysettings[i].fields.ID,
+                        EmployeeID: data.temployeepaysettings[i].fields.Employeeid,
+                        EmployeeName: data.temployeepaysettings[i].fields.Employee.fields.EmployeeName,
+                        AnnSalary: data.temployeepaysettings[i].fields.Employee.fields.Wages * 12,
+                        TFN: data.temployeepaysettings[i].fields.Employee.fields.TFN,
+                        Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
+                        TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold,
+                    };
+                    templateObject.employeePayInfos.set(payInfo);
                 }
-            }).catch(function (err) {
-
-            });
-        });
-
+            }
+        }
     }
     templateObject.getEmployeePaySettings();
+
+    templateObject.getTLeaveTypes = async () => {
+        try{
+            let dataObj = await getVS1Data('TLeavetypes');
+            console.log('TLeavetypes', dataObj )
+        } catch(err) {  
+            console.log( 'roor', err.message )
+            let employeePayrollService = new EmployeePayrollService();
+            let data = await employeePayrollService.getAllTLeaveTypes('All', 0)
+            console.log('getAllTLeaveTypes', data )
+        }        
+    }
+
+    templateObject.getTLeaveTypes();
+
+    templateObject.getTBankAccounts = function() {
+        let employeePayrollService = new EmployeePayrollService();
+        let EmployeeID = FlowRouter.current().queryParams;
+        getVS1Data('TBankAccounts').then(function(dataObj) {
+            let newData = {
+                primary: null,
+                first: null,
+                second: null,
+                third: null
+            };
+
+            if(dataObj.length > 0) {
+                let data = JSON.parse(dataObj[0].data);
+                console.log( 'TBankAccounts', data )
+                let index = 1;
+                for(let i = 0; i < data.length; i ++) {
+                    if(data[i].fields.EmployeeID == EmployeeID) {
+                        if(data[i].fields.IsPrimary == false) {
+                            // let newItem = {...data[i].fields};
+                            // newItem.order = index;
+                            // data[i].fields.order = index;
+                            if(index == 1) newData.first = data[i].fields;
+                            else if(index == 2) newData.second = data[i].fields;
+                            else if(index == 3) newData.third = data[i].fields;
+                            index ++;
+                        }else {
+                            newData.primary = data[i].fields;
+                        }
+                    }
+                }
+            }
+            
+            templateObject.bankAccList.set(newData);
+
+        }).catch(function (err) {
+            employeePayrollService.getAllTBankAccounts('All', 0).then(function(data) {
+
+            }).catch(function(err){});
+        });
+    }
+    templateObject.getTBankAccounts();
 
 });
 Template.employeescard.events({
@@ -3652,81 +3695,310 @@ Template.employeescard.events({
         });
 
     },
+    // Save active tab data
     'click #btnSaveEmployeePayroll': async function(event) {
-        let currentId = FlowRouter.current().queryParams;
-        let templateObject = Template.instance();
-        let employeePayrollService = new EmployeePayrollService();
-        let payInfo = templateObject.employeePayInfos.get();
-        let index = payInfo.index;
-        
-        $('.fullScreenSpin').css('display', 'inline-block');
+        let activeTab = "";
+        if($('div#taxes').attr("class").indexOf("active") >= 0) activeTab = "taxes";
+        if($('div#leave').attr("class").indexOf("active") >= 0) activeTab = "leave";
+        if($('div#bankaccounts').attr("class").indexOf("active") >= 0) activeTab = "bankaccounts";
+        if($('div#payslips').attr("class").indexOf("active") >= 0) activeTab = "payslips";
+        if($('div#paytemplate').attr("class").indexOf("active") >= 0) activeTab = "paytemplate";
+        if($('div#openingbalances').attr("class").indexOf("active") >= 0) activeTab = "openingbalances";
+        if($('div#notes').attr("class").indexOf("active") >= 0) activeTab = "notes";
 
-        let TaxFileNumber = $("#edtTaxFileNumber").val();
-        let TFNExemption = $("#edtTfnExemption").val();
-        let EmploymentBasis = $("#edtEmploymentBasis").val();
-        let ResidencyStatus = $("#edtResidencyStatus").val();
-        let TaxFreeThreshold = $("#taxesTaxFreeThresholdClaimed").is(':checked') ? true : false;
-        let StudyTrainingSupportLoan = $("#taxesStudyTrainingSupportLoans").is(':checked') ? true : false;
-        let EligibleToReceiveLeaveLoading = $("#taxesEligibleReceiveLeaveLoading").is(':checked') ? true : false;
-        let OtherTaxOffsetClaimed = $("#taxesOtherTaxOffsetClaimed").is(':checked') ? true : false;
-        let UpwardvariationRequested = $("#taxesUpwardVariationRequested").is(':checked') ? true : false;
-        let SeniorandPensionersTaxOffsetClaimed = $("#taxesSeniorPensionersTaxOffsetClaimed").is(':checked') ? true : false;
-        let HasApprovedWithholdingVariation = $("#taxesHasApprovedWithholdingVariation").is(':checked') ? true : false;
+        if(activeTab == "taxes") {
+            let currentId = FlowRouter.current().queryParams;
+            let templateObject = Template.instance();
+            let employeePayrollService = new EmployeePayrollService();
+            let payInfo = templateObject.employeePayInfos.get();
+            let index = payInfo.index;
 
-        let dataObject = payInfo.dataObject;
-        
-        let employeeEmail = dataObject[0].EmployeeEmail;
-        let timestamp = dataObject[0].timestamp;
-        let data = JSON.parse(dataObject[0].data);
-        
-        let newData = {...data};
-        let currentInfo = data.temployeepaysettings[index];
-        currentInfo.fields.Employee.fields.TFN = TaxFileNumber;
-        currentInfo.fields.Employee.fields.TaxFreeThreshold = TaxFreeThreshold;
-        currentInfo.fields.Employee.fields.TFNExemption = TFNExemption;
-        currentInfo.fields.Employee.fields.EmploymentBasis = EmploymentBasis;
-        currentInfo.fields.Employee.fields.ResidencyStatus = ResidencyStatus;
-        currentInfo.fields.Employee.fields.StudyTrainingSupportLoan = StudyTrainingSupportLoan;
-        currentInfo.fields.Employee.fields.EligibleToReceiveLeaveLoading = EligibleToReceiveLeaveLoading;
-        currentInfo.fields.Employee.fields.OtherTaxOffsetClaimed = OtherTaxOffsetClaimed;
-        currentInfo.fields.Employee.fields.UpwardvariationRequested = UpwardvariationRequested;
-        currentInfo.fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed = SeniorandPensionersTaxOffsetClaimed;
-        currentInfo.fields.Employee.fields.HasApprovedWithholdingVariation = HasApprovedWithholdingVariation;
+            $('.fullScreenSpin').css('display', 'inline-block');
 
-        let newDataObj = [{
-            EmployeeEmail: employeeEmail,
-            timestamp: timestamp,
-            data: data
-        }];
+            let TaxFileNumber = $("#edtTaxFileNumber").val();
+            let TFNExemption = $("#edtTfnExemption").val();
+            let EmploymentBasis = $("#edtEmploymentBasis").val();
+            let ResidencyStatus = $("#edtResidencyStatus").val();
+            let TaxFreeThreshold = $("#taxesTaxFreeThresholdClaimed").is(':checked') ? true : false;
+            let StudyTrainingSupportLoan = $("#taxesStudyTrainingSupportLoans").is(':checked') ? true : false;
+            let EligibleToReceiveLeaveLoading = $("#taxesEligibleReceiveLeaveLoading").is(':checked') ? true : false;
+            let OtherTaxOffsetClaimed = $("#taxesOtherTaxOffsetClaimed").is(':checked') ? true : false;
+            let UpwardvariationRequested = $("#taxesUpwardVariationRequested").is(':checked') ? true : false;
+            let SeniorandPensionersTaxOffsetClaimed = $("#taxesSeniorPensionersTaxOffsetClaimed").is(':checked') ? true : false;
+            let HasApprovedWithholdingVariation = $("#taxesHasApprovedWithholdingVariation").is(':checked') ? true : false;
 
-        let objDetails = {};
-        if (!isNaN(currentId.id)) {
-            
-        } else {
+            let dataObject = payInfo.dataObject;
 
-        }
-        addVS1Data('TEmployeepaysettings', JSON.stringify(data));
-        $('.fullScreenSpin').css('display', 'none');
-        return;
-        employeePayrollService.saveTEmployeepaysettings(objDetails).then(function(objDetails) {
-            employeePayrollService.getAllEmployeePaySettings('All',0).then(function (data) {
-                addVS1Data('TEmployeepaysettings', newDataObj);
-            }).catch(function(err){});
+            let employeeEmail = dataObject[0].EmployeeEmail;
+            let timestamp = dataObject[0].timestamp;
+            let data = JSON.parse(dataObject[0].data);
 
-        }).catch(function(err){
-            swal({
-                title: 'Oooops...',
-                text: err,
-                type: 'error',
-                showCancelButton: false,
-                confirmButtonText: 'Try Again'
-            }).then((result) => {
-                if (result.value) {
-                    //Meteor._reload.reload();
-                } else if (result.dismiss === 'cancel') {}
-            });
+            let newData = {...data};
+            let currentInfo = data.temployeepaysettings[index];
+            currentInfo.fields.Employee.fields.TFN = TaxFileNumber;
+            currentInfo.fields.Employee.fields.TaxFreeThreshold = TaxFreeThreshold;
+            currentInfo.fields.Employee.fields.TFNExemption = TFNExemption;
+            currentInfo.fields.Employee.fields.EmploymentBasis = EmploymentBasis;
+            currentInfo.fields.Employee.fields.ResidencyStatus = ResidencyStatus;
+            currentInfo.fields.Employee.fields.StudyTrainingSupportLoan = StudyTrainingSupportLoan;
+            currentInfo.fields.Employee.fields.EligibleToReceiveLeaveLoading = EligibleToReceiveLeaveLoading;
+            currentInfo.fields.Employee.fields.OtherTaxOffsetClaimed = OtherTaxOffsetClaimed;
+            currentInfo.fields.Employee.fields.UpwardvariationRequested = UpwardvariationRequested;
+            currentInfo.fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed = SeniorandPensionersTaxOffsetClaimed;
+            currentInfo.fields.Employee.fields.HasApprovedWithholdingVariation = HasApprovedWithholdingVariation;
+
+            let newDataObj = [{
+                EmployeeEmail: employeeEmail,
+                timestamp: timestamp,
+                data: data
+            }];
+
+            let objDetails = {};
+            if (!isNaN(currentId.id)) {
+
+            } else {
+
+            }
+            addVS1Data('TEmployeepaysettings', JSON.stringify(data));
             $('.fullScreenSpin').css('display', 'none');
-        });
+            return;
+            employeePayrollService.saveTEmployeepaysettings(objDetails).then(function(objDetails) {
+                employeePayrollService.getAllEmployeePaySettings('All',0).then(function (data) {
+                    addVS1Data('TEmployeepaysettings', newDataObj);
+                }).catch(function(err){});
+
+            }).catch(function(err){
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        //Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }else if(activeTab == "leave") {
+
+        }else if(activeTab == "bankaccounts") {
+
+            let data = [];
+
+            let employeePayrollService = new EmployeePayrollService();
+
+            let EmployeeID = FlowRouter.current().queryParams;
+
+            let firstContainer = ($(".firstContainer").attr("class").indexOf("d-none") >= 0) ? true : false;
+            let secondContainer = ($(".secondContainer").attr("class").indexOf("d-none") >= 0) ? true : false;
+            let thirdContainer = ($(".thirdContainer").attr("class").indexOf("d-none") >= 0) ? true : false;
+
+            let primaryFlag = false;
+            let firstFlag = false;
+            let secondFlag = false;
+            let thirdFlag = false;
+
+            let primaryObj = null;
+            let firstObj = null;
+            let secondObj = null;
+            let thirdObj = null;
+
+            let primaryStatementText = $(".primaryStatementText").val().trim();
+            let primaryAccName = $(".primaryAccName").val().trim();
+            let primaryBsbNumber = $(".primaryBsbNumber").val().trim();
+            let primaryAccNumber = $(".primaryAccNumber").val().trim();
+            let primaryID = $(".primaryID").val();
+
+            if(primaryStatementText == "") primaryFlag = true;
+            if(primaryAccName == "") primaryFlag = true;
+            if(primaryBsbNumber == "") primaryFlag = true;
+            if(primaryAccNumber == "") primaryFlag = true;
+
+            if(primaryFlag) {
+
+                swal('Primary Bank Account cannot be blank!', '', 'info');
+                event.preventDefault();
+                return;
+            }
+
+            data.push({
+                type: "TBankAccounts",
+                fields: {
+                    ID: primaryID ? primaryID : null,
+                    EmployeeID: EmployeeID.id,
+                    IsPrimary: true,
+                    StatementText: primaryStatementText,
+                    AccName: primaryAccName,
+                    BSBNumber: primaryBsbNumber,
+                    AccNumber: primaryAccNumber,
+                }
+            });
+
+            let firstStatementText = $(".firstStatementText").val().trim();
+            let firstAccName = $(".firstAccName").val().trim();
+            let firstBsbNumber = $(".firstBsbNumber").val().trim();
+            let firstAccNumber = $(".firstAccNumber").val().trim();
+            let firstID = $(".firstID").val();
+
+            if(!firstContainer) {
+                if(firstStatementText == "") firstFlag = true;
+                if(firstAccName == "") firstFlag = true;
+                if(firstBsbNumber == "") firstFlag = true;
+                if(firstAccNumber == "") firstFlag = true;
+
+                if(firstFlag) {
+                    swal('First Bank Account cannot be blank!', '', 'info');
+                    event.preventDefault();
+                    return;
+                }
+
+                data.push({
+                    type: "TBankAccounts",
+                    fields: {
+                        ID: firstID ? firstID : null,
+                        EmployeeID: EmployeeID.id,
+                        IsPrimary: false,
+                        StatementText: firstStatementText,
+                        AccName: firstAccName,
+                        BSBNumber: firstBsbNumber,
+                        AccNumber: firstAccNumber,
+                    }
+                });
+            }
+
+
+            let secondStatementText = $(".secondStatementText").val();
+            let secondAccName = $(".secondAccName").val();
+            let secondBsbNumber = $(".secondBsbNumber").val();
+            let secondAccNumber = $(".secondAccNumber").val();
+            let secondID = $(".secondID").val();
+
+            if(!secondContainer) {
+                if(secondStatementText == "") secondFlag = true;
+                if(secondAccName == "") secondFlag = true;
+                if(secondBsbNumber == "") secondFlag = true;
+                if(secondAccNumber == "") secondFlag = true;
+
+                if(secondFlag) {
+                    swal('Second Bank Account cannot be blank!', '', 'info');
+                    event.preventDefault();
+                    return;
+                }
+
+                data.push({
+                    type: "TBankAccounts",
+                    fields: {
+                        ID: secondID ? secondID : null,
+                        EmployeeID: EmployeeID.id,
+                        IsPrimary: false,
+                        StatementText: secondStatementText,
+                        AccName: secondAccName,
+                        BSBNumber: secondBsbNumber,
+                        AccNumber: secondAccNumber,
+                    }
+                });
+            }
+
+            let thirdStatementText = $(".thirdStatementText").val();
+            let thirdAccName = $(".thirdAccName").val();
+            let thirdBsbNumber = $(".thirdBsbNumber").val();
+            let thirdAccNumber = $(".thirdAccNumber").val();
+            let thirdID = $(".thirdID").val();
+
+            if(!thirdContainer) {
+                if(thirdStatementText == "") thirdFlag = true;
+                if(thirdAccName == "") thirdFlag = true;
+                if(thirdBsbNumber == "") thirdFlag = true;
+                if(thirdAccNumber == "") thirdFlag = true;
+
+                if(thirdFlag) {
+                    swal('Third Bank Account cannot be blank!', '', 'info');
+                    event.preventDefault();
+                    return;
+                }
+
+                data.push({
+                    type: "TBankAccounts",
+                    fields: {
+                        ID: thirdID ? thirdID : null,
+                        EmployeeID: EmployeeID.id,
+                        IsPrimary: false,
+                        StatementText: thirdStatementText,
+                        AccName: thirdAccName,
+                        BSBNumber: thirdBsbNumber,
+                        AccNumber: thirdAccNumber,
+                    }
+                });
+            }
+
+            console.log( 'saving bankaccount', data )
+
+            $('.fullScreenSpin').css('display', 'inline-block');
+
+            addVS1Data('TBankAccounts', JSON.stringify(data));
+
+            $('.fullScreenSpin').css('display', 'none');
+
+            return;
+
+
+
+            employeePayrollService.saveTBankAccounts(data).then(function(objDetails) {
+                employeePayrollService.getAllTBankAccounts('All',0).then(function (data) {
+                    addVS1Data('TBankAccounts', data);
+                }).catch(function(err){});
+
+            }).catch(function(err){
+                swal({
+                    title: 'Oooops...',
+                    text: err,
+                    type: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Try Again'
+                }).then((result) => {
+                    if (result.value) {
+                        //Meteor._reload.reload();
+                    } else if (result.dismiss === 'cancel') {}
+                });
+                $('.fullScreenSpin').css('display', 'none');
+            });
+
+
+            // let StatementText = $(".statementText").val();
+            // let AccName = $(".accName").val();
+            // let BSBNumber = $(".bsbNumber").val();
+            // let AccNumber = $(".accNumber").val();
+            // let ID;
+            // let Primary;
+
+
+            // let data = [{
+            //     type: "TBankAccounts",
+            //     fields: {
+            //         ID: 1,
+            //         EmployeeID: EmployeeID.id,
+            //         IsPrimary: true,
+            //         StatementText: StatementText,
+            //         AccName: AccName,
+            //         BSBNumber: BSBNumber,
+            //         AccNumber: AccNumber,
+            //     }
+            // }]
+            // addVS1Data('TBankAccounts', JSON.stringify(data));
+
+        }else if(activeTab == "payslips") {
+
+        }else if(activeTab == "paytemplate") {
+
+        }else if(activeTab == "openingbalances") {
+
+        }else if(activeTab == "notes") {
+
+        }else{
+            return;
+        }
     },
     'change .colServiceCostPrice': function (event) {
 
@@ -5189,6 +5461,9 @@ Template.employeescard.helpers({
     },
     employeePayInfo: () => {
         return Template.instance().employeePayInfos.get();
+    },
+    bankAccountList: () => {
+        return Template.instance().bankAccList.get();
     },
     extraUserPrice: () => {
         return addExtraUserPrice || '$35';

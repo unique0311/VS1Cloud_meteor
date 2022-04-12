@@ -2842,6 +2842,7 @@ Template.stockadjustmentcard.events({
             $('.colProductName').css('display', 'table-cell');
             $('.colProductName').css('padding', '.75rem');
             $('.colProductName').css('vertical-align', 'top');
+
         } else {
             $('.colProductName').css('display', 'none');
         }
@@ -2933,6 +2934,7 @@ Template.stockadjustmentcard.events({
             $('.colSalesLinesCustField1').css('display', 'table-cell');
             $('.colSalesLinesCustField1').css('padding', '.75rem');
             $('.colSalesLinesCustField1').css('vertical-align', 'top');
+            $('.colSalesLinesCustField1').css('width', '80px');
         } else {
             $('.colSalesLinesCustField1').css('display', 'none');
         }

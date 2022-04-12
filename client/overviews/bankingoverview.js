@@ -1912,8 +1912,9 @@ Template.bankingoverview.events({
         FlowRouter.go('/chequelist');
     },
     'click .btnReconcile': function() {
-        //FlowRouter.go('/bankrecon');
-        window.open('/newbankrecon', '_self');
+        FlowRouter.go('/newbankrecon');
+        // FlowRouter.go('/bankrecon');
+        // window.open('/newbankrecon', '_self');
     },
     'click .btnReconList': function() {
         FlowRouter.go('/reconciliationlist');

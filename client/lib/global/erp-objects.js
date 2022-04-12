@@ -33,9 +33,12 @@ ERPObjects = function () {
         TInvoice: "TInvoice",
         TInvoiceEx: "TInvoiceEx",
         TBillEx: "TBillEx",
+        TPayrollOrganization: "TPayrollOrganization",
         TLeads: "TLeads",
+        TPayrollHolidays: "TPayrollHolidays",
+        TPayrollCalendars: "TPayrollCalendars",
         TLeadStatusType: "TLeadStatusType",
-        TLeaveAccruals: "TLeaveAccruals",
+        TLeaveAccruals: "TLeaveAccruals",     
         TManufacture: "TManufacture",
         TMarketingContact: "TMarketingContact",
         TModel: "TModel",
@@ -136,6 +139,7 @@ ERPObjects = function () {
         TJournalEntryLines:"TJournalEntryLines",
         TAppUser:"TAppUser",
         BackOrderSalesList:"BackOrderSalesList",
+        TBankAccounts: "TBankAccounts",
         TBankAccountReport:"TBankAccountReport",
         TCustomerVS1:"TCustomerVS1",
         TJobVS1:"TJobVS1",
@@ -195,6 +199,7 @@ ERPObjects = function () {
         TPaybase: "TPaybase",
         TPayRate: "TPayRate",
         TPayHistory: "TPayHistory",
+        TOverTimeEarnings: "TOverTimeEarnings",
         Tvs1dashboardpreferences:"Tvs1dashboardpreferences",
         TVs1TabGroups:"TVs1TabGroups",
         Tvs1charts:"Tvs1charts",
@@ -226,9 +231,13 @@ ERPObjects = function () {
         TEmployeeTerminations: "TEmployeeTerminations",
         TOrdinaryTimeEarnings: "TOrdinaryTimeEarnings",
         TUnpaidLeave: "TUnpaidLeave",
+        TPaidLeave: "TPaidLeave",
         TEmployeePayrollSettings: "TEmployeePayrollSettings",
         TPayrollNotes: "TPayrollNotes",
         TPayrollTaxes: "TPayrollTaxes",
+        TReimbursement: "TReimbursement",
+        TPayRateType: "TPayRateType",
+
     }
     return objects;
 }

@@ -25,10 +25,6 @@ let Charts = {
   expenses: false,
 };
 
-
-
-
-
 Template.dashboard.onCreated(function () {
   this.loggedDb = new ReactiveVar("");
   const templateObject = Template.instance();

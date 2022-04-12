@@ -8284,6 +8284,9 @@ Template.new_invoice.onRendered(() => {
         tempObj.getAllTaxCodes();
     });
     Template.new_invoice.helpers({
+        isBatchSerialNoTracking: () => {
+            return Session.get('CloudShowSerial') || false;
+        },
         vs1companyBankName: () => {
             return localStorage.getItem('vs1companyBankName') || '';
         },
@@ -10036,6 +10039,25 @@ Template.new_invoice.onRendered(() => {
             var targetID = $(event.target).closest('tr').attr('id');
             $('#selectLineID').val(targetID);
         },
+        'click .lineSerialNo, keydown .lineSerialNo': function(event) {
+            var $earch = $(event.currentTarget);
+            var offset = $earch.offset();
+            if (event.pageX > offset.left + $earch.width() - 10) {
+                $('#serialNumberModal').modal('toggle');
+            } else {
+                $('#serialNumberModal').modal('toggle');
+            }
+        },
+        'click .lineLotNo, keydown .lineLotNo': function(event) {
+            var $earch = $(event.currentTarget);
+            var offset = $earch.offset();
+            if (event.pageX > offset.left + $earch.width() - 10) {
+                $('#lotNumberModal').modal('toggle');
+            } else {
+                $('#lotNumberModal').modal('toggle');
+            }
+        },
+
         'click .lineTaxCode, keydown .lineTaxCode': function(event) {
            var $earch = $(event.currentTarget);
            var offset = $earch.offset();

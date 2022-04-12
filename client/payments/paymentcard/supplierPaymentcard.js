@@ -375,669 +375,209 @@ Template.supplierpaymentcard.onRendered(() => {
         });
     };
 
-    templateObject.getAllSupplierPaymentData = function() {
-        getVS1Data('TAwaitingSupplierPayment').then(function(dataObject) {
-            if (dataObject.length == 0) {
-                paymentService.getAllAwaitingSupplierDetails().then(function(data) {
-                    let lineItems = [];
-                    let lineItemObj = {};
-                    let totalPaidCal = 0;
+    let supplierName = $('#edtSupplierName').val()||'';
+    templateObject.getAllSupplierPaymentData = function(supplierName) {
+      var splashArrayAwaitingSuppList = new Array();
 
-                    for (let i = 0; i < data.tbillreport.length; i++) {
-                        if (data.tbillreport[i].Type == "Credit") {
-                            totalPaidCal = data.tbillreport[i]['Total Amount (Inc)'] + data.tbillreport[i].Balance;
-                        } else {
-                            totalPaidCal = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
-                        }
+      sideBarService.getAllAwaitingSupplierPaymentBySupplierName(supplierName).then(function(data) {
+          let lineItems = [];
+          let lineItemObj = {};
+          let totalPaidCal = 0;
 
-                        let amount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
-                        let applied = utilityService.modifynegativeCurrencyFormat(totalPaidCal) || 0.00;
-                        // Currency+''+data.tpurchaseorder[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let balance = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
-                        let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
-                        let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
-                        let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
-                        if (data.tbillreport[i].Balance != 0) {
-                            if ((data.tbillreport[i].Type == "Purchase Order") || (data.tbillreport[i].Type == "Bill") || (data.tbillreport[i].Type == "Credit")) {
-                                var dataList = {
-                                    id: data.tbillreport[i].PurchaseOrderID || '',
-                                    sortdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD") : data.tbillreport[i].OrderDate,
-                                    paymentdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY") : data.tbillreport[i].OrderDate,
-                                    customername: data.tbillreport[i].Company || '',
-                                    paymentamount: amount || 0.00,
-                                    applied: applied || 0.00,
-                                    balance: balance || 0.00,
-                                    originalamount: totalOrginialAmount || 0.00,
-                                    outsandingamount: totalOutstanding || 0.00,
-                                    ponumber: data.tbillreport[i].PurchaseOrderID || '',
-                                    // department: data.tpurchaseorder[i].SaleClassName || '',
-                                    refno: data.tbillreport[i].InvoiceNumber || '',
-                                    paymentmethod: '' || '',
-                                    notes: data.tbillreport[i].Comments || '',
-                                    type: data.tbillreport[i].Type || '',
-                                };
-                                //&& (data.tpurchaseorder[i].Invoiced == true)
-                                if ((data.tbillreport[i].TotalBalance != 0)) {
-                                    if ((data.tbillreport[i].Deleted == false)) {
-                                        dataTableList.push(dataList);
-                                    }
-                                }
+          for (let i = 0; i < data.tbillreport.length; i++) {
+              if (data.tbillreport[i].Type == "Credit") {
+                  totalPaidCal = data.tbillreport[i]['Total Amount (Inc)'] + data.tbillreport[i].Balance;
+              } else {
+                  totalPaidCal = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
+              }
+
+              let amount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
+              let applied = utilityService.modifynegativeCurrencyFormat(totalPaidCal) || 0.00;
+              // Currency+''+data.tpurchaseorder[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
+              let balance = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
+              let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
+              let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
+              let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
+              if (data.tbillreport[i].Balance != 0) {
+                  if ((data.tbillreport[i].Type == "Purchase Order") || (data.tbillreport[i].Type == "Bill") || (data.tbillreport[i].Type == "Credit")) {
+                      var dataListOLD = {
+                          id: data.tbillreport[i].PurchaseOrderID || '',
+                          sortdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD") : data.tbillreport[i].OrderDate,
+                          paymentdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY") : data.tbillreport[i].OrderDate,
+                          customername: data.tbillreport[i].Company || '',
+                          paymentamount: amount || 0.00,
+                          applied: applied || 0.00,
+                          balance: balance || 0.00,
+                          originalamount: totalOrginialAmount || 0.00,
+                          outsandingamount: totalOutstanding || 0.00,
+                          ponumber: data.tbillreport[i].PurchaseOrderID || '',
+
+                          refno: data.tbillreport[i].InvoiceNumber || '',
+                          paymentmethod: '' || '',
+                          notes: data.tbillreport[i].Comments || '',
+                          type: data.tbillreport[i].Type || '',
+                      };
+
+
+                      var dataList = [
+                         '<div class="custom-control custom-checkbox chkBox pointer"><input class="custom-control-input chkBox chkPaymentCard pointer" type="checkbox" id="formCheck-'+data.tbillreport[i].PurchaseOrderID+'" value="'+totalOutstanding+'"><label class="custom-control-label chkBox pointer" for="formCheck-'+data.tbillreport[i].PurchaseOrderID+'"></label></div>',
+                          data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD") : data.tbillreport[i].OrderDate,
+                          data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY") : data.tbillreport[i].OrderDate,
+                          data.tbillreport[i].InvoiceNumber || '',
+                          data.tbillreport[i].PurchaseOrderID || '',
+                          applied || 0.00,
+                          totalOrginialAmount || 0.00,
+                          totalOutstanding || 0.00,
+                          data.tbillreport[i].Company || '',
+                          data.tbillreport[i].Type || '',
+                          data.tbillreport[i].Comments || ''
+                      ];
+
+                      //&& (data.tpurchaseorder[i].Invoiced == true)
+                      if ((data.tbillreport[i].TotalBalance != 0)) {
+                          if ((data.tbillreport[i].Deleted == false)) {
+                              if(data.tbillreport[i].Company == supplierName){
+                              dataTableList.push(dataListOLD);
+                              splashArrayAwaitingSuppList.push(dataList);
                             }
-                        }
-                    }
-                    templateObject.datatablerecords.set(dataTableList);
-                    templateObject.datatablerecords1.set(dataTableList);
-                    if (templateObject.datatablerecords.get()) {
+                          }
+                      }
+                  }
+              }
+          }
+          templateObject.datatablerecords.set(dataTableList);
+          templateObject.datatablerecords1.set(dataTableList);
 
-                        Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function(error, result) {
-                            if (error) {} else {
-                                if (result) {
-                                    for (let i = 0; i < result.customFields.length; i++) {
-                                        let customcolumn = result.customFields;
-                                        let columData = customcolumn[i].label;
-                                        let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                        let hiddenColumn = customcolumn[i].hidden;
-                                        let columnClass = columHeaderUpdate.split('.')[1];
-                                        let columnWidth = customcolumn[i].width;
-                                        let columnindex = customcolumn[i].index + 1;
+          $('.fullScreenSpin').css('display', 'none');
+          setTimeout(function() {
+              //$.fn.dataTable.moment('DD/MM/YY');
+              $('#tblSupplierAwaitingCard').DataTable({
+                  data: splashArrayAwaitingSuppList,
+                  columnDefs: [{
+                      className: "chkBox",
+                      "orderable": false,
+                      "targets": [0]
+                  }, {
+                      className: "colSortDate hiddenColumn",
+                      "targets": [1]
+                  }, {
+                      className: "colPaymentDate",
+                      "targets": [2]
+                  }, {
+                      className: "colReceiptNo",
+                      "targets": [3]
+                  }, {
+                      className: "colPONumber",
+                      "targets": [4]
+                  }, {
+                      className: "colPaymentAmount text-right",
+                      "targets": [5]
+                  }, {
+                      className: "colApplied text-right",
+                      "targets": [6]
+                  }, {
+                      className: "colBalance text-right",
+                      "targets": [7]
+                  }, {
+                      className: "colSupplierName",
+                      "targets": [8],    // this will invoke the below function on all cells
+                      'createdCell': function(td, cellData, rowData, row, col) {
+                        // this will give each cell an ID
+                        $(td).closest('tr').attr('id', rowData[4]);
+                        $(td).attr('id', 'colSupplierName' + rowData[4]);
+                      }
+                  }, {
+                      className: "colTypePayment hiddenColumn",
+                      "targets": [9],    // this will invoke the below function on all cells
+                      'createdCell': function(td, cellData, rowData, row, col) {
+                        // this will give each cell an ID
+                        $(td).attr('id', 'coltype' + rowData[4]);
+                      }
+                  }, {
+                      className: "colNotes",
+                      "targets": [10]
+                  }],
+                  "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                  buttons: [{
+                      extend: 'excelHtml5',
+                      text: '',
+                      download: 'open',
+                      className: "btntabletocsv hiddenColumn",
+                      filename: "Awaiting Supplier Payments List - " + moment().format(),
+                      orientation: 'portrait',
+                      exportOptions: {
+                          columns: ':visible:not(.chkBox)',
+                          format: {
+                              body: function(data, row, column) {
+                                  if (data.includes("</span>")) {
+                                      var res = data.split("</span>");
+                                      data = res[1];
+                                  }
 
-                                        if (hiddenColumn == true) {
+                                  return column === 1 ? data.replace(/<.*?>/ig, "") : data;
 
-                                            $("." + columnClass + "").addClass('hiddenColumn');
-                                            $("." + columnClass + "").removeClass('showColumn');
-                                        } else if (hiddenColumn == false) {
-                                            $("." + columnClass + "").removeClass('hiddenColumn');
-                                            $("." + columnClass + "").addClass('showColumn');
-                                        }
+                              }
+                          }
+                      }
+                  }, {
+                      extend: 'print',
+                      download: 'open',
+                      className: "btntabletopdf hiddenColumn",
+                      text: '',
+                      title: 'Supplier Payment',
+                      filename: "Awaiting Supplier Payments List - " + moment().format(),
+                      exportOptions: {
+                          columns: ':visible:not(.chkBox)',
+                          stripHtml: false
+                      }
+                  }],
+                  select: true,
+                  destroy: true,
+                  colReorder: true,
+                  colReorder: {
+                      fixedColumnsLeft: 1
+                  },
+                  paging: false,
+                  "scrollY": "400px",
+                  "scrollCollapse": true,
+                  info: true,
+                  responsive: true,
+                  "order": [
+                      [1, "desc"]
+                  ],
+                  // "aaSorting": [[1,'desc']],
+                  action: function() {
+                      $('#tblSupplierAwaitingCard').DataTable().ajax.reload();
+                  },
+                  "fnDrawCallback": function(oSettings) {
+                      setTimeout(function() {
+                          MakeNegative();
+                      }, 100);
+                  },
 
-                                    }
-                                }
+              }).on('page', function() {
+                  setTimeout(function() {
+                      MakeNegative();
+                  }, 100);
+                  let draftRecord = templateObject.datatablerecords.get();
+                  templateObject.datatablerecords.set(draftRecord);
+              }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
+                  setTimeout(function() {
+                      MakeNegative();
+                  }, 100);
+              });
+              $('.fullScreenSpin').css('display', 'none');
+          }, 0);
 
-                            }
-                        });
+          $('div.dataTables_filter input').addClass('form-control form-control-sm');
 
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    }
 
-                    $('.fullScreenSpin').css('display', 'none');
-                    setTimeout(function() {
-                        //$.fn.dataTable.moment('DD/MM/YY');
-                        $('#tblSupplierAwaitingPO').DataTable({
-                            columnDefs: [{
-                                "orderable": false,
-                                "targets": 0
-                            }, {
-                                type: 'date',
-                                targets: 1
-                            }],
-                            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                            buttons: [{
-                                extend: 'excelHtml5',
-                                text: '',
-                                download: 'open',
-                                className: "btntabletocsv hiddenColumn",
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                orientation: 'portrait',
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    format: {
-                                        body: function(data, row, column) {
-                                            if (data.includes("</span>")) {
-                                                var res = data.split("</span>");
-                                                data = res[1];
-                                            }
+      }).catch(function(err) {
+          // Bert.alert('<strong>' + err + '</strong>!', 'danger');
+          $('.fullScreenSpin').css('display', 'none');
+          // Meteor._reload.reload();
+      });
 
-                                            return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
-                                        }
-                                    }
-                                }
-                            }, {
-                                extend: 'print',
-                                download: 'open',
-                                className: "btntabletopdf hiddenColumn",
-                                text: '',
-                                title: 'Supplier Payment',
-                                filename: "Awaiting Supplier Payments List - " + moment().format(),
-                                exportOptions: {
-                                    columns: ':visible:not(.chkBox)',
-                                    stripHtml: false
-                                }
-                            }],
-                            select: true,
-                            destroy: true,
-                            colReorder: true,
-                            pageLength: initialDatatableLoad,
-                            lengthMenu: [
-                                [initialDatatableLoad, -1],
-                                [initialDatatableLoad, "All"]
-                            ],
-                            info: true,
-                            responsive: true,
-                            paging: false,
-                            "order": [
-                                [1, "desc"]
-                            ],
-                            // "aaSorting": [[1,'desc']],
-                            action: function() {
-                                $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
-                            },
-                            "fnDrawCallback": function(oSettings) {
-                                setTimeout(function() {
-                                    MakeNegative();
-                                }, 100);
-                            },
-                            "fnInitComplete": function() {
-                                $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
-                                $("<button class='btn btn-primary btnRefreshSupplierPayList' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
-
-                            }
-
-                        }).on('page', function() {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                            let draftRecord = templateObject.datatablerecords.get();
-                            templateObject.datatablerecords.set(draftRecord);
-                        }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        });
-                        $('.fullScreenSpin').css('display', 'none');
-                    }, 0);
-
-                    var columns = $('#tblSupplierAwaitingPO th');
-                    let sTible = "";
-                    let sWidth = "";
-                    let sIndex = "";
-                    let sVisible = "";
-                    let columVisible = false;
-                    let sClass = "";
-                    $.each(columns, function(i, v) {
-                        if (v.hidden == false) {
-                            columVisible = true;
-                        }
-                        if ((v.className.includes("hiddenColumn"))) {
-                            columVisible = false;
-                        }
-                        sWidth = v.style.width.replace('px', "");
-
-                        let datatablerecordObj = {
-                            sTitle: v.innerText || '',
-                            sWidth: sWidth || '',
-                            sIndex: v.cellIndex || '',
-                            sVisible: columVisible || false,
-                            sClass: v.className || ''
-                        };
-                        tableHeaderList.push(datatablerecordObj);
-                    });
-                    templateObject.tableheaderrecords.set(tableHeaderList);
-                    $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                    $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
-                        var listData = $(this).closest('tr').attr('id');
-                        var transactiontype = $(event.target).closest("tr").find(".colType").text();
-                        if ((listData) && (transactiontype)) {
-                            if (transactiontype === 'Purchase Order') {
-                                Router.go('/supplierpaymentcard?poid=' + listData);
-                            } else if (transactiontype === 'Bill') {
-                                Router.go('/supplierpaymentcard?billid=' + listData);
-                            } else if (transactiontype === 'Credit') {
-                                Router.go('/supplierpaymentcard?creditid=' + listData);
-                            }
-
-                        }
-
-                        // if(listData){
-                        //  Router.go('/supplierpaymentcard?poid='+ listData);
-                        // }
-                    });
-
-                }).catch(function(err) {
-                    // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                    $('.fullScreenSpin').css('display', 'none');
-                    // Meteor._reload.reload();
-                });
-            } else {
-                let data = JSON.parse(dataObject[0].data);
-                let useData = data.tbillreport;
-                let lineItems = [];
-                let lineItemObj = {};
-                let totalPaidCal = 0;
-
-                for (let i = 0; i < useData.length; i++) {
-                    if (useData[i].Type == "Credit") {
-                        totalPaidCal = useData[i]['Total Amount (Inc)'] + useData[i].Balance;
-                    } else {
-                        totalPaidCal = useData[i]['Total Amount (Inc)'] - useData[i].Balance;
-                    }
-
-                    let amount = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)']) || 0.00;
-                    let applied = utilityService.modifynegativeCurrencyFormat(totalPaidCal) || 0.00;
-                    // Currency+''+data.tpurchaseorder[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let balance = utilityService.modifynegativeCurrencyFormat(useData[i].Balance) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(useData[i].Balance) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(useData[i].Balance) || 0.00;
-                    let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(useData[i]['Total Amount (Inc)']) || 0.00;
-                    if (useData[i].Balance != 0) {
-                        if ((useData[i].Type == "Purchase Order") || (useData[i].Type == "Bill") || (useData[i].Type == "Credit")) {
-                            var dataList = {
-                                id: useData[i].PurchaseOrderID || '',
-                                sortdate: useData[i].OrderDate != '' ? moment(useData[i].OrderDate).format("YYYY/MM/DD") : useData[i].OrderDate,
-                                paymentdate: useData[i].OrderDate != '' ? moment(useData[i].OrderDate).format("DD/MM/YYYY") : useData[i].OrderDate,
-                                customername: useData[i].Company || '',
-                                paymentamount: amount || 0.00,
-                                applied: applied || 0.00,
-                                balance: balance || 0.00,
-                                originalamount: totalOrginialAmount || 0.00,
-                                outsandingamount: totalOutstanding || 0.00,
-                                ponumber: useData[i].PurchaseOrderID || '',
-                                // department: data.tpurchaseorder[i].SaleClassName || '',
-                                refno: useData[i].InvoiceNumber || '',
-                                paymentmethod: '' || '',
-                                notes: useData[i].Comments || '',
-                                type: useData[i].Type || '',
-                            };
-                            //&& (data.tpurchaseorder[i].Invoiced == true)
-                            if ((useData[i].TotalBalance != 0)) {
-                                if ((useData[i].Deleted == false)) {
-                                    dataTableList.push(dataList);
-                                }
-                            }
-                        }
-                    }
-                }
-                templateObject.datatablerecords.set(dataTableList);
-                templateObject.datatablerecords1.set(dataTableList);
-                if (templateObject.datatablerecords.get()) {
-
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function(error, result) {
-                        if (error) {} else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if (hiddenColumn == true) {
-
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-
-                    setTimeout(function() {
-                        MakeNegative();
-                    }, 100);
-                }
-
-                $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function() {
-                    //$.fn.dataTable.moment('DD/MM/YY');
-                    $('#tblSupplierAwaitingPO').DataTable({
-                        columnDefs: [{
-                            "orderable": false,
-                            "targets": 0
-                        }, {
-                            type: 'date',
-                            targets: 1
-                        }],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "Awaiting Supplier Payments List - " + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible:not(.chkBox)',
-                                format: {
-                                    body: function(data, row, column) {
-                                        if (data.includes("</span>")) {
-                                            var res = data.split("</span>");
-                                            data = res[1];
-                                        }
-
-                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
-                                    }
-                                }
-                            }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Supplier Payment',
-                            filename: "Awaiting Supplier Payments List - " + moment().format(),
-                            exportOptions: {
-                                columns: ':visible:not(.chkBox)',
-                                stripHtml: false
-                            }
-                        }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        pageLength: initialDatatableLoad,
-                        lengthMenu: [
-                            [initialDatatableLoad, -1],
-                            [initialDatatableLoad, "All"]
-                        ],
-                        info: true,
-                        responsive: true,
-                        paging: false,
-                        "order": [
-                            [1, "desc"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
-                        "fnInitComplete": function() {
-                            $("<button class='btn btn-primary' data-dismiss='modal' data-toggle='modal' data-target='#addSupplierModal' type='button' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-plus'></i></button>").insertAfter("#tblSupplierAwaitingPO_filter");
-                            $("<button class='btn btn-primary btnRefreshSupplierPayList' type='button' id='btnRefreshSupplier' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSupplierAwaitingPO_filter");
-
-                        }
-
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    });
-                    $('.fullScreenSpin').css('display', 'none');
-                }, 0);
-
-                // var columns = $('#tblSupplierAwaitingPO th');
-                // let sTible = "";
-                // let sWidth = "";
-                // let sIndex = "";
-                // let sVisible = "";
-                // let columVisible = false;
-                // let sClass = "";
-                // $.each(columns, function (i, v) {
-                //     if (v.hidden == false) {
-                //         columVisible = true;
-                //     }
-                //     if ((v.className.includes("hiddenColumn"))) {
-                //         columVisible = false;
-                //     }
-                //     sWidth = v.style.width.replace('px', "");
-
-                //     let datatablerecordObj = {
-                //         sTitle: v.innerText || '',
-                //         sWidth: sWidth || '',
-                //         sIndex: v.cellIndex || '',
-                //         sVisible: columVisible || false,
-                //         sClass: v.className || ''
-                //     };
-                //     tableHeaderList.push(datatablerecordObj);
-                // });
-                // templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
-                    var listData = $(this).closest('tr').attr('id');
-                    var transactiontype = $(event.target).closest("tr").find(".colType").text();
-                    if ((listData) && (transactiontype)) {
-                        if (transactiontype === 'Purchase Order') {
-                            Router.go('/supplierpaymentcard?poid=' + listData);
-                        } else if (transactiontype === 'Bill') {
-                            Router.go('/supplierpaymentcard?billid=' + listData);
-                        } else if (transactiontype === 'Credit') {
-                            Router.go('/supplierpaymentcard?creditid=' + listData);
-                        }
-
-                    }
-
-                    // if(listData){
-                    //  Router.go('/supplierpaymentcard?poid='+ listData);
-                    // }
-                });
-            }
-        }).catch(function(err) {
-            paymentService.getAllAwaitingSupplierDetails().then(function(data) {
-                let lineItems = [];
-                let lineItemObj = {};
-                let totalPaidCal = 0;
-
-                for (let i = 0; i < data.tbillreport.length; i++) {
-                    if (data.tbillreport[i].Type == "Credit") {
-                        totalPaidCal = data.tbillreport[i]['Total Amount (Inc)'] + data.tbillreport[i].Balance;
-                    } else {
-                        totalPaidCal = data.tbillreport[i]['Total Amount (Inc)'] - data.tbillreport[i].Balance;
-                    }
-
-                    let amount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
-                    let applied = utilityService.modifynegativeCurrencyFormat(totalPaidCal) || 0.00;
-                    // Currency+''+data.tpurchaseorder[i].TotalTax.toLocaleString(undefined, {minimumFractionDigits: 2});
-                    let balance = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
-                    let totalPaid = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
-                    let totalOutstanding = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i].Balance) || 0.00;
-                    let totalOrginialAmount = utilityService.modifynegativeCurrencyFormat(data.tbillreport[i]['Total Amount (Inc)']) || 0.00;
-                    if (data.tbillreport[i].Balance != 0) {
-                        if ((data.tbillreport[i].Type == "Purchase Order") || (data.tbillreport[i].Type == "Bill") || (data.tbillreport[i].Type == "Credit")) {
-                            var dataList = {
-                                id: data.tbillreport[i].PurchaseOrderID || '',
-                                sortdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("YYYY/MM/DD") : data.tbillreport[i].OrderDate,
-                                paymentdate: data.tbillreport[i].OrderDate != '' ? moment(data.tbillreport[i].OrderDate).format("DD/MM/YYYY") : data.tbillreport[i].OrderDate,
-                                customername: data.tbillreport[i].Company || '',
-                                paymentamount: amount || 0.00,
-                                applied: applied || 0.00,
-                                balance: balance || 0.00,
-                                originalamount: totalOrginialAmount || 0.00,
-                                outsandingamount: totalOutstanding || 0.00,
-                                ponumber: data.tbillreport[i].PurchaseOrderID || '',
-                                // department: data.tpurchaseorder[i].SaleClassName || '',
-                                refno: data.tbillreport[i].InvoiceNumber || '',
-                                paymentmethod: '' || '',
-                                notes: data.tbillreport[i].Comments || '',
-                                type: data.tbillreport[i].Type || '',
-                            };
-                            //&& (data.tpurchaseorder[i].Invoiced == true)
-                            if ((data.tbillreport[i].TotalBalance != 0)) {
-                                if ((data.tbillreport[i].Deleted == false)) {
-                                    dataTableList.push(dataList);
-                                }
-                            }
-                        }
-                    }
-                }
-                templateObject.datatablerecords.set(dataTableList);
-                templateObject.datatablerecords1.set(dataTableList);
-                if (templateObject.datatablerecords.get()) {
-
-                    Meteor.call('readPrefMethod', Session.get('mycloudLogonID'), 'tblSupplierAwaitingPO', function(error, result) {
-                        if (error) {} else {
-                            if (result) {
-                                for (let i = 0; i < result.customFields.length; i++) {
-                                    let customcolumn = result.customFields;
-                                    let columData = customcolumn[i].label;
-                                    let columHeaderUpdate = customcolumn[i].thclass.replace(/ /g, ".");
-                                    let hiddenColumn = customcolumn[i].hidden;
-                                    let columnClass = columHeaderUpdate.split('.')[1];
-                                    let columnWidth = customcolumn[i].width;
-                                    let columnindex = customcolumn[i].index + 1;
-
-                                    if (hiddenColumn == true) {
-
-                                        $("." + columnClass + "").addClass('hiddenColumn');
-                                        $("." + columnClass + "").removeClass('showColumn');
-                                    } else if (hiddenColumn == false) {
-                                        $("." + columnClass + "").removeClass('hiddenColumn');
-                                        $("." + columnClass + "").addClass('showColumn');
-                                    }
-
-                                }
-                            }
-
-                        }
-                    });
-
-                    setTimeout(function() {
-                        MakeNegative();
-                    }, 100);
-                }
-
-                $('.fullScreenSpin').css('display', 'none');
-                setTimeout(function() {
-                    //$.fn.dataTable.moment('DD/MM/YY');
-                    $('#tblSupplierAwaitingPO').DataTable({
-                        columnDefs: [{
-                            "orderable": false,
-                            "targets": 0
-                        }, {
-                            type: 'date',
-                            targets: 1
-                        }],
-                        "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
-                        buttons: [{
-                            extend: 'excelHtml5',
-                            text: '',
-                            download: 'open',
-                            className: "btntabletocsv hiddenColumn",
-                            filename: "Awaiting Supplier Payments List - " + moment().format(),
-                            orientation: 'portrait',
-                            exportOptions: {
-                                columns: ':visible:not(.chkBox)',
-                                format: {
-                                    body: function(data, row, column) {
-                                        if (data.includes("</span>")) {
-                                            var res = data.split("</span>");
-                                            data = res[1];
-                                        }
-
-                                        return column === 1 ? data.replace(/<.*?>/ig, "") : data;
-
-                                    }
-                                }
-                            }
-                        }, {
-                            extend: 'print',
-                            download: 'open',
-                            className: "btntabletopdf hiddenColumn",
-                            text: '',
-                            title: 'Supplier Payment',
-                            filename: "Awaiting Supplier Payments List - " + moment().format(),
-                            exportOptions: {
-                                columns: ':visible:not(.chkBox)',
-                                stripHtml: false
-                            }
-                        }],
-                        select: true,
-                        destroy: true,
-                        colReorder: true,
-                        colReorder: {
-                            fixedColumnsLeft: 1
-                        },
-                        paging: false,
-                        "scrollY": "400px",
-                        "scrollCollapse": true,
-                        info: true,
-                        responsive: true,
-                        "order": [
-                            [1, "desc"]
-                        ],
-                        // "aaSorting": [[1,'desc']],
-                        action: function() {
-                            $('#tblSupplierAwaitingPO').DataTable().ajax.reload();
-                        },
-                        "fnDrawCallback": function(oSettings) {
-                            setTimeout(function() {
-                                MakeNegative();
-                            }, 100);
-                        },
-
-                    }).on('page', function() {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                        let draftRecord = templateObject.datatablerecords.get();
-                        templateObject.datatablerecords.set(draftRecord);
-                    }).on('column-reorder', function() {}).on('length.dt', function(e, settings, len) {
-                        setTimeout(function() {
-                            MakeNegative();
-                        }, 100);
-                    });
-                    $('.fullScreenSpin').css('display', 'none');
-                }, 0);
-
-                // var columns = $('#tblSupplierAwaitingPO th');
-                // let sTible = "";
-                // let sWidth = "";
-                // let sIndex = "";
-                // let sVisible = "";
-                // let columVisible = false;
-                // let sClass = "";
-                // $.each(columns, function (i, v) {
-                //     if (v.hidden == false) {
-                //         columVisible = true;
-                //     }
-                //     if ((v.className.includes("hiddenColumn"))) {
-                //         columVisible = false;
-                //     }
-                //     sWidth = v.style.width.replace('px', "");
-
-                //     let datatablerecordObj = {
-                //         sTitle: v.innerText || '',
-                //         sWidth: sWidth || '',
-                //         sIndex: v.cellIndex || '',
-                //         sVisible: columVisible || false,
-                //         sClass: v.className || ''
-                //     };
-                //     tableHeaderList.push(datatablerecordObj);
-                // });
-                // templateObject.tableheaderrecords.set(tableHeaderList);
-                $('div.dataTables_filter input').addClass('form-control form-control-sm');
-                $('#tblSupplierAwaitingPO tbody').on('click', 'tr .colPaymentDate, tr .colReceiptNo, tr .colPaymentAmount, tr .colApplied, tr .colBalance, tr .colSupplierName, tr .colDepartment, tr .colRefNo, tr .colPaymentMethod, tr .colNotes', function() {
-                    var listData = $(this).closest('tr').attr('id');
-                    var transactiontype = $(event.target).closest("tr").find(".colType").text();
-                    if ((listData) && (transactiontype)) {
-                        if (transactiontype === 'Purchase Order') {
-                            Router.go('/supplierpaymentcard?poid=' + listData);
-                        } else if (transactiontype === 'Bill') {
-                            Router.go('/supplierpaymentcard?billid=' + listData);
-                        } else if (transactiontype === 'Credit') {
-                            Router.go('/supplierpaymentcard?creditid=' + listData);
-                        }
-
-                    }
-
-                    // if(listData){
-                    //  Router.go('/supplierpaymentcard?poid='+ listData);
-                    // }
-                });
-
-            }).catch(function(err) {
-                // Bert.alert('<strong>' + err + '</strong>!', 'danger');
-                $('.fullScreenSpin').css('display', 'none');
-                // Meteor._reload.reload();
-            });
-        });
 
     }
 
@@ -1212,8 +752,11 @@ Template.supplierpaymentcard.onRendered(() => {
     templateObject.getPaymentMethods();
     templateObject.getAccountNames();
     setTimeout(function() {
-        templateObject.getAllSupplierPaymentData();
-    }, 500)
+    if(supplierName != ''){
+        templateObject.getAllSupplierPaymentData(supplierName);
+    }
+
+    }, 500);
 
     $(document).on("click", "#departmentList tbody tr", function(e) {
         $('#sltDepartment').val($(this).find(".colDeptName").text());
@@ -5729,6 +5272,11 @@ Template.supplierpaymentcard.onRendered(() => {
                 paymentList.push(this.id);
 
             });
+
+            setTimeout(function() {
+              $('.fullScreenSpin').css('display', 'inline-block');
+                templateObject.getAllSupplierPaymentData(custname);
+            }, 500);
             let geturl = location.href;
             let id = "";
             if (geturl.indexOf('?selectsupppo') > 0 && geturl.indexOf('&selectsuppbill') > 0 && geturl.indexOf('&selectsuppcredit') > 0) {
@@ -8562,7 +8110,7 @@ Template.supplierpaymentcard.events({
     },
     'click .chkPaymentCard': function() {
         var listData = $(this).closest('tr').attr('id');
-        var selectedClient = $(event.target).closest("tr").find(".colCustomerName").text();
+        var selectedClient = $(event.target).closest("tr").find(".colSupplierName").text();
         const templateObject = Template.instance();
         const selectedAwaitingPayment = [];
         const selectedAwaitingPayment2 = [];
@@ -8610,7 +8158,7 @@ Template.supplierpaymentcard.events({
     },
     'click .chkBoxAll': function () {
         var listData = $(this).closest('tr').attr('id');
-        var selectedClient = $(event.target).closest("tr").find(".colCustomerName").text();
+        var selectedClient = $(event.target).closest("tr").find(".colSupplierName").text();
         const templateObject = Template.instance();
         const selectedAwaitingPayment = [];
         const selectedAwaitingPayment2 = [];
@@ -8736,8 +8284,20 @@ Template.supplierpaymentcard.events({
                 // $(".colComments", rowData).text(selectedSupplierPayments[x].comments);
                 // rowData.attr('id', selectedSupplierPayments[x].awaitingId);
                 // rowData.attr('name', selectedSupplierPayments[x].awaitingId);
+                let checkCompareID = selectedSupplierPayments[x].awaitingId||'';
+                let isCheckedTrue = true;
+              $('.tblSupplierPaymentcard > tbody > tr').each(function() {
+                var lineID = this.id;
+                if(lineID == checkCompareID){
+                  isCheckedTrue = false;
+                }
+              });
+              //setTimeout(function() {
+              if(isCheckedTrue){
                 $("#tblSupplierPaymentcard tbody").append(rowData);
                 total = total + parseFloat(selectedSupplierPayments[x].paymentAmount.replace(/[^0-9.-]+/g, ""));
+              }
+              //}, 500);
             }
             $('.appliedAmount').text(utilityService.modifynegativeCurrencyFormat(total.toFixed(2)));
 

@@ -1,7 +1,7 @@
 import { ContactService } from "../contacts/contact-service";
 import { ReactiveVar } from 'meteor/reactive-var';
 import { ProductService } from "../product/product-service";
-import { CoreService } from '../js/core-service';
+import { SMSService } from '../js/sms-settings-service';
 import { UtilityService } from "../utility-service";
 import 'jquery-ui-dist/external/jquery/jquery';
 import { SalesBoardService } from '../js/sales-service';
@@ -15,8 +15,10 @@ import listPlugin from '@fullcalendar/list';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { SideBarService } from '../js/sidebar-service';
 import '../lib/global/indexdbstorage.js';
+import { client } from "braintree-web";
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
+let smsService = new SMSService();
 let createAppointment = Session.get('CloudAppointmentCreateAppointment') || false;
 Template.appointments.onCreated(function () {
     const templateObject = Template.instance();
@@ -38,6 +40,7 @@ Template.appointments.onCreated(function () {
     templateObject.empDuration = new ReactiveVar;
     templateObject.uploadedFiles = new ReactiveVar([]);
     templateObject.uploadedFile = new ReactiveVar();
+    templateObject.defaultSMSSettings = new ReactiveVar();
 
     templateObject.includeAllProducts = new ReactiveVar();
     templateObject.includeAllProducts.set(true);
@@ -556,8 +559,8 @@ Template.appointments.onRendered(function () {
             eventClick: function (info) {
                 $('#frmAppointment')[0].reset();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
-                $("#btnEndActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
+                $("#btnStopAppointment").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
                 $("#tActualStartTime").prop("disabled", false);
@@ -586,8 +589,8 @@ Template.appointments.onRendered(function () {
 
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
-                        $("#btnEndActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
+                        $("#btnStopAppointment").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
                         $("#tActualStartTime").prop("disabled", true);
@@ -596,8 +599,8 @@ Template.appointments.onRendered(function () {
                     }
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
-                        $("#btnEndActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
+                        $("#btnStopAppointment").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
                         $("#tActualStartTime").prop("disabled", true);
@@ -749,8 +752,8 @@ Template.appointments.onRendered(function () {
                 document.getElementById("frmAppointment").reset();
                 $(".paused").hide();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
-                $("#btnEndActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
+                $("#btnStopAppointment").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
                 $("#tActualStartTime").prop("disabled", false);
@@ -982,8 +985,8 @@ Template.appointments.onRendered(function () {
             eventClick: function (info) {
                 $('#frmAppointment')[0].reset();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
-                $("#btnEndActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
+                $("#btnStopAppointment").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
                 $("#tActualStartTime").prop("disabled", false);
@@ -1030,8 +1033,8 @@ Template.appointments.onRendered(function () {
 
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
-                        $("#btnEndActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
+                        $("#btnStopAppointment").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
                         $("#tActualStartTime").prop("disabled", true);
@@ -1040,8 +1043,8 @@ Template.appointments.onRendered(function () {
                     }
                     if (result[0].aEndTime != "") {
                         $("#btnHold").prop("disabled", true);
-                        $("#btnStartActualTime").prop("disabled", true);
-                        $("#btnEndActualTime").prop("disabled", true);
+                        $("#btnStartAppointment").prop("disabled", true);
+                        $("#btnStopAppointment").prop("disabled", true);
                         $("#startTime").prop("disabled", true);
                         $("#endTime").prop("disabled", true);
                         $("#tActualStartTime").prop("disabled", true);
@@ -1198,8 +1201,8 @@ Template.appointments.onRendered(function () {
                 document.getElementById("frmAppointment").reset();
                 $(".paused").hide();
                 $("#btnHold").prop("disabled", false);
-                $("#btnStartActualTime").prop("disabled", false);
-                $("#btnEndActualTime").prop("disabled", false);
+                $("#btnStartAppointment").prop("disabled", false);
+                $("#btnStopAppointment").prop("disabled", false);
                 $("#startTime").prop("disabled", false);
                 $("#endTime").prop("disabled", false);
                 $("#tActualStartTime").prop("disabled", false);
@@ -2194,7 +2197,8 @@ Template.appointments.onRendered(function () {
                             //employee: data.tappointmentex[i].EndTime != '' ? moment(data.tappointmentex[i].EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].EndTime,
                             notes: data.tappointmentex[i].fields.Notes || '',
                             attachments: data.tappointmentex[i].fields.Attachments || '',
-                            isPaused: data.tappointmentex[i].fields.Othertxt || ''
+                            isPaused: data.tappointmentex[i].fields.Othertxt || '',
+                            msRef: data.tappointmentex[i].fields.MsRef || ''
                         };
 
                         let surbub = data.tappointmentex[i].fields.Suburb || '';
@@ -2231,8 +2235,8 @@ Template.appointments.onRendered(function () {
                         let appID = url1.searchParams.get("id");
                         $('#frmAppointment')[0].reset();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
-                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
+                        $("#btnStopAppointment").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
                         $("#tActualStartTime").prop("disabled", false);
@@ -2244,6 +2248,8 @@ Template.appointments.onRendered(function () {
                         var result = appointmentData.filter(apmt => {
                             return apmt.id == appID
                         });
+
+                        console.log('1 =================================> ', result);
 
                         if (result.length > 0) {
                             templateObject.getAllProductData();
@@ -2257,8 +2263,8 @@ Template.appointments.onRendered(function () {
 
                             if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
-                                $("#btnStartActualTime").prop("disabled", true);
-                                $("#btnEndActualTime").prop("disabled", true);
+                                $("#btnStartAppointment").prop("disabled", true);
+                                $("#btnStopAppointment").prop("disabled", true);
                                 $("#startTime").prop("disabled", true);
                                 $("#endTime").prop("disabled", true);
                                 $("#tActualStartTime").prop("disabled", true);
@@ -2304,6 +2310,8 @@ Template.appointments.onRendered(function () {
                             document.getElementById("tActualStartTime").value = result[0].aStartTime;
                             document.getElementById("tActualEndTime").value = result[0].aEndTime;
                             document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+
+                            if (result[0].msRef === "Yes") document.getElementById("smsConfirmedFlag").classList.remove("d-none");
 
                             templateObject.attachmentCount.set(0);
                             if (result[0].attachments) {
@@ -2922,8 +2930,8 @@ Template.appointments.onRendered(function () {
                             document.getElementById("frmAppointment").reset();
                             $(".paused").hide();
                             $("#btnHold").prop("disabled", false);
-                            $("#btnStartActualTime").prop("disabled", false);
-                            $("#btnEndActualTime").prop("disabled", false);
+                            $("#btnStartAppointment").prop("disabled", false);
+                            $("#btnStopAppointment").prop("disabled", false);
                             $("#startTime").prop("disabled", false);
                             $("#endTime").prop("disabled", false);
                             $("#tActualStartTime").prop("disabled", false);
@@ -3087,7 +3095,8 @@ Template.appointments.onRendered(function () {
                         //employee: useData[i].fields.EndTime != '' ? moment(useData[i].fields.EndTime).format("DD/MM/YYYY") : useData[i].fields.EndTime,
                         attachments: useData[i].fields.Attachments || '',
                         notes: useData[i].fields.Notes || '',
-                        isPaused: useData[i].fields.Othertxt || ''
+                        isPaused: useData[i].fields.Othertxt || '',
+                        msRef: useData[i].fields.MsRef || ''
                     };
 
                     let surbub = useData[i].fields.Suburb || '';
@@ -3122,8 +3131,8 @@ Template.appointments.onRendered(function () {
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
-                    $("#btnStartActualTime").prop("disabled", false);
-                    $("#btnEndActualTime").prop("disabled", false);
+                    $("#btnStartAppointment").prop("disabled", false);
+                    $("#btnStopAppointment").prop("disabled", false);
                     $("#startTime").prop("disabled", false);
                     $("#endTime").prop("disabled", false);
                     $("#tActualStartTime").prop("disabled", false);
@@ -3135,6 +3144,8 @@ Template.appointments.onRendered(function () {
                     var result = appointmentData.filter(apmt => {
                         return apmt.id == appID
                     });
+
+                    console.log('2 =================================> ', result);
 
                     if (result.length > 0) {
                         templateObject.getAllProductData();
@@ -3148,8 +3159,8 @@ Template.appointments.onRendered(function () {
 
                         if (result[0].aEndTime != "") {
                             $("#btnHold").prop("disabled", true);
-                            $("#btnStartActualTime").prop("disabled", true);
-                            $("#btnEndActualTime").prop("disabled", true);
+                            $("#btnStartAppointment").prop("disabled", true);
+                            $("#btnStopAppointment").prop("disabled", true);
                             $("#startTime").prop("disabled", true);
                             $("#endTime").prop("disabled", true);
                             $("#tActualStartTime").prop("disabled", true);
@@ -3194,6 +3205,8 @@ Template.appointments.onRendered(function () {
                         document.getElementById("tActualStartTime").value = result[0].aStartTime;
                         document.getElementById("tActualEndTime").value = result[0].aEndTime;
                         document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+
+                        if (result[0].msRef === "Yes") document.getElementById("smsConfirmedFlag").classList.remove("d-none");
 
                         templateObject.attachmentCount.set(0);
                         if (result[0].attachments) {
@@ -3694,7 +3707,8 @@ Template.appointments.onRendered(function () {
                         //employee: data.tappointmentex[i].EndTime != '' ? moment(data.tappointmentex[i].EndTime).format("DD/MM/YYYY") : data.tappointmentex[i].EndTime,
                         notes: data.tappointmentex[i].fields.Notes || '',
                         attachments: data.tappointmentex[i].fields.Attachments || '',
-                        isPaused: data.tappointmentex[i].fields.Othertxt || ''
+                        isPaused: data.tappointmentex[i].fields.Othertxt || '',
+                        msRef: data.tappointmentex[i].fields.MsRef || '',
                     };
 
                     let surbub = data.tappointmentex[i].fields.Suburb || '';
@@ -3731,8 +3745,8 @@ Template.appointments.onRendered(function () {
                     let appID = url1.searchParams.get("id");
                     $('#frmAppointment')[0].reset();
                     $("#btnHold").prop("disabled", false);
-                    $("#btnStartActualTime").prop("disabled", false);
-                    $("#btnEndActualTime").prop("disabled", false);
+                    $("#btnStartAppointment").prop("disabled", false);
+                    $("#btnStopAppointment").prop("disabled", false);
                     $("#startTime").prop("disabled", false);
                     $("#endTime").prop("disabled", false);
                     $("#tActualStartTime").prop("disabled", false);
@@ -3744,6 +3758,8 @@ Template.appointments.onRendered(function () {
                     var result = appointmentData.filter(apmt => {
                         return apmt.id == appID
                     });
+                    
+                    console.log('3 =================================> ', result);
 
                     if (result.length > 0) {
                         templateObject.getAllProductData();
@@ -3757,8 +3773,8 @@ Template.appointments.onRendered(function () {
 
                         if (result[0].aEndTime != "") {
                             $("#btnHold").prop("disabled", true);
-                            $("#btnStartActualTime").prop("disabled", true);
-                            $("#btnEndActualTime").prop("disabled", true);
+                            $("#btnStartAppointment").prop("disabled", true);
+                            $("#btnStopAppointment").prop("disabled", true);
                             $("#startTime").prop("disabled", true);
                             $("#endTime").prop("disabled", true);
                             $("#tActualStartTime").prop("disabled", true);
@@ -3801,6 +3817,8 @@ Template.appointments.onRendered(function () {
                         document.getElementById("tActualStartTime").value = result[0].aStartTime;
                         document.getElementById("tActualEndTime").value = result[0].aEndTime;
                         document.getElementById("txtActualHoursSpent").value = parseFloat(hours).toFixed(2) || '';
+
+                        if (result[0].msRef === "Yes") document.getElementById("smsConfirmedFlag").classList.remove("d-none");
 
                         templateObject.attachmentCount.set(0);
                         if (result[0].attachments) {
@@ -4419,8 +4437,8 @@ Template.appointments.onRendered(function () {
                         document.getElementById("frmAppointment").reset();
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
-                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
+                        $("#btnStopAppointment").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
                         $("#tActualStartTime").prop("disabled", false);
@@ -5770,8 +5788,8 @@ Template.appointments.onRendered(function () {
                     eventClick: function (info) {
                         document.getElementById("frmAppointment").reset();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
-                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
+                        $("#btnStopAppointment").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
                         $("#tActualStartTime").prop("disabled", false);
@@ -5809,8 +5827,8 @@ Template.appointments.onRendered(function () {
                             }
                             if (result[0].aEndTime != "") {
                                 $("#btnHold").prop("disabled", true);
-                                $("#btnStartActualTime").prop("disabled", true);
-                                $("#btnEndActualTime").prop("disabled", true);
+                                $("#btnStartAppointment").prop("disabled", true);
+                                $("#btnStopAppointment").prop("disabled", true);
                                 $("#startTime").prop("disabled", true);
                                 $("#endTime").prop("disabled", true);
                                 $("#tActualStartTime").prop("disabled", true);
@@ -5933,8 +5951,8 @@ Template.appointments.onRendered(function () {
                         document.getElementById("frmAppointment").reset();
                         $(".paused").hide();
                         $("#btnHold").prop("disabled", false);
-                        $("#btnStartActualTime").prop("disabled", false);
-                        $("#btnEndActualTime").prop("disabled", false);
+                        $("#btnStartAppointment").prop("disabled", false);
+                        $("#btnStopAppointment").prop("disabled", false);
                         $("#startTime").prop("disabled", false);
                         $("#endTime").prop("disabled", false);
                         $("#tActualStartTime").prop("disabled", false);
@@ -6249,7 +6267,92 @@ Template.appointments.onRendered(function () {
 
     });
 
-
+    //TODO: Get SMS settings here
+    const smsSettings = {
+        twilioAccountId: "",
+        twilioAccountToken: "",
+        twilioTelephoneNumber: "",
+        startAppointmentSMSMessage: "Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we are on site and doing the following service [Product/Service].",
+        saveAppointmentSMSMessage: "Hi [Customer Name], This is [Employee Name] from [Company Name] confirming that we are booked in to be at [Full Address] at [Booked Time] to do the following service [Product/Service]. Please reply with Yes to confirm this booking or No if you wish to cancel it.",
+        stopAppointmentSMSMessage: "Hi [Customer Name], This is [Employee Name] from [Company Name] just letting you know that we have finished doing the following service [Product/Service]."
+    }
+    smsService.getSMSSettings().then((result) => {
+    if (result.terppreference.length > 0) {
+        for (let i = 0; i < result.terppreference.length; i++) {
+            switch(result.terppreference[i].PrefName) {
+                case "VS1SMSID": smsSettings.twilioAccountId = result.terppreference[i].Fieldvalue; break;
+                case "VS1SMSToken": smsSettings.twilioAccountToken = result.terppreference[i].Fieldvalue; break;
+                case "VS1SMSPhone": smsSettings.twilioTelephoneNumber = result.terppreference[i].Fieldvalue; break;
+                case "VS1SAVESMSMSG": smsSettings.saveAppointmentSMSMessage = result.terppreference[i].Fieldvalue; break;
+                case "VS1STARTSMSMSG": smsSettings.startAppointmentSMSMessage = result.terppreference[i].Fieldvalue; break;
+                case "VS1STOPSMSMSG": smsSettings.stopAppointmentSMSMessage = result.terppreference[i].Fieldvalue;
+            }
+        }
+        console.log(smsSettings);
+        templateObject.defaultSMSSettings.set(smsSettings);
+    }
+    }).catch((error) => {
+        console.log(error);
+    });
+    templateObject.sendSMSMessage = async function(type, phoneNumber) {
+        return new Promise((resolve, reject) => {
+            const smsSettings = templateObject.defaultSMSSettings.get();
+            var endpoint = 'https://api.twilio.com/2010-04-01/Accounts/' + smsSettings.twilioAccountId + '/SMS/Messages.json';
+            const message = $(`#${type}AppointmentSMSMessage`).val();
+            var data = {
+                To: phoneNumber,
+                From: smsSettings.twilioTelephoneNumber,
+                Body: message
+            };
+            $.ajax(
+                {
+                    method: 'POST',
+                    url: endpoint,
+                    data: data,
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded', // !
+                    beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Authorization",
+                        "Basic " + btoa(smsSettings.twilioAccountId + ":" + smsSettings.twilioAccountToken) // !
+                    );
+                },
+                success: function(data) {
+                    console.log("Got response: %o", data);
+                    resolve({ success: true });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log("Request failed: " + textStatus + ", " + errorThrown);
+                    resolve({ success: false });
+                }
+            });
+        })
+    }
+    //TODO: Check SMS Settings and confirm if continue or go to SMS settings page
+    templateObject.checkSMSSettings = function() {
+        const smsSettings = templateObject.defaultSMSSettings.get();
+        if (smsSettings.twilioAccountId === "" ||
+            smsSettings.twilioAccountToken === "" ||
+            smsSettings.twilioTelephoneNumber === "") {
+            swal({
+                title: 'No SMS Settings',
+                text: "SMS settings are non-existed. Any SMS messages won't be sent to customer or user.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Continue',
+                cancelButtonText: 'Go to SMS Settings'
+            }).then((result) => {
+                if (result.value) {
+                    $('#chkSMSCustomer').prop('checked', false);
+                    $('#chkSMSUser').prop('checked', false);
+                } else if (result.dismiss === 'cancel') {
+                    window.open('/smssettings', '_self');
+                } else {
+                    window.open('/smssettings', '_self');
+                }
+            });
+        }
+    }
+    templateObject.checkSMSSettings();
 });
 
 Template.appointments.events({
@@ -6269,7 +6372,7 @@ Template.appointments.events({
     //                         // var endTime = new Date(date2 + ' ' + document.getElementById("tActualEndTime").value + ':00');
     //                         // var startTime = new Date(date1 + ' ' + document.getElementById("tActualStartTime").value + ':00');
     //                         // document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
-    //                         $("#btnStartActualTime").trigger("click");
+    //                         $("#btnStartAppointment").trigger("click");
     //                         //let id = document.getElementById("updateID");
     //                     } else if (result.dismiss === 'cancel') {
     //                         document.getElementById('tActualEndTime').value = '';
@@ -6455,8 +6558,8 @@ Template.appointments.events({
             }
             $(".paused").hide();
             $("#btnHold").prop("disabled", false);
-            $("#btnStartActualTime").prop("disabled", false)
-            $("#btnEndActualTime").prop("disabled", false);
+            $("#btnStartAppointment").prop("disabled", false)
+            $("#btnStopAppointment").prop("disabled", false);
             $("#startTime").prop("disabled", false);
             $("#endTime").prop("disabled", false);
             $("#tActualStartTime").prop("disabled", false);
@@ -6464,8 +6567,8 @@ Template.appointments.events({
             $("#txtActualHoursSpent").prop("disabled", false);
             if (result[0].aEndTime != "") {
                 $("#btnHold").prop("disabled", true);
-                $("#btnStartActualTime").prop("disabled", true);
-                $("#btnEndActualTime").prop("disabled", true);
+                $("#btnStartAppointment").prop("disabled", true);
+                $("#btnStopAppointment").prop("disabled", true);
                 $("#startTime").prop("disabled", true)
                 $("#endTime").prop("disabled", true);
                 $("#tActualStartTime").prop("disabled", true);
@@ -6570,8 +6673,8 @@ Template.appointments.events({
             document.getElementById("product-list").value = calOptions.defaultProduct || '';
             $(".paused").hide();
             $("#btnHold").prop("disabled", false);
-            $("#btnStartActualTime").prop("disabled", false);
-            $("#btnEndActualTime").prop("disabled", false);
+            $("#btnStartAppointment").prop("disabled", false);
+            $("#btnStopAppointment").prop("disabled", false);
             $("#startTime").prop("disabled", false);
             $("#endTime").prop("disabled", false);
             $("#tActualStartTime").prop("disabled", false);
@@ -8134,7 +8237,7 @@ Template.appointments.events({
         }
 
     },
-    'click #btnStartActualTime': function () {
+    'click #btnStartAppointmentConfirm': function () {
         let toUpdateID = "";
         const templateObject = Template.instance();
         var appointmentData = templateObject.appointmentrecords.get();
@@ -8215,6 +8318,14 @@ Template.appointments.events({
                                     sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
                                         addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                             $('.fullScreenSpin').css('display', 'none');
+
+                                            //TODO: Start Appointment SMS sent here
+                                            const customerPhone = $('#mobile').val();
+                                            const smsCustomer = $('#chkSMSCustomer').is(':checked');
+                                            const smsUser = $('#chkSMSUser').is(':checked');
+                                            const smsSettings = templateObject.defaultSMSSettings.get();
+                                            if ((smsCustomer || smsUser) && customerPhone != "0" && smsSettings.twilioAccountId) templateObject.sendSMSMessage('start', '+' + customerPhone);
+
                                             swal({
                                                 title: 'Job Started',
                                                 text: "Job Has Been Started",
@@ -8275,6 +8386,14 @@ Template.appointments.events({
                                 sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
                                     addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                         $('.fullScreenSpin').css('display', 'none');
+
+                                        //TODO: Start Appointment SMS sent here
+                                        const customerPhone = $('#mobile').val();
+                                        const smsCustomer = $('#chkSMSCustomer').is(':checked');
+                                        const smsUser = $('#chkSMSUser').is(':checked');
+                                        const smsSettings = templateObject.defaultSMSSettings.get();
+                                        if ((smsCustomer || smsUser) && customerPhone != "0" && smsSettings.twilioAccountId) templateObject.sendSMSMessage('start', '+' + customerPhone);
+
                                         swal({
                                             title: 'Job Started',
                                             text: "Job Has Been Started",
@@ -8392,6 +8511,14 @@ Template.appointments.events({
                         sideBarService.getAllAppointmentList(initialDataLoad, 0).then(function (data) {
                             addVS1Data('TAppointment', JSON.stringify(data)).then(function (datareturn) {
                                 $('.fullScreenSpin').css('display', 'none');
+
+                                //TODO: Start Appointment SMS sent here
+                                const customerPhone = $('#mobile').val();
+                                const smsCustomer = $('#chkSMSCustomer').is(':checked');
+                                const smsUser = $('#chkSMSUser').is(':checked');
+                                const smsSettings = templateObject.defaultSMSSettings.get();
+                                if ((smsCustomer || smsUser) && customerPhone != "0" && smsSettings.twilioAccountId) templateObject.sendSMSMessage('start', '+' + customerPhone);
+
                                 swal({
                                     title: 'Job Started',
                                     text: "Job Has Been Started",
@@ -8463,9 +8590,209 @@ Template.appointments.events({
 
             }
         } else {
-            $("#tActualStartTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
-            $("#btnSaveAppointment").trigger("click");
-
+          $("#tActualStartTime").val(moment().startOf('hour').format('HH') + ":" + moment().startOf('minute').format('mm'));
+          $('#btnCloseStartAppointmentModal').trigger('click');
+          $("#btnSaveAppointment").trigger("click");
+        }
+    },
+    'click #btnStartAppointment': function() {
+        const smsCustomer = $('#chkSMSCustomer').is(':checked');
+        const smsUser = $('#chkSMSUser').is(':checked');
+        const customerPhone = $('#mobile').val();
+        if (customerPhone === "" || customerPhone === "0") {
+            swal({
+                title: 'Invalid phone number',
+                text: "Invalid phone number. Any SMS message won't be sent.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Continue',
+                cancelButtonText: 'cancel'
+            }).then((result) => {
+                if (result.value) {
+                    $('#btnStartAppointmentConfirm').trigger('click');
+                }
+            })
+        } else {
+            const templateObject = Template.instance();
+            const smsSettings = templateObject.defaultSMSSettings.get();
+            if (!smsSettings || !smsSettings.twilioAccountId) {
+                swal({
+                    title: 'No SMS Settings',
+                    text: "SMS settings are non-existed. Any SMS messages won't be sent to customer or user.",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Continue',
+                    cancelButtonText: 'Go to SMS Settings'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#chkSMSCustomer').prop('checked', false);
+                        $('#chkSMSUser').prop('checked', false);
+                        $('#btnStartAppointmentConfirm').trigger('click');
+                    } else if (result.dismiss === 'cancel') {
+                        window.open('/smssettings', '_self');
+                    } else {
+                        window.open('/smssettings', '_self');
+                    }
+                });
+            } else {
+                if (smsCustomer || smsUser) {
+                    const templateObject = Template.instance();
+                    $('#startAppointmentModal').modal('show');
+                    const accountName = $('#customer').val();
+                    const employeeName = $('#employee_name').val();
+                    const companyName = $('#employee_name').val();
+                    const productService = $('#product-list').val();
+                    const startAppointmentSMS = templateObject.defaultSMSSettings.get().startAppointmentSMSMessage.replace('[Customer Name]', accountName)
+                        .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService);
+                    $('#startAppointmentSMSMessage').val(startAppointmentSMS);
+                } else {
+                    $('#btnStartAppointmentConfirm').trigger('click');
+                }
+            }
+        }
+    },
+    'click #btnStopAppointment': function() {
+        const smsCustomer = $('#chkSMSCustomer').is(':checked');
+        const smsUser = $('#chkSMSUser').is(':checked');
+        const customerPhone = $('#mobile').val();
+        if (customerPhone === "" || customerPhone === "0") {
+            swal({
+                title: 'Invalid phone number',
+                text: "Invalid phone number. Any SMS message won't be sent.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Continue',
+                cancelButtonText: 'cancel'
+            }).then((result) => {
+                if (result.value) {
+                    $('#btnEndActualTime').trigger('click');
+                }
+            })
+        } else {
+            const templateObject = Template.instance();
+            const smsSettings = templateObject.defaultSMSSettings.get();
+            if (!smsSettings || !smsSettings.twilioAccountId) {
+                swal({
+                    title: 'No SMS Settings',
+                    text: "SMS settings are non-existed. Any SMS messages won't be sent to customer or user.",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Continue',
+                    cancelButtonText: 'Go to SMS Settings'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#chkSMSCustomer').prop('checked', false);
+                        $('#chkSMSUser').prop('checked', false);
+                        $('#btnStartAppointmentConfirm').trigger('click');
+                    } else if (result.dismiss === 'cancel') {
+                        window.open('/smssettings', '_self');
+                    } else {
+                        window.open('/smssettings', '_self');
+                    }
+                });
+            } else {
+                if (smsCustomer || smsUser) {
+                    const templateObject = Template.instance();
+                    $('#stopAppointmentModal').modal('show');
+                    const accountName = $('#customer').val();
+                    const employeeName = $('#employee_name').val();
+                    const companyName = $('#employee_name').val();
+                    const productService = $('#product-list').val();
+                    const stopAppointmentSMS = templateObject.defaultSMSSettings.get().stopAppointmentSMSMessage.replace('[Customer Name]', accountName)
+                        .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService);
+                    $('#stopAppointmentSMSMessage').val(stopAppointmentSMS);
+                } else {
+                    $('#btnEndActualTime').trigger('click');
+                }
+            }
+        }
+    },
+    'click #btnSaveAppointment': function() {
+        const smsCustomer = $('#chkSMSCustomer').is(':checked');
+        const smsUser = $('#chkSMSUser').is(':checked');
+        const customerPhone = $('#mobile').val();
+        if (customerPhone === "" || customerPhone === "0") {
+            swal({
+                title: 'Invalid phone number',
+                text: "Invalid phone number. Any SMS message won't be sent.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Continue',
+                cancelButtonText: 'cancel'
+            }).then((result) => {
+                if (result.value) {
+                    $('#btnSaveAppointmentSubmit').trigger('click');
+                }
+            })
+        } else {
+            const templateObject = Template.instance();
+            const smsSettings = templateObject.defaultSMSSettings.get();
+            if (!smsSettings || !smsSettings.twilioAccountId) {
+                swal({
+                    title: 'No SMS Settings',
+                    text: "SMS settings are non-existed. Any SMS messages won't be sent to customer or user.",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Continue',
+                    cancelButtonText: 'Go to SMS Settings'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#chkSMSCustomer').prop('checked', false);
+                        $('#chkSMSUser').prop('checked', false);
+                        $('#btnStartAppointmentConfirm').trigger('click');
+                    } else if (result.dismiss === 'cancel') {
+                        window.open('/smssettings', '_self');
+                    } else {
+                        window.open('/smssettings', '_self');
+                    }
+                });
+            } else {
+                if (smsCustomer || smsUser) {
+                    const templateObject = Template.instance();
+                    $('#saveAppointmentModal').modal('show');
+                    const accountName = $('#customer').val();
+                    const employeeName = $('#employee_name').val();
+                    const companyName = $('#employee_name').val();
+                    const fullAddress = $('#address').val() + ', ' + $('#suburb').val() + ', ' + $('#state').val() + ', ' + $('#country').val();
+                    const bookedTime = $('#tActualStartTime').val() + $('#tActualEndTime').val() ? ' - ' + $('#tActualEndTime').val() : '';
+                    const productService = $('#product-list').val();
+                    const saveAppointmentSMS = templateObject.defaultSMSSettings.get().saveAppointmentSMSMessage.replace('[Customer Name]', accountName)
+                        .replace('[Employee Name]', employeeName).replace('[Company Name]', companyName).replace('[Product/Service]', productService)
+                        .replace('[Full Address]', fullAddress).replace('[Booked Time]', bookedTime);
+                    $('#saveAppointmentSMSMessage').val(saveAppointmentSMS);
+                } else {
+                    $('#btnSaveAppointmentSubmit').trigger('click');
+                }
+            }
+        }
+    },
+    'click #btnCloseStopAppointmentModal': function() {
+        $('#stopAppointmentModal').modal('hide');
+    },
+    'click #btnCloseStartAppointmentModal': function() {
+        $('#startAppointmentModal').modal('hide');
+    },
+    'click #btnCloseSaveAppointmentModal': function() {
+        $('#saveAppointmentModal').modal('hide');
+    },
+    'click #btnSaveAppointmentSubmit': function() {
+        const templateObject = Template.instance();
+        const smsCustomer = $('#chkSMSCustomer').is(':checked');
+        const smsUser = $('#chkSMSUser').is(':checked');
+        const customerPhone = $('#mobile').val();
+        const smsSettings = templateObject.defaultSMSSettings.get();
+        if ((smsCustomer || smsUser) && customerPhone != "0" && smsSettings.twilioAccountId) templateObject.sendSMSMessage('stop', '+' + customerPhone);
+    },
+    'change #chkSMSCustomer': function() {
+        if ($('#chkSMSCustomer').is(':checked')) {
+            const templateObject = Template.instance();
+            templateObject.checkSMSSettings();
+        }
+    },
+    'change #chkSMSUser': function() {
+        if ($('#chkSMSUser').is(':checked')) {
+            const templateObject = Template.instance();
+            templateObject.checkSMSSettings();
         }
     },
     'click #btnEndActualTime': function () {
@@ -8504,6 +8831,15 @@ Template.appointments.events({
                             var endTime = new Date(date2 + ' ' + document.getElementById("tActualEndTime").value + ':00');
                             var startTime = new Date(date1 + ' ' + document.getElementById("tActualStartTime").value + ':00');
                             document.getElementById('txtActualHoursSpent').value = parseFloat(templateObject.diff_hours(endTime, startTime)).toFixed(2);
+
+                            //TODO: Stop Appointment SMS sent here
+                            const customerPhone = $('#mobile').val();
+                            const smsCustomer = $('#chkSMSCustomer').is(':checked');
+                            const smsUser = $('#chkSMSUser').is(':checked');
+                            const smsSettings = templateObject.defaultSMSSettings.get();
+                            if ((smsCustomer || smsUser) && customerPhone != "0" && smsSettings.twilioAccountId) templateObject.sendSMSMessage('stop', '+' + customerPhone);
+
+                            $('#btnCloseStopAppointmentModal').trigger('click');
                             $("#btnSaveAppointment").trigger("click");
                             let id = document.getElementById("updateID");
                         } else if (result.dismiss === 'cancel') {
@@ -9263,6 +9599,11 @@ Template.appointments.events({
         }
 
         let objectData = "";
+        
+        const customerPhone = $('#mobile').val();
+        const smsCustomer = $('#chkSMSCustomer').is(':checked');
+        const smsUser = $('#chkSMSUser').is(':checked');
+        const confirmStatus = ((smsCustomer || smsUser) && customerPhone) ? "Yes" : "No";
         if (id == '0') {
             objectData = {
                 type: "TAppointmentEx",
@@ -9283,7 +9624,8 @@ Template.appointments.events({
                     Notes: notes,
                     ProductDesc: selectedProduct,
                     Attachments: uploadedItems,
-                    Status: status
+                    Status: status,
+                    MsRef: confirmStatus
                 }
             };
         } else {
@@ -9308,7 +9650,8 @@ Template.appointments.events({
                     Notes: notes,
                     ProductDesc: selectedProduct,
                     Attachments: uploadedItems,
-                    Status: status
+                    Status: status,
+                    MsRef: confirmStatus
                 }
             };
         }

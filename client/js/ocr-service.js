@@ -8,7 +8,7 @@ export class OCRService {
   }
 
   getBaseUrl() {
-    return "http://api.veryfi.com/api/v7/partner/documents/";
+    return "https://api.veryfi.com/api/v7/partner/documents/";
   }
 
   getPostHeaders() {

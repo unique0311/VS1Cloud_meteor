@@ -217,10 +217,10 @@
                                 <button class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="true" type="button"><i class="fas fa-ellipsis-v"></i></button>
                                 <div class="dropdown-menu" role="menu">
                                     <h6 class="dropdown-header" role="presentation">Date ranges</h6>
-                                    <a class="dropdown-item lastMonth" id="lastMonth" role="presentation" href="#">Last Month</a>
-                                    <a class="dropdown-item lastQuarter" id="lastQuarter" role="presentation" href="#">Last Quarter</a>
-                                    <a class="dropdown-item last12Months" id="last12Months" role="presentation" href="#">Last 12 Months</a>
-                                    <a class="dropdown-item ignoreDate" id="ignoreDate" role="presentation" href="#">Ignore Date</a>
+                                    <a class="dropdown-item timeFilter" id="lastMonth" role="presentation" href="#">Last Month</a>
+                                    <a class="dropdown-item timeFilter" id="lastQuarter" role="presentation" href="#">Last Quarter</a>
+                                    <a class="dropdown-item timeFilter" id="last12Months" role="presentation" href="#">Last 12 Months</a>
+                                    <a class="dropdown-item timeFilter" id="ignoreDate" role="presentation" href="#">Ignore Date</a>
                                 </div>
                             </div>
                             <div class="form-group" style="margin: 8px; margin-top: 0px; display: inline-flex;">
@@ -345,7 +345,7 @@
                                 <div class="col-8">
                                     <div class="form-group">
                                         <label>Total Amount</label>
-                                        <input class="form-control form-control" type="text" id="edtTotal" name="edtTotal" value="{{editExpenseClaim.AmountInc}}">
+                                        <input class="form-control form-control" type="text" id="edtTotal" name="edtTotal" value="${{editExpenseClaim.AmountInc}}">
                                     </div>
                                 </div>
                                 <div class="col-4">
