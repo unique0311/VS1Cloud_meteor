@@ -8284,6 +8284,9 @@ Template.new_invoice.onRendered(() => {
         tempObj.getAllTaxCodes();
     });
     Template.new_invoice.helpers({
+        isBatchSerialNoTracking: () => {
+            return Session.get('CloudShowSerial') || false;
+        },
         vs1companyBankName: () => {
             return localStorage.getItem('vs1companyBankName') || '';
         },

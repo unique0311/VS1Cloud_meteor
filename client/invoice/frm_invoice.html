@@ -961,7 +961,7 @@
                                         <th class="th colTaxCode " style="width: 95px; text-align: left!important;">Tax Code</th>
                                         <th class="th colTaxAmount " style="width: 95px; text-align: left!important;">Tax Amt</th>
                                         <!-- <th class="th colAmount " style="width: 110px; text-align: left!important;">Amount</th> -->
-                                        {{#if isBatchSerialNoTracking}}
+                                        {{#if isBatchSerialNoTracking 'true'}}
                                             <th class="th colSerialNo" style="width: 10%;">Serial No</th>
                                             <th class="th colLotNo" style="width: 10%;">Lot No</th>
                                         {{/if}}
@@ -1004,7 +1004,7 @@
                                             <!-- <td contenteditable="false" class="lineTaxCode colTaxCode pointer td-input" style=" ">{{item.taxCode}}</td> -->
                                             <td contenteditable="false" class="colTaxCode"><input class="es-input highlightSelect lineTaxCode" type="search" value="{{item.taxCode}}"></td>
                                             <td contenteditable="false" class="lineTaxAmount colTaxAmount pointer" style="text-align: right!important;cursor: pointer;">{{item.TaxTotal}}</td>
-                                            {{#if isBatchSerialNoTracking}}
+                                            {{#if isBatchSerialNoTracking 'true'}}
                                                 <td class="th colSerialNo"><input class="es-input highlightSelect lineSerialNo" type="search" value=""></td>
                                                 <td class="th colLotNo"><input class="es-input highlightSelect lineLotNo" type="search" value=""></td>
                                             {{/if}}
