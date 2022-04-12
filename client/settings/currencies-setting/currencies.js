@@ -643,6 +643,10 @@ if(listData){
 
 
 Template.currenciesSettings.events({
+
+  'click .btnFxupdate' : function(event){
+    FlowRouter.go('/fxupdatesetting');
+   },
     'click #btnNewInvoice':function(event){
         // FlowRouter.go('/invoicecard');
     },
