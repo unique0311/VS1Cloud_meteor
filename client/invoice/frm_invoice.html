@@ -961,6 +961,10 @@
                                         <th class="th colTaxCode " style="width: 95px; text-align: left!important;">Tax Code</th>
                                         <th class="th colTaxAmount " style="width: 95px; text-align: left!important;">Tax Amt</th>
                                         <!-- <th class="th colAmount " style="width: 110px; text-align: left!important;">Amount</th> -->
+                                        <!-- {{#if isBatchBinEnabled}} -->
+                                            <th class="th colSerialNo" style="width: 10%;">Serial No</th>
+                                            <th class="th colLotNo" style="width: 10%;">Lot No</th>
+                                        <!-- {{/if}} -->
                                         <th class="th colAmount colAmountEx" style="width: 150px; text-align: left!important;">Amount (Ex) <i class="fas fa-random"></i></th>
                                         <th class="th colAmount colAmountInc hiddenColumn" style="width: 150px; text-align: left!important;">Amount (Inc) <i class="fas fa-random fa-trans"></i></th>
                                         <!-- <th class="th">Tax Price</th> -->
@@ -1000,6 +1004,10 @@
                                             <!-- <td contenteditable="false" class="lineTaxCode colTaxCode pointer td-input" style=" ">{{item.taxCode}}</td> -->
                                             <td contenteditable="false" class="colTaxCode"><input class="es-input highlightSelect lineTaxCode" type="search" value="{{item.taxCode}}"></td>
                                             <td contenteditable="false" class="lineTaxAmount colTaxAmount pointer" style="text-align: right!important;cursor: pointer;">{{item.TaxTotal}}</td>
+                                            <!-- {{#if isBatchBinEnabled}} -->
+                                                <td class="th colSerialNo"><input class="es-input highlightSelect lineSerialNo" type="search" value=""></td>
+                                                <td class="th colLotNo"><input class="es-input highlightSelect lineLotNo" type="search" value=""></td>
+                                            <!-- {{/if}} -->
                                             <td contenteditable="false" class="lineAmt colAmountEx colAmount" style="text-align: right!important;">{{item.TotalAmt}}</td>
                                             <td contenteditable="false" class="lineAmt colAmountInc colAmount hiddenColumn" style="text-align: right!important;">{{item.TotalAmtInc}}</td>
 
@@ -1618,6 +1626,14 @@
 
         <div class="modal fade" role="dialog" tabindex="-1" id="newCustomFieldPop">
             {{> customfieldformpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="serialNumberModal">
+            {{> serialnumberpop}}
+        </div>
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="lotNumberModal">
+            {{> lotnumberpop}}
         </div>
         <div class="modal fade" role="dialog" tabindex="-1" id="customFieldList">
             <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document" style="max-width: 90vw;">
