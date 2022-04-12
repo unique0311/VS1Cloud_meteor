@@ -10044,12 +10044,16 @@ Template.new_invoice.onRendered(() => {
             var offset = $earch.offset();
             if (event.pageX > offset.left + $earch.width() - 10) {
                 $('#serialNumberModal').modal('toggle');
+            } else {
+                $('#serialNumberModal').modal('toggle');
             }
         },
         'click .lineLotNo, keydown .lineLotNo': function(event) {
             var $earch = $(event.currentTarget);
             var offset = $earch.offset();
             if (event.pageX > offset.left + $earch.width() - 10) {
+                $('#lotNumberModal').modal('toggle');
+            } else {
                 $('#lotNumberModal').modal('toggle');
             }
         },
