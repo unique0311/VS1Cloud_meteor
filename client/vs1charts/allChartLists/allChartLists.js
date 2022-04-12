@@ -431,8 +431,10 @@ Template.allChartLists.onRendered(function(){
           // for (var i = 0; i < sortableWidgets.length; i++) {
           //   sortableWidgets[i].parentNode.appendChild(sortableWidgets[i]);
           // }
-    
-         
+          
+            /// after everything will add the nessecary css to let the chart adjust in the 
+            $(".chart-area").addClass('responsive-chart');
+                
         }
     };
     templateObject.deactivateDraggable = () => {
@@ -445,6 +447,8 @@ Template.allChartLists.onRendered(function(){
     };    
     templateObject.checkChartToDisplay(); // we run this so we load the correct charts to diplay
     templateObject.activateDraggable(); // this will enable charts resiable features
+
+   
 
 });
 
