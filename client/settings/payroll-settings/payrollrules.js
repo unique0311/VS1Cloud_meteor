@@ -4840,7 +4840,7 @@ Template.payrollrules.onRendered(function() {
                           data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || 0,
                           'Ordinary Time Earning',
                           data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || 0,
-                          $100,
+                          '100',
                           data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
                        
                          '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
@@ -4949,7 +4949,7 @@ Template.payrollrules.onRendered(function() {
                                                 data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || 0,
                                                 'Ordinary Time Earning',
                                                 data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || 0,
-                                                $100,
+                                                '100',
                                                 data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
                                              
                                                '<td contenteditable="false" class="colDeleteEarnings"><span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fa fa-remove"></i></button></span>'
@@ -5045,7 +5045,7 @@ Template.payrollrules.onRendered(function() {
                     data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || 0,
                     'Ordinary Time Earning',
                     data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || 0,
-                    $100,
+                    '100',
                     data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
                     data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
                     data.Tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || 0,
@@ -5157,7 +5157,7 @@ Template.payrollrules.onRendered(function() {
                                             data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || '',
                                             'Ordinary Time Earning',
                                             data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || '',
-                                            $100,
+                                            '100',
                                             data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
                                             data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
                                             data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
@@ -5256,7 +5256,7 @@ Template.payrollrules.onRendered(function() {
                         data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || '',
                         'Ordinary Time Earning',
                         data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || '',
-                        $100,
+                        '100',
                         data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
                         data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
                         data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
@@ -5371,7 +5371,7 @@ Template.payrollrules.onRendered(function() {
                                                     data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsName || '',
                                                     'Ordinary Time Earning',
                                                     data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsDisplayName || '',
-                                                    $100,
+                                                    '100',
                                                     data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
                                                     data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExemptPaygWithholding || '',
                                                     data.tordinarytimeearnings[i].fields.OrdinaryTimeEarningsExpenseAccount || '',
