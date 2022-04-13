@@ -6,11 +6,14 @@ export default class resizableCharts {
         minHeight:200,
         minWidth:250,
         // aspectRatio: 1.5 / 1
-        handles: "e",
+        handles: "e,s",
         resize: function( event, ui ) {
-          $(ui.element[0]).css('height', "");
-         // console.log(event.currentTarget);
-          //console.log(ui.element[0]);
+          let chartHeight = ui.size.height - 150;
+          let chartWidth = ui.size.width - 20;          
+          $(ui.element[0]).find('canvas').css('width',  chartWidth);
+          $(ui.element[0]).find('canvas').css('height', chartHeight );
+        //  console.log(event.currentTarget);
+        //   console.log(ui.element[0]);
         }
       });
       

@@ -260,7 +260,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                 },
                   options: {
 
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     responsive: true,
                     tooltips: {
                     callbacks: {
@@ -493,7 +493,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
           },
           options: {
 
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             responsive: true,
           tooltips: {
           callbacks: {
@@ -709,7 +709,7 @@ Template.quotedsalesorderinvoicedamounts.onRendered(()=>{
                 },
                 options: {
 
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     responsive: true,
                     tooltips: {
                     callbacks: {
