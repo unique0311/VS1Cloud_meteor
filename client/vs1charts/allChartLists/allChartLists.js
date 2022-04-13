@@ -416,6 +416,11 @@ Template.allChartLists.onRendered(function(){
                 buildPositions();
               }
             }
+          } else {
+            // This made to fix the charts display if char
+            //$(".sortable-chart-widget-js").removeClass('col-md-6');
+            //$(".sortable-chart-widget-js ").css('width', "50%");
+            $(".sortable-chart-widget-js canvas").css('height', "320px"); // default height
           }
           // let sortableWidgets = $('.sortable-chart-widget-js');
           // // and now we need to sort

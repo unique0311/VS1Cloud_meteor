@@ -10,7 +10,9 @@ export default class resizableCharts {
         resize: function( event, ui ) {
           let chartHeight = ui.size.height - 150;
           let chartWidth = ui.size.width - 20; 
-          // This is the issue for expenses breakdown only      
+        
+      
+          $(ui.element[0]).parents('.sortable-chart-widget-js').removeClass('col-md-6'); // when you'll star resizing, it will remove its size
           $(ui.element[0]).find('canvas').css('width',  chartWidth);
           $(ui.element[0]).find('canvas').css('height', chartHeight );
           
