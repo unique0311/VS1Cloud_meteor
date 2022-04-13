@@ -338,6 +338,12 @@ Template.allChartLists.onRendered(function(){
                   }
     
                    // This is the ChartHeight saved in the preferences
+                  if (tvs1chart.fields.ChartHeight) {
+                    $(`[key='${itemName}'] .ui-resizable`).css(
+                      "height",
+                      tvs1chart.fields.ChartHeight
+                    );
+                  }
                   
                   $(`[key='${itemName}']`).attr(
                     "pref-id",
