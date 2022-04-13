@@ -278,35 +278,30 @@ Template.allChartLists.onRendered(function(){
           });
         }
         
-        // fetch from local
-        let dashboardPreferencesEndpointJsonResponse = await JSON.parse(localStorage.getItem(_chartGroup));
-        console.log('local', dashboardPreferencesEndpointJsonResponse)
-        if( isNaN(dashboardPreferencesEndpointJsonResponse ) ){
-            // Now get user preferences
-            const dashboardPreferencesEndpoint = dashboardApis.collection.findByName(
-              dashboardApis.collectionNames.Tvs1dashboardpreferences
-            );
-        
-            dashboardPreferencesEndpoint.url.searchParams.append(
-              "ListType",
-              "'Detail'"
-            );
-            dashboardPreferencesEndpoint.url.searchParams.append(
-              "select",
-              `[employeeID]=${employeeId}`
-            );
-            dashboardPreferencesEndpoint.url.searchParams.append(
-              "select",
-              `[TabGroup]=${_tabGroup}`
-            );
-        
-            const dashboardPreferencesEndpointResponse =
-              await dashboardPreferencesEndpoint.fetch(); // here i should get from database all charts to be displayed
-      
-            if (dashboardPreferencesEndpointResponse.ok == true) {
-               dashboardPreferencesEndpointJsonResponse =
-                await dashboardPreferencesEndpointResponse.json();
-            }
+        // Now get user preferences
+        const dashboardPreferencesEndpoint = dashboardApis.collection.findByName(
+          dashboardApis.collectionNames.Tvs1dashboardpreferences
+        );
+    
+        dashboardPreferencesEndpoint.url.searchParams.append(
+          "ListType",
+          "'Detail'"
+        );
+        dashboardPreferencesEndpoint.url.searchParams.append(
+          "select",
+          `[employeeID]=${employeeId}`
+        );
+        dashboardPreferencesEndpoint.url.searchParams.append(
+          "select",
+          `[TabGroup]=${_tabGroup}`
+        );
+    
+        const dashboardPreferencesEndpointResponse =
+          await dashboardPreferencesEndpoint.fetch(); // here i should get from database all charts to be displayed
+  
+        if (dashboardPreferencesEndpointResponse.ok == true) {
+            dashboardPreferencesEndpointJsonResponse =
+            await dashboardPreferencesEndpointResponse.json();
         }
         let tvs1ChartDashboardPreference = Tvs1ChartDashboardPreference.fromList(
           dashboardPreferencesEndpointJsonResponse.tvs1dashboardpreferences
@@ -320,7 +315,7 @@ Template.allChartLists.onRendered(function(){
     
           if (tvs1ChartDashboardPreference.length > 0) {
             // if charts to be displayed are specified
-            $(".chart-visibility").removeClass('col-md-6');
+            $(".sortable-chart-widget-js").removeClass('col-md-6');
             tvs1ChartDashboardPreference.forEach((tvs1chart, index) => {
               // setTimeout(() => {
                 // this is good to see how the charts are apearing or not
@@ -343,12 +338,7 @@ Template.allChartLists.onRendered(function(){
                   }
     
                    // This is the ChartHeight saved in the preferences
-                  if (tvs1chart.fields.ChartHeight) {
-                    $(`[key='${itemName}'] .ui-resizable`).css(
-                      "height",
-                      tvs1chart.fields.ChartHeight
-                    );
-                  }
+                  
                   $(`[key='${itemName}']`).attr(
                     "pref-id",
                     tvs1chart.fields.ID
