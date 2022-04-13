@@ -13,8 +13,11 @@ export class OCRService {
 
   getPostHeaders() {
     var postHeaders = {
-      CLIENT_ID: "vrfT3ah0JbLfw2ZsJ2WPID5VFHdete2GeurWkm4",
-      AUTHORIZATION: "apikey goldsnake2100:a89194f57da098a992d673b1661f270d",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "CLIENT-ID": "vrfT3ah0JbLfw2ZsJ2WPID5VFHdete2GeurWkm4",
+      "AUTHORIZATION": "apikey goldsnake2100:a89194f57da098a992d673b1661f270d",
+      "Access-Control-Allow-Origin": "*"
     };
 
     return postHeaders;
@@ -26,26 +29,26 @@ export class OCRService {
         "You have lost internet connection, please log out and log back in.";
       return getResponse;
     } else {
-      if (response.statusCode === 201) {
         try {
           var content = JSON.parse(response.content);
           console.log("API Request done");
 
           return content;
-        } catch (e) { }
-      } else {
-        return response.headers.errormessage;
-      }
+        } catch (e) { console.log('err', e) }
     }
   }
 
-  POST(data) {
+  POST(imageData, fileName) {
     let that = this;
     let promise = new Promise(function (resolve, reject) {
       $.ajax({
         url: that.getBaseUrl(),
         type: 'post',
-        data: data,
+        data: JSON.stringify({
+          'file_data': imageData,
+          'file_name': fileName,
+          'boost_mode': 1
+        }),
         headers: that.getPostHeaders(),
         dataType: 'json',
         success: function (data) {
