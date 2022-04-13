@@ -9,9 +9,11 @@ export default class resizableCharts {
         handles: "e,s",
         resize: function( event, ui ) {
           let chartHeight = ui.size.height - 150;
-          let chartWidth = ui.size.width - 20;          
+          let chartWidth = ui.size.width - 20; 
+          // This is the issue for expenses breakdown only        
           $(ui.element[0]).find('canvas').css('width',  chartWidth);
           $(ui.element[0]).find('canvas').css('height', chartHeight );
+          
         //  console.log(event.currentTarget);
         //   console.log(ui.element[0]);
         }
