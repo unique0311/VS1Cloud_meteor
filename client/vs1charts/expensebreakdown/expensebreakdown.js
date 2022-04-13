@@ -31,6 +31,7 @@ Template.expensebreakdown.onRendered(function() {
   templateObject.displayExpenseChart = async (e) => {
     var myChart = new Chart(ctx, {
       type: "pie",
+      
       data: {
         labels: ["Credit", "Bill", "Purchase Order"],
         datasets: [
@@ -53,8 +54,8 @@ Template.expensebreakdown.onRendered(function() {
         ],
       },
       options: {
-        maintainAspectRatio: false,
-        responsive: false,
+        maintainAspectRatio: true,
+        responsive: true,
         legend: {
           display: true,
           position: "right",
