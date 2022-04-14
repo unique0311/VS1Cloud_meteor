@@ -1,3 +1,5 @@
+import ChartHandler from "./ChartHandler";
+
 export default class draggableCharts {
   static disable(timeOut = 200) {
     setTimeout(() => {
@@ -6,7 +8,6 @@ export default class draggableCharts {
           disabled: true,
           connectWith: ".connectedSortable",
           placeholder: "portlet-placeholder ui-corner-all",
-          stop: function (event, ui) {},
         })
         .disableSelection();
     }, timeOut);
@@ -19,7 +20,12 @@ export default class draggableCharts {
           disabled: false,
           connectWith: ".connectedSortable",
           placeholder: "portlet-placeholder ui-corner-all",
-          stop: function (event, ui) {},
+          stop: async (event, ui) => {
+            console.log($(ui.item[0]));
+            console.log('Dropped the sortable chart');
+            ChartHandler.buildPositions();
+            await ChartHandler.saveCharts();
+          },
         })
         .disableSelection();
       $(".portlet")

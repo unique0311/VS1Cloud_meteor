@@ -77,7 +77,7 @@ Template.employeescard.onRendered(function () {
     let taxCodes = [];
     let employeePriority = [];
     let currentId = FlowRouter.current().queryParams;
-    let employeeID = '';
+    let employeeID = ( !isNaN(currentId.id) )? currentId.id : 0;
 
     const dataTableList = [];
     const tableHeaderList = [];
@@ -2744,92 +2744,77 @@ Template.employeescard.onRendered(function () {
         }, 1000);
     }
 
-    templateObject.getEmployeePaySettings = function () {
-        let employeePayrollService = new EmployeePayrollService();
-        getVS1Data('TEmployeepaysettings').then(function (dataObject) {
-            if (dataObject.length == 0) {
-
-            } else {
-                let employeeEmail = dataObject[0].EmployeeEmail;
-                let timestamp = dataObject[0].timestamp;
+    templateObject.getEmployeePaySettings = async () => {
+        try { 
+            let dataObject = await getVS1Data('TEmployeepaysettings');
+            if (dataObject.length) {
                 let data = JSON.parse(dataObject[0].data);
-
-
                 let useData = data.temployeepaysettings;
-                let lineItems = [];
-                let lineItemObj = {};
-                for (let i = 0; i < data.temployeepaysettings.length; i++) {
-                    if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
-
-                        $('.fullScreenSpin').css('display', 'none');
-                        let lineItems = [];
-
+                for (let i = 0; i < useData.length; i++) {
+                    if (parseInt(useData[i].fields.Employeeid) === parseInt(employeeID)) {
                         let payInfo = {
                             index: i,
-                            ID: data.temployeepaysettings[i].fields.ID,
-                            EmployeeID: data.temployeepaysettings[i].fields.Employeeid,
-                            EmployeeName: data.temployeepaysettings[i].fields.Employee.fields.EmployeeName,
-                            AnnSalary: data.temployeepaysettings[i].fields.Employee.fields.Wages * 12,
-                            TFN: data.temployeepaysettings[i].fields.Employee.fields.TFN,
-                            Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
-                            TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold ? data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold : false,
+                            ID: useData[i].fields.ID,
+                            EmployeeID: useData[i].fields.Employeeid,
+                            EmployeeName: useData[i].fields.Employee.fields.EmployeeName,
+                            AnnSalary: useData[i].fields.Employee.fields.Wages * 12,
+                            TFN: useData[i].fields.Employee.fields.TFN,
+                            Country: useData[i].fields.Employee.fields.Country,
+                            TaxFreeThreshold: useData[i].fields.Employee.fields.TaxFreeThreshold ? useData[i].fields.Employee.fields.TaxFreeThreshold : false,
 
-                            TFNExemption: data.temployeepaysettings[i].fields.Employee.fields.TFNExemption ? data.temployeepaysettings[i].fields.Employee.fields.TFNExemption : "TFN Exempt - Pensioner",
-                            EmploymentBasis: data.temployeepaysettings[i].fields.Employee.fields.EmploymentBasis ? data.temployeepaysettings[i].fields.Employee.fields.EmploymentBasis : "",
-                            ResidencyStatus: data.temployeepaysettings[i].fields.Employee.fields.ResidencyStatus ? data.temployeepaysettings[i].fields.Employee.fields.ResidencyStatus : "",
-                            StudyTrainingSupportLoan: data.temployeepaysettings[i].fields.Employee.fields.StudyTrainingSupportLoan ? data.temployeepaysettings[i].fields.Employee.fields.StudyTrainingSupportLoan : false,
-                            EligibleToReceiveLeaveLoading: data.temployeepaysettings[i].fields.Employee.fields.EligibleToReceiveLeaveLoading ? data.temployeepaysettings[i].fields.Employee.fields.EligibleToReceiveLeaveLoading : false,
-                            OtherTaxOffsetClaimed: data.temployeepaysettings[i].fields.Employee.fields.OtherTaxOffsetClaimed ? data.temployeepaysettings[i].fields.Employee.fields.OtherTaxOffsetClaimed : false,
-                            UpwardvariationRequested: data.temployeepaysettings[i].fields.Employee.fields.UpwardvariationRequested ? data.temployeepaysettings[i].fields.Employee.fields.UpwardvariationRequested : false,
-                            SeniorandPensionersTaxOffsetClaimed: data.temployeepaysettings[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed ? data.temployeepaysettings[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed : false,
-                            HasApprovedWithholdingVariation: data.temployeepaysettings[i].fields.Employee.fields.HasApprovedWithholdingVariation ? data.temployeepaysettings[i].fields.Employee.fields.HasApprovedWithholdingVariation : false,
+                            TFNExemption: useData[i].fields.Employee.fields.TFNExemption ? useData[i].fields.Employee.fields.TFNExemption : "TFN Exempt - Pensioner",
+                            EmploymentBasis: useData[i].fields.Employee.fields.EmploymentBasis ? useData[i].fields.Employee.fields.EmploymentBasis : "",
+                            ResidencyStatus: useData[i].fields.Employee.fields.ResidencyStatus ? useData[i].fields.Employee.fields.ResidencyStatus : "",
+                            StudyTrainingSupportLoan: useData[i].fields.Employee.fields.StudyTrainingSupportLoan ? useData[i].fields.Employee.fields.StudyTrainingSupportLoan : false,
+                            EligibleToReceiveLeaveLoading: useData[i].fields.Employee.fields.EligibleToReceiveLeaveLoading ? useData[i].fields.Employee.fields.EligibleToReceiveLeaveLoading : false,
+                            OtherTaxOffsetClaimed: useData[i].fields.Employee.fields.OtherTaxOffsetClaimed ? useData[i].fields.Employee.fields.OtherTaxOffsetClaimed : false,
+                            UpwardvariationRequested: useData[i].fields.Employee.fields.UpwardvariationRequested ? useData[i].fields.Employee.fields.UpwardvariationRequested : false,
+                            SeniorandPensionersTaxOffsetClaimed: useData[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed ? useData[i].fields.Employee.fields.SeniorandPensionersTaxOffsetClaimed : false,
+                            HasApprovedWithholdingVariation: useData[i].fields.Employee.fields.HasApprovedWithholdingVariation ? useData[i].fields.Employee.fields.HasApprovedWithholdingVariation : false,
 
                             dataObject: dataObject
                         };
                         templateObject.employeePayInfos.set(payInfo);
-
-                        break;
+                        console.log('TEmployeepaysettings', payInfo)
+                        break;                    
                     }
                 }
-
             }
-        }).catch(function (err) {
-            employeePayrollService.getAllEmployeePaySettings('All',0).then(function (data) {
-                for (let i = 0; i < data.temployeepaysettings.length; i++) {
-                    if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
+        } catch(err) {  
+            let employeePayrollService = new EmployeePayrollService();
+            let data = await employeePayrollService.getAllEmployeePaySettings('All',0)
+            for (let i = 0; i < data.temployeepaysettings.length; i++) {
+                if (parseInt(data.temployeepaysettings[i].fields.Employeeid) === parseInt(employeeID)) {
 
-                        $('.fullScreenSpin').css('display', 'none');
-                        let lineItems = [];
+                    $('.fullScreenSpin').css('display', 'none');
+                    let lineItems = [];
 
-                        let payInfo = {
-                            ID: data.temployeepaysettings[i].fields.ID,
-                            EmployeeID: data.temployeepaysettings[i].fields.Employeeid,
-                            EmployeeName: data.temployeepaysettings[i].fields.Employee.fields.EmployeeName,
-                            AnnSalary: data.temployeepaysettings[i].fields.Employee.fields.Wages * 12,
-                            TFN: data.temployeepaysettings[i].fields.Employee.fields.TFN,
-                            Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
-                            TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold,
-                        };
-                        templateObject.employeePayInfos.set(payInfo);
-                    }
+                    let payInfo = {
+                        ID: data.temployeepaysettings[i].fields.ID,
+                        EmployeeID: data.temployeepaysettings[i].fields.Employeeid,
+                        EmployeeName: data.temployeepaysettings[i].fields.Employee.fields.EmployeeName,
+                        AnnSalary: data.temployeepaysettings[i].fields.Employee.fields.Wages * 12,
+                        TFN: data.temployeepaysettings[i].fields.Employee.fields.TFN,
+                        Country: data.temployeepaysettings[i].fields.Employee.fields.Country,
+                        TaxFreeThreshold: data.temployeepaysettings[i].fields.Employee.fields.TaxFreeThreshold,
+                    };
+                    templateObject.employeePayInfos.set(payInfo);
                 }
-            }).catch(function (err) {
-
-            });
-        });
-
+            }
+        }
     }
     templateObject.getEmployeePaySettings();
 
-    templateObject.getTLeaveTypes = function () {
-        let employeePayrollService = new EmployeePayrollService();
-        getVS1Data('TLeavetypes').then(function(dataObj) {
-
-        }).catch(function (err) {
-            employeePayrollService.getAllTLeaveTypes('All', 0).then(function(data) {
-
-            })
-        });
+    templateObject.getTLeaveTypes = async () => {
+        try{
+            let dataObj = await getVS1Data('TLeavetypes');
+            console.log('TLeavetypes', dataObj )
+        } catch(err) {  
+            console.log( 'roor', err.message )
+            let employeePayrollService = new EmployeePayrollService();
+            let data = await employeePayrollService.getAllTLeaveTypes('All', 0)
+            console.log('getAllTLeaveTypes', data )
+        }        
     }
 
     templateObject.getTLeaveTypes();
@@ -2838,8 +2823,6 @@ Template.employeescard.onRendered(function () {
         let employeePayrollService = new EmployeePayrollService();
         let EmployeeID = FlowRouter.current().queryParams;
         getVS1Data('TBankAccounts').then(function(dataObj) {
-
-
             let newData = {
                 primary: null,
                 first: null,
@@ -2849,7 +2832,7 @@ Template.employeescard.onRendered(function () {
 
             if(dataObj.length > 0) {
                 let data = JSON.parse(dataObj[0].data);
-
+                console.log( 'TBankAccounts', data )
                 let index = 1;
                 for(let i = 0; i < data.length; i ++) {
                     if(data[i].fields.EmployeeID == EmployeeID) {
@@ -2867,7 +2850,7 @@ Template.employeescard.onRendered(function () {
                     }
                 }
             }
-
+            
             templateObject.bankAccList.set(newData);
 
         }).catch(function (err) {
@@ -3712,6 +3695,7 @@ Template.employeescard.events({
         });
 
     },
+    // Save active tab data
     'click #btnSaveEmployeePayroll': async function(event) {
         let activeTab = "";
         if($('div#taxes').attr("class").indexOf("active") >= 0) activeTab = "taxes";
@@ -3938,7 +3922,7 @@ Template.employeescard.events({
                 data.push({
                     type: "TBankAccounts",
                     fields: {
-                        ID: secondID ? thirdID : null,
+                        ID: thirdID ? thirdID : null,
                         EmployeeID: EmployeeID.id,
                         IsPrimary: false,
                         StatementText: thirdStatementText,
@@ -3948,6 +3932,8 @@ Template.employeescard.events({
                     }
                 });
             }
+
+            console.log( 'saving bankaccount', data )
 
             $('.fullScreenSpin').css('display', 'inline-block');
 

@@ -112,7 +112,7 @@ export class TaxRateService extends BaseService {
         let options = {
             select: "[PayrollCalendarName]='" + calendarname + "'"
         };
-        return this.getList(this.ERPObjects.TAllowance, options);
+        return this.getList(this.ERPObjects.TPayrollCalendars, options);
     }
 
     checkSuperannuationName(Superannuation)
@@ -132,9 +132,23 @@ export class TaxRateService extends BaseService {
 
     }
 
+    checktpayorgainzation(orgainzation)
+    {
+        let options = {
+            select: "[PayrollBankAccount]='" + orgainzation + "'"
+        };
+        return this.getList(this.ERPObjects.TPayrollOrganization, options);
+    }
+
+    savePayOrganization(data)
+    {    
+        return this.POST(this.ERPObjects.TPayrollOrganization, data);
+
+    }
+
     checkPaidLeaveByName(leavename) {
         let options = {
-            select: "[PayItemsLeavePaidName]='" + leavename + "'"
+            select: "[LeavePaidName]='" + leavename + "'"
         };
         return this.getList(this.ERPObjects.TPaidLeave, options);
 
@@ -142,15 +156,24 @@ export class TaxRateService extends BaseService {
     }
     checkunPaidLeaveByName(leavename) {
         let options = {
-            select: "[PayItemsLeaveUnpaidName]='" + leavename + "'"
+            select: "[LeaveUnPaidName]='" + leavename + "'"
         };
         return this.getList(this.ERPObjects.TUnpaidLeave, options);
+    }
+
+    checkRateTypeByName(description)
+    { 
+        let options = {
+        select: "[Description]='" + description + "'"
+       };
+       return this.getList(this.ERPObjects.TPayRateType, options);
+
     }
 
 
     checkordinaryEarningByName(earningName) {
         let options = {
-            select: "[PayItemsEarningsOrdinaryTimeEarningsName]='" + earningName + "'"
+            select: "[OrdinaryTimeEarningsName]='" + earningName + "'"
         };
         return this.getList(this.ERPObjects.TOrdinaryTimeEarnings, options);
 
@@ -214,6 +237,10 @@ export class TaxRateService extends BaseService {
 
     saveDepartment(data) {
         return this.POST(this.ERPObjects.TDeptClass, data);
+    }
+
+    saveRateType(data){
+        return this.POST(this.ERPObjects.TPayRateType, data);
     }
 
     savePaidLeave(data){
@@ -368,9 +395,12 @@ export class TaxRateService extends BaseService {
         return this.POST(this.ERPObjects.TOrdinaryTimeEarnings, data);
     }
 
+    saveHoliday(data){
+        return this.POST(this.ERPObjects.TPayrollHolidays, data);
+    }
     saveExemptReportableOvertime(data)
     {
-        return this.POST(this.ERPObjects.TOvertimeEarnigns, data);
+        return this.POST(this.ERPObjects.TOverTimeEarnings, data);
     }
     saveSuperannuationBonusesCommissions(data)
     {
@@ -382,7 +412,7 @@ export class TaxRateService extends BaseService {
     }
     saveExemptReportableTermnination(data)
     {
-        return this.POST(this.ERPObjects.TEmployeeTerminations, data);
+        return this.POST(this.ERPObjects.TTerminationSimple, data);
     }
     saveDirectorFee(data)
     {
@@ -408,14 +438,14 @@ export class TaxRateService extends BaseService {
     checkExemptReportableOvertime(earningname)
     {
         let options = {
-            select: "[PayItemsEarningsOvertimeEarningsName]='" + earningname + "'"
+            select: "[OverTimeEarningsName]='" + earningname + "'"
         };
-        return this.getList(this.ERPObjects.TOvertimeEarnigns, options);
+        return this.getList(this.ERPObjects.TOverTimeEarnings, options);
     }
     checkSuperannuationBonusesCommissions(earningname)
     {
         let options = {
-            select: "[EarningsBonusesCommissionsName]='" + earningname + "'"
+            select: "[EarningBonusesCommisionsName]='" + earningname + "'"
         };
         return this.getList(this.ERPObjects.TEarningsBonusesCommissions , options);
     }
@@ -431,7 +461,7 @@ export class TaxRateService extends BaseService {
         let options = {
             select: "[EmployeeTerminationPaymentsName]='" + earningname + "'"
         };
-        return this.getList(this.ERPObjects.TEmployeeTerminations, options);
+        return this.getList(this.ERPObjects.TTerminationSimple, options);
     }
     checkDirectorFee(earningname)
     {
@@ -439,6 +469,15 @@ export class TaxRateService extends BaseService {
             select: "[DirectorsFeesName]='" + earningname + "'"
         };
         return this.getList(this.ERPObjects.TDirectorsFees, options);
+    }
+
+    checkHolidaybyName(holidayname)
+    {
+        
+        let options = {
+            select: "[PayrollHolidaysName]='" + holidayname + "'"
+        };
+        return this.getList(this.ERPObjects.TPayrollHolidays, options);
     }
     checkLumpSumW(earningname)
     {
