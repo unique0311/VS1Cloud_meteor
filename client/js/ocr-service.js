@@ -7,54 +7,17 @@ export class OCRService {
 
   }
 
-  getBaseUrl() {
-    return "https://api.veryfi.com/api/v7/partner/documents/";
-  }
-
-  getPostHeaders() {
-    var postHeaders = {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "CLIENT-ID": "vrfT3ah0JbLfw2ZsJ2WPID5VFHdete2GeurWkm4",
-      "AUTHORIZATION": "apikey goldsnake2100:a89194f57da098a992d673b1661f270d",
-      "Access-Control-Allow-Origin": "*"
-    };
-
-    return postHeaders;
-  }
-
-  responseHandler(response) {
-    if (response === undefined) {
-      let getResponse =
-        "You have lost internet connection, please log out and log back in.";
-      return getResponse;
-    } else {
-        try {
-          console.log("API Request done");
-          return response;
-        } catch (e) { console.log('err', e) }
-    }
-  }
-
   POST(imageData, fileName) {
-    let that = this;
     let promise = new Promise(function (resolve, reject) {
-      $.ajax({
-        url: that.getBaseUrl(),
-        type: 'post',
-        data: JSON.stringify({
-          'file_data': imageData,
-          'file_name': fileName,
-          'boost_mode': 1
-        }),
-        headers: that.getPostHeaders(),
-        dataType: 'json',
-        success: function (data) {
-          let response = that.responseHandler(data);
-          resolve(response);
-        },
-        error: function (data){
-          reject(data);        
+      Meteor.call("getOcrResultFromVerifi", imageData, fileName, function(error, results) {
+        if (error) {
+          reject(error);
+        } else {
+          if (results.statusCode == 201) {
+            resolve(JSON.parse(results.content));
+          } else {
+            reject(results);
+          }          
         }
       });
     });

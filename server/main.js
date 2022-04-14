@@ -94,9 +94,41 @@ yodlee.getAccessToken({
 
   });
 
+  callVerifiApi = function (imageData, fileName, cb) {
+    let apiUrl = "https://api.veryfi.com/api/v7/partner/documents/";
+    let postHeaders = {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "CLIENT-ID": "vrfT3ah0JbLfw2ZsJ2WPID5VFHdete2GeurWkm4",
+      "AUTHORIZATION": "apikey goldsnake2100:a89194f57da098a992d673b1661f270d",
+      // "Access-Control-Allow-Origin": "*"
+    };
+    let postData = {
+      'file_data': imageData,
+      'file_name': fileName,
+      'boost_mode': 1
+    };
 
+    Meteor.http.call("POST", apiUrl, {
+      data: postData,
+      headers: postHeaders,
+    }, (error, result) => {
+      if (error) {
+        cb(error, null);
+      } else {
+        console.log('result', result);
+        cb(null, result);
+      }
+    });
+  },
 
   Meteor.methods({
+    'getOcrResultFromVerifi': function(imageData, fileName) {
+      
+      this.unblock();
+      var result = Meteor.wrapAsync(callVerifiApi)(imageData, fileName);
+      return result;
+    },
     'magentoAWSProfileRenewal': function() {
       return mageClient.get('/V1/awSarp2/profile/search?', $jsonProfile)
           .then(function(option) {
