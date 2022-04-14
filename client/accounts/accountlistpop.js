@@ -33,6 +33,7 @@ Template.accountlistpop.onCreated(() => {
     templateObject.creditrecord = new ReactiveVar({});
     templateObject.taxrateobj = new ReactiveVar();
     templateObject.Accounts = new ReactiveVar([]);
+
     templateObject.CreditId = new ReactiveVar();
     templateObject.selectedCurrency = new ReactiveVar([]);
     templateObject.inputSelectedCurrency = new ReactiveVar([]);
@@ -59,8 +60,8 @@ Template.accountlistpop.onRendered(function() {
     let utilityService = new UtilityService();
     let accountService = new AccountService();
     let tableProductList;
-    var splashArrayAccountList = [];
-    var splashArrayTaxRateList = [];
+    var splashArrayAccountList = new Array();
+    var splashArrayTaxRateList = new Array();
     const taxCodesList = [];
     var currentLoc = FlowRouter.current().route.path;
     let accBalance = 0;
@@ -107,7 +108,7 @@ Template.accountlistpop.onRendered(function() {
                         ){
                       	splashArrayAccountList.push(dataList);
                         }
-                      }else if (currentLoc === "/bankrecon"){
+                      }else if (currentLoc === "/bankrecon" || currentLoc === "/newbankrecon"){
                         if((data.taccountvs1[i].fields.AccountTypeName === "BANK")||(data.taccountvs1[i].fields.AccountTypeName === "CCARD")){
                       	splashArrayAccountList.push(dataList);
                         }
@@ -956,6 +957,7 @@ Template.accountlistpop.events({
         var url = FlowRouter.current().path;
         var getso_id = url.split('?id=');
         var currentInvoice = getso_id[getso_id.length - 1];
+        var objDetails = '';
         if (getso_id[1]) {
             currentInvoice = parseInt(currentInvoice);
             var objDetails = {

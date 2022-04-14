@@ -417,7 +417,7 @@ Template.monthlyprofitandloss.onRendered(() => {
               ],
             },
             options: {
-              maintainAspectRatio: true,
+              maintainAspectRatio: false,
               responsive: true,
               tooltips: {
                 callbacks: {
@@ -743,7 +743,7 @@ Template.monthlyprofitandloss.onRendered(() => {
         ],
       },
       options: {
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         responsive: true,
         tooltips: {
           callbacks: {
@@ -1172,7 +1172,7 @@ Template.monthlyprofitandloss.onRendered(() => {
                 ],
               },
               options: {
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 responsive: true,
                 tooltips: {
                   callbacks: {
@@ -1489,7 +1489,7 @@ Template.monthlyprofitandloss.onRendered(() => {
           ],
         },
         options: {
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           responsive: true,
           tooltips: {
             callbacks: {

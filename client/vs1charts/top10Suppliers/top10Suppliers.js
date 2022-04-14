@@ -75,7 +75,7 @@ Template.top10Suppliers.onRendered(() => {
             FlowRouter.go("/purchasesreport?contact=" + activePoints);
           }
         },
-        maintainAspectRatio: true,
+        maintainAspectRatio: false,
         responsive: true,
         tooltips: {
           callbacks: {

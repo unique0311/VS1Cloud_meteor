@@ -1916,6 +1916,9 @@ Template.bankingoverview.events({
         // FlowRouter.go('/bankrecon');
         // window.open('/newbankrecon', '_self');
     },
+    'click .btnBankRecon': function() {
+        FlowRouter.go('/bankrecon');
+    },
     'click .btnReconList': function() {
         FlowRouter.go('/reconciliationlist');
     }

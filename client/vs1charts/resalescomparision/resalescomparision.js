@@ -104,7 +104,7 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
             }
 
           },
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           responsive: true,
         tooltips: {
         callbacks: {
@@ -259,7 +259,7 @@ if (!localStorage.getItem('VS1SalesEmpReport_dash')) {
         }
 
       },
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       responsive: true,
     tooltips: {
     callbacks: {

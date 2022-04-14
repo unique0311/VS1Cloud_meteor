@@ -243,7 +243,7 @@ Template.monthlyearnings.onRendered(() => {
                         //}
 
                     },
-                    maintainAspectRatio: true,
+                    maintainAspectRatio: false,
                     responsive: true,
                     tooltips: {
                         callbacks: {
@@ -428,8 +428,7 @@ Template.monthlyearnings.onRendered(() => {
                     //}
 
                 },
-                maintainAspectRatio: true,
-                responsive: true,
+                maintainAspectRatio: false,
                 tooltips: {
                     callbacks: {
                         label: function (tooltipItem, data) {
