@@ -30,10 +30,8 @@ export class OCRService {
       return getResponse;
     } else {
         try {
-          var content = JSON.parse(response.content);
           console.log("API Request done");
-
-          return content;
+          return response;
         } catch (e) { console.log('err', e) }
     }
   }

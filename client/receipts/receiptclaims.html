@@ -445,9 +445,9 @@
                     <div style="float: left;">
                         <!-- Detach receipt removes the currently attached receipt -->
                         <button type="button float-left" class="btn btn-secondary">Detach Receipt</button>
-                        <button type="button float-left" class="btn btn-secondary" data-toggle="modal" data-target="#splitExpenseModal" data-dismiss="modal">Split Expense</button>
+                        <button type="button float-left" class="btn btn-secondary" id="btnShowSplitModal" data-dismiss="modal">Split Expense</button>
                         <button type="button float-left" class="btn btn-secondary" data-toggle="modal" data-target="#mergeModal" data-dismiss="modal">Merge</button>
-                        <button type="button float-left" class="btn btn-secondary">Duplicate</button>
+                        <button type="button float-left" class="btn btn-secondary" id="btnDuplicate">Duplicate</button>
                         <button type="button" class="btn btn-danger" id="btnDeleteReceipt"><i class="fas fa-trash-alt"></i></button>
                     </div>
                     <div style="float: right;">
@@ -471,7 +471,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
-                            <p>Split your expense from merchant [Merchant Name]. <a href="">View the receipt.</a></p>
+                            <p>Split your expense from merchant {{editExpenseClaim.SupplierName}}. <a href="">View the receipt.</a></p>
                             <p><i class="fas fa-exclamation-triangle" style="color: #f6c23e; margin-right: 5px;"></i> Please note that splitting an expense cannot be undone. <a href="">More info...</a></p>
                         </div>
                         <div class="col-12">
@@ -479,7 +479,7 @@
                                 <div class="col d-sm-flex justify-content-sm-start align-items-sm-center">
 
                                 </div>
-                                <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end myvarFilterFormSplit">
+                                <!-- <div class="col float-right d-sm-flex d-xl-flex justify-content-sm-end align-items-sm-center justify-content-xl-end align-items-xl-end myvarFilterFormSplit">
                                     <div class="dropdown" style="margin: 8px; margin-top: 0px;">
                                         <style>
                                             .dropdown-toggle::after {
@@ -513,26 +513,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <table id="tblSplitExpense" style="width:100%" class="dataTable table table-striped table-bordered tblSplitExpense">
                                 <thead>
                                     <tr class="dnd-moved">
-                                        <th class="th colReceiptDate" style="width: 6%;">Date</th>
+                                        <th class="th colReceiptDate">Date</th>
                                         <th class="th colReceiptAccount">Account</th>
-                                        <th class="th colReceiptAmount" style="width: 20%;">Amount</th>
-                                        <th class="th colDelete" style="width: 3%;"></th>
+                                        <th class="th colReceiptAmount">Amount</th>
+                                        <th class="th colDelete"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="dnd-moved" id="receiptentry1" style="cursor: pointer;">
-                                        <td contenteditable="false" class="colReceiptDate" style="width: 6%;">08/03/2022</td>
-                                        <td contenteditable="false" class="colReceiptAccount">Travel</td>
-                                        <td contenteditable="false" class="colReceiptAmount" style="width: 20%; text-align: right;">$500.00</td>
-                                        <td contenteditable="false" class="colDelete" style="width: 3%;">
-                                            <span class="table-remove btnRemove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button></span>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -542,7 +534,7 @@
                     <div style="float: left;">
 
                         <!-- Add Split adds a new line to the table -->
-                        <button type="button float-left" class="btn btn-secondary">Add Split</button>
+                        <button type="button float-left" class="btn btn-secondary" id="btnAddSplit">Add Split</button>
                         <div class="dropdown float-left" style="margin-right: 4px;">
                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Split by Days
@@ -551,7 +543,7 @@
                                 <div class="form-group">
                                     <label>Start Date</label>
                                     <div class="input-group date" style="cursor: pointer;">
-                                        <input type="text" class="form-control dtReceiptDate" name="dtReceiptDate" value="">
+                                        <input type="text" class="form-control dtSplitReceipt" name="dtSplitReceipt" id="dtSplitStart" value="">
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                         </div>
@@ -560,22 +552,22 @@
                                 <div class="form-group">
                                     <label>End Date</label>
                                     <div class="input-group date" style="cursor: pointer;">
-                                        <input type="text" class="form-control dtReceiptDate" name="dtReceiptDate" value="">
+                                        <input type="text" class="form-control dtSplitReceipt" name="dtSplitReceipt" id="dtSplitEnd" value="">
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="dropdown-divider"></div>
-                                <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                                <button class="btn btn-primary" type="button" id="btnSplitByDays"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                                 <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Cancel</button>
                             </div>
                         </div>
                         <!-- Splits the amount evenly between all entries on the table -->
-                        <button type="button float-left" class="btn btn-secondary">Split Even</button>
+                        <button type="button float-left" class="btn btn-secondary" id="btnSplitEven">Split Even</button>
                     </div>
                     <div style="float: right;">
-                        <button class="btn btn-primary" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
+                        <button class="btn btn-primary btnSave" type="button"><i class="fa fa-save" style="margin-right: 5px;"></i>Save</button>
                         <button class="btn btn-secondary" data-dismiss="modal" type="button"><i class="fa fa-remove" style="margin-right: 5px;"></i>Close</button>
                     </div>
                 </div>
@@ -844,8 +836,8 @@
                                             <p>Upload files or add files from the file library</p>
                                         </div>
                                     </div>
-                                    <div class="imageGrand" style="padding-right: 0.75rem; padding-left: 0.75rem; display: none;">
-                                        <div class="imageParent" data-scale="2.4" data-image="images/receipt1.jpg"></div>
+                                    <div class="imageGrand" style="padding-right: 0.75rem; padding-left: 0.75rem;">
+                                        <div class="imageParent" data-scale="2.4" data-image=""></div>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -978,8 +970,8 @@
                                             <p>Upload files or add files from the file library</p>
                                         </div>
                                     </div>
-                                    <div class="imageGrand" style="padding-right: 0.75rem; padding-left: 0.75rem; display: none;">
-                                        <div class="imageParent" data-scale="2.4" data-image="images/receipt1.jpg"></div>
+                                    <div class="imageGrand" style="padding-right: 0.75rem; padding-left: 0.75rem;">
+                                        <div class="imageParent" data-scale="2.4" data-image=""></div>
                                     </div>
                                 </div>
                                 <div class="col-12">

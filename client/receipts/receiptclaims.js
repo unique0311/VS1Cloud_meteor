@@ -23,6 +23,7 @@ import {
     OCRService
 } from '../js/ocr-service';
 import '../lib/global/indexdbstorage.js';
+import moment from 'moment';
 let sideBarService = new SideBarService();
 let utilityService = new UtilityService();
 let accountService = new AccountService();
@@ -55,7 +56,7 @@ Template.receiptsoverview.onRendered(function () {
         setCurrencySelect(e);
     });
     $('.chart-accounts').on('click', function(e, li) {
-        setAccountSelect(e);
+        templateObject.setAccountSelect(e);
     });
     $('.transactionTypes').on('click', function(e, li) {
         setPaymentMethodSelect(e);
@@ -401,7 +402,7 @@ Template.receiptsoverview.onRendered(function () {
         $('#edtSellRate').val(data.SellRate);
     }    
 
-    function setAccountSelect(e) {
+    templateObject.setAccountSelect = function(e) {
         var $earch = $(e.target);
         var offset = $earch.offset();
         var accountDataName = e.target.value || '';
@@ -711,14 +712,61 @@ Template.receiptsoverview.onRendered(function () {
     setTimeout(function () {
         //$.fn.dataTable.moment('DD/MM/YY');
         $('#tblSplitExpense').DataTable({
+            "columns": [{
+                    'data': 'DateTime'
+                },
+                {
+                    'data': 'AccountName'
+                },
+                {
+                    'data': 'AmountInc'
+                },
+                {
+                    'data': null
+                },
+            ],
             columnDefs: [{
-                "orderable": false,
-                "targets": 3
-            }, {
                 type: 'date',
-                targets: 0
-            }],
-            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6 colDateFilterSplit'l>r>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
+                targets: 0,
+                width: '140px',
+                class: "colReceiptDate",
+                render: function(data, type, row, meta) {
+                    let index = meta.row + meta.settings._iDisplayStart;
+                    let html = '<div class="input-group date" style="cursor: pointer;width: 140px;">' + 
+                                    '<input type="text" class="form-control dtSplitReceipt" name="dtSplitReceipt" value="' + data + '">' +
+                                    '<div class="input-group-addon">' +
+                                        '<span class="glyphicon glyphicon-th" style="cursor: pointer;"></span>' +
+                                    '</div>' +
+                                '</div>';
+                    return html;
+                }
+            }, {
+                targets: 1,
+                class: "colReceiptAccount",
+                render: function(data, type, row, meta) {
+                    let index = meta.row + meta.settings._iDisplayStart;
+                    let html = '<select type="search" id="splitAccount-' + index + '" class="form-control" style="background-color:rgb(255, 255, 255);cursor: pointer;" ></select>';
+                    return html;
+                }
+            }, {
+                targets: 2,
+                class: "colReceiptAmount",
+                width: '20%',
+                render: function(data, type, row, meta) {
+                    let index = meta.row + meta.settings._iDisplayStart;
+                    return '<input id="splitAmount-' + index + '" style="text-align: right" value="$' + data + '" />';
+                }
+            }, {
+                orderable: false,
+                targets: 3,
+                class: "colDelete",
+                width: '3%',
+                render: function(data, type, row, meta) {
+                    let index = meta.row + meta.settings._iDisplayStart;
+                    return '<span class="table-remove btnRemove"><button id="splitRemove-' + index + '" type="button" class="btn btn-danger btn-rounded btn-sm my-0" autocomplete="off"><i class="fa fa-remove"></i></button></span>';
+                }
+            }, ],
+            "sDom": "<'row'><'row'<'col-sm-12 col-md-6'f>>t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>B",
             buttons: [{
                 extend: 'excelHtml5',
                 text: '',
@@ -762,6 +810,7 @@ Template.receiptsoverview.onRendered(function () {
             "bLengthChange": false,
             info: true,
             responsive: true,
+            autoWidth: false,
             "order": [
                 [1, "desc"]
             ],
@@ -770,7 +819,7 @@ Template.receiptsoverview.onRendered(function () {
             },
             "fnInitComplete": function () {
                 $("<button class='btn btn-primary btnRefresh' type='button' id='btnRefreshSplit' style='padding: 4px 10px; font-size: 14px; margin-left: 8px !important;'><i class='fas fa-search-plus' style='margin-right: 5px'></i>Search</button>").insertAfter("#tblSplitExpense_filter");
-                $('.myvarFilterFormSplit').appendTo(".colDateFilterSplit");
+                // $('.myvarFilterFormSplit').appendTo(".colDateFilterSplit");
             }
         }).on('page', function () {
             setTimeout(function () {
@@ -892,19 +941,16 @@ Template.receiptsoverview.onRendered(function () {
             let lineItems = [];
             console.log('expense', data)
             data.texpenseclaim.forEach(expense => {
-
-                if (expense.fields.Active) {
-                    if(Object.prototype.toString.call(expense.fields.Lines) === "[object Array]"){
-                        expense.fields.Lines.forEach(claim => {
-                            let lineItem = claim.fields;
-                            lineItem.DateTime = claim.fields.DateTime != '' ? moment(claim.fields.DateTime).format("DD/MM/YYYY") : '';
-                            lineItems.push(lineItem);
-                        })
-                    }else if(Object.prototype.toString.call(expense.fields.Lines) === "[object Object]"){    
-                        let lineItem = expense.fields.Lines.fields;
-                        lineItem.DateTime = lineItem.DateTime != '' ? moment(lineItem.DateTime).format("DD/MM/YYYY") : '';
+                if(Object.prototype.toString.call(expense.fields.Lines) === "[object Array]"){
+                    expense.fields.Lines.forEach(claim => {
+                        let lineItem = claim.fields;
+                        lineItem.DateTime = claim.fields.DateTime != '' ? moment(claim.fields.DateTime).format("DD/MM/YYYY") : '';
                         lineItems.push(lineItem);
-                    }
+                    })
+                }else if(Object.prototype.toString.call(expense.fields.Lines) === "[object Object]"){    
+                    let lineItem = expense.fields.Lines.fields;
+                    lineItem.DateTime = lineItem.DateTime != '' ? moment(lineItem.DateTime).format("DD/MM/YYYY") : '';
+                    lineItems.push(lineItem);
                 }
             });
 
@@ -1007,6 +1053,18 @@ Template.receiptsoverview.onRendered(function () {
         ocrService.POST(imageData, fileName).then(function(data) {
             console.log('ocrresult', data);
             $('.fullScreenSpin').css('display', 'none');
+            let from = $('#employeeListModal').attr('data-from');
+
+            if (from == 'ViewReceipt') {
+                $('#viewReceiptModal .dtReceiptDate').datepicker('setDate', new Date(data.date));
+                $('#viewReceiptModal #edtTotal').val(data.total);
+            } else if (from == 'NavExpense') {
+                $('#nav-expense .dtReceiptDate').datepicker('setDate', new Date(data.date));
+                $('#nav-expense #edtTotal').val(data.total);
+            } else if (from == 'NavTime') {
+                $('#nav-expense .dtReceiptDate').datepicker('setDate', new Date(data.date));
+                $('#nav-expense #edtTotal').val(data.total);
+            }
         }).catch(function (err) {
             console.log('ocrresult err', err);
             $('.fullScreenSpin').css('display', 'none');
@@ -1023,6 +1081,36 @@ Template.receiptsoverview.onRendered(function () {
             fr.readAsDataURL(file);
         })
     };
+
+    templateObject.refreshSplitTable = function (rows) {
+        $splitDataTable = $('#tblSplitExpense').DataTable();
+        $splitDataTable.clear();
+        $splitDataTable.rows.add(rows);
+        $splitDataTable.columns.adjust().draw();
+
+        $(".dtSplitReceipt").datepicker({
+            showOn: 'button',
+            buttonText: 'Show Date',
+            buttonImageOnly: true,
+            buttonImage: '/img/imgCal2.png',
+            dateFormat: 'dd/mm/yy',
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-90:+10",
+        });
+        $(".dtSplitReceipt").css('z-index','1600');
+        $('.colReceiptAmount').css('vertical-align', 'middle');
+
+        $('select[id^="splitAccount-"]').editableSelect();
+        setTimeout(() => {
+            for (i = 0; i < rows.length; i++) {
+                $('#splitAccount-' + i).attr('data-id', rows[i].AccountId)
+                $('#splitAccount-' + i).val(rows[i].AccountName)
+            }
+        }, 100);
+    }
 });
 
 Template.receiptsoverview.events({
@@ -1099,8 +1187,30 @@ Template.receiptsoverview.events({
         console.log('file changed', imageFile);
         let template = Template.instance();
         template.base64data(imageFile).then(imageData => {
-            // template.getOCRResultFromImage(imageData, imageFile.name);
             $('#viewReceiptModal .receiptPhoto').css('background-image', "url('" + imageData + "')");
+            template.getOCRResultFromImage(imageData, imageFile.name);
+        })
+    },
+
+    'change #nav-expense .attachment-upload': function(event) {
+        let files = $(event.target)[0].files;
+        let imageFile = files[0];
+        console.log('file changed', imageFile);
+        let template = Template.instance();
+        template.base64data(imageFile).then(imageData => {
+            $('#nav-expense .receiptPhoto').css('background-image', "url('" + imageData + "')");
+            template.getOCRResultFromImage(imageData, imageFile.name);
+        })
+    },
+
+    'change #nav-time .attachment-upload': function(event) {
+        let files = $(event.target)[0].files;
+        let imageFile = files[0];
+        console.log('file changed', imageFile);
+        let template = Template.instance();
+        template.base64data(imageFile).then(imageData => {
+            $('#nav-time .receiptPhoto').css('background-image', "url('" + imageData + "')");
+            template.getOCRResultFromImage(imageData, imageFile.name);
         })
     },
 
@@ -1209,6 +1319,17 @@ Template.receiptsoverview.events({
         } else if (from == 'NavTime') {
             $('#nav-time .chart-accounts').val(accountName);
             $('#nav-time .chart-accounts').attr('data-id', accountID);
+        } else if (from.includes('splitAccount-')) {
+            $('#' + from).val(accountName);
+            $('#' + from).attr('data-id', accountID);
+
+            let index = from.split('-')[1];
+
+            splitDataTable = $('#tblSplitExpense').DataTable();
+            rowData = splitDataTable.row(index).data();
+
+            rowData.AccountId = parseInt(accountID);
+            rowData.AccountName = accountName;
         }
         $('#accountListModal').modal('toggle');
     },
@@ -1374,7 +1495,11 @@ Template.receiptsoverview.events({
             }, 200);
         });
     },
-
+    'click #btnShowSplitModal': function(e) {
+        let template = Template.instance();
+        $('#splitExpenseModal').modal('toggle');
+        template.refreshSplitTable([template.editExpenseClaim.get()]);
+    },
     'click #btnDeleteReceipt': function(e) {
         let template = Template.instance();
         let receipt = template.editExpenseClaim.get();
@@ -1450,7 +1575,188 @@ Template.receiptsoverview.events({
 
             }
           });
+    },
+    'click a#dropdownMenuLink': function (e) {
+        let template = Template.instance();
+        let receipt = template.editExpenseClaim.get();
+        $('#dtSplitStart').datepicker('setDate', receipt.DateTime);
+        $('#dtSplitEnd').datepicker('setDate', moment(receipt.DateTime, "DD/MM/YYYY").add(1, 'days').format("DD/MM/YYYY"));
+    },
+    'click #btnSplitByDays': function (e) {
+        let endDate = $('#dtSplitEnd').val();
+        let startDate = $('#dtSplitStart').val();
+
+        if (!endDate || !startDate) {
+            swal("Select valid date for split", '', 'warning');
+            return;
+        }
+
+        let diffDays = moment(endDate, "DD/MM/YYYY").diff(moment(startDate, "DD/MM/YYYY"), 'days');
+        console.log('diffdays', diffDays);
+        if (diffDays < 0) {
+            swal("Select end date later than start date", '', 'warning');
+            return;
+        }
+
+        if (diffDays == 0) {
+            diffDays = 1;
+        }
+
+        diffDays += 1;
+
+        let template = Template.instance();
+        let receipt = template.editExpenseClaim.get();
+
+        var receiptList = [];
+        let amount = Math.trunc(receipt.AmountInc*100 / diffDays)/100;
+        for (i = 0; i < diffDays; i++) {
+            let lineItem = Object.assign({}, receipt);
+            lineItem.DateTime = moment(lineItem.DateTime, "DD/MM/YYYY").add(i, 'days').format("DD/MM/YYYY");
+
+            if (i == diffDays - 1) {
+                lineItem.AmountInc = receipt.AmountInc - amount * i
+            } else {
+                lineItem.AmountInc = amount;
+            }
+
+            receiptList.push(lineItem);
+        }
+
+        template.refreshSplitTable(receiptList);
+    },
+
+    'click #btnAddSplit': function(e) {
+        let template = Template.instance();
+        splitDataTable = $('#tblSplitExpense').DataTable();
+        var lineItems = splitDataTable.rows().data();
+
+        let lineItem = Object.assign({}, lineItems[lineItems.length - 1]);
+        lineItem.AmountInc = 0;
+        lineItems.push(lineItem);
+
+        template.refreshSplitTable(lineItems);
+    },
+    'click #btnSplitEven': function(e) {
+        let template = Template.instance();
+        let receipt = template.editExpenseClaim.get();
+
+        splitDataTable = $('#tblSplitExpense').DataTable();        
+        var lineItems = splitDataTable.rows().data();
+
+        let amount = Math.trunc(receipt.AmountInc*100 / (lineItems.length))/100;
+        
+        for (i = 0; i < lineItems.length; i++) {
+            if (i == lineItems.length - 1) {
+                lineItems[i].AmountInc = receipt.AmountInc - amount * i
+            } else {
+                lineItems[i].AmountInc = amount;
+            }
+        }
+
+        template.refreshSplitTable(lineItems);
+    },
+    'click #splitExpenseModal .btnSave': function(e) {
+        let template = Template.instance();
+        let receipt = template.editExpenseClaim.get();
+
+        splitDataTable = $('#tblSplitExpense').DataTable();
+        var lineItems = splitDataTable.rows().data();
+
+        var totalAmount = 0;
+        for (i = 0; i < lineItems.length; i++) {
+            let amount = lineItems[i].AmountInc;
+            totalAmount += amount;
+        }
+
+        if (totalAmount != receipt.AmountInc) {
+            swal("Splited amount is not same as original receipt's", '', 'warning');
+            return;
+        }
+
+        console.log('splited items', lineItems);
+
+        // var receiptList = [];
+        $('.fullScreenSpin').css('display', 'inline-block');
+        for (i = 0; i < lineItems.length; i++) {
+            let lineItem = lineItems[i];
+
+            if (i > 0) {
+                delete lineItem.ID;
+                expenseClaim = {
+                    type: "TExpenseClaim",
+                    fields: {
+                        EmployeeID: receipt.EmployeeID,
+                        EmployeeName: receipt.EmployeeName,
+                        DateTime: moment(receipt.DateTime, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+                        Description: receipt.Description,
+                        Lines: [lineItem],
+                        RequestToEmployeeID: receipt.RequestToEmployeeID,
+                        RequestToEmployeeName: receipt.RequestToEmployeeName,
+                    }
+                }
+            } else {
+                expenseClaim = {
+                    type: "TExpenseClaim",
+                    fields: {
+                        ID: receipt.ExpenseClaimID,
+                        Lines: [lineItem],
+                    }
+                }
+            }
+
+            // receiptList.push(expenseClaim);
+            accountService.saveReceipt(expenseClaim).then(function (data) {
+
+                setTimeout(() => {
+                    $('#splitExpenseModal').modal('toggle');
+                    $('.fullScreenSpin').css('display', 'none');
+                    template.getExpenseClaims();
+                }, 500);
+            }).catch ( err => {
+                $('.fullScreenSpin').css('display', 'none');
+            });
+        }
+    },
+    'change input[id^="splitAmount-"]': function(e) {
+        let index = e.target.id.split('-')[1];
+        let newValue = e.target.value.replace('$', '');
+
+        splitDataTable = $('#tblSplitExpense').DataTable();
+        rowData = splitDataTable.row(index).data();
+
+        rowData.AmountInc = newValue ? parseFloat(newValue) : 0;
+    },
+    'click input[id^="splitAccount-"]': function(e) {
+        $('#employeeListModal').attr('data-from', e.target.id);
+        let template = Template.instance();
+        template.setAccountSelect(e);
+    },
+    'click #btnDuplicate': function(e) {
+        let template = Template.instance();
+        let receipt = Object.assign({}, template.editExpenseClaim.get());
+        delete receipt.ID;
+
+        expenseClaim = {
+            type: "TExpenseClaim",
+            fields: {
+                EmployeeID: receipt.EmployeeID,
+                EmployeeName: receipt.EmployeeName,
+                DateTime: moment(receipt.DateTime, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+                Description: receipt.Description,
+                Lines: [receipt],
+                RequestToEmployeeID: receipt.RequestToEmployeeID,
+                RequestToEmployeeName: receipt.RequestToEmployeeName,
+            }
+        }
+
+        accountService.saveReceipt(expenseClaim).then(function (data) {
+            $('#viewReceiptModal').modal('toggle');
+            setTimeout(() => {
+                template.getExpenseClaims();
+            }, 200);
+        });
     }
+    
 });
 
 Template.receiptsoverview.helpers({
