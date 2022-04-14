@@ -93,9 +93,17 @@
                                 <p style="margin-bottom: 0; font-weight: 700; font-size: 26px;">$8,315.65</p>
                                 <p style="margin-bottom: 0; font-weight: 300; font-size: 14px;">Statement Balance</p>
                             </div>
-                            <div>
+                            <div style="border-right: 1px solid #e3e6f0; padding-right: 16px; margin-right: 16px;">
                                 <p style="margin-bottom: 0; font-weight: 700; font-size: 26px;">$11,284.94</p>
                                 <p style="margin-bottom: 0; font-weight: 300; font-size: 14px;">Balance in VS1</p>
+                            </div>
+                            <div class="col mr-2">
+                                <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span style="font-size: 14px;">Select Bank Account</span></div>
+                                <div class="form-group">
+                                    <select type="search" class="form-control" id="bankAccountName" name="bankAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;">
+                                    </select>
+                                    <input type="hidden" style="width: 100%; display:none;" id="bankAccountID" name="bankAccountID" readonly>
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-6" style="display: flex; justify-content: end;">
@@ -257,7 +265,7 @@
                                     <div class="col-6" style="padding: 16px; padding-bottom: 0;">
                                         <div class="form-group mb-0">
                                             <label>What</label>
-                                            <select type="search" class="form-control" id="sltAccountName" placeholder="Choose the account..." name="sltAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
+                                            <select type="search" class="form-control" id="transactionAccountName" placeholder="Choose the account..." name="transactionAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
                                         </div>
                                     </div>
                                     <div class="col-12" style="padding: 16px;">
@@ -267,7 +275,7 @@
                                         </div>
                                     </div>
                                     <div class="col-4" style="padding: 0 !important; border: 0;">
-                                        <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
+                                        <select type="search" class="form-control" id="transactionTaxRate" name="transactionTaxRate" value="Tax Rate"
                                                 style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
                                     </div>
                                     <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
@@ -280,7 +288,7 @@
                                     <div class="col-6" style="padding: 16px;">
                                         <div class="form-group mb-0">
                                             <label>Select a Bank Account</label>
-                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
+                                            <select type="search" class="form-control" id="transactionTaxRate" name="transactionTaxRate" value="Tax Rate"
                                                 style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
                                         </div>
                                     </div>
@@ -310,280 +318,280 @@
         </div>
         {{/each}}
         {{/if}}
-        <div class="row justify-content-center mb-6">
-            <div class="col-12 col-md-5">
-                <div class="card shadow">
-                    <div class="card-header">
-                        12 Feb 2022
-                        <div class="dropdown float-right">
-                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                    style="color: #00a3d3 !important; background-color: rgba(0,0,0,0) !important;"></button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#newBankRuleModal">Create Bank Rule</a>
-                                <a class="dropdown-item" href="#" style="color: red;">Delete Line</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" style="padding: 0;">
-                        <div class="row" style="margin-left: 0; margin-right: 0;">
-                            <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0;">
-                                <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>
-                                <p style="margin-bottom: 0;"><span>0069</span></p>
-                                <a href="">More Details</a>
-                            </div>
-                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
+<!--        <div class="row justify-content-center mb-6">-->
+<!--            <div class="col-12 col-md-5">-->
+<!--                <div class="card shadow">-->
+<!--                    <div class="card-header">-->
+<!--                        12 Feb 2022-->
+<!--                        <div class="dropdown float-right">-->
+<!--                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"-->
+<!--                                    style="color: #00a3d3 !important; background-color: rgba(0,0,0,0) !important;"></button>-->
+<!--                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">-->
+<!--                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#newBankRuleModal">Create Bank Rule</a>-->
+<!--                                <a class="dropdown-item" href="#" style="color: red;">Delete Line</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card-body" style="padding: 0;">-->
+<!--                        <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                            <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0;">-->
+<!--                                <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>-->
+<!--                                <p style="margin-bottom: 0;"><span>0069</span></p>-->
+<!--                                <a href="">More Details</a>-->
+<!--                            </div>-->
+<!--                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">-->
 
-                            </div>
-                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
-                                <span style="float: right; font-weight: 700;">$6,187.50</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="card-footer">
-                    </div> -->
-                </div>
-            </div>
-            <div class="col-12 col-md-1" style="text-align: center;">
-                <button type="button" class="btn btn-primary" style="margin: 0 auto; margin-top: 50%;">Ok</button>
-            </div>
-            <div class="col-12 col-md-5">
-                <div class="card shadow">
-                    <div class="card-header rightsideheader">
-                        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active matchedtaba" id="home-tab" data-toggle="tab" href="#match_1" role="tab" aria-controls="home" aria-selected="true">Match</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#create_1" role="tab" aria-controls="profile" aria-selected="false">Create</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#transfer_1" role="tab" aria-controls="contact" aria-selected="false">Transfer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#discuss_1" role="tab" aria-controls="contact" aria-selected="false">Discuss</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact_1" role="tab" aria-controls="contact" aria-selected="false">Find & Match</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body" style="padding: 0;">
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active matched" id="match_1" role="tabpanel" aria-labelledby="match-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-12" style="padding: 16px; border: 1px solid #e3e6f0; border-bottom: 0 solid #e3e6f0; border-top: 0 solid #e3e6f0;">
-                                        <p style="margin-bottom: 0;">12 Feb 2022</p>
-                                    </div>
-                                    <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0;">
-                                        <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>
-                                        <p style="margin-bottom: 0;">Ref: <span>BOL-0069</span></p>
-                                    </div>
-                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
-                                        <p style="margin-bottom: 0;"></p>
-                                    </div>
-                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0;">
-                                        <span style="float: right; font-weight: 700;">$6,187.50</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="create_1" role="tabpanel" aria-labelledby="create-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">
-                                        <div class="form-group mb-0">
-                                            <label>Who</label>
-                                            <input type="text" class="form-control" id="" placeholder="Name of the contact...">
-                                        </div>
-                                    </div>
-                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">
-                                        <div class="form-group mb-0">
-                                            <label>What</label>
-                                            <select type="search" class="form-control" id="sltAccountName" placeholder="Choose the account..." name="sltAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <label>Why</label>
-                                            <input type="text" class="form-control" id="" placeholder="Enter a description...">
-                                        </div>
-                                    </div>
-                                    <div class="col-4" style="padding: 0 !important; border: 0;">
-                                        <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
-                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
-                                    </div>
-                                    <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
-                                        <a href="" class="btnReconTransactionDetail" style="float: right;">Add Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="transfer_1" role="tabpanel" aria-labelledby="transfer-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-6" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <label>Select a Bank Account</label>
-                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
-                                                    style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-6" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <label>Reference</label>
-                                            <input type="text" class="form-control" id="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="discuss_1" role="tabpanel" aria-labelledby="discuss-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-12" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <textarea class="form-control" id="" rows="6"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="card-footer">
-                    </div> -->
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center mb-6">
-            <div class="col-12 col-md-5">
-                <div class="card shadow">
-                    <div class="card-header">
-                        8 Feb 2022
-                        <div class="dropdown float-right">
-                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                style="color: #00a3d3 !important; background-color: rgba(0,0,0,0) !important;"></button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#newBankRuleModal">Create Bank Rule</a>
-                                <a class="dropdown-item" href="#" style="color: red;">Delete Line</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" style="padding: 0;">
-                        <div class="row" style="margin-left: 0; margin-right: 0;">
-                            <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0;">
-                                <p style="margin-bottom: 0; font-weight: 700;">A. Nellsechs Agency</p>
-                                <p style="margin-bottom: 0;"><span>EFT</span></p>
-                                <a href="">More Details</a>
-                            </div>
-                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
-                                <span style="float: right; font-weight: 700;">$4,500.00</span>
-                            </div>
-                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="card-footer">
-                    </div> -->
-                </div>
-            </div>
-            <div class="col-12 col-md-1" style="text-align: center;">
-                <button type="button" class="btn btn-primary" style="margin: 0 auto; margin-top: 25%; display: none;">Ok</button>
-            </div>
-            <div class="col-12 col-md-5">
-                <div class="card shadow">
-                    <div class="card-header rightsideheader">
-                        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" id="home-tab" data-toggle="tab" href="#match_2" role="tab" aria-controls="home" aria-selected="true">Match</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#create_2" role="tab" aria-controls="profile" aria-selected="false">Create</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#transfer_2" role="tab" aria-controls="contact" aria-selected="false">Transfer</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#discuss_2" role="tab" aria-controls="contact" aria-selected="false">Discuss</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact_2" role="tab" aria-controls="contact" aria-selected="false">Find & Match</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body" style="padding: 0;">
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade" id="match_2" role="tabpanel" aria-labelledby="match-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-12" style="padding: 16px; border: 1px solid #e3e6f0; border-bottom: 0 solid #e3e6f0; border-top: 0 solid #e3e6f0;">
-                                        <p style="margin-bottom: 0;">12 Feb 2022</p>
-                                    </div>
-                                    <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0;">
-                                        <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>
-                                        <p style="margin-bottom: 0;">Ref: <span>BOL-0069</span></p>
-                                    </div>
-                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">
-                                        <p style="margin-bottom: 0;"></p>
-                                    </div>
-                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0;">
-                                        <span style="float: right; font-weight: 700;">$6,187.50</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade show active" id="create_2" role="tabpanel" aria-labelledby="create-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">
-                                        <div class="form-group mb-0">
-                                            <label>Who</label>
-                                            <input type="text" class="form-control" id="" placeholder="Name of the contact...">
-                                        </div>
-                                    </div>
-                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">
-                                        <div class="form-group mb-0">
-                                            <label>What</label>
-                                            <select type="search" class="form-control" id="sltRegion" placeholder="Choose the account..." name="sltRegion" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <label>Why</label>
-                                            <input type="text" class="form-control" id="" placeholder="Enter a description...">
-                                        </div>
-                                    </div>
-                                    <div class="col-4" style="padding: 0 !important; border: 0;">
-                                        <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate" style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
-                                    </div>
-                                    <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">
-                                        <a href="" style="float: right;">Add Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="transfer_2" role="tabpanel" aria-labelledby="transfer-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-6" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <label>Select a Bank Account</label>
-                                            <select type="search" class="form-control" id="sltTaxRate" name="sltTaxRate" value="Tax Rate"
-                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-6" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <label>Reference</label>
-                                            <input type="text" class="form-control" id="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="discuss_2" role="tabpanel" aria-labelledby="discuss-tab">
-                                <div class="row" style="margin-left: 0; margin-right: 0;">
-                                    <div class="col-12" style="padding: 16px;">
-                                        <div class="form-group mb-0">
-                                            <textarea class="form-control" id="" rows="6"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="card-footer">
-                    </div> -->
-                </div>
-            </div>
-        </div>
+<!--                            </div>-->
+<!--                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">-->
+<!--                                <span style="float: right; font-weight: 700;">$6,187.50</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; <div class="card-footer">-->
+<!--                    </div> &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-12 col-md-1" style="text-align: center;">-->
+<!--                <button type="button" class="btn btn-primary" style="margin: 0 auto; margin-top: 50%;">Ok</button>-->
+<!--            </div>-->
+<!--            <div class="col-12 col-md-5">-->
+<!--                <div class="card shadow">-->
+<!--                    <div class="card-header rightsideheader">-->
+<!--                        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link active matchedtaba" id="home-tab" data-toggle="tab" href="#match_1" role="tab" aria-controls="home" aria-selected="true">Match</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#create_1" role="tab" aria-controls="profile" aria-selected="false">Create</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#transfer_1" role="tab" aria-controls="contact" aria-selected="false">Transfer</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#discuss_1" role="tab" aria-controls="contact" aria-selected="false">Discuss</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact_1" role="tab" aria-controls="contact" aria-selected="false">Find & Match</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div class="card-body" style="padding: 0;">-->
+<!--                        <div class="tab-content" id="myTabContent">-->
+<!--                            <div class="tab-pane fade show active matched" id="match_1" role="tabpanel" aria-labelledby="match-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-12" style="padding: 16px; border: 1px solid #e3e6f0; border-bottom: 0 solid #e3e6f0; border-top: 0 solid #e3e6f0;">-->
+<!--                                        <p style="margin-bottom: 0;">12 Feb 2022</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0;">-->
+<!--                                        <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>-->
+<!--                                        <p style="margin-bottom: 0;">Ref: <span>BOL-0069</span></p>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">-->
+<!--                                        <p style="margin-bottom: 0;"></p>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0;">-->
+<!--                                        <span style="float: right; font-weight: 700;">$6,187.50</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="tab-pane fade" id="create_1" role="tabpanel" aria-labelledby="create-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Who</label>-->
+<!--                                            <input type="text" class="form-control" id="" placeholder="Name of the contact...">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>What</label>-->
+<!--                                            <select type="search" class="form-control" id="transactionAccountName" placeholder="Choose the account..." name="transactionAccountName" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Why</label>-->
+<!--                                            <input type="text" class="form-control" id="" placeholder="Enter a description...">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4" style="padding: 0 !important; border: 0;">-->
+<!--                                        <select type="search" class="form-control" id="transactionTaxRate" name="transactionTaxRate" value="Tax Rate"-->
+<!--                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">-->
+<!--                                        <a href="" class="btnReconTransactionDetail" style="float: right;">Add Details</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="tab-pane fade" id="transfer_1" role="tabpanel" aria-labelledby="transfer-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-6" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Select a Bank Account</label>-->
+<!--                                            <select type="search" class="form-control" id="transactionTaxRate" name="transactionTaxRate" value="Tax Rate"-->
+<!--                                                    style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-6" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Reference</label>-->
+<!--                                            <input type="text" class="form-control" id="">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="tab-pane fade" id="discuss_1" role="tabpanel" aria-labelledby="discuss-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-12" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <textarea class="form-control" id="" rows="6"></textarea>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; <div class="card-footer">-->
+<!--                    </div> &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="row justify-content-center mb-6">-->
+<!--            <div class="col-12 col-md-5">-->
+<!--                <div class="card shadow">-->
+<!--                    <div class="card-header">-->
+<!--                        8 Feb 2022-->
+<!--                        <div class="dropdown float-right">-->
+<!--                            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"-->
+<!--                                style="color: #00a3d3 !important; background-color: rgba(0,0,0,0) !important;"></button>-->
+<!--                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">-->
+<!--                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#newBankRuleModal">Create Bank Rule</a>-->
+<!--                                <a class="dropdown-item" href="#" style="color: red;">Delete Line</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="card-body" style="padding: 0;">-->
+<!--                        <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                            <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0;">-->
+<!--                                <p style="margin-bottom: 0; font-weight: 700;">A. Nellsechs Agency</p>-->
+<!--                                <p style="margin-bottom: 0;"><span>EFT</span></p>-->
+<!--                                <a href="">More Details</a>-->
+<!--                            </div>-->
+<!--                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">-->
+<!--                                <span style="float: right; font-weight: 700;">$4,500.00</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-top: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; <div class="card-footer">-->
+<!--                    </div> &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-12 col-md-1" style="text-align: center;">-->
+<!--                <button type="button" class="btn btn-primary" style="margin: 0 auto; margin-top: 25%; display: none;">Ok</button>-->
+<!--            </div>-->
+<!--            <div class="col-12 col-md-5">-->
+<!--                <div class="card shadow">-->
+<!--                    <div class="card-header rightsideheader">-->
+<!--                        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="home-tab" data-toggle="tab" href="#match_2" role="tab" aria-controls="home" aria-selected="true">Match</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#create_2" role="tab" aria-controls="profile" aria-selected="false">Create</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#transfer_2" role="tab" aria-controls="contact" aria-selected="false">Transfer</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#discuss_2" role="tab" aria-controls="contact" aria-selected="false">Discuss</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact_2" role="tab" aria-controls="contact" aria-selected="false">Find & Match</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div class="card-body" style="padding: 0;">-->
+<!--                        <div class="tab-content" id="myTabContent">-->
+<!--                            <div class="tab-pane fade" id="match_2" role="tabpanel" aria-labelledby="match-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-12" style="padding: 16px; border: 1px solid #e3e6f0; border-bottom: 0 solid #e3e6f0; border-top: 0 solid #e3e6f0;">-->
+<!--                                        <p style="margin-bottom: 0;">12 Feb 2022</p>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-6" style="padding: 16px; border: 1px solid #e3e6f0;">-->
+<!--                                        <p style="margin-bottom: 0; font-weight: 700;">Bollocks University</p>-->
+<!--                                        <p style="margin-bottom: 0;">Ref: <span>BOL-0069</span></p>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0; border-left: 0 solid #e3e6f0; border-right: 0 solid #e3e6f0;">-->
+<!--                                        <p style="margin-bottom: 0;"></p>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-3" style="padding: 16px; border: 1px solid #e3e6f0;">-->
+<!--                                        <span style="float: right; font-weight: 700;">$6,187.50</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="tab-pane fade show active" id="create_2" role="tabpanel" aria-labelledby="create-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Who</label>-->
+<!--                                            <input type="text" class="form-control" id="" placeholder="Name of the contact...">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-6" style="padding: 16px; padding-bottom: 0;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>What</label>-->
+<!--                                            <select type="search" class="form-control" id="sltRegion" placeholder="Choose the account..." name="sltRegion" style="background-color:rgb(255, 255, 255); cursor: pointer;"></select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Why</label>-->
+<!--                                            <input type="text" class="form-control" id="" placeholder="Enter a description...">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-4" style="padding: 0 !important; border: 0;">-->
+<!--                                        <select type="search" class="form-control" id="transactionTaxRate" name="transactionTaxRate" value="Tax Rate" style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-8" style="padding: 6px 16px 4px 4px; border: 1px solid #e3e6f0; border-right: 0;">-->
+<!--                                        <a href="" style="float: right;">Add Details</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="tab-pane fade" id="transfer_2" role="tabpanel" aria-labelledby="transfer-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-6" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Select a Bank Account</label>-->
+<!--                                            <select type="search" class="form-control" id="transactionTaxRate" name="transactionTaxRate" value="Tax Rate"-->
+<!--                                                style="background-color:rgb(255, 255, 255); cursor: pointer; border-radius: 0; border-color:#e3e6f0;"></select>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-6" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <label>Reference</label>-->
+<!--                                            <input type="text" class="form-control" id="">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="tab-pane fade" id="discuss_2" role="tabpanel" aria-labelledby="discuss-tab">-->
+<!--                                <div class="row" style="margin-left: 0; margin-right: 0;">-->
+<!--                                    <div class="col-12" style="padding: 16px;">-->
+<!--                                        <div class="form-group mb-0">-->
+<!--                                            <textarea class="form-control" id="" rows="6"></textarea>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; <div class="card-footer">-->
+<!--                    </div> &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="row justify-content-center mb-6">
             <div class="col-12 col-md-11">
@@ -685,13 +693,21 @@
         {{> newtaxratepop}}
     </div>
 
-    <div class="modal fade " role="dialog" tabindex="-1" id="accountListModal">
+    <div class="modal fade bankAccountListModal" role="dialog" tabindex="-1" id="bankAccountListModal">
         {{> accountlistpop}}
     </div>
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="addAccountModal">
+    <div class="modal fade addBankAccountModal" role="dialog" tabindex="-1" id="addBankAccountModal">
         {{> addaccountpop}}
     </div>
+
+<!--    <div class="modal fade transactionAccountListModal" role="dialog" tabindex="-1" id="transactionAccountListModal">-->
+<!--        {{> accountlistpop}}-->
+<!--    </div>-->
+
+<!--    <div class="modal fade addTransactionAccountModal" role="dialog" tabindex="-1" id="addTransactionAccountModal">-->
+<!--        {{> addaccountpop}}-->
+<!--    </div>-->
 
     <script>
         modalDraggable();
